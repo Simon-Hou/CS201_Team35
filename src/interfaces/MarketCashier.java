@@ -7,9 +7,9 @@ import market.MarketCashierRole.MyCustomer;
 
 public interface MarketCashier {
 	
-	public void PleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries);
+	public void msgPleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries);
 	public void msgFinishedComputing(MyCustomer mc);
-	public void CustomerPayment(MarketCustomer c, int payment);
-	public void HereIsBusinessPayment(BusinessPayment payment);
+	public void msgCustomerPayment(MarketCustomer c, int payment);
+	public void msgHereIsBusinessPayment(BusinessPayment payment);
 
 }

@@ -6,12 +6,14 @@ import java.util.List;
 
 import role.Role;
 import interfaces.MarketDeliveryMan;
+import interfaces.MarketCashier;
 
 public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 
 	//-----------------------------DATA--------------------------------
 	private List<BusinessOrder> orders = new ArrayList<BusinessOrder>();
 	private List<MyPayment> payments = new ArrayList<MyPayment>();
+	private MarketCashier cashier;
 	
 	
 	
@@ -54,9 +56,14 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	}
 	
 	private void DeliverPayment(MyPayment payment){
+		DoGoToCashier();
+		//cashier.msgHereIsBusinessPayment(payment.amount);
 		
 	}
 	
+	private void DoGoToCashier(){
+		
+	}
 	
 	//-----------------------------UTILITIES--------------------------------
 	private class MyPayment {
