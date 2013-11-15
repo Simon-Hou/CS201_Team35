@@ -20,7 +20,7 @@ public class MarketCashierRole implements MarketCashier{
 	List<BusinessPayment> businessPayments;
 	
 	//Messages
-	public void PleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
+	public void msgPleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		customers.add(new MyCustomer(c, groceries));
 	}
 	
@@ -28,7 +28,7 @@ public class MarketCashierRole implements MarketCashier{
 	    mc.status = CustomerState.hasTotal;
 	}
 
-	public void CustomerPayment(MarketCustomer c, int payment){
+	public void msgCustomerPayment(MarketCustomer c, int payment){
 	    for (MyCustomer mc: customers){
 	    	if (mc.c == c){
 	    		mc.payment = payment;
@@ -39,7 +39,7 @@ public class MarketCashierRole implements MarketCashier{
 	    }		
 	}
 
-	public void HereIsBusinessPayment(BusinessPayment payment){
+	public void msgHereIsBusinessPayment(BusinessPayment payment){
 	    businessPayments.add(payment);
 	}
 	
