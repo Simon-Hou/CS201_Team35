@@ -2,6 +2,8 @@ package interfaces;
 
 import java.util.Map;
 
+import market.BusinessOrder;
+
 public interface MarketEmployee {
 	
 	public void GetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList);
