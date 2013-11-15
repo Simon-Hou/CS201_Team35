@@ -7,8 +7,8 @@ import market.Receipt;
 
 public interface MarketHost {
 	
-	public void CustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList);
-	public void CustomerLeaving(MarketCustomer c, Receipt receipt, Map<String, Integer> groceries);
-	public void BusinessWantsThis(BusinessOrder order);
+	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList);
+	public void msgCustomerLeaving(MarketCustomer c, Receipt receipt, Map<String, Integer> groceries);
+	public void msgBusinessWantsThis(BusinessOrder order);
 
 }
