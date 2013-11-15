@@ -52,7 +52,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	//-----------------------------ACTIONS--------------------------------
 	private void DeliverOrder(BusinessOrder order){
-		
+		//go to the restaurant, message the cook and cashier
 	}
 	
 	private void DeliverPayment(MyPayment payment){
