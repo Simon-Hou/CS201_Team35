@@ -64,9 +64,9 @@ public class BankCustomerRole extends Role{
 	CustState state = CustState.inBank;
 	CustEvent event;
 	
+	public List<Task> Tasks = new ArrayList<Task>();
 	public Semaphore atDestination = new Semaphore(0, true);
 	
-	List<Task> Tasks = new ArrayList<Task>();
 	Task pendingTask = null;
 	
 	
