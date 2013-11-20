@@ -1,5 +1,6 @@
 package house.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
 import public_Gui.Gui;
 
 public class HouseAnimationPanel  extends JPanel implements ActionListener {
@@ -43,6 +45,35 @@ public class HouseAnimationPanel  extends JPanel implements ActionListener {
 
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
+
+		//Clear the screen by painting a rectangle the size of the frame
+		g2.setColor(getBackground());
+		g2.fillRect(0, 0, WINDOWX, WINDOWY );
+		
+		//Here is the table
+		g2.setColor(Color.ORANGE);
+		g2.fillRect((int)(WINDOWX*0.5), (int)(WINDOWY*0.5), xSize, ySize);//200 and 250 need to be table params
+
+		//refrigerator
+		g2.setColor(Color.WHITE);
+		g2.fillRect((int)(WINDOWX*0.1),(int)(WINDOWY*0.5),xSize,ySize);
+		
+		for(Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.updatePosition();
+			}
+		}
+
+		for(Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.draw(g2);
+			}
+		}
+		
+	}
+	
+	public void addGui(InhabitantGui gui) {
+		guis.add(gui);
 	}
 
 }
