@@ -51,17 +51,17 @@ public class BankCustomerRole extends Role{
 	
 	public String name;
 	
-	Bank bank;
+	public Bank bank;
 	
 	Person person;
 	
 	
 	BankTellerRole teller;
 	
-	enum CustState {inBank,inLine,beingServed,leaving};
-	enum CustEvent {tellerReady,taskPending};
+	public enum CustState {limbo,inBank,inLine,beingServed,leaving};
+	public enum CustEvent {tellerReady,taskPending};
 	
-	CustState state = CustState.inBank;
+	public CustState state = CustState.limbo;
 	CustEvent event;
 	
 	public List<Task> Tasks = new ArrayList<Task>();
@@ -148,7 +148,7 @@ public class BankCustomerRole extends Role{
 	public boolean pickAndExecuteAnAction(){
 		//if you're inBank, get in line
 		if(state == CustState.inBank){
-			state = CustState.inLine;
+			
 			getInLine();
 			return true;
 		}
