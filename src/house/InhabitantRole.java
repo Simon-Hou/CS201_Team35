@@ -58,7 +58,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 		}
 		private void PlateAndEat(){
 			DoPlateAndEat();
-			
+			self.msgDoneEating();
 		}
 		private void ExitHouse(){
 			DoExit();
