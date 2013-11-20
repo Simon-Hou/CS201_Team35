@@ -6,9 +6,11 @@ import market.Receipt;
 
 public interface MarketCustomer {
 
-	public void HereAreItems(Map<String, Integer> groceries);
-	public void HereIsTotal(int total);
-	public void HereIsYourChange(Receipt receipt, int change);
-	public void YouOweMoney(Receipt receipt, int debt);
-	public void YouCanLeave();
+	public void msgHereAreItems(Map<String, Integer> groceries);
+	public void msgHereIsTotal(int total);
+	public void msgHereIsYourChange(Receipt receipt, int change);
+	public void msgYouOweMoney(Receipt receipt, int debt);
+	public void msgYouCanLeave();
+	
+	public role.Person getPerson();
 }
