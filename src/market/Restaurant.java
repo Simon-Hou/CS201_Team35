@@ -19,6 +19,10 @@ public class Restaurant {
 			
 		}
 		
+		void msgWeHaveNothing(){
+			
+		}
+		
 	}
 
 }

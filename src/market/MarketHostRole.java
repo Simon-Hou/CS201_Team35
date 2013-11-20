@@ -1,8 +1,10 @@
 package market;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import interfaces.*;
 import role.Role;
@@ -17,6 +19,17 @@ public class MarketHostRole extends Role implements MarketHost {
 	private List<MyCustomer> customers= new ArrayList<MyCustomer>();
 	
 	private List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
+	
+	Map<String, Integer> inventory;
+	
+	
+	MarketHostRole(){
+		inventory.put("Steak", 10);
+		inventory.put("Chicken", 10);
+		inventory.put("Pizza", 10);
+		inventory.put("Salad", 10);
+		inventory.put("Car", 5);
+	}
 	
 	//-----------------------------MESSAGES--------------------------------
 	
@@ -88,20 +101,120 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	private void ServeCustomer(MyCustomer mc){
+		mc.state = CustomerState.beingServiced;
+
+
+		Map<String, Integer> unfulfillable;
+		for (Entry<String,Integer> item : mc.order.entrySet()){
+			int request = item.getValue();
+			int stock = inventory.get(item.getKey());
+
+			inventory.remove(item.getKey());
+
+			if (request > stock){
+				unfulfillable.put(item.getKey(), request - stock);
+				inventory.put(item.getKey(), 0);
+				if (stock ==0){
+					mc.order.remove(item.getKey());
+				}
+				else{
+					mc.order.put(item.getKey(), stock);
+				}
+			}
+			else {//(request <= stock)
+				inventory.put(item.getKey(), stock-request);
+			}
+		}
+
+		if (unfulfillable.size()>0){
+			mc.customer.OutOfStock(unfulfillable);
+			//^^where is this message?
+		}
+
+		if (mc.order.size()==0){
+			return;
+		}
+
 		
+		
+		//choose employee for load balancing
+		
+		MyEmployee e1 = employees.get(0);
+
+		for (int i =1; i< employees.size(); i++){
+			if (employees.get(i).orders < e1.orders){
+				e1 = employees.get(i);
+			}
+		}
+
+		e1.employee.msgGetItemsForCustomer(mc.customer, mc.order);
+		e1.orders++;
+
 	}
+
 	
 	private void DelegateBusinessOrder(BusinessOrder order){
 		
+		boolean couldntGetAnything = true;
+		
+		for (OrderItem item : order.order){
+			int request = item.quantityOrdered;
+			int stock = inventory.get(item.choice);
+			
+			inventory.remove(item.choice);
+			
+			if (request > stock){
+				if (stock ==0){
+				//quantityReceived remains 0 (it was initialized at 0 by the restaurant)
+				}
+				else {
+					item.quantityReceived = stock;
+					couldntGetAnything = false;
+				}
+				inventory.put(item.choice, 0);
+			}
+			
+			else {
+				item.quantityReceived = item.quantityOrdered;
+				couldntGetAnything = false;
+				inventory.put(item.choice, stock - item.quantityOrdered);
+			}
+			
+		}
+		
+		businessOrders.remove(order);
+		
+		if (couldntGetAnything){
+			order.restaurant.cook.msgWeHaveNothing();
+			return;
+		}
+		
+		
+		//choose employee for load balancing
+
+		MyEmployee e1 = employees.get(0);
+
+		for (int i =1; i< employees.size(); i++){
+			if (employees.get(i).orders < e1.orders){
+				e1 = employees.get(i);
+			}
+		}
+
+		e1.employee.msgGetThis(order);
+		e1.orders++;
+
+
 	}
+	
+	
 	//-----------------------------UTILITIES--------------------------------
 	private class MyEmployee{
 		
 	    MarketEmployee employee;
 	    int orders;            //Used to keep track of how busy an employee is
 	    
-	    MyEmployee(MarketEmployee me){
-	    	employee = me;
+	    MyEmployee(MarketEmployee emp){
+	    	employee = emp;
 	    }
 	}
 	
