@@ -2,6 +2,7 @@ package bank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import role.Role;
 import agent.Agent;
@@ -61,6 +62,8 @@ public class BankCustomerRole extends Role{
 	
 	CustState state = CustState.inBank;
 	CustEvent event;
+	
+	public Semaphore atDestination = new Semaphore(0, true);
 	
 	List<Task> Tasks = new ArrayList<Task>();
 	Task pendingTask = null;
@@ -132,6 +135,11 @@ public class BankCustomerRole extends Role{
 		person.msgStateChanged();
 	}
 	
+	public void msgAtDestination() {
+		atDestination.release();
+		person.msgStateChanged();
+	}
+	
 	
 	
 	//SCHED
@@ -139,11 +147,18 @@ public class BankCustomerRole extends Role{
 	public boolean pickAndExecuteAnAction(){
 		//if you're inBank, get in line
 		if(state == CustState.inBank){
+			state = CustState.inLine;
 			getInLine();
 			return true;
 		}
 		
 		//if you're being served & the event is that teller is read, do next task
+		if(state == CustState.inLine && event == CustEvent.tellerReady) {
+			state = CustState.beingServed;
+			goToWindow();
+			return true;
+		}
+		
 		if(state == CustState.beingServed && event == CustEvent.tellerReady){
 			NextTask();
 			return true;
@@ -165,6 +180,16 @@ public class BankCustomerRole extends Role{
 		}
 		else{
 			System.err.println("Customer wasn't allowed in line");
+		}
+	}
+	
+	private void goToWindow() {
+		Do("Going to the teller's window");
+		doGoToWindow();
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -202,6 +227,10 @@ public class BankCustomerRole extends Role{
 	//GUI
 	
 	private void doGetInLine(){
+		
+	}
+	
+	private void doGoToWindow() {
 		
 	}
 	
