@@ -1,32 +1,32 @@
-package bank.test;
+package UnitTests.BankUnitTests;
 
 import util.Bank;
 import util.deposit;
 import util.openAccount;
 import util.withdrawal;
+import UnitTests.mock.bankMock.MockBankPerson;
+import UnitTests.mock.bankMock.MockBankTeller;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
-import bank.test.mock.MockPerson;
-import bank.test.mock.MockTeller;
 import junit.framework.*;
 
-public class CustomerTest extends TestCase{
+public class BankCustomerTest extends TestCase{
 	
 	//Unit test for the BankCustomerRole
 	
 	BankCustomerRole customer;
-	MockTeller teller;
+	MockBankTeller teller;
 	Bank bank;
 	
-	MockPerson person;
+	MockBankPerson person;
 	
 	
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		person = new MockPerson("p0");
+		person = new MockBankPerson("p0");
 		customer = new BankCustomerRole("c0",person);
-		teller = new MockTeller("t0");
+		teller = new MockBankTeller("t0");
 		bank = new Bank();
 		
 		

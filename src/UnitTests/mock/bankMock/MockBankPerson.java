@@ -1,13 +1,15 @@
-package bank.test.mock;
+package UnitTests.mock.bankMock;
 
+import interfaces.Person;
 import role.Role;
-import bank.interfaces.Person;
+import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.Mock;
 
-public class MockPerson extends Mock implements Person {
+public class MockBankPerson extends Mock implements Person {
 
-	public EventLog log = new EventLog();
 	
-	public MockPerson(String name) {
+	
+	public MockBankPerson(String name) {
 		super(name);
 
 	}

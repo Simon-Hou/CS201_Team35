@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import bank.interfaces.Person;
-import bank.interfaces.Teller;
+import interfaces.BankTeller;
+import interfaces.Person;
 import role.Role;
 import agent.Agent;
 import testAgents.testPerson;
@@ -57,7 +57,7 @@ public class BankCustomerRole extends Role{
 	Person person;
 	
 	
-	public Teller teller;
+	public BankTeller teller;
 	
 	public enum CustState {init,inBank,inLine,goingToWindow,beingServed,leaving};
 	public enum CustEvent {tellerReady,taskPending};
@@ -79,7 +79,7 @@ public class BankCustomerRole extends Role{
 		this.state = CustState.inBank;
 	}
 	
-	public void msgHowCanIHelpYou(Teller t){
+	public void msgHowCanIHelpYou(BankTeller t){
 		Do("Just got asked how I can be helped.");
 		
 		teller = t;
