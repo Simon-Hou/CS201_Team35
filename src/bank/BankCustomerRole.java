@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import bank.interfaces.Person;
 import role.Role;
 import agent.Agent;
 import testAgents.testPerson;
@@ -15,7 +16,7 @@ public class BankCustomerRole extends Role{
 	//Constructor
 	
 	//quick and dirty
-	public BankCustomerRole(String name,testPerson p){
+	public BankCustomerRole(String name,Person p){
 		this.person = p;
 		this.name = name;
 		System.out.println(getName());
@@ -28,7 +29,7 @@ public class BankCustomerRole extends Role{
 		bank = b;
 	}
 	
-	public void setPerson(testPerson p){
+	public void setPerson(Person p){
 		person = p;
 	}
 	
@@ -52,7 +53,7 @@ public class BankCustomerRole extends Role{
 	
 	Bank bank;
 	
-	testPerson person;
+	Person person;
 	
 	
 	BankTellerRole teller;
@@ -90,7 +91,7 @@ public class BankCustomerRole extends Role{
 	public void msgDepositCompletedAnythingElse(int amount){
 		Do("Told that my deposit was successful");
 		int accNum = ((deposit) pendingTask).accountNumber;
-		person.purse.wallet -= amount;
+		person.takeFromWallet(amount);
 		person.addToAccount(accNum,amount);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
@@ -100,7 +101,7 @@ public class BankCustomerRole extends Role{
 	public void msgHereIsWithdrawalAnythingElse(int amount){
 		Do("Told that my withdrawal was successful");
 		int accNum = ((withdrawal) pendingTask).accountNumber;
-		person.purse.wallet += amount;
+		person.addToWallet(amount);
 		person.takeFromAccount(accNum,amount);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
@@ -110,7 +111,7 @@ public class BankCustomerRole extends Role{
 	public void msgAccountOpenedAnythingElse(int amount, int accountNumber,String passWord){
 		Do("I've got a new account with amount "+ amount);
 		String name = ((openAccount) pendingTask).custName;
-		person.purse.wallet -= amount;
+		person.takeFromWallet(amount);
 		person.createAccount(accountNumber,amount,name,passWord);
 		event = CustEvent.tellerReady;
 		this.passWord = passWord;
@@ -121,7 +122,7 @@ public class BankCustomerRole extends Role{
 	
 	public void msgLoanApprovedAnythingElse(int cash, int accountNumber, int loanNumber){
 		Do("Loan approved for $"+ cash);
-		person.purse.wallet += cash;
+		person.addToWallet(cash);
 		person.addLoan(accountNumber,cash,loanNumber);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
@@ -129,7 +130,7 @@ public class BankCustomerRole extends Role{
 	}
 	
 	public void msgHereIsMoneyAnythingElse(int cash){
-		person.purse.wallet+= cash;
+		person.addToWallet(cash);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
 		person.msgStateChanged();
