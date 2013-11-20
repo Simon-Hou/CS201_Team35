@@ -1,7 +1,16 @@
 package person;
 
+import interfaces.Person;
+
+
+
+
 import java.util.ArrayList;
 import java.util.List;
+
+import public_class.Food;
+import public_class.Newspaper;
+import role.Role;
 
 import com.sun.jmx.snmp.tasks.Task;
 
@@ -12,7 +21,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	//data
 	public List<Role> roles;
-	Time time;
+	//Time time;
 	int hungerLevel;
 	int tiredLevel;
 	int personalAddress;
@@ -80,10 +89,7 @@ public class PersonAgent extends Agent implements Person {
 		int licensePlateNumber;
 	}
 	
-	public class Food {
-		String type;
-		int quantity;
-	}
+
 	//msg
 	public void msgDoneEating(){
 		hungerLevel=0;
@@ -91,7 +97,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	//Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	 public boolean pickAndExecuteAnAction() {
 		
 		if (activeRole != null) {
 			return activeRole.pickAndExecuteAnAction();

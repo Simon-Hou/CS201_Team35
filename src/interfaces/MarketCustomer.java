@@ -11,6 +11,7 @@ public interface MarketCustomer {
 	public void msgHereIsYourChange(Receipt receipt, int change);
 	public void msgYouOweMoney(Receipt receipt, int debt);
 	public void msgYouCanLeave();
+	public void msgOutOfStock(Map<String, Integer> unfullfillable);
 	
-	public role.Person getPerson();
+	public person.PersonAgent getPerson();
 }
