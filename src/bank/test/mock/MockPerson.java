@@ -13,7 +13,8 @@ public class MockPerson extends Mock implements Person {
 	}
 
 	public void msgStateChanged() {
-		
+		log.add(new LoggedEvent("Just got a new permit"));
+		System.out.println(log.getLastLoggedEvent());
 	}
 
 	public void addToWallet(int amount) {
@@ -42,7 +43,7 @@ public class MockPerson extends Mock implements Person {
 	}
 
 	public void msgThisRoleDone(Role role) {
-		
+		log.add(new LoggedEvent("My BankCustomerRole just finished"));
 	}
 
 }
