@@ -2,7 +2,9 @@ package bank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
+import bank.interfaces.Person;
 import role.Role;
 import agent.Agent;
 import testAgents.testPerson;
@@ -14,7 +16,7 @@ public class BankCustomerRole extends Role{
 	//Constructor
 	
 	//quick and dirty
-	public BankCustomerRole(String name,testPerson p){
+	public BankCustomerRole(String name,Person p){
 		this.person = p;
 		this.name = name;
 		System.out.println(getName());
@@ -27,7 +29,7 @@ public class BankCustomerRole extends Role{
 		bank = b;
 	}
 	
-	public void setPerson(testPerson p){
+	public void setPerson(Person p){
 		person = p;
 	}
 	
@@ -49,20 +51,22 @@ public class BankCustomerRole extends Role{
 	
 	public String name;
 	
-	Bank bank;
+	public Bank bank;
 	
-	testPerson person;
+	Person person;
 	
 	
 	BankTellerRole teller;
 	
-	enum CustState {inBank,inLine,beingServed,leaving};
-	enum CustEvent {tellerReady,taskPending};
+	public enum CustState {limbo,inBank,inLine,beingServed,leaving};
+	public enum CustEvent {tellerReady,taskPending};
 	
-	CustState state = CustState.inBank;
+	public CustState state = CustState.limbo;
 	CustEvent event;
 	
-	List<Task> Tasks = new ArrayList<Task>();
+	public List<Task> Tasks = new ArrayList<Task>();
+	public Semaphore atDestination = new Semaphore(0, true);
+	
 	Task pendingTask = null;
 	
 	
@@ -87,7 +91,7 @@ public class BankCustomerRole extends Role{
 	public void msgDepositCompletedAnythingElse(int amount){
 		Do("Told that my deposit was successful");
 		int accNum = ((deposit) pendingTask).accountNumber;
-		person.purse.wallet -= amount;
+		person.takeFromWallet(amount);
 		person.addToAccount(accNum,amount);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
@@ -97,7 +101,7 @@ public class BankCustomerRole extends Role{
 	public void msgHereIsWithdrawalAnythingElse(int amount){
 		Do("Told that my withdrawal was successful");
 		int accNum = ((withdrawal) pendingTask).accountNumber;
-		person.purse.wallet += amount;
+		person.addToWallet(amount);
 		person.takeFromAccount(accNum,amount);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
@@ -107,7 +111,7 @@ public class BankCustomerRole extends Role{
 	public void msgAccountOpenedAnythingElse(int amount, int accountNumber,String passWord){
 		Do("I've got a new account with amount "+ amount);
 		String name = ((openAccount) pendingTask).custName;
-		person.purse.wallet -= amount;
+		person.takeFromWallet(amount);
 		person.createAccount(accountNumber,amount,name,passWord);
 		event = CustEvent.tellerReady;
 		this.passWord = passWord;
@@ -118,7 +122,7 @@ public class BankCustomerRole extends Role{
 	
 	public void msgLoanApprovedAnythingElse(int cash, int accountNumber, int loanNumber){
 		Do("Loan approved for $"+ cash);
-		person.purse.wallet += cash;
+		person.addToWallet(cash);
 		person.addLoan(accountNumber,cash,loanNumber);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
@@ -126,9 +130,14 @@ public class BankCustomerRole extends Role{
 	}
 	
 	public void msgHereIsMoneyAnythingElse(int cash){
-		person.purse.wallet+= cash;
+		person.addToWallet(cash);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
+		person.msgStateChanged();
+	}
+	
+	public void msgAtDestination() {
+		atDestination.release();
 		person.msgStateChanged();
 	}
 	
@@ -139,11 +148,18 @@ public class BankCustomerRole extends Role{
 	public boolean pickAndExecuteAnAction(){
 		//if you're inBank, get in line
 		if(state == CustState.inBank){
+			
 			getInLine();
 			return true;
 		}
 		
 		//if you're being served & the event is that teller is read, do next task
+		if(state == CustState.inLine && event == CustEvent.tellerReady) {
+			state = CustState.beingServed;
+			goToWindow();
+			return true;
+		}
+		
 		if(state == CustState.beingServed && event == CustEvent.tellerReady){
 			NextTask();
 			return true;
@@ -165,6 +181,16 @@ public class BankCustomerRole extends Role{
 		}
 		else{
 			System.err.println("Customer wasn't allowed in line");
+		}
+	}
+	
+	private void goToWindow() {
+		Do("Going to the teller's window");
+		doGoToWindow();
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -202,6 +228,10 @@ public class BankCustomerRole extends Role{
 	//GUI
 	
 	private void doGetInLine(){
+		
+	}
+	
+	private void doGoToWindow() {
 		
 	}
 	

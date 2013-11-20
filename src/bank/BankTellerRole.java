@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Random;
 //import org.apache.commons.lang.RandomStringUtils;
 
+
+
+import bank.interfaces.Person;
+import role.Role;
 import agent.Agent;
 import util.*;
 
-public class BankTellerRole extends Agent{
+public class BankTellerRole extends Role{
 	
 	//Constructor
 	

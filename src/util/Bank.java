@@ -13,7 +13,7 @@ public class Bank {
 	
 
 	//stores all the people in the queue
-	List<BankCustomerRole> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
+	public List<BankCustomerRole> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	
 	List<BankTellerRole> myTellers = new ArrayList<BankTellerRole>();
 	List<BankTellerRole> currentTellers = new ArrayList<BankTellerRole>();

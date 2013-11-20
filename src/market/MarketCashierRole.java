@@ -2,6 +2,7 @@ package market;
 
 import person.PersonAgent;
 import role.Role;
+import testAgents.testPerson;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	List<MyCustomer> customers;
 	Map<String, Integer> priceList;
-	Map<PersonAgent, Integer> debtorsList;
+	Map<testPerson, Integer> debtorsList;
 	Market market;
 
 	Timer timer;
