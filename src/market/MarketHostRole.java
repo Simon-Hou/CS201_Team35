@@ -4,6 +4,7 @@ package market;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import interfaces.*;
@@ -88,7 +89,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	private void CheckCustomer(MyCustomer mc){
 		if ((mc.receipt == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
-			mc.customer.YouCanLeave();
+			mc.customer.msgYouCanLeave();
 			customers.remove(mc);
 			return;
 		}
@@ -104,7 +105,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		mc.state = CustomerState.beingServiced;
 
 
-		Map<String, Integer> unfulfillable;
+		Map<String, Integer> unfulfillable = new HashMap<String, Integer>();
 		for (Entry<String,Integer> item : mc.order.entrySet()){
 			int request = item.getValue();
 			int stock = inventory.get(item.getKey());
@@ -127,7 +128,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		}
 
 		if (unfulfillable.size()>0){
-			mc.customer.OutOfStock(unfulfillable);
+			mc.customer.msgOutOfStock(unfulfillable);
 			//^^where is this message?
 		}
 
