@@ -65,6 +65,11 @@ public class BankCustomerRole extends Agent{
 	
 	//MSG
 	
+	public void msgYouAreAtBank(Bank b){
+		this.bank = b;
+		this.state = CustState.inBank;
+	}
+	
 	public void msgHowCanIHelpYou(BankTellerRole t){
 		Do("Just got asked how I can be helped.");
 		
