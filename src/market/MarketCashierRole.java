@@ -1,6 +1,6 @@
 package market;
 
-import role.Person;
+import person.PersonAgent;
 import role.Role;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	List<MyCustomer> customers;
 	Map<String, Integer> priceList;
-	Map<Person, Integer> debtorsList;
+	Map<PersonAgent, Integer> debtorsList;
 	Market market;
 
 	Timer timer;
@@ -42,12 +42,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    }		
 	}
 
-	public void msgHereIsBusinessPayment(BusinessPayment payment){
+	public void msgHereIsBusinessPayment(int pay){
+		BusinessPayment payment = new BusinessPayment(pay);
 	    businessPayments.add(payment);
 	}
 	
 	//Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		for (MyCustomer mc: customers){
 			if (mc.status == CustomerState.needsTotal){
 				ComputeTotal(mc);
@@ -116,7 +117,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void ProcessBusinessPayment(BusinessPayment payment){
-	    market.cash+= payment.amountPaid;
+	    market.cash+= payment.amount;
 	    businessPayments.remove(payment);
 	}
 	
@@ -135,5 +136,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    }
 	}
 	enum CustomerState{needsTotal, computingTotal, hasTotal, askedToPay, paid }
+	
+	private class BusinessPayment{
+		int amount;
+		
+		BusinessPayment(int pay){
+			amount = pay;
+		}
+		
+	}
 	
 }

@@ -6,11 +6,11 @@ import interfaces.MarketHost;
 
 import java.util.Map;
 
-import role.Person;
+import person.PersonAgent;
 import role.Role;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-	Person p;
+	PersonAgent p;
 	RoleState state;
 	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
 	RoleEvent event;
@@ -46,10 +46,13 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	    event = RoleEvent.allowedToLeave;
 	}
 
+	public void msgOutOfStock(Map<String, Integer> unfullfillable){
+		//what do I do if they don't have what I want??
+	}
 	
 	//Scheduler
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if (state==RoleState.JustEnteredMarket && host!=null){
 		    state = RoleState.Ordered;        
 		    MakeOrder();
@@ -89,7 +92,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	    cashier.msgPleaseServiceCustomer(this, groceries);
 	}
 
-	private void MakePayment(){                //Right now market’s letting customer do an IOU
+	private void MakePayment(){                //Right now markets letting customer do an IOU
 	    int payment;
 	    if (p.purse.wallet>=bill)
 	        payment = bill;
@@ -112,7 +115,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	//Utilities
-	public Person getPerson(){
+	public PersonAgent getPerson(){
 		return p;
 	}
 

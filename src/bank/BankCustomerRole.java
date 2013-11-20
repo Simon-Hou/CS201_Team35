@@ -3,18 +3,21 @@ package bank;
 import java.util.ArrayList;
 import java.util.List;
 
+import role.Role;
 import agent.Agent;
-import util.Bank;
+import testAgents.testPerson;
 import util.*;
 
-public class BankCustomerRole extends Agent{
+public class BankCustomerRole extends Role{
 
 	
 	//Constructor
 	
 	//quick and dirty
-	public BankCustomerRole(String name){
+	public BankCustomerRole(String name,testPerson p){
+		this.person = p;
 		this.name = name;
+		System.out.println(getName());
 	}
 	
 	
@@ -24,7 +27,7 @@ public class BankCustomerRole extends Agent{
 		bank = b;
 	}
 	
-	public void setPerson(Person p){
+	public void setPerson(testPerson p){
 		person = p;
 	}
 	
@@ -44,11 +47,12 @@ public class BankCustomerRole extends Agent{
 	
 	public String passWord;
 	
-	String name;
+	public String name;
 	
 	Bank bank;
 	
-	Person person;
+	testPerson person;
+	
 	
 	BankTellerRole teller;
 	
@@ -58,12 +62,17 @@ public class BankCustomerRole extends Agent{
 	CustState state = CustState.inBank;
 	CustEvent event;
 	
-	List<Task> Tasks = new ArrayList<Task>();
+	public List<Task> Tasks = new ArrayList<Task>();
 	Task pendingTask = null;
 	
 	
 	
 	//MSG
+	
+	public void msgYouAreAtBank(Bank b){
+		this.bank = b;
+		this.state = CustState.inBank;
+	}
 	
 	public void msgHowCanIHelpYou(BankTellerRole t){
 		Do("Just got asked how I can be helped.");
@@ -71,7 +80,7 @@ public class BankCustomerRole extends Agent{
 		teller = t;
 		event = CustEvent.tellerReady;
 		state = CustState.beingServed;
-		stateChanged();
+		person.msgStateChanged();
 		
 	}
 	
@@ -82,7 +91,7 @@ public class BankCustomerRole extends Agent{
 		person.addToAccount(accNum,amount);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgHereIsWithdrawalAnythingElse(int amount){
@@ -92,7 +101,7 @@ public class BankCustomerRole extends Agent{
 		person.takeFromAccount(accNum,amount);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgAccountOpenedAnythingElse(int amount, int accountNumber,String passWord){
@@ -104,7 +113,7 @@ public class BankCustomerRole extends Agent{
 		this.passWord = passWord;
 		Do(passWord);
 		pendingTask = null;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgLoanApprovedAnythingElse(int cash, int accountNumber, int loanNumber){
@@ -113,14 +122,14 @@ public class BankCustomerRole extends Agent{
 		person.addLoan(accountNumber,cash,loanNumber);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgHereIsMoneyAnythingElse(int cash){
 		person.purse.wallet+= cash;
 		event = CustEvent.tellerReady;
 		pendingTask = null;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	

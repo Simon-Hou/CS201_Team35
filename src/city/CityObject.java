@@ -1,6 +1,13 @@
 package city;
 import java.util.*;
 
+import bank.BankTellerRole;
+import testAgents.testPerson;
+import util.Bank;
+import util.BankMapLoc;
+import util.CityMap;
+import util.Place;
+
 public class CityObject {
 
 	
@@ -16,17 +23,17 @@ public class CityObject {
 	
 	//======MAP======
 	
-	Map<String,ArrayList<Place>> cityMap = new HashMap<String,ArrayList<Place>>();
+	CityMap cityMap = new CityMap();
 	
 	public final int numBanks = 1;
 	public final int numMarkets = 1;
 	public final int numRestaurants = 1;
 	
-	class Place{
-		int address;
-	}
 	
-	class BankMapLoc extends Place{
+	/*class BankMapLoc extends Place{
+		public BankMapLoc(Bank bank){
+			this.bank = bank;
+		}
 		Bank bank;
 	}
 	
@@ -36,13 +43,13 @@ public class CityObject {
 	
 	class RestaurantMapLoc extends Place{
 		
-	}
+	}*/
 	
 	public CityObject(){
 		
-		cityMap.put("Bank", new ArrayList<Place>());
-		cityMap.put("Market", new ArrayList<Place>());
-		cityMap.put("Restaurant", new ArrayList<Place>());
+		cityMap.map.put("Bank", new ArrayList<Place>());
+		cityMap.map.put("Market", new ArrayList<Place>());
+		cityMap.map.put("Restaurant", new ArrayList<Place>());
 		
 		
 		//CREATE THE OBJECTS, ADD THEM TO THE MAP
@@ -55,7 +62,7 @@ public class CityObject {
 		for(int i = 0;i<numBanks;++i){
 			Bank b = new Bank();
 			BankMapLoc bMap = new BankMapLoc(b);
-			cityMap.get("Bank").add(bMap);
+			cityMap.map.get("Bank").add(bMap);
 		}
 		
 		
@@ -71,7 +78,16 @@ public class CityObject {
 		//==People
 			//+ Will need to be instantiated with different jobs/housing situations
 			//+ Instantiate with map - they'll have almost all the pointers they'll need
+		BankTellerRole t0 = new BankTellerRole("t0");
+		t0.setBank(((BankMapLoc) cityMap.map.get("Bank").get(0)).bank);
+		t0.startThread();
 		
+		
+		
+		testPerson p0 = new testPerson("p0");
+		p0.setMap(cityMap);
+		p0.startThread();
+		p0.msgGoToBank();
 		
 		
 		//======TRANSPORTATION======
@@ -82,6 +98,8 @@ public class CityObject {
 		
 	
 	public static void main(String [] args){
+		
+		CityObject city = new CityObject();
 		
 		return;
 	}
