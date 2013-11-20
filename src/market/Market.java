@@ -1,9 +1,11 @@
 package market;
 
+import interfaces.MarketHost;
+
 public class Market {
 	
 	int cash;
 
-		MarketHostRole host;
-		int money;
+	public MarketHost host;
+	int money;
 }

@@ -2,6 +2,7 @@ package interfaces;
 
 import java.util.Map;
 
+import testAgents.testPerson;
 import market.Receipt;
 
 public interface MarketCustomer {
@@ -13,5 +14,5 @@ public interface MarketCustomer {
 	public void msgYouCanLeave();
 	public void msgOutOfStock(Map<String, Integer> unfullfillable);
 	
-	public person.PersonAgent getPerson();
+	public testPerson getPerson();
 }

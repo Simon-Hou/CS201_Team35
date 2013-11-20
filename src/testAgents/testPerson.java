@@ -1,9 +1,15 @@
 package testAgents;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import market.Market;
+import market.MarketCustomerRole;
 import role.Role;
 import util.Bank;
 import util.BankMapLoc;
 import util.CityMap;
+import util.MarketMapLoc;
 //import market.MarketCustomerRole;
 import bank.BankCustomerRole;
 //import bank.Person.Purse;
@@ -15,6 +21,7 @@ public class testPerson extends Agent{
 		this.name = name;
 		this.cityMap = cityMap;
 		bankCustRole.setPerson(this);
+		this.marketCustRole.setName(this.name);
 	}
 	
 	String name;
@@ -33,9 +40,9 @@ public class testPerson extends Agent{
 	boolean wantsToGoToRestaurant = false;
 	
 	
-	public BankCustomerRole bankCustRole = new BankCustomerRole(this.name);
+	public BankCustomerRole bankCustRole = new BankCustomerRole(this.name,this);
+	public MarketCustomerRole marketCustRole = new MarketCustomerRole(this.name,this);
 	
-	//public MarketCustomerRole marketCustRole = new MarketCustomerRole();
 	public Role activeRole;
 	
 	int myBank = 0;
@@ -111,7 +118,11 @@ public class testPerson extends Agent{
 	}
 	
 	private void GoToMarket(){
+		Market m = ((MarketMapLoc) cityMap.map.get("Market").get(myMarket)).market;
 		
+		this.marketCustRole.msgYouAreAtMarket(m.host);
+		this.activeRole = this.marketCustRole;
+		this.wantsToGoToMarket = true;
 	}
 	
 	private void GoToRestaurant(){
@@ -120,10 +131,11 @@ public class testPerson extends Agent{
 	
 	//Bunch of needed data
 	
-	Purse purse = new Purse();
+	public Purse purse = new Purse();
 	
-	class Purse{
+	public class Purse{
 		public int wallet;
+		public Map<String, Integer> bag = new HashMap<String,Integer>();  
 	}
 	
 	public void addToAccount(int accNum,int amount){

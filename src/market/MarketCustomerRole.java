@@ -23,6 +23,20 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	Receipt receipt;
 	MarketHost host;
 	MarketCashier cashier;
+	String name;
+	
+	public String getName(){
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public MarketCustomerRole(String name,testPerson p){
+		this.name = name;
+		this.p = p;
+	}
 	
 	public void msgHereAreItems(Map<String, Integer> groceries){
 	    this.groceries = groceries;
@@ -53,6 +67,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	public void msgYouAreAtMarket(MarketHost marketHost){
+		Do("I'm at the market.");
 		host = marketHost;
 		state = RoleState.JustEnteredMarket;
 		p.msgStateChanged();
@@ -92,7 +107,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//Actions
 	private void MakeOrder(){
-	     host.msgCustomerWantsThis(this, shoppingList);
+		Do("Making my order.");
+     	host.msgCustomerWantsThis(this, shoppingList);
 	}
 
 	private void GoPay(){
@@ -123,7 +139,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	//Utilities
-	public PersonAgent getPerson(){
+	public testPerson getPerson(){
 		return p;
 	}
 
