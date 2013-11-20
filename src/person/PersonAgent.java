@@ -1,7 +1,14 @@
 package person;
 
+import interfaces.Person;
+
+
+
 import java.util.ArrayList;
 import java.util.List;
+
+import public_class.Newspaper;
+import role.Role;
 
 import com.sun.jmx.snmp.tasks.Task;
 
@@ -80,10 +87,7 @@ public class PersonAgent extends Agent implements Person {
 		int licensePlateNumber;
 	}
 	
-	public class Food {
-		String type;
-		int quantity;
-	}
+
 	//msg
 	public void msgDoneEating(){
 		hungerLevel=0;
