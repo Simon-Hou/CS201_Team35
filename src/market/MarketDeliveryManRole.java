@@ -33,7 +33,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	
 	//-----------------------------SCHEDULER--------------------------------
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		if (!orders.isEmpty()){
 			DeliverOrder(orders.get(0));

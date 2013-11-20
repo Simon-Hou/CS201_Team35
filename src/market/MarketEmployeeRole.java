@@ -25,7 +25,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	//Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		for (CustomerOrder co: customerOrders){
 			if (co.status == CustomerOrderState.none){
 				CollectItems(co);

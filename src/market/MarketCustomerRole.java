@@ -52,7 +52,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//Scheduler
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if (state==RoleState.JustEnteredMarket && host!=null){
 		    state = RoleState.Ordered;        
 		    MakeOrder();

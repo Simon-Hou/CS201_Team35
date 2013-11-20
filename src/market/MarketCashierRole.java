@@ -48,7 +48,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	//Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		for (MyCustomer mc: customers){
 			if (mc.status == CustomerState.needsTotal){
 				ComputeTotal(mc);
