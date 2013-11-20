@@ -1,5 +1,6 @@
 package house;
 
+import public_class.Food;
 import interfaces.Inhabitant;
 import interfaces.Person;
 import role.Role;
@@ -8,10 +9,11 @@ public class InhabitantRole extends Role implements Inhabitant {
 
 	
 	//data
-		Home myHome;
+		LivingUnit myRoom;
 		Person self;
 		enum InhabitantState {IDLE,HUNGRY,FOODREADY, EXIT};
 		InhabitantState s=InhabitantState.IDLE;
+		String foodEaten=null;
 
 		//msg
 		public void msgGotHungry(){ //called by Person
@@ -51,13 +53,36 @@ public class InhabitantRole extends Role implements Inhabitant {
 	
 	//action
 		private void GetAndCook(){
-
+			PickFood();
+			DoGetAndCook();
 		}
 		private void PlateAndEat(){
-
+			DoPlateAndEat();
+			
 		}
 		private void ExitHouse(){
-
+			DoExit();
+			myRoom.inhabitant=null;
+		}
+		
+		private void PickFood(){
+			for(Food food : myRoom.inventory){
+				if(food.quantity>0){
+					food.quantity--;
+					foodEaten=food.type;
+					break;
+				}
+			}
+		}
+	//Animation
+		public void DoGetAndCook(){
+			
+		}
+		public void DoPlateAndEat(){
+			
 		}
 
+		public void DoExit(){
+			
+		}
 }
