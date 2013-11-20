@@ -1,9 +1,8 @@
-package bank.interfaces;
+package interfaces;
 
-import bank.test.mock.EventLog;
 import util.Task;
 
-public interface Teller {
+public interface BankTeller {
 	
 	
 	

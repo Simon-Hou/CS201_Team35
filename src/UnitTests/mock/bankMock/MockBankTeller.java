@@ -1,16 +1,21 @@
-package bank.test.mock;
+package UnitTests.mock.bankMock;
 
+import interfaces.BankTeller;
 import util.Task;
-import bank.interfaces.Teller;
+import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.Mock;
 
-public class MockTeller implements Teller{
+public class MockBankTeller extends Mock implements BankTeller{
 
-	public EventLog log = new EventLog();
 	
 	
 	String name;
-	public MockTeller(String name){
+	public MockBankTeller(String name){
 		this.name = name;
+	}
+	
+	public MockBankTeller(){
+		
 	}
 	
 	@Override

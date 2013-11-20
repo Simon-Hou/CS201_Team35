@@ -1,5 +1,8 @@
 package bank;
 
+import interfaces.BankTeller;
+import interfaces.Person;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -8,13 +11,13 @@ import java.util.Random;
 
 
 
-import bank.interfaces.Person;
-import bank.interfaces.Teller;
+
+
 import role.Role;
 import agent.Agent;
 import util.*;
 
-public class BankTellerRole extends Role implements Teller{
+public class BankTellerRole extends Role implements BankTeller{
 	
 	//Constructor
 	

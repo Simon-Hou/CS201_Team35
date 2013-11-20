@@ -1,4 +1,4 @@
-package bank.test;
+package UnitTests.BankUnitTests;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import junit.framework.*;
  *
  * @author Monroe Ekilah
  */
-public class TellerTest extends TestCase
+public class BankTellerTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
 	CashierAgent cashier;
