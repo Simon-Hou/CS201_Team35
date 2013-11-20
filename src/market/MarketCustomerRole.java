@@ -8,9 +8,11 @@ import java.util.Map;
 
 import person.PersonAgent;
 import role.Role;
+import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-	PersonAgent p;
+	//PersonAgent p;
+	testPerson p;
 	RoleState state;
 	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
 	RoleEvent event;
@@ -48,6 +50,12 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	public void msgOutOfStock(Map<String, Integer> unfullfillable){
 		//what do I do if they don't have what I want??
+	}
+	
+	public void msgYouAreAtMarket(MarketHost marketHost){
+		host = marketHost;
+		state = RoleState.JustEnteredMarket;
+		p.msgStateChanged();
 	}
 	
 	//Scheduler
