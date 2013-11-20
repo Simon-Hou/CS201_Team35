@@ -10,6 +10,7 @@ import bank.Bank.*;
 
 public class PersonAgent extends Agent implements Person {
 	
+	//data
 	public List<Role> roles;
 	Time time;
 	int hungerLevel;
@@ -82,6 +83,11 @@ public class PersonAgent extends Agent implements Person {
 	public class Food {
 		String type;
 		int quantity;
+	}
+	//msg
+	public void msgDoneEating(){
+		hungerLevel=0;
+		stateChanged();
 	}
 	
 	//Scheduler
