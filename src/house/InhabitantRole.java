@@ -36,7 +36,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	
 
 	//scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 				if(s==InhabitantState.HUNGRY){
 				GetAndCook();
