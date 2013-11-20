@@ -8,7 +8,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 
 	
 	//data
-		Home myHome;
+		House myHome;
 		Person self;
 		enum InhabitantState {IDLE,HUNGRY,FOODREADY, EXIT};
 		InhabitantState s=InhabitantState.IDLE;
