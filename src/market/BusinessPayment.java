@@ -1,7 +1,5 @@
 package market;
 
-import Restaurant.Restaurant;
-
 public class BusinessPayment {
 
 	int amountOwed;
