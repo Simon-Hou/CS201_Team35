@@ -52,7 +52,8 @@ public class Bank {
 	}
 	
 	
-	public boolean startTellerShift(){
+	public boolean startTellerShift(BankTellerRole t){
+		currentTellers.add(t);
 		return true;
 	}
 	
@@ -67,8 +68,10 @@ public class Bank {
 	}
 	
 	public boolean addMeToQueue(BankCustomerRole c){
+		//System.out.println("Here");
 		bankCustomers.add(c);
 		for(BankTellerRole t:currentTellers){
+			//System.out.println("Teller messaged");
 			t.msgStateChanged();
 		}
 		return true;

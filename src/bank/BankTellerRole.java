@@ -15,7 +15,7 @@ public class BankTellerRole extends Agent{
 	//quick and dirty
 	public BankTellerRole(String name){
 		this.name = name;
-		startedWorking = true;
+		//startedWorking = true;
 	}
 	
 	//USEFUL METHODS
@@ -93,7 +93,8 @@ public class BankTellerRole extends Agent{
 		
 		//If not started working, tell bank you're starting
 		if(!startedWorking){
-			startedWorking = bank.startTellerShift();
+			Do("I'll start working.");
+			startedWorking = bank.startTellerShift(this);
 			return false;
 		}
 		
