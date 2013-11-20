@@ -59,6 +59,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 
 	
+	
 	//-----------------------------SCHEDULER--------------------------------
 	public boolean pickAndExecuteAnAction() {
 		
