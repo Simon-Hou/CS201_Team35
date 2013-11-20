@@ -21,7 +21,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	//data
 	public List<Role> roles;
-	Time time;
+	//Time time;
 	int hungerLevel;
 	int tiredLevel;
 	int personalAddress;
