@@ -1,11 +1,14 @@
 package city;
 import java.util.*;
 
+import market.Market;
+import market.MarketHostRole;
 import bank.BankTellerRole;
 import testAgents.testPerson;
 import util.Bank;
 import util.BankMapLoc;
 import util.CityMap;
+import util.MarketMapLoc;
 import util.Place;
 
 public class CityObject {
@@ -70,6 +73,12 @@ public class CityObject {
 		
 		//==Markets==
 		
+		for(int i = 0;i<numMarkets;i++){
+			Market m = new Market();
+			MarketMapLoc mMap = new MarketMapLoc(m);
+			cityMap.map.get("Market").add(mMap);
+		}
+		
 		//==Houses==
 		
 		
@@ -78,16 +87,24 @@ public class CityObject {
 		//==People
 			//+ Will need to be instantiated with different jobs/housing situations
 			//+ Instantiate with map - they'll have almost all the pointers they'll need
-		BankTellerRole t0 = new BankTellerRole("t0");
+		
+		//method we've agreed on new Person(String name,CityMap cityMap)
+		
+		/*BankTellerRole t0 = new BankTellerRole("t0");
 		t0.setBank(((BankMapLoc) cityMap.map.get("Bank").get(0)).bank);
-		t0.startThread();
+		t0.startThread();*/
+		
+		MarketHostRole h0 = new MarketHostRole();
+		((MarketMapLoc) cityMap.map.get("Market").get(0)).market.host = h0;
+		h0.startThread();
 		
 		
 		
-		testPerson p0 = new testPerson("p0");
-		p0.setMap(cityMap);
+		
+		testPerson p0 = new testPerson("p0",cityMap);
 		p0.startThread();
-		p0.msgGoToBank();
+		
+		p0.msgGoToMarket();
 		
 		
 		//======TRANSPORTATION======

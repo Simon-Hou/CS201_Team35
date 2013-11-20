@@ -21,10 +21,10 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	private List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
 	
-	Map<String, Integer> inventory;
+	Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
 	
-	MarketHostRole(){
+	public MarketHostRole(){
 		inventory.put("Steak", 10);
 		inventory.put("Chicken", 10);
 		inventory.put("Pizza", 10);

@@ -48,7 +48,7 @@ public class BankCustomerGui {
 			yPos--;
 
 		if (xPos == xDestination && yPos == yDestination) {
-			if (command==Command.GoToTellerWindow) {/*role.atDestination.release();*/}//release a semaphore?
+			if (command==Command.GoToTellerWindow) role.msgAtDestination();//release a semaphore?
 			else if (command==Command.LeaveBank) {
 				//role.msgAnimationFinishedLeaveRestaurant();//set this role.
 				//System.out.println("about to call gui.setCustomerEnabled(agent);");
