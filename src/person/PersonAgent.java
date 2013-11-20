@@ -4,9 +4,11 @@ import interfaces.Person;
 
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
+import public_class.Food;
 import public_class.Newspaper;
 import role.Role;
 
@@ -95,7 +97,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	//Scheduler
-	protected boolean pickAndExecuteAnAction() {
+	 public boolean pickAndExecuteAnAction() {
 		
 		if (activeRole != null) {
 			return activeRole.pickAndExecuteAnAction();
