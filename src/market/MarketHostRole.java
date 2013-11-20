@@ -60,7 +60,7 @@ public class MarketHostRole extends Role implements MarketHost {
 
 	
 	//-----------------------------SCHEDULER--------------------------------
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		for (MyCustomer mc : customers){
 			if (mc.state == CustomerState.leaving){
