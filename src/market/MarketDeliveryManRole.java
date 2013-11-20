@@ -52,25 +52,38 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	//-----------------------------ACTIONS--------------------------------
 	private void DeliverOrder(BusinessOrder order){
-		//go to the restaurant, message the cook and cashier
+		DoGoToRestaurant(order.restaurant);
+		order.restaurant.cook.msgHereIsDelivery(order);
+		order.restaurant.cashier.msgHereIsInvoice(order.invoice);
+		orders.remove(order);
 	}
 	
+	private void DoGoToRestaurant(Restaurant rest){
+		//go to the restaurant
+	}
 	private void DeliverPayment(MyPayment payment){
 		DoGoToCashier();
 		//cashier.msgHereIsBusinessPayment(payment.amount);
+		//^^^change cashier msg to accept an int instead of payment object
 		
 	}
 	
 	private void DoGoToCashier(){
+		//go back to the market, go to the cashier
 		
 	}
+	
+	
 	
 	//-----------------------------UTILITIES--------------------------------
 	private class MyPayment {
 		int amount;
+		//Restaurant restaurant;
 	
 		MyPayment(int payment){
 			amount = payment;
+	
+			
 		}
 	}
 	
