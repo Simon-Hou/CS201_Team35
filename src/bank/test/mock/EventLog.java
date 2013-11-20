@@ -91,6 +91,16 @@ public class EventLog {
 	public LoggedEvent getLastLoggedEvent() {
 		return events.getLast();
 	}
+	
+	/**
+	 * @return the ith most recently LoggedEvent
+	 */
+	public LoggedEvent getLastLoggedEvent(int i) {
+		if(i>events.size()){
+			return null;
+		}
+		return events.get(events.size()-i);
+	}
 
 	public String toString() {
 		StringBuilder text = new StringBuilder();
