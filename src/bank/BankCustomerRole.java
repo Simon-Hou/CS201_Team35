@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import bank.interfaces.Person;
+import bank.interfaces.Teller;
 import role.Role;
 import agent.Agent;
 import testAgents.testPerson;
@@ -56,13 +57,13 @@ public class BankCustomerRole extends Role{
 	Person person;
 	
 	
-	BankTellerRole teller;
+	public Teller teller;
 	
-	public enum CustState {limbo,inBank,inLine,beingServed,leaving};
+	public enum CustState {init,inBank,inLine,goingToWindow,beingServed,leaving};
 	public enum CustEvent {tellerReady,taskPending};
 	
-	public CustState state = CustState.limbo;
-	CustEvent event;
+	public CustState state = CustState.init;
+	public CustEvent event;
 	
 	public List<Task> Tasks = new ArrayList<Task>();
 	public Semaphore atDestination = new Semaphore(0, true);
@@ -78,12 +79,12 @@ public class BankCustomerRole extends Role{
 		this.state = CustState.inBank;
 	}
 	
-	public void msgHowCanIHelpYou(BankTellerRole t){
+	public void msgHowCanIHelpYou(Teller t){
 		Do("Just got asked how I can be helped.");
 		
 		teller = t;
 		event = CustEvent.tellerReady;
-		state = CustState.beingServed;
+		//state = CustState.beingServed;
 		person.msgStateChanged();
 		
 	}
@@ -114,8 +115,8 @@ public class BankCustomerRole extends Role{
 		person.takeFromWallet(amount);
 		person.createAccount(accountNumber,amount,name,passWord);
 		event = CustEvent.tellerReady;
-		this.passWord = passWord;
-		Do(passWord);
+		//this.passWord = passWord;
+		//Do(passWord);
 		pendingTask = null;
 		person.msgStateChanged();
 	}
@@ -155,7 +156,6 @@ public class BankCustomerRole extends Role{
 		
 		//if you're being served & the event is that teller is read, do next task
 		if(state == CustState.inLine && event == CustEvent.tellerReady) {
-			state = CustState.beingServed;
 			goToWindow();
 			return true;
 		}
@@ -187,11 +187,14 @@ public class BankCustomerRole extends Role{
 	private void goToWindow() {
 		Do("Going to the teller's window");
 		doGoToWindow();
+		state = CustState.goingToWindow;
+		//atDestination.release();
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		state = CustState.beingServed;
 	}
 	
 	private void NextTask(){

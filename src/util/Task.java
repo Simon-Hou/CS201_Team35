@@ -42,6 +42,26 @@ public class Task {
 		}
 		return null;
 	}
+	
+	public String toString(){
+		Task t = this;
+		if (t instanceof openAccount) {
+			return "openAccount";
+		}
+		if (t instanceof deposit) {
+			return "deposit";
+		}
+		if (t instanceof withdrawal) {
+			return "withdrawal";
+		}
+		if (t instanceof takeLoan) {
+			return "takeLoan";
+		}
+		if (t instanceof rob) {
+			return "rob";
+		}
+		return null;
+	}
 
 }
 

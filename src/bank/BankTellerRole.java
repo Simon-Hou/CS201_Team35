@@ -7,12 +7,14 @@ import java.util.Random;
 
 
 
+
 import bank.interfaces.Person;
+import bank.interfaces.Teller;
 import role.Role;
 import agent.Agent;
 import util.*;
 
-public class BankTellerRole extends Role{
+public class BankTellerRole extends Role implements Teller{
 	
 	//Constructor
 	
