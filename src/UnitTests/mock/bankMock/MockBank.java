@@ -37,7 +37,9 @@ public class MockBank extends Mock implements BankInterface{
 
 	@Override
 	public int addAccount(String custName, int amount, String passWord) {
-		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("Opened account with name " + custName+", amount "+amount+ ", password "+passWord));
+		
 		return 0;
 	}
 

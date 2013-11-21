@@ -8,6 +8,7 @@ import UnitTests.mock.Mock;
 public class MockBankCustomer extends Mock implements BankCustomer{
 
 	String name;
+	public String passWord;
 	
 	public MockBankCustomer(String string) {
 		// TODO Auto-generated constructor stub
@@ -24,7 +25,8 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 	@Override
 	public void msgAccountOpenedAnythingElse(int amount, int accountNumber,
 			String passWord) {
-		// TODO Auto-generated method stub
+		this.passWord = passWord;
+		log.add(new LoggedEvent("My openAccount was completed"));
 		
 	}
 
