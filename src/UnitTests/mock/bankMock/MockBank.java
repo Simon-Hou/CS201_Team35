@@ -52,7 +52,10 @@ public class MockBank extends Mock implements BankInterface{
 
 	@Override
 	public boolean withdraw(int amount, int accountNumber, String passWord) {
-		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("Processed withdrawal of $"+amount+
+				", account number "+accountNumber+", password "+passWord));
+		
 		return true;
 	}
 

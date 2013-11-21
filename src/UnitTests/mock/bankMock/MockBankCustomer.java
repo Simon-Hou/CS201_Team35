@@ -37,7 +37,8 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 
 	@Override
 	public void msgHereIsWithdrawalAnythingElse(int amount) {
-		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("My withdrawal was completed"));
 		
 	}
 
