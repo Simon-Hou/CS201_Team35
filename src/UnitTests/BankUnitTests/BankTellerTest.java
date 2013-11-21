@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import util.Bank;
 import util.deposit;
 import util.openAccount;
+import util.rob;
 import util.takeLoan;
 import util.withdrawal;
 import UnitTests.mock.bankMock.MockBank;
@@ -355,6 +356,71 @@ public class BankTellerTest extends TestCase
 		String passWord = customer.passWord;
 		assertTrue("Banks should have a record of the loan being granted",bank.log.getLastLoggedEvent().getMessage().equals("Granted loan for amount $100, account number 0, and password passWord"));
 		assertTrue("Customer should have been notified",customer.log.getLastLoggedEvent().getMessage().equals("My loan was granted"));
+		assertTrue("Teller should have killed currentTask", teller.currentTask==null);
+		
+		//step 6 - tell the teller the cust is leaving
+		teller.msgDoneAndLeaving();
+		
+		//check post of 6
+		assertTrue("Teller shouldn't have a customer",teller.currentCustomer==null);
+		assertTrue("Person should have a permit logged",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
+
+
+		
+		
+	}
+	
+	public void testOneCustomerOneRob(){
+		
+//		//step 0 - put the customer in the bank
+//		bank.addMeToQueue(customer);
+		
+		//verify that the customers have an empty log, teller hasn't started working
+		assertTrue("Customer should have an empty log",customer.log.isEmpty());
+		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
+		
+		//step 1 - call the teller schedule
+		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		
+		//check post of 1 and pre of 2
+		assertTrue("Customer should have an empty log",customer.log.isEmpty());
+		assertTrue("Teller should be working now",teller.startedWorking);
+		assertTrue("Teller's person should still be asleep",person.log.isEmpty());
+		
+		//step 2 - put the customer in the bank
+		bank.addMeToQueue(customer);
+		teller.msgStateChanged();
+		
+		//check post of 2 and pre of 3
+		assertTrue("Customer should have an empty log",customer.log.isEmpty());
+		assertTrue("Teller should be working",teller.startedWorking);
+		assertTrue("Teller's person should have been woken up by customer entering.",
+				person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
+		assertTrue("Bank should have teller on record",bank.log.getLastLoggedEvent().getMessage().equals("New teller working"));
+		
+		//step 3 - call the teller scheduler
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
+		
+		//check post of 3 and pre of 4
+		assertTrue("Teller should have a current customer now",teller.currentCustomer==customer);
+		assertTrue("Customer log should show teller mesaged",customer.log.getLastLoggedEvent().getMessage().equals("Being helped"));
+		
+		//step 4 - tell the teller what the cust wants
+		rob d = new rob(100);
+		teller.msgIWantTo(d);
+		
+		//check post of 4
+		assertTrue("Teller should have a new task",teller.currentTask==d);
+		assertTrue("Person should have a permit logged",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
+		
+		//step 5 - call the teller's scheduler
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
+		
+		//check post of 5 and pre of 6
+		System.out.println(bank.log.getLastLoggedEvent().getMessage());
+		String passWord = customer.passWord;
+		assertTrue("Banks should have a record of the loan being granted",bank.log.getLastLoggedEvent().getMessage().equals("Robbery granted for amount $100"));
+		assertTrue("Customer should have been notified",customer.log.getLastLoggedEvent().getMessage().equals("My robbery was granted!"));
 		assertTrue("Teller should have killed currentTask", teller.currentTask==null);
 		
 		//step 6 - tell the teller the cust is leaving

@@ -55,7 +55,9 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 
 	@Override
 	public void msgHereIsMoneyAnythingElse(int amount) {
-		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("My robbery was granted!"));
+		
 		
 	}
 

@@ -71,7 +71,9 @@ public class MockBank extends Mock implements BankInterface{
 
 	@Override
 	public int rob(int amount) {
-		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("Robbery granted for amount $"+ amount));
+		
 		return 1;
 	}
 
