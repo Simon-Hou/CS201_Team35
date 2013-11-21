@@ -1,5 +1,7 @@
 package util;
 
+import interfaces.BankCustomer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +15,7 @@ public class Bank {
 	
 
 	//stores all the people in the queue
-	public List<BankCustomerRole> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
+	public List<BankCustomer> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	
 	List<BankTellerRole> myTellers = new ArrayList<BankTellerRole>();
 	List<BankTellerRole> currentTellers = new ArrayList<BankTellerRole>();
@@ -58,16 +60,16 @@ public class Bank {
 	}
 	
 	
-	public BankCustomerRole getCustomer(){
+	public BankCustomer getCustomer(){
 		if(!bankCustomers.isEmpty()){
-			BankCustomerRole b = bankCustomers.get(0);
+			BankCustomer b = bankCustomers.get(0);
 			bankCustomers.remove(0);
 			return b;
 		}
 		return null;
 	}
 	
-	public boolean addMeToQueue(BankCustomerRole c){
+	public boolean addMeToQueue(BankCustomer c){
 		//System.out.println("Here");
 		bankCustomers.add(c);
 		for(BankTellerRole t:currentTellers){

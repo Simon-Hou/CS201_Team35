@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import interfaces.BankCustomer;
 import interfaces.BankTeller;
 import interfaces.Person;
 import role.Role;
@@ -11,7 +12,7 @@ import agent.Agent;
 import testAgents.testPerson;
 import util.*;
 
-public class BankCustomerRole extends Role{
+public class BankCustomerRole extends Role implements BankCustomer {
 
 	
 	//Constructor

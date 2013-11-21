@@ -1,5 +1,6 @@
 package bank;
 
+import interfaces.BankCustomer;
 import interfaces.BankTeller;
 import interfaces.Person;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 //import org.apache.commons.lang.RandomStringUtils;
+
 
 
 
@@ -64,7 +66,7 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	String name;
 	
-	BankCustomerRole currentCustomer;
+	public BankCustomer currentCustomer;
 	
 	//THIS will not get clobbered if the following design assumption holds:
 	//BankCustomers will (according to their design, feed the teller one task
@@ -72,7 +74,7 @@ public class BankTellerRole extends Role implements BankTeller{
 	//the next task before messaging him again.
 	Task currentTask;
 	
-	boolean startedWorking = false;
+	public boolean startedWorking = false;
 	Bank bank;
 	
 	
@@ -80,18 +82,18 @@ public class BankTellerRole extends Role implements BankTeller{
 	//MSG
 	
 	public void msgStateChanged(){
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgIWantTo(Task t){
 		currentTask = t;
 		Do("Got customer's request to process a " + t.getType());
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgDoneAndLeaving(){
 		currentCustomer = null;
-		stateChanged();
+		person.msgStateChanged();
 		
 	}
 	

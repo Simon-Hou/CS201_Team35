@@ -10,7 +10,5 @@ public interface BankTeller {
 	public abstract void msgIWantTo(Task t);
 	
 	public abstract void msgDoneAndLeaving();
-
-	
 	
 }
