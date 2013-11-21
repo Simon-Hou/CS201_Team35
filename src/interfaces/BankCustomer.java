@@ -19,4 +19,6 @@ public interface BankCustomer {
 	
 	public abstract void msgHereIsMoneyAnythingElse(int amount);
 	
+	
+	
 }

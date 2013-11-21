@@ -30,4 +30,10 @@ public class MockBankTeller extends Mock implements BankTeller{
 		
 	}
 
+	@Override
+	public void msgStateChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

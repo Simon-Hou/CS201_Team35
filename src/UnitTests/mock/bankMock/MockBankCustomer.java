@@ -30,7 +30,8 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 
 	@Override
 	public void msgDepositCompletedAnythingElse(int amount) {
-		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("My deposit was completed"));
 		
 	}
 

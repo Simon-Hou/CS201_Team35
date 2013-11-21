@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import interfaces.BankCustomer;
+import interfaces.BankInterface;
 import interfaces.BankTeller;
 import interfaces.Person;
 import role.Role;
@@ -53,7 +54,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	public String name;
 	
-	public Bank bank;
+	public BankInterface bank;
 	
 	Person person;
 	

@@ -1,6 +1,8 @@
 package util;
 
 import interfaces.BankCustomer;
+import interfaces.BankInterface;
+import interfaces.BankTeller;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +11,7 @@ import java.util.List;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
 
-public class Bank {
+public class Bank implements BankInterface{
 	
 	
 	
@@ -17,8 +19,8 @@ public class Bank {
 	//stores all the people in the queue
 	public List<BankCustomer> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	
-	List<BankTellerRole> myTellers = new ArrayList<BankTellerRole>();
-	List<BankTellerRole> currentTellers = new ArrayList<BankTellerRole>();
+	List<BankTeller> myTellers = new ArrayList<BankTeller>();
+	List<BankTeller> currentTellers = new ArrayList<BankTeller>();
 	List<BankAccount> accounts = new ArrayList<BankAccount>();
 	
 	int totalAmount = 1000000000;
@@ -54,7 +56,7 @@ public class Bank {
 	}
 	
 	
-	public boolean startTellerShift(BankTellerRole t){
+	public boolean startTellerShift(BankTeller t){
 		currentTellers.add(t);
 		return true;
 	}
@@ -72,7 +74,7 @@ public class Bank {
 	public boolean addMeToQueue(BankCustomer c){
 		//System.out.println("Here");
 		bankCustomers.add(c);
-		for(BankTellerRole t:currentTellers){
+		for(BankTeller t:currentTellers){
 			//System.out.println("Teller messaged");
 			t.msgStateChanged();
 		}
@@ -136,6 +138,8 @@ public class Bank {
 		return a;
 		
 	}
+
+
 	
 	
 	

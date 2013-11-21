@@ -17,6 +17,10 @@ public class Mock {
 	public Mock(){
 		
 	}
+	
+	public String lastLog(){
+		return this.log.getLastLoggedEvent().getMessage();
+	}
 
 	public Mock(String name) {
 		this.name = name;
