@@ -47,7 +47,9 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 	@Override
 	public void msgLoanApprovedAnythingElse(int amount, int accountNumber,
 			int loanNumber) {
-		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("My loan was granted"));
+		
 		
 	}
 

@@ -13,6 +13,7 @@ public class takeLoan extends Task{
 		this.amount = amount;
 		this.custName = custName;
 		this.accountNumber = accountNumber;
+		this.passWord = passWord;
 	}
 	
 	

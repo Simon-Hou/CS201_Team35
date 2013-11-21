@@ -63,7 +63,9 @@ public class MockBank extends Mock implements BankInterface{
 
 	@Override
 	public int giveLoan(int amount, int accountNumber, String passWord) {
-		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("Granted loan for amount $"+amount+", account number "+accountNumber+", and password " + passWord));
+		
 		return 1;
 	}
 

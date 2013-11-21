@@ -146,9 +146,11 @@ public class BankTellerRole extends Role implements BankTeller{
 		}
 		if (currentTask instanceof takeLoan) {
 			GiveLoan();
+			return true;
 		}
 		if (currentTask instanceof rob) {
 			Rob();
+			return true;
 		}
 		
 		
