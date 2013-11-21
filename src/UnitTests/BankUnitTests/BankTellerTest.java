@@ -152,7 +152,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 5 and pre of 6
-		assertTrue("Banks should have a recod of the deposit",bank.log.getLastLoggedEvent().getMessage().equals("Received deposit"));
+		assertTrue("Banks should have a recod of the deposit",bank.log.getLastLoggedEvent().getMessage().equals("Received deposit of $100, account number 0, password passWord"));
 		assertTrue("Customer should have been notified",customer.log.getLastLoggedEvent().getMessage().equals("My deposit was completed"));
 		assertTrue("Teller should have killed currentTask", teller.currentTask==null);
 		

@@ -44,7 +44,8 @@ public class MockBank extends Mock implements BankInterface{
 	@Override
 	public boolean deposit(int amount, int accountNumber, String passWord) {
 		
-		log.add(new LoggedEvent("Received deposit"));
+		log.add(new LoggedEvent("Received deposit of $"+amount+", account number "+accountNumber+
+				", password "+passWord));
 		
 		return true;
 	}
