@@ -10,14 +10,7 @@ import java.util.List;
 import java.util.Random;
 //import org.apache.commons.lang.RandomStringUtils;
 
-
-
-
-
-
-
-
-
+import person.PersonAgent;
 import role.Role;
 import UnitTests.mock.bankMock.MockBank;
 import agent.Agent;
@@ -52,7 +45,7 @@ public class BankTellerRole extends Role implements BankTeller{
 		bank = b;
 	}
 	
-	public void setPerson(Person p){
+	public void setPerson(PersonAgent p){
 		person = p;
 	}
 	
@@ -66,7 +59,7 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	String alphabet = "abcdefghijklmnopqrstuvwxyz";
 	
-	Person person;
+	PersonAgent person;
 	
 	String name;
 	

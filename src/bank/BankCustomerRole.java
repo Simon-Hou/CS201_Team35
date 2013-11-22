@@ -3,7 +3,7 @@ package bank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-
+import person.PersonAgent;
 import interfaces.BankCustomer;
 import interfaces.BankInterface;
 import interfaces.BankTeller;
@@ -19,7 +19,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//Constructor
 	
 	//quick and dirty
-	public BankCustomerRole(String name,Person p){
+	public BankCustomerRole(String name,PersonAgent p){
 		this.person = p;
 		this.name = name;
 		System.out.println(getName());
@@ -32,7 +32,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		bank = b;
 	}
 	
-	public void setPerson(Person p){
+	public void setPerson(PersonAgent p){
 		person = p;
 	}
 	
@@ -56,7 +56,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	public BankInterface bank;
 	
-	Person person;
+	PersonAgent person;
 	
 	
 	public BankTeller teller;
@@ -171,7 +171,6 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 	}
 	
-	
 	//ACT
 	
 	private void getInLine(){
@@ -209,7 +208,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			doLeaveBank();
 			teller.msgDoneAndLeaving();
 			state = CustState.leaving;
-			person.msgThisRoleDone(this);
+			person.msgThisRoleDone();
 			return;
 		}
 		
