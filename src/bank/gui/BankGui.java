@@ -10,14 +10,17 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 
 import bank.BankCustomerRole;
 import bank.BankTellerRole;;
 
-public class BankGui  extends JPanel implements ActionListener {
+public class BankGui  extends JFrame implements ActionListener {
+	
+	public static final int WINDOWX = 450;
+	public static final int WINDOWY = 350;
 	
 	public static final int animPanelWidth = 780;
 	public static final int animPanelHeight = 550;
@@ -54,6 +57,9 @@ public class BankGui  extends JPanel implements ActionListener {
      */    
     private BankPanel bankPanel = new BankPanel(this);
     private JPanel controlPanel = new JPanel();//changed userScreen to controlPanel
+    private JLabel nameLabel = new JLabel();
+    private JLabel passLabel = new JLabel();
+    private JLabel amountLabel = new JLabel();
     
 //    /* infoPanel holds information about the clicked customer, if there is one*/
 //    private JPanel infoPanel;
@@ -69,11 +75,9 @@ public class BankGui  extends JPanel implements ActionListener {
 //    								Seems like a hack */
 //    private Object currentWaiter;
     public BankGui() {
-        int WINDOWX = 450;
-        int WINDOWY = 350;
 
         controlPanel.setLayout(new BorderLayout());
-        
+        setSize(WINDOWX, WINDOWY);
         /*animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         animationFrame.setBounds(xAnimFrame, yAnimFrame, animFrameWidth, animFrameHeight);
         animationFrame.setVisible(true);
@@ -244,7 +248,8 @@ public class BankGui  extends JPanel implements ActionListener {
      */
     public static void main(String[] args) {
         BankGui gui = new BankGui();
-        //gui.setTitle("Bank");
+        gui.setTitle("Bank");
+        gui.setVisible(true);
         //cityFrame.addTab("Bank", NULL/*unless you want an image*/,  Component component) 
     }
 	
