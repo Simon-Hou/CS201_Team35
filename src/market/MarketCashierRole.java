@@ -11,12 +11,13 @@ import java.util.TimerTask;
 
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
+import interfaces.Person;
 
 public class MarketCashierRole extends Role implements MarketCashier{
 
 	List<MyCustomer> customers;
 	Map<String, Integer> priceList;
-	Map<testPerson, Integer> debtorsList;
+	Map<Person, Integer> debtorsList;
 	Market market;
 
 	Timer timer;
