@@ -45,7 +45,7 @@ public class BankTellerRole extends Role implements BankTeller{
 		bank = b;
 	}
 	
-	public void setPerson(PersonAgent p){
+	public void setPerson(Person p){
 		person = p;
 	}
 	
@@ -59,7 +59,7 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	String alphabet = "abcdefghijklmnopqrstuvwxyz";
 	
-	PersonAgent person;
+	Person person;
 	
 	String name;
 	
