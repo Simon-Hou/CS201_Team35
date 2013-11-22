@@ -129,7 +129,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         	}
         	
         	breakButton.setVisible(true);
-        	stateCB.setText("On Break?");
+        	//stateCB.setText("On Break?");
+        	stateCB.setText(waiter.getGui().getPosition());
         	stateCB.setSelected(status==WaiterAgent.BreakStatus.onBreak);
         	stateCB.setEnabled(false);
         	infoLabel.setText(

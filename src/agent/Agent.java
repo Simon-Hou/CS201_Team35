@@ -2,7 +2,7 @@ package agent;
 
 import java.util.concurrent.*;
 
-import restaurant.test.mock.EventLog;
+import restaurantLinda.test.mock.EventLog;
 
 /**
  * Base class for simple agents

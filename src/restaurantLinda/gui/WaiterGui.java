@@ -12,30 +12,18 @@ import javax.imageio.ImageIO;
 
 import astar.*;
 
-public class WaiterGui implements Gui {
-
-	public static final int WINDOWX = AnimationPanel.WINDOWX;		//Same as animation panel
-    public static final int WINDOWY = AnimationPanel.WINDOWY;
-    public final int cellSize = RestaurantPanel.cellSize;
-	
+public class WaiterGui extends PersonGui {	
 	private WaiterAgent agent = null;
 	RestaurantGui gui;
 
     private int personSize=30;
     private Map<Integer,Point> tableMap;
     private List<MyImage> platedFoods;
-    private int xPos, yPos;
-    private int xDestination, yDestination;
-    private int xfinal, yfinal;
     private goal destination=goal.none;
     private enum goal{none,customer,table,cook,plating};
     private CustomerGui customer;
     
-    AStarTraversal aStar;
-    Position previousPosition;
-    Position currentPosition;
     Position homePosition;
-    List<Position> path;
     
     int wait=0;
     int attempts=1;
@@ -183,7 +171,7 @@ public class WaiterGui implements Gui {
         	icon.updatePosition(xPos,yPos);
 
         
-        if (destination!=goal.none && xfinal==xPos && yfinal ==yPos && path!=null)		//Gui has an actual destination that agent wants to be notified about
+        if (destination!=goal.none && xfinal==xPos && yfinal ==yPos)		//Gui has an actual destination that agent wants to be notified about
         {        	
     		path = null;
     		xDestination = xfinal;
@@ -192,17 +180,17 @@ public class WaiterGui implements Gui {
             agent.msgAtDestination();
         }
         else if (xPos == xDestination && yPos == yDestination){
-
         	if (previousPosition!=currentPosition){
         		previousPosition.release(aStar.getGrid());
         		previousPosition = currentPosition;
         	}
-        	
+
         	//1 means we reached our destination
         	if (path!=null && path.size()>1)
         		MoveToNextPosition();
         	else if (path!=null){
-        		if (xDestination!=xfinal && yDestination!=yfinal){
+        		path=null;
+        		if (xDestination!=xfinal || yDestination!=yfinal){
         			xDestination=xfinal;
         			yDestination=yfinal;
         		}
@@ -228,85 +216,6 @@ public class WaiterGui implements Gui {
 		}
 			  
     }
-
-    public boolean isPresent() {
-        return true;
-    }
-    
-    void CalculatePath(Position to){
-    	path = null;
-    	currentPosition.release(aStar.getGrid());
-    	
-    	boolean wasOpen = to.open(aStar.getGrid());
-    	if(!wasOpen)
-    		to.release(aStar.getGrid());
-    	
-    	//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
-    	System.out.println("destination = " + to);
-    	System.gc();
-    	
-    	AStarNode aStarNode = (AStarNode)aStar.generalSearch(previousPosition, to);
-    	path = aStarNode.getPath();
-    	
-    	if(!wasOpen)
-    		to.moveInto(aStar.getGrid());
-    	
-    	currentPosition = path.get(0);
-    	currentPosition.moveInto(aStar.getGrid());
-
-    	xDestination = currentPosition.getX()*cellSize;
-    	yDestination = currentPosition.getY()*cellSize;
-    	
-    	System.out.println("new path: " + path);
-    	
-    	
-    }
-    
-    void MoveToNextPosition(){
-	    //Try and get lock for the next step.
-	    //int attempts    = 1;
-	    boolean gotPermit   = new Position(path.get(1).getX(), path.get(1).getY()).moveInto(aStar.getGrid());
-
-	    //Did not get lock. Lets make n attempts.
-	    /*while (!gotPermit && attempts < 3) {
-			System.out.println("[Gaut] " + agent.getName() + " got NO permit for " + path.get(1).toString() + " on attempt " + attempts);
-	
-			//Wait for 1sec and try again to get lock.
-			try { Thread.sleep(1000); }
-			catch (Exception e){}
-	
-			gotPermit   = new Position(path.get(1).getX(), path.get(1).getY()).moveInto(aStar.getGrid());
-			attempts ++;
-	    }*/
-	    
-	    if (!gotPermit && attempts<3){
-	    	System.out.println(agent.getName() + "got NO permit for " + path.get(1).toString() + " on attempt " + attempts);
-	    	wait=20;
-	    	return;
-	    }
-
-	    //Did not get lock after trying n attempts. So recalculating path.            
-	    if (!gotPermit) {
-			System.out.println("[Gaut] " + agent.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
-			attempts=1;
-			CalculatePath(path.get(path.size()-1));
-			return;
-	    }
-
-	    //Got the required lock. Lets move.
-	    //System.out.println("[Gaut] " + agent.getName() + " got permit for " + path.get(0).toString());
-	    attempts=1;
-	    currentPosition = path.get(1);
-	    currentPosition.moveInto(aStar.getGrid());
-
-	    path.remove(0);
-	    
-	    xDestination = currentPosition.getX()*cellSize;
-	    yDestination = currentPosition.getY()*cellSize;;
-    	
-	    
-    }
-
     	
     public void setTables(Map<Integer,Point> map)
     {
@@ -315,5 +224,9 @@ public class WaiterGui implements Gui {
      
     public void setPlates(List<MyImage> plates){
       	platedFoods = plates;
+    }
+    
+    public String getPosition(){
+    	return xPos + " " + yPos;
     }
 }

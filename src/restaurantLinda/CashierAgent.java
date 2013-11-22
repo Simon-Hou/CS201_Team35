@@ -13,7 +13,6 @@ import restaurantLinda.test.mock.LoggedEvent;
 
 
 public class CashierAgent extends Agent implements Cashier{
-	EventLog log;
 	private String name;
 	private Map<String,Integer> priceList = new HashMap<String,Integer>();
 	private List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
@@ -107,8 +106,8 @@ public class CashierAgent extends Agent implements Cashier{
 	
 	//actions
 	private void ComputeBill(Bill b){
-		log.add(new LoggedEvent("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice));
-		Do("Computing bill");
+		//log.add(new LoggedEvent("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice));
+		Do("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice);
 		b.status=BillState.computing;
 		int debt = 0;
 		if (debtors.containsKey(b.cust)){

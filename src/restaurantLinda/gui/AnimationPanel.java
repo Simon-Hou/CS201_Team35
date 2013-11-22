@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 public class AnimationPanel extends JPanel implements ActionListener {
 
@@ -59,6 +60,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.drawOval(WINDOWX-72, WINDOWY-26, 24, 24);
         g2.drawOval(WINDOWX-41, WINDOWY-26, 24, 24);
         g2.drawOval(WINDOWX-10, WINDOWY-26, 24, 24);
+        
+        int cellSize = RestaurantPanel.cellSize;
+        int gridX = WINDOWX/cellSize;
+        int gridY = WINDOWY/cellSize;
+        
+        for (int i=0; i<gridX ; i++)
+    	    for (int j = 0; j<gridY; j++){
+    	    	g2.drawRect(i*cellSize, j*cellSize, cellSize, cellSize);
+    	    	g2.drawString(i*cellSize + " " + j*cellSize, i*cellSize+5, j*cellSize+PERSONSIZE);
+    	    }
 
         //Here are the tables
         for (Point table: tableMap)
