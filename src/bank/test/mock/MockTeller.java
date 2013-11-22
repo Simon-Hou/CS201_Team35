@@ -15,14 +15,12 @@ public class MockTeller implements Teller{
 	
 	@Override
 	public void msgIWantTo(Task t) {
-		log.add(new LoggedEvent("Just got a new task: "+ t));
-		
+		log.add(new LoggedEvent("Just got a new task: "+ t));		
 	}
 
 	@Override
 	public void msgDoneAndLeaving() {
-		log.add(new LoggedEvent("My customer just left"));
-		
+		log.add(new LoggedEvent("My customer just left"));	
 	}
 
 }

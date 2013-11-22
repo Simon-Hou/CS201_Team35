@@ -15,9 +15,9 @@ public class Bank {
 	//stores all the people in the queue
 	public List<BankCustomerRole> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	
-	List<BankTellerRole> myTellers = new ArrayList<BankTellerRole>();
-	List<BankTellerRole> currentTellers = new ArrayList<BankTellerRole>();
-	List<BankAccount> accounts = new ArrayList<BankAccount>();
+	public List<BankTellerRole> myTellers = new ArrayList<BankTellerRole>();
+	public List<BankTellerRole> currentTellers = new ArrayList<BankTellerRole>();
+	public List<BankAccount> accounts = new ArrayList<BankAccount>();
 	
 	int totalAmount = 1000000000;
 	

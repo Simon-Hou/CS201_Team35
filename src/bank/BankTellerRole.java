@@ -7,6 +7,8 @@ import java.util.Random;
 
 
 
+
+import person.PersonAgent;
 import bank.interfaces.Person;
 import role.Role;
 import agent.Agent;
@@ -41,7 +43,7 @@ public class BankTellerRole extends Role{
 		bank = b;
 	}
 	
-	public void setPerson(Person p){
+	public void setPerson(PersonAgent p){
 		person = p;
 	}
 	
@@ -55,11 +57,11 @@ public class BankTellerRole extends Role{
 	
 	String alphabet = "abcdefghijklmnopqrstuvwxyz";
 	
-	Person person;
+	PersonAgent person;
 	
 	String name;
 	
-	BankCustomerRole currentCustomer;
+	public BankCustomerRole currentCustomer;
 	
 	//THIS will not get clobbered if the following design assumption holds:
 	//BankCustomers will (according to their design, feed the teller one task
