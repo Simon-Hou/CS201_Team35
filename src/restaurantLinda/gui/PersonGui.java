@@ -72,7 +72,7 @@ public abstract class PersonGui implements Gui{
     		xDestination = (currentPosition.getX()+1)*cellSize - personSize;   
     		
     	
-    	if (yPos/cellSize <= currentPosition.getY())
+    	if (yPos/cellSize < currentPosition.getY())
     		yDestination = currentPosition.getY()*cellSize;
     	else if (yPos/cellSize == currentPosition.getY())
     		yDestination = yPos;
@@ -135,7 +135,7 @@ public abstract class PersonGui implements Gui{
     		xDestination = (currentPosition.getX()+1)*cellSize - personSize;   
     		
     	
-    	if (yPos/cellSize <= currentPosition.getY())
+    	if (yPos/cellSize < currentPosition.getY())
     		yDestination = currentPosition.getY()*cellSize;
     	else if (yPos/cellSize == currentPosition.getY())
     		yDestination = yPos;
