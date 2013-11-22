@@ -15,7 +15,7 @@ import astar.AStarNode;
 import astar.AStarTraversal;
 import astar.Position;
 
-public abstract class PersonGui implements Gui{
+public abstract class GuiPerson implements Gui{
 	
 	public static final int WINDOWX = AnimationPanel.WINDOWX;		//Same as animation panel
     public static final int WINDOWY = AnimationPanel.WINDOWY;
@@ -29,7 +29,10 @@ public abstract class PersonGui implements Gui{
     AStarTraversal aStar;
     Position previousPosition;
     Position currentPosition;
+    Position diagonalPosition;
     List<Position> path;
+    
+    enum movementType {undefined, upleft, upright, downleft, downright};
     
     int wait=0;
     int attempts=1;
@@ -41,6 +44,87 @@ public abstract class PersonGui implements Gui{
 
     public boolean isPresent() {
         return true;
+    }
+        
+    //Returns a boolean stating whether or not the gui has traveled to the 'final destination'
+    public boolean moveAndCheckDestination() {
+    	
+    	if (wait>0){
+    		wait--;
+    		return false;
+    	}
+    	
+    	//if (destination == goal.customer){
+    	//	CalculatePath(new Position(customer.getPosition().x/personSize+1,customer.getPosition().y/personSize+1)); 
+    	//}
+    	
+    	movementType type = movementType.undefined;
+    	
+    	if (xPos < xDestination && yPos==yDestination)
+            xPos++;
+        else if (xPos > xDestination && yPos==yDestination)
+            xPos--;
+        else if (yPos < yDestination && xPos==xDestination)
+            yPos++;
+        else if (yPos > yDestination && xPos==xDestination)
+            yPos--;
+        else if (xPos <xDestination && yPos < yDestination)
+        	type = movementType.downright;
+        else if (xPos <xDestination && yPos > yDestination)
+        	type = movementType.upright;
+        else if (xPos >xDestination && yPos < yDestination)
+        	type = movementType.downleft;
+        else if (xPos >xDestination && yPos > yDestination)
+        	type = movementType.upleft;
+    	
+    	switch(type){
+	    	case downright:
+	    		xPos++;
+	    		yPos++;
+	    		break;
+	    	case upright:
+	    		xPos++;
+	    		yPos--;
+	    		break;
+	    	case downleft:
+	    		xPos--;
+	    		yPos++;
+	    		break;
+	    	case upleft:
+	    		xPos--;
+	    		yPos--;
+	    		break;
+	    	default:
+	    		break;
+    	}
+        
+        
+                
+        if (xfinal==xPos && yfinal ==yPos)
+        {        	
+    		xDestination = xfinal;
+    		yDestination = yfinal;
+    		return true;
+        }
+        else if (xPos == xDestination && yPos == yDestination){
+        	if (previousPosition!=currentPosition){
+        		previousPosition.release(aStar.getGrid());
+        		previousPosition = currentPosition;
+        	}
+
+        	//1 means we reached our destination
+        	if (path!=null && path.size()>1)
+        		MoveToNextPosition();
+        	else if (path!=null){
+        		path=null;
+        		if (xDestination!=xfinal || yDestination!=yfinal){
+        			xDestination=xfinal;
+        			yDestination=yfinal;
+        		}
+        	}
+        }
+        
+        return false;
     }
     
     void CalculatePath(Position to){
@@ -78,9 +162,6 @@ public abstract class PersonGui implements Gui{
     		yDestination = yPos;
     	else
     		yDestination = (currentPosition.getY()+1)*cellSize - personSize;
-    		
-    	//xDestination = currentPosition.getX()*cellSize;
-    	//yDestination = currentPosition.getY()*cellSize;
     	
     	System.out.println("new path: " + path + ", finalDestination: " + xfinal + " " + yfinal);
     	
@@ -141,10 +222,8 @@ public abstract class PersonGui implements Gui{
     		yDestination = yPos;
     	else
     		yDestination = (currentPosition.getY()+1)*cellSize - personSize;
-	    //xDestination = currentPosition.getX()*cellSize;
-	    //yDestination = currentPosition.getY()*cellSize;;
     	
-    	System.out.println("Position: " + xPos + " " + yPos + "     Destination: "  + xDestination + " " + yDestination);
+    	//System.out.println("Position: " + xPos + " " + yPos + "     Destination: "  + xDestination + " " + yDestination);
     }
 
 }

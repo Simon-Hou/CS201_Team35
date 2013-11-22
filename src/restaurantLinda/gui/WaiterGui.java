@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 import astar.*;
 
-public class WaiterGui extends PersonGui {	
+public class WaiterGui extends GuiPerson {	
 	private WaiterAgent agent = null;
 	RestaurantGui gui;
 
@@ -29,8 +29,8 @@ public class WaiterGui extends PersonGui {
     int attempts=1;
     
     
-    private List<MyImage> carriedItems = new ArrayList<MyImage>();
-    private List<MyImage> stillItems = new ArrayList<MyImage>();
+    private List<MyImage> carriedItems = Collections.synchronizedList(new ArrayList<MyImage>());
+    private List<MyImage> stillItems = Collections.synchronizedList(new ArrayList<MyImage>());
 	private String bufferText;
 	
 
@@ -104,13 +104,17 @@ public class WaiterGui extends PersonGui {
     }
     
     public void DoServeFood(String food,int table){
-    	for (MyImage icon: stillItems)
-    		if (icon.type.equals(food)){
-    			icon.x = xPos;
-    			icon.y = yPos;
-    			carriedItems.add(icon);
-    			stillItems.remove(icon);
-    		}
+    	synchronized(stillItems){
+	    	for (MyImage icon: stillItems){
+	    		if (icon.type.equals(food)){
+	    			icon.x = xPos;
+	    			icon.y = yPos;
+	    			carriedItems.add(icon);
+	    			stillItems.remove(icon);
+	    			break;
+	    		}
+	    	}
+    	}
     	DoGoToTable(table);
     }
     
@@ -148,30 +152,7 @@ public class WaiterGui extends PersonGui {
 
     public void updatePosition() {
     	
-    	if (wait>0){
-    		wait--;
-    		return;
-    	}
-    	
-    	//if (destination == goal.customer){
-    	//	CalculatePath(new Position(customer.getPosition().x/personSize+1,customer.getPosition().y/personSize+1)); 
-    	//}
-    	
-        if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;
-
-        if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
-        
-        for (MyImage icon: carriedItems)
-        	icon.updatePosition(xPos,yPos);
-
-        
-        if (destination!=goal.none && xfinal==xPos && yfinal ==yPos)		//Gui has an actual destination that agent wants to be notified about
+    	if (destination!=goal.none && moveAndCheckDestination())		//Gui has an actual destination that agent wants to be notified about
         {        	
     		path = null;
     		xDestination = xfinal;
@@ -179,36 +160,26 @@ public class WaiterGui extends PersonGui {
     		destination=goal.none;
             agent.msgAtDestination();
         }
-        else if (xPos == xDestination && yPos == yDestination){
-        	if (previousPosition!=currentPosition){
-        		previousPosition.release(aStar.getGrid());
-        		previousPosition = currentPosition;
-        	}
-
-        	//1 means we reached our destination
-        	if (path!=null && path.size()>1)
-        		MoveToNextPosition();
-        	else if (path!=null){
-        		path=null;
-        		if (xDestination!=xfinal || yDestination!=yfinal){
-        			xDestination=xfinal;
-        			yDestination=yfinal;
-        		}
-        	}
-        }
-        
-        
+    	
+    	synchronized(carriedItems){
+	    	for (MyImage icon: carriedItems)
+	        	icon.updatePosition(xPos,yPos);
+    	}
     }
 
     public void draw(Graphics2D g) {
         g.setColor(Color.MAGENTA);
         g.fillRect(xPos, yPos, personSize, personSize);
         
-        for (MyImage icon: carriedItems)
-        	icon.draw(g);
+        synchronized(carriedItems){
+	        for (MyImage icon: carriedItems)
+	        	icon.draw(g);
+        }
         
-        for (MyImage icon: stillItems)
-        	icon.draw(g);
+        synchronized(stillItems){
+	        for (MyImage icon: stillItems)
+	        	icon.draw(g);
+        }
         
         if (bufferText!=null){
 			g.setColor(Color.BLACK);
