@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import bank.BankCustomerRole;
+import bank.BankTellerRole;
 import market.Market;
 import market.MarketCustomerRole;
 import role.Role;
@@ -225,6 +226,11 @@ public class PersonAgent extends Agent implements Person {
 	private void goToWork() {
 		Do("I am going to work");
 		doGoToWork(myJob.location);
+		
+		if(this.myJob.jobRole instanceof BankTellerRole){
+			((BankMapLoc) myJob.placeOfWork).bank.startTellerShift(((BankTellerRole) myJob.jobRole));
+		}
+		
 		activeRole = myJob.jobRole;
 	}
 	
