@@ -1,4 +1,6 @@
-package bank.test.mock;
+package UnitTests.mock;
+
+
 
 /**
  * This is the base class for all mocks.
@@ -7,7 +9,18 @@ package bank.test.mock;
  *
  */
 public class Mock {
+	
+	public EventLog log = new EventLog();
+	
 	private String name;
+	
+	public Mock(){
+		
+	}
+	
+	public String lastLog(){
+		return this.log.getLastLoggedEvent().getMessage();
+	}
 
 	public Mock(String name) {
 		this.name = name;

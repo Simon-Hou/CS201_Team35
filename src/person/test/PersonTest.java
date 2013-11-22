@@ -11,7 +11,7 @@ import person.PersonAgent;
 import person.PersonAgent.BankAccount;
 import person.PersonAgent.Belongings;
 import person.PersonAgent.Property;
-import public_class.Food;
+import public_Object.Food;
 import role.Role;
 import util.Bank;
 import util.BankMapLoc;

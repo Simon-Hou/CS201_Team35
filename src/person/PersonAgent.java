@@ -25,7 +25,7 @@ import interfaces.Person;
 import java.util.ArrayList;
 import java.util.List;
 
-import public_class.Food;
+import public_Object.Food;
 import role.Role;
 import agent.Agent;
 
@@ -497,5 +497,11 @@ public class PersonAgent extends Agent implements Person {
 				account.myLoans.add(loan);
 			}
 		}
+	}
+
+	@Override
+	public void msgThisRoleDone(Role role) {
+		// TODO Auto-generated method stub
+		
 	}
 }

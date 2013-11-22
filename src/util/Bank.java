@@ -1,5 +1,9 @@
 package util;
 
+import interfaces.BankCustomer;
+import interfaces.BankInterface;
+import interfaces.BankTeller;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,16 +11,13 @@ import java.util.List;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
 
-public class Bank {
+public class Bank implements BankInterface{
 	
-	
-	
-
 	//stores all the people in the queue
-	public List<BankCustomerRole> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
+	public List<BankCustomer> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	
-	public List<BankTellerRole> myTellers = new ArrayList<BankTellerRole>();
-	public List<BankTellerRole> currentTellers = new ArrayList<BankTellerRole>();
+	public List<BankTeller> myTellers = new ArrayList<BankTeller>();
+	public List<BankTeller> currentTellers = new ArrayList<BankTeller>();
 	public List<BankAccount> accounts = new ArrayList<BankAccount>();
 	
 	int totalAmount = 1000000000;
@@ -52,25 +53,25 @@ public class Bank {
 	}
 	
 	
-	public boolean startTellerShift(BankTellerRole t){
+	public boolean startTellerShift(BankTeller t){
 		currentTellers.add(t);
 		return true;
 	}
 	
 	
-	public BankCustomerRole getCustomer(){
+	public BankCustomer getCustomer(){
 		if(!bankCustomers.isEmpty()){
-			BankCustomerRole b = bankCustomers.get(0);
+			BankCustomer b = bankCustomers.get(0);
 			bankCustomers.remove(0);
 			return b;
 		}
 		return null;
 	}
 	
-	public boolean addMeToQueue(BankCustomerRole c){
+	public boolean addMeToQueue(BankCustomer c){
 		//System.out.println("Here");
 		bankCustomers.add(c);
-		for(BankTellerRole t:currentTellers){
+		for(BankTeller t:currentTellers){
 			//System.out.println("Teller messaged");
 			t.msgStateChanged();
 		}
@@ -134,6 +135,8 @@ public class Bank {
 		return a;
 		
 	}
+
+
 	
 	
 	

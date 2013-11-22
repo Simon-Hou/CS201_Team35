@@ -1,17 +1,19 @@
 package agent;
 
-import java.io.*;
-import java.util.*;
 import java.util.concurrent.*;
+
+import UnitTests.mock.EventLog;
+
 
 /**
  * Base class for simple agents
  */
 public abstract class Agent {
-    public Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
-    Semaphore pauseLock = new Semaphore(0,true);
-    private boolean Pause = false;
+    Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
+    Semaphore pause = new Semaphore(0,true);
+    boolean paused;
     private AgentThread agentThread;
+    public EventLog log = new EventLog();
 
     protected Agent() {
     }
@@ -21,22 +23,17 @@ public abstract class Agent {
      * the agent to do something.
      */
     protected void stateChanged() {
-        stateChange.release();
+    	stateChange.release();
     }
     
-    //Pauses the agent by forcing the run method to go through the pauseLock semaphore
-    public void toggleActive(){
-    	if(Pause){
-    		Pause = false;
-    		pauseLock.release();
-    	}
-    	else{
-    		Pause = true;
-    	}
-    	//Do("I'm paused");
+    public void pause(){
+    	paused=true;
     }
     
-   
+    public void restart(){
+    	paused=false;
+    	pause.release();
+    }
 
     /**
      * Agents must implement this scheduler to perform any actions appropriate for the
@@ -46,7 +43,7 @@ public abstract class Agent {
      * @return true iff some action was executed that might have changed the
      *         state.
      */
-    public abstract boolean pickAndExecuteAnAction();
+    protected abstract boolean pickAndExecuteAnAction();
 
     /**
      * Return agent name for messages.  Default is to return java instance
@@ -125,12 +122,12 @@ public abstract class Agent {
 
             while (goOn) {
                 try {
+                	if (paused)
+                		pause.acquire();
+                	
                     // The agent sleeps here until someone calls, stateChanged(),
                     // which causes a call to stateChange.give(), which wakes up agent.
                     stateChange.acquire();
-                    if(Pause){
-                    	pauseLock.acquire();
-                    }
                     //The next while clause is the key to the control flow.
                     //When the agent wakes up it will call respondToStateChange()
                     //repeatedly until it returns FALSE.
@@ -143,8 +140,6 @@ public abstract class Agent {
                 }
             }
         }
-        
-        
 
         private void stopAgent() {
             goOn = false;

@@ -1,28 +1,33 @@
-package bank.test.mock;
+package UnitTests.mock.bankMock;
 
 import interfaces.BankTeller;
 import util.Task;
-import UnitTests.mock.EventLog;
 import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.Mock;
 
-public class MockTeller implements BankTeller {
+public class MockBankTeller extends Mock implements BankTeller{
 
-	public EventLog log = new EventLog();
 	
 	
 	String name;
-	public MockTeller(String name){
+	public MockBankTeller(String name){
 		this.name = name;
+	}
+	
+	public MockBankTeller(){
+		
 	}
 	
 	@Override
 	public void msgIWantTo(Task t) {
-		log.add(new LoggedEvent("Just got a new task: "+ t));		
+		log.add(new LoggedEvent("Just got a new task: "+ t));
+		
 	}
 
 	@Override
 	public void msgDoneAndLeaving() {
-		log.add(new LoggedEvent("My customer just left"));	
+		log.add(new LoggedEvent("My customer just left"));
+		
 	}
 
 	@Override

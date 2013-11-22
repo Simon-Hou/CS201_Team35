@@ -3,15 +3,17 @@ package bank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-
 import person.PersonAgent;
-import bank.interfaces.Person;
+import interfaces.BankCustomer;
+import interfaces.BankInterface;
+import interfaces.BankTeller;
+import interfaces.Person;
 import role.Role;
 import agent.Agent;
 import testAgents.testPerson;
 import util.*;
 
-public class BankCustomerRole extends Role{
+public class BankCustomerRole extends Role implements BankCustomer {
 
 	
 	//Constructor
@@ -52,18 +54,18 @@ public class BankCustomerRole extends Role{
 	
 	public String name;
 	
-	public Bank bank;
+	public BankInterface bank;
 	
 	PersonAgent person;
 	
 	
-	BankTellerRole teller;
+	public BankTeller teller;
 	
-	public enum CustState {limbo,inBank,inLine,beingServed,leaving};
+	public enum CustState {init,inBank,inLine,goingToWindow,beingServed,leaving};
 	public enum CustEvent {tellerReady,taskPending};
 	
-	public CustState state = CustState.limbo;
-	CustEvent event;
+	public CustState state = CustState.init;
+	public CustEvent event;
 	
 	public List<Task> Tasks = new ArrayList<Task>();
 	public Semaphore atDestination = new Semaphore(0, true);
@@ -79,12 +81,12 @@ public class BankCustomerRole extends Role{
 		this.state = CustState.inBank;
 	}
 	
-	public void msgHowCanIHelpYou(BankTellerRole t){
+	public void msgHowCanIHelpYou(BankTeller t){
 		Do("Just got asked how I can be helped.");
 		
 		teller = t;
 		event = CustEvent.tellerReady;
-		state = CustState.beingServed;
+		//state = CustState.beingServed;
 		person.msgStateChanged();
 		
 	}
@@ -115,8 +117,8 @@ public class BankCustomerRole extends Role{
 		person.takeFromWallet(amount);
 		person.createAccount(accountNumber,amount,name,passWord);
 		event = CustEvent.tellerReady;
-		this.passWord = passWord;
-		Do(passWord);
+		//this.passWord = passWord;
+		//Do(passWord);
 		pendingTask = null;
 		person.msgStateChanged();
 	}
@@ -156,7 +158,6 @@ public class BankCustomerRole extends Role{
 		
 		//if you're being served & the event is that teller is read, do next task
 		if(state == CustState.inLine && event == CustEvent.tellerReady) {
-			state = CustState.beingServed;
 			goToWindow();
 			return true;
 		}
@@ -187,11 +188,14 @@ public class BankCustomerRole extends Role{
 	private void goToWindow() {
 		Do("Going to the teller's window");
 		doGoToWindow();
+		state = CustState.goingToWindow;
+		//atDestination.release();
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		state = CustState.beingServed;
 	}
 	
 	private void NextTask(){

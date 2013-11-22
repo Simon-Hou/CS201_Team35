@@ -1,4 +1,4 @@
-package bank.test.mock;
+package UnitTests.mock;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -90,6 +90,16 @@ public class EventLog {
 	 */
 	public LoggedEvent getLastLoggedEvent() {
 		return events.getLast();
+	}
+	
+	/**
+	 * @return the ith most recently LoggedEvent
+	 */
+	public LoggedEvent getLastLoggedEvent(int i) {
+		if(i>events.size()){
+			return null;
+		}
+		return events.get(events.size()-i);
 	}
 
 	public String toString() {

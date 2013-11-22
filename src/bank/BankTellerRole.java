@@ -1,20 +1,22 @@
 package bank;
 
+import interfaces.BankCustomer;
+import interfaces.BankInterface;
+import interfaces.BankTeller;
+import interfaces.Person;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 //import org.apache.commons.lang.RandomStringUtils;
 
-
-
-
 import person.PersonAgent;
-import bank.interfaces.Person;
 import role.Role;
+import UnitTests.mock.bankMock.MockBank;
 import agent.Agent;
 import util.*;
 
-public class BankTellerRole extends Role{
+public class BankTellerRole extends Role implements BankTeller{
 	
 	//Constructor
 	
@@ -39,7 +41,7 @@ public class BankTellerRole extends Role{
 	
 	//SETTERS
 	
-	public void setBank(Bank b){
+	public void setBank(BankInterface b){
 		bank = b;
 	}
 	
@@ -61,34 +63,34 @@ public class BankTellerRole extends Role{
 	
 	String name;
 	
-	public BankCustomerRole currentCustomer;
+	public BankCustomer currentCustomer;
 	
 	//THIS will not get clobbered if the following design assumption holds:
 	//BankCustomers will (according to their design, feed the teller one task
 	//at a time, waiting for the teller to say that he's ready to process
 	//the next task before messaging him again.
-	Task currentTask;
+	public Task currentTask;
 	
-	boolean startedWorking = false;
-	Bank bank;
+	public boolean startedWorking = false;
+	BankInterface bank;
 	
 	
 	
 	//MSG
 	
 	public void msgStateChanged(){
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgIWantTo(Task t){
 		currentTask = t;
 		Do("Got customer's request to process a " + t.getType());
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgDoneAndLeaving(){
 		currentCustomer = null;
-		stateChanged();
+		person.msgStateChanged();
 		
 	}
 	
@@ -97,7 +99,7 @@ public class BankTellerRole extends Role{
 	
 	public boolean pickAndExecuteAnAction(){
 		
-		//If not started working, tell bank you're starting
+		//If not started working, tell BankInterface you're starting
 		if(!startedWorking){
 			Do("I'll start working.");
 			startedWorking = bank.startTellerShift(this);
@@ -137,9 +139,11 @@ public class BankTellerRole extends Role{
 		}
 		if (currentTask instanceof takeLoan) {
 			GiveLoan();
+			return true;
 		}
 		if (currentTask instanceof rob) {
 			Rob();
+			return true;
 		}
 		
 		

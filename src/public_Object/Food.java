@@ -1,4 +1,4 @@
-package public_class;
+package public_Object;
 
 public class Food {
 

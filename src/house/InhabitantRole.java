@@ -1,6 +1,6 @@
 package house;
 
-import public_class.Food;
+import public_Object.Food;
 import interfaces.Inhabitant;
 import interfaces.Person;
 import role.Role;

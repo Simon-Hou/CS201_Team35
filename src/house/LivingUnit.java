@@ -3,7 +3,7 @@ import interfaces.Person;
 
 import java.util.*;
 
-import public_class.Food;
+import public_Object.Food;
 
 public class LivingUnit {
 	//data
