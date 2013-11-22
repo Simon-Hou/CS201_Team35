@@ -16,6 +16,7 @@ import util.Bank;
 import util.CityMap;
 import util.MarketMapLoc;
 import util.BankMapLoc;
+import util.Place;
 import util.Task;
 import util.deposit;
 import util.takeLoan;
@@ -38,6 +39,13 @@ public class PersonAgent extends Agent implements Person {
 		myJob = new Job();
 		purse = new Purse();
 	}
+	
+	
+	//SETTERS
+	public void setTime(int time){
+		this.time = time;
+	}
+	
 	
 	//data
 	public List<Role> roles = new ArrayList<Role>();
@@ -62,7 +70,21 @@ public class PersonAgent extends Agent implements Person {
 	private Personality personality;
 	
 	public class Job {
+		
+		public Job(){
+			
+		}
+		
+		public Job(Role role,int location,int shiftStart,int shiftEnd,Place placeOfWork){
+			this.jobRole = role;
+			this.location = location;
+			this.shiftStart = shiftStart;
+			this.shiftEnd = shiftEnd;
+			this.placeOfWork = placeOfWork;
+		}
+		
 		public Role jobRole;
+		public Place placeOfWork;
 		public int location;
 		public int shiftStart;
 		public int shiftEnd;
@@ -202,12 +224,12 @@ public class PersonAgent extends Agent implements Person {
 	//Actions
 	private void goToWork() {
 		Do("I am going to work");
-		//doGoToWork(myJob.location);
+		doGoToWork(myJob.location);
 		activeRole = myJob.jobRole;
 	}
 	
 	private void goToBank() {
-		//doGoToBank();
+
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
 		
 		//Gets customerRole or creates customerRole
@@ -245,6 +267,7 @@ public class PersonAgent extends Agent implements Person {
 			bankRole.Tasks.add(new takeLoan(50 - getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
 		
+		doGoToBank();
 		bankRole.msgYouAreAtBank(b);
 		activeRole = bankRole;
 		
@@ -426,6 +449,20 @@ public class PersonAgent extends Agent implements Person {
 		p.maintenanceLevel = 0;
 	}
 	
+	//ANIMATION
+	
+	private void doGoToBank(){
+		
+	}
+	
+	private void doGoToWork(int loc){
+		
+	}
+	
+	
+	
+	
+	
 	//Utilities
 	
 	public void msgStateChanged() {
@@ -463,6 +500,8 @@ public class PersonAgent extends Agent implements Person {
 	public void msgThisRoleDone() {
 		activeRole = null;
 	}
+	
+	
 	
 	//Bank Utilities
 	
@@ -504,4 +543,9 @@ public class PersonAgent extends Agent implements Person {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+	
+	
 }
