@@ -13,15 +13,12 @@ import bank.BankTellerRole;
 
 public class Bank implements BankInterface{
 	
-	
-	
-
 	//stores all the people in the queue
 	public List<BankCustomer> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	
-	List<BankTeller> myTellers = new ArrayList<BankTeller>();
-	List<BankTeller> currentTellers = new ArrayList<BankTeller>();
-	List<BankAccount> accounts = new ArrayList<BankAccount>();
+	public List<BankTeller> myTellers = new ArrayList<BankTeller>();
+	public List<BankTeller> currentTellers = new ArrayList<BankTeller>();
+	public List<BankAccount> accounts = new ArrayList<BankAccount>();
 	
 	int totalAmount = 1000000000;
 	

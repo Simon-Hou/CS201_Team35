@@ -3,7 +3,7 @@ package bank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-
+import person.PersonAgent;
 import interfaces.BankCustomer;
 import interfaces.BankInterface;
 import interfaces.BankTeller;
@@ -32,7 +32,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		bank = b;
 	}
 	
-	public void setPerson(Person p){
+	public void setPerson(PersonAgent p){
 		person = p;
 	}
 	
@@ -170,7 +170,6 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		return false;
 		
 	}
-	
 	
 	//ACT
 	

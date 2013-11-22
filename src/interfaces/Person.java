@@ -19,5 +19,7 @@ public interface Person {
 	
 	
 	public abstract void msgThisRoleDone(Role role);
+
+	public abstract void msgDoneEating();
 	
 }

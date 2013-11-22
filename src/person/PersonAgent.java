@@ -4,26 +4,28 @@ import house.InhabitantRole;
 import interfaces.Person;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import bank.BankCustomerRole;
+import market.Market;
 import market.MarketCustomerRole;
 import role.Role;
+import util.Bank;
+import util.CityMap;
+import util.MarketMapLoc;
+import util.BankMapLoc;
 import util.Task;
 import util.deposit;
 import util.takeLoan;
 import util.withdrawal;
 import interfaces.Person;
 
-
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
-import public_class.Food;
+import public_Object.Food;
 import role.Role;
 import agent.Agent;
 
@@ -32,79 +34,101 @@ public class PersonAgent extends Agent implements Person {
 	public PersonAgent(String name, CityMap city) {
 		this.name = name;
 		this.city = city;
+		belongings = new Belongings();
+		myJob = new Job();
+		purse = new Purse();
 	}
 	
 	//data
 	public List<Role> roles = new ArrayList<Role>();
-	int time;
-	String name;
-	CityMap city;
+	public int time;
+	public String name;
+	public CityMap city;
+	public int activeRoleCalls = 0;
 	//Time time;
-	int hungerLevel;
-	int tiredLevel;
-	int personalAddress;
-	Purse purse;
-	Belongings belongings;
-	Map<String, Integer> shoppingList;
-	Job myJob;
-	Role activeRole = null;
-	Role nextRole = null;
+	public int hungerLevel = 0;
+	public int tiredLevel = 0;
+	public int personalAddress;
+	public Purse purse;
+	public Belongings belongings;
+	public Map<String, Integer> shoppingList;
+	public Job myJob;
+	public Role activeRole = null;
+	public Role nextRole = null;
+	public boolean wantsToBuyCar = false;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
 	private Personality personality;
 	
 	public class Job {
-		Role jobRole;
-		int location;
-		int shiftStart;
-		int shiftEnd;
+		public Role jobRole;
+		public int location;
+		public int shiftStart;
+		public int shiftEnd;
 	}
 	
 	public class Belongings {
-		Property myLiving;
-		List<Property> myEstates;
-		List<Car> myCars;
-		List<Food> myFoods;
-		List<BankAccount> myAccounts;
+		
+		public Belongings() {
+			myLiving = new Property();
+			myEstates = new ArrayList<Property>();
+			myCars = new ArrayList<Car>();
+			myFoods = new ArrayList<Food>();
+			myAccounts = new ArrayList<BankAccount>();
+		}
+		
+		public Property myLiving;
+		public List<Property> myEstates;
+		public List<Car> myCars;
+		public List<Food> myFoods;
+		public List<BankAccount> myAccounts;
 	}
 	
 	public class BankAccount {
-		int amount;
-		int accountNumber;
-		String custName;
-		String password;
-		List<Loan> myLoans;
+		
+		public BankAccount(int accNumber,int amt,String name,String pw) {
+			accountNumber = accNumber;
+			amount = amt;
+			custName = name;
+			password = pw;
+		}
+		
+		public int amount;
+		public int accountNumber;
+		public String custName;
+		public String password;
+		public List<Loan> myLoans;
 	}
 	
 	public class Loan {
-		int loanNumber;
-		int total;
-		int amountLeft;
+		public int loanNumber;
+		public int total;
+		public int amountLeft;
 		
-		void loan(int totalAmount) {
+		public void loan(int totalAmount) {
 			total = totalAmount;
 			amountLeft = total;
 		}
 		
-		void payoff(int payment) {
+		public void payoff(int payment) {
 			amountLeft -= payment;
 		}
 	}
 	
 	public class Purse {
-		List<Food> bag;
-		int wallet;
+		public Map<String, Integer> bag = new HashMap<String,Integer>();
+		public int wallet;
 	}
 	
 	public class Property {
-		int address;
-		Person tenant;
-		int maintenanceLevel;
+		public int address;
+		public Person tenant;
+		public int maintenanceLevel;
 	}
 	
 	public class Car {
-		int licensePlateNumber;
+		public int licensePlateNumber;
 	}
 	
 
@@ -118,6 +142,7 @@ public class PersonAgent extends Agent implements Person {
 	 public boolean pickAndExecuteAnAction() {
 		
 		if (activeRole != null) {
+			activeRoleCalls++;
 			return activeRole.pickAndExecuteAnAction();
 		}
 		
@@ -127,12 +152,12 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 		
-		if (myJob.shiftStart >= time && myJob.shiftEnd < time) {
+		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
 		}
 		
-		if (purse.wallet <= 10 || purse.wallet >= 100) {
+		if ((purse.wallet <= 10 || purse.wallet >= 100) && !wantsToBuyCar) {
 			goToBank();
 			return true;
 		}
@@ -171,6 +196,7 @@ public class PersonAgent extends Agent implements Person {
 			buyCar();
 			return true;
 		}
+		return false;
 	}
 	
 	//Actions
@@ -182,7 +208,10 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void goToBank() {
 		//doGoToBank();
-		BankCustomerRole bankRole;
+		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
+		
+		//Gets customerRole or creates customerRole
+		BankCustomerRole bankRole = null;
 		boolean containsRole = false;
 		for (Role r: roles) {
 			if (r instanceof BankCustomerRole) {
@@ -192,7 +221,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 		if (!containsRole) {
-			bankRole = new BankCustomerRole(name,this);
+			bankRole = new BankCustomerRole(this.name,this);
 			activeRole = bankRole;
 			roles.add(activeRole);
 		}
@@ -200,17 +229,13 @@ public class PersonAgent extends Agent implements Person {
 		//deposit
 		if (purse.wallet >= 100) {
 			Do("I am going to the bank to deposit $" + (purse.wallet-50));
-			if (activeRole instanceof BankCustomerRole) {
-				bankRole.Tasks.add(new deposit((purse.wallet-50),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
-				activeRole = bankRole;
-			}
+			bankRole.Tasks.add(new deposit((purse.wallet-50),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
 		
 		//withdrawal
 		if (purse.wallet <= 10 && getMoneyInBank() >= 50)  {
 			Do("I am going to the bank to withdraw $" + (60 - purse.wallet));
 			bankRole.Tasks.add(new withdrawal((70 - purse.wallet),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
-			activeRole = bankRole;
 		}
 		
 		//loan
@@ -218,42 +243,63 @@ public class PersonAgent extends Agent implements Person {
 			Do("I am going to the bank to withdraw $" + (getMoneyInBank()) + " and to loan $" + (50 - getMoneyInBank()));
 			bankRole.Tasks.add(new withdrawal(getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 			bankRole.Tasks.add(new takeLoan(50 - getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
-			activeRole = bankRole;
 		}
+		
+		bankRole.msgYouAreAtBank(b);
+		activeRole = bankRole;
+		
 	}
 	
 	private void goToMarket() {
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
+		MarketCustomerRole marketRole = null;
+		Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
 		//ShoppingList shoppingList = makeShoppingList();
+		
+		//Gets customerRole or creates customerRole
 		boolean containsRole = false;
 		for (Role r: roles) {
 			if (r instanceof MarketCustomerRole) {
 				//r.shoppingList = shoppingList;
 				activeRole = r;
+				marketRole = (MarketCustomerRole) r;
 				containsRole = true;
 			}
 		}
 		if (!containsRole) {
-			//activeRole = new MarketCustomerRole(shoppingList);
+			marketRole = new MarketCustomerRole(this.name,this);
+			activeRole = marketRole;
 			roles.add(activeRole);
 		}
+		
+		marketRole.msgYouAreAtMarket(m.host);
+		activeRole = marketRole;
 	}
 	
 	private void getFood() {
 		if (!belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at home");
 			//goHome();
+			InhabitantRole inhabitantRole;
+			
+			//Gets inhabitantRole or creates inhabitantRole
 			boolean containsRole = false;
 			for (Role r: roles) {
 				if (r instanceof InhabitantRole) {
 					activeRole = r;
-					containsRole = true;
+					inhabitantRole = (InhabitantRole) r;
+					containsRole = true;			
+					//inhabitantRole.msgYouAreAtHome();
+					activeRole = inhabitantRole;
 				}
 			}
 			if (!containsRole) {
-				activeRole = new InhabitantRole();
-				roles.add(activeRole);
+				inhabitantRole = new InhabitantRole();
+				activeRole = inhabitantRole;
+				roles.add(activeRole);	
+				//inhabitantRole.msgYouAreAtHome();
+				activeRole = inhabitantRole;
 			}
 		}
 		else if(belongings.myFoods.isEmpty()) {
@@ -264,16 +310,25 @@ public class PersonAgent extends Agent implements Person {
 	private void getSleep() {
 		Do("I am going home to sleep");
 		//doGoToHome();
+		InhabitantRole inhabitantRole;
+		
+		//Gets inhabitantRole or creates inhabitantRole
 		boolean containsRole = false;
 		for (Role r: roles) {
 			if (r instanceof InhabitantRole) {
 				activeRole = r;
-				containsRole = true;
+				inhabitantRole = (InhabitantRole) r;
+				containsRole = true;			
+				//inhabitantRole.msgYouAreAtHome();
+				activeRole = inhabitantRole;
 			}
 		}
 		if (!containsRole) {
-			activeRole = new InhabitantRole();
-			roles.add(activeRole);
+			inhabitantRole = new InhabitantRole();
+			activeRole = inhabitantRole;
+			roles.add(activeRole);	
+			//inhabitantRole.msgYouAreAtHome();
+			activeRole = inhabitantRole;
 		}
 	}
 	
@@ -283,60 +338,107 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void buyCar() {
+		MarketCustomerRole marketRole = null;
 		if (purse.wallet < 500) {
 			Do("I am going to get money from the bank and then I'm going to buy a car");
 			//doGoToBank();
 			BankCustomerRole bankRole;
+			
+			//Gets customerRole or creates customerRole
 			boolean containsRole = false;
 			for (Role r: roles) {
 				if (r instanceof BankCustomerRole) {
 					activeRole = r;
 					bankRole = (BankCustomerRole) r;
-					bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password);
+					bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
 					activeRole = bankRole;
 					containsRole = true;
 				}
 			}
 			if (!containsRole) {
-				bankRole = new BankCustomerRole(name, this);
-				bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password);
+				bankRole = new BankCustomerRole(this.name, this);
+				bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
 				activeRole = bankRole;
 				roles.add(activeRole);
 			}
+			wantsToBuyCar = true;
+			
+			//Gets customerRole or creates customerRole
 			boolean containsRole2 = false;
 			for (Role r: roles) {
 				if (r instanceof MarketCustomerRole) {
 					nextRole = r;
+					marketRole = (MarketCustomerRole) r;
 					containsRole2 = true;
 				}
 			}
 			if (!containsRole2) {
-				nextRole = new MarketCustomerRole();
+				marketRole = new MarketCustomerRole(this.name,this);
+				activeRole = marketRole;
 				roles.add(activeRole);
 			}
 		}
 		else {
+			Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
 			Do("I am going to buy a car from the market");
+			
+			//Gets customerRole or creates customerRole
 			boolean containsRole = false;
 			for (Role r: roles) {
 				if (r instanceof MarketCustomerRole) {
 					activeRole = r;
+					marketRole = (MarketCustomerRole) r;
 					containsRole = true;
 				}
 			}
 			if (!containsRole) {
-				activeRole = new MarketCustomerRole();
+				marketRole = new MarketCustomerRole(this.name,this);
+				marketRole.msgYouAreAtMarket(m.host);
+				activeRole = marketRole;
 				roles.add(activeRole);
 			}
+			marketRole.msgYouAreAtMarket(m.host);
+			activeRole = marketRole;
 		}
 	}
 	
 	private void goDoMaintenance(Property p) {
-		//doGoToProperty
+		InhabitantRole inhabitantRole;
+		
+		//Gets inhabitantRole or creates inhabitantRole
+		boolean containsRole = false;
+		for (Role r: roles) {
+			if (r instanceof InhabitantRole) {
+				activeRole = r;
+				inhabitantRole = (InhabitantRole) r;
+				containsRole = true;			
+				//inhabitantRole.msgYouAreAtHome();
+				activeRole = inhabitantRole;
+			}
+		}
+		if (!containsRole) {
+			inhabitantRole = new InhabitantRole();
+			activeRole = inhabitantRole;
+			roles.add(activeRole);	
+			//inhabitantRole.msgYouAreAtHome();
+			activeRole = inhabitantRole;
+		}
 		p.maintenanceLevel = 0;
 	}
 	
 	//Utilities
+	
+	public void msgStateChanged() {
+		this.pickAndExecuteAnAction();
+	}
+	
+	public void addToWallet(int amount) {
+		this.purse.wallet += amount;
+	}
+	
+	public void takeFromWallet(int amount) {
+		this.purse.wallet -= amount;
+	}
 	
 	public int getMoneyInBank() {
 		int totalMoney = 0;
@@ -356,5 +458,50 @@ public class PersonAgent extends Agent implements Person {
 		}
 		totalMoney += purse.wallet;
 		return totalMoney;
+	}
+	
+	public void msgThisRoleDone() {
+		activeRole = null;
+	}
+	
+	//Bank Utilities
+	
+	public void addToAccount(int accNum,int amount){
+		for (BankAccount account: belongings.myAccounts) {
+			if (account.accountNumber == accNum) {
+				account.amount += amount;
+			}
+		}
+	}
+	
+	public void takeFromAccount(int accNum,int amount){
+		for (BankAccount account: belongings.myAccounts) {
+			if (account.accountNumber == accNum) {
+				account.amount -= amount;
+			}
+		}
+	}
+	
+	public void createAccount(int accountNumber,int amount,String name,String passWord){
+		BankAccount account = new BankAccount(accountNumber,amount,name,passWord);
+		belongings.myAccounts.add(account);
+	}
+	
+	public void addLoan(int accountNumber,int cash, int loanNumber){
+		Loan loan = new Loan();
+		loan.amountLeft = cash;
+		loan.total = cash;
+		loan.loanNumber = loanNumber;
+		for (BankAccount account: belongings.myAccounts) {
+			if (account.accountNumber == accountNumber) {
+				account.myLoans.add(loan);
+			}
+		}
+	}
+
+	@Override
+	public void msgThisRoleDone(Role role) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -11,8 +11,7 @@ import role.Role;
 import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-	//PersonAgent p;
-	testPerson p;
+	PersonAgent p;
 	RoleState state;
 	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
 	RoleEvent event;
@@ -33,7 +32,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.name = name;
 	}
 	
-	public MarketCustomerRole(String name,testPerson p){
+	public MarketCustomerRole(String name, PersonAgent p){
 		this.name = name;
 		this.p = p;
 	}
@@ -49,7 +48,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	public void msgHereIsYourChange(Receipt receipt, int change){
 	    this.receipt = receipt;
-	    p.purse.wallet+=change;
+	    p.addToWallet(change);
 	    event = RoleEvent.paymentReceived;
 	}
 
@@ -139,7 +138,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	//Utilities
-	public testPerson getPerson(){
+	public PersonAgent getPerson(){
 		return p;
 	}
 

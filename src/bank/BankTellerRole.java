@@ -10,14 +10,7 @@ import java.util.List;
 import java.util.Random;
 //import org.apache.commons.lang.RandomStringUtils;
 
-
-
-
-
-
-
-
-
+import person.PersonAgent;
 import role.Role;
 import UnitTests.mock.bankMock.MockBank;
 import agent.Agent;

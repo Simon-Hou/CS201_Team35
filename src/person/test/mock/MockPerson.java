@@ -1,44 +1,43 @@
-package UnitTests.mock.bankMock;
+package person.test.mock;
 
-import interfaces.Person;
 import role.Role;
-import UnitTests.mock.LoggedEvent;
-import UnitTests.mock.Mock;
+import bank.interfaces.Person;
+import bank.test.mock.EventLog;
+import bank.test.mock.LoggedEvent;
+import bank.test.mock.Mock;
 
-public class MockBankPerson extends Mock implements Person {
+public class MockPerson extends Mock implements Person {
 
+	public EventLog log = new EventLog();
 	
-	
-	public MockBankPerson(String name) {
+	public MockPerson(String name) {
 		super(name);
 
 	}
 
 	public void msgStateChanged() {
 		log.add(new LoggedEvent("Just got a new permit"));
-		//System.out.println(log.getLastLoggedEvent());
+		System.out.println(log.getLastLoggedEvent());
 	}
 
 	public void addToWallet(int amount) {
-		log.add(new LoggedEvent("Added to wallet"));
+		
 	}
 
 	public void takeFromWallet(int amount) {
-		log.add(new LoggedEvent("Took from wallet"));
+		
 	}
 
 	public void addToAccount(int accNumber, int amount) {
-		log.add(new LoggedEvent("Added to account"));
+		
 	}
 
 	public void takeFromAccount(int accNumber, int amount) {
-		log.add(new LoggedEvent("Took from account"));
+		
 	}
 
 	public void createAccount(int accountNumber, int amount, String name,
 			String passWord) {
-		
-		log.add(new LoggedEvent("Created a new account"));
 		
 	}
 
@@ -48,12 +47,6 @@ public class MockBankPerson extends Mock implements Person {
 
 	public void msgThisRoleDone(Role role) {
 		log.add(new LoggedEvent("My BankCustomerRole just finished"));
-	}
-
-	@Override
-	public void msgDoneEating() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
