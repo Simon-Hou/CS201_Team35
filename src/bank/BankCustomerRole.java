@@ -32,7 +32,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		bank = b;
 	}
 	
-	public void setPerson(PersonAgent p){
+	public void setPerson(Person p){
 		person = p;
 	}
 	

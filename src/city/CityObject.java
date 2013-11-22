@@ -43,11 +43,13 @@ public class CityObject implements ActionListener{
 	
 	
 	public List<PersonAgent> people = new ArrayList<PersonAgent>();
+	public final int NUM_PEOPLE = 3;
 	
 	
 	public CityObject(){
 		
 		Timer timer = new Timer(TIMER_DELAY, this);
+		timer.start();
 		
 		cityMap.map.put("Bank", new ArrayList<Place>());
 		cityMap.map.put("Market", new ArrayList<Place>());
@@ -97,13 +99,20 @@ public class CityObject implements ActionListener{
 		((MarketMapLoc) cityMap.map.get("Market").get(0)).market.host = h0;
 		h0.startThread();*/
 		
+		for(int i = 0;i<NUM_PEOPLE;++i){
+			PersonAgent p = new PersonAgent("p"+i,cityMap);
+			p.startThread();
+			people.add(p);
+			
+		}
 		
 		
 		
-		testPerson p0 = new testPerson("p0",cityMap);
+		
+		/*testPerson p0 = new testPerson("p0",cityMap);
 		p0.startThread();
 		
-		p0.msgGoToMarket();
+		p0.msgGoToMarket();*/
 		
 		
 		//======TRANSPORTATION======
@@ -123,6 +132,7 @@ public class CityObject implements ActionListener{
 	
 	
 	public void updateTime(){
+		System.out.println("CITY: Updating time");
 		currentTime = (currentTime++)%100;
 		for(PersonAgent p:people){
 			p.setTime(currentTime);

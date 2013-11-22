@@ -20,6 +20,7 @@ import util.BankMapLoc;
 import util.Place;
 import util.Task;
 import util.deposit;
+import util.openAccount;
 import util.takeLoan;
 import util.withdrawal;
 import interfaces.Person;
@@ -39,6 +40,11 @@ public class PersonAgent extends Agent implements Person {
 		belongings = new Belongings();
 		myJob = new Job();
 		purse = new Purse();
+	}
+	
+	//GETTERS
+	public String getName(){
+		return name;
 	}
 	
 	
@@ -180,6 +186,11 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 		
+		if(belongings.myAccounts.size()==0){
+			goToBank();
+			return true;
+		}
+		
 		if ((purse.wallet <= 10 || purse.wallet >= 100) && !wantsToBuyCar) {
 			goToBank();
 			return true;
@@ -252,6 +263,16 @@ public class PersonAgent extends Agent implements Person {
 			bankRole = new BankCustomerRole(this.name,this);
 			activeRole = bankRole;
 			roles.add(activeRole);
+		}
+		
+		//open account
+		if(belongings.myAccounts.isEmpty()){
+			Do("Going to bank to open new account");
+			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
+			doGoToBank();
+			bankRole.msgYouAreAtBank(b);
+			activeRole = bankRole;
+			return;
 		}
 		
 		//deposit
