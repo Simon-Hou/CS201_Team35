@@ -4,20 +4,24 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class CityRoad extends CityComponent {
+public class CityCrosswalk extends CityComponent {
 	
 	private RoadDirection direction;
 	
-	public CityRoad(int x, RoadDirection direction) {
-		super(x, 0, Color.DARK_GRAY, "Road");
+	public CityCrosswalk(int x, RoadDirection direction, boolean topLeft) {
+		super(x, 0, Color.white, "Road");
 		this.direction = direction;
-		if (direction == RoadDirection.HORIZONTAL)
-			rectangle = new Rectangle(80, x, 460, 80);
-		else
-			rectangle = new Rectangle(x, 80, 80, 460);
+		if (direction == RoadDirection.HORIZONTAL && topLeft)
+			rectangle = new Rectangle(x, 290, 10, 20);
+		else if (topLeft)
+			rectangle = new Rectangle(290, x, 20, 10);
+		if (direction == RoadDirection.HORIZONTAL && !topLeft)
+			rectangle = new Rectangle(290, x, 20, 10);
+		else if (!topLeft)
+			rectangle = new Rectangle(x, 290, 10, 20);
 	}
 
-	public CityRoad(int x, RoadDirection direction, String I) {
+	public CityCrosswalk(int x, RoadDirection direction, String I) {
 		super(x, 0, Color.gray, I);
 		this.direction = direction;
 	}

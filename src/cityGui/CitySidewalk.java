@@ -7,14 +7,19 @@ import java.awt.Rectangle;
 public class CitySidewalk extends CityComponent {
 	
 	private RoadDirection direction;
+	boolean inner;
 	
-	public CitySidewalk(int x, RoadDirection direction) {
-		super(x, 0, Color.LIGHT_GRAY, "Road");
+	public CitySidewalk(int x, RoadDirection direction, boolean inner) {
+		super(x, 0, Color.LIGHT_GRAY, "Side Walk");
 		this.direction = direction;
-		if (direction == RoadDirection.HORIZONTAL)
-			rectangle = new Rectangle(200, x, 400, 100);
-		else
-			rectangle = new Rectangle(x, 200, 100, 400);
+		if (direction == RoadDirection.HORIZONTAL && !inner)
+			rectangle = new Rectangle(40, x, 520, 40);
+		else if (!inner)
+			rectangle = new Rectangle(x, 40, 40, 520);
+		if (direction == RoadDirection.HORIZONTAL && inner)
+			rectangle = new Rectangle(160, x, 280, 40);
+		else if (inner)
+			rectangle = new Rectangle(x, 160, 40, 280);
 	}
 
 	public CitySidewalk(int x, RoadDirection direction, String I) {
