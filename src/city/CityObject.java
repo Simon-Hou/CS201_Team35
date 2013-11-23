@@ -41,8 +41,8 @@ public class CityObject implements ActionListener{
 	public final int numMarkets = 1;
 	public final int numRestaurants = 1;
 	
-	int currentTime;
-	static int TIMER_DELAY = 10000;
+	int currentTime = 0;
+	static int TIMER_DELAY = 3000;
 	
 	
 	public List<PersonAgent> people = new ArrayList<PersonAgent>();
@@ -110,6 +110,8 @@ public class CityObject implements ActionListener{
 			people.add(p);
 			
 		}
+		people.get(0).myJob = new Job(new BankTellerRole("p0Teller"),0,1,10,cityMap.map.get("Bank").get(0),people.get(0));
+		
 		/*PersonAgent p = new PersonAgent("John",cityMap);
 		
 		BankCustomerRole c0 = new BankCustomerRole("c0",p);
@@ -125,8 +127,9 @@ public class CityObject implements ActionListener{
 		t.startThread();*/
 		
 		PersonAgent p3 = new PersonAgent("p3",cityMap);
-		p3.myJob = new Job(new BankTellerRole("p3Teller"),0,0,100,cityMap.map.get("Bank").get(0),p3);
+		p3.myJob = new Job(new BankTellerRole("p3Teller"),0,0,1,cityMap.map.get("Bank").get(0),p3);
 		p3.startThread();
+		people.add(p3);
 		
 		
 		
@@ -153,11 +156,12 @@ public class CityObject implements ActionListener{
 	
 	
 	public void updateTime(){
-		/*System.out.println("CITY: Updating time");
-		currentTime = (currentTime++)%100;
+		System.out.println("CITY: Updating time");
+		currentTime = (currentTime+1)%100;
 		for(PersonAgent p:people){
 			p.setTime(currentTime);
-		}*/
+			p.msgStateChanged();
+		}
 		
 	}
 	

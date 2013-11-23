@@ -105,6 +105,7 @@ public class PersonAgent extends Agent implements Person {
 			amount = amt;
 			custName = name;
 			password = pw;
+			myLoans = new ArrayList<Loan>();
 		}
 		
 		public int amount;
@@ -153,10 +154,27 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Scheduler
 	 public boolean pickAndExecuteAnAction() {
-		
+		//Do("Deciding what to do - "+ time);
+		// Do("Role: "+activeRole);
 		if (activeRole != null) {
 			activeRoleCalls++;
+			
+			//This takes care of getting off work
+			if(activeRole == myJob.jobRole && time >= myJob.shiftEnd){
+				if(myJob.jobRole instanceof BankTellerRole){
+					if(((BankTellerRole) myJob.jobRole).canLeave()){
+						Do("It's quitting time.");
+						activeRole = null;
+						return true;
+					}
+				}
+			}
+			
 			return activeRole.pickAndExecuteAnAction();
+		}
+		
+		if(time == myJob.shiftStart-1){
+			return false;
 		}
 		
 		if (nextRole != null) {
@@ -561,7 +579,7 @@ public class PersonAgent extends Agent implements Person {
 	@Override
 	public void msgThisRoleDone(Role role) {
 		// TODO Auto-generated method stub
-		
+		this.activeRole = null;
 	}
 	
 	

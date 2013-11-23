@@ -54,6 +54,10 @@ public class BankTellerRole extends Role implements BankTeller{
 	public String getName(){
 		return name;
 	}
+	
+	public boolean canLeave(){
+		return currentCustomer == null;
+	}
 
 	//DATA
 	
