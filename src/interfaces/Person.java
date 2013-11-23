@@ -1,11 +1,15 @@
 package interfaces;
 
 import role.Role;
+import util.BusStop;
 
 public interface Person {
 
 	
+	
 	public abstract void msgStateChanged();
+	
+	public abstract void msgBusAtStop(BusStop stop);
 	
 	public abstract void addToWallet(int amount);
 	public abstract void takeFromWallet(int amount);

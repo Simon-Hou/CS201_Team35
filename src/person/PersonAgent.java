@@ -14,6 +14,7 @@ import market.Market;
 import market.MarketCustomerRole;
 import role.Role;
 import util.Bank;
+import util.BusStop;
 import util.CityMap;
 import util.Job;
 import util.MarketMapLoc;
@@ -147,6 +148,12 @@ public class PersonAgent extends Agent implements Person {
 	
 
 	//msg
+	public void msgBusAtStop(BusStop stop){
+		//blah
+		//stateChanged();
+	}
+	
+	
 	public void msgDoneEating(){
 		hungerLevel=0;
 		stateChanged();
