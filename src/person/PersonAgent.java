@@ -159,6 +159,7 @@ public class PersonAgent extends Agent implements Person {
 			return activeRole.pickAndExecuteAnAction();
 		}
 		
+<<<<<<< HEAD
 		Do("GOT HERE");
 		
 		if (nextRole != null) {
@@ -167,16 +168,22 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 		
+=======
+>>>>>>> a6c2e034f5580c0f7f2554414031d94129044197
 		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
+		}		
+
+		if (purse.wallet > 500 && wantsToBuyCar) {
+			buyCar();
 		}
-		
+
 		if(belongings.myAccounts.size()==0){
 			goToBank();
 			return true;
 		}
-		
+
 		if ((purse.wallet <= 10 || purse.wallet >= 100) && !wantsToBuyCar) {
 			goToBank();
 			return true;

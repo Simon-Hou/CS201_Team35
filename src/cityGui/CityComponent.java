@@ -1,9 +1,10 @@
 package cityGui;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import javax.swing.ImageIcon;
+
 
 public abstract class CityComponent {
 
@@ -55,23 +56,23 @@ public abstract class CityComponent {
 			g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 		}
 	}
-
+	
 	public boolean contains(int x, int y) {
 		return rectangle.contains(x, y);
 	}
-
+	
 	public boolean contains(Point p) {
 		return contains((int)p.getX(), (int)p.getY());
 	}
-
+	
 	public void disable() {
 		isActive = false;
 	}
-
+	
 	public void enable() {
 		isActive = true;
 	}
-
+	
 	public boolean isActive() {
 		return isActive;
 	}
