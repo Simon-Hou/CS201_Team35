@@ -7,6 +7,10 @@ import java.util.List;
 
 public class BusStop {
 	
+	public BusStop(){
+		
+	}
+	
 	public BusStop(Loc location,List<Person> peopleWaiting){
 		this.location = location;
 		this.peopleWaiting = peopleWaiting;
