@@ -14,7 +14,10 @@ import market.Market;
 import market.MarketCustomerRole;
 import role.Role;
 import util.Bank;
+import util.BusStop;
 import util.CityMap;
+import util.Job;
+import util.Loc;
 import util.MarketMapLoc;
 import util.BankMapLoc;
 import util.Place;
@@ -40,6 +43,7 @@ public class PersonAgent extends Agent implements Person {
 		belongings = new Belongings();
 		myJob = new Job();
 		purse = new Purse();
+		bankRole = new BankCustomerRole(name+"Bank",this);
 	}
 	
 	//GETTERS
@@ -71,31 +75,13 @@ public class PersonAgent extends Agent implements Person {
 	public Role activeRole = null;
 	public Role nextRole = null;
 	public boolean wantsToBuyCar = false;
+	public BankCustomerRole bankRole;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
 	private Personality personality;
 	
-	public class Job {
-		
-		public Job(){
-			
-		}
-		
-		public Job(Role role,int location,int shiftStart,int shiftEnd,Place placeOfWork){
-			this.jobRole = role;
-			this.location = location;
-			this.shiftStart = shiftStart;
-			this.shiftEnd = shiftEnd;
-			this.placeOfWork = placeOfWork;
-		}
-		
-		public Role jobRole;
-		public Place placeOfWork;
-		public int location;
-		public int shiftStart;
-		public int shiftEnd;
-	}
+	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
 	
 	public class Belongings {
 		
@@ -121,6 +107,7 @@ public class PersonAgent extends Agent implements Person {
 			amount = amt;
 			custName = name;
 			password = pw;
+			myLoans = new ArrayList<Loan>();
 		}
 		
 		public int amount;
@@ -162,6 +149,18 @@ public class PersonAgent extends Agent implements Person {
 	
 
 	//msg
+	
+	public void msgCarArrivedAtLoc(Loc destination){
+		//blah
+		//stateChanged();
+	}
+	
+	public void msgBusAtStop(BusStop stop){
+		//blah
+		//stateChanged();
+	}
+	
+	
 	public void msgDoneEating(){
 		hungerLevel=0;
 		stateChanged();
@@ -169,10 +168,27 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Scheduler
 	 public boolean pickAndExecuteAnAction() {
-		
+		//Do("Deciding what to do - "+ time);
+		// Do("Role: "+activeRole);
 		if (activeRole != null) {
 			activeRoleCalls++;
+			
+			//This takes care of getting off work
+			if(activeRole == myJob.jobRole && time >= myJob.shiftEnd){
+				if(myJob.jobRole instanceof BankTellerRole){
+					if(((BankTellerRole) myJob.jobRole).canLeave()){
+						Do("It's quitting time.");
+						activeRole = null;
+						return true;
+					}
+				}
+			}
+			
 			return activeRole.pickAndExecuteAnAction();
+		}
+		
+		if(time == myJob.shiftStart-1){
+			return false;
 		}
 		
 		if (nextRole != null) {
@@ -184,13 +200,17 @@ public class PersonAgent extends Agent implements Person {
 		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
+		}		
+
+		if (purse.wallet > 500 && wantsToBuyCar) {
+			buyCar();
 		}
-		
+
 		if(belongings.myAccounts.size()==0){
 			goToBank();
 			return true;
 		}
-		
+
 		if ((purse.wallet <= 10 || purse.wallet >= 100) && !wantsToBuyCar) {
 			goToBank();
 			return true;
@@ -243,6 +263,8 @@ public class PersonAgent extends Agent implements Person {
 		}
 		
 		activeRole = myJob.jobRole;
+		//Do(""+ activeRole);
+		//System.out.flush();
 	}
 	
 	private void goToBank() {
@@ -250,7 +272,7 @@ public class PersonAgent extends Agent implements Person {
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
 		
 		//Gets customerRole or creates customerRole
-		BankCustomerRole bankRole = null;
+		/*BankCustomerRole bankRole = null;
 		boolean containsRole = false;
 		for (Role r: roles) {
 			if (r instanceof BankCustomerRole) {
@@ -263,7 +285,9 @@ public class PersonAgent extends Agent implements Person {
 			bankRole = new BankCustomerRole(this.name,this);
 			activeRole = bankRole;
 			roles.add(activeRole);
-		}
+		}*/
+		
+		activeRole = bankRole;
 		
 		//open account
 		if(belongings.myAccounts.isEmpty()){
@@ -493,7 +517,8 @@ public class PersonAgent extends Agent implements Person {
 	//Utilities
 	
 	public void msgStateChanged() {
-		this.pickAndExecuteAnAction();
+		//this.pickAndExecuteAnAction();
+		this.stateChanged();
 	}
 	
 	public void addToWallet(int amount) {
@@ -568,7 +593,7 @@ public class PersonAgent extends Agent implements Person {
 	@Override
 	public void msgThisRoleDone(Role role) {
 		// TODO Auto-generated method stub
-		
+		this.activeRole = null;
 	}
 	
 	

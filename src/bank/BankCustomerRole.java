@@ -22,7 +22,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public BankCustomerRole(String name,Person p){
 		this.person = p;
 		this.name = name;
-		System.out.println(getName());
+		//System.out.println(getName());
 	}
 	
 	
@@ -62,10 +62,10 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public BankTeller teller;
 	
 	public enum CustState {init,inBank,inLine,goingToWindow,beingServed,leaving};
-	public enum CustEvent {tellerReady,taskPending};
+	public enum CustEvent {tellerReady,taskPending,left};
 	
 	public CustState state = CustState.init;
-	public CustEvent event;
+	public CustEvent event = null;
 	
 	public List<Task> Tasks = new ArrayList<Task>();
 	public Semaphore atDestination = new Semaphore(0, true);
@@ -77,6 +77,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//MSG
 	
 	public void msgYouAreAtBank(Bank b){
+		//System.out.println("YOU ARE AT BANK");
 		this.bank = b;
 		this.state = CustState.inBank;
 	}
@@ -88,6 +89,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		event = CustEvent.tellerReady;
 		//state = CustState.beingServed;
 		person.msgStateChanged();
+		//stateChanged();
 		
 	}
 	
@@ -149,9 +151,10 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//SCHED
 	
 	public boolean pickAndExecuteAnAction(){
+		//Do("My state is: "+ state);
 		//if you're inBank, get in line
 		if(state == CustState.inBank){
-			
+			System.out.flush();
 			getInLine();
 			return true;
 		}
@@ -183,13 +186,18 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		else{
 			System.err.println("Customer wasn't allowed in line");
 		}
+		
+		//Thread.dumpStack();
+		System.out.flush();
+		
+		//Do(""+state);
 	}
 	
 	private void goToWindow() {
 		Do("Going to the teller's window");
 		doGoToWindow();
 		state = CustState.goingToWindow;
-		//atDestination.release();
+		atDestination.release();
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
@@ -205,9 +213,11 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		//Task t = Tasks.get(0);
 		if(Tasks.isEmpty()){
 			Do("Finished what I needed done. I'm leaving");
+			state = CustState.leaving;
 			doLeaveBank();
 			teller.msgDoneAndLeaving();
-			state = CustState.leaving;
+			
+			event = CustEvent.left;
 			person.msgThisRoleDone(this);
 			return;
 		}
@@ -218,6 +228,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		Do(t.getType());
 		
 		Task tCopy = t.copyTask();
+		//Task tCopy = t.clone();
+		
 		teller.msgIWantTo(tCopy);
 		
 		event = CustEvent.taskPending;
