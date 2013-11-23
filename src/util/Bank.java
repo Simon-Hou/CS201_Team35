@@ -55,6 +55,7 @@ public class Bank implements BankInterface{
 	
 	public boolean startTellerShift(BankTeller t){
 		currentTellers.add(t);
+		//t.msgStateChanged();
 		return true;
 	}
 	
@@ -71,6 +72,7 @@ public class Bank implements BankInterface{
 	public boolean addMeToQueue(BankCustomer c){
 		//System.out.println("Here");
 		bankCustomers.add(c);
+		System.out.println("Size of the queue is "+bankCustomers.size());
 		for(BankTeller t:currentTellers){
 			//System.out.println("Teller messaged");
 			t.msgStateChanged();

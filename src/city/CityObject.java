@@ -7,13 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import person.PersonAgent;
+import role.Role;
 import market.Market;
 import market.MarketHostRole;
+import bank.BankCustomerRole;
 import bank.BankTellerRole;
 import testAgents.testPerson;
 import util.Bank;
 import util.BankMapLoc;
 import util.CityMap;
+import util.Job;
 import util.MarketMapLoc;
 import util.Place;
 
@@ -43,7 +46,7 @@ public class CityObject implements ActionListener{
 	
 	
 	public List<PersonAgent> people = new ArrayList<PersonAgent>();
-	public final int NUM_PEOPLE = 3;
+	public final int NUM_PEOPLE = 1;
 	
 	
 	public CityObject(){
@@ -80,6 +83,8 @@ public class CityObject implements ActionListener{
 			cityMap.map.get("Market").add(mMap);
 		}
 		
+		
+		
 		//==Houses==
 		
 		
@@ -105,7 +110,23 @@ public class CityObject implements ActionListener{
 			people.add(p);
 			
 		}
+		/*PersonAgent p = new PersonAgent("John",cityMap);
 		
+		BankCustomerRole c0 = new BankCustomerRole("c0",p);
+		c0.stateChanged();
+		c0.setBank(((BankMapLoc) cityMap.map.get("Bank").get(0)).bank);
+		c0.startThread();
+		c0.msgYouAreAtBank(((BankMapLoc) cityMap.map.get("Bank").get(0)).bank);
+		
+		PersonAgent p2 = new PersonAgent("S",cityMap);
+		BankTellerRole t = new BankTellerRole("fuckHead");
+		t.setPerson(p2);
+		t.setBank(((BankMapLoc) cityMap.map.get("Bank").get(0)).bank);
+		t.startThread();*/
+		
+		PersonAgent p3 = new PersonAgent("p3",cityMap);
+		p3.myJob = new Job(new BankTellerRole("p3Teller"),0,0,100,cityMap.map.get("Bank").get(0),p3);
+		p3.startThread();
 		
 		
 		
@@ -132,11 +153,11 @@ public class CityObject implements ActionListener{
 	
 	
 	public void updateTime(){
-		System.out.println("CITY: Updating time");
+		/*System.out.println("CITY: Updating time");
 		currentTime = (currentTime++)%100;
 		for(PersonAgent p:people){
 			p.setTime(currentTime);
-		}
+		}*/
 		
 	}
 	

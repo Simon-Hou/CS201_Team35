@@ -71,7 +71,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
 		
 		//step 1 - call the teller schedule
-		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should have an empty log",customer.log.isEmpty());
@@ -119,7 +119,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
 		
 		//step 1 - call the teller schedule
-		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should have an empty log",customer.log.isEmpty());
@@ -183,7 +183,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
 		
 		//step 1 - call the teller schedule
-		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should have an empty log",customer.log.isEmpty());
@@ -248,7 +248,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
 		
 		//step 1 - call the teller schedule
-		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should have an empty log",customer.log.isEmpty());
@@ -315,7 +315,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
 		
 		//step 1 - call the teller schedule
-		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should have an empty log",customer.log.isEmpty());
@@ -380,7 +380,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
 		
 		//step 1 - call the teller schedule
-		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should have an empty log",customer.log.isEmpty());
@@ -448,7 +448,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
 		
 		//step 1 - call the teller schedule
-		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should have an empty log",customer.log.isEmpty());
@@ -553,7 +553,7 @@ public class BankTellerTest extends TestCase
 		assertTrue("Teller shouldn't be working yet",!teller.startedWorking);
 		
 		//step 1 - call the teller schedule
-		assertTrue("Teller should have acted",!teller.pickAndExecuteAnAction());
+		assertTrue("Teller should have acted",teller.pickAndExecuteAnAction());
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should have an empty log",customer.log.isEmpty());

@@ -15,6 +15,7 @@ import market.MarketCustomerRole;
 import role.Role;
 import util.Bank;
 import util.CityMap;
+import util.Job;
 import util.MarketMapLoc;
 import util.BankMapLoc;
 import util.Place;
@@ -40,6 +41,7 @@ public class PersonAgent extends Agent implements Person {
 		belongings = new Belongings();
 		myJob = new Job();
 		purse = new Purse();
+		bankRole = new BankCustomerRole(name+"Bank",this);
 	}
 	
 	//GETTERS
@@ -71,31 +73,13 @@ public class PersonAgent extends Agent implements Person {
 	public Role activeRole = null;
 	public Role nextRole = null;
 	public boolean wantsToBuyCar = false;
+	public BankCustomerRole bankRole;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
 	private Personality personality;
 	
-	public class Job {
-		
-		public Job(){
-			
-		}
-		
-		public Job(Role role,int location,int shiftStart,int shiftEnd,Place placeOfWork){
-			this.jobRole = role;
-			this.location = location;
-			this.shiftStart = shiftStart;
-			this.shiftEnd = shiftEnd;
-			this.placeOfWork = placeOfWork;
-		}
-		
-		public Role jobRole;
-		public Place placeOfWork;
-		public int location;
-		public int shiftStart;
-		public int shiftEnd;
-	}
+	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
 	
 	public class Belongings {
 		
@@ -175,6 +159,8 @@ public class PersonAgent extends Agent implements Person {
 			return activeRole.pickAndExecuteAnAction();
 		}
 		
+		Do("GOT HERE");
+		
 		if (nextRole != null) {
 			activeRole = nextRole;
 			nextRole = null;
@@ -243,6 +229,8 @@ public class PersonAgent extends Agent implements Person {
 		}
 		
 		activeRole = myJob.jobRole;
+		Do(""+ activeRole);
+		System.out.flush();
 	}
 	
 	private void goToBank() {
@@ -250,7 +238,7 @@ public class PersonAgent extends Agent implements Person {
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
 		
 		//Gets customerRole or creates customerRole
-		BankCustomerRole bankRole = null;
+		/*BankCustomerRole bankRole = null;
 		boolean containsRole = false;
 		for (Role r: roles) {
 			if (r instanceof BankCustomerRole) {
@@ -263,7 +251,9 @@ public class PersonAgent extends Agent implements Person {
 			bankRole = new BankCustomerRole(this.name,this);
 			activeRole = bankRole;
 			roles.add(activeRole);
-		}
+		}*/
+		
+		activeRole = bankRole;
 		
 		//open account
 		if(belongings.myAccounts.isEmpty()){
@@ -493,7 +483,8 @@ public class PersonAgent extends Agent implements Person {
 	//Utilities
 	
 	public void msgStateChanged() {
-		this.pickAndExecuteAnAction();
+		//this.pickAndExecuteAnAction();
+		this.stateChanged();
 	}
 	
 	public void addToWallet(int amount) {
