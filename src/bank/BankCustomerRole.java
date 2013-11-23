@@ -62,7 +62,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public BankTeller teller;
 	
 	public enum CustState {init,inBank,inLine,goingToWindow,beingServed,leaving};
-	public enum CustEvent {tellerReady,taskPending};
+	public enum CustEvent {tellerReady,taskPending,left};
 	
 	public CustState state = CustState.init;
 	public CustEvent event = null;
@@ -213,9 +213,11 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		//Task t = Tasks.get(0);
 		if(Tasks.isEmpty()){
 			Do("Finished what I needed done. I'm leaving");
+			state = CustState.leaving;
 			doLeaveBank();
 			teller.msgDoneAndLeaving();
-			state = CustState.leaving;
+			
+			event = CustEvent.left;
 			person.msgThisRoleDone(this);
 			return;
 		}
