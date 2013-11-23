@@ -3,6 +3,7 @@ package UnitTests.mock.busMock;
 import role.Role;
 import util.BusStop;
 import interfaces.Person;
+import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
 public class MockBusPerson extends Mock implements Person{
@@ -21,6 +22,9 @@ public class MockBusPerson extends Mock implements Person{
 	@Override
 	public void msgBusAtStop(BusStop stop) {
 		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("Told that the bus just arrived at stop with "
+				+ "location ("+stop.location.x+","+stop.location.y+")"));
 		
 	}
 

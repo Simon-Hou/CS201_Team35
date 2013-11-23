@@ -3,6 +3,7 @@ package util;
 import interfaces.Person;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BusStop {
@@ -17,7 +18,7 @@ public class BusStop {
 	}
 	
 	public Loc location = new Loc(-1000,-1000);
-	public List<Person> peopleWaiting = new ArrayList<Person>();
+	public List<Person> peopleWaiting = Collections.synchronizedList(new ArrayList<Person>());
 	
 	
 	public void waitForBus(Person p){
