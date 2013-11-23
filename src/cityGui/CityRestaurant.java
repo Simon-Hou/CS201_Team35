@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 public class CityRestaurant extends CityComponent {
 
-	private int buildingSize = 50;
+	private int buildingSize = 35;
 	public CityRestaurant(int x, int y) {
 		super(x, y, Color.red, "Restaurant 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);

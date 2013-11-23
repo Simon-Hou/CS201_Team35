@@ -23,18 +23,38 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		background = new Color(128, 64, 0);
 		this.addStatic(new CityRestaurant(30, 30));
 		this.addStatic(new CityRestaurant(60, 30, "Restaurant 2"));
-		for (int i = 120; i < 700; i += 280) {
+		for (int i = 80; i < 700; i += 360) {
 			this.addStatic(new CityRoad(i, RoadDirection.HORIZONTAL));
 			this.addStatic(new CityRoad(i, RoadDirection.VERTICAL));
 		}
-//		for (int i = 200; i < 800; i += 300) {
-//			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL));
-//			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL));
-//		}
-//		for (int i = 200; i < 800; i += 300) {
-//			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL));
-//			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL));
-//		}
+		for (int i = 40; i < 600; i += 480) {
+			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL,false));
+			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL,false));
+		}
+		for (int i = 160; i < 500; i += 240) {
+			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL,true));
+			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL,true));
+		}
+		for (int i = 120; i < 480; i += 30) {
+			if (i != 300) {
+				this.addStatic(new CityRoadLines(i, RoadDirection.HORIZONTAL,true));
+				this.addStatic(new CityRoadLines(i, RoadDirection.VERTICAL,true));
+				this.addStatic(new CityRoadLines(i, RoadDirection.HORIZONTAL,false));
+				this.addStatic(new CityRoadLines(i, RoadDirection.VERTICAL,false));
+			}
+		}
+		for (int i = 85; i < 160; i += 20) {
+			this.addStatic(new CityCrosswalk(i, RoadDirection.VERTICAL,true));
+		}
+		for (int i = 445; i < 520; i += 20 ) {
+			this.addStatic(new CityCrosswalk(i, RoadDirection.VERTICAL,false));
+		}
+		for (int i = 85; i < 160; i += 20) {
+			this.addStatic(new CityCrosswalk(i, RoadDirection.HORIZONTAL,true));
+		}
+		for (int i = 445; i < 520; i += 20) {
+			this.addStatic(new CityCrosswalk(i, RoadDirection.HORIZONTAL,false));
+		}
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
