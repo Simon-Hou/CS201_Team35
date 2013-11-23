@@ -19,7 +19,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//Constructor
 	
 	//quick and dirty
-	public BankCustomerRole(String name,PersonAgent p){
+	public BankCustomerRole(String name,Person p){
 		this.person = p;
 		this.name = name;
 		System.out.println(getName());
@@ -32,7 +32,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		bank = b;
 	}
 	
-	public void setPerson(PersonAgent p){
+	public void setPerson(Person p){
 		person = p;
 	}
 	
@@ -56,7 +56,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	public BankInterface bank;
 	
-	PersonAgent person;
+	Person person;
 	
 	
 	public BankTeller teller;
@@ -208,7 +208,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			doLeaveBank();
 			teller.msgDoneAndLeaving();
 			state = CustState.leaving;
-			person.msgThisRoleDone();
+			person.msgThisRoleDone(this);
 			return;
 		}
 		

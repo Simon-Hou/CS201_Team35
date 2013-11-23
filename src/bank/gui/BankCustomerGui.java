@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import bank.BankCustomerRole;
 
-public class BankCustomerGui {
+public class BankCustomerGui implements Gui{
 
 	private BankCustomerRole role = null;
 	private boolean isPresent = false;
@@ -36,7 +36,7 @@ public class BankCustomerGui {
 		//this.gui = gui;//TODO figure out the Gui!
 	}
 
-	public void updatePosition() {
+	public void updatePosition(int x, int y) {
 		if (xPos < xDestination)
 			xPos++;
 		else if (xPos > xDestination)

@@ -1,5 +1,7 @@
 package testAgents;
 
+import interfaces.Person;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ import bank.BankCustomerRole;
 //import bank.Person.Purse;
 import agent.Agent;
 
-public class testPerson extends Agent{
+public class testPerson extends Agent implements Person{
 	//Constructor
 	public testPerson(String name,CityMap cityMap){
 		this.name = name;

@@ -50,4 +50,10 @@ public class MockBankPerson extends Mock implements Person {
 		log.add(new LoggedEvent("My BankCustomerRole just finished"));
 	}
 
+	@Override
+	public void msgDoneEating() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

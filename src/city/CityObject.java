@@ -1,6 +1,12 @@
 package city;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+import person.PersonAgent;
 import market.Market;
 import market.MarketHostRole;
 import bank.BankTellerRole;
@@ -11,7 +17,7 @@ import util.CityMap;
 import util.MarketMapLoc;
 import util.Place;
 
-public class CityObject {
+public class CityObject implements ActionListener{
 
 	
 	
@@ -32,23 +38,18 @@ public class CityObject {
 	public final int numMarkets = 1;
 	public final int numRestaurants = 1;
 	
+	int currentTime;
+	static int TIMER_DELAY = 10000;
 	
-	/*class BankMapLoc extends Place{
-		public BankMapLoc(Bank bank){
-			this.bank = bank;
-		}
-		Bank bank;
-	}
 	
-	class MarketMapLoc extends Place{
-		
-	}
+	public List<PersonAgent> people = new ArrayList<PersonAgent>();
+	public final int NUM_PEOPLE = 3;
 	
-	class RestaurantMapLoc extends Place{
-		
-	}*/
 	
 	public CityObject(){
+		
+		Timer timer = new Timer(TIMER_DELAY, this);
+		timer.start();
 		
 		cityMap.map.put("Bank", new ArrayList<Place>());
 		cityMap.map.put("Market", new ArrayList<Place>());
@@ -94,17 +95,24 @@ public class CityObject {
 		t0.setBank(((BankMapLoc) cityMap.map.get("Bank").get(0)).bank);
 		t0.startThread();*/
 		
-		MarketHostRole h0 = new MarketHostRole();
+		/*MarketHostRole h0 = new MarketHostRole();
 		((MarketMapLoc) cityMap.map.get("Market").get(0)).market.host = h0;
-		h0.startThread();
+		h0.startThread();*/
+		
+		for(int i = 0;i<NUM_PEOPLE;++i){
+			PersonAgent p = new PersonAgent("p"+i,cityMap);
+			p.startThread();
+			people.add(p);
+			
+		}
 		
 		
 		
 		
-		testPerson p0 = new testPerson("p0",cityMap);
+		/*testPerson p0 = new testPerson("p0",cityMap);
 		p0.startThread();
 		
-		p0.msgGoToMarket();
+		p0.msgGoToMarket();*/
 		
 		
 		//======TRANSPORTATION======
@@ -113,6 +121,27 @@ public class CityObject {
 		
 	}
 		
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		updateTime();
+		
+	}
+	
+	
+	public void updateTime(){
+		System.out.println("CITY: Updating time");
+		currentTime = (currentTime++)%100;
+		for(PersonAgent p:people){
+			p.setTime(currentTime);
+		}
+		
+	}
+	
+	
+	
 	
 	public static void main(String [] args){
 		
@@ -120,4 +149,7 @@ public class CityObject {
 		
 		return;
 	}
+	
+	
+	
 }

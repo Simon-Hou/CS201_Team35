@@ -22,7 +22,7 @@ public class Bank implements BankInterface{
 	
 	int totalAmount = 1000000000;
 	
-	class BankAccount{
+	public class BankAccount{
 		public BankAccount(int amount,int accountNumber,String custName,String passWord){
 			this.amount = amount;
 			this.accountNumber = accountNumber;

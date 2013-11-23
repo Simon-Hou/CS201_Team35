@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import bank.BankCustomerRole;
+import bank.BankTellerRole;
 import market.Market;
 import market.MarketCustomerRole;
 import role.Role;
@@ -16,8 +17,10 @@ import util.Bank;
 import util.CityMap;
 import util.MarketMapLoc;
 import util.BankMapLoc;
+import util.Place;
 import util.Task;
 import util.deposit;
+import util.openAccount;
 import util.takeLoan;
 import util.withdrawal;
 import interfaces.Person;
@@ -38,6 +41,18 @@ public class PersonAgent extends Agent implements Person {
 		myJob = new Job();
 		purse = new Purse();
 	}
+	
+	//GETTERS
+	public String getName(){
+		return name;
+	}
+	
+	
+	//SETTERS
+	public void setTime(int time){
+		this.time = time;
+	}
+	
 	
 	//data
 	public List<Role> roles = new ArrayList<Role>();
@@ -62,7 +77,21 @@ public class PersonAgent extends Agent implements Person {
 	private Personality personality;
 	
 	public class Job {
+		
+		public Job(){
+			
+		}
+		
+		public Job(Role role,int location,int shiftStart,int shiftEnd,Place placeOfWork){
+			this.jobRole = role;
+			this.location = location;
+			this.shiftStart = shiftStart;
+			this.shiftEnd = shiftEnd;
+			this.placeOfWork = placeOfWork;
+		}
+		
 		public Role jobRole;
+		public Place placeOfWork;
 		public int location;
 		public int shiftStart;
 		public int shiftEnd;
@@ -150,11 +179,16 @@ public class PersonAgent extends Agent implements Person {
 			goToWork();
 			return true;
 		}		
-		
+
 		if (purse.wallet > 500 && wantsToBuyCar) {
 			buyCar();
 		}
-			
+
+		if(belongings.myAccounts.size()==0){
+			goToBank();
+			return true;
+		}
+
 		if ((purse.wallet <= 10 || purse.wallet >= 100) && !wantsToBuyCar) {
 			goToBank();
 			return true;
@@ -200,12 +234,17 @@ public class PersonAgent extends Agent implements Person {
 	//Actions
 	private void goToWork() {
 		Do("I am going to work");
-		//doGoToWork(myJob.location);
+		doGoToWork(myJob.location);
+		
+		if(this.myJob.jobRole instanceof BankTellerRole){
+			((BankMapLoc) myJob.placeOfWork).bank.startTellerShift(((BankTellerRole) myJob.jobRole));
+		}
+		
 		activeRole = myJob.jobRole;
 	}
 	
 	private void goToBank() {
-		//doGoToBank();
+
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
 		
 		//Gets customerRole or creates customerRole
@@ -222,6 +261,16 @@ public class PersonAgent extends Agent implements Person {
 			bankRole = new BankCustomerRole(this.name,this);
 			activeRole = bankRole;
 			roles.add(activeRole);
+		}
+		
+		//open account
+		if(belongings.myAccounts.isEmpty()){
+			Do("Going to bank to open new account");
+			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
+			doGoToBank();
+			bankRole.msgYouAreAtBank(b);
+			activeRole = bankRole;
+			return;
 		}
 		
 		//deposit
@@ -243,6 +292,7 @@ public class PersonAgent extends Agent implements Person {
 			bankRole.Tasks.add(new takeLoan(50 - getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
 		
+		doGoToBank();
 		bankRole.msgYouAreAtBank(b);
 		activeRole = bankRole;
 		
@@ -424,6 +474,20 @@ public class PersonAgent extends Agent implements Person {
 		p.maintenanceLevel = 0;
 	}
 	
+	//ANIMATION
+	
+	private void doGoToBank(){
+		
+	}
+	
+	private void doGoToWork(int loc){
+		
+	}
+	
+	
+	
+	
+	
 	//Utilities
 	
 	public void msgStateChanged() {
@@ -461,6 +525,8 @@ public class PersonAgent extends Agent implements Person {
 	public void msgThisRoleDone() {
 		activeRole = null;
 	}
+	
+	
 	
 	//Bank Utilities
 	
@@ -502,4 +568,9 @@ public class PersonAgent extends Agent implements Person {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+	
+	
 }
