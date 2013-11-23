@@ -79,6 +79,7 @@ public class BankTellerRole extends Role implements BankTeller{
 	//MSG
 	
 	public void msgStateChanged(){
+		stateChanged();
 		person.msgStateChanged();
 	}
 	
@@ -89,6 +90,7 @@ public class BankTellerRole extends Role implements BankTeller{
 	}
 	
 	public void msgDoneAndLeaving(){
+		Do("Customer just left");
 		currentCustomer = null;
 		person.msgStateChanged();
 		
@@ -103,15 +105,17 @@ public class BankTellerRole extends Role implements BankTeller{
 		if(!startedWorking){
 			Do("I'll start working.");
 			startedWorking = bank.startTellerShift(this);
-			return false;
+			return true;
 		}
 		
 		//if you don't have a customer, take one from the queue
 		if(currentCustomer == null){
 			Do("Need a new customer");
 			currentCustomer = bank.getCustomer();
+			//System.out.println(currentCustomer==null);
 			if(currentCustomer!=null){
 				Do("Sending "+ currentCustomer.getName()+" a message to start helping him");
+				System.out.flush();
 				currentCustomer.msgHowCanIHelpYou(this);
 				return true;
 			}
