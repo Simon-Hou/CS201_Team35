@@ -14,8 +14,8 @@ import java.util.List;
 public class ListPanel extends JPanel implements ActionListener{
 	public static final int xNameInputPref = 80;
 	public static final int yNameInputPref = 25;
-	public static final int xPanePref = 20;
-	public static final int yPanePref = 100;
+	public static final int xPanePref = 200;
+	public static final int yPanePref = (int)(BankGui.controlPanelHeight*.4);
 
 
 	public JScrollPane pane =
@@ -71,7 +71,7 @@ public class ListPanel extends JPanel implements ActionListener{
 	 *
 	 * @param name name of new person
 	 */
-	public void addListButton(String name, String type) {
+	public void addListButton(String name) {
 		if (name != null) {
 			JButton button = new JButton(name);
 			JPanel panel = new JPanel();
@@ -96,6 +96,7 @@ public class ListPanel extends JPanel implements ActionListener{
 
 			list.add(button);
 			view.add(button);
+			System.out.println("There should be a button here now");
 			//view.add(button);
 			validate();
 		}

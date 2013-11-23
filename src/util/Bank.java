@@ -29,10 +29,10 @@ public class Bank implements BankInterface{
 			this.custName = custName;
 			this.passWord = passWord;
 		}
-		int amount;
-		int accountNumber;
-		String custName;
-		String passWord;
+		public int amount;
+		public int accountNumber;
+		public String custName;
+		public String passWord;
 		List<loan> myLoans = new ArrayList<loan>();
 	}
 	

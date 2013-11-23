@@ -47,7 +47,9 @@ public class BankAnimationPanel extends JPanel implements ActionListener{
 		//Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, WINDOWX, WINDOWY );
-
+		g2.setColor(Color.ORANGE);
+        	//System.out.println(table.getTableNumber());
+        	g2.fillRect(100, 100, 200, 600);//200 and 250 need to be table params
 		//        //Here is the table//replace with what I want to draw.
 		//        g2.setColor(Color.ORANGE);
 		//        for (Table table : collTables)
@@ -80,6 +82,9 @@ public class BankAnimationPanel extends JPanel implements ActionListener{
 		guis.add(gui);
 	}
 
+	public void removeGui(Gui gui) {
+		guis.remove(gui);
+	}
 
 
 }
