@@ -112,7 +112,7 @@ public class BankTellerRole extends Role implements BankTeller{
 		if(currentCustomer == null){
 			Do("Need a new customer");
 			currentCustomer = bank.getCustomer();
-			System.out.println(currentCustomer==null);
+			//System.out.println(currentCustomer==null);
 			if(currentCustomer!=null){
 				Do("Sending "+ currentCustomer.getName()+" a message to start helping him");
 				System.out.flush();

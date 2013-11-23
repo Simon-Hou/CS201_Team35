@@ -159,17 +159,12 @@ public class PersonAgent extends Agent implements Person {
 			return activeRole.pickAndExecuteAnAction();
 		}
 		
-<<<<<<< HEAD
-		Do("GOT HERE");
-		
 		if (nextRole != null) {
 			activeRole = nextRole;
 			nextRole = null;
 			return true;
 		}
 		
-=======
->>>>>>> a6c2e034f5580c0f7f2554414031d94129044197
 		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
@@ -236,8 +231,8 @@ public class PersonAgent extends Agent implements Person {
 		}
 		
 		activeRole = myJob.jobRole;
-		Do(""+ activeRole);
-		System.out.flush();
+		//Do(""+ activeRole);
+		//System.out.flush();
 	}
 	
 	private void goToBank() {

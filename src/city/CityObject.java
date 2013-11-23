@@ -46,7 +46,7 @@ public class CityObject implements ActionListener{
 	
 	
 	public List<PersonAgent> people = new ArrayList<PersonAgent>();
-	public final int NUM_PEOPLE = 1;
+	public final int NUM_PEOPLE = 3;
 	
 	
 	public CityObject(){

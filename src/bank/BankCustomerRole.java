@@ -77,7 +77,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//MSG
 	
 	public void msgYouAreAtBank(Bank b){
-		System.out.println("YOU ARE AT BANK");
+		//System.out.println("YOU ARE AT BANK");
 		this.bank = b;
 		this.state = CustState.inBank;
 	}
@@ -151,10 +151,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//SCHED
 	
 	public boolean pickAndExecuteAnAction(){
-		Do("My state is: "+ state);
+		//Do("My state is: "+ state);
 		//if you're inBank, get in line
 		if(state == CustState.inBank){
-			Do("I'm calling that stupid fucking method again");
 			System.out.flush();
 			getInLine();
 			return true;
