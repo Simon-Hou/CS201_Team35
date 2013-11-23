@@ -17,6 +17,7 @@ import util.Bank;
 import util.BusStop;
 import util.CityMap;
 import util.Job;
+import util.Loc;
 import util.MarketMapLoc;
 import util.BankMapLoc;
 import util.Place;
@@ -148,6 +149,12 @@ public class PersonAgent extends Agent implements Person {
 	
 
 	//msg
+	
+	public void msgCarArrivedAtLoc(Loc destination){
+		//blah
+		//stateChanged();
+	}
+	
 	public void msgBusAtStop(BusStop stop){
 		//blah
 		//stateChanged();

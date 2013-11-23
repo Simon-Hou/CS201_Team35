@@ -12,7 +12,7 @@ import java.util.List;
 import javax.swing.Timer;
 
 
-public class Bus implements ActionListener{
+public class Bus extends Vehicle implements ActionListener{
 	
 	
 	//When this bus was designed, it was imagined to work (with the Person scheduler)
@@ -36,7 +36,7 @@ public class Bus implements ActionListener{
 	public List<BusStop> stops = new ArrayList<BusStop>();
 	public int currentStop = 0;
 	
-	public List<Person> passengers  = Collections.synchronizedList(new ArrayList<Person>());
+	
 	
 	
 	//SETTERS

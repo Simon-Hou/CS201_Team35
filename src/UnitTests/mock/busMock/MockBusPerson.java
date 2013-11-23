@@ -2,6 +2,7 @@ package UnitTests.mock.busMock;
 
 import role.Role;
 import util.BusStop;
+import util.Loc;
 import interfaces.Person;
 import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
@@ -73,6 +74,12 @@ public class MockBusPerson extends Mock implements Person{
 
 	@Override
 	public void msgDoneEating() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCarArrivedAtLoc(Loc destination) {
 		// TODO Auto-generated method stub
 		
 	}

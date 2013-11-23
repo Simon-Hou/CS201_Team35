@@ -3,6 +3,7 @@ package UnitTests.mock.bankMock;
 import interfaces.Person;
 import role.Role;
 import util.BusStop;
+import util.Loc;
 import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
@@ -59,6 +60,12 @@ public class MockBankPerson extends Mock implements Person {
 
 	@Override
 	public void msgBusAtStop(BusStop stop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCarArrivedAtLoc(Loc destination) {
 		// TODO Auto-generated method stub
 		
 	}
