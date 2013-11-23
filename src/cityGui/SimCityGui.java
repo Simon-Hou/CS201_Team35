@@ -7,12 +7,15 @@ import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 
+import person.PersonAgent;
+import util.CityMap;
+import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
 import cityGui.trace.TracePanel;
 
 public class SimCityGui extends JFrame {
 	
-	CityPanel city;
+	public CityPanel city;
 	InfoPanel info;
 	CityView view;
 	CityControlPanel CP;
@@ -67,6 +70,10 @@ public class SimCityGui extends JFrame {
 		test.setResizable(false);
 		test.pack();
 		test.setVisible(true);
+
+		PersonGui pg = new PersonGui(new PersonAgent("HEY",new CityMap()),test);
+		test.city.addMoving(pg);
+
 
 	}
 

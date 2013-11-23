@@ -10,10 +10,14 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import person.PersonAgent;
+import util.CityMap;
+import cityGui.test.PersonGui;
+
 public abstract class SimCityPanel extends JPanel implements ActionListener, MouseListener {
 
 	protected SimCityGui city;
-	protected ArrayList<CityComponent> statics, movings;
+	public ArrayList<CityComponent> statics, movings;
 	protected Color background;
 	protected Timer timer;
 	

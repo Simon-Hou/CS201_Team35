@@ -2,9 +2,15 @@ package cityGui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import person.PersonAgent;
+import util.CityMap;
+import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
 
@@ -20,7 +26,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		super(city);
 		this.setPreferredSize(new Dimension(CITY_WIDTH, CITY_HEIGHT));
 		this.setVisible(true);
-		background = new Color(128, 64, 0);
+		
+		background = new Color(0, 183, 96);
 		this.addStatic(new CityRestaurant(30, 30));
 		this.addStatic(new CityRestaurant(60, 30, "Restaurant 2"));
 		for (int i = 80; i < 700; i += 360) {
@@ -55,6 +62,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		for (int i = 445; i < 520; i += 20) {
 			this.addStatic(new CityCrosswalk(i, RoadDirection.HORIZONTAL,false));
 		}
+
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -122,5 +130,5 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			temp.setPosition(arg0.getPoint());
 		}
 	}
-	
+
 }
