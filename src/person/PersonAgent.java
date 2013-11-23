@@ -146,17 +146,15 @@ public class PersonAgent extends Agent implements Person {
 			return activeRole.pickAndExecuteAnAction();
 		}
 		
-		if (nextRole != null) {
-			activeRole = nextRole;
-			nextRole = null;
-			return true;
-		}
-		
 		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
-		}
+		}		
 		
+		if (purse.wallet > 500 && wantsToBuyCar) {
+			buyCar();
+		}
+			
 		if ((purse.wallet <= 10 || purse.wallet >= 100) && !wantsToBuyCar) {
 			goToBank();
 			return true;
