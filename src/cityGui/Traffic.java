@@ -1,3 +1,5 @@
+package cityGui;
+
 import javax.swing.*;
 
 import java.awt.*;
