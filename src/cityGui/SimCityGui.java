@@ -1,4 +1,4 @@
-package CityGui;
+package cityGui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -7,8 +7,8 @@ import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 
-import CityGui.trace.AlertLog;
-import CityGui.trace.TracePanel;
+import cityGui.trace.AlertLog;
+import cityGui.trace.TracePanel;
 
 public class SimCityGui extends JFrame {
 	

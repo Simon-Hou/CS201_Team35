@@ -1,4 +1,4 @@
-package CityGui.trace;
+package cityGui.trace;
 
 /**
  * These enums represent tags that group alerts together.  <br><br>

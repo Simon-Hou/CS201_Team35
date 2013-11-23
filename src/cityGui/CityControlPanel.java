@@ -1,4 +1,4 @@
-package CityGui;
+package cityGui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import CityGui.trace.AlertLevel;
-import CityGui.trace.AlertLog;
-import CityGui.trace.AlertTag;
+import cityGui.trace.AlertLevel;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 
 public class CityControlPanel extends JPanel implements ActionListener{
 

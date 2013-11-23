@@ -1,4 +1,4 @@
-package CityGui;
+package cityGui;
 
 import java.awt.Color;
 import java.awt.Dimension;

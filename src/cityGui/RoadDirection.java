@@ -1,4 +1,4 @@
-package CityGui;
+package cityGui;
 
 public enum RoadDirection {
 	HORIZONTAL,

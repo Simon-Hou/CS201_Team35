@@ -1,4 +1,4 @@
-package CityGui.trace;
+package cityGui.trace;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

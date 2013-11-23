@@ -1,12 +1,12 @@
-package CityGui;
+package cityGui;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-import CityGui.trace.AlertLog;
-import CityGui.trace.AlertTag;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 
 public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
@@ -23,14 +23,18 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		background = new Color(128, 64, 0);
 		this.addStatic(new CityRestaurant(30, 30));
 		this.addStatic(new CityRestaurant(60, 30, "Restaurant 2"));
-		for (int i = 100; i < 700; i += 300) {
+		for (int i = 120; i < 700; i += 280) {
 			this.addStatic(new CityRoad(i, RoadDirection.HORIZONTAL));
 			this.addStatic(new CityRoad(i, RoadDirection.VERTICAL));
 		}
-		for (int i = 200; i < 800; i += 300) {
-			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL));
-			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL));
-		}
+//		for (int i = 200; i < 800; i += 300) {
+//			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL));
+//			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL));
+//		}
+//		for (int i = 200; i < 800; i += 300) {
+//			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL));
+//			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL));
+//		}
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}

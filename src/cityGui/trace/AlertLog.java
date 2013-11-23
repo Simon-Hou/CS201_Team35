@@ -1,4 +1,4 @@
-package CityGui.trace;
+package cityGui.trace;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package CityGui;
+package cityGui;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,9 +12,9 @@ public class CityRoad extends CityComponent {
 		super(x, 0, Color.DARK_GRAY, "Road");
 		this.direction = direction;
 		if (direction == RoadDirection.HORIZONTAL)
-			rectangle = new Rectangle(80, x, 400, 80);
+			rectangle = new Rectangle(120, x, 300, 120);
 		else
-			rectangle = new Rectangle(x, 80, 80, 400);
+			rectangle = new Rectangle(x, 120, 120, 300);
 	}
 
 	public CityRoad(int x, RoadDirection direction, String I) {
