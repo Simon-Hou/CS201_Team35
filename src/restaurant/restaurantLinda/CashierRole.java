@@ -1,4 +1,4 @@
-package restaurantLinda;
+package restaurant.restaurantLinda;
 
 import UnitTests.mock.EventLog;
 import UnitTests.mock.LoggedEvent;

@@ -1,7 +1,7 @@
-package restaurantLinda.gui;
+package restaurant.restaurantLinda.gui;
 
-import restaurantLinda.CookAgent;
-import restaurantLinda.WaiterRole;
+import restaurant.restaurantLinda.CookAgent;
+import restaurant.restaurantLinda.WaiterRole;
 
 import java.awt.*;
 import java.io.File;

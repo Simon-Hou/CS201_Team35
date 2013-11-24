@@ -1,6 +1,6 @@
-package restaurantLinda.gui;
+package restaurant.restaurantLinda.gui;
 
-import restaurantLinda.WaiterRole;
+import restaurant.restaurantLinda.WaiterRole;
 
 import java.awt.*;
 import java.io.File;
@@ -152,13 +152,15 @@ public class WaiterGui extends GuiPerson {
 
     public void updatePosition() {
     	
-    	if (destination!=goal.none && moveAndCheckDestination())		//Gui has an actual destination that agent wants to be notified about
+    	if (moveAndCheckDestination())		//Gui has an actual destination that agent wants to be notified about
         {        	
-    		path = null;
-    		xDestination = xfinal;
-    		yDestination = yfinal;
-    		destination=goal.none;
-            agent.msgAtDestination();
+    		if (destination!=goal.none){
+	    		path = null;
+	    		xDestination = xfinal;
+	    		yDestination = yfinal;
+	    		destination=goal.none;
+	            agent.msgAtDestination();
+    		}
         }
     	
     	synchronized(carriedItems){

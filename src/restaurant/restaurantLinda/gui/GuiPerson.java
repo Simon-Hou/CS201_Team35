@@ -1,4 +1,4 @@
-package restaurantLinda.gui;
+package restaurant.restaurantLinda.gui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import restaurantLinda.gui.AnimationPanel;
-import restaurantLinda.gui.MyImage;
-import restaurantLinda.gui.RestaurantGui;
-import restaurantLinda.gui.RestaurantPanel;
+import restaurant.restaurantLinda.gui.AnimationPanel;
+import restaurant.restaurantLinda.gui.MyImage;
+import restaurant.restaurantLinda.gui.RestaurantGui;
+import restaurant.restaurantLinda.gui.RestaurantPanel;
 import astar.AStarNode;
 import astar.AStarTraversal;
 import astar.Position;

@@ -1,4 +1,4 @@
-package restaurantLinda;
+package restaurant.restaurantLinda;
 
 import java.util.HashMap;
 import java.util.List;

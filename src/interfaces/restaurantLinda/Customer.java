@@ -1,8 +1,8 @@
 package interfaces.restaurantLinda;
 
-import restaurantLinda.Check;
-import restaurantLinda.Menu;
-import restaurantLinda.gui.CustomerGui;
+import restaurant.restaurantLinda.Check;
+import restaurant.restaurantLinda.Menu;
+import restaurant.restaurantLinda.gui.CustomerGui;
 
 public interface Customer {
 	

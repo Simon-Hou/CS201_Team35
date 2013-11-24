@@ -1,7 +1,7 @@
-package restaurantLinda.gui;
+package restaurant.restaurantLinda.gui;
 
-import restaurantLinda.CustomerRole;
-import restaurantLinda.WaiterRole;
+import restaurant.restaurantLinda.CustomerRole;
+import restaurant.restaurantLinda.WaiterRole;
 
 import javax.swing.*;
 
