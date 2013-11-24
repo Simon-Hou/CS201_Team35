@@ -45,7 +45,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         
         
        
-        Dimension paneSize = new Dimension (500,300);
+        Dimension paneSize = new Dimension (400,200);
         pane.setPreferredSize(paneSize);
         pane.setMinimumSize(paneSize);
         pane.setMaximumSize(paneSize);
@@ -74,6 +74,10 @@ public class MarketPanel extends JPanel implements ActionListener{
 		
 	}
 	
+	
+	public void conformSize(){
+		
+	}
 	
 	public void actionPerformed(ActionEvent e) {
 		System.err.println("Something was pressed.");
