@@ -17,7 +17,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	List<CustomerOrder> customerOrders = Collections.synchronizedList(new ArrayList<CustomerOrder>());
 	List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
 	List<BusinessOrder> deliveryList = new ArrayList<BusinessOrder>();
-	Person p;
+	PersonAgent p;
 	String name;
 	
 	//SETTERS
@@ -32,7 +32,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	
 	//constructor
-	public MarketEmployeeRole(Person p){
+	public MarketEmployeeRole(String name, PersonAgent p){
+		this.name = name;
 		this.p = p;
 	}
 	

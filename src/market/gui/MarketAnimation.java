@@ -36,7 +36,7 @@ public class MarketAnimation extends JPanel implements ActionListener {
 
     private List<Gui> guis = new ArrayList<Gui>();
     
-    private boolean doorOpen = true;
+    private boolean doorOpen = false;
     private int paintCount = 0;
     private int doorCount = 0;
 
@@ -117,6 +117,14 @@ public class MarketAnimation extends JPanel implements ActionListener {
 	        paint.fillRect(38, 70, 19, 60);
 	        //PICKUP DESK
 	        paint.fillRect(panelX/2-30, barrierY - 7, 60, 19);
+	        
+	        //CASHIER
+	        paint.setColor(Color.PINK);
+	        paint.fillRect(10, 90, 20, 20);
+	        
+	        //HOST
+	        paint.setColor(Color.MAGENTA);
+	        paint.fillRect(panelX - 30, 90, 20, 20);
 	        
 	        //LABELS
 	        paint.setColor(Color.BLACK);

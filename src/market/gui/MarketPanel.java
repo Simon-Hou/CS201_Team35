@@ -1,6 +1,11 @@
 package market.gui;
 
 import java.awt.Color;
+
+import market.*;
+import person.*;
+import util.CityMap;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -32,23 +37,31 @@ public class MarketPanel extends JPanel implements ActionListener{
     
     private JButton startButton = new JButton("Enter");
 	
+    
+    
+    //AGENTS
+    CityMap map = new CityMap();
+    
+    private MarketCustomerRole customer;
+    private MarketCashierRole cashier;
+    private MarketHostRole host;
+    private MarketEmployeeRole employee;
+    private MarketDeliveryManRole deliveryMan;
+    
+    
+    
 	public MarketPanel(){
 		
+		
+		//-----------------------CONTROLS---------------------------
         setLayout(new FlowLayout());
 		add(title);
 		
 		view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
 		pane.setViewportView(view);
         add(pane);
-		
-        //^^^^^^^^^^  good. now to add the button. make new class that has (-, name, invent, +)
-       
-      
-       // button1.setBackground(Color.white);
-   //button1.setForeground(Color.white);
-        
-        
-       
+	
+         
         Dimension paneSize = new Dimension (400,200);
         pane.setPreferredSize(paneSize);
         pane.setMinimumSize(paneSize);
@@ -76,20 +89,43 @@ public class MarketPanel extends JPanel implements ActionListener{
          startButton.addActionListener(this);
          add(startButton);
          
-		
+         
+         //--------------------AGENT/GUI TESTING SETUP----------------------
+
+         PersonAgent p1 = new PersonAgent("host", map);
+         host = new MarketHostRole("host", p1);
+         host.startThread();
+        
+         PersonAgent p2 = new PersonAgent("employee", map);
+         employee = new MarketEmployeeRole("employee", p2);
+         employee.startThread();
+        
+         PersonAgent p3 = new PersonAgent("cashier", map);
+         cashier = new MarketCashierRole("cashier", p3);
+         cashier.startThread();
+         
+         PersonAgent p4 = new PersonAgent("delivery man", map);
+         deliveryMan = new MarketDeliveryManRole("delivery man", p3);
+         deliveryMan.startThread();
+         
+       //set contacts for all
+         
+         //employee:
+         //make guis(role)
+         //set roles guis
+         //add gui to animation panel
 	}
 	
 	
-	public void conformSize(){
-		
-	}
+
 	
 	public void actionPerformed(ActionEvent e) {
 		System.err.println("Something was pressed.");
 		
 		if (e.getSource() == startButton){
 			System.out.println("A customer has entered the market");
-			animation.enterCustomer();
+			addCustomer();
+			
 		}
 		
 		for (InventoryItem item : inventoryList){
@@ -107,6 +143,15 @@ public class MarketPanel extends JPanel implements ActionListener{
 		
 	}
 
+	private void addCustomer(){
+		
+        PersonAgent p1 = new PersonAgent("Customer", map);
+       customer = new MarketCustomerRole("Customer", p1);
+       customer.startThread();
+       
+       animation.enterCustomer();
+	}
+	
 	//Utilities
 	
 	private class InventoryItem extends JPanel{

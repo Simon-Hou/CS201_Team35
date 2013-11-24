@@ -45,7 +45,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.cashier = m.cashier;
 	}
 	
+
 	public MarketCustomerRole(String name, PersonAgent p){
+		
 		this.name = name;
 		this.p = p;
 	}
