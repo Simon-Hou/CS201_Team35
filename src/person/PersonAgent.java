@@ -45,6 +45,7 @@ public class PersonAgent extends Agent implements Person {
 		purse = new Purse();
 		bankRole = new BankCustomerRole(name+"Bank",this);
 		marketRole = new MarketCustomerRole(name+"Market",this);
+		inhabitantRole = new InhabitantRole(name+"Home",this);
 	}
 	
 	//GETTERS
@@ -68,6 +69,7 @@ public class PersonAgent extends Agent implements Person {
 	//Time time;
 	public int hungerLevel = 0;
 	public int tiredLevel = 0;
+	public int myBank = 0;
 	public int personalAddress;
 	public Purse purse;
 	public Belongings belongings;
@@ -78,6 +80,7 @@ public class PersonAgent extends Agent implements Person {
 	public boolean wantsToBuyCar = false;
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
+	public InhabitantRole inhabitantRole;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
@@ -359,7 +362,7 @@ public class PersonAgent extends Agent implements Person {
 		if (!belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at home");
 			//goHome();
-			InhabitantRole inhabitantRole;
+			/*InhabitantRole inhabitantRole;
 			
 			//Gets inhabitantRole or creates inhabitantRole
 			boolean containsRole = false;
@@ -378,7 +381,8 @@ public class PersonAgent extends Agent implements Person {
 				roles.add(activeRole);	
 				//inhabitantRole.msgYouAreAtHome();
 				activeRole = inhabitantRole;
-			}
+			}*/
+			activeRole = inhabitantRole;
 		}
 		else if(belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at a restaurant");
@@ -388,7 +392,7 @@ public class PersonAgent extends Agent implements Person {
 	private void getSleep() {
 		Do("I am going home to sleep");
 		//doGoToHome();
-		InhabitantRole inhabitantRole;
+		/*InhabitantRole inhabitantRole;
 		
 		//Gets inhabitantRole or creates inhabitantRole
 		boolean containsRole = false;
@@ -407,7 +411,8 @@ public class PersonAgent extends Agent implements Person {
 			roles.add(activeRole);	
 			//inhabitantRole.msgYouAreAtHome();
 			activeRole = inhabitantRole;
-		}
+		}*/
+		activeRole = inhabitantRole;
 	}
 	
 	private void goToRestaurant() {
@@ -416,11 +421,11 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void buyCar() {
-		MarketCustomerRole marketRole = null;
+		//MarketCustomerRole marketRole = null;
 		if (purse.wallet < 500) {
 			Do("I am going to get money from the bank and then I'm going to buy a car");
 			//doGoToBank();
-			BankCustomerRole bankRole;
+			/*BankCustomerRole bankRole;
 			
 			//Gets customerRole or creates customerRole
 			boolean containsRole = false;
@@ -438,11 +443,11 @@ public class PersonAgent extends Agent implements Person {
 				bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
 				activeRole = bankRole;
 				roles.add(activeRole);
-			}
+			}*/
 			wantsToBuyCar = true;
 			
 			//Gets customerRole or creates customerRole
-			boolean containsRole2 = false;
+			/*boolean containsRole2 = false;
 			for (Role r: roles) {
 				if (r instanceof MarketCustomerRole) {
 					nextRole = r;
@@ -454,14 +459,18 @@ public class PersonAgent extends Agent implements Person {
 				marketRole = new MarketCustomerRole(this.name,this);
 				activeRole = marketRole;
 				roles.add(activeRole);
-			}
+			}*/
+			doGoToBank();
+			bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
+			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Market").get(myBank)).bank);
+			activeRole = bankRole;
 		}
 		else {
 			Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
 			Do("I am going to buy a car from the market");
 			
 			//Gets customerRole or creates customerRole
-			boolean containsRole = false;
+			/*boolean containsRole = false;
 			for (Role r: roles) {
 				if (r instanceof MarketCustomerRole) {
 					activeRole = r;
@@ -474,14 +483,15 @@ public class PersonAgent extends Agent implements Person {
 				marketRole.msgYouAreAtMarket(m);
 				activeRole = marketRole;
 				roles.add(activeRole);
-			}
+			}*/
+			
 			marketRole.msgYouAreAtMarket(m);
 			activeRole = marketRole;
 		}
 	}
 	
 	private void goDoMaintenance(Property p) {
-		InhabitantRole inhabitantRole;
+		/*InhabitantRole inhabitantRole;
 		
 		//Gets inhabitantRole or creates inhabitantRole
 		boolean containsRole = false;
@@ -500,7 +510,8 @@ public class PersonAgent extends Agent implements Person {
 			roles.add(activeRole);	
 			//inhabitantRole.msgYouAreAtHome();
 			activeRole = inhabitantRole;
-		}
+		}*/
+		activeRole = inhabitantRole;
 		p.maintenanceLevel = 0;
 	}
 	
