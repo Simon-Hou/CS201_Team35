@@ -21,7 +21,7 @@ public class Job {
 		this.jobType = jt;
 		if(jobRole instanceof BankTellerRole){
 			((BankTellerRole) jobRole).setPerson(person);
-			((BankTellerRole) jobRole).setBank(((BankMapLoc) placeOfWork).bank);
+			((BankTellerRole) jobRole).setBank((Bank) placeOfWork);
 		}
 		
 	}
