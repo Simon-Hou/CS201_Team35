@@ -1,12 +1,14 @@
 package restaurant.restaurantLinda.gui;
 
+import restaurant.ProducerConsumerMonitor;
 import restaurant.restaurantLinda.CashierRole;
-import restaurant.restaurantLinda.CookAgent;
+import restaurant.restaurantLinda.CookRole;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.HostRole;
 import restaurant.restaurantLinda.MarketRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
 import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
+import restaurant.restaurantLinda.RestaurantOrder;
 import restaurant.restaurantLinda.WaiterRole;
 
 import javax.swing.*;
@@ -33,10 +35,12 @@ public class RestaurantPanel extends JPanel {
     static int gridY = AnimationPanel.WINDOWY/cellSize;
     //Create grid for AStar
     Semaphore[][] grid = new Semaphore[gridX][gridY];
-	
+
+    ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
+    
     //Host, cook, waiters and customers
     private HostRole host = new HostRole("Sarah");
-	private CookAgent cook = new CookAgent("Cook");
+	private CookRole cook;
 	private CashierRole cashier = new CashierRole("Cashier");
     private Vector<CustomerRole> customers = new Vector<CustomerRole>();
     private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
@@ -52,9 +56,9 @@ public class RestaurantPanel extends JPanel {
 
     public RestaurantPanel(RestaurantGui gui) {
     	
-    	
         this.gui = gui;
         
+        cook = new CookRole("Cook", orderMonitor);
         CookGui cg = new CookGui(cook);
         cg.setPlates(gui.animationPanel.platedFoods);
         gui.animationPanel.addGui(cg);
@@ -189,7 +193,7 @@ public class RestaurantPanel extends JPanel {
     	else if (type.equals("Waiters")){
     		WaiterRole w; 
     		if (name.contains("producerConsumer"))
-    				w= new ProducerConsumerWaiterRole(name,host,cook,cashier);
+    				w= new ProducerConsumerWaiterRole(name,host,cook,cashier, orderMonitor);
     		else
     			w= new OriginalWaiterRole(name,host,cook,cashier);
     		WaiterGui wg = new WaiterGui(w,gui, waiters.size(), new AStarTraversal(grid));

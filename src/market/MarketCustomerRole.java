@@ -15,7 +15,7 @@ import role.Role;
 import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-	PersonAgent p;
+	Person p;
 	RoleState state;
 	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
 	RoleEvent event;
@@ -32,19 +32,17 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
 	
-	
-	
 
-	public MarketCustomerRole(String name, PersonAgent p){
-		
+	public MarketCustomerRole(String name, Person p){		
 		this.name = name;
 		this.p = p;
 	}
 	
-	public void msgHereAreItems(Map<String, Integer> groceries){
+	public void msgHereAreItems(Map<String, Integer> groceries, MarketCashier cashier){
 		Do("Got my MARKET items");
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
+	    this.cashier = cashier;
 	    p.msgStateChanged();
 	}
 
@@ -80,10 +78,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		p.msgStateChanged();
 	}
 	
-	public void msgYouAreAtMarket(Market m){
+	public void msgYouAreAtMarket(MarketHost host){
 		Do("I'm at the market.");
-		host = m.host;
-		cashier = m.cashier;
+		this.host = host;
 		state = RoleState.JustEnteredMarket;
 		p.msgStateChanged();
 	}
@@ -149,19 +146,19 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void GoPay(){
 	    //DoGoToCashier();
-	    cashier.msgPleaseServiceCustomer(this, groceries);
+	    cashier.msgServiceCustomer(this, groceries);
 	}
 
 	private void MakePayment(){                //Right now markets letting customer do an IOU
 	    
 		Do("Making payments");
 		int payment;
-	    if (p.purse.wallet>=bill)
+	    if (p.getWalletAmount()>=bill)
 	        payment = bill;
 	    else
-	        payment = p.purse.wallet;
+	        payment = p.getWalletAmount();
 
-	    p.purse.wallet -= payment;
+	    p.takeFromWallet(payment);
 	    cashier.msgCustomerPayment(this, payment);    
 	}
 

@@ -1,6 +1,8 @@
 package UnitTests.mock.restaurantLindaMock;
 
 
+import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.Mock;
 import restaurant.restaurantLinda.*;
 import restaurant.restaurantLinda.gui.CustomerGui;
 import interfaces.restaurantLinda.*;
@@ -27,7 +29,7 @@ public class MockCustomer extends Mock implements Customer {
 		public void msgRestaurantFull() {
 			log.add(new LoggedEvent("Received message from host that restaurant is full"));
 			
-			if (name.contains("wait")){
+			if (this.toString().contains("wait")){
 				host.msgIWillWait(this, true);
 			}
 			else{

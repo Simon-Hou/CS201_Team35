@@ -10,7 +10,9 @@ import market.MarketCustomerRole;
 import role.Role;
 import util.Bank;
 import util.BankMapLoc;
+import util.BusStop;
 import util.CityMap;
+import util.Loc;
 import util.MarketMapLoc;
 //import market.MarketCustomerRole;
 import bank.BankCustomerRole;
@@ -153,6 +155,36 @@ public class testPerson extends Agent implements Person{
 	}
 	
 	public void addLoan(int accountNumber,int cash, int loanNumber){
+		
+	}
+
+	@Override
+	public void msgBusAtStop(BusStop stop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCarArrivedAtLoc(Loc destination) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addToWallet(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void takeFromWallet(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgDoneEating() {
+		// TODO Auto-generated method stub
 		
 	}
 	

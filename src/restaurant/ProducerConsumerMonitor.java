@@ -6,42 +6,48 @@ package restaurant;
  
 import java.util.Vector;
  
-class ProducerConsumerMonitor<T> extends Object {
-	private final int N = 5;
+public class ProducerConsumerMonitor<T> extends Object {
 	private int count = 0;
-	private Vector theData;
+	private Vector<T> theData;
 	
 	synchronized public void insert(T data) {
-		while (count == N) {
-			try{
-				System.out.println("\tFull, waiting");
-				wait(5000); // Full, wait to add
-			} catch (InterruptedException ex) {};
-		}
+		//Don't think we need this, since it's assumed the order stand should never fill up?
+		//while (count == N) {
+		//	try{
+		//		System.out.println("\tFull, waiting");
+		//		wait(5000); // Full, wait to add
+		//	} catch (InterruptedException ex) {};
+		//}
 		insert_item(data);
 		count++;
 		if(count == 1) {
-			System.out.println("\tNot Empty, notify");
-			notify(); // Not empty, notify a
+			//System.out.println("\tNot Empty, notify");
+			//notify(); // Not empty, notify a
 			// waiting consumer
 		}
 	}
 	synchronized public T remove() {
 		T data;
-		while(count == 0)
-			try{
-				System.out.println("\tEmpty, waiting");
-				wait(5000); // Empty, wait to consume
-			} catch (InterruptedException ex) {};
+		//while(count == 0)
+			//try{
+			//	System.out.println("\tEmpty, waiting");
+			//	wait(5000); // Empty, wait to consume
+			//} catch (InterruptedException ex) {};
+		
+		if (count==0){
+			System.out.println("nothing for consumer to remove");
+			return null;
+		}
 
-			data = remove_item();
-			count--;
-			if(count == N-1){
-				System.out.println("\tNot full, notify");
-				notify(); // Not full, notify a
-				// waiting producer
-			}
-			return data;
+		data = remove_item();
+		count--;
+			
+			//Probably also unneccessary, because we don't need the stand to be full either
+			//if(count == N-1){
+			//	System.out.println("\tNot full, notify");
+			//	notify(); // Not full, notify a waiting producer
+			//}
+		return data;
 	}
 	private void insert_item(T data){
 		theData.addElement(data);
@@ -52,6 +58,9 @@ class ProducerConsumerMonitor<T> extends Object {
 		return data;
 	}
 	public ProducerConsumerMonitor(){
-		theData = new Vector();
+		theData = new Vector<T>();
+	}
+	public boolean isEmpty(){
+		return count==0;
 	}
 }

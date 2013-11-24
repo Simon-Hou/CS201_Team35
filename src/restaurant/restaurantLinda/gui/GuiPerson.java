@@ -136,7 +136,6 @@ public abstract class GuiPerson implements Gui{
     		to.release(aStar.getGrid());
     	
     	//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
-    	System.out.println("destination = " + to);
     	System.gc();
     	
     	AStarNode aStarNode = (AStarNode)aStar.generalSearch(previousPosition, to);
@@ -163,7 +162,7 @@ public abstract class GuiPerson implements Gui{
     	else
     		yDestination = (currentPosition.getY()+1)*cellSize - personSize;
     	
-    	System.out.println("new path: " + path + ", finalDestination: " + xfinal + " " + yfinal);
+    	//System.out.println("new path: " + path + ", finalDestination: " + xfinal + " " + yfinal);
     	
     	
     }

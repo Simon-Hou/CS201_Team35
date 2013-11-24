@@ -618,6 +618,10 @@ public class PersonAgent extends Agent implements Person {
 		this.purse.wallet -= amount;
 	}
 	
+	public int getWalletAmount(){
+		return purse.wallet;
+	}
+	
 	public int getMoneyInBank() {
 		int totalMoney = 0;
 		for (BankAccount account: belongings.myAccounts) {
