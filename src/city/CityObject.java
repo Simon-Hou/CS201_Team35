@@ -19,6 +19,7 @@ import util.Bank;
 import util.BankMapLoc;
 import util.CityMap;
 import util.Job;
+import util.JobType;
 import util.MarketMapLoc;
 import util.Place;
 
@@ -42,6 +43,9 @@ public class CityObject implements ActionListener{
 	public final int numBanks = 1;
 	public final int numMarkets = 1;
 	public final int numRestaurants = 1;
+	
+	List<BankMapLoc> banks = new ArrayList<BankMapLoc>();
+	List<MarketMapLoc> markets = new ArrayList<MarketMapLoc>();
 	
 	int currentTime = 0;
 	static int TIMER_DELAY = 3000;
@@ -72,6 +76,7 @@ public class CityObject implements ActionListener{
 			Bank b = new Bank();
 			BankMapLoc bMap = new BankMapLoc(b);
 			cityMap.map.get("Bank").add(bMap);
+			banks.add(bMap);
 		}
 		
 		
@@ -84,6 +89,7 @@ public class CityObject implements ActionListener{
 			m.host = new MarketHostRole(null,null);
 			MarketMapLoc mMap = new MarketMapLoc(m);
 			cityMap.map.get("Market").add(mMap);
+			markets.add(mMap);
 		}
 		
 		
@@ -113,11 +119,12 @@ public class CityObject implements ActionListener{
 			people.add(p);
 			
 		}
-		people.get(0).myJob = new Job(new BankTellerRole("p0Teller"),0,1,10,cityMap.map.get("Bank").get(0),people.get(0));
-		
+		//people.get(0).myJob = new Job(new BankTellerRole("p0Teller"),0,1,10,cityMap.map.get("Bank").get(0),people.get(0));
+		people.get(0).setJob(banks.get(0).bank, JobType.BankTeller,1,10);
 		
 		PersonAgent p3 = new PersonAgent("p3",cityMap);
-		p3.myJob = new Job(new BankTellerRole("p3Teller"),0,0,1,cityMap.map.get("Bank").get(0),p3);
+		//p3.myJob = new Job(new BankTellerRole("p3Teller"),0,0,1,cityMap.map.get("Bank").get(0),p3);
+		p3.setJob(banks.get(0).bank, JobType.BankTeller, 0, 1);
 		p3.startThread();
 		people.add(p3);
 		
@@ -129,17 +136,17 @@ public class CityObject implements ActionListener{
 		people.add(p4);
 		
 		PersonAgent p5 = new PersonAgent("p5",cityMap);
-		p5.activeRole = new MarketEmployeeRole(p5);
+		p5.activeRole = new MarketEmployeeRole("p5MarketEmployee",p5);
 		((MarketHostRole) p4.activeRole).addEmployee(((MarketEmployeeRole)p5.activeRole));
-		p5.activeRole.setName("p5MarketEmployee");
+		//p5.activeRole.setName("p5MarketEmployee");
 		p5.startThread();
 		people.add(p5);
 		
 		PersonAgent p6 = new PersonAgent("p6",cityMap);
-		MarketCashierRole r = new MarketCashierRole(p6);
+		MarketCashierRole r = new MarketCashierRole("p6MarketCashier",p6);
 		((MarketMapLoc) cityMap.map.get("Market").get(0)).market.cashier = r;
 		p6.activeRole = (Role) r;
-		p6.activeRole.setName("p6MarketCashier");
+		//p6.activeRole.setName("p6MarketCashier");
 		p6.startThread();
 		people.add(p6);
 		

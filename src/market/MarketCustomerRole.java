@@ -85,7 +85,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		host = m.host;
 		cashier = m.cashier;
 		state = RoleState.JustEnteredMarket;
-		StateChanged();
+		p.msgStateChanged();
 	}
 	
 	//from animation
@@ -129,8 +129,13 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//Actions
 	private void MakeOrder(){
+		if(gui!=null){
+			gui.DoGoToHost();
+		}
+		else{
+			atDestination.release();
+		}
 		
-		gui.DoGoToHost();
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {

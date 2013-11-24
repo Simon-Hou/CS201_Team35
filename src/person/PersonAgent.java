@@ -177,7 +177,7 @@ public class PersonAgent extends Agent implements Person {
 	//Scheduler
 	 public boolean pickAndExecuteAnAction() {
 		//Do("Deciding what to do - "+ time);
-		// Do("Role: "+activeRole);
+		//Do("Role: "+activeRole);
 		if (activeRole != null) {
 			activeRoleCalls++;
 			
@@ -594,6 +594,7 @@ public class PersonAgent extends Agent implements Person {
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 		}
 		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
+		
 		
 	}
 	
