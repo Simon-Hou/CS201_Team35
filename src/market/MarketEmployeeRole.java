@@ -22,7 +22,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
 	List<BusinessOrder> deliveryList = new ArrayList<BusinessOrder>();
 	PersonAgent p;
-	String name;
+	public String name;
 	
 	List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
 	MarketCashier cashier; 

@@ -143,9 +143,9 @@ public class Bank implements BankInterface, PlaceOfWork{
 
 
 	@Override
-	public Role canIStartWorking(Person p,Role r) {
+	public Role canIStartWorking(Person p,JobType jobType,Role r) {
 		// TODO Auto-generated method stub
-		if(r instanceof BankTeller){
+		if(jobType == JobType.BankTeller){
 			if(startTellerShift((BankTeller) r)){
 				return r;
 			}

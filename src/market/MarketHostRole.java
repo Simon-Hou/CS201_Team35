@@ -26,7 +26,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
 	public PersonAgent p;
-	String name;
+	public String name;
 	
 	//SETTERS
 	public void setName(String name){

@@ -28,4 +28,6 @@ public interface Person {
 
 	public abstract void msgDoneEating();
 	
+	public abstract String getName();
+	
 }

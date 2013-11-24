@@ -27,7 +27,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	Market market;
 	MarketHost host;
 	MarketCashier cashier;
-	String name;
+	public String name;
 	
 	MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);

@@ -17,6 +17,7 @@ import util.Bank;
 import util.BusStop;
 import util.CityMap;
 import util.Job;
+import util.JobType;
 import util.Loc;
 import util.MarketMapLoc;
 import util.BankMapLoc;
@@ -263,21 +264,52 @@ public class PersonAgent extends Agent implements Person {
 		Do("I am going to work");
 		doGoToWork();
 		
+		Role tempJobRole = myJob.placeOfWork.canIStartWorking(this, myJob.jobType, myJob.jobRole);
+		//THIS IS JUST A TEMPORARY FIX, IF SOMEONE DOESN'T GET TO WORK,
+		//WE JUST MOVE THEIR SHIFT BACK BY ONE TIME STEP
+		if(tempJobRole==null){
+			myJob.shiftStart+=1;
+			myJob.shiftEnd+=1;
+			return;
+		}
+		
+		/*
 		//Bank Employment
 		if(this.myJob.jobRole instanceof BankTellerRole){
 			((BankMapLoc) myJob.placeOfWork).bank.startTellerShift(((BankTellerRole) myJob.jobRole));
 		}
 		
 		//Market Employment
-		
-		
+		else if(myJob.jobType==JobType.MarketCashier){
+			
+		}
+		else if(myJob.jobType==JobType.MarketCashier){
+			
+		}
+		else if(myJob.jobType==JobType.MarketEmployee){
+			
+		}
+		else if(myJob.jobType==JobType.MarketDeliveryMan){
+			
+		}
 		
 		//Restaurant Employment
+		else if(myJob.jobType==JobType.RestaurantHost){
+			
+		}
+		else if(myJob.jobType==JobType.RestaurantCashier){
+			
+		}
+		else if(myJob.jobType==JobType.RestaurantCook){
+			
+		}
+		else if(myJob.jobType==JobType.RestaurantWaiter){
+			
+		}*/
 		
 		
 		
-		
-		activeRole = myJob.jobRole;
+		activeRole = tempJobRole;
 		//Do(""+ activeRole);
 		//System.out.flush();
 	}

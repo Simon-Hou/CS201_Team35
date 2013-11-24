@@ -12,6 +12,7 @@ public interface MarketCashier {
 	public void msgHereIsBusinessPayment(int payment);
 
 	public abstract boolean YouAreDoneWithShift();
+	
 
 }
 

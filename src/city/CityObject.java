@@ -81,7 +81,7 @@ public class CityObject implements ActionListener{
 		
 		for(int i = 0;i<numMarkets;i++){
 			Market m = new Market();
-			m.host = new MarketHostRole();
+			m.host = new MarketHostRole(null,null);
 			MarketMapLoc mMap = new MarketMapLoc(m);
 			cityMap.map.get("Market").add(mMap);
 		}

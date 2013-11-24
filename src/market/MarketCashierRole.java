@@ -22,7 +22,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
 	PersonAgent p;
-	String name;
+	public String name;
 	
 	//SETTERS
 	public void setName(String name){

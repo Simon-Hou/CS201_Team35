@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import role.Role;
+import util.JobType;
 import interfaces.MarketCashier;
 import interfaces.MarketEmployee;
 import interfaces.MarketHost;
@@ -39,6 +40,7 @@ public class Market implements PlaceOfWork{
 	
 	public MarketHost CanIBeHost(Person person){
 		if(host.YouAreDoneWithShift()){
+			((MarketHostRole) host).name = person.getName()+"MarketHost";
 			return host;
 		}
 		System.err.println("New host wasn't allowded to take over");
@@ -47,6 +49,7 @@ public class Market implements PlaceOfWork{
 	
 	public MarketCashier CanIBeCashier(Person person){
 		if(cashier.YouAreDoneWithShift()){
+			((MarketCashierRole) cashier).name = person.getName()+ "MarketCashier";
 			return cashier;
 		}
 		System.err.println("New cashier wasn't allowed to take over");
@@ -55,9 +58,9 @@ public class Market implements PlaceOfWork{
 
 
 	@Override
-	public Role canIStartWorking(Person p,Role m) {
+	public Role canIStartWorking(Person p,JobType jobType,Role m) {
 		// TODO Auto-generated method stub
-		if(m instanceof MarketEmployee){
+		if(jobType == JobType.MarketEmployee){
 			employees.add((MarketEmployee) m);
 			if(host.NewEmployee((MarketEmployee) m)){
 				return m;
@@ -65,11 +68,11 @@ public class Market implements PlaceOfWork{
 			System.err.println("Market Employee wasn't allowed to work");
 		}
 		
-		else if(m instanceof MarketHost){
+		else if(jobType == JobType.MarketHost){
 			return (Role) CanIBeHost(p);
 		}
 		
-		else if(m instanceof MarketCashier){
+		else if(jobType == JobType.MarketCashier){
 			return (Role) CanIBeCashier(p);
 		}
 		
