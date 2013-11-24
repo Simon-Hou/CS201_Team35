@@ -3,6 +3,7 @@ package market;
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
 import interfaces.MarketHost;
+import interfaces.Person;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,32 +54,39 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		Do("Got my MARKET items");
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
+	    p.msgStateChanged();
 	}
 
 	public void msgHereIsTotal(int total){
 		Do("Got the MARKET bill");
 	    bill = total;
 	    event = RoleEvent.askedToPay;
+	    p.msgStateChanged();
 	}
 
 	public void msgHereIsYourChange(Receipt receipt, int change){
+		Do("got change");
 	    this.receipt = receipt;
 	    p.addToWallet(change);
 	    event = RoleEvent.paymentReceived;
+	    p.msgStateChanged();
 	}
 
 	public void msgYouOweMoney(Receipt receipt, int debt){
 	    this.receipt = receipt;
 	    event = RoleEvent.paymentReceived;
+	    p.msgStateChanged();
 	}
 
 	public void msgYouCanLeave(){
 		Do("Allowed to leave");
 	    event = RoleEvent.allowedToLeave;
+	    p.msgStateChanged();
 	}
 
 	public void msgOutOfStock(Map<String, Integer> unfullfillable){
 		//what do I do if they don't have what I want??
+		p.msgStateChanged();
 	}
 	
 	public void msgYouAreAtMarket(Market m){
@@ -133,7 +141,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void MakePayment(){                //Right now markets letting customer do an IOU
-	    int payment;
+	    
+		Do("Making payments");
+		int payment;
 	    if (p.purse.wallet>=bill)
 	        payment = bill;
 	    else

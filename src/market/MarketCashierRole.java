@@ -22,7 +22,19 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
 	Person p;
+	String name;
 	
+	//SETTERS
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	//GETTERS
+	public String getName(){
+		return name;
+	}
+	
+	//CONSTRUCTOR
 	public MarketCashierRole(Person p){
 		this.p = p;
 	}
@@ -116,6 +128,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void AcceptPayment(MyCustomer mc){
+		Do("Accepting Payment");
 	    int change = mc.payment-mc.total;
 	    if (change>=0){
 	        mc.c.msgHereIsYourChange(new Receipt(mc.order, mc.total, mc.payment, this), change);

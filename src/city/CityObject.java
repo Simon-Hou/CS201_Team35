@@ -48,7 +48,7 @@ public class CityObject implements ActionListener{
 	
 	
 	public List<PersonAgent> people = new ArrayList<PersonAgent>();
-	public final int NUM_PEOPLE = 3;
+	public final int NUM_PEOPLE = 2;
 	
 	
 	public CityObject(){
@@ -124,12 +124,14 @@ public class CityObject implements ActionListener{
 		PersonAgent p4 = new PersonAgent("p4",cityMap);
 		p4.activeRole = (Role) ((MarketMapLoc) cityMap.map.get("Market").get(0)).market.host;
 		((MarketHostRole) p4.activeRole).setPerson(p4);
+		p4.activeRole.setName("p4MarketHost");
 		p4.startThread();
 		people.add(p4);
 		
 		PersonAgent p5 = new PersonAgent("p5",cityMap);
 		p5.activeRole = new MarketEmployeeRole(p5);
 		((MarketHostRole) p4.activeRole).addEmployee(((MarketEmployeeRole)p5.activeRole));
+		p5.activeRole.setName("p5MarketEmployee");
 		p5.startThread();
 		people.add(p5);
 		
@@ -137,6 +139,7 @@ public class CityObject implements ActionListener{
 		MarketCashierRole r = new MarketCashierRole(p6);
 		((MarketMapLoc) cityMap.map.get("Market").get(0)).market.cashier = r;
 		p6.activeRole = (Role) r;
+		p6.activeRole.setName("p6MarketCashier");
 		p6.startThread();
 		people.add(p6);
 		

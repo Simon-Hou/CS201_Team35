@@ -7,8 +7,15 @@ import role.Role;
 
 public class InhabitantRole extends Role implements Inhabitant {
 
+	//Constructor
+	public InhabitantRole(String name,Person p){
+		this.name = name;
+		this.self = p;
+	}
+	
 	
 	//data
+		String name;
 		LivingUnit myRoom;
 		Person self;
 		enum InhabitantState {IDLE,HUNGRY,FOODREADY, EXIT};
