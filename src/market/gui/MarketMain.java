@@ -13,9 +13,9 @@ public class MarketMain extends JFrame{
 
 	
 	MarketMain(){
-	    int WINDOWX = 500;
+	    int WINDOWX = 800;
 	    int WINDOWY = 500;	
-		setBounds(50, 50, WINDOWX,WINDOWY);
+		setBounds(100, 50, WINDOWX,WINDOWY);
 		setLayout(new FlowLayout());
 		
 		MarketPanel mp = new MarketPanel();
