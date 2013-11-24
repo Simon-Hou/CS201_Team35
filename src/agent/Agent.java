@@ -4,7 +4,6 @@ import java.util.concurrent.*;
 
 import UnitTests.mock.EventLog;
 
-
 /**
  * Base class for simple agents
  */
