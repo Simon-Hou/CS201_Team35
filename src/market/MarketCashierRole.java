@@ -21,7 +21,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	Map<String, Integer> priceList = new HashMap<String,Integer>();
 	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
-	PersonAgent p;
+	Person p;
 	public String name;
 	
 	//SETTERS
@@ -32,6 +32,10 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	//GETTERS
 	public String getName(){
 		return name;
+	}
+	
+	public boolean canLeave() {
+		return true;
 	}
 	
 	//CONSTRUCTOR
@@ -47,7 +51,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	Timer timer = new Timer();
-
+	List<Timer> timers = new ArrayList<Timer>();
+	
 	List<BusinessPayment> businessPayments = new ArrayList<BusinessPayment>();
 	
 	
@@ -81,7 +86,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    p.msgStateChanged();
 	}
 	
-	//Scheduler
+	//-----------------------Scheduler---------------------------
 	public boolean pickAndExecuteAnAction() {
 		for (MyCustomer mc: customers){
 			if (mc.status == CustomerState.needsTotal){
@@ -111,6 +116,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Actions
 	private void ComputeTotal(MyCustomer mc){
+		//Do("computing total");
 	    int total=0;
 	    if (debtorsList.containsKey(mc.c.getPerson())){
 	    	total+= debtorsList.get(mc.c.getPerson());
@@ -125,10 +131,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    
 	    final MyCustomer cust = mc;
 	    
+	    //final Timer t = new Timer();
+	    //timers.add(t);
+	    mc.status = CustomerState.computingTotal;
 	    timer.schedule(new TimerTask(){
 	    	public void run(){
 	    		msgFinishedComputing(cust);
-	    	}}, mc.order.size()*1000);
+	    		//timer.cancel();
+	    	}}, mc.order.size()*1000+1000);
 	}
 
 	private void AskCustomerToPay(MyCustomer mc){
@@ -180,5 +190,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		}
 		
 	}
+
+
 	
 }
