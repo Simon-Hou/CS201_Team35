@@ -18,6 +18,18 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
 	List<BusinessOrder> deliveryList = new ArrayList<BusinessOrder>();
 	Person p;
+	String name;
+	
+	//SETTERS
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	//GETTERS
+	public String getName(){
+		return name;
+	}
+	
 	
 	//constructor
 	public MarketEmployeeRole(Person p){

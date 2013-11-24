@@ -52,6 +52,13 @@ public abstract class Agent {
     protected String getName() {
         return StringUtil.shortName(this);
     }
+    
+    /**
+     * Set the Agent's name variable
+     */
+    public void setName(String name){
+    	
+    }
 
     /**
      * The simulated action code

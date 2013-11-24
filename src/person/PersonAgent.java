@@ -44,6 +44,7 @@ public class PersonAgent extends Agent implements Person {
 		myJob = new Job();
 		purse = new Purse();
 		bankRole = new BankCustomerRole(name+"Bank",this);
+		marketRole = new MarketCustomerRole(name+"Market",this);
 	}
 	
 	//GETTERS
@@ -328,12 +329,12 @@ public class PersonAgent extends Agent implements Person {
 	private void goToMarket() {
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
-		MarketCustomerRole marketRole = null;
+		//MarketCustomerRole marketRole = null;
 		Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
 		//ShoppingList shoppingList = makeShoppingList();
 		
 		//Gets customerRole or creates customerRole
-		boolean containsRole = false;
+		/*boolean containsRole = false;
 		for (Role r: roles) {
 			if (r instanceof MarketCustomerRole) {
 				//r.shoppingList = shoppingList;
@@ -346,7 +347,8 @@ public class PersonAgent extends Agent implements Person {
 			marketRole = new MarketCustomerRole(this.name,this);
 			activeRole = marketRole;
 			roles.add(activeRole);
-		}
+		}*/
+		
 		
 		//marketRole.setMarket(m);
 		marketRole.msgYouAreAtMarket(m);
