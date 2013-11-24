@@ -1,8 +1,8 @@
 package UnitTests.mock.restaurantLindaMock;
 
 
-import restaurantLinda.*;
-import restaurantLinda.gui.CustomerGui;
+import restaurant.restaurantLinda.*;
+import restaurant.restaurantLinda.gui.CustomerGui;
 import interfaces.restaurantLinda.*;
 
 /**

@@ -1,11 +1,13 @@
-package restaurantLinda.gui;
+package restaurant.restaurantLinda.gui;
 
-import restaurantLinda.CashierRole;
-import restaurantLinda.CookAgent;
-import restaurantLinda.CustomerRole;
-import restaurantLinda.HostRole;
-import restaurantLinda.MarketRole;
-import restaurantLinda.WaiterRole;
+import restaurant.restaurantLinda.CashierRole;
+import restaurant.restaurantLinda.CookAgent;
+import restaurant.restaurantLinda.CustomerRole;
+import restaurant.restaurantLinda.HostRole;
+import restaurant.restaurantLinda.MarketRole;
+import restaurant.restaurantLinda.OriginalWaiterRole;
+import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
+import restaurant.restaurantLinda.WaiterRole;
 
 import javax.swing.*;
 
@@ -185,7 +187,11 @@ public class RestaurantPanel extends JPanel {
     		c.startThread();
     	}
     	else if (type.equals("Waiters")){
-    		WaiterRole w = new WaiterRole(name,host,cook,cashier);
+    		WaiterRole w; 
+    		if (name.contains("producerConsumer"))
+    				w= new ProducerConsumerWaiterRole(name,host,cook,cashier);
+    		else
+    			w= new OriginalWaiterRole(name,host,cook,cashier);
     		WaiterGui wg = new WaiterGui(w,gui, waiters.size(), new AStarTraversal(grid));
     		wg.setTables(tableMap);
     		wg.setPlates(gui.animationPanel.platedFoods);

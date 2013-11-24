@@ -3,9 +3,9 @@ package UnitTests.restaurantLindaUnitTests;
 import java.util.HashMap;
 import java.util.Map;
 
-import restaurantLinda.CashierRole;
-import restaurantLinda.CashierRole.MyBillState;
-import restaurantLinda.Check;
+import restaurant.restaurantLinda.CashierRole;
+import restaurant.restaurantLinda.Check;
+import restaurant.restaurantLinda.CashierRole.MyBillState;
 
 import UnitTests.mock.restaurantLindaMock.*;
 

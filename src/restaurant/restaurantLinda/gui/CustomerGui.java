@@ -1,6 +1,6 @@
-package restaurantLinda.gui;
+package restaurant.restaurantLinda.gui;
 
-import restaurantLinda.CustomerRole;
+import restaurant.restaurantLinda.CustomerRole;
 
 import java.awt.*;
 import java.io.File;

@@ -1,4 +1,4 @@
-package restaurantLinda;
+package restaurant.restaurantLinda;
 
 import agent.Agent;
 
@@ -10,7 +10,7 @@ import interfaces.restaurantLinda.Waiter;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import restaurantLinda.gui.CookGui;
+import restaurant.restaurantLinda.gui.CookGui;
 import role.Role;
 
 
