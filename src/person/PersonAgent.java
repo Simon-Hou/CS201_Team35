@@ -610,6 +610,10 @@ public class PersonAgent extends Agent implements Person {
 		this.stateChanged();
 	}
 	
+	public void putInBag(String item,int amount){
+		this.purse.bag.put(item,amount);
+	}
+	
 	public void addToWallet(int amount) {
 		this.purse.wallet += amount;
 	}

@@ -38,11 +38,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.p = p;
 	}
 	
-	public void msgHereAreItems(Map<String, Integer> groceries, MarketCashier cashier){
+	public void msgHereAreItems(Map<String, Integer> groceries){
 		Do("Got my MARKET items");
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
-	    this.cashier = cashier;
+	    //this.cashier = cashier;
 	    p.msgStateChanged();
 	}
 
@@ -78,9 +78,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		p.msgStateChanged();
 	}
 	
-	public void msgYouAreAtMarket(MarketHost host){
+	public void msgYouAreAtMarket(Market m){
 		Do("I'm at the market.");
-		this.host = host;
+		this.host = m.host;
+		this.cashier = m.cashier;
 		state = RoleState.JustEnteredMarket;
 		p.msgStateChanged();
 	}
@@ -168,13 +169,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void LeaveMarket(){
 		for (String item: groceries.keySet()){
-			p.purse.bag.put(item, groceries.get(item));
+			p.putInBag(item, groceries.get(item));
+			
 		}
 	    
 	}
 	
 	//Utilities
-	public PersonAgent getPerson(){
+	public Person getPerson(){
 		return p;
 	}
 	public void setHost(MarketHost host2) {

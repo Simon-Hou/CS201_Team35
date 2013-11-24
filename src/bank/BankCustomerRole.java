@@ -218,7 +218,13 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	private void goToWindow() {
 		Do("Going to the teller's window");
-		bankCustomerGui.DoGoToTellerWindow(tellerWindowX, tellerWindowY);
+		
+		if(bankCustomerGui!=null){
+			bankCustomerGui.DoGoToTellerWindow(tellerWindowX, tellerWindowY);
+		}
+		else{
+			atDestination.release();
+		}
 		state = CustState.goingToWindow;
 		try {
 			atDestination.acquire();
@@ -236,7 +242,13 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		if(Tasks.isEmpty()){
 			Do("Finished what I needed done. I'm leaving");
 			state = CustState.leaving;
-			bankCustomerGui.DoExitBank();
+			if(bankCustomerGui!=null){
+				bankCustomerGui.DoExitBank();
+			}
+			else{
+				atDestination.release();
+			}
+			
 			teller.msgDoneAndLeaving();
 			try {
 				atDestination.acquire();

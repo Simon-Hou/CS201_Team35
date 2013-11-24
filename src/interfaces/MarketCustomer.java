@@ -8,7 +8,7 @@ import market.Receipt;
 
 public interface MarketCustomer {
 
-	public void msgHereAreItems(Map<String, Integer> groceries, MarketCashier cashier);
+	public void msgHereAreItems(Map<String, Integer> groceries);
 	public void msgHereIsTotal(int total);
 	public void msgHereIsYourChange(Receipt receipt, int change);
 	public void msgYouOweMoney(Receipt receipt, int debt);
@@ -16,5 +16,5 @@ public interface MarketCustomer {
 	public void msgOutOfStock(Map<String, Integer> unfullfillable);
 	public abstract String getName();
 	
-	public PersonAgent getPerson();
+	public Person getPerson();
 }
