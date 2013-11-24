@@ -9,6 +9,8 @@ import javax.swing.Timer;
 import person.PersonAgent;
 import role.Role;
 import market.Market;
+import market.MarketCashierRole;
+import market.MarketEmployeeRole;
 import market.MarketHostRole;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
@@ -79,6 +81,7 @@ public class CityObject implements ActionListener{
 		
 		for(int i = 0;i<numMarkets;i++){
 			Market m = new Market();
+			m.host = new MarketHostRole();
 			MarketMapLoc mMap = new MarketMapLoc(m);
 			cityMap.map.get("Market").add(mMap);
 		}
@@ -118,6 +121,27 @@ public class CityObject implements ActionListener{
 		p3.startThread();
 		people.add(p3);
 		
+		PersonAgent p4 = new PersonAgent("p4",cityMap);
+		p4.activeRole = (Role) ((MarketMapLoc) cityMap.map.get("Market").get(0)).market.host;
+		((MarketHostRole) p4.activeRole).setPerson(p4);
+		p4.startThread();
+		people.add(p4);
+		
+		PersonAgent p5 = new PersonAgent("p5",cityMap);
+		p5.activeRole = new MarketEmployeeRole(p5);
+		((MarketHostRole) p4.activeRole).addEmployee(((MarketEmployeeRole)p5.activeRole));
+		p5.startThread();
+		people.add(p5);
+		
+		PersonAgent p6 = new PersonAgent("p6",cityMap);
+		MarketCashierRole r = new MarketCashierRole(p6);
+		((MarketMapLoc) cityMap.map.get("Market").get(0)).market.cashier = r;
+		p6.activeRole = (Role) r;
+		p6.startThread();
+		people.add(p6);
+		
+		
+		
 		
 		
 		/*testPerson p0 = new testPerson("p0",cityMap);
@@ -149,6 +173,7 @@ public class CityObject implements ActionListener{
 			p.setTime(currentTime);
 			p.msgStateChanged();
 		}
+		
 		
 	}
 	

@@ -76,6 +76,7 @@ public class PersonAgent extends Agent implements Person {
 	public Role nextRole = null;
 	public boolean wantsToBuyCar = false;
 	public BankCustomerRole bankRole;
+	public MarketCustomerRole marketRole;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
@@ -347,7 +348,8 @@ public class PersonAgent extends Agent implements Person {
 			roles.add(activeRole);
 		}
 		
-		marketRole.msgYouAreAtMarket(m.host);
+		//marketRole.setMarket(m);
+		marketRole.msgYouAreAtMarket(m);
 		activeRole = marketRole;
 	}
 	
@@ -467,11 +469,11 @@ public class PersonAgent extends Agent implements Person {
 			}
 			if (!containsRole) {
 				marketRole = new MarketCustomerRole(this.name,this);
-				marketRole.msgYouAreAtMarket(m.host);
+				marketRole.msgYouAreAtMarket(m);
 				activeRole = marketRole;
 				roles.add(activeRole);
 			}
-			marketRole.msgYouAreAtMarket(m.host);
+			marketRole.msgYouAreAtMarket(m);
 			activeRole = marketRole;
 		}
 	}
