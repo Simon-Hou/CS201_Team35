@@ -1,8 +1,6 @@
-package restaurantLinda.test.mock;
+package UnitTests.mock.restaurantLindaMock;
 
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Host;
-import restaurant.interfaces.Waiter;
+import interfaces.restaurantLinda.*;
 
 public class MockHost extends Mock implements Host{
 

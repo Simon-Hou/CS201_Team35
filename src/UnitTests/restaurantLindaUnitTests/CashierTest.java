@@ -1,14 +1,13 @@
-package restaurantLinda.test;
+package UnitTests.restaurantLindaUnitTests;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import restaurant.CashierAgent;
-import restaurant.CashierAgent.MyBillState;
-import restaurant.Check;
-import restaurant.test.mock.MockCustomer;
-import restaurant.test.mock.MockMarket;
-import restaurant.test.mock.MockWaiter;
+import restaurantLinda.CashierRole;
+import restaurantLinda.CashierRole.MyBillState;
+import restaurantLinda.Check;
+
+import UnitTests.mock.restaurantLindaMock.*;
 
 import junit.framework.*;
 
@@ -23,7 +22,7 @@ import junit.framework.*;
 public class CashierTest extends TestCase
 {
         //these are instantiated for each test separately via the setUp() method.
-        CashierAgent cashier;
+        CashierRole cashier;
         MockWaiter waiter;
         MockCustomer customer;
         MockMarket market1;
@@ -36,7 +35,7 @@ public class CashierTest extends TestCase
          */
         public void setUp() throws Exception{
                 super.setUp();                
-                cashier = new CashierAgent("cashier");                
+                cashier = new CashierRole("cashier");                
                 customer = new MockCustomer("mockcustomer");                
                 waiter = new MockWaiter("mockwaiter");
                 market1 = new MockMarket("mockmarket1");
@@ -68,7 +67,7 @@ public class CashierTest extends TestCase
                 
                 assertEquals("Cashier should have 1 bill in it. Instead, it is size " + cashier.getBills().size(), cashier.getBills().size(), 1);
                 
-                CashierAgent.Bill b = cashier.new Bill(waiter, "Steak", customer);
+                CashierRole.Bill b = cashier.new Bill(waiter, "Steak", customer);
                 
                 assertTrue("Cashier's 1 bill should be the correct bill. It isn't", cashier.getBills().get(0).equals(b));
                 
@@ -109,7 +108,7 @@ public class CashierTest extends TestCase
                 assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                                 + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
                 
-                CashierAgent.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1599);
+                CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1599);
                 assertTrue("Cashier's newly-added MyCustomer either has the wrong customer, check, or bill.", cashier.getCustomers().get(0).equals(mc));                
                 
                 
@@ -163,7 +162,7 @@ public class CashierTest extends TestCase
             
             assertEquals("Cashier should have 1 bill in it. Instead, it is size " + cashier.getBills().size(), cashier.getBills().size(), 1);
             
-            CashierAgent.Bill b = cashier.new Bill(waiter, "Steak", customer);
+            CashierRole.Bill b = cashier.new Bill(waiter, "Steak", customer);
             
             assertTrue("Cashier's 1 bill should be the correct bill. It isn't", cashier.getBills().get(0).equals(b));
             
@@ -204,7 +203,7 @@ public class CashierTest extends TestCase
             assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                             + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
             
-            CashierAgent.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1499);
+            CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1499);
             assertTrue("Cashier's newly-added MyCustomer either has the wrong customer, check, or bill.", cashier.getCustomers().get(0).equals(mc));                
             
             
@@ -263,7 +262,7 @@ public class CashierTest extends TestCase
             
             assertEquals("Cashier should have 1 bill in it. Instead, it is size " + cashier.getBills().size(), cashier.getBills().size(), 1);
             
-            CashierAgent.Bill b = cashier.new Bill(waiter, "Steak", customer); 
+            CashierRole.Bill b = cashier.new Bill(waiter, "Steak", customer); 
             assertTrue("Cashier's 1 bill should be the correct bill. It isn't", cashier.getBills().get(0).equals(b));
             
             assertTrue("Cashier's scheduler should have returned true (started computed bill), but didn't.", cashier.pickAndExecuteAnAction());
@@ -300,7 +299,7 @@ public class CashierTest extends TestCase
             assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                             + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
             
-            CashierAgent.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1499);
+            CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1499);
             assertTrue("Cashier's newly-added MyCustomer either has the wrong customer, check, or bill.", cashier.getCustomers().get(0).equals(mc));                
             
             assertTrue("Cashier's scheduler should have returned true (needs to react to customer's HereIsPayment, but didn't.",
@@ -353,7 +352,7 @@ public class CashierTest extends TestCase
             
             assertEquals("Cashier should have 1 bill in it. Instead, it is size " + cashier.getBills().size(), cashier.getBills().size(), 1);
             
-            CashierAgent.Bill b = cashier.new Bill(waiter, "Steak", customer); 
+            CashierRole.Bill b = cashier.new Bill(waiter, "Steak", customer); 
             assertTrue("Cashier's 1 bill should be the correct bill. It isn't", cashier.getBills().get(0).equals(b));
             
             assertTrue("Cashier's scheduler should have returned true (started computed bill), but didn't.", cashier.pickAndExecuteAnAction());
@@ -390,7 +389,7 @@ public class CashierTest extends TestCase
             assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                             + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
             
-            CashierAgent.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1699);
+            CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1699);
             assertTrue("Cashier's newly-added MyCustomer either has the wrong customer, check, or bill.", cashier.getCustomers().get(0).equals(mc));                
             
 
@@ -442,7 +441,7 @@ public class CashierTest extends TestCase
             
             assertEquals("Cashier should have 1 bill in it. Instead, it is size " + cashier.getBills().size(), cashier.getBills().size(), 1);
             
-            CashierAgent.Bill b = cashier.new Bill(waiter, "Steak", customer);
+            CashierRole.Bill b = cashier.new Bill(waiter, "Steak", customer);
             
             assertTrue("Cashier's 1 bill should be the correct bill. It isn't", cashier.getBills().get(0).equals(b));
             
@@ -481,7 +480,7 @@ public class CashierTest extends TestCase
             assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                             + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
             
-            CashierAgent.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1599);
+            CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1599);
             assertTrue("Cashier's newly-added MyCustomer either has the wrong customer, check, or bill.", cashier.getCustomers().get(0).equals(mc));                
             
             
@@ -574,7 +573,7 @@ public class CashierTest extends TestCase
             
             assertEquals("Cashier should have 1 bill in it. Instead, it is size " + cashier.getBills().size(), cashier.getBills().size(), 1);
             
-            CashierAgent.Bill b = cashier.new Bill(waiter, "Steak", customer);
+            CashierRole.Bill b = cashier.new Bill(waiter, "Steak", customer);
             
             assertTrue("Cashier's 1 bill should be the correct bill. It isn't", cashier.getBills().get(0).equals(b));
             
@@ -658,7 +657,7 @@ public class CashierTest extends TestCase
             assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                             + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
             
-            CashierAgent.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1599);
+            CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1599);
             assertTrue("Cashier's newly-added MyCustomer either has the wrong customer, check, or bill.", cashier.getCustomers().get(0).equals(mc));                
             
             
@@ -748,7 +747,7 @@ public class CashierTest extends TestCase
          assertEquals("Cashier should have 1 bill in it. Instead, it is size " + cashier.getBills().size(), cashier.getBills().size(), 1);
          
          
-         CashierAgent.Bill b = cashier.new Bill(waiter, "Steak", customer);         
+         CashierRole.Bill b = cashier.new Bill(waiter, "Steak", customer);         
          assertTrue("Cashier's 1 bill should be the correct bill. It isn't", cashier.getBills().get(0).equals(b));
          
          assertTrue("Cashier's scheduler should have returned true (started computed bill), but didn't.", cashier.pickAndExecuteAnAction());
@@ -784,7 +783,7 @@ public class CashierTest extends TestCase
          assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                          + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
          
-         CashierAgent.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1599);
+         CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 1599);
          assertTrue("Cashier's newly-added MyCustomer either has the wrong customer, check, or bill.", cashier.getCustomers().get(0).equals(mc));                
          
 

@@ -1,6 +1,6 @@
 package restaurantLinda.gui;
 
-import restaurantLinda.WaiterAgent;
+import restaurantLinda.WaiterRole;
 
 import java.awt.*;
 import java.io.File;
@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import astar.*;
 
 public class WaiterGui extends GuiPerson {	
-	private WaiterAgent agent = null;
+	private WaiterRole agent = null;
 	RestaurantGui gui;
 
     private int personSize=30;
@@ -34,7 +34,7 @@ public class WaiterGui extends GuiPerson {
 	private String bufferText;
 	
 
-    public WaiterGui(WaiterAgent agent, RestaurantGui gui, int position, AStarTraversal aStar) {
+    public WaiterGui(WaiterRole agent, RestaurantGui gui, int position, AStarTraversal aStar) {
         this.agent = agent;
         this.gui = gui;
         this.aStar = aStar;

@@ -2,11 +2,13 @@ package restaurantLinda;
 
 import agent.Agent;
 import restaurantLinda.gui.WaiterGui;
-import restaurantLinda.interfaces.Cashier;
-import restaurantLinda.interfaces.Cook;
-import restaurantLinda.interfaces.Customer;
-import restaurantLinda.interfaces.Host;
-import restaurantLinda.interfaces.Waiter;
+import role.Role;
+
+import interfaces.restaurantLinda.Cashier;
+import interfaces.restaurantLinda.Cook;
+import interfaces.restaurantLinda.Customer;
+import interfaces.restaurantLinda.Host;
+import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -18,7 +20,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the Host. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterAgent extends Agent implements Waiter{
+public class WaiterRole extends Role implements Waiter{
 	public List<MyCustomer> customers	= new ArrayList<MyCustomer>();
 	private String name;
 	WaiterState state=WaiterState.ready;
@@ -33,7 +35,7 @@ public class WaiterAgent extends Agent implements Waiter{
 	private Semaphore atDestination = new Semaphore(0,true);
 	private WaiterGui waiterGui=null;
 	
-	public WaiterAgent(String name, Host host, Cook cook, Cashier cashier) {
+	public WaiterRole(String name, Host host, Cook cook, Cashier cashier) {
 		super();
 		this.host=host;
 		this.name = name;

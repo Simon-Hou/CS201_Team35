@@ -1,10 +1,9 @@
-package restaurantLinda.test.mock;
+package UnitTests.mock.restaurantLindaMock;
 
 import java.util.Map;
 
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Cook;
-import restaurant.interfaces.Market;
+import interfaces.restaurantLinda.*;
+
 
 public class MockMarket extends Mock implements Market{
 

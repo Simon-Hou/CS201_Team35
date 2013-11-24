@@ -1,9 +1,9 @@
-package restaurantLinda.test.mock;
+package UnitTests.mock.restaurantLindaMock;
 
 import java.util.List;
 
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import interfaces.restaurantLinda.*;
+
 
 public class MockWaiter extends Mock implements Waiter{
 	

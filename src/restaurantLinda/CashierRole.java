@@ -1,18 +1,21 @@
 package restaurantLinda;
 
+import UnitTests.mock.EventLog;
+import UnitTests.mock.LoggedEvent;
 import agent.Agent;
+
+import interfaces.restaurantLinda.Cashier;
+import interfaces.restaurantLinda.Customer;
+import interfaces.restaurantLinda.Market;
+import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
 
-import restaurantLinda.interfaces.Cashier;
-import restaurantLinda.interfaces.Customer;
-import restaurantLinda.interfaces.Market;
-import restaurantLinda.interfaces.Waiter;
-import restaurantLinda.test.mock.EventLog;
-import restaurantLinda.test.mock.LoggedEvent;
+import role.Role;
 
 
-public class CashierAgent extends Agent implements Cashier{
+
+public class CashierRole extends Role implements Cashier{
 	private String name;
 	private Map<String,Integer> priceList = new HashMap<String,Integer>();
 	private List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
@@ -22,7 +25,7 @@ public class CashierAgent extends Agent implements Cashier{
 	private Timer timer = new Timer();
 	int cash=0;
 	
-	public CashierAgent(String name) {
+	public CashierRole(String name) {
 		super();	
 		priceList.put("Steak", 1599);
 		priceList.put("Chicken", 1099);

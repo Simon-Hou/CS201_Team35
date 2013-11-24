@@ -1,6 +1,6 @@
 package restaurantLinda.gui;
 
-import restaurantLinda.CustomerAgent;
+import restaurantLinda.CustomerRole;
 
 import java.awt.*;
 import java.io.File;
@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 public class CustomerGui implements Gui{
 
-	private CustomerAgent agent = null;
+	private CustomerRole agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
@@ -30,7 +30,7 @@ public class CustomerGui implements Gui{
     private Dimension bufferSize;
     public final String path="../../images/";
 
-	public CustomerGui(CustomerAgent c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(CustomerRole c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -2*personSize;
 		yPos = -2*personSize;

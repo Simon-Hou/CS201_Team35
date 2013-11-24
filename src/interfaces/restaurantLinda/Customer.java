@@ -1,4 +1,4 @@
-package restaurantLinda.interfaces;
+package interfaces.restaurantLinda;
 
 import restaurantLinda.Check;
 import restaurantLinda.Menu;

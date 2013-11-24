@@ -1,13 +1,9 @@
-package restaurantLinda.test.mock;
+package UnitTests.mock.restaurantLindaMock;
 
 
-import restaurant.Check;
-import restaurant.Menu;
-import restaurant.gui.CustomerGui;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Host;
-import restaurant.interfaces.Waiter;
+import restaurantLinda.*;
+import restaurantLinda.gui.CustomerGui;
+import interfaces.restaurantLinda.*;
 
 /**
 * A sample MockCustomer built to unit test a CashierAgent.

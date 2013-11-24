@@ -1,4 +1,4 @@
-package restaurantLinda.test.mock;
+package UnitTests.mock.restaurantLindaMock;
 
 /**
 * This is the base class for all mocks.

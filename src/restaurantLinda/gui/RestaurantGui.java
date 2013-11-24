@@ -1,7 +1,7 @@
 package restaurantLinda.gui;
 
-import restaurantLinda.CustomerAgent;
-import restaurantLinda.WaiterAgent;
+import restaurantLinda.CustomerRole;
+import restaurantLinda.WaiterRole;
 
 import javax.swing.*;
 
@@ -96,8 +96,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         currentPerson = person;
         breakButton.setVisible(false);
 
-        if (person instanceof CustomerAgent) {
-            CustomerAgent customer = (CustomerAgent) person;
+        if (person instanceof CustomerRole) {
+            CustomerRole customer = (CustomerRole) person;
             stateCB.setText("Hungry?");
           //Should checkmark be there? 
             stateCB.setSelected(customer.getGui().isHungry());
@@ -107,9 +107,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
             infoLabel.setText(
                "<html><pre>     Name: " + customer.getName() + " </pre></html>");
         }
-        else if (person instanceof WaiterAgent){
-        	WaiterAgent waiter = (WaiterAgent) person;
-        	WaiterAgent.BreakStatus status = waiter.getBreakStatus();
+        else if (person instanceof WaiterRole){
+        	WaiterRole waiter = (WaiterRole) person;
+        	WaiterRole.BreakStatus status = waiter.getBreakStatus();
         	switch(status){
         		case none:
         		case finished:
@@ -131,7 +131,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         	breakButton.setVisible(true);
         	//stateCB.setText("On Break?");
         	stateCB.setText(waiter.getGui().getPosition());
-        	stateCB.setSelected(status==WaiterAgent.BreakStatus.onBreak);
+        	stateCB.setSelected(status==WaiterRole.BreakStatus.onBreak);
         	stateCB.setEnabled(false);
         	infoLabel.setText(
                     "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
@@ -145,15 +145,15 @@ public class RestaurantGui extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == stateCB) {
-            if (currentPerson instanceof CustomerAgent) {
-                CustomerAgent c = (CustomerAgent) currentPerson;
+            if (currentPerson instanceof CustomerRole) {
+                CustomerRole c = (CustomerRole) currentPerson;
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
         }
         else if (e.getSource() == breakButton){
-        	if (currentPerson instanceof WaiterAgent){
-        		WaiterAgent w = (WaiterAgent) currentPerson;
+        	if (currentPerson instanceof WaiterRole){
+        		WaiterRole w = (WaiterRole) currentPerson;
         		if (breakButton.getText().equals("Ask for break")){
         			breakButton.setText("Asking host for break");
         			breakButton.setEnabled(false);
@@ -185,9 +185,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
-        if (currentPerson instanceof CustomerAgent) {
-            CustomerAgent cust = (CustomerAgent) currentPerson;
+    public void setCustomerEnabled(CustomerRole c) {
+        if (currentPerson instanceof CustomerRole) {
+            CustomerRole cust = (CustomerRole) currentPerson;
             if (c.equals(cust)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);
@@ -195,11 +195,11 @@ public class RestaurantGui extends JFrame implements ActionListener {
         }
     }
     
-    public void updateWaiter(WaiterAgent w){
-    	if (currentPerson instanceof WaiterAgent){
-    		WaiterAgent waiter = (WaiterAgent) currentPerson;
+    public void updateWaiter(WaiterRole w){
+    	if (currentPerson instanceof WaiterRole){
+    		WaiterRole waiter = (WaiterRole) currentPerson;
     		if (w.equals(waiter)){
-    			WaiterAgent.BreakStatus status = waiter.getBreakStatus();
+    			WaiterRole.BreakStatus status = waiter.getBreakStatus();
             	switch(status){
             		case none:
             		case finished:
@@ -217,7 +217,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
             			breakButton.setEnabled(true);
             			break;
             	}
-            	stateCB.setSelected(status==WaiterAgent.BreakStatus.onBreak);
+            	stateCB.setSelected(status==WaiterRole.BreakStatus.onBreak);
     		}
     	}
     }

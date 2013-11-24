@@ -1,11 +1,11 @@
 package restaurantLinda.gui;
 
-import restaurantLinda.CashierAgent;
+import restaurantLinda.CashierRole;
 import restaurantLinda.CookAgent;
-import restaurantLinda.CustomerAgent;
-import restaurantLinda.HostAgent;
-import restaurantLinda.MarketAgent;
-import restaurantLinda.WaiterAgent;
+import restaurantLinda.CustomerRole;
+import restaurantLinda.HostRole;
+import restaurantLinda.MarketRole;
+import restaurantLinda.WaiterRole;
 
 import javax.swing.*;
 
@@ -33,12 +33,12 @@ public class RestaurantPanel extends JPanel {
     Semaphore[][] grid = new Semaphore[gridX][gridY];
 	
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Sarah");
+    private HostRole host = new HostRole("Sarah");
 	private CookAgent cook = new CookAgent("Cook");
-	private CashierAgent cashier = new CashierAgent("Cashier");
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
-    private Vector<MarketAgent> markets = new Vector<MarketAgent>();
+	private CashierRole cashier = new CashierRole("Cashier");
+    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
+    private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
+    private Vector<MarketRole> markets = new Vector<MarketRole>();
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -150,14 +150,14 @@ public class RestaurantPanel extends JPanel {
     public void showInfo(String type, String name) {
         if (type.equals("Customers")) {
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+                CustomerRole temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
         }
         else if (type.equals("Waiters")){
         	for (int i = 0; i < waiters.size(); i++) {
-                WaiterAgent temp = waiters.get(i);
+                WaiterRole temp = waiters.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -173,7 +173,7 @@ public class RestaurantPanel extends JPanel {
     public void addPerson(String type, String name, boolean hungry) {
 
     	if (type.equals("Customers")) {
-    		CustomerAgent c = new CustomerAgent(name);	
+    		CustomerRole c = new CustomerRole(name);	
     		CustomerGui g = new CustomerGui(c, gui);
     		if (hungry)
     			g.setHungry();
@@ -185,7 +185,7 @@ public class RestaurantPanel extends JPanel {
     		c.startThread();
     	}
     	else if (type.equals("Waiters")){
-    		WaiterAgent w = new WaiterAgent(name,host,cook,cashier);
+    		WaiterRole w = new WaiterRole(name,host,cook,cashier);
     		WaiterGui wg = new WaiterGui(w,gui, waiters.size(), new AStarTraversal(grid));
     		wg.setTables(tableMap);
     		wg.setPlates(gui.animationPanel.platedFoods);
@@ -243,7 +243,7 @@ public class RestaurantPanel extends JPanel {
     }
     
     public void addMarket(int steaks, int chickens, int salads, int pizzas, int identifier){
-    	MarketAgent m = new MarketAgent(steaks, chickens, salads, pizzas, identifier); 
+    	MarketRole m = new MarketRole(steaks, chickens, salads, pizzas, identifier); 
     	markets.add(m);
     	m.startThread();
     	cook.addMarket(m);
@@ -252,10 +252,10 @@ public class RestaurantPanel extends JPanel {
     public void pause(){
     	cook.pause();
     	host.pause();
-    	for (CustomerAgent c: customers){
+    	for (CustomerRole c: customers){
     		c.pause();
     	}
-    	for (WaiterAgent w: waiters){
+    	for (WaiterRole w: waiters){
     		w.pause();
     	}	
     }
@@ -263,10 +263,10 @@ public class RestaurantPanel extends JPanel {
     public void restart(){
     	cook.restart();
     	host.restart();
-    	for (CustomerAgent c: customers){
+    	for (CustomerRole c: customers){
     		c.restart();
     	}
-    	for (WaiterAgent w: waiters){
+    	for (WaiterRole w: waiters){
     		w.restart();
     	}    	
     }

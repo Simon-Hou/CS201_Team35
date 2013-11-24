@@ -1,11 +1,14 @@
 package restaurantLinda;
 
 import agent.Agent;
+import interfaces.restaurantLinda.Customer;
+import interfaces.restaurantLinda.Host;
+import interfaces.restaurantLinda.Waiter;
+
 import java.util.*;
 
-import restaurantLinda.interfaces.Customer;
-import restaurantLinda.interfaces.Host;
-import restaurantLinda.interfaces.Waiter;
+import role.Role;
+
 
 /**
  * Restaurant Host Agent
@@ -14,7 +17,7 @@ import restaurantLinda.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostAgent extends Agent implements Host{
+public class HostRole extends Role implements Host{
 	
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -25,7 +28,7 @@ public class HostAgent extends Agent implements Host{
 	private String name;
 
 
-	public HostAgent(String name) {
+	public HostRole(String name) {
 		super();
 		this.name = name;
 	}

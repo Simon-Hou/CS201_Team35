@@ -1,10 +1,12 @@
 package role;
 
 import interfaces.Person;
+import UnitTests.mock.EventLog;
 import agent.Agent;
 
 public abstract class Role extends Agent{
 	
+	public EventLog log = new EventLog();
 	
 	public abstract boolean pickAndExecuteAnAction();
 	

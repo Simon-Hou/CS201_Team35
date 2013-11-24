@@ -2,17 +2,19 @@ package restaurantLinda;
 
 import agent.Agent;
 
+import interfaces.restaurantLinda.Cashier;
+import interfaces.restaurantLinda.Cook;
+import interfaces.restaurantLinda.Market;
+import interfaces.restaurantLinda.Waiter;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import restaurantLinda.gui.CookGui;
-import restaurantLinda.interfaces.Cashier;
-import restaurantLinda.interfaces.Cook;
-import restaurantLinda.interfaces.Market;
-import restaurantLinda.interfaces.Waiter;
+import role.Role;
 
 
-public class CookAgent extends Agent implements Cook{
+public class CookAgent extends Role implements Cook{
 	String name;
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	Timer timer = new Timer();

@@ -1,4 +1,4 @@
-package restaurantLinda.test.mock;
+package UnitTests.mock.restaurantLindaMock;
 
 import java.text.DateFormat;
 import java.util.Date;

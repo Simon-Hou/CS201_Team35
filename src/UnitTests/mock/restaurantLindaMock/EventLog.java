@@ -1,4 +1,4 @@
-package restaurantLinda.test.mock;
+package UnitTests.mock.restaurantLindaMock;
 
 import java.util.LinkedList;
 import java.util.List;

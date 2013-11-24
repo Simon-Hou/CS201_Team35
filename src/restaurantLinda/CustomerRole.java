@@ -1,11 +1,13 @@
 package restaurantLinda;
 
 import restaurantLinda.gui.CustomerGui;
-import restaurantLinda.interfaces.Cashier;
-import restaurantLinda.interfaces.Customer;
-import restaurantLinda.interfaces.Host;
-import restaurantLinda.interfaces.Waiter;
+import role.Role;
 import agent.Agent;
+
+import interfaces.restaurantLinda.Cashier;
+import interfaces.restaurantLinda.Customer;
+import interfaces.restaurantLinda.Host;
+import interfaces.restaurantLinda.Waiter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.TimerTask;
 /**
  * Restaurant customer agent.
  */
-public class CustomerAgent extends Agent implements Customer{
+public class CustomerRole extends Role implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	private int cash;
@@ -48,7 +50,7 @@ public class CustomerAgent extends Agent implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerAgent(String name){
+	public CustomerRole(String name){
 		super();
 		this.name = name;
 		

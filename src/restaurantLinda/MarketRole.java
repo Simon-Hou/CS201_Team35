@@ -2,11 +2,14 @@ package restaurantLinda;
 
 import agent.Agent;
 
+import interfaces.restaurantLinda.Cashier;
+import interfaces.restaurantLinda.Cook;
+import interfaces.restaurantLinda.Market;
+
 import java.util.*;
 
-import restaurantLinda.interfaces.Cashier;
-import restaurantLinda.interfaces.Cook;
-import restaurantLinda.interfaces.Market;
+import role.Role;
+
 
 /**
  * Restaurant Host Agent
@@ -15,13 +18,13 @@ import restaurantLinda.interfaces.Market;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class MarketAgent extends Agent implements Market{
+public class MarketRole extends Role implements Market{
 	private String name;
 	private List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	private Map<String,Food> inventory = new HashMap<String,Food>();
 	private Timer timer = new Timer();
 	
-	public MarketAgent(int steaks, int chickens, int salads, int pizzas, int identifier) {
+	public MarketRole(int steaks, int chickens, int salads, int pizzas, int identifier) {
 		super();
 		inventory.put("Steak", new Food("Steak",steaks, 800));
 		inventory.put("Chicken", new Food("Chicken",chickens, 600));
