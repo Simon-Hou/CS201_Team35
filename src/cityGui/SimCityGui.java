@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 import person.PersonAgent;
 import util.CityMap;
+import city.CityObject;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
 import cityGui.trace.TracePanel;
@@ -16,6 +17,7 @@ import cityGui.trace.TracePanel;
 public class SimCityGui extends JFrame {
 	
 	public CityPanel city;
+	public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
 	CityControlPanel CP;
@@ -30,8 +32,13 @@ public class SimCityGui extends JFrame {
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
 
+		//THIS IS THE AGENT CITY
+		cityObject = new CityObject();
 		
 		city = new CityPanel(this);
+		city.cityObject = cityObject;
+		
+		
 		
 		view = new CityView(this);
 		
@@ -65,6 +72,9 @@ public class SimCityGui extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		
+		
 		SimCityGui test = new SimCityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		test.setResizable(false);
