@@ -1,5 +1,7 @@
 package UnitTests.mock.restaurantLindaMock;
 
+import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.Mock;
 import interfaces.restaurantLinda.*;
 
 public class MockHost extends Mock implements Host{

@@ -15,7 +15,7 @@ import role.Role;
 import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-	PersonAgent p;
+	Person p;
 	RoleState state;
 	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
 	RoleEvent event;
@@ -35,8 +35,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	
 
-	public MarketCustomerRole(String name, PersonAgent p){
-		
+	public MarketCustomerRole(String name, Person p){		
 		this.name = name;
 		this.p = p;
 	}
@@ -149,7 +148,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void GoPay(){
 	    //DoGoToCashier();
-	    cashier.msgPleaseServiceCustomer(this, groceries);
+	    cashier.msgServiceCustomer(this, groceries);
 	}
 
 	private void MakePayment(){                //Right now markets letting customer do an IOU
