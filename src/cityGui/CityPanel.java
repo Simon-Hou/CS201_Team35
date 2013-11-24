@@ -10,6 +10,7 @@ import java.util.List;
 
 import person.PersonAgent;
 import util.CityMap;
+import city.CityObject;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
@@ -19,6 +20,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	public static final int CITY_WIDTH = 600, CITY_HEIGHT = 600;
 	boolean addingObject = false;
 	CityComponent temp;
+	public CityObject cityObject;
 	
 	String name = "City Panel";
 	
@@ -93,6 +95,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
 			city.view.addView(new CityCard(city, Color.pink), temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
 			temp = null;
 		}
 		for (CityComponent c: statics) {

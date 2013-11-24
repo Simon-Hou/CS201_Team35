@@ -38,7 +38,7 @@ public class CityObject implements ActionListener{
 	
 	//======MAP======
 	
-	CityMap cityMap = new CityMap();
+	public CityMap cityMap = new CityMap();
 	
 	public final int numBanks = 1;
 	public final int numMarkets = 1;

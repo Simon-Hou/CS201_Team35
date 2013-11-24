@@ -1,5 +1,5 @@
 package util;
 
 public class Place {
-	public int loc;
+	public Loc loc;
 }
