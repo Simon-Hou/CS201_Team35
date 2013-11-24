@@ -2,6 +2,7 @@ package market;
 
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map.Entry;
 
 import interfaces.*;
 import role.Role;
+import person.PersonAgent;
 
 
 public class MarketHostRole extends Role implements MarketHost {
@@ -23,7 +25,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
-	public Person p;
+	public PersonAgent p;
 	String name;
 	
 	//SETTERS
@@ -31,7 +33,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		this.name = name;
 	}
 	
-	public void setPerson(Person p){
+	public void setPerson(PersonAgent p){
 		this.p = p;
 	}
 	
@@ -43,13 +45,15 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	
 	
-	public MarketHostRole(){
+	public MarketHostRole(String name, PersonAgent p){
 		inventory.put("Steak", 10);
 		inventory.put("Chicken", 10);
 		inventory.put("Pizza", 10);
 		inventory.put("Salad", 10);
 		inventory.put("Car", 5);
-		this.p = p;
+		this.name = name;
+		this.p=p;
+		
 	}
 	
 	public boolean NewEmployee(MarketEmployee m){
@@ -68,9 +72,9 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
-	    Do("Got customer's MARKET order.");
+	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
-	    p.msgStateChanged();
+	    StateChanged();
 		
 	}
 
@@ -84,13 +88,13 @@ public class MarketHostRole extends Role implements MarketHost {
 				mc.groceries = groceries;
 			}
 		}
-		p.msgStateChanged();
+		StateChanged();
 		
 	}
 
 	public void msgBusinessWantsThis(BusinessOrder order) {
 		businessOrders.add(order);
-		p.msgStateChanged();
+		StateChanged();
 		
 	}
 
@@ -142,7 +146,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	private void ServeCustomer(MyCustomer mc){
 		mc.state = CustomerState.beingServiced;
 
-		Do("Servicing customer's MARKET ORDER");
+	
 
 		Map<String, Integer> unfulfillable = new HashMap<String, Integer>();
 		for (Entry<String,Integer> item : mc.order.entrySet()){
@@ -186,7 +190,7 @@ public class MarketHostRole extends Role implements MarketHost {
 				e1 = employees.get(i);
 			}
 		}
-
+		Do("Giving this order to " + e1.employee.getName());
 		e1.employee.msgGetItemsForCustomer(mc.customer, mc.order);
 		e1.orders++;
 

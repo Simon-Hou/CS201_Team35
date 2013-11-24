@@ -21,7 +21,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	Map<String, Integer> priceList = new HashMap<String,Integer>();
 	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
-	Person p;
+	PersonAgent p;
 	String name;
 	
 	//SETTERS
@@ -35,8 +35,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	//CONSTRUCTOR
-	public MarketCashierRole(Person p){
+	public MarketCashierRole(String name, PersonAgent p){
 		this.p = p;
+		this.name = name;
 	}
 
 	

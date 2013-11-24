@@ -1,12 +1,14 @@
 package market;
 
 import interfaces.MarketCashier;
+import market.gui.*;
 import interfaces.MarketCustomer;
 import interfaces.MarketHost;
 import interfaces.Person;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import person.PersonAgent;
 import role.Role;
@@ -27,25 +29,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	MarketCashier cashier;
 	String name;
 	
-	public String getName(){
-		return name;
-	}
+	MarketCustomerGui gui;
+	private Semaphore atDestination = new Semaphore(0,true);
 	
-	public void setName(String name){
-		this.name = name;
-	}
 	
-	public void setCashier(MarketCashier cashier){
-		this.cashier = cashier;
-	}
 	
-	public void setMarket(Market m){
-		this.market = m;
-		this.host = m.host;
-		this.cashier = m.cashier;
-	}
-	
+
 	public MarketCustomerRole(String name, PersonAgent p){
+		
 		this.name = name;
 		this.p = p;
 	}
@@ -94,11 +85,18 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		host = m.host;
 		cashier = m.cashier;
 		state = RoleState.JustEnteredMarket;
-		p.msgStateChanged();
+		StateChanged();
 	}
 	
-	//Scheduler
+	//from animation
+	public void msgAtDestination(){
+		atDestination.release();
+		//p.stateChanged();
+		
+	}
+	//--------Scheduler-------
 
+	
 	public boolean pickAndExecuteAnAction() {
 		if (state==RoleState.JustEnteredMarket && host!=null){
 		    state = RoleState.Ordered;        
@@ -131,6 +129,15 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//Actions
 	private void MakeOrder(){
+		
+		gui.DoGoToHost();
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Do("Making my order.");
      	host.msgCustomerWantsThis(this, shoppingList);
 	}
@@ -168,5 +175,27 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	public PersonAgent getPerson(){
 		return p;
 	}
-
+	public void setHost(MarketHost host2) {
+		host = host2;
+		
+	}public void setGui(MarketCustomerGui g){
+		gui = g;
+	}
+	public String getName(){
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public void setCashier(MarketCashier cashier){
+		this.cashier = cashier;
+	}
+	
+	public void setMarket(Market m){
+		this.market = m;
+		this.host = m.host;
+		this.cashier = m.cashier;
+	}
 }

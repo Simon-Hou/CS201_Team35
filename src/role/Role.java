@@ -16,5 +16,7 @@ public abstract class Role extends Agent{
 		
     }
 	
-	
+	public void StateChanged(){
+		super.stateChanged();
+	}
 }
