@@ -12,9 +12,9 @@ public class Job {
 		
 	}
 	
-	public Job(Role role,int location,int shiftStart,int shiftEnd,PlaceOfWork placeOfWork,Person person,JobType jt){
+	public Job(Role role,int shiftStart,int shiftEnd,PlaceOfWork placeOfWork,Person person,JobType jt){
 		this.jobRole = role;
-		this.location = location;
+		//this.location = location;
 		this.shiftStart = shiftStart;
 		this.shiftEnd = shiftEnd;
 		this.placeOfWork = placeOfWork;
@@ -28,7 +28,7 @@ public class Job {
 	
 	public Role jobRole;
 	public PlaceOfWork placeOfWork;
-	public int location;
+	//public int location;
 	public int shiftStart;
 	public int shiftEnd;
 	public JobType jobType;

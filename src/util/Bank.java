@@ -151,6 +151,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 			}
 			return null;
 		}
+		System.err.println("A non-teller is trying to work at the bank!!");
 		return null;
 	}
 

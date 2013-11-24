@@ -76,6 +76,13 @@ public class Market implements PlaceOfWork{
 			return (Role) CanIBeCashier(p);
 		}
 		
+		else if(jobType == jobType.MarketDeliveryMan){
+			System.err.println("Delivery man not dealt with yet");
+			return null;
+		}
+		
+		
+		System.err.println("A non-markter is trying to work at the market");
 		return null;
 	}
 	

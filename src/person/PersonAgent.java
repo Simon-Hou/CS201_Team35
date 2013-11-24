@@ -2,6 +2,7 @@ package person;
 
 import house.InhabitantRole;
 import interfaces.Person;
+import interfaces.PlaceOfWork;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import bank.BankCustomerRole;
 import bank.BankTellerRole;
 import market.Market;
 import market.MarketCustomerRole;
+import market.MarketEmployeeRole;
 import role.Role;
 import util.Bank;
 import util.BusStop;
@@ -572,6 +574,28 @@ public class PersonAgent extends Agent implements Person {
 	
 	
 	//Utilities
+	
+	public void setJob(PlaceOfWork placeOfWork,JobType jobType,int start,int end){
+		
+		Role jobRole = null;
+		if(jobType==JobType.MarketHost || jobType==JobType.MarketCashier 
+				|| jobType==jobType.RestaurantHost){
+			jobRole = null;
+			//myJob = new Job(null,start,end,placeOfWork,this,jobType);
+			//return;
+		}
+		else if(jobType==JobType.BankTeller){
+			jobRole = new BankTellerRole(name+"Teller",this);
+			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
+			//return;
+		}
+		else if(jobType==JobType.MarketEmployee){
+			jobRole = new MarketEmployeeRole(name+"MarketEmployee",this);
+			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
+		}
+		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
+		
+	}
 	
 	public void msgStateChanged() {
 		//this.pickAndExecuteAnAction();
