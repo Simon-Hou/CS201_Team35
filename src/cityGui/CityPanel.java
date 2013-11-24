@@ -26,6 +26,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	
 	public CityPanel(SimCityGui city) {
 		super(city);
+		//setSize(CITY_WIDTH,CITY_HEIGHT);
 		this.setPreferredSize(new Dimension(CITY_WIDTH, CITY_HEIGHT));
 		this.setVisible(true);
 		
