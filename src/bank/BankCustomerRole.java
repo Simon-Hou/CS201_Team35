@@ -3,6 +3,8 @@ package bank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+
+import bank.gui.BankCustomerGui;
 import person.PersonAgent;
 import interfaces.BankCustomer;
 import interfaces.BankInterface;
@@ -40,6 +42,10 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		Tasks.add(t);
 	}
 	
+	public void setGui(BankCustomerGui g) {
+		bankCustomerGui = g;
+	}
+	
 	//GETTERS
 	
 	public String getName(){
@@ -72,6 +78,11 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	Task pendingTask = null;
 	
+	public BankCustomerGui bankCustomerGui;
+	
+	public int tellerWindowX = 0;
+	public int tellerWindowY = 0;
+	
 	
 	
 	//MSG
@@ -85,6 +96,18 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public void msgHowCanIHelpYou(BankTeller t){
 		Do("Just got asked how I can be helped.");
 		
+		teller = t;
+		event = CustEvent.tellerReady;
+		//state = CustState.beingServed;
+		person.msgStateChanged();
+		//stateChanged();
+		
+	}
+	
+	public void msgHowCanIHelpYou(BankTeller t, int x, int y){
+		Do("Just got asked how I can be helped.");
+		tellerWindowX = x;
+		tellerWindowY = y;
 		teller = t;
 		event = CustEvent.tellerReady;
 		//state = CustState.beingServed;
@@ -195,9 +218,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	private void goToWindow() {
 		Do("Going to the teller's window");
-		doGoToWindow();
+		bankCustomerGui.DoGoToTellerWindow(tellerWindowX, tellerWindowY);
 		state = CustState.goingToWindow;
-		atDestination.release();
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
@@ -214,9 +236,13 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		if(Tasks.isEmpty()){
 			Do("Finished what I needed done. I'm leaving");
 			state = CustState.leaving;
-			doLeaveBank();
+			bankCustomerGui.DoExitBank();
 			teller.msgDoneAndLeaving();
-			
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			event = CustEvent.left;
 			person.msgThisRoleDone(this);
 			return;
@@ -248,10 +274,6 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void doGoToWindow() {
-		
-	}
-	
-	private void doLeaveBank(){
 		
 	}
 	

@@ -24,15 +24,15 @@ public class BankCustomerGui implements Gui{
 	public static final int BankCustomerWidth = 20;
 	public static final int BankCustomerHeight = 20;
 	public static final int xDoor = -40;
-	public static final int yDoor = -40;
+	public static final int yDoor = 100;
 	
 
-	public BankCustomerGui(BankCustomerRole bcr/*, RestaurantGui gui*/){ //HostAgent m) {
+	public BankCustomerGui(BankCustomerRole bcr/*, RestaurantGui gui*/){ 
 		role = bcr;
-		xPos = -40;//TODO set door positions and figure out the line.
-		yPos = -40;
-		xDestination = -40;
-		yDestination = -40;
+		xPos = xDoor;
+		yPos = yDoor;
+		xDestination = xDoor;
+		yDestination = yDoor;
 		//this.gui = gui;//TODO figure out the Gui!
 	}
 
@@ -50,6 +50,7 @@ public class BankCustomerGui implements Gui{
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToTellerWindow) role.msgAtDestination();//release a semaphore?
 			else if (command==Command.LeaveBank) {
+				role.msgAtDestination();
 				//role.msgAnimationFinishedLeaveRestaurant();//set this role.
 				//System.out.println("about to call gui.setCustomerEnabled(agent);");
 				//isHungry = false;//carrying money again?
@@ -85,7 +86,7 @@ public class BankCustomerGui implements Gui{
 		isPresent = p;
 	}
 	
-	public void DoGoToTellerWindow(int windowX, int windowY) {//later you will map seatnumber to table coordinates.
+	public void DoGoToTellerWindow(int windowX, int windowY) {
 		xDestination = windowX;
 		yDestination = windowY;
 		command = Command.GoToTellerWindow;
