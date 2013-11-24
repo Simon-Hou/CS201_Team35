@@ -50,6 +50,10 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		return name;
 	}
 	
+	public boolean canLeave() {
+		return false;
+	}
+	
 	
 	//constructor
 	public MarketEmployeeRole(String name, PersonAgent p){
@@ -135,5 +139,6 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    }
 	}
 	enum CustomerOrderState {none,  fulfilled}
+
 	
 }

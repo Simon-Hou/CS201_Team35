@@ -1,6 +1,7 @@
 package person;
 
 import house.InhabitantRole;
+import interfaces.Occupation;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
 
@@ -190,6 +191,11 @@ public class PersonAgent extends Agent implements Person {
 						return true;
 					}
 				}
+				if(((Occupation) myJob.jobRole).canLeave()){
+					Do("It's quitting time.");
+					activeRole = null;
+					return true;
+				}
 			}
 			
 			return activeRole.pickAndExecuteAnAction();
@@ -263,10 +269,11 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Actions
 	private void goToWork() {
-		Do("I am going to work");
+		Do("I am going to work as a "+myJob.jobType);
 		doGoToWork();
 		
 		Role tempJobRole = myJob.placeOfWork.canIStartWorking(this, myJob.jobType, myJob.jobRole);
+		
 		//THIS IS JUST A TEMPORARY FIX, IF SOMEONE DOESN'T GET TO WORK,
 		//WE JUST MOVE THEIR SHIFT BACK BY ONE TIME STEP
 		if(tempJobRole==null){
@@ -310,7 +317,7 @@ public class PersonAgent extends Agent implements Person {
 		}*/
 		
 		
-		
+		myJob.jobRole = tempJobRole;
 		activeRole = tempJobRole;
 		//Do(""+ activeRole);
 		//System.out.flush();

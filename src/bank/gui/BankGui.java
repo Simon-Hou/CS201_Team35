@@ -15,7 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import util.Bank;
 import util.Bank.BankAccount;
+import util.Bank.loan;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;;
 
@@ -70,8 +72,9 @@ public class BankGui  extends JFrame implements ActionListener {
     private JLabel userAmount = new JLabel();
     private JLabel userName = new JLabel();
     private JLabel userPass = new JLabel();
+    private JLabel loanAmount = new JLabel();
     
-    private ListPanel loans = new ListPanel(bankPanel, "Loans");
+    public ListPanel loans = new ListPanel(bankPanel, "Loans");
     
     
 //    /* infoPanel holds information about the clicked customer, if there is one*/
@@ -91,7 +94,7 @@ public class BankGui  extends JFrame implements ActionListener {
     	
         controlPanel.setLayout(new BorderLayout());
         moreInfo.setLayout(new BorderLayout());
-        moreInfoPersonal.setLayout(new GridLayout(3, 1));
+        moreInfoPersonal.setLayout(new GridLayout(4, 1));
         Dimension addInfoDim = new Dimension((int)(controlPanelWidth*.5), (int) (controlPanelHeight * .45));
         userName.setBorder(BorderFactory.createTitledBorder("Name"));
         userName.setSize(addInfoDim);
@@ -101,9 +104,13 @@ public class BankGui  extends JFrame implements ActionListener {
         userAmount.setBorder(BorderFactory.createTitledBorder("Amount"));
         userAmount.setSize(addInfoDim);
         
+        loanAmount.setBorder(BorderFactory.createTitledBorder("Loan Amount"));
+        loanAmount.setSize(addInfoDim);
+        
         moreInfoPersonal.add(userName);
         moreInfoPersonal.add(userPass);
         moreInfoPersonal.add(userAmount);
+        moreInfoPersonal.add(loanAmount);
         moreInfoPersonal.setPreferredSize(addInfoDim);
         
         loans.setSize(addInfoDim);
@@ -199,6 +206,14 @@ public class BankGui  extends JFrame implements ActionListener {
         userName.setText(ba.custName);
         userPass.setText(ba.passWord);
         userAmount.setText("" + ba.amount);
+        loanAmount.setText("");
+        loans.clearListButtons();
+        if (!ba.myLoans.isEmpty()) {
+			for (loan l : ba.myLoans) {
+				loans.addListButton("" + l.loanNumber);
+			}
+		}
+        repaint();
 //        stateCB.setText("Hungry?");
 //        //Should checkmark be there? 
 //        stateCB.setSelected(customer.getGui().isHungry());
@@ -207,6 +222,18 @@ public class BankGui  extends JFrame implements ActionListener {
 //        // Hack. Should ask customerGui
         //infoLabel.setText("<html><pre>     Name: " + customer.getName() + " </pre></html>");
         //infoPanel.validate();
+    }
+    
+    public void updateLoanLabel(int loanNum, BankAccount ba) {
+    	if (!ba.myLoans.isEmpty()) {
+			for (loan l : ba.myLoans) {
+				System.out.println("" + loanNum);
+				System.out.println(l.loanNumber + "");
+				if (l.loanNumber == loanNum) {
+					loanAmount.setText("" + l.total);
+				}
+			}
+		}
     }
     /**
      * Action listener method that reacts to the checkbox being clicked;
@@ -277,13 +304,27 @@ public class BankGui  extends JFrame implements ActionListener {
 	/**
      * Main routine to get gui started
      */
-    public static void bankMain(String[] args) {
+    public static void bankMain() {
         BankGui gui = new BankGui();
         gui.setTitle("Bank");
         gui.setVisible(true);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.bankPanel.enterBankTemp("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        gui.loans.addListButton("Joe");
+        
+        String custName = "CustomerAccount";
+        String passWord = "12345";
+        Bank banka = new Bank();
+        BankAccount ba = (banka.new BankAccount(5, 0, custName, passWord));
+        ba.myLoans.add(banka.new loan(5, 0));
+        ba.myLoans.add(banka.new loan(15, 7));
+        ba.myLoans.add(banka.new loan(50, 2));
+        gui.bankPanel.addAccount(ba);
+        BankAccount ba2 = (banka.new BankAccount(2, 1, custName + "hi", passWord + "123"));
+        ba2.myLoans.add(banka.new loan(1, 3));
+        ba2.myLoans.add(banka.new loan(2, 6));
+        ba2.myLoans.add(banka.new loan(3, 1));
+        gui.bankPanel.addAccount(ba2);
+        
         
         //cityFrame.addTab("Bank", NULL/*unless you want an image*/,  Component component) 
     }

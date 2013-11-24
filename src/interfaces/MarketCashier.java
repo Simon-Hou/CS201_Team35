@@ -4,7 +4,7 @@ import java.util.Map;
 
 import market.MarketCashierRole.MyCustomer;
 
-public interface MarketCashier {
+public interface MarketCashier extends Occupation{
 	
 	public void msgPleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries);
 	public void msgFinishedComputing(MyCustomer mc);

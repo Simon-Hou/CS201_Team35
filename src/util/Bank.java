@@ -36,19 +36,19 @@ public class Bank implements BankInterface, PlaceOfWork{
 		public int accountNumber;
 		public String custName;
 		public String passWord;
-		List<loan> myLoans = new ArrayList<loan>();
+		public List<loan> myLoans = new ArrayList<loan>();
 	}
 	
-	class loan{
+	public class loan{
 
 		public loan(int totalAmount,int loanNumber) {
 			total = totalAmount;
 			amountLeft = total;
 			this.loanNumber = loanNumber;
 		}
-		int total;
+		public int total;
 		int amountLeft;//to be paid off.
-		int loanNumber;
+		public int loanNumber;
 
 		public void payOff(int payment) {
 			amountLeft -= payment;
