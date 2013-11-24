@@ -21,8 +21,9 @@ public class BankTellerRole extends Role implements BankTeller{
 	//Constructor
 	
 	//quick and dirty
-	public BankTellerRole(String name){
+	public BankTellerRole(String name,Person p){
 		this.name = name;
+		this.person = person;
 		//startedWorking = true;
 	}
 	
@@ -89,12 +90,12 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	public void msgIWantTo(Task t){
 		currentTask = t;
-		Do("Got customer's request to process a " + t.getType());
+		//Do("Got customer's request to process a " + t.getType());
 		person.msgStateChanged();
 	}
 	
 	public void msgDoneAndLeaving(){
-		Do("Customer just left");
+		//Do("Customer just left");
 		currentCustomer = null;
 		person.msgStateChanged();
 		
@@ -107,18 +108,18 @@ public class BankTellerRole extends Role implements BankTeller{
 		
 		//If not started working, tell BankInterface you're starting
 		if(!startedWorking){
-			Do("I'll start working.");
+			//Do("I'll start working.");
 			startedWorking = bank.startTellerShift(this);
 			return true;
 		}
 		
 		//if you don't have a customer, take one from the queue
 		if(currentCustomer == null){
-			Do("Need a new customer");
+			//Do("Need a new customer");
 			currentCustomer = bank.getCustomer();
 			//System.out.println(currentCustomer==null);
 			if(currentCustomer!=null){
-				Do("Sending "+ currentCustomer.getName()+" a message to start helping him");
+				//Do("Sending "+ currentCustomer.getName()+" a message to start helping him");
 				System.out.flush();
 				currentCustomer.msgHowCanIHelpYou(this);
 				return true;
@@ -169,7 +170,8 @@ public class BankTellerRole extends Role implements BankTeller{
 		
 		int pass =  (int) (100000*Math.random());
 		String passWord = "p"+pass;
-		Do(passWord);
+		passWord = "passWord";
+		//Do(passWord);
 		int accountNumber = bank.addAccount(((openAccount) currentTask).custName,currentTask.amount,passWord);
 		
 		currentCustomer.msgAccountOpenedAnythingElse(currentTask.amount,accountNumber,passWord);

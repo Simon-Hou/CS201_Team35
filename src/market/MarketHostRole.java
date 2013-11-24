@@ -2,6 +2,7 @@ package market;
 
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map.Entry;
 
 import interfaces.*;
 import role.Role;
+import person.PersonAgent;
 
 
 public class MarketHostRole extends Role implements MarketHost {
@@ -16,31 +18,72 @@ public class MarketHostRole extends Role implements MarketHost {
 	//-----------------------------DATA--------------------------------
 	enum CustomerState {waiting, beingServiced, leaving};
 	
-	private List<MyEmployee> employees = new ArrayList<MyEmployee>();
+	public List<MyEmployee> employees = new ArrayList<MyEmployee>();
 	private List<MyCustomer> customers= new ArrayList<MyCustomer>();
 	
 	private List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
 	
 	Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
+	public Person p;
+	public String name;
 	
-	public MarketHostRole(){
+	//SETTERS
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public void setPerson(PersonAgent p){
+		this.p = p;
+	}
+	
+	
+	//GETTERS
+	public String getName(){
+		return name;
+	}
+	
+
+	public boolean canLeave() {
+		return true;
+	}
+	
+	public MarketHostRole(String name, PersonAgent p){
 		inventory.put("Steak", 10);
 		inventory.put("Chicken", 10);
 		inventory.put("Pizza", 10);
 		inventory.put("Salad", 10);
 		inventory.put("Car", 5);
+		this.name = name;
+		this.p=p;
+		
+	}
+	
+	public boolean NewEmployee(MarketEmployee m){
+		addEmployee(m);
+		return true;
 	}
 	
 	//-----------------------------MESSAGES--------------------------------
 	
+	
+	
+	public boolean YouAreDoneWithShift(){
+		//TODO make sure people don't leave their shifts early
+		p.msgThisRoleDone(this);
+		return true;
+	}
+	
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
-	    customers.add(new MyCustomer(c, orderList));
-	    stateChanged();
+	    Do("I received a MARKET order from " + c.getName());
+		customers.add(new MyCustomer(c, orderList));
+	    p.msgStateChanged();
 		
 	}
 
 	public void msgCustomerLeaving(MarketCustomer c, Receipt receipt, Map<String, Integer> groceries) {
+		
+		Do("Cust trying to leave");
 		for (MyCustomer mc : customers){
 			if (mc.customer == c){
 				mc.state = CustomerState.leaving;
@@ -48,13 +91,13 @@ public class MarketHostRole extends Role implements MarketHost {
 				mc.groceries = groceries;
 			}
 		}
-		stateChanged();
+		p.msgStateChanged();
 		
 	}
 
 	public void msgBusinessWantsThis(BusinessOrder order) {
 		businessOrders.add(order);
-		stateChanged();
+		p.msgStateChanged();
 		
 	}
 
@@ -62,7 +105,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	//-----------------------------SCHEDULER--------------------------------
 	public boolean pickAndExecuteAnAction() {
-		
+		//Do("SCHEDULER");
 		for (MyCustomer mc : customers){
 			if (mc.state == CustomerState.leaving){
 				CheckCustomer(mc);
@@ -89,7 +132,8 @@ public class MarketHostRole extends Role implements MarketHost {
 	//-----------------------------ACTIONS--------------------------------
 	
 	private void CheckCustomer(MyCustomer mc){
-		if ((mc.receipt == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
+		Do("Checking customer");
+		if (mc.groceries.isEmpty()  || (mc.receipt == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
 			mc.customer.msgYouCanLeave();
 			customers.remove(mc);
 			return;
@@ -105,6 +149,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	private void ServeCustomer(MyCustomer mc){
 		mc.state = CustomerState.beingServiced;
 
+	
 
 		Map<String, Integer> unfulfillable = new HashMap<String, Integer>();
 		for (Entry<String,Integer> item : mc.order.entrySet()){
@@ -133,9 +178,9 @@ public class MarketHostRole extends Role implements MarketHost {
 			//^^where is this message?
 		}
 
-		if (mc.order.size()==0){
+		/*if (mc.order.size()==0){
 			return;
-		}
+		}*/
 
 		
 		
@@ -148,7 +193,7 @@ public class MarketHostRole extends Role implements MarketHost {
 				e1 = employees.get(i);
 			}
 		}
-
+		Do("Giving this order to " + e1.employee.getName());
 		e1.employee.msgGetItemsForCustomer(mc.customer, mc.order);
 		e1.orders++;
 
@@ -220,6 +265,15 @@ public class MarketHostRole extends Role implements MarketHost {
 	    }
 	}
 	
+	public void addEmployee(MarketEmployee m){
+		this.employees.add(new MyEmployee(m));
+	}
+	
+	/*String name;
+	public String getName(){
+		return this.name;
+	}*/
+	
 	private class MyCustomer{
 	    MarketCustomer customer;
 	    Map<String, Integer> order;
@@ -235,5 +289,6 @@ public class MarketHostRole extends Role implements MarketHost {
 	    	
 	    }
 	}
+
 	
 }

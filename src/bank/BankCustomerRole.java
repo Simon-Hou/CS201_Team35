@@ -208,7 +208,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	private void NextTask(){
 		
-		Do("Telling teller the next task");
+		//Do("Telling teller the next task");
 		
 		//Task t = Tasks.get(0);
 		if(Tasks.isEmpty()){

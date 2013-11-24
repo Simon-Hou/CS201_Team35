@@ -3,15 +3,18 @@ package util;
 import interfaces.BankCustomer;
 import interfaces.BankInterface;
 import interfaces.BankTeller;
+import interfaces.Person;
+import interfaces.PlaceOfWork;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import role.Role;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
 
-public class Bank implements BankInterface{
+public class Bank implements BankInterface, PlaceOfWork{
 	
 	//stores all the people in the queue
 	public List<BankCustomer> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
@@ -136,6 +139,20 @@ public class Bank implements BankInterface{
 		totalAmount = 0;
 		return a;
 		
+	}
+
+
+	@Override
+	public Role canIStartWorking(Person p,JobType jobType,Role r) {
+		// TODO Auto-generated method stub
+		if(jobType == JobType.BankTeller){
+			if(startTellerShift((BankTeller) r)){
+				return r;
+			}
+			return null;
+		}
+		System.err.println("A non-teller is trying to work at the bank!!");
+		return null;
 	}
 
 

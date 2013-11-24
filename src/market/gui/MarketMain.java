@@ -13,18 +13,28 @@ public class MarketMain extends JFrame{
 
 	
 	MarketMain(){
-	    int WINDOWX = 500;
+	    int WINDOWX = 800;
 	    int WINDOWY = 500;	
-		setBounds(50, 50, WINDOWX,WINDOWY);
-		setLayout(new FlowLayout());
+		setBounds(100, 50, WINDOWX,WINDOWY);
+		setLayout(new GridLayout(1,2,5,5));
 		
-		MarketPanel mp = new MarketPanel();
-        Dimension mpSize = new Dimension (WINDOWX, WINDOWY);
+		MarketAnimation ma = new MarketAnimation();
+        Dimension maSize = new Dimension (WINDOWX/2, WINDOWY);
+        ma.setPreferredSize(maSize);
+        ma.setMinimumSize(maSize);
+        ma.setMaximumSize(maSize);	
+		
+		
+		MarketPanel mp = new MarketPanel(ma);
+        Dimension mpSize = new Dimension (WINDOWX/2, WINDOWY);
         mp.setPreferredSize(mpSize);
         mp.setMinimumSize(mpSize);
         mp.setMaximumSize(mpSize);	
-		add(mp);
+
 		
+    	add(mp);
+		add(ma);
+
 		
 	}
 

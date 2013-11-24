@@ -4,7 +4,6 @@ import java.util.concurrent.*;
 
 import UnitTests.mock.EventLog;
 
-
 /**
  * Base class for simple agents
  */
@@ -51,6 +50,13 @@ public abstract class Agent {
      */
     protected String getName() {
         return StringUtil.shortName(this);
+    }
+    
+    /**
+     * Set the Agent's name variable
+     */
+    public void setName(String name){
+    	
     }
 
     /**

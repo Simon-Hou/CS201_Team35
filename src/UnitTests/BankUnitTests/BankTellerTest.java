@@ -43,8 +43,8 @@ public class BankTellerTest extends TestCase
 		
 		person = new MockBankPerson("c0");
 		
-		teller = new BankTellerRole("t0");
-		teller.setPerson(person);
+		teller = new BankTellerRole("t0",person);
+		//teller.setPerson(person);
 		teller.setBank(bank);
 		
 		customer = new MockBankCustomer("c0");

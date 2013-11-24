@@ -1,35 +1,88 @@
 package market;
 
+import java.util.ArrayList;
+
+import interfaces.*;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import market.gui.MarketEmployeeGui;
+import person.PersonAgent;
 import role.Role;
-
 import interfaces.MarketCustomer;
 import interfaces.MarketDeliveryMan;
 import interfaces.MarketEmployee;
+import interfaces.Person;
 
 public class MarketEmployeeRole extends Role implements MarketEmployee{
 
-	List<CustomerOrder> customerOrders;
-	List<BusinessOrder> businessOrders;
-	List<BusinessOrder> deliveryList;
+	List<CustomerOrder> customerOrders = Collections.synchronizedList(new ArrayList<CustomerOrder>());
+	List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
+	List<BusinessOrder> deliveryList = new ArrayList<BusinessOrder>();
+	PersonAgent p;
+	public String name;
+	
+	List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
+	MarketCashier cashier; 
+	
+	MarketEmployeeGui gui;
+	
+	//SETTERS
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public void setGui(MarketEmployeeGui g){
+		gui = g;
+	}
+	public void setCashier(MarketCashier cash){
+		cashier = cash;
+	}
+	
+	public void addDeliveryMan(MarketDeliveryMan d){
+		deliveryMen.add(d);
+	}
+	
+	//GETTERS
+	public String getName(){
+		return name;
+	}
+	
+	public boolean canLeave() {
+		return false;
+	}
+	
+	
+	//constructor
+	public MarketEmployeeRole(String name, PersonAgent p){
+		this.name = name;
+		this.p = p;
+	}
 	
 	//Messages
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList){
-	    customerOrders.add(new CustomerOrder(c, orderList));
+	    Do("Better get the customer's item's");
+		customerOrders.add(new CustomerOrder(c, orderList));
+		p.msgStateChanged();
 	}
 
 	public void msgGetThis(BusinessOrder order){
 	    businessOrders.add(order);
+	    p.msgStateChanged();
 	}
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
-		for (CustomerOrder co: customerOrders){
-			if (co.status == CustomerOrderState.none){
-				CollectItems(co);
-				return true;
+		
+		//Do("SCHEDULER");
+		synchronized(customerOrders){
+			for (CustomerOrder co: customerOrders){
+				if (co.status == CustomerOrderState.none){
+					CollectItems(co);
+					return true;
+				}
 			}
 		}
 		for (CustomerOrder co: customerOrders){
@@ -82,8 +135,10 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    CustomerOrder(MarketCustomer c, Map<String, Integer> order){
 	    	this.c = c;
 	    	this.order = order;
+	    	status = CustomerOrderState.none;
 	    }
 	}
 	enum CustomerOrderState {none,  fulfilled}
+
 	
 }

@@ -4,6 +4,8 @@ import person.PersonAgent;
 import role.Role;
 import testAgents.testPerson;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -15,22 +17,55 @@ import interfaces.Person;
 
 public class MarketCashierRole extends Role implements MarketCashier{
 
-	List<MyCustomer> customers;
-	Map<String, Integer> priceList;
-	Map<Person, Integer> debtorsList;
+	List<MyCustomer> customers = new ArrayList<MyCustomer>();
+	Map<String, Integer> priceList = new HashMap<String,Integer>();
+	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
+	Person p;
+	public String name;
+	
+	//SETTERS
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	//GETTERS
+	public String getName(){
+		return name;
+	}
+	
+	public boolean canLeave() {
+		return true;
+	}
+	
+	//CONSTRUCTOR
+	public MarketCashierRole(String name, PersonAgent p){
+		this.p = p;
+		this.name = name;
+	}
 
-	Timer timer;
-
-	List<BusinessPayment> businessPayments;
+	
+	public boolean YouAreDoneWithShift(){
+		p.msgThisRoleDone(this);
+		return true;
+	}
+	
+	Timer timer = new Timer();
+	List<Timer> timers = new ArrayList<Timer>();
+	
+	List<BusinessPayment> businessPayments = new ArrayList<BusinessPayment>();
+	
+	
 	
 	//Messages
 	public void msgPleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		customers.add(new MyCustomer(c, groceries));
+		p.msgStateChanged();
 	}
 	
 	public void msgFinishedComputing(MyCustomer mc){
 	    mc.status = CustomerState.hasTotal;
+	    p.msgStateChanged();
 	}
 
 	public void msgCustomerPayment(MarketCustomer c, int payment){
@@ -41,15 +76,17 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	    break;
 	    	}
 	    		
-	    }		
+	    }	
+	    p.msgStateChanged();
 	}
 
 	public void msgHereIsBusinessPayment(int pay){
 		BusinessPayment payment = new BusinessPayment(pay);
 	    businessPayments.add(payment);
+	    p.msgStateChanged();
 	}
 	
-	//Scheduler
+	//-----------------------Scheduler---------------------------
 	public boolean pickAndExecuteAnAction() {
 		for (MyCustomer mc: customers){
 			if (mc.status == CustomerState.needsTotal){
@@ -79,6 +116,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Actions
 	private void ComputeTotal(MyCustomer mc){
+		//Do("computing total");
 	    int total=0;
 	    if (debtorsList.containsKey(mc.c.getPerson())){
 	    	total+= debtorsList.get(mc.c.getPerson());
@@ -93,10 +131,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    
 	    final MyCustomer cust = mc;
 	    
+	    //final Timer t = new Timer();
+	    //timers.add(t);
+	    mc.status = CustomerState.computingTotal;
 	    timer.schedule(new TimerTask(){
 	    	public void run(){
 	    		msgFinishedComputing(cust);
-	    	}}, mc.order.size()*1000);
+	    		//timer.cancel();
+	    	}}, mc.order.size()*1000+1000);
 	}
 
 	private void AskCustomerToPay(MyCustomer mc){
@@ -105,6 +147,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void AcceptPayment(MyCustomer mc){
+		Do("Accepting Payment");
 	    int change = mc.payment-mc.total;
 	    if (change>=0){
 	        mc.c.msgHereIsYourChange(new Receipt(mc.order, mc.total, mc.payment, this), change);
@@ -147,5 +190,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		}
 		
 	}
+
+
 	
 }
