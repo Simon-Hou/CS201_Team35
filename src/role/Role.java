@@ -1,9 +1,10 @@
 package role;
 
+import interfaces.Person;
 import agent.Agent;
 
 public abstract class Role extends Agent{
-
+	
 	
 	public abstract boolean pickAndExecuteAnAction();
 	

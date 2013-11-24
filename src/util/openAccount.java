@@ -7,6 +7,7 @@ public class openAccount extends Task{
 		
 	}
 	
+	
 	public openAccount(int amount, String custName){
 		this.amount = amount;
 		this.custName = custName;

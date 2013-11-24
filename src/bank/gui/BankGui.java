@@ -10,17 +10,25 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-
+import util.Bank.BankAccount;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;;
 
-public class BankGui  extends JPanel implements ActionListener {
+public class BankGui  extends JFrame implements ActionListener {
+	
+	public static final int WINDOWX = 450;
+	public static final int WINDOWY = 350;
 	
 	public static final int animPanelWidth = 780;
 	public static final int animPanelHeight = 550;
+	
+	public static final int controlPanelWidth = 450;
+	public static final int controlPanelHeight = 550;
 	
 	public static final int xUserScreen = 10;
 	public static final int yUserScreen = 10;
@@ -47,6 +55,8 @@ public class BankGui  extends JPanel implements ActionListener {
 	//AnimationPanel animationPanel = new AnimationPanel();
 	BankAnimationPanel bankAnimationPanel = new BankAnimationPanel();
 	
+	BankAccount currentAccount = null;
+	
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
      *    in RestaurantPanel()
@@ -54,6 +64,15 @@ public class BankGui  extends JPanel implements ActionListener {
      */    
     private BankPanel bankPanel = new BankPanel(this);
     private JPanel controlPanel = new JPanel();//changed userScreen to controlPanel
+    private JPanel moreInfo = new JPanel();
+    
+    private JPanel moreInfoPersonal = new JPanel();//left side of more info.
+    private JLabel userAmount = new JLabel();
+    private JLabel userName = new JLabel();
+    private JLabel userPass = new JLabel();
+    
+    private ListPanel loans = new ListPanel(bankPanel, "Loans");
+    
     
 //    /* infoPanel holds information about the clicked customer, if there is one*/
 //    private JPanel infoPanel;
@@ -69,28 +88,58 @@ public class BankGui  extends JPanel implements ActionListener {
 //    								Seems like a hack */
 //    private Object currentWaiter;
     public BankGui() {
-        int WINDOWX = 450;
-        int WINDOWY = 350;
-
+    	
         controlPanel.setLayout(new BorderLayout());
+        moreInfo.setLayout(new BorderLayout());
+        moreInfoPersonal.setLayout(new GridLayout(3, 1));
+        Dimension addInfoDim = new Dimension((int)(controlPanelWidth*.5), (int) (controlPanelHeight * .45));
+        userName.setBorder(BorderFactory.createTitledBorder("Name"));
+        userName.setSize(addInfoDim);
         
+        userPass.setBorder(BorderFactory.createTitledBorder("Password"));
+        userPass.setSize(addInfoDim);
+        userAmount.setBorder(BorderFactory.createTitledBorder("Amount"));
+        userAmount.setSize(addInfoDim);
+        
+        moreInfoPersonal.add(userName);
+        moreInfoPersonal.add(userPass);
+        moreInfoPersonal.add(userAmount);
+        moreInfoPersonal.setPreferredSize(addInfoDim);
+        
+        loans.setSize(addInfoDim);
+        moreInfo.add(moreInfoPersonal, BorderLayout.WEST);
+        moreInfo.add(loans, BorderLayout.EAST);
+        
+        
+        //setSize(WINDOWX, WINDOWY);
+        setBounds(xRestGui, yRestGui, restGuiWidth, restGuiHeight);
         /*animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         animationFrame.setBounds(xAnimFrame, yAnimFrame, animFrameWidth, animFrameHeight);
         animationFrame.setVisible(true);
     	animationFrame.add(animationPanel); *///tok out because it is now put in userScreen
     	
-    	controlPanel.setBounds(xUserScreen, yUserScreen, userScreenWidth, userScreenHeight);
+    	controlPanel.setBounds(xUserScreen, yUserScreen, controlPanelWidth, controlPanelHeight);
     	//setBounds(xRestGui, yRestGui, restGuiWidth, restGuiHeight);//is there a way to do this?/what si
-    	setLayout(new GridLayout(1, 2, 0, 0));
+    	setLayout(new BorderLayout());
         controlPanel.setLayout(new BorderLayout(5, 5));
 
         bankAnimationPanel.setBounds(0, 0, animPanelWidth, animPanelHeight);
         
-        Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * .6));
-        bankPanel.setPreferredSize(restDim);
-        bankPanel.setMinimumSize(restDim);
-        bankPanel.setMaximumSize(restDim);
+        Dimension bankDim = new Dimension(controlPanelWidth, (int) (controlPanelHeight * .5));
+        bankPanel.setPreferredSize(bankDim);
+        bankPanel.setMinimumSize(bankDim);
+        bankPanel.setMaximumSize(bankDim);
+        Dimension moreInfoDim = new Dimension(controlPanelWidth, (int) (controlPanelHeight * .45));
+        moreInfo.setPreferredSize(moreInfoDim);
+        moreInfo.setMinimumSize(moreInfoDim);
+        moreInfo.setMaximumSize(moreInfoDim);
         controlPanel.add(bankPanel, BorderLayout.NORTH);
+        controlPanel.add(moreInfo, BorderLayout.SOUTH);
+        Dimension controlDim = new Dimension(controlPanelWidth, (int) (controlPanelHeight));
+        controlPanel.setPreferredSize(controlDim);
+        controlPanel.setMaximumSize(controlDim);
+        add(controlPanel, BorderLayout.WEST);
+        add(bankAnimationPanel, BorderLayout.CENTER);
     }
         
         
@@ -145,34 +194,20 @@ public class BankGui  extends JPanel implements ActionListener {
      *
      * @param person customer (or waiter) object
      */
-//    public void updateInfoPanel(Object person) {
-//        stateCB.setVisible(true);
-//        currentPerson = person;
-//
-//        if (person instanceof CustomerAgent) {
-//            CustomerAgent customer = (CustomerAgent) person;
-//            stateCB.setText("Hungry?");
-//          //Should checkmark be there? 
-//            stateCB.setSelected(customer.getGui().isHungry());
-//          //Is customer hungry? Hack. Should ask customerGui
-//            stateCB.setEnabled(!customer.getGui().isHungry());
-//          // Hack. Should ask customerGui
-//            infoLabel.setText(
-//               "<html><pre>     Name: " + customer.getName() + " </pre></html>");
-//        }
-//        else if (person instanceof WaiterAgent) {
-//            WaiterAgent waiter = (WaiterAgent) person;
-//            stateCB.setText("Tired?");
-//          //Should checkmark be there? 
-//            stateCB.setSelected(waiter.getGui().isTired());
-//          //Is customer hungry? Hack. Should ask customerGui
-//            stateCB.setEnabled(!waiter.getGui().isTired());
-//          // Hack. Should ask customerGui
-//            infoLabel.setText(
-//               "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
-//        }
-//        infoPanel.validate();
-//    }
+    public void updateInfoPanel(BankAccount ba) {
+        currentAccount = ba;
+        userName.setText(ba.custName);
+        userPass.setText(ba.passWord);
+        userAmount.setText("" + ba.amount);
+//        stateCB.setText("Hungry?");
+//        //Should checkmark be there? 
+//        stateCB.setSelected(customer.getGui().isHungry());
+//        //Is customer hungry? Hack. Should ask customerGui
+//        stateCB.setEnabled(!customer.getGui().isHungry());
+//        // Hack. Should ask customerGui
+        //infoLabel.setText("<html><pre>     Name: " + customer.getName() + " </pre></html>");
+        //infoPanel.validate();
+    }
     /**
      * Action listener method that reacts to the checkbox being clicked;
      * If it's the customer's checkbox, it will make him hungry
@@ -242,9 +277,14 @@ public class BankGui  extends JPanel implements ActionListener {
 	/**
      * Main routine to get gui started
      */
-    public static void main(String[] args) {
+    public static void bankMain(String[] args) {
         BankGui gui = new BankGui();
-        //gui.setTitle("Bank");
+        gui.setTitle("Bank");
+        gui.setVisible(true);
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gui.bankPanel.enterBankTemp("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        gui.loans.addListButton("Joe");
+        
         //cityFrame.addTab("Bank", NULL/*unless you want an image*/,  Component component) 
     }
 	

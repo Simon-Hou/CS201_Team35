@@ -4,6 +4,7 @@ import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
 import interfaces.MarketHost;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import person.PersonAgent;
@@ -16,10 +17,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
 	RoleEvent event;
 	enum RoleEvent {none, itemsArrived, askedToPay, paymentReceived, allowedToLeave }
-	Map<String, Integer> shoppingList;    
-	Map<String, Integer> groceries;
+	Map<String, Integer> shoppingList = new HashMap<String, Integer>();    
+	Map<String, Integer> groceries = new HashMap<String,Integer>();
 	int bill;
 	Receipt receipt;
+	Market market;
 	MarketHost host;
 	MarketCashier cashier;
 	String name;
@@ -32,16 +34,29 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.name = name;
 	}
 	
+	public void setCashier(MarketCashier cashier){
+		this.cashier = cashier;
+	}
+	
+	public void setMarket(Market m){
+		this.market = m;
+		this.host = m.host;
+		this.cashier = m.cashier;
+	}
+	
 	public MarketCustomerRole(String name, PersonAgent p){
 		this.name = name;
 		this.p = p;
 	}
 	
 	public void msgHereAreItems(Map<String, Integer> groceries){
+		Do("Got my MARKET items");
+		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
 	}
 
 	public void msgHereIsTotal(int total){
+		Do("Got the MARKET bill");
 	    bill = total;
 	    event = RoleEvent.askedToPay;
 	}
@@ -58,6 +73,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	public void msgYouCanLeave(){
+		Do("Allowed to leave");
 	    event = RoleEvent.allowedToLeave;
 	}
 
@@ -65,9 +81,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		//what do I do if they don't have what I want??
 	}
 	
-	public void msgYouAreAtMarket(MarketHost marketHost){
+	public void msgYouAreAtMarket(Market m){
 		Do("I'm at the market.");
-		host = marketHost;
+		host = m.host;
+		cashier = m.cashier;
 		state = RoleState.JustEnteredMarket;
 		p.msgStateChanged();
 	}

@@ -4,6 +4,8 @@ import person.PersonAgent;
 import role.Role;
 import testAgents.testPerson;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -11,25 +13,33 @@ import java.util.TimerTask;
 
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
+import interfaces.Person;
 
 public class MarketCashierRole extends Role implements MarketCashier{
 
-	List<MyCustomer> customers;
-	Map<String, Integer> priceList;
-	Map<testPerson, Integer> debtorsList;
+	List<MyCustomer> customers = new ArrayList<MyCustomer>();
+	Map<String, Integer> priceList = new HashMap<String,Integer>();
+	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
+	Person p;
+	
+	public MarketCashierRole(Person p){
+		this.p = p;
+	}
 
-	Timer timer;
+	Timer timer = new Timer();
 
-	List<BusinessPayment> businessPayments;
+	List<BusinessPayment> businessPayments = new ArrayList<BusinessPayment>();
 	
 	//Messages
 	public void msgPleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		customers.add(new MyCustomer(c, groceries));
+		p.msgStateChanged();
 	}
 	
 	public void msgFinishedComputing(MyCustomer mc){
 	    mc.status = CustomerState.hasTotal;
+	    p.msgStateChanged();
 	}
 
 	public void msgCustomerPayment(MarketCustomer c, int payment){
@@ -40,12 +50,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	    break;
 	    	}
 	    		
-	    }		
+	    }	
+	    p.msgStateChanged();
 	}
 
 	public void msgHereIsBusinessPayment(int pay){
 		BusinessPayment payment = new BusinessPayment(pay);
 	    businessPayments.add(payment);
+	    p.msgStateChanged();
 	}
 	
 	//Scheduler

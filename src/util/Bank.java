@@ -22,17 +22,17 @@ public class Bank implements BankInterface{
 	
 	int totalAmount = 1000000000;
 	
-	class BankAccount{
+	public class BankAccount{
 		public BankAccount(int amount,int accountNumber,String custName,String passWord){
 			this.amount = amount;
 			this.accountNumber = accountNumber;
 			this.custName = custName;
 			this.passWord = passWord;
 		}
-		int amount;
-		int accountNumber;
-		String custName;
-		String passWord;
+		public int amount;
+		public int accountNumber;
+		public String custName;
+		public String passWord;
 		List<loan> myLoans = new ArrayList<loan>();
 	}
 	
@@ -55,6 +55,7 @@ public class Bank implements BankInterface{
 	
 	public boolean startTellerShift(BankTeller t){
 		currentTellers.add(t);
+		//t.msgStateChanged();
 		return true;
 	}
 	
@@ -71,6 +72,7 @@ public class Bank implements BankInterface{
 	public boolean addMeToQueue(BankCustomer c){
 		//System.out.println("Here");
 		bankCustomers.add(c);
+		//System.out.println("Size of the queue is "+bankCustomers.size());
 		for(BankTeller t:currentTellers){
 			//System.out.println("Teller messaged");
 			t.msgStateChanged();
