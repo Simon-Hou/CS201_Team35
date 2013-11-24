@@ -58,7 +58,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	
 	//Messages
-	public void msgPleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
+	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		customers.add(new MyCustomer(c, groceries));
 		p.msgStateChanged();
 	}

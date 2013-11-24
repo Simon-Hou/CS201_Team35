@@ -32,18 +32,17 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
 	
-	
-	
 
 	public MarketCustomerRole(String name, Person p){		
 		this.name = name;
 		this.p = p;
 	}
 	
-	public void msgHereAreItems(Map<String, Integer> groceries){
+	public void msgHereAreItems(Map<String, Integer> groceries, MarketCashier cashier){
 		Do("Got my MARKET items");
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
+	    this.cashier = cashier;
 	    p.msgStateChanged();
 	}
 
@@ -79,10 +78,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		p.msgStateChanged();
 	}
 	
-	public void msgYouAreAtMarket(Market m){
+	public void msgYouAreAtMarket(MarketHost host){
 		Do("I'm at the market.");
-		host = m.host;
-		cashier = m.cashier;
+		this.host = host;
 		state = RoleState.JustEnteredMarket;
 		p.msgStateChanged();
 	}
@@ -155,12 +153,12 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	    
 		Do("Making payments");
 		int payment;
-	    if (p.purse.wallet>=bill)
+	    if (p.getWalletAmount()>=bill)
 	        payment = bill;
 	    else
-	        payment = p.purse.wallet;
+	        payment = p.getWalletAmount();
 
-	    p.purse.wallet -= payment;
+	    p.takeFromWallet(payment);
 	    cashier.msgCustomerPayment(this, payment);    
 	}
 
