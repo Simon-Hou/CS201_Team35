@@ -52,7 +52,20 @@ public class MarketHostRole extends Role implements MarketHost {
 		this.p = p;
 	}
 	
+	public boolean NewEmployee(MarketEmployee m){
+		addEmployee(m);
+		return true;
+	}
+	
 	//-----------------------------MESSAGES--------------------------------
+	
+	
+	
+	public boolean YouAreDoneWithShift(){
+		//TODO make sure people don't leave their shifts early
+		p.msgThisRoleDone(this);
+		return true;
+	}
 	
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
 	    Do("Got customer's MARKET order.");
@@ -245,7 +258,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	    }
 	}
 	
-	public void addEmployee(MarketEmployeeRole m){
+	public void addEmployee(MarketEmployee m){
 		this.employees.add(new MyEmployee(m));
 	}
 	

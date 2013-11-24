@@ -11,13 +11,13 @@ public class Job {
 		
 	}
 	
-	public Job(Role role,int location,int shiftStart,int shiftEnd,Place placeOfWork,Person person){
+	public Job(Role role,int location,int shiftStart,int shiftEnd,Place placeOfWork,Person person,JobType jt){
 		this.jobRole = role;
 		this.location = location;
 		this.shiftStart = shiftStart;
 		this.shiftEnd = shiftEnd;
 		this.placeOfWork = placeOfWork;
-		
+		this.jobType = jt;
 		if(jobRole instanceof BankTellerRole){
 			((BankTellerRole) jobRole).setPerson(person);
 			((BankTellerRole) jobRole).setBank(((BankMapLoc) placeOfWork).bank);
@@ -30,4 +30,11 @@ public class Job {
 	public int location;
 	public int shiftStart;
 	public int shiftEnd;
+	public enum JobType {BankTeller,MarketHost,MarketEmployee,MarketCashier,
+		MarketDeliveryMan,RestaurantHost,RestaurantWaiter,RestaurantCook,
+		RestaurantCashier};
+	public JobType jobType;
+		
+		
+		
 }

@@ -11,4 +11,8 @@ public interface MarketHost {
 	public void msgCustomerLeaving(MarketCustomer c, Receipt receipt, Map<String, Integer> groceries);
 	public void msgBusinessWantsThis(BusinessOrder order);
 
+	public abstract boolean YouAreDoneWithShift();
+	public abstract boolean NewEmployee(MarketEmployee m);
+	
+	
 }

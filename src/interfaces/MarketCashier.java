@@ -11,4 +11,7 @@ public interface MarketCashier {
 	public void msgCustomerPayment(MarketCustomer c, int payment);
 	public void msgHereIsBusinessPayment(int payment);
 
+	public abstract boolean YouAreDoneWithShift();
+
 }
+

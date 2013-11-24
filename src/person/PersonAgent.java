@@ -261,11 +261,21 @@ public class PersonAgent extends Agent implements Person {
 	//Actions
 	private void goToWork() {
 		Do("I am going to work");
-		doGoToWork(myJob.location);
+		doGoToWork();
 		
+		//Bank Employment
 		if(this.myJob.jobRole instanceof BankTellerRole){
 			((BankMapLoc) myJob.placeOfWork).bank.startTellerShift(((BankTellerRole) myJob.jobRole));
 		}
+		
+		//Market Employment
+		
+		
+		
+		//Restaurant Employment
+		
+		
+		
 		
 		activeRole = myJob.jobRole;
 		//Do(""+ activeRole);
@@ -521,7 +531,7 @@ public class PersonAgent extends Agent implements Person {
 		
 	}
 	
-	private void doGoToWork(int loc){
+	private void doGoToWork(){
 		
 	}
 	

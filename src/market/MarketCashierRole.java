@@ -39,9 +39,17 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		this.p = p;
 	}
 
+	
+	public boolean YouAreDoneWithShift(){
+		p.msgThisRoleDone(this);
+		return true;
+	}
+	
 	Timer timer = new Timer();
 
 	List<BusinessPayment> businessPayments = new ArrayList<BusinessPayment>();
+	
+	
 	
 	//Messages
 	public void msgPleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
