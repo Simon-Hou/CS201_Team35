@@ -28,7 +28,7 @@ public class MarketAnimation extends JPanel implements ActionListener {
     
     private final int doorWidth = 80;
     private final int doorHeight = 50;
-    private final int doorX = 40;
+    private final int doorX = panelX/2 - doorWidth/2;
     private final int doorY = 0;
     private final int doorMiddleX = doorX + doorWidth/2;
     
@@ -44,7 +44,7 @@ public class MarketAnimation extends JPanel implements ActionListener {
 
     public MarketAnimation() {
     	setSize(panelX, panelY);
-		//setBorder(BorderFactory.createRaisedBevelBorder());
+		setBorder(BorderFactory.createRaisedBevelBorder());
         setVisible(true);
         
  
@@ -99,29 +99,59 @@ public class MarketAnimation extends JPanel implements ActionListener {
 
 	        	paint.setColor(Color.WHITE);
 	        	paint.fillRect(doorMiddleX - doorCount, 5, doorCount * 2, doorHeight-10);
-	        	System.err.println("doot");
+	
 
 	        }
 
 	 
 	        //BARRIER
 	        paint.setColor(Color.BLACK);
-	        paint.fillRect(0,barrierY, panelX-80, 10);
-	        paint.fillRect(panelX-80, 50, 10, barrierY-40);
+	        paint.fillRect(45,barrierY, panelX-95, 5);
+	        paint.fillRect(panelX-50, 50, 5, barrierY-45);
+	        paint.fillRect(45, 50, 5, barrierY-45);
 	        
 	        //HOST DESK
 	        paint.setColor(Color.GRAY);
-	        paint.fillRect(panelX-90, 70, 30, 60);
+	        paint.fillRect(panelX-57, 70, 19, 60);
+	        //CASHIER DESK
+	        paint.fillRect(38, 70, 19, 60);
+	        //PICKUP DESK
+	        paint.fillRect(panelX/2-30, barrierY - 7, 60, 19);
+	        
+	        //LABELS
+	        paint.setColor(Color.BLACK);
+	        paint.drawString("Cashier", 2, 45);
+	        paint.drawString("Host", panelX - 40, 45);
+	     
+	        //DOCK
+	        paint.setColor(new Color(156, 93, 82));
+	        paint.fillRect(0,panelY-120, 25, 120);
+	        paint.setColor(Color.WHITE);
+	        paint.drawString("D", 8, panelY-100);
+	        paint.drawString("O", 8, panelY-80);
+	        paint.drawString("C", 8, panelY-60);
+	        paint.drawString("K", 8, panelY-40);
+	        
+	        
 	        
 	        //STOCK
 	        
-	        paint.setColor(Color.GRAY);
-	        paint.fillRect(20, 225, 50, 50);
-	        paint.fillRect(20, 290, 50, 50);
-	        paint.fillRect(20, 355, 50, 50);
-	        paint.fillRect(20, 420, 50, 50);
+	        paint.setColor(Color.CYAN);
+	        paint.fillRect(100, 225, 50, 20);
+	        paint.fillRect(100, 295, 50, 20);
+	        paint.fillRect(100, 365, 50, 20);
+	        paint.fillRect(230, 225, 50, 20);
+	        paint.fillRect(230, 295, 50, 20);
+	        paint.fillRect(230, 365, 50, 20);
 	        
-	     
+	        paint.setColor(Color.BLACK);
+	        paint.drawString("Pizza", 100, 241);
+	        paint.drawString("Salad", 100, 311);
+	        paint.drawString("Steak", 100, 381);
+	        paint.drawString("Chicken", 230, 241);
+	        paint.drawString("Cars", 230, 311);
+	        paint.drawString("Other", 230, 381);
+	        
 	        
 	        
 	        
@@ -139,7 +169,7 @@ public class MarketAnimation extends JPanel implements ActionListener {
 	        }
 	 }
 	
-	 private void openDoor(){
+	 public void enterCustomer(){
 		doorOpen = true;
 	 }
 	 

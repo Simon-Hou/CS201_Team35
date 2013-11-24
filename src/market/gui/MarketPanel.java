@@ -18,6 +18,8 @@ import javax.swing.*;
 
 public class MarketPanel extends JPanel implements ActionListener{
 
+	private MarketAnimation animation;
+	
 	private JLabel title = new JLabel("Market");
 	private List<InventoryItem> inventoryList = new ArrayList<InventoryItem>();
 	public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -27,6 +29,8 @@ public class MarketPanel extends JPanel implements ActionListener{
 
     private InventoryItem button1 = new InventoryItem("Steak", this);
     private InventoryItem button2 = new InventoryItem("Chicken", this);
+    
+    private JButton startButton = new JButton("Enter");
 	
 	public MarketPanel(){
 		
@@ -69,7 +73,8 @@ public class MarketPanel extends JPanel implements ActionListener{
 		
          validate();
          
-        	 
+         startButton.addActionListener(this);
+         add(startButton);
          
 		
 	}
@@ -81,6 +86,11 @@ public class MarketPanel extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		System.err.println("Something was pressed.");
+		
+		if (e.getSource() == startButton){
+			System.out.println("A customer has entered the market");
+			animation.enterCustomer();
+		}
 		
 		for (InventoryItem item : inventoryList){
 			if (e.getSource() == item.minus && item.inventory >0){
@@ -137,6 +147,10 @@ public class MarketPanel extends JPanel implements ActionListener{
 			add(plus);
 			
 		}
+	}
+	
+	void setAnimation (MarketAnimation ma){
+		animation = ma;
 	}
 	
 }

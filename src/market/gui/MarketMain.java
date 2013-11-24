@@ -31,6 +31,7 @@ public class MarketMain extends JFrame{
         ma.setMinimumSize(maSize);
         ma.setMaximumSize(maSize);	
 		add(ma);
+		mp.setAnimation(ma);
 		
 	}
 
