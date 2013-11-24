@@ -90,6 +90,10 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	
 	//-----------------------------UTILITIES--------------------------------
+	public void setCashier(MarketCashier c){
+		cashier = c;
+	}
+	
 	private class MyPayment {
 		int amount;
 		//Restaurant restaurant;
@@ -101,4 +105,5 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		}
 	}
 	
+
 }

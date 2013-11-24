@@ -1,10 +1,14 @@
 package market;
 
 import java.util.ArrayList;
+
+import interfaces.*;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import market.gui.MarketEmployeeGui;
 import person.PersonAgent;
 import role.Role;
 import interfaces.MarketCustomer;
@@ -20,9 +24,25 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	PersonAgent p;
 	String name;
 	
+	List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
+	MarketCashier cashier; 
+	
+	MarketEmployeeGui gui;
+	
 	//SETTERS
 	public void setName(String name){
 		this.name = name;
+	}
+	
+	public void setGui(MarketEmployeeGui g){
+		gui = g;
+	}
+	public void setCashier(MarketCashier cash){
+		cashier = cash;
+	}
+	
+	public void addDeliveryMan(MarketDeliveryMan d){
+		deliveryMen.add(d);
 	}
 	
 	//GETTERS

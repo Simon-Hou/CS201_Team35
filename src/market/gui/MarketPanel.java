@@ -23,7 +23,7 @@ import javax.swing.*;
 
 public class MarketPanel extends JPanel implements ActionListener{
 
-	private MarketAnimation animation;
+	private MarketAnimation animation; //= new MarketAnimation();
 	
 	private JLabel title = new JLabel("Market");
 	private List<InventoryItem> inventoryList = new ArrayList<InventoryItem>();
@@ -42,6 +42,8 @@ public class MarketPanel extends JPanel implements ActionListener{
     //AGENTS
     CityMap map = new CityMap();
     
+    Market market = new Market();
+    
     private MarketCustomerRole customer;
     private MarketCashierRole cashier;
     private MarketHostRole host;
@@ -50,8 +52,8 @@ public class MarketPanel extends JPanel implements ActionListener{
     
     
     
-	public MarketPanel(){
-		
+	public MarketPanel(MarketAnimation anim){
+		animation = anim;
 		
 		//-----------------------CONTROLS---------------------------
         setLayout(new FlowLayout());
@@ -92,28 +94,35 @@ public class MarketPanel extends JPanel implements ActionListener{
          
          //--------------------AGENT/GUI TESTING SETUP----------------------
 
-         PersonAgent p1 = new PersonAgent("host", map);
-         host = new MarketHostRole("host", p1);
+         PersonAgent p1 = new PersonAgent("Host", map);
+         host = new MarketHostRole("Host", p1);
          host.startThread();
         
-         PersonAgent p2 = new PersonAgent("employee", map);
-         employee = new MarketEmployeeRole("employee", p2);
+         PersonAgent p2 = new PersonAgent("Employee", map);
+         employee = new MarketEmployeeRole("Employee", p2);
          employee.startThread();
         
-         PersonAgent p3 = new PersonAgent("cashier", map);
-         cashier = new MarketCashierRole("cashier", p3);
+         PersonAgent p3 = new PersonAgent("Cashier", map);
+         cashier = new MarketCashierRole("Cashier", p3);
          cashier.startThread();
          
-         PersonAgent p4 = new PersonAgent("delivery man", map);
-         deliveryMan = new MarketDeliveryManRole("delivery man", p3);
+         PersonAgent p4 = new PersonAgent("Delivery Man", map);
+         deliveryMan = new MarketDeliveryManRole("Delivery Man", p3);
          deliveryMan.startThread();
          
-       //set contacts for all
+         market.cashier = cashier;
+         market.host = host;
          
-         //employee:
-         //make guis(role)
-         //set roles guis
-         //add gui to animation panel
+       //set contacts for all
+         host.addEmployee(employee);
+         employee.setCashier(cashier);
+         employee.addDeliveryMan(deliveryMan);
+         deliveryMan.setCashier(cashier);
+         
+        // employee:
+         MarketEmployeeGui egui = new MarketEmployeeGui(employee);
+         employee.setGui(egui);
+         animation.addGui(egui);
 	}
 	
 	
@@ -148,6 +157,16 @@ public class MarketPanel extends JPanel implements ActionListener{
         PersonAgent p1 = new PersonAgent("Customer", map);
        customer = new MarketCustomerRole("Customer", p1);
        customer.startThread();
+       
+       
+       MarketCustomerGui custGui = new MarketCustomerGui(customer);
+       customer.setGui(custGui);
+       animation.addGui(custGui);
+
+    
+       
+       //testing, this should come from the person agent
+       customer.msgYouAreAtMarket(market);
        
        animation.enterCustomer();
 	}
