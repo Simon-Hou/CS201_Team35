@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cityGui.CityBank;
 import role.Role;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
@@ -22,6 +23,8 @@ public class Bank implements BankInterface, PlaceOfWork{
 	public List<BankTeller> myTellers = new ArrayList<BankTeller>();
 	public List<BankTeller> currentTellers = new ArrayList<BankTeller>();
 	public List<BankAccount> accounts = new ArrayList<BankAccount>();
+	
+	public CityBank bankGui;
 	
 	int totalAmount = 1000000000;
 	

@@ -1,4 +1,4 @@
-package restaurantLinda;
+package restaurant.restaurantLinda;
 
 import agent.Agent;
 
@@ -10,29 +10,34 @@ import interfaces.restaurantLinda.Waiter;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import restaurantLinda.gui.CookGui;
+import restaurant.ProducerConsumerMonitor;
+import restaurant.restaurantLinda.gui.CookGui;
 import role.Role;
 
 
-public class CookAgent extends Role implements Cook{
+public class CookRole extends Role implements Cook{
 	String name;
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	Timer timer = new Timer();
 	Map<String,Food> foodMap = new HashMap<String,Food>();
 	List<Market> markets = Collections.synchronizedList(new ArrayList<Market>());
 	boolean checkInventory=false;
+	boolean checkOrderStand=true;
 	Cashier cashier;
+	
+	ProducerConsumerMonitor<RestaurantOrder> orderMonitor;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
 	private CookGui cookGui;
 	
-	public CookAgent(String name) {
+	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor) {
 		super();
 		foodMap.put("Steak", new Food("Steak",5000,5,5,1));
 		foodMap.put("Chicken", new Food("Chicken",4000,5,5,1));
 		foodMap.put("Salad", new Food("Salad",2000,5,5,1));
 		foodMap.put("Pizza", new Food("Pizza",3000,5,5,1));
 		this.name = name;
+		this.orderMonitor = monitor;
 		//checkInventory=true;
 	}
 	
@@ -117,6 +122,10 @@ public class CookAgent extends Role implements Cook{
 				OrderFoodThatIsLow();
 				return true;
 			}
+		}
+		if (checkOrderStand){
+			CheckOrderStand();
+			return true;
 		}
 		cookGui.DoGoToDefault();
 		
@@ -217,6 +226,24 @@ public class CookAgent extends Role implements Cook{
 			Market m = markets.remove(0);		//Rearrange markets, kind of like a circular queue?
 			markets.add(m);
 			m.msgHereIsOrder(this, cashier, shoppingList);
+		}
+	}
+	
+	public void CheckOrderStand(){
+		Do("Checking order stand");
+		if (!orderMonitor.isEmpty()){
+			Do("Found a new order");
+			RestaurantOrder o = orderMonitor.remove();
+			orders.add(new Order(o.w,o.choice,o.table,OrderState.pending));
+		}
+		else{
+			checkOrderStand = false;
+			timer.schedule(new TimerTask(){
+				public void run(){
+					checkOrderStand = true;
+					stateChanged();
+				}				
+			}, 5000);		//Wake up every 5 seconds to check the stand
 		}
 	}
 	

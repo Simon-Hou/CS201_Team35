@@ -2,7 +2,7 @@ package interfaces.restaurantLinda;
 
 import java.util.Map;
 
-import restaurantLinda.Check;
+import restaurant.restaurantLinda.Check;
 
 public interface Cashier {
 	

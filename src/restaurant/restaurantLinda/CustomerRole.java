@@ -1,6 +1,6 @@
-package restaurantLinda;
+package restaurant.restaurantLinda;
 
-import restaurantLinda.gui.CustomerGui;
+import restaurant.restaurantLinda.gui.CustomerGui;
 import role.Role;
 import agent.Agent;
 

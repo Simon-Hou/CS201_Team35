@@ -1,7 +1,7 @@
-package restaurantLinda;
+package restaurant.restaurantLinda;
 
 import agent.Agent;
-import restaurantLinda.gui.WaiterGui;
+import restaurant.restaurantLinda.gui.WaiterGui;
 import role.Role;
 
 import interfaces.restaurantLinda.Cashier;
@@ -20,27 +20,23 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the Host. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterRole extends Role implements Waiter{
+public abstract class WaiterRole extends Role implements Waiter{
 	public List<MyCustomer> customers	= new ArrayList<MyCustomer>();
-	private String name;
+	protected String name;
 	WaiterState state=WaiterState.ready;
 	private enum WaiterState {ready, takingOrder};
 	BreakStatus breakStatus = BreakStatus.none;
 	public enum BreakStatus {none, wantBreak, asked, hasPermission, onBreak, finished}
-	private Host host;
-	private Cook cook;
-	private Cashier cashier;
-	private List<String> unavailableFoods;
+	protected Host host;
+	protected Cook cook;
+	protected Cashier cashier;
+	protected List<String> unavailableFoods;
 	
-	private Semaphore atDestination = new Semaphore(0,true);
-	private WaiterGui waiterGui=null;
+	protected Semaphore atDestination = new Semaphore(0,true);
+	protected WaiterGui waiterGui=null;
 	
-	public WaiterRole(String name, Host host, Cook cook, Cashier cashier) {
+	public WaiterRole(){
 		super();
-		this.host=host;
-		this.name = name;
-		this.cook = cook;
-		this.cashier = cashier;
 	}
 
 	public String getName() {
@@ -329,18 +325,7 @@ public class WaiterRole extends Role implements Waiter{
 		mc.c.msgWhatDoYouWant();		
 	}
 	
-	private void SendOrder(MyCustomer mc){
-		Do("Sending " + mc.c.getName() + "'s order to cook");
-		waiterGui.DoGoToCook();
-		try{
-			atDestination.acquire();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-		}
-		mc.state=CustomerState.orderSent;
-		cook.msgHereIsOrder(this, mc.choice, mc.table);		
-	}
+	abstract void SendOrder(MyCustomer mc);
 	
 	private void RedoOrder(MyCustomer mc){
 		waiterGui.DoGoToTable(mc.table);
@@ -423,7 +408,7 @@ public class WaiterRole extends Role implements Waiter{
 		waiterGui.UpdateInfo();
 	}
 	//inner classes
-	private class MyCustomer{
+	public class MyCustomer{
 		Customer c;
 		int table;
 		String choice;
