@@ -62,10 +62,10 @@ public class SimCityGui extends JFrame {
 		c.gridwidth = 11; c.gridheight = 1;
 		this.add(CP, c);
 		
-		c.gridx = 0; c.gridy = 7;
+		/*c.gridx = 0; c.gridy = 7;
 		c.gridwidth = 11; c.gridheight = 3;
 		c.fill = GridBagConstraints.BOTH;
-		this.add(tracePanel, c);
+		this.add(tracePanel, c);*/
 	}
 
 	/**
