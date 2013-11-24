@@ -21,8 +21,8 @@ public class Market implements PlaceOfWork{
 	
 	//CONSTRUCTOR
 	public Market(){
-		this.host = new MarketHostRole();
-		this.cashier = new MarketCashierRole(null);
+		this.host = new MarketHostRole(null,null);
+		this.cashier = new MarketCashierRole(null,null);
 	}
 	
 	
@@ -55,8 +55,24 @@ public class Market implements PlaceOfWork{
 
 
 	@Override
-	public Role canIStartWorking(Role r) {
+	public Role canIStartWorking(Person p,Role m) {
 		// TODO Auto-generated method stub
+		if(m instanceof MarketEmployee){
+			employees.add((MarketEmployee) m);
+			if(host.NewEmployee((MarketEmployee) m)){
+				return m;
+			}
+			System.err.println("Market Employee wasn't allowed to work");
+		}
+		
+		else if(m instanceof MarketHost){
+			return (Role) CanIBeHost(p);
+		}
+		
+		else if(m instanceof MarketCashier){
+			return (Role) CanIBeCashier(p);
+		}
+		
 		return null;
 	}
 	

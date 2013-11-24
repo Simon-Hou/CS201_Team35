@@ -3,6 +3,7 @@ package util;
 import interfaces.BankCustomer;
 import interfaces.BankInterface;
 import interfaces.BankTeller;
+import interfaces.Person;
 import interfaces.PlaceOfWork;
 
 import java.util.ArrayList;
@@ -142,8 +143,14 @@ public class Bank implements BankInterface, PlaceOfWork{
 
 
 	@Override
-	public Role canIStartWorking(Role r) {
+	public Role canIStartWorking(Person p,Role r) {
 		// TODO Auto-generated method stub
+		if(r instanceof BankTeller){
+			if(startTellerShift((BankTeller) r)){
+				return r;
+			}
+			return null;
+		}
 		return null;
 	}
 
