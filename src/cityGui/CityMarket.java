@@ -40,7 +40,7 @@ public class CityMarket extends CityComponent implements ImageObserver{
 		mMap.loc.y = sidewalkY(tempX,tempY);
 		System.out.println("New Building X Value: " + mMap.loc.x);
 		System.out.println("New Building Y Value: " + mMap.loc.y);
-		this.cityObject.cityMap.map.get("Bank").add(mMap);
+		this.cityObject.cityMap.map.get("Market").add(mMap);
 	}
 
 	public void updatePosition() {

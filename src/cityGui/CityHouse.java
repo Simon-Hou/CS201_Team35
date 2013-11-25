@@ -43,7 +43,7 @@ public class CityHouse extends CityComponent implements ImageObserver {
 		hMap.loc.y = sidewalkY(tempX,tempY);
 		System.out.println("New Building X Value: " + hMap.loc.x);
 		System.out.println("New Building Y Value: " + hMap.loc.y);
-		this.cityObject.cityMap.map.get("Bank").add(hMap);
+		this.cityObject.cityMap.map.get("House").add(hMap);
 	}
 
 	public void updatePosition() {
