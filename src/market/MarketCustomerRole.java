@@ -15,7 +15,7 @@ import role.Role;
 import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-	PersonAgent p;
+	Person p;
 	RoleState state;
 	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
 	RoleEvent event;
@@ -32,11 +32,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
 	
-	
-	
+	public void addToShoppingList(String food, int amount){
+		this.shoppingList.put(food, amount);
+	}
 
-	public MarketCustomerRole(String name, PersonAgent p){
-		
+	public MarketCustomerRole(String name, Person p){		
 		this.name = name;
 		this.p = p;
 	}
@@ -45,6 +45,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		Do("Got my MARKET items");
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
+	    //this.cashier = cashier;
 	    p.msgStateChanged();
 	}
 
@@ -82,8 +83,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	public void msgYouAreAtMarket(Market m){
 		Do("I'm at the market.");
-		host = m.host;
-		cashier = m.cashier;
+		this.host = m.host;
+		this.cashier = m.cashier;
 		state = RoleState.JustEnteredMarket;
 		p.msgStateChanged();
 	}
@@ -149,19 +150,19 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void GoPay(){
 	    //DoGoToCashier();
-	    cashier.msgPleaseServiceCustomer(this, groceries);
+	    cashier.msgServiceCustomer(this, groceries);
 	}
 
 	private void MakePayment(){                //Right now markets letting customer do an IOU
 	    
 		Do("Making payments");
 		int payment;
-	    if (p.purse.wallet>=bill)
+	    if (p.getWalletAmount()>=bill)
 	        payment = bill;
 	    else
-	        payment = p.purse.wallet;
+	        payment = p.getWalletAmount();
 
-	    p.purse.wallet -= payment;
+	    p.takeFromWallet(payment);
 	    cashier.msgCustomerPayment(this, payment);    
 	}
 
@@ -171,13 +172,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void LeaveMarket(){
 		for (String item: groceries.keySet()){
-			p.purse.bag.put(item, groceries.get(item));
+			p.putInBag(item, groceries.get(item));
 		}
+		p.msgThisRoleDone(this);
 	    
 	}
 	
 	//Utilities
-	public PersonAgent getPerson(){
+	public Person getPerson(){
 		return p;
 	}
 	public void setHost(MarketHost host2) {

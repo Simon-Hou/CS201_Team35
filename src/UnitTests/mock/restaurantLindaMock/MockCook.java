@@ -2,6 +2,9 @@ package UnitTests.mock.restaurantLindaMock;
 
 import java.util.Map;
 
+import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.Mock;
+
 import interfaces.restaurantLinda.*;
 
 public class MockCook extends Mock implements Cook {

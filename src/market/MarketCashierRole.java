@@ -39,9 +39,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	//CONSTRUCTOR
-	public MarketCashierRole(String name, PersonAgent p){
+	public MarketCashierRole(String name, Person p){
 		this.p = p;
 		this.name = name;
+		priceList.put("Steak", 2);
+		priceList.put("Pizza", 1);
+		priceList.put("Chicken", 2);
+		priceList.put("Salad", 1);
 	}
 
 	
@@ -58,7 +62,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	
 	//Messages
-	public void msgPleaseServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
+	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		customers.add(new MyCustomer(c, groceries));
 		p.msgStateChanged();
 	}

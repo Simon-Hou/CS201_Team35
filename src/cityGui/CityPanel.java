@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import cityGui.trace.AlertTag;
 
 public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
+	private BufferedImage fountainImage;
 	public static final int CITY_WIDTH = 600, CITY_HEIGHT = 600;
 	boolean addingObject = false;
 	CityComponent temp;
@@ -30,6 +32,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		this.setPreferredSize(new Dimension(CITY_WIDTH, CITY_HEIGHT));
 		this.setVisible(true);
 		
+		//fountainImage = ImageIO.read(new File(""));
 		background = new Color(0, 183, 96);
 		this.addStatic(new CityRestaurant(30, 30));
 		this.addStatic(new CityRestaurant(60, 30, "Restaurant 2"));
@@ -38,13 +41,15 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			this.addStatic(new CityRoad(i, RoadDirection.VERTICAL));
 		}
 		for (int i = 40; i < 600; i += 480) {
-			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL,false));
-			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL,false));
+			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL,false,false));
+			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL,false,false));
 		}
 		for (int i = 160; i < 500; i += 240) {
-			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL,true));
-			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL,true));
+			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL,true,false));
+			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL,true,false));
 		}
+		//Creates water
+		this.addStatic(new CitySidewalk(100, RoadDirection.VERTICAL,true,true));
 		for (int i = 120; i < 480; i += 30) {
 			if (i != 300) {
 				this.addStatic(new CityRoadLines(i, RoadDirection.HORIZONTAL,true));

@@ -10,11 +10,14 @@ public class CityRestaurant extends CityComponent {
 	public CityRestaurant(int x, int y) {
 		super(x, y, Color.red, "Restaurant 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		//System.out.println("First");
 	}
 	
 	public CityRestaurant(int x, int y, String ID) {
 		super(x, y, Color.red, ID);
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		//System.out.println("Second");
+
 	}
 
 	public void updatePosition() {

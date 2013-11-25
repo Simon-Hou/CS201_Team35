@@ -16,5 +16,5 @@ public interface MarketCustomer {
 	public void msgOutOfStock(Map<String, Integer> unfullfillable);
 	public abstract String getName();
 	
-	public PersonAgent getPerson();
+	public Person getPerson();
 }

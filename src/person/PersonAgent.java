@@ -34,7 +34,9 @@ import interfaces.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
+import cityGui.test.PersonGui;
 import public_Object.Food;
 import role.Role;
 import agent.Agent;
@@ -50,6 +52,12 @@ public class PersonAgent extends Agent implements Person {
 		bankRole = new BankCustomerRole(name+"Bank",this);
 		marketRole = new MarketCustomerRole(name+"Market",this);
 		inhabitantRole = new InhabitantRole(name+"Home",this);
+		
+		this.belongings.myFoods.add(new Food("Steak",10));
+		this.belongings.myFoods.add(new Food("Chicken",10));
+		this.belongings.myFoods.add(new Food("Pizza",10));
+		this.belongings.myFoods.add(new Food("Salad",10));
+		
 	}
 	
 	//GETTERS
@@ -85,6 +93,9 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
+	public PersonGui gui;
+	//List<String> foodNames;
+	public Semaphore atDestination = new Semaphore(0,true);
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
@@ -159,6 +170,10 @@ public class PersonAgent extends Agent implements Person {
 
 	//msg
 	
+	public void msgAtDestination(){
+		atDestination.release();
+	}
+	
 	public void msgCarArrivedAtLoc(Loc destination){
 		//blah
 		//stateChanged();
@@ -205,12 +220,14 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 		
-		if (nextRole != null) {
+		/*if (nextRole != null) {
 			activeRole = nextRole;
 			nextRole = null;
 			return true;
-		}
-		
+		}*/
+		/*if(name.equals("p1")){
+			Do("DECIDING WHAT TO DO");
+		}*/
 		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
@@ -225,7 +242,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 
-		if ((purse.wallet <= 10 || purse.wallet >= 100) && !wantsToBuyCar) {
+		if ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar) {
 			goToBank();
 			return true;
 		}
@@ -235,7 +252,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 		
-		if (belongings.myFoods.isEmpty()) {
+		if (foodsLow()) {
 			goToMarket();
 			return true;
 		}
@@ -325,23 +342,17 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void goToBank() {
 
-		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
-		
-		//Gets customerRole or creates customerRole
-		/*BankCustomerRole bankRole = null;
-		boolean containsRole = false;
-		for (Role r: roles) {
-			if (r instanceof BankCustomerRole) {
-				activeRole = r;
-				bankRole = (BankCustomerRole) r;
-				containsRole = true;
+		if(city.map.get("Bank").isEmpty()){
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		if (!containsRole) {
-			bankRole = new BankCustomerRole(this.name,this);
-			activeRole = bankRole;
-			roles.add(activeRole);
-		}*/
+		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
+		Loc loc = city.map.get("Bank").get(0).loc;
+		
 		
 		activeRole = bankRole;
 		
@@ -349,7 +360,7 @@ public class PersonAgent extends Agent implements Person {
 		if(belongings.myAccounts.isEmpty()){
 			Do("Going to bank to open new account");
 			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
-			doGoToBank();
+			doGoToBuilding(loc);
 			bankRole.msgYouAreAtBank(b);
 			activeRole = bankRole;
 			return;
@@ -374,7 +385,7 @@ public class PersonAgent extends Agent implements Person {
 			bankRole.Tasks.add(new takeLoan(50 - getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
 		
-		doGoToBank();
+		doGoToBuilding(loc);
 		bankRole.msgYouAreAtBank(b);
 		activeRole = bankRole;
 		
@@ -385,6 +396,8 @@ public class PersonAgent extends Agent implements Person {
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
 		Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
+		
+		
 		//ShoppingList shoppingList = makeShoppingList();
 		
 		//Gets customerRole or creates customerRole
@@ -403,6 +416,11 @@ public class PersonAgent extends Agent implements Person {
 			roles.add(activeRole);
 		}*/
 		
+		for(Food f:this.belongings.myFoods){
+			if(f.quantity<=10){
+				marketRole.addToShoppingList(f.type, 10);
+			}
+		}
 		
 		//marketRole.setMarket(m);
 		marketRole.msgYouAreAtMarket(m);
@@ -511,9 +529,9 @@ public class PersonAgent extends Agent implements Person {
 				activeRole = marketRole;
 				roles.add(activeRole);
 			}*/
-			doGoToBank();
+			doGoToBuilding(city.map.get("Bank").get(0).loc);
 			bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
-			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Market").get(myBank)).bank);
+			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Bank").get(myBank)).bank);
 			activeRole = bankRole;
 		}
 		else {
@@ -568,7 +586,21 @@ public class PersonAgent extends Agent implements Person {
 	
 	//ANIMATION
 	
-	private void doGoToBank(){
+	private void doGoToBuilding(Loc loc){
+		
+		if(this.gui!=null){
+			gui.doGoToBuilding(loc);
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -610,12 +642,41 @@ public class PersonAgent extends Agent implements Person {
 		this.stateChanged();
 	}
 	
+	public void putInBag(String item,int amount){
+		this.purse.bag.put(item,amount);
+		addFoodToInventory(item,amount);
+	}
+	
 	public void addToWallet(int amount) {
 		this.purse.wallet += amount;
 	}
 	
 	public void takeFromWallet(int amount) {
 		this.purse.wallet -= amount;
+	}
+	
+	public int getWalletAmount(){
+		return purse.wallet;
+	}
+	
+	public void addFoodToBag(String type, int quantity){
+		if (purse.bag.containsKey(type))
+			purse.bag.put(type, purse.bag.get(type)+quantity);
+		else
+			purse.bag.put(type, purse.bag.get(type));
+		
+		//temporarily make it so that bagged food goes strait into inventory
+		addFoodToInventory(type,quantity);
+		
+	}
+	
+	public void addFoodToInventory(String type, int quantity){
+		Do("Adding "+quantity+" "+type+"s to inventory.");
+		for(Food f:this.belongings.myFoods){
+			if(f.type.equals(type)){
+				f.quantity+=quantity;
+			}
+		}
 	}
 	
 	public int getMoneyInBank() {
@@ -683,6 +744,17 @@ public class PersonAgent extends Agent implements Person {
 	public void msgThisRoleDone(Role role) {
 		// TODO Auto-generated method stub
 		this.activeRole = null;
+	}
+	
+	public boolean foodsLow(){
+		
+		for(Food f:this.belongings.myFoods){
+			if(f.quantity>10){
+				return false;
+			}
+		}
+		return true;
+		
 	}
 	
 	
