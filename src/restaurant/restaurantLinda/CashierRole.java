@@ -4,6 +4,7 @@ import UnitTests.mock.EventLog;
 import UnitTests.mock.LoggedEvent;
 import agent.Agent;
 
+import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Customer;
 import interfaces.restaurantLinda.Market;
@@ -11,6 +12,10 @@ import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
 
+import market.BusinessOrder;
+
+
+import restaurant.Restaurant;
 import role.Role;
 
 
@@ -23,15 +28,29 @@ public class CashierRole extends Role implements Cashier{
 	private List<MyBill> myBills = Collections.synchronizedList(new ArrayList<MyBill>());
 	private Map<Customer, Integer> debtors = new HashMap<Customer, Integer>();
 	private Timer timer = new Timer();
-	int cash=0;
+	Restaurant restaurant;
 	
-	public CashierRole(String name) {
+	private Person p;
+	
+	public CashierRole(String name, Restaurant r) {
 		super();	
 		priceList.put("Steak", 1599);
 		priceList.put("Chicken", 1099);
 		priceList.put("Salad", 599);
 		priceList.put("Pizza", 899);
 		this.name = name;
+		this.restaurant = r;
+	}
+	
+	//Overloaded function with person
+	public CashierRole(String name, Person p) {
+		super();	
+		priceList.put("Steak", 1599);
+		priceList.put("Chicken", 1099);
+		priceList.put("Salad", 599);
+		priceList.put("Pizza", 899);
+		this.name = name;
+		this.p = p;
 	}
 	
 	//messages
@@ -53,11 +72,9 @@ public class CashierRole extends Role implements Cashier{
 		stateChanged();
 	}
 	
-	public void msgPleasePay(Market m, Map<String,Integer> order, int total){
-		log.add(new LoggedEvent("Received request for payment from " + m + " to pay " + total + " for food shipment " + order));
-		Do("Received request for payment from " + m + " to pay $" + total/100 + "." + total%100 + " for food shipment " + order);
-		myBills.add(new MyBill(m, order, total));
-		stateChanged();
+	public void msgHereIsInvoice(BusinessOrder order) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -74,7 +91,7 @@ public class CashierRole extends Role implements Cashier{
 		}
 		synchronized(myBills){
 			for (MyBill b: myBills){
-				if (b.status==MyBillState.partiallyPaid && cash>=b.owed){
+				if (b.status==MyBillState.partiallyPaid && restaurant.cash>=b.owed){
 					PayBill(b);
 					return true;
 				}
@@ -137,7 +154,7 @@ public class CashierRole extends Role implements Cashier{
 	private void AcceptPayment(MyCustomer mc){
 		log.add(new LoggedEvent("Processing payment from customer"));
 		Do("Payment received: $" + mc.payment/100 + "." + mc.payment%100);
-		cash+=mc.payment;
+		restaurant.cash+=mc.payment;
 		int debt = mc.bill.getTotal()-mc.payment;
 		if (mc.bill.getTotal()>mc.payment){
 			Do(mc.c.getName()+" owes $"+debt/100 + "." + debt%100);
@@ -156,21 +173,21 @@ public class CashierRole extends Role implements Cashier{
 	
 		int payment;
 		
-		if (cash >= b.owed){
-			cash-= b.owed;
+		if (restaurant.cash >= b.owed){
+			restaurant.cash-= b.owed;
 			payment = b.owed;
 			b.status = MyBillState.fullyPaid;
 		}
 		else{
-			payment = cash;
-			cash=0;
+			payment = restaurant.cash;
+			restaurant.cash=0;
 			b.status = MyBillState.partiallyPaid;
 		}
 		
 		b.owed-=payment;
 		
-		log.add(new LoggedEvent("Paying " + b.m +  " " + payment + " for food shipment. Still owe " + b.owed + ". " + cash + " left in cash."));
-		Do("Paying " + b.m +  " $" + payment/100 + "." + payment%100 + " for food shipment. Still owe $" + b.owed/100 + "." + b.owed%100 + ". $" + cash/100 + "." + cash%100 + " left.");
+		log.add(new LoggedEvent("Paying " + b.m +  " " + payment + " for food shipment. Still owe " + b.owed + ". " + restaurant.cash + " left in restaurant.cash."));
+		Do("Paying " + b.m +  " $" + payment/100 + "." + payment%100 + " for food shipment. Still owe $" + b.owed/100 + "." + b.owed%100 + ". $" + restaurant.cash/100 + "." + restaurant.cash%100 + " left.");
 		
 		b.m.msgHereIsPayment(this, b.order, payment);
 		
@@ -222,9 +239,7 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	public class MyBill{
-		Market m;
-		Map<String, Integer> order;
-		int total;
+		BusinessOrder
 		int owed;
 		public MyBillState status;
 		
@@ -268,16 +283,17 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	public void setCash(int c){
-		cash = c;
+		restaurant.cash = c;
 		stateChanged();
 	}
 	
 	public int getCash(){
-		return cash;
+		return restaurant.cash;
 	}
 	
 	public String getName() {
 		return name;
 	}
+	
 }
 
