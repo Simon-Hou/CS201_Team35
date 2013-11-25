@@ -122,7 +122,7 @@ public class CityObject implements ActionListener{
 		//people.get(0).myJob = new Job(new BankTellerRole("p0Teller"),0,1,10,cityMap.map.get("Bank").get(0),people.get(0));
 		people.get(0).setJob(banks.get(0).bank, JobType.BankTeller,1,4);
 		people.get(1).setJob(banks.get(0).bank, JobType.BankTeller,4,10);
-		System.out.println(people.get(1).myJob.shiftStart);
+		//System.out.println(people.get(1).myJob.shiftStart);
 		
 		PersonAgent p3 = new PersonAgent("p3",cityMap);
 		//p3.myJob = new Job(new BankTellerRole("p3Teller"),0,0,1,cityMap.map.get("Bank").get(0),p3);
