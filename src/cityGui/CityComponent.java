@@ -3,18 +3,21 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
 
 import city.CityObject;
 
 
-public abstract class CityComponent {
+public abstract class CityComponent implements ImageObserver {
 
 	//Consider creating a rectangle for every Component for better universal collision detection
 
 	CityObject cityObject;
 	
+	public BufferedImage image;
 	protected Rectangle rectangle;
 	int x, y;
 	Color color;
@@ -60,6 +63,7 @@ public abstract class CityComponent {
 		if (isActive) {
 			g.setColor(color);
 			g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+			//g.drawImage(image, rectangle.x, rectangle.y, this);
 		}
 	}
 	
@@ -116,7 +120,7 @@ public abstract class CityComponent {
 			}
 			else return 560;	
 		}
-		else return x+17;	
+		else return x+(this.rectangle.width/2);	
 	}
 	
 	public int sidewalkY(int x, int y) {
@@ -132,7 +136,7 @@ public abstract class CityComponent {
 			}
 			else return 560;	
 		}
-		else return y+17;	
+		else return y+(this.rectangle.height/2);	
 	}
 	
 	public boolean innerBuilding(int x, int y) {
@@ -143,28 +147,28 @@ public abstract class CityComponent {
 	}
 	
 	public boolean leftSide(int x, int y) {
-		if (((x >= 200 && x <= 210) || (x >= 0 && x <= 10)) && (y >= 200 && y <= 365)) {
+		if ((((x >= 200 && x <= 210) && (y >= 200 && y <= 370)) || (x >= 0 && x <= 40) && (y >= 40 && y <= 560))) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean rightSide(int x, int y) {
-		if (((x >= 360 && x <= 370) || (x >= 560 && x <= 575)) && (y >= 200 && y <= 365)) {
+		if (((x >= 360 && x <= 370) && (y >= 200 && y <= 370)) || ((x >= 560 && x <= 600) && (y >= 40 && y <= 560))) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean topSide(int x, int y) {
-		if (((y >= 0 && y <= 10) || (y >= 200 && y <= 210)) && (x > 5 && x < 560)) {
+		if (((y >= 200 && y <= 210) && (x > 205 && x < 360)) || ((y >= 0 && y <= 40) && (x >= 40 && x <= 560))) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean bottomSide(int x, int y) {
-		if (((y >= 560 && y <= 575) || (y >= 360 && y <= 370)) && (x > 5 && x < 560)) {
+		if (((x > 205 && x < 360) && (y >= 360 && y <= 370)) || ((x >= 40 && x <= 560) && (y >= 560 && y <= 600))) {
 			return true;
 		}
 		return false;

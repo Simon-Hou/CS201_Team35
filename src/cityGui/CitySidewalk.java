@@ -2,14 +2,16 @@ package cityGui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.image.ImageObserver;
 
-public class CitySidewalk extends CityComponent {
+public class CitySidewalk extends CityComponent implements ImageObserver{
 	
 	private RoadDirection direction;
 	boolean inner;
 	
-	public CitySidewalk(int x, RoadDirection direction, boolean inner, boolean water) {
+	public CitySidewalk(int x, RoadDirection direction, boolean inner, boolean boundaries) {
 		super(x, 0, Color.LIGHT_GRAY, "Side Walk");
 		this.direction = direction;
 		if (direction == RoadDirection.HORIZONTAL && !inner)
@@ -20,10 +22,15 @@ public class CitySidewalk extends CityComponent {
 			rectangle = new Rectangle(160, x, 280, 40);
 		else if (inner)
 			rectangle = new Rectangle(x, 160, 40, 280);
-		if (water) {
+		if (boundaries) {
 			this.color = Color.blue;
 			rectangle = new Rectangle(240, 240, 120, 120);
 		}
+	}
+	
+	public CitySidewalk(int x, int y) {
+		super(x, 0, Color.BLACK, "Side Walk");
+		rectangle = new Rectangle(x,y,40,40);
 	}
 
 	public CitySidewalk(int x, RoadDirection direction, String I) {
@@ -32,6 +39,13 @@ public class CitySidewalk extends CityComponent {
 	}
 
 	public void updatePosition() {
+	}
+
+	@Override
+	public boolean imageUpdate(Image img, int infoflags, int x, int y,
+			int width, int height) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 //	public void paint(Graphics g) {

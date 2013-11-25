@@ -82,7 +82,6 @@ public class SimCityGui extends JFrame {
 		
 		/*int xStartTest = 300;
 		int yStartTest = 520;
->>>>>>> a64db29c4079019ef2654a40c1f1c405d34989b6
 
 		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
         PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);

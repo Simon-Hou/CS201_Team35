@@ -2,9 +2,11 @@ package cityGui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.image.ImageObserver;
 
-public class CityRoadLines extends CityComponent {
+public class CityRoadLines extends CityComponent implements ImageObserver{
 	
 	private RoadDirection direction;
 	
@@ -27,6 +29,13 @@ public class CityRoadLines extends CityComponent {
 	}
 
 	public void updatePosition() {
+	}
+
+	@Override
+	public boolean imageUpdate(Image img, int infoflags, int x, int y,
+			int width, int height) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 //	public void paint(Graphics g) {
