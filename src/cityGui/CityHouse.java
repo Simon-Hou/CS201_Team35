@@ -19,15 +19,15 @@ import util.Loc;
  * Not to be confused with CitiBank
  */
 public class CityHouse extends CityComponent implements ImageObserver {
-	java.net.URL imgURL1 = getClass().getResource("house1.png");
+	java.net.URL imgURL1 = getClass().getResource("cityImages/house1.png");
 	ImageIcon img1 = new ImageIcon(imgURL1);
-	java.net.URL imgURL2 = getClass().getResource("house2.png");
+	java.net.URL imgURL2 = getClass().getResource("cityImages/house2.png");
 	ImageIcon img2 = new ImageIcon(imgURL2);
-	java.net.URL imgURL3 = getClass().getResource("house3.png");
+	java.net.URL imgURL3 = getClass().getResource("cityImages/house3.png");
 	ImageIcon img3 = new ImageIcon(imgURL3);
-	java.net.URL imgURL4 = getClass().getResource("house4.png");
+	java.net.URL imgURL4 = getClass().getResource("cityImages/house4.png");
 	ImageIcon img4 = new ImageIcon(imgURL4);
-	java.net.URL imgURL5 = getClass().getResource("house.png");
+	java.net.URL imgURL5 = getClass().getResource("cityImages/house5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
 	public House house;
 	private int buildingSize = 35;
@@ -63,8 +63,6 @@ public class CityHouse extends CityComponent implements ImageObserver {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(color);
-		g.fillRect(x, y, buildingSize, buildingSize);
 		if (this.outerTopSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerBottomSide((int)rectangle.getX(), (int)rectangle.getY())) {
 			g.drawImage(img1.getImage(),x,y,35,35,null);
 		}

@@ -13,15 +13,15 @@ import util.Loc;
 import util.RestaurantMapLoc;
 
 public class CityRestaurant extends CityComponent implements ImageObserver {
-	java.net.URL imgURL1 = getClass().getResource("restaurant1.png");
+	java.net.URL imgURL1 = getClass().getResource("cityImages/restaurant1.png");
 	ImageIcon img1 = new ImageIcon(imgURL1);
-	java.net.URL imgURL2 = getClass().getResource("restaurant2.png");
+	java.net.URL imgURL2 = getClass().getResource("cityImages/restaurant2.png");
 	ImageIcon img2 = new ImageIcon(imgURL2);
-	java.net.URL imgURL3 = getClass().getResource("restaurant3.png");
+	java.net.URL imgURL3 = getClass().getResource("cityImages/restaurant3.png");
 	ImageIcon img3 = new ImageIcon(imgURL3);
-	java.net.URL imgURL4 = getClass().getResource("restaurant4.png");
+	java.net.URL imgURL4 = getClass().getResource("cityImages/restaurant4.png");
 	ImageIcon img4 = new ImageIcon(imgURL4);
-	java.net.URL imgURL5 = getClass().getResource("restaurant5.png");
+	java.net.URL imgURL5 = getClass().getResource("cityImages/restaurant5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
 	//public Restaurant restaurant;
 	private int buildingSize = 35;

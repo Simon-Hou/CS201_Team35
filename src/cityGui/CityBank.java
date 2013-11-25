@@ -18,18 +18,17 @@ import util.Loc;
  * Not to be confused with CitiBank
  */
 public class CityBank extends CityComponent implements ImageObserver {
-	java.net.URL imgURL1 = getClass().getResource("bank1.png");
+	java.net.URL imgURL1 = getClass().getResource("cityImages/bank1.png");
 	ImageIcon img1 = new ImageIcon(imgURL1);
-	java.net.URL imgURL2 = getClass().getResource("bank2.png");
+	java.net.URL imgURL2 = getClass().getResource("cityImages/bank2.png");
 	ImageIcon img2 = new ImageIcon(imgURL2);
-	java.net.URL imgURL3 = getClass().getResource("bank3.png");
+	java.net.URL imgURL3 = getClass().getResource("cityImages/bank3.png");
 	ImageIcon img3 = new ImageIcon(imgURL3);
-	java.net.URL imgURL4 = getClass().getResource("bank4.png");
+	java.net.URL imgURL4 = getClass().getResource("cityImages/bank4.png");
 	ImageIcon img4 = new ImageIcon(imgURL4);
-	java.net.URL imgURL5 = getClass().getResource("bank5.png");
+	java.net.URL imgURL5 = getClass().getResource("cityImages/bank5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
 	BankMapLoc bMap;
-	//g.drawImage(img.getImage(),xPos,yPos,35,35,null);
 	public Bank bank;
 	private int buildingSize = 35;
 	public CityBank(int x, int y) {
@@ -61,23 +60,19 @@ public class CityBank extends CityComponent implements ImageObserver {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(color);
-		//g.fillRect(x, y, buildingSize, buildingSize);
-		//if (readyToPaint) {
-			if (this.outerTopSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerBottomSide((int)rectangle.getX(), (int)rectangle.getY())) {
-				g.drawImage(img1.getImage(),x,y,35,35,null);
-			}
-			else if (this.outerRightSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerLeftSide((int)rectangle.getX(), (int)rectangle.getY())) {
-				g.drawImage(img2.getImage(),x,y,35,35,null);
-			}
-			else if (this.outerBottomSide((int)rectangle.getX(), (int)rectangle.getY())|| this.innerTopSide((int)rectangle.getX(), (int)rectangle.getY())) {
-				g.drawImage(img3.getImage(),x,y,35,35,null);
-			}
-			else if (this.outerLeftSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerRightSide((int)rectangle.getX(), (int)rectangle.getY())) {
-				g.drawImage(img4.getImage(),x,y,35,35,null);
-			}
-			else g.drawImage(img5.getImage(),x,y,35,35,null);
-		//}
+		if (this.outerTopSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerBottomSide((int)rectangle.getX(), (int)rectangle.getY())) {
+			g.drawImage(img1.getImage(),x,y,35,35,null);
+		}
+		else if (this.outerRightSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerLeftSide((int)rectangle.getX(), (int)rectangle.getY())) {
+			g.drawImage(img2.getImage(),x,y,35,35,null);
+		}
+		else if (this.outerBottomSide((int)rectangle.getX(), (int)rectangle.getY())|| this.innerTopSide((int)rectangle.getX(), (int)rectangle.getY())) {
+			g.drawImage(img3.getImage(),x,y,35,35,null);
+		}
+		else if (this.outerLeftSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerRightSide((int)rectangle.getX(), (int)rectangle.getY())) {
+			g.drawImage(img4.getImage(),x,y,35,35,null);
+		}
+		else g.drawImage(img5.getImage(),x,y,35,35,null);
 	}
 
 	@Override
