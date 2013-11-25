@@ -177,6 +177,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         PersonAgent p1 = new PersonAgent("Customer", map);
         MarketCustomerRole customer = new MarketCustomerRole("Customer", p1);
         customer.addToShoppingList("Pizza", 12 );
+        customer.addToShoppingList("Car", 1);
         p1.activeRole = customer;
        p1.startThread();
        customers.add(customer);
@@ -197,7 +198,9 @@ public class MarketPanel extends JPanel implements ActionListener{
 	private void addDelivery(){
 		BusinessOrder order = new BusinessOrder();
 		OrderItem item = new OrderItem("Steak", 5);
+		OrderItem item2 = new OrderItem("Salad", 4);
 		order.addItem(item);
+		order.addItem(item2);
 		host.msgBusinessWantsThis(order);
 	}
 	

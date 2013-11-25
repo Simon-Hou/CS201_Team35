@@ -157,9 +157,9 @@ public class MarketAnimation extends JPanel implements ActionListener {
 	        paint.setColor(Color.BLACK);
 	        paint.drawString("Pizza", 100, 241);
 	        paint.drawString("Salad", 100, 311);
-	        paint.drawString("Steak", 100, 381);
+	        paint.drawString("Steak", 230, 311);
 	        paint.drawString("Chicken", 230, 241);
-	        paint.drawString("Cars", 230, 311);
+	        paint.drawString("Cars", 100, 381);
 	        paint.drawString("Other", 230, 381);
 	        
 	        

@@ -139,30 +139,34 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	//Actions
 	private void CollectItems(CustomerOrder co){
 		
-		
+	    co.status = CustomerOrderState.fulfilled;
 	
-		if(gui!=null){
-			gui.DoGetItems();
-		}
-		else{
-			atDestination.release();
-		}
 		
-		try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		//^^^this should go inside the for loop for each item needing to be collected
 		
 	    for (String item: co.order.keySet()){
 	    	//DoCollectItem(item, co.order.get(item));
+	    	if(gui!=null){
+				gui.DoGetItem(item);
+			}
+			else{
+				atDestination.release();
+			}
+			
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
 	    	Do("Collecting " + co.order.get(item) + " " + item + "s.");
 	    }
-	    co.status = CustomerOrderState.fulfilled;
+	    
+	   
 	}
 
+	
 	private void GiveItemsToCustomer(CustomerOrder co){
 		
 		if(gui!=null){
@@ -194,29 +198,29 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	private void GetBusinessOrder(BusinessOrder order){
 		Do("Better fill this business order");
 		
-		if(gui!=null){
-			gui.DoGetItems();
-		}
-		else{
-			atDestination.release();
-		}
-		
-		try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//^^^this should go inside the for loop for each item needing to be collected
+
 		
 		
 		//Discuss changing this so that BusinessOrder is no longer public
 		for (OrderItem item: order.order){
+			if(gui!=null){
+				gui.DoGetItem(item.choice);
+			}
+			else{
+				atDestination.release();
+			}
+			
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    	Do("Collecting " + item.quantityReceived + " " + item.choice + "s.");
 	    }
 		
-		/////////----------------------------------------------------------------
-	    //after getting the order
+		/////////--------------------------after getting the order-----------------//////////////
+	    
 	    Do("Got all of the items in the order.");
 	    
 	    if(gui!=null){

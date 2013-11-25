@@ -48,6 +48,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		priceList.put("Pizza", 1);
 		priceList.put("Chicken", 2);
 		priceList.put("Salad", 1);
+		priceList.put("Car", 10);
 	}
 
 	
