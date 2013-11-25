@@ -27,7 +27,7 @@ public class Market implements PlaceOfWork{
 	int money;
 	public CityMarket gui;
 	
-	MarketPanel panel;
+	public MarketPanel panel;
 	
 	public Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
@@ -36,10 +36,10 @@ public class Market implements PlaceOfWork{
 		this.host = new MarketHostRole(null,null);
 		this.cashier = new MarketCashierRole(null,null);
 		
-		inventory.put("Steak", 30);
-		inventory.put("Chicken", 30);
-		inventory.put("Pizza", 30);
-		inventory.put("Salad", 30);
+		inventory.put("Steak", 300);
+		inventory.put("Chicken", 300);
+		inventory.put("Pizza", 50);
+		inventory.put("Salad", 300);
 		inventory.put("Car", 5);
 	}
 	

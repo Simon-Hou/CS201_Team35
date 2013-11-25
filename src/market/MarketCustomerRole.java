@@ -28,6 +28,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	MarketHost host;
 	MarketCashier cashier;
 	public String name;
+	boolean sad = false;
 	
 	public MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
@@ -81,10 +82,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		p.msgStateChanged();
 	}
 	
+	public void msgWeHaveNothing(){
+		sad = true;
+		p.msgStateChanged();
+	}
+	
 	public void msgYouAreAtMarket(Market m){
 		Do("I'm at the market.");
-		this.host = m.host;
-		this.cashier = m.cashier;
+		setMarket(m);
 		state = RoleState.JustEnteredMarket;
 		p.msgStateChanged();
 	}
@@ -125,6 +130,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		    return true;
 		}
 
+		if (sad){
+			LeaveSad();
+			return true;
+		}
 		return false;
 	}
 	
@@ -227,6 +236,24 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		
 	}
 	
+	private void LeaveSad(){
+		if(gui!=null){
+			gui.DoGoToExit();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		market.removeCustomer(this);
+		gui.DoExitRestaurant();
+		sad = false;
+	}
 	//Utilities
 	public Person getPerson(){
 		return p;

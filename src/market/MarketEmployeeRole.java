@@ -34,6 +34,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	private Semaphore atDestination = new Semaphore(0,true);
 	
+	private Semaphore receivedInvoice = new Semaphore(0,true);
+	
 	//SETTERS
 	public void setName(String name){
 		this.name = name;
@@ -83,6 +85,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public void msgGiveInvoice(int invoice, BusinessOrder order){
+		receivedInvoice.release();
 		for(BusinessOrder o : businessOrders){
 			if (o == order){
 				o.invoice = invoice;
@@ -235,9 +238,13 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		cashier.msgCalculateInvoice(order, this);
 	    
 		order.state = OrderState.none;
-//	    if(gui!=null){
-//			gui.DoGoHomePosition();
-//		}
+
+		
+		try {
+			receivedInvoice.acquire();
+		} catch (InterruptedException e){
+			e.printStackTrace();
+		}
 	
 	}
 	

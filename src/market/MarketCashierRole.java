@@ -99,6 +99,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//-----------------------Scheduler---------------------------
 	public boolean pickAndExecuteAnAction() {
+		
+		if (!orders.isEmpty()){
+			ComputeBusinessPayment(orders.get(0));
+			return true;
+		}
+		
 		for (MyCustomer mc: customers){
 			if (mc.status == CustomerState.needsTotal){
 				ComputeTotal(mc);
@@ -117,10 +123,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 				return true;
 			}
 		}
-		if (!orders.isEmpty()){
-			ComputeBusinessPayment(orders.get(0));
-			return true;
-		}
+
 		if (!businessPayments.isEmpty()){
 		    ProcessBusinessPayment(businessPayments.get(0));
 		    return true;
