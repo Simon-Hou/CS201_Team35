@@ -234,7 +234,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 
-		if ((purse.wallet <= 10 || purse.wallet >= 100) && !wantsToBuyCar) {
+		if ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar) {
 			goToBank();
 			return true;
 		}
@@ -244,7 +244,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 		
-		if (belongings.myFoods.isEmpty()) {
+		if (foodsLow()) {
 			goToMarket();
 			return true;
 		}
@@ -415,8 +415,8 @@ public class PersonAgent extends Agent implements Person {
 		}*/
 		
 		for(Food f:this.belongings.myFoods){
-			if(f.quantity<10){
-				marketRole.addToShoppingList(f.type, f.quantity);
+			if(f.quantity<=10){
+				marketRole.addToShoppingList(f.type, 10);
 			}
 		}
 		
@@ -628,6 +628,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void putInBag(String item,int amount){
 		this.purse.bag.put(item,amount);
+		addFoodToInventory(item,amount);
 	}
 	
 	public void addToWallet(int amount) {
@@ -647,6 +648,19 @@ public class PersonAgent extends Agent implements Person {
 			purse.bag.put(type, purse.bag.get(type)+quantity);
 		else
 			purse.bag.put(type, purse.bag.get(type));
+		
+		//temporarily make it so that bagged food goes strait into inventory
+		addFoodToInventory(type,quantity);
+		
+	}
+	
+	public void addFoodToInventory(String type, int quantity){
+		Do("Adding "+quantity+" "+type+"s to inventory.");
+		for(Food f:this.belongings.myFoods){
+			if(f.type.equals(type)){
+				f.quantity+=quantity;
+			}
+		}
 	}
 	
 	public int getMoneyInBank() {
@@ -714,6 +728,17 @@ public class PersonAgent extends Agent implements Person {
 	public void msgThisRoleDone(Role role) {
 		// TODO Auto-generated method stub
 		this.activeRole = null;
+	}
+	
+	public boolean foodsLow(){
+		
+		for(Food f:this.belongings.myFoods){
+			if(f.quantity>10){
+				return false;
+			}
+		}
+		return true;
+		
 	}
 	
 	

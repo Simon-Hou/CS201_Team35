@@ -16,8 +16,8 @@ import cityGui.trace.TracePanel;
 
 public class SimCityGui extends JFrame {
 	
-	public CityPanel city;
-	public CityObject cityObject;
+	static public CityPanel city;
+	static public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
 	CityControlPanel CP;
@@ -33,12 +33,10 @@ public class SimCityGui extends JFrame {
 		tracePanel.showAlertsForAllTags();
 
 		//THIS IS THE AGENT CITY
-		cityObject = new CityObject();
+		cityObject = new CityObject(this);
 		
 		city = new CityPanel(this);
 		city.cityObject = cityObject;
-		
-		
 		
 		view = new CityView(this);
 		
@@ -80,6 +78,11 @@ public class SimCityGui extends JFrame {
 		test.setResizable(false);
 		test.pack();
 		test.setVisible(true);
+		
+		int xStartTest = 190;
+		int yStartTest = 50;
+		
+		
 		
 		/*int xStartTest = 300;
 		int yStartTest = 520;
