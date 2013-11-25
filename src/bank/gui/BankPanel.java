@@ -35,10 +35,11 @@ public class BankPanel extends JPanel {
 	
 	private BankGui gui; //reference to main gui may not need a bank gui.
 	
-	private Bank bank = new Bank();
+	private Bank bank;
 	
-	public BankPanel(BankGui gui) {
+	public BankPanel(BankGui gui, Bank b) {
         this.gui = gui;
+        bank = b;
         setLayout(new GridLayout(1, 3, 0, 0));//number of rows by three objects.
         //initRestLabel();
         Dimension panelDims = new Dimension((int)(BankGui.WINDOWX*.33), (int) (BankGui.WINDOWY * .66));
