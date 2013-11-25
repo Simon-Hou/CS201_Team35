@@ -172,6 +172,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			p.putInBag(item, groceries.get(item));
 			
 		}
+		p.msgThisRoleDone(this);
 	    
 	}
 	

@@ -50,7 +50,7 @@ public class Market implements PlaceOfWork{
 	}
 	
 	public MarketCashier CanIBeCashier(Person person){
-		if(((MarketHostRole) cashier).p==null || cashier.YouAreDoneWithShift()){
+		if(((MarketCashierRole) cashier).p==null || cashier.YouAreDoneWithShift()){
 			((MarketCashierRole) cashier).name = person.getName()+ "MarketCashier";
 			((MarketCashierRole) cashier).p = person;
 			return cashier;

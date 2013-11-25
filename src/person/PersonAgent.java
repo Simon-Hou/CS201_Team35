@@ -205,12 +205,14 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 		
-		if (nextRole != null) {
+		/*if (nextRole != null) {
 			activeRole = nextRole;
 			nextRole = null;
 			return true;
-		}
-		
+		}*/
+		/*if(name.equals("p1")){
+			Do("DECIDING WHAT TO DO");
+		}*/
 		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
@@ -385,6 +387,8 @@ public class PersonAgent extends Agent implements Person {
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
 		Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
+		
+		
 		//ShoppingList shoppingList = makeShoppingList();
 		
 		//Gets customerRole or creates customerRole

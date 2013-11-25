@@ -81,7 +81,7 @@ public class SimCityGui extends JFrame {
 		test.pack();
 		test.setVisible(true);
 		
-		int xStartTest = 300;
+		/*int xStartTest = 300;
 		int yStartTest = 520;
 
 		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
@@ -99,7 +99,7 @@ public class SimCityGui extends JFrame {
 		test.city.addMoving(pg5);
 		test.city.addMoving(pg6);
 		test.city.addMoving(pg7);
-		test.city.addMoving(pg8);
+		test.city.addMoving(pg8);*/
 
 
 	}

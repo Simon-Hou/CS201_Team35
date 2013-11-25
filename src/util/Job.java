@@ -1,10 +1,12 @@
 package util;
 
+import person.PersonAgent;
 import interfaces.BankInterface;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
 import bank.BankTellerRole;
 import role.Role;
+import market.*;
 
 public class Job {
 	
@@ -19,9 +21,13 @@ public class Job {
 		this.shiftEnd = shiftEnd;
 		this.placeOfWork = placeOfWork;
 		this.jobType = jt;
-		if(jobRole instanceof BankTellerRole){
+		if(jobType == JobType.BankTeller){
 			((BankTellerRole) jobRole).setPerson(person);
 			((BankTellerRole) jobRole).setBank((Bank) placeOfWork);
+		}
+		if(jobType == JobType.MarketEmployee){
+			((MarketEmployeeRole) jobRole).setPerson((PersonAgent) person);
+			((MarketEmployeeRole) jobRole).setMarket((Market) placeOfWork);
 		}
 		
 	}

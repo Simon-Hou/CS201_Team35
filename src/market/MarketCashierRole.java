@@ -39,7 +39,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	//CONSTRUCTOR
-	public MarketCashierRole(String name, PersonAgent p){
+	public MarketCashierRole(String name, Person p){
 		this.p = p;
 		this.name = name;
 	}
