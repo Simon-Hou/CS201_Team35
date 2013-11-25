@@ -1,5 +1,7 @@
 package cityGui;
 
+import interfaces.Person;
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -16,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import person.PersonAgent;
+
 public class PersonCreationPanel extends JFrame implements ActionListener{
 
 	JButton add;
@@ -26,7 +30,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener{
 	public PersonCreationPanel(SimCityGui c){
 		this.c = c;
 		
-		setSize(300,500);
+		setSize(300,200);
 		setTitle("Person Creation Panel");
 		
 		//TITLE
@@ -75,9 +79,24 @@ public class PersonCreationPanel extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		
 		if(e.getSource().equals(add)){
-			c.addNewPerson();
-			this.dispose();
+			if(addNewPerson()){
+				this.dispose();
+			}
+			
 		}
+		
+	}
+	
+	private boolean addNewPerson(){
+		
+		String name = nameField.getText();
+		if(name.length()==0){
+			System.err.println("Please enter a name");
+			return false;
+		}
+		PersonAgent p  = new PersonAgent(name,c.cityObject.cityMap);
+		c.addNewPerson(p);
+		return true;
 		
 	}
 

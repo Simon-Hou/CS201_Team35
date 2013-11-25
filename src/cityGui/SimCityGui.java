@@ -18,7 +18,7 @@ import cityGui.trace.TracePanel;
 public class SimCityGui extends JFrame {
 	
 	static public CityPanel city;
-	static public CityObject cityObject;
+	public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
 	CityControlPanel CP;
@@ -71,16 +71,22 @@ public class SimCityGui extends JFrame {
 		PersonCreationPanel pCreate = new PersonCreationPanel(this);
 	}
 	
-	public void addNewPerson(){
+	public void addNewPerson(PersonAgent p){
 		
 		
-		String name = "p0";
+		/*String name = "p0";
 		PersonAgent p = new PersonAgent(name,cityObject.cityMap);
 		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
 		p.gui = personGui;
 		cityObject.people.add(p);
 		city.addMoving(personGui);
+		p.startThread();*/
+		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
+		p.gui = personGui;
+		cityObject.people.add(p);
+		city.addMoving(personGui);
 		p.startThread();
+		
 	}
 	
 
