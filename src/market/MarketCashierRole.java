@@ -195,6 +195,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void ProcessBusinessPayment(BusinessPayment payment){
+		Do("Processing the business payment in the amount of $" + payment.amount);
 	    market.cash+= payment.amount;
 	    businessPayments.remove(payment);
 	}
@@ -232,6 +233,10 @@ public class MarketCashierRole extends Role implements MarketCashier{
 			order = o;
 			employee = e;
 		}
+	}
+	
+	public void setMarket(Market market){
+		this.market = market;
 	}
 	
 }
