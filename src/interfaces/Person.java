@@ -17,6 +17,8 @@ public interface Person {
 	public abstract void takeFromWallet(int amount);
 	public abstract int getWalletAmount();
 	
+	public abstract void addFoodToBag(String type, int quantity);
+	
 	public abstract void addToAccount(int accNumber,int amount);
 	public abstract void takeFromAccount(int accNumber,int amount);
 	

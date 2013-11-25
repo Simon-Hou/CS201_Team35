@@ -168,13 +168,13 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void LeaveMarket(){
 		for (String item: groceries.keySet()){
-			p.purse.bag.put(item, groceries.get(item));
+			p.addFoodToBag(item, groceries.get(item));
 		}
 	    
 	}
 	
 	//Utilities
-	public PersonAgent getPerson(){
+	public Person getPerson(){
 		return p;
 	}
 	public void setHost(MarketHost host2) {

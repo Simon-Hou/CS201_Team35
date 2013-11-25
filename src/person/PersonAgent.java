@@ -405,7 +405,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		
 		//marketRole.setMarket(m);
-		marketRole.msgYouAreAtMarket(m);
+		marketRole.msgYouAreAtMarket(m.host);
 		activeRole = marketRole;
 	}
 	
@@ -536,7 +536,7 @@ public class PersonAgent extends Agent implements Person {
 				roles.add(activeRole);
 			}*/
 			
-			marketRole.msgYouAreAtMarket(m);
+			marketRole.msgYouAreAtMarket(m.host);
 			activeRole = marketRole;
 		}
 	}
@@ -620,6 +620,13 @@ public class PersonAgent extends Agent implements Person {
 	
 	public int getWalletAmount(){
 		return purse.wallet;
+	}
+	
+	public void addFoodToBag(String type, int quantity){
+		if (purse.bag.containsKey(type))
+			purse.bag.put(type, purse.bag.get(type)+quantity);
+		else
+			purse.bag.put(type, purse.bag.get(type));
 	}
 	
 	public int getMoneyInBank() {
