@@ -29,7 +29,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	//msg
 	
 	public void msgTired(){
-		Do("I am tired");
+		//Do("I am tired");
 		this.s = InhabitantState.TIRED;
 		self.msgStateChanged();
 	}
@@ -55,7 +55,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
-		Do("Deciding what to do");
+		//Do("Deciding what to do");
 		if(s==InhabitantState.TIRED){
 			Sleep();
 			return true;
@@ -77,7 +77,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	//action
 	
 	private void Sleep(){
-		Do("Going to sleep");
+		//Do("Going to sleep");
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

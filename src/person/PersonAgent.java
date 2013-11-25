@@ -256,9 +256,11 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}		
 
+		//FOR NOW - TODO - GET THIS TO WORK
+		/*
 		if (purse.wallet > 500 && wantsToBuyCar) {
 			buyCar();
-		}
+		}*/
 
 		if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
 			goToBank();
@@ -300,10 +302,13 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 		
+		//FOR NOW - TODO GET THIS TO WORK
+		/*
 		if (getNetWorth() > 500) {
 			buyCar();
 			return true;
-		}
+		}*/
+		
 		return false;
 	}
 	
@@ -392,7 +397,8 @@ public class PersonAgent extends Agent implements Person {
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
-		Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
+		int marketChoice = (int) Math.floor(city.map.get("Market").size()*Math.random());
+		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
 		
 		
 		//ShoppingList shoppingList = makeShoppingList();
@@ -467,7 +473,7 @@ public class PersonAgent extends Agent implements Person {
 	//ANIMATION
 	
 	public void doGoHome(){
-		Do("My address: "+belongings.myHouse.address.x+" "+belongings.myHouse.address.y);
+		//Do("My address: "+belongings.myHouse.address.x+" "+belongings.myHouse.address.y);
 		doGoToBuilding(belongings.myHouse.address);
 	}
 
