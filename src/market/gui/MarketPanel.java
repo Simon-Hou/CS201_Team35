@@ -104,19 +104,23 @@ public class MarketPanel extends JPanel implements ActionListener{
 
          PersonAgent p1 = new PersonAgent("Host", map);
          host = new MarketHostRole("Host", p1);
-         host.startThread();
+         p1.activeRole = host;
+         p1.startThread();
         
          PersonAgent p2 = new PersonAgent("Employee", map);
          employee = new MarketEmployeeRole("Employee", p2);
-         employee.startThread();
+         p2.activeRole = employee;
+         p2.startThread();
         
          PersonAgent p3 = new PersonAgent("Cashier", map);
          cashier = new MarketCashierRole("Cashier", p3);
-         cashier.startThread();
+         p3.activeRole = cashier;
+         p3.startThread();
          
          PersonAgent p4 = new PersonAgent("Delivery Man", map);
-         deliveryMan = new MarketDeliveryManRole("Delivery Man", p3);
-         deliveryMan.startThread();
+         deliveryMan = new MarketDeliveryManRole("Delivery Man", p4);
+         p4.activeRole = deliveryMan;
+         p4.startThread();
          
          market.cashier = cashier;
          market.host = host;
@@ -172,7 +176,9 @@ public class MarketPanel extends JPanel implements ActionListener{
 		
         PersonAgent p1 = new PersonAgent("Customer", map);
         MarketCustomerRole customer = new MarketCustomerRole("Customer", p1);
-       customer.startThread();
+        customer.addToShoppingList("Pizza", 12 );
+        p1.activeRole = customer;
+       p1.startThread();
        customers.add(customer);
        
        

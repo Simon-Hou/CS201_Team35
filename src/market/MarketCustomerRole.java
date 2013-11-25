@@ -46,14 +46,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
 	    //this.cashier = cashier;
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 
 	public void msgHereIsTotal(int total){
 		Do("Got the MARKET bill");
 	    bill = total;
 	    event = RoleEvent.askedToPay;
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 
 	public void msgHereIsYourChange(Receipt receipt, int change){
@@ -61,24 +61,24 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	    this.receipt = receipt;
 	    p.addToWallet(change);
 	    event = RoleEvent.paymentReceived;
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 
 	public void msgYouOweMoney(Receipt receipt, int debt){
 	    this.receipt = receipt;
 	    event = RoleEvent.paymentReceived;
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 
 	public void msgYouCanLeave(){
 	
 	    event = RoleEvent.allowedToLeave;
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 
 	public void msgOutOfStock(Map<String, Integer> unfullfillable){
 		//what do I do if they don't have what I want??
-		StateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgYouAreAtMarket(Market m){
@@ -86,7 +86,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.host = m.host;
 		this.cashier = m.cashier;
 		state = RoleState.JustEnteredMarket;
-		StateChanged();
+		p.msgStateChanged();
 	}
 	
 	//from animation
@@ -120,7 +120,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		    return true;
 		}
 		if (state == RoleState.Leaving && event == RoleEvent.allowedToLeave){
-		    LeaveMarket();
+		    state = RoleState.Done;
+			LeaveMarket();
 		    return true;
 		}
 

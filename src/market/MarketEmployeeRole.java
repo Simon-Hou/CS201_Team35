@@ -74,12 +74,12 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList){
 	    Do("Better get the customer's items");
 		customerOrders.add(new CustomerOrder(c, orderList));
-		StateChanged();
+		p.msgStateChanged();
 	}
 
 	public void msgGetThis(BusinessOrder order){
 	    businessOrders.add(order);
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 	
 	//fromAnimation

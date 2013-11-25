@@ -81,7 +81,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
 	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
-	    StateChanged();
+	    p.msgStateChanged();
 		
 	}
 
@@ -95,13 +95,13 @@ public class MarketHostRole extends Role implements MarketHost {
 				mc.groceries = groceries;
 			}
 		}
-		StateChanged();
+		p.msgStateChanged();
 		
 	}
 
 	public void msgBusinessWantsThis(BusinessOrder order) {
 		businessOrders.add(order);
-		StateChanged();
+		p.msgStateChanged();
 		
 	}
 
