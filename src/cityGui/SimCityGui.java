@@ -30,7 +30,6 @@ public class SimCityGui extends JFrame {
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
 
-		
 		city = new CityPanel(this);
 		
 		view = new CityView(this);
@@ -65,14 +64,15 @@ public class SimCityGui extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
 		SimCityGui test = new SimCityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		test.setResizable(false);
 		test.pack();
 		test.setVisible(true);
 		
-		int xStartTest = 300;
-		int yStartTest = 520;
+		int xStartTest = 190;
+		int yStartTest = 50;
 
 		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
         PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);

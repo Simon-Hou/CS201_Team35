@@ -92,5 +92,72 @@ public abstract class CityComponent {
 		this.y = p.y;
 		rectangle.setLocation(p);
 	}
+	
+	public int sidewalkX(int x, int y) {
+		if (leftSide(x,y)) {
+			if (innerBuilding(x,y)) {
+				return 200;
+			}
+			else return 40;
+		}
+		else if (rightSide(x,y)) {
+			if (innerBuilding(x,y)) {
+				return 400;
+			}
+			else return 560;	
+		}
+		else return x+17;	
+	}
+	
+	public int sidewalkY(int x, int y) {
+		if (topSide(x,y)) {
+			if (innerBuilding(x,y)) {
+				return 200;
+			}
+			else return 40;
+		}
+		else if (bottomSide(x,y)) {
+			if (innerBuilding(x,y)) {
+				return 400;
+			}
+			else return 560;	
+		}
+		else return y+17;	
+	}
+	
+	public boolean innerBuilding(int x, int y) {
+		if (x >= 200 && x <= 400 && y >= 200 && y <= 400) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean leftSide(int x, int y) {
+		if (((x >= 200 && x <= 210) || (x >= 0 && x <= 10)) && (y >= 200 && y <= 365)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean rightSide(int x, int y) {
+		if (((x >= 360 && x <= 370) || (x >= 560 && x <= 575)) && (y >= 200 && y <= 365)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean topSide(int x, int y) {
+		if (((y >= 0 && y <= 10) || (y >= 200 && y <= 210)) && (x > 5 && x < 560)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean bottomSide(int x, int y) {
+		if (((y >= 560 && y <= 575) || (y >= 360 && y <= 370)) && (x > 5 && x < 560)) {
+			return true;
+		}
+		return false;
+	}
 }
 

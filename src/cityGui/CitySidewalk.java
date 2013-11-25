@@ -9,7 +9,7 @@ public class CitySidewalk extends CityComponent {
 	private RoadDirection direction;
 	boolean inner;
 	
-	public CitySidewalk(int x, RoadDirection direction, boolean inner) {
+	public CitySidewalk(int x, RoadDirection direction, boolean inner, boolean water) {
 		super(x, 0, Color.LIGHT_GRAY, "Side Walk");
 		this.direction = direction;
 		if (direction == RoadDirection.HORIZONTAL && !inner)
@@ -20,6 +20,10 @@ public class CitySidewalk extends CityComponent {
 			rectangle = new Rectangle(160, x, 280, 40);
 		else if (inner)
 			rectangle = new Rectangle(x, 160, 40, 280);
+		if (water) {
+			this.color = Color.blue;
+			rectangle = new Rectangle(240, 240, 120, 120);
+		}
 	}
 
 	public CitySidewalk(int x, RoadDirection direction, String I) {
