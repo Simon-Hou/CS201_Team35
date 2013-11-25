@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
+import javax.swing.JPanel;
+
 import util.BankMapLoc;
 import util.Loc;
 import util.RestaurantMapLoc;
@@ -31,7 +33,7 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 	}
 	
 	@Override
-	public void addAgentObjectToMap(){
+	public JPanel addAgentObjectToMap(){
 //		RestaurantMapLoc rMap = new RestaurantMapLoc(restaurant);
 //		rMap.loc = new Loc(x,y);
 //		int tempX = rMap.loc.x;
@@ -43,6 +45,7 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 //		System.out.println("New Building X Value: " + rMap.loc.x);
 //		System.out.println("New Building Y Value: " + rMap.loc.y);
 //		this.cityObject.cityMap.map.get("Bank").add(rMap);
+		return null;
 	}
 
 	public void paint(Graphics g) {

@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
+import javax.swing.JPanel;
+
 import util.Bank;
 import util.BankMapLoc;
 import util.HouseMapLoc;
@@ -39,7 +41,7 @@ public class CityHouse extends CityComponent implements ImageObserver {
 	}
 	
 	@Override
-	public void addAgentObjectToMap(){
+	public JPanel addAgentObjectToMap(){
 		HouseMapLoc hMap = new HouseMapLoc(house);
 		hMap.loc = new Loc(x,y);
 		int tempX = hMap.loc.x;
@@ -51,6 +53,7 @@ public class CityHouse extends CityComponent implements ImageObserver {
 		System.out.println("New Building X Value: " + hMap.loc.x);
 		System.out.println("New Building Y Value: " + hMap.loc.y);
 		this.cityObject.cityMap.map.get("House").add(hMap);
+		return null;
 	}
 
 	public void updatePosition() {
