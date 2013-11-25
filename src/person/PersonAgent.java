@@ -1,5 +1,6 @@
 package person;
 
+import house.House;
 import house.InhabitantRole;
 import interfaces.Occupation;
 import interfaces.Person;
@@ -15,6 +16,7 @@ import bank.BankTellerRole;
 import market.Market;
 import market.MarketCustomerRole;
 import market.MarketEmployeeRole;
+import restaurant.Restaurant;
 import role.Role;
 import util.Bank;
 import util.BusStop;
@@ -25,6 +27,7 @@ import util.Loc;
 import util.MarketMapLoc;
 import util.BankMapLoc;
 import util.Place;
+import util.RestaurantMapLoc;
 import util.Task;
 import util.deposit;
 import util.openAccount;
@@ -80,7 +83,7 @@ public class PersonAgent extends Agent implements Person {
 	public int activeRoleCalls = 0;
 	//Time time;
 	public int hungerLevel = 0;
-	public int tiredLevel = 0;
+	public int tiredLevel = 100;
 	public int myBank = 0;
 	public int personalAddress;
 	public Purse purse;
@@ -111,7 +114,7 @@ public class PersonAgent extends Agent implements Person {
 			myCars = new ArrayList<Car>();
 			myFoods = new ArrayList<Food>();
 			myAccounts = new ArrayList<BankAccount>();
-			
+			myHouse = new House(new Loc(5,5));
 		}
 		
 		public Property myLiving;
@@ -119,6 +122,7 @@ public class PersonAgent extends Agent implements Person {
 		public List<Car> myCars;
 		public List<Food> myFoods;
 		public List<BankAccount> myAccounts;
+		public House myHouse;
 	}
 	
 	public class BankAccount {
@@ -129,6 +133,7 @@ public class PersonAgent extends Agent implements Person {
 			custName = name;
 			password = pw;
 			myLoans = new ArrayList<Loan>();
+
 		}
 		
 		public int amount;
@@ -136,6 +141,7 @@ public class PersonAgent extends Agent implements Person {
 		public String custName;
 		public String password;
 		public List<Loan> myLoans;
+		
 	}
 	
 	public class Loan {
@@ -162,6 +168,7 @@ public class PersonAgent extends Agent implements Person {
 		public int address;
 		public Person tenant;
 		public int maintenanceLevel;
+		
 	}
 	
 	public class Car {
@@ -192,9 +199,15 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	//Scheduler
-	 public boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
+	 
+		if(name.equals("p1")){
+			if(myJob.placeOfWork==null && !city.map.get("Bank").isEmpty()){
+				setJob(((BankMapLoc) city.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100);
+			}
+		}
 		if (activeRole != null) {
 			activeRoleCalls++;
 			
@@ -220,6 +233,7 @@ public class PersonAgent extends Agent implements Person {
 		if(time == myJob.shiftStart-1){
 			return false;
 		}
+		
 		
 		/*if (nextRole != null) {
 			activeRole = nextRole;
@@ -288,8 +302,6 @@ public class PersonAgent extends Agent implements Person {
 	//Actions
 	private void goToWork() {
 		Do("I am going to work as a "+myJob.jobType);
-		doGoToWork();
-		
 		//HACK
 		if(myJob.placeOfWork==null){
 			myJob.shiftStart+=1;
@@ -297,6 +309,9 @@ public class PersonAgent extends Agent implements Person {
 			return;
 		}
 		
+		
+		doGoToWork();
+		Do("Got to work");
 		Role tempJobRole = myJob.placeOfWork.canIStartWorking(this, myJob.jobType, myJob.jobRole);
 		
 		//THIS IS JUST A TEMPORARY FIX, IF SOMEONE DOESN'T GET TO WORK,
@@ -307,7 +322,7 @@ public class PersonAgent extends Agent implements Person {
 			return;
 		}
 		
-		
+		Do("Starting to work");
 		myJob.jobRole = tempJobRole;
 		activeRole = tempJobRole;
 		//Do(""+ activeRole);
@@ -399,28 +414,12 @@ public class PersonAgent extends Agent implements Person {
 		}
 	}
 	private void getSleep() {
-		Do("I am going home to sleep");
-		//doGoToHome();
-		/*InhabitantRole inhabitantRole;
 		
-		//Gets inhabitantRole or creates inhabitantRole
-		boolean containsRole = false;
-		for (Role r: roles) {
-			if (r instanceof InhabitantRole) {
-				activeRole = r;
-				inhabitantRole = (InhabitantRole) r;
-				containsRole = true;			
-				//inhabitantRole.msgYouAreAtHome();
-				activeRole = inhabitantRole;
-			}
-		}
-		if (!containsRole) {
-			inhabitantRole = new InhabitantRole();
-			activeRole = inhabitantRole;
-			roles.add(activeRole);	
-			//inhabitantRole.msgYouAreAtHome();
-			activeRole = inhabitantRole;
-		}*/
+		
+		
+		Do("I am going home to sleep");
+		doGoHome();
+		inhabitantRole.msgTired();
 		activeRole = inhabitantRole;
 	}
 	
@@ -433,42 +432,9 @@ public class PersonAgent extends Agent implements Person {
 		//MarketCustomerRole marketRole = null;
 		if (purse.wallet < 500) {
 			Do("I am going to get money from the bank and then I'm going to buy a car");
-			//doGoToBank();
-			/*BankCustomerRole bankRole;
 			
-			//Gets customerRole or creates customerRole
-			boolean containsRole = false;
-			for (Role r: roles) {
-				if (r instanceof BankCustomerRole) {
-					activeRole = r;
-					bankRole = (BankCustomerRole) r;
-					bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
-					activeRole = bankRole;
-					containsRole = true;
-				}
-			}
-			if (!containsRole) {
-				bankRole = new BankCustomerRole(this.name, this);
-				bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
-				activeRole = bankRole;
-				roles.add(activeRole);
-			}*/
 			wantsToBuyCar = true;
 			
-			//Gets customerRole or creates customerRole
-			/*boolean containsRole2 = false;
-			for (Role r: roles) {
-				if (r instanceof MarketCustomerRole) {
-					nextRole = r;
-					marketRole = (MarketCustomerRole) r;
-					containsRole2 = true;
-				}
-			}
-			if (!containsRole2) {
-				marketRole = new MarketCustomerRole(this.name,this);
-				activeRole = marketRole;
-				roles.add(activeRole);
-			}*/
 			doGoToBuilding(city.map.get("Bank").get(0).loc);
 			bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
 			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Bank").get(myBank)).bank);
@@ -478,21 +444,6 @@ public class PersonAgent extends Agent implements Person {
 			Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
 			Do("I am going to buy a car from the market");
 			
-			//Gets customerRole or creates customerRole
-			/*boolean containsRole = false;
-			for (Role r: roles) {
-				if (r instanceof MarketCustomerRole) {
-					activeRole = r;
-					marketRole = (MarketCustomerRole) r;
-					containsRole = true;
-				}
-			}
-			if (!containsRole) {
-				marketRole = new MarketCustomerRole(this.name,this);
-				marketRole.msgYouAreAtMarket(m);
-				activeRole = marketRole;
-				roles.add(activeRole);
-			}*/
 			
 			marketRole.msgYouAreAtMarket(m);
 			activeRole = marketRole;
@@ -500,31 +451,17 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void goDoMaintenance(Property p) {
-		/*InhabitantRole inhabitantRole;
-		
-		//Gets inhabitantRole or creates inhabitantRole
-		boolean containsRole = false;
-		for (Role r: roles) {
-			if (r instanceof InhabitantRole) {
-				activeRole = r;
-				inhabitantRole = (InhabitantRole) r;
-				containsRole = true;			
-				//inhabitantRole.msgYouAreAtHome();
-				activeRole = inhabitantRole;
-			}
-		}
-		if (!containsRole) {
-			inhabitantRole = new InhabitantRole();
-			activeRole = inhabitantRole;
-			roles.add(activeRole);	
-			//inhabitantRole.msgYouAreAtHome();
-			activeRole = inhabitantRole;
-		}*/
+		doGoHome();
 		activeRole = inhabitantRole;
 		p.maintenanceLevel = 0;
 	}
 	
 	//ANIMATION
+	
+	public void doGoHome(){
+		doGoToBuilding(belongings.myHouse.address);
+	}
+
 	
 	private void doGoToBuilding(Loc loc){
 		
@@ -545,6 +482,39 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void doGoToWork(){
+		Loc location = findPlaceOfWork(myJob.placeOfWork);
+		doGoToBuilding(location);
+	}
+	
+	public Loc findPlaceOfWork(PlaceOfWork workPlace){
+		
+		if(workPlace == null){
+			System.err.println("Someone's trying to go to a null work location");
+			return null;
+		}
+		
+		if(workPlace instanceof Bank){
+			for(Place bMap:city.map.get("Bank")){
+				if(((BankMapLoc) bMap).bank==workPlace){
+					return bMap.loc;
+				}
+			}
+		}
+		if(workPlace instanceof Market){
+			for(Place mMap:city.map.get("Market")){
+				if(((MarketMapLoc) mMap).market==workPlace){
+					return mMap.loc;
+				}
+			}
+		}
+		if(workPlace instanceof Restaurant){
+			for(Place rMap:city.map.get("Restaurant")){
+				if(((RestaurantMapLoc) rMap).restaurant==workPlace){
+					return rMap.loc;
+				}
+			}
+		}
+		return null;
 		
 	}
 	
