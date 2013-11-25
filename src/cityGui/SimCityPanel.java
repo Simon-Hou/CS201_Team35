@@ -25,7 +25,7 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 		this.city = city;
 		statics = new ArrayList<CityComponent>();
 		movings = new ArrayList<CityComponent>();
-		timer = new Timer(50, this);
+		timer = new Timer(10, this);
 		timer.start();
 	}
 	

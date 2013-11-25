@@ -32,6 +32,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	public MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
 	
+	public void addToShoppingList(String food, int amount){
+		this.shoppingList.put(food, amount);
+	}
 
 	public MarketCustomerRole(String name, Person p){		
 		this.name = name;
@@ -216,8 +219,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	private void LeaveMarket(){
 		for (String item: groceries.keySet()){
 			p.putInBag(item, groceries.get(item));
-			
 		}
+		p.msgThisRoleDone(this);
 	    
 		gui.DoExitRestaurant();
 		

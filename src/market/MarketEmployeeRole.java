@@ -25,6 +25,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	List<BusinessOrder> deliveryList = new ArrayList<BusinessOrder>();
 	PersonAgent p;
 	public String name;
+	private Market market;
 	
 	List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
 	MarketCashier cashier; 
@@ -49,13 +50,17 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		deliveryMen.add(d);
 	}
 	
+	public void setPerson(PersonAgent p){
+		this.p= p;
+	}
+	
 	//GETTERS
 	public String getName(){
 		return name;
 	}
 	
 	public boolean canLeave() {
-		return false;
+		return (customerOrders.isEmpty() && businessOrders.isEmpty());
 	}
 	
 	
@@ -235,6 +240,12 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    }
 	}
 	enum CustomerOrderState {none,  fulfilled}
+	
+	public void setMarket(Market market) {
+		// TODO Auto-generated method stub
+		this.market = market;
+		
+	}
 
 	
 }
