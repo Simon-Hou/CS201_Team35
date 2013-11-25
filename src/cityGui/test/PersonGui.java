@@ -503,8 +503,9 @@ public class PersonGui extends CityComponent implements Gui {
 	}
 	
     public void paint(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.drawImage(currentImage.getImage(),getXPos(),getYPos(),10,10,null);
+    	if (!atDestination()) {
+    		g.drawImage(currentImage.getImage(),getXPos(),getYPos(),10,10,null);
+    	}
     }    	
 
     public boolean isPresent() {
@@ -640,6 +641,13 @@ public class PersonGui extends CityComponent implements Gui {
     }
     public boolean bottomRightCorner(int x, int y) {
     	if (getYPos() > 550 && getYPos() <= 600 && getXPos() >= 550 && getXPos() <= 600) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean atDestination() {
+    	if (getXPos() == xDestination && getYPos() == yDestination) {
     		return true;
     	}
     	return false;
