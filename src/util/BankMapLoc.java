@@ -5,4 +5,6 @@ public class BankMapLoc extends Place{
 		this.bank = b;
 	}
 	public Bank bank;
+	public int bankTopLeftX;
+	public int bankTopLeftY;
 }
