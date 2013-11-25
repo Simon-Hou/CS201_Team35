@@ -8,6 +8,7 @@ public interface MarketEmployee extends Occupation {
 	
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList);
 	public void msgGetThis(BusinessOrder order);
+	public void msgGiveInvoice(int invoice, BusinessOrder order);
 	public String getName();
 	
 

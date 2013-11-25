@@ -19,13 +19,18 @@ public class MarketEmployeeGui implements Gui{
 	private final int xCashier = 15;
 	private final int yCashier = 150;
 	
+	private final int xDock = 30;
+	private final int yDock = 420;
+	
 	//default start position
 	private final int xInitial = 370;
 	private final int yInitial = 200;
 	 private int xPos = 370, yPos = 200;
 	 private int xDestination = 370, yDestination = 200;
 
-	
+	 private boolean gotToDestination = true;
+	 
+	 
 	public MarketEmployeeGui(MarketEmployeeRole e){
 		role = e;
 	}
@@ -42,9 +47,12 @@ public class MarketEmployeeGui implements Gui{
 	        else if (yPos > yDestination)
 	            yPos--;
 
-	        if (xPos == xDestination && yPos == yDestination && xDestination != xInitial && yDestination != yInitial )
-	        {
-	           role.msgAtDestination();
+	        if (!gotToDestination){
+	        	if (xPos == xDestination && yPos == yDestination && !(xDestination == xInitial && yDestination == yInitial) )
+	        	{
+	        		role.msgAtDestination();
+	        		gotToDestination = true;
+	        	}
 	        }
 		
 	}
@@ -59,11 +67,13 @@ public class MarketEmployeeGui implements Gui{
 	public void DoGetItems(){
 		xDestination = 190;
 		yDestination = 400;
+		gotToDestination = false;
 	}
 	
 	public void DoGiveCustomerItems(){
 		xDestination = itemDropX;
 		yDestination = itemDropY;
+		gotToDestination = false;
 	}
 	
 	public void DoGoHomePosition(){
@@ -74,6 +84,13 @@ public class MarketEmployeeGui implements Gui{
 	public void DoGoToCashier(){
 		xDestination = xCashier;
 		yDestination = yCashier;
+		gotToDestination = false;
+	}
+	
+	public void DoGoToDock(){
+		xDestination = xDock;
+		yDestination = yDock;
+		gotToDestination = false;
 	}
 
 	@Override
