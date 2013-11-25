@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -34,9 +35,6 @@ public class MarketPanel extends JPanel implements ActionListener{
 								JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private JPanel view = new JPanel();
     
-
-    private InventoryItem button1 = new InventoryItem("Steak", this);
-    private InventoryItem button2 = new InventoryItem("Chicken", this);
     
     private JButton startButton = new JButton("Enter");
     private JButton deliveryButton = new JButton("Delivery");
@@ -76,20 +74,19 @@ public class MarketPanel extends JPanel implements ActionListener{
         
       
 
+        
          Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
          
-         button1.setPreferredSize(buttonSize);
-         button1.setMinimumSize(buttonSize);
-         button1.setMaximumSize(buttonSize);
-         inventoryList.add(button1);
-         view.add(button1);
+         for(Map.Entry<String, Integer> entry : market.inventory.entrySet()){
+        	 InventoryItem item = new InventoryItem(entry.getKey(), entry.getValue(), market, this);
+        	 item.setPreferredSize(buttonSize);
+             item.setMinimumSize(buttonSize);
+             item.setMaximumSize(buttonSize);
+             inventoryList.add(item);
+             view.add(item);
+         }
          
-         
-         button2.setPreferredSize(buttonSize);
-         button2.setMinimumSize(buttonSize);
-         button2.setMaximumSize(buttonSize);
-         inventoryList.add(button2);
-         view.add(button2);
+
 		
          validate();
          
@@ -210,11 +207,16 @@ public class MarketPanel extends JPanel implements ActionListener{
 		
 	}
 	
+	public void updateInventory(){
+		
+	}
+	
 	//Utilities
 	
 	private class InventoryItem extends JPanel{
 		
 		MarketPanel mp;
+		Market market;
 		
 		String choice;
 		Integer inventory;
@@ -224,10 +226,11 @@ public class MarketPanel extends JPanel implements ActionListener{
 		JLabel inventoryLabel = new JLabel();
 		JButton plus = new JButton("+");
 		
-		InventoryItem(String name, MarketPanel mp){
+		InventoryItem(String name, int invent, Market mark, MarketPanel mp){
 			this.mp = mp;
 			choice = name;
-			inventory = 0;
+			inventory = invent;
+			market = mark;
 			
 			setLayout(new GridLayout(1,5,5,5));
 			setBorder(BorderFactory.createRaisedBevelBorder());

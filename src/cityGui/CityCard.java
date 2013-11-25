@@ -31,6 +31,7 @@ public class CityCard extends SimCityPanel {
 		this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		this.setVisible(true);
 		addMouseListener(this);
+		add(animPan);
 	}
 
 

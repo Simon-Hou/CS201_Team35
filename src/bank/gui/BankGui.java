@@ -55,7 +55,7 @@ public class BankGui  extends JFrame implements ActionListener {
 	
 	//JFrame animationFrame = new JFrame("Restaurant Animation");
 	//AnimationPanel animationPanel = new AnimationPanel();
-	BankAnimationPanel bankAnimationPanel = new BankAnimationPanel();
+	static BankAnimationPanel bankAnimationPanel = new BankAnimationPanel();
 	
 	BankAccount currentAccount = null;
 	
@@ -234,7 +234,7 @@ public class BankGui  extends JFrame implements ActionListener {
 	/**
      * Main routine to get gui started
      */
-    public static void bankMain(Bank b) {
+    public static JPanel bankMain(Bank b) {
         BankGui gui = new BankGui(b);
         gui.setTitle("Bank");
         gui.setVisible(true);
@@ -255,7 +255,7 @@ public class BankGui  extends JFrame implements ActionListener {
         ba2.myLoans.add(banka.new loan(3, 1));
         gui.bankPanel.addAccount(ba2);
         
-        
+        return bankAnimationPanel;
         //cityFrame.addTab("Bank", NULL/*unless you want an image*/,  Component component) 
     }
 	
