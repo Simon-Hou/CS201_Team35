@@ -8,6 +8,7 @@ import java.awt.HeadlessException;
 import javax.swing.JFrame;
 
 import person.PersonAgent;
+import util.Bank;
 import util.CityMap;
 import city.CityObject;
 import cityGui.test.PersonGui;
@@ -94,7 +95,9 @@ public class SimCityGui extends JFrame {
 		int yStartTest = 50;
 		
 		
+		Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		test.addNewPerson("p0");
+		test.cityObject.people.get(0).setJob(placeOfWork, jobType, start, end);
 		/*cityObject.people.add(new PersonAgent("p0",cityObject.cityMap));
 		cityObject.people.get(0).startThread();*/
 		
