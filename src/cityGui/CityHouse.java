@@ -40,18 +40,19 @@ public class CityHouse extends CityComponent implements ImageObserver {
 	public CityHouse(int x, int y, String I) {
 		super(x, y, Color.yellow, I);
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
-		house = new House();
 		initializeHouse();
 		//house.houseGui = this;
 	}
 	
 	public void initializeHouse(){
+		//System.out.println("House address is: "+sidewalkX(x,y)+" "+sidewalkY(x,y));
 		house = new House();
 		house.houseGui = this;
 	}
 	
 	@Override
 	public JPanel addAgentObjectToMap(){
+		house.address = new Loc(sidewalkX(x,y),sidewalkY(x,y));
 		HouseMapLoc hMap = new HouseMapLoc(house);
 		hMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
 		this.cityObject.cityMap.map.get("House").add(hMap);

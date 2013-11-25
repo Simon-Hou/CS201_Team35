@@ -108,6 +108,10 @@ public class PersonAgent extends Agent implements Person {
 		MY_BANK = num;
 	}
 	
+	public void setHouse(House h){
+		this.belongings.myHouse = h;
+	}
+	
 	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
 	
 	public class Belongings {
@@ -463,6 +467,7 @@ public class PersonAgent extends Agent implements Person {
 	//ANIMATION
 	
 	public void doGoHome(){
+		Do("My address: "+belongings.myHouse.address.x+" "+belongings.myHouse.address.y);
 		doGoToBuilding(belongings.myHouse.address);
 	}
 
