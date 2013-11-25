@@ -170,7 +170,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	private void LeaveMarket(){
 		for (String item: groceries.keySet()){
 			p.putInBag(item, groceries.get(item));
-			
 		}
 		p.msgThisRoleDone(this);
 	    

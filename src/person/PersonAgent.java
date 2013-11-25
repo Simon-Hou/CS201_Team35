@@ -630,6 +630,13 @@ public class PersonAgent extends Agent implements Person {
 		return purse.wallet;
 	}
 	
+	public void addFoodToBag(String type, int quantity){
+		if (purse.bag.containsKey(type))
+			purse.bag.put(type, purse.bag.get(type)+quantity);
+		else
+			purse.bag.put(type, purse.bag.get(type));
+	}
+	
 	public int getMoneyInBank() {
 		int totalMoney = 0;
 		for (BankAccount account: belongings.myAccounts) {
