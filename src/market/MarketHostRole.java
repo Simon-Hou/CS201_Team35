@@ -155,6 +155,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	private void ServeCustomer(MyCustomer mc){
+		Do("Serving customer");
 		mc.state = CustomerState.beingServiced;
 
 		Map<String, Integer> unfulfillable = new HashMap<String, Integer>();
@@ -184,6 +185,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		}
 
 		if (mc.order.size()==0){
+			Do(mc.customer.getName() + ", you didn't order anything!");
 			return;
 		}
 
