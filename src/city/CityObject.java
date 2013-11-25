@@ -184,13 +184,13 @@ public class CityObject implements ActionListener{
 	
 	
 	
-	/*public static void main(String [] args){
+	public static void main(String [] args){
 		
 		//CityObject city = new CityObject();
 		
 		
 		return;
-	}*/
+	}
 	
 	
 	

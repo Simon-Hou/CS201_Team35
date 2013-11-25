@@ -138,6 +138,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		if (mc.groceries.isEmpty()  || (mc.receipt.order == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
 			mc.customer.msgYouCanLeave();
 			customers.remove(mc);
+			
 			return;
 		}
 		
