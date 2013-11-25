@@ -38,8 +38,6 @@ public class SimCityGui extends JFrame {
 		city = new CityPanel(this);
 		city.cityObject = cityObject;
 		
-		
-		
 		view = new CityView(this);
 		
 		info = new InfoPanel(this);
@@ -73,16 +71,18 @@ public class SimCityGui extends JFrame {
 	 */
 	public static void main(String[] args) {
 		
-		
-		
 		SimCityGui test = new SimCityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		test.setResizable(false);
 		test.pack();
 		test.setVisible(true);
 		
+		int xStartTest = 190;
+		int yStartTest = 50;
+		
 		/*int xStartTest = 300;
 		int yStartTest = 520;
+>>>>>>> a64db29c4079019ef2654a40c1f1c405d34989b6
 
 		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
         PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);

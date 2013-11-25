@@ -58,10 +58,7 @@ public class PersonGui extends CityComponent implements Gui {
 		
 	}
 	public void updatePosition() {
-		
-		System.out.println(choseRand);
 		if (readyToGoInnerSidewalk) {
-			System.out.println("In ReadyToGoInnerSidewalk");
 			if (b1(getXPos(),getYPos())) {
 				goVertical(cWalk1i);
 				if (getYPos() == cWalk1i) {
@@ -89,7 +86,6 @@ public class PersonGui extends CityComponent implements Gui {
 		}
 		
 		if (readyToGoOuterSidewalk) {
-			System.out.println("In ReadyToGoOuterSidewalk");
 			if (b1(getXPos(),getYPos())) {
 				goVertical(cWalk1o);
 				if (getYPos() == cWalk1o) {
@@ -117,7 +113,6 @@ public class PersonGui extends CityComponent implements Gui {
 		}
 		
     	if (os1(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os1");
 			if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -139,7 +134,6 @@ public class PersonGui extends CityComponent implements Gui {
     			}
     		}
         	if (os(xDestination,yDestination) && !os1(xDestination,yDestination) && transitionDone) {
-
         		if (choseRand == false) {
     				if (os2(xDestination,yDestination)) {
     					xRand = (int) (520 + (Math.random() * 29));
@@ -159,7 +153,6 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os2(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os2");
         	if (os2(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -190,7 +183,6 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os3(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os3");
 			if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -231,7 +223,6 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os4(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os4");
         	if (os4(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -263,7 +254,6 @@ public class PersonGui extends CityComponent implements Gui {
     	}
    
     	if (is1(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is1");
 			if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -278,15 +268,12 @@ public class PersonGui extends CityComponent implements Gui {
     			}
         	}
     		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is1(xDestination,yDestination) && !os1(xDestination,yDestination) && transitionDone) {
-    			System.out.println("In is1's thing");
     			if (choseRand == false) {
     				if (is2(xDestination,yDestination) || os2(xDestination,yDestination)) {
     					xRand = (int) (400 + (Math.random() * 29));
     				}
     				else xRand = (int) (190 - (Math.random() * 29));
     				choseRand = true;
-    				System.out.println("XRand: " + xRand);
-    				System.out.println("XDest: " + xDestination);
     			}
     			else {
     				goHorizontal(xRand);
@@ -309,7 +296,6 @@ public class PersonGui extends CityComponent implements Gui {
     	}
 
     	if (is2(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is2");
         	if (is2(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -318,7 +304,6 @@ public class PersonGui extends CityComponent implements Gui {
     			}
         	}
     		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is2(xDestination,yDestination) && !os2(xDestination,yDestination)) {
-    			System.out.println(yRand);
     			if (choseRand == false) {
     				if (is3(xDestination,yDestination) ||os3(xDestination,yDestination)) {
     					yRand = (int) (400 + (Math.random() * 29));
@@ -343,7 +328,6 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     	
     	if (is3(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is3");
 			if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -386,7 +370,6 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     
     	if (is4(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is4");
         	if (is4(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -419,21 +402,6 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     }
 
-	
-	public boolean isAtPlateStation() {
-		if (xPos == 395 && yPos == 30) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean isAtCookingStation() {
-		if ((xPos == 385) && (yPos == 0)) {
-			return true;
-		}
-		return false;
-	}
-
 	public boolean getArrived() {
 		return hasArrived;
 	}
@@ -459,11 +427,6 @@ public class PersonGui extends CityComponent implements Gui {
     	xDestination = 385;
     	yDestination = 0;
     }
-    
-	public void DoGoToPlateStation() {
-		xDestination = 395;
-    	yDestination = 30;
-	}
 
     public int getXPos() {
         return rectangle.x;
