@@ -40,8 +40,6 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		
 		//fountainImage = ImageIO.read(new File(""));
 		background = new Color(0, 183, 96);
-		this.addStatic(new CityRestaurant(30, 30));
-		this.addStatic(new CityRestaurant(60, 30, "Restaurant 2"));
 		for (int i = 80; i < 700; i += 360) {
 			this.addStatic(new CityRoad(i, RoadDirection.HORIZONTAL));
 			this.addStatic(new CityRoad(i, RoadDirection.VERTICAL));
@@ -158,6 +156,15 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	public void mouseMoved(MouseEvent arg0) {
 		if (addingObject) {
 			temp.setPosition(arg0.getPoint());
+			for (CityComponent c: statics) {
+				if (c.equals(temp))
+					continue;
+				if (c.rectangle.intersects(temp.rectangle)) {
+					temp.invalidPlacement = true;
+					return;
+				}
+				else temp.invalidPlacement = false;
+			}
 		}
 	}
 	

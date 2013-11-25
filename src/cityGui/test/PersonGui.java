@@ -72,6 +72,10 @@ public class PersonGui extends CityComponent implements Gui {
     }
     
 	public void updatePosition() {
+		System.out.println("XDest: " + xDestination);
+		System.out.println("YDest: " + yDestination);
+		System.out.println("XPos: " + getXPos());
+		System.out.println("YPos: " + getYPos());
 		if (readyToGoInnerSidewalk) {
 			if (b1(getXPos(),getYPos())) {
 				goVertical(cWalk1i);
@@ -126,8 +130,33 @@ public class PersonGui extends CityComponent implements Gui {
 			}
 		}
 		
+		if (topLeftCorner(getXPos(),getYPos()) && topLeftCorner(xDestination,yDestination)) {
+			System.out.println("In top left corner");
+			goHorizontal(40);
+			goVertical(40);
+		}
+		
+		if (topRightCorner(getXPos(),getYPos()) && topRightCorner(xDestination,yDestination)) {
+			System.out.println("In top right corner");
+			goHorizontal(550);
+			goVertical(40);
+		}
+		
+		if (bottomLeftCorner(getXPos(),getYPos()) && bottomLeftCorner(xDestination,yDestination)) {
+			System.out.println("In bottom left corner");
+			goHorizontal(40);
+			goVertical(550);
+		}
+		
+		if (bottomRightCorner(getXPos(),getYPos()) && bottomRightCorner(xDestination,yDestination)) {
+			System.out.println("In bottom right corner");
+			goHorizontal(550);
+			goVertical(550);
+		}
+		
     	if (os1(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-			if (!transitionDone) {
+			System.out.println("In os1");
+    		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
     				transitionDone = true;
@@ -167,7 +196,8 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os2(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-        	if (os2(xDestination,yDestination)) {
+    		System.out.println("In os2");
+    		if (os2(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
     				goHorizontal(xDestination);
@@ -197,7 +227,8 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os3(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-			if (!transitionDone) {
+    		System.out.println("In os3");
+    		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
     				transitionDone = true;
@@ -237,7 +268,8 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os4(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-        	if (os4(xDestination,yDestination)) {
+    		System.out.println("In os4");
+    		if (os4(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
     				goHorizontal(xDestination);
@@ -268,7 +300,8 @@ public class PersonGui extends CityComponent implements Gui {
     	}
    
     	if (is1(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-			if (!transitionDone) {
+    		System.out.println("In is1");
+    		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
     				transitionDone = true;
@@ -310,7 +343,8 @@ public class PersonGui extends CityComponent implements Gui {
     	}
 
     	if (is2(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-        	if (is2(xDestination,yDestination)) {
+    		System.out.println("In is2");
+    		if (is2(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
     				goHorizontal(xDestination);
@@ -342,7 +376,8 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     	
     	if (is3(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-			if (!transitionDone) {
+    		System.out.println("In is3");
+    		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
     				transitionDone = true;
@@ -384,7 +419,8 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     
     	if (is4(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-        	if (is4(xDestination,yDestination)) {
+    		System.out.println("In is4");
+    		if (is4(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
     				goHorizontal(xDestination);
@@ -459,28 +495,28 @@ public class PersonGui extends CityComponent implements Gui {
     }
     
     public boolean os1(int x, int y) {
-    	if (y >= 0 && y <= 80) {
+    	if (y >= 40 && y <= 80) {
     		return true;
     	}
     	else return false;
     }
     
     public boolean os2(int x, int y) {
-    	if ((x >= 520 && x <= 600) && (y > 80 && y < 520)) {
+    	if ((x >= 520 && x <= 550) && (y > 80 && y < 520)) {
     		return true;
     	}
     	else return false;
     }
 	
     public boolean os3(int x, int y) {
-    	if (y >= 520 && y <= 600) {
+    	if (y >= 520 && y <= 550) {
     		return true;
     	}
     	else return false;
 	}
 	
     public boolean os4(int x, int y) {
-    	if ((x >= 0 && x <= 80) && (y > 80 && y < 520)) {
+    	if ((x >= 40 && x <= 70) && (y > 80 && y < 520)) {
     		return true;
     	}
     	else return false;
@@ -548,6 +584,32 @@ public class PersonGui extends CityComponent implements Gui {
     
     public boolean os(int x, int y) {
     	if (os1(x,y) || os2(x,y) || os3(x,y) || os4(x,y)) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean topLeftCorner(int x, int y) {
+    	if (getYPos() >= 0 && getYPos() <= 40 && getXPos() >= 0 && getXPos() <= 40) {
+    		return true;
+    	}
+    	return false;
+    }
+    public boolean topRightCorner(int x, int y) {
+    	if (getYPos() >= 0 && getYPos() <= 40 && getXPos() >= 550 && getXPos() <= 600) {
+    		return true;
+    	}
+    	return false;
+    	
+    }
+    public boolean bottomLeftCorner(int x, int y) {
+    	if (getYPos() > 550 && getYPos() <= 600 && getXPos() >= 0 && getXPos() <= 40) {
+    		return true;
+    	}
+    	return false;
+    }
+    public boolean bottomRightCorner(int x, int y) {
+    	if (getYPos() > 550 && getYPos() <= 600 && getXPos() >= 550 && getXPos() <= 600) {
     		return true;
     	}
     	return false;
