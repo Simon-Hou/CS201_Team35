@@ -14,6 +14,7 @@ public interface MarketCustomer {
 	public void msgYouOweMoney(Receipt receipt, int debt);
 	public void msgYouCanLeave();
 	public void msgOutOfStock(Map<String, Integer> unfullfillable);
+	public void msgWeHaveNothing();
 	public abstract String getName();
 	
 	public Person getPerson();

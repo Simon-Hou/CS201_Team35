@@ -157,14 +157,16 @@ public class MarketPanel extends JPanel implements ActionListener{
 		
 		for (InventoryItem item : inventoryList){
 			if (e.getSource() == item.minus && item.inventory >0){
-				//System.err.println("Minus button pressed.");
 				item.inventory--;
-				item.inventoryLabel.setText(item.inventory.toString());
+				market.inventory.put(item.choice, item.inventory);
+				updateInventory();
 			}
 			else if (e.getSource() == item.plus){
-				//System.err.println("Plus button pressed.");
 				item.inventory++;
-				item.inventoryLabel.setText(item.inventory.toString());
+				//item.inventoryLabel.setText(item.inventory.toString());
+				//market.inventory.remove(item.choice);
+				market.inventory.put(item.choice, item.inventory);
+				updateInventory();
 			}
 		}
 		
@@ -208,7 +210,10 @@ public class MarketPanel extends JPanel implements ActionListener{
 	}
 	
 	public void updateInventory(){
-		
+		for (InventoryItem item : inventoryList){
+			item.inventory = market.inventory.get(item.choice);
+			item.inventoryLabel.setText(item.inventory.toString());
+		}
 	}
 	
 	//Utilities
@@ -219,7 +224,7 @@ public class MarketPanel extends JPanel implements ActionListener{
 		Market market;
 		
 		String choice;
-		Integer inventory;
+		 Integer inventory;
 		
 		JButton minus = new JButton("-");
 		JLabel choiceLabel = new JLabel();

@@ -177,14 +177,18 @@ public class MarketHostRole extends Role implements MarketHost {
 			}
 		}
 
-		if (unfulfillable.size()>0){
-			mc.customer.msgOutOfStock(unfulfillable);
-		}
-
 		if (mc.order.size()==0){
-			Do(mc.customer.getName() + ", you didn't order anything!");
+			Do(mc.customer.getName() + ", you didn't order anything, or we are out of everything you ordered.");
+			mc.customer.msgWeHaveNothing();
 			return;
 		}
+		
+		if (unfulfillable.size()>0){
+			mc.customer.msgOutOfStock(unfulfillable);
+			Do("Sorry, we don't have some of the items that you requested");
+		}
+
+
 
 		
 		
