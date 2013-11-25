@@ -17,7 +17,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	SimCityGui city;
 	public static final int CP_WIDTH = 1100, CP_HEIGHT = 100;
-	JButton addRestaurant, addBank;
+	JButton addRestaurant, addBank, addHouse, addMarket;
 
 	//For managing traces
 	JButton enableInfoButton;		//You could (and probably should) substitute a JToggleButton to replace both
@@ -46,33 +46,41 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		addBank.addActionListener(this);
 		c.gridx = 0; c.gridy = 1;
 		add(addBank, c);
+		addHouse = new JButton("Add House");
+		addHouse.addActionListener(this);
+		c.gridx = 1; c.gridy = 0;
+		add(addHouse, c);
+		addMarket = new JButton("Add Market");
+		addMarket.addActionListener(this);
+		c.gridx = 1; c.gridy = 1;
+		add(addMarket, c);
 
 		//Trace panel buttons
-		enableInfoButton = new JButton("Show Level: INFO");
-		enableInfoButton.addActionListener(this);
-		disableInfoButton = new JButton("Hide Level: INFO");
-		disableInfoButton.addActionListener(this);
-		enableRestaurantTagButton = new JButton("Show Tag: RESTAURANT");
-		enableRestaurantTagButton.addActionListener(this);
-		disableRestaurantTagButton = new JButton("Hide Tag: RESTAURANT");
-		disableRestaurantTagButton.addActionListener(this);
-		enableBankTagButton = new JButton("Show Tag: BANK");
-		enableBankTagButton.addActionListener(this);
-		disableBankTagButton = new JButton("Hide Tag: BANK");
-		disableBankTagButton.addActionListener(this);
+//		enableInfoButton = new JButton("Show Level: INFO");
+//		enableInfoButton.addActionListener(this);
+//		disableInfoButton = new JButton("Hide Level: INFO");
+//		disableInfoButton.addActionListener(this);
+//		enableRestaurantTagButton = new JButton("Show Tag: RESTAURANT");
+//		enableRestaurantTagButton.addActionListener(this);
+//		disableRestaurantTagButton = new JButton("Hide Tag: RESTAURANT");
+//		disableRestaurantTagButton.addActionListener(this);
+//		enableBankTagButton = new JButton("Show Tag: BANK");
+//		enableBankTagButton.addActionListener(this);
+//		disableBankTagButton = new JButton("Hide Tag: BANK");
+//		disableBankTagButton.addActionListener(this);
 		
-		c.gridx = 1; c.gridy = 0;
-		this.add(enableInfoButton, c);
-		c.gridx = 1; c.gridy = 1;
-		this.add(disableInfoButton, c);
-		c.gridx = 2; c.gridy = 0;
-		this.add(enableRestaurantTagButton, c);
-		c.gridx = 2; c.gridy = 1;
-		this.add(disableRestaurantTagButton, c);
-		c.gridx = 3; c.gridy = 0;
-		this.add(enableBankTagButton, c);
-		c.gridx = 3; c.gridy = 1;
-		this.add(disableBankTagButton, c);
+//		c.gridx = 1; c.gridy = 0;
+//		this.add(enableInfoButton, c);
+//		c.gridx = 1; c.gridy = 1;
+//		this.add(disableInfoButton, c);
+//		c.gridx = 2; c.gridy = 0;
+//		this.add(enableRestaurantTagButton, c);
+//		c.gridx = 2; c.gridy = 1;
+//		this.add(disableRestaurantTagButton, c);
+//		c.gridx = 3; c.gridy = 0;
+//		this.add(enableBankTagButton, c);
+//		c.gridx = 3; c.gridy = 1;
+//		this.add(disableBankTagButton, c);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -83,6 +91,14 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		else if (e.getSource().equals(addBank)) {
 			AlertLog.getInstance().logInfo(AlertTag.BANK, this.name, "Adding New Bank");
 			city.city.addObject(CityComponents.BANK);
+		}
+		else if (e.getSource().equals(addHouse)) {
+			city.city.addObject(CityComponents.HOUSE);
+			AlertLog.getInstance().logInfo(AlertTag.HOUSE, this.name, "Adding New House");
+		}
+		else if (e.getSource().equals(addMarket)) {
+			AlertLog.getInstance().logInfo(AlertTag.MARKET, this.name, "Adding New Market");
+			city.city.addObject(CityComponents.MARKET);
 		}
 		else if(e.getSource().equals(enableInfoButton)) {
 			city.tracePanel.showAlertsWithLevel(AlertLevel.INFO);
