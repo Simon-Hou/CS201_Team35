@@ -218,7 +218,10 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			errorField.setText("Please select a job");
 			return false;
 		}
-		if(shiftStartField.getText().length()==0 || shiftEndField.getText().length()==0){
+		if(!placeOptions.getSelectedValue().toString().equals("None")&& 
+				shiftStartField.getText().length()==0 || 
+				shiftEndField.getText().length()==0){
+			
 			errorField.setText("Please select shift start and end times");
 			return false;
 		}
@@ -285,6 +288,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 		
 						
 		person.setJob(placeOfWork, jobType, start, end);
+		person.setBank((int) Math.floor(c.cityObject.cityMap.map.get("Bank").size()*Math.random()));
 		
 		c.addNewPerson(person);
 		return true;
