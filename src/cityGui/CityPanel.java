@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import person.PersonAgent;
 import util.CityMap;
 import city.CityObject;
@@ -23,6 +25,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	boolean addingObject = false;
 	CityComponent temp;
 	public CityObject cityObject;
+	
+	private JPanel tempAnimPanel;
 	
 	String name = "City Panel";
 	
@@ -104,9 +108,16 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
-			city.view.addView(new CityCard(city, Color.pink), temp.ID);
-			temp.cityObject = this.cityObject;
-			temp.addAgentObjectToMap();
+			if (temp.ID.equalsIgnoreCase("bank")) {
+				tempAnimPanel = temp.addAgentObjectToMap();
+				temp.cityObject = this.cityObject;
+				city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
+			}
+			else{
+				city.view.addView(new CityCard(city, Color.pink), temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
+			}
 			temp = null;
 		}
 		for (CityComponent c: statics) {

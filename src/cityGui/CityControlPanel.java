@@ -17,7 +17,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	SimCityGui city;
 	public static final int CP_WIDTH = 1100, CP_HEIGHT = 100;
-	JButton addRestaurant, addBank, addHouse, addMarket;
+	JButton addRestaurant, addBank, addHouse, addMarket, addPerson;
 
 	//For managing traces
 	JButton enableInfoButton;		//You could (and probably should) substitute a JToggleButton to replace both
@@ -54,6 +54,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		addMarket.addActionListener(this);
 		c.gridx = 1; c.gridy = 1;
 		add(addMarket, c);
+		addPerson = new JButton("Add Person");
+		addPerson.addActionListener(this);
+		c.gridx = 2; c.gridy = 0;
+		add(addPerson, c);
 
 		//Trace panel buttons
 //		enableInfoButton = new JButton("Show Level: INFO");
@@ -99,6 +103,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		else if (e.getSource().equals(addMarket)) {
 			AlertLog.getInstance().logInfo(AlertTag.MARKET, this.name, "Adding New Market");
 			city.city.addObject(CityComponents.MARKET);
+		}
+		else if(e.getSource().equals(addPerson)) {
+			city.NewPersonCreationPanel();
 		}
 		else if(e.getSource().equals(enableInfoButton)) {
 			city.tracePanel.showAlertsWithLevel(AlertLevel.INFO);

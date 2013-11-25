@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import city.CityObject;
 
@@ -17,7 +18,6 @@ public abstract class CityComponent implements ImageObserver {
 
 	CityObject cityObject;
 	
-	public BufferedImage image;
 	protected Rectangle rectangle;
 	int x, y;
 	Color color;
@@ -97,8 +97,8 @@ public abstract class CityComponent implements ImageObserver {
 		rectangle.setLocation(x, y);
 	}
 	
-	public void addAgentObjectToMap(){
-		
+	public JPanel addAgentObjectToMap(){
+		return null;
 	}
 
 	public void setPosition(Point p) {
@@ -108,13 +108,13 @@ public abstract class CityComponent implements ImageObserver {
 	}
 	
 	public int sidewalkX(int x, int y) {
-		if (leftSide(x,y)) {
+		if (outerLeftSide(x,y) || innerLeftSide(x,y)) {
 			if (innerBuilding(x,y)) {
 				return 190;
 			}
 			else return 40;
 		}
-		else if (rightSide(x,y)) {
+		else if (outerRightSide(x,y) || innerRightSide(x,y)) {
 			if (innerBuilding(x,y)) {
 				return 400;
 			}
@@ -124,13 +124,13 @@ public abstract class CityComponent implements ImageObserver {
 	}
 	
 	public int sidewalkY(int x, int y) {
-		if (topSide(x,y)) {
+		if (outerTopSide(x,y) || innerTopSide(x,y)) {
 			if (innerBuilding(x,y)) {
 				return 190;
 			}
 			else return 40;
 		}
-		else if (bottomSide(x,y)) {
+		else if (outerBottomSide(x,y) || innerBottomSide(x,y)) {
 			if (innerBuilding(x,y)) {
 				return 400;
 			}
@@ -146,29 +146,56 @@ public abstract class CityComponent implements ImageObserver {
 		return false;
 	}
 	
-	public boolean leftSide(int x, int y) {
-		if ((((x >= 200 && x <= 210) && (y >= 200 && y <= 370)) || (x >= 0 && x <= 40) && (y >= 40 && y <= 560))) {
+	public boolean innerLeftSide(int x, int y) {
+		if ((x >= 200 && x <= 210) && (y >= 200 && y <= 370)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean rightSide(int x, int y) {
-		if (((x >= 360 && x <= 370) && (y >= 200 && y <= 370)) || ((x >= 560 && x <= 600) && (y >= 40 && y <= 560))) {
+	public boolean innerRightSide(int x, int y) {
+		if ((x >= 360 && x <= 370) && (y >= 200 && y <= 370)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean topSide(int x, int y) {
-		if (((y >= 200 && y <= 210) && (x > 205 && x < 360)) || ((y >= 0 && y <= 40) && (x >= 40 && x <= 560))) {
+	public boolean innerTopSide(int x, int y) {
+		if ((y >= 200 && y <= 210) && (x > 205 && x < 360)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean bottomSide(int x, int y) {
-		if (((x > 205 && x < 360) && (y >= 360 && y <= 370)) || ((x >= 40 && x <= 560) && (y >= 560 && y <= 600))) {
+	public boolean innerBottomSide(int x, int y) {
+		if ((x > 205 && x < 360) && (y >= 360 && y <= 370)) {
+			return true;
+		}
+		return false;
+	}
+	public boolean outerLeftSide(int x, int y) {
+		if ((x >= 0 && x <= 40) && (y >= 40 && y <= 560)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean outerRightSide(int x, int y) {
+		if ((x >= 560 && x <= 600) && (y >= 40 && y <= 560)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean outerTopSide(int x, int y) {
+		if ((y >= 0 && y <= 40) && (x >= 40 && x <= 560)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean outerBottomSide(int x, int y) {
+		if ((x >= 40 && x <= 560) && (y >= 560 && y <= 600)) {
 			return true;
 		}
 		return false;
