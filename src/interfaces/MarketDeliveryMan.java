@@ -7,4 +7,6 @@ public interface MarketDeliveryMan extends Occupation {
 	public void msgDeliverThisOrder(BusinessOrder order);
 	public void msgHereIsPayment(int payment);
 	
+	public String getName();
+	
 }

@@ -55,7 +55,7 @@ public class BankGui  extends JFrame implements ActionListener {
 	
 	//JFrame animationFrame = new JFrame("Restaurant Animation");
 	//AnimationPanel animationPanel = new AnimationPanel();
-	BankAnimationPanel bankAnimationPanel = new BankAnimationPanel();
+	static BankAnimationPanel bankAnimationPanel = new BankAnimationPanel();
 	
 	BankAccount currentAccount = null;
 	
@@ -64,8 +64,8 @@ public class BankGui  extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private BankPanel bankPanel = new BankPanel(this);
-    private JPanel controlPanel = new JPanel();//changed userScreen to controlPanel
+    private BankPanel bankPanel;
+    private JFrame controlPanel = new JFrame();//changed userScreen to controlPanel
     private JPanel moreInfo = new JPanel();
     
     private JPanel moreInfoPersonal = new JPanel();//left side of more info.
@@ -75,6 +75,7 @@ public class BankGui  extends JFrame implements ActionListener {
     private JLabel loanAmount = new JLabel();
     
     public ListPanel loans = new ListPanel(bankPanel, "Loans");
+    
     
     
 //    /* infoPanel holds information about the clicked customer, if there is one*/
@@ -90,9 +91,10 @@ public class BankGui  extends JFrame implements ActionListener {
 //    private Object currentPerson;/* Holds the agent that the info is about.
 //    								Seems like a hack */
 //    private Object currentWaiter;
-    public BankGui() {
-    	
+    public BankGui(Bank b) {
+    	bankPanel = new BankPanel(this, b);
         controlPanel.setLayout(new BorderLayout());
+        controlPanel.setVisible(true);
         moreInfo.setLayout(new BorderLayout());
         moreInfoPersonal.setLayout(new GridLayout(4, 1));
         Dimension addInfoDim = new Dimension((int)(controlPanelWidth*.5), (int) (controlPanelHeight * .45));
@@ -145,7 +147,7 @@ public class BankGui  extends JFrame implements ActionListener {
         Dimension controlDim = new Dimension(controlPanelWidth, (int) (controlPanelHeight));
         controlPanel.setPreferredSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
-        add(controlPanel, BorderLayout.WEST);
+        //add(controlPanel, BorderLayout.WEST);
         add(bankAnimationPanel, BorderLayout.CENTER);
     }
         
@@ -232,11 +234,11 @@ public class BankGui  extends JFrame implements ActionListener {
 	/**
      * Main routine to get gui started
      */
-    public static void bankMain() {
-        BankGui gui = new BankGui();
+    public static JPanel bankMain(Bank b) {
+        BankGui gui = new BankGui(b);
         gui.setTitle("Bank");
         gui.setVisible(true);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.bankPanel.enterBankTemp("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         
         String custName = "CustomerAccount";
@@ -253,8 +255,16 @@ public class BankGui  extends JFrame implements ActionListener {
         ba2.myLoans.add(banka.new loan(3, 1));
         gui.bankPanel.addAccount(ba2);
         
-        
+        return bankAnimationPanel;
         //cityFrame.addTab("Bank", NULL/*unless you want an image*/,  Component component) 
     }
 	
+    public void hideControlPanel() {
+    	controlPanel.setVisible(false);
+    }
+    
+    public void showControlPanel() {
+    	controlPanel.setVisible(true);
+    }
+    
 }

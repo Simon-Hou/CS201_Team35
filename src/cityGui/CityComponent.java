@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import city.CityObject;
 
@@ -96,8 +97,8 @@ public abstract class CityComponent implements ImageObserver {
 		rectangle.setLocation(x, y);
 	}
 	
-	public void addAgentObjectToMap(){
-		
+	public JPanel addAgentObjectToMap(){
+		return null;
 	}
 
 	public void setPosition(Point p) {
@@ -109,7 +110,7 @@ public abstract class CityComponent implements ImageObserver {
 	public int sidewalkX(int x, int y) {
 		if (outerLeftSide(x,y) || innerLeftSide(x,y)) {
 			if (innerBuilding(x,y)) {
-				return 200;
+				return 190;
 			}
 			else return 40;
 		}
@@ -125,7 +126,7 @@ public abstract class CityComponent implements ImageObserver {
 	public int sidewalkY(int x, int y) {
 		if (outerTopSide(x,y) || innerTopSide(x,y)) {
 			if (innerBuilding(x,y)) {
-				return 200;
+				return 190;
 			}
 			else return 40;
 		}

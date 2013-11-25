@@ -74,14 +74,24 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList){
 	    Do("Better get the customer's items");
 		customerOrders.add(new CustomerOrder(c, orderList));
-		StateChanged();
+		p.msgStateChanged();
 	}
 
 	public void msgGetThis(BusinessOrder order){
 	    businessOrders.add(order);
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 	
+	public void msgGiveInvoice(int invoice, BusinessOrder order){
+		for(BusinessOrder o : businessOrders){
+			if (o == order){
+				o.invoice = invoice;
+				o.state = OrderState.gotInvoice;
+				p.msgStateChanged();
+			}
+		}
+		
+	}
 	//fromAnimation
 	public void msgAtDestination(){
 		atDestination.release();
@@ -107,11 +117,16 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 			}
 		}
 		
-		
+		for(BusinessOrder bo : businessOrders){
+			if (bo.state == OrderState.gotInvoice){
+				PlaceOrderOnDock(bo);
+				return true;
+			}
+		}
 		
 		for(BusinessOrder bo : businessOrders){
 			if (bo.state == OrderState.ordered){
-			    GetBusinessOrder(businessOrders.get(0));
+			    GetBusinessOrder(bo);
 			    return true;
 			}
 		}
@@ -194,7 +209,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		
 		//Discuss changing this so that BusinessOrder is no longer public
 		for (OrderItem item: order.order){
-	    	Do("Collecting " + item.quantityOrdered + " " + item.choice + "s.");
+	    	Do("Collecting " + item.quantityReceived + " " + item.choice + "s.");
 	    }
 		
 		/////////----------------------------------------------------------------
@@ -217,13 +232,42 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    
 		//got to cashier
 		Do(cashier.getName() + ", can you please calculate the invoice for this order?");
-		cashier.msgCalculateBusinessPayment(order);
+		cashier.msgCalculateInvoice(order, this);
 	    
 		order.state = OrderState.none;
-	    if(gui!=null){
-			gui.DoGoHomePosition();
-		}
+//	    if(gui!=null){
+//			gui.DoGoHomePosition();
+//		}
 	
+	}
+	
+	private void PlaceOrderOnDock(BusinessOrder order){
+		businessOrders.remove(order);
+		
+		 if(gui!=null){
+				gui.DoGoToDock();
+			}
+			else{
+				atDestination.release();
+			}
+			
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			Do("Putting completed order and invoice on dock for delivery man.");
+			if (deliveryMen.isEmpty()){
+				Do("There are no delivery men.");
+				gui.DoGoHomePosition();
+				return;
+			}
+			//otherwise...
+			//load balance deliverymen
+			deliveryMen.get(0).msgDeliverThisOrder(order);
+			gui.DoGoHomePosition();
 	}
 	
 	
@@ -239,7 +283,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    	status = CustomerOrderState.none;
 	    }
 	}
-	enum CustomerOrderState {none,  fulfilled}
+	enum CustomerOrderState {none,  fulfilled };
 	
 	public void setMarket(Market market) {
 		// TODO Auto-generated method stub

@@ -2,7 +2,6 @@ package market;
 
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -25,7 +24,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	private List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
 	
-	Map<String, Integer> inventory = new HashMap<String, Integer>();
+	
 	
 	public Person p;
 	public String name;
@@ -53,11 +52,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	public MarketHostRole(String name, PersonAgent p){
-		inventory.put("Steak", 1000);
-		inventory.put("Chicken", 1000);
-		inventory.put("Pizza", 1000);
-		inventory.put("Salad", 1000);
-		inventory.put("Car", 5);
+		
 		this.name = name;
 		this.p=p;
 		
@@ -81,7 +76,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
 	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
-	    StateChanged();
+	    p.msgStateChanged();
 		
 	}
 
@@ -95,13 +90,13 @@ public class MarketHostRole extends Role implements MarketHost {
 				mc.groceries = groceries;
 			}
 		}
-		StateChanged();
+		p.msgStateChanged();
 		
 	}
 
 	public void msgBusinessWantsThis(BusinessOrder order) {
 		businessOrders.add(order);
-		StateChanged();
+		p.msgStateChanged();
 		
 	}
 
@@ -155,7 +150,10 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	private void ServeCustomer(MyCustomer mc){
+		Do("Serving customer");
 		mc.state = CustomerState.beingServiced;
+		
+		Map<String, Integer> inventory = market.inventory;
 
 		Map<String, Integer> unfulfillable = new HashMap<String, Integer>();
 		for (Entry<String,Integer> item : mc.order.entrySet()){
@@ -184,6 +182,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		}
 
 		if (mc.order.size()==0){
+			Do(mc.customer.getName() + ", you didn't order anything!");
 			return;
 		}
 
@@ -201,13 +200,16 @@ public class MarketHostRole extends Role implements MarketHost {
 		Do("Giving this order to " + e1.employee.getName());
 		e1.employee.msgGetItemsForCustomer(mc.customer, mc.order);
 		e1.orders++;
+		
+		market.updateInventory();
 
 	}
 
 	
 	private void DelegateBusinessOrder(BusinessOrder order){
 		
-
+		Map<String, Integer> inventory = market.inventory;
+		
 		Do("I got a phone call for a business delivery order.");
 		
 
@@ -260,7 +262,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		e1.employee.msgGetThis(order);
 		e1.orders++;
 
-
+		market.updateInventory();
 	}
 	
 	

@@ -7,7 +7,9 @@ import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
+import bank.gui.BankGui;
 import util.Bank;
 import util.BankMapLoc;
 import util.Loc;
@@ -27,38 +29,31 @@ public class CityBank extends CityComponent implements ImageObserver {
 	java.net.URL imgURL5 = getClass().getResource("bank5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
 	BankMapLoc bMap;
-	boolean readyToPaint = false;
 	//g.drawImage(img.getImage(),xPos,yPos,35,35,null);
 	public Bank bank;
 	private int buildingSize = 35;
 	public CityBank(int x, int y) {
 		super(x, y, Color.green, "Bank 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeBank();
 	}
 
 	public CityBank(int x, int y, String I) {
 		super(x, y, Color.green, I);
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeBank();
+	}
+	
+	public void initializeBank(){
 		bank = new Bank();
 		bank.bankGui = this;
 	}
 	
-	@Override
-	public void addAgentObjectToMap(){
-		bMap = new BankMapLoc(bank);
-		bMap.bankTopLeftX = x;
-		bMap.bankTopLeftY = y;
-//		int tempX = bMap.loc.x;
-//		int tempY = bMap.loc.y;
-//		System.out.println("Old Building X Value: " + bMap.loc.x);
-//		System.out.println("Old Building Y Value: " + bMap.loc.y);
-////		bMap.loc.x = sidewalkX(tempX,tempY);
-////		bMap.loc.y = sidewalkY(tempX,tempY);
-//		System.out.println("New Building X Value: " + bMap.loc.x);
-//		System.out.println("New Building Y Value: " + bMap.loc.y);
+	public JPanel addAgentObjectToMap(){
+		BankMapLoc bMap = new BankMapLoc(bank);
 		bMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
 		this.cityObject.cityMap.map.get("Bank").add(bMap);
-		readyToPaint = true;
+		return BankGui.bankMain(bank);
 	}
 
 	public void updatePosition() {

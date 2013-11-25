@@ -9,7 +9,7 @@ import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
-
+import javax.swing.JPanel;
 import util.Bank;
 import util.BankMapLoc;
 import util.HouseMapLoc;
@@ -34,28 +34,28 @@ public class CityHouse extends CityComponent implements ImageObserver {
 	public CityHouse(int x, int y) {
 		super(x, y, Color.yellow, "House 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeHouse();
 	}
 
 	public CityHouse(int x, int y, String I) {
 		super(x, y, Color.yellow, I);
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		house = new House();
+		initializeHouse();
 		//house.houseGui = this;
 	}
 	
+	public void initializeHouse(){
+		house = new House();
+		house.houseGui = this;
+	}
+	
 	@Override
-	public void addAgentObjectToMap(){
+	public JPanel addAgentObjectToMap(){
 		HouseMapLoc hMap = new HouseMapLoc(house);
-		hMap.loc = new Loc(x,y);
-		int tempX = hMap.loc.x;
-		int tempY = hMap.loc.y;
-		System.out.println("Old Building X Value: " + hMap.loc.x);
-		System.out.println("Old Building Y Value: " + hMap.loc.y);
-		hMap.loc.x = sidewalkX(tempX,tempY);
-		hMap.loc.y = sidewalkY(tempX,tempY);
-		System.out.println("New Building X Value: " + hMap.loc.x);
-		System.out.println("New Building Y Value: " + hMap.loc.y);
-		this.cityObject.cityMap.map.get("Bank").add(hMap);
+		hMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
+		this.cityObject.cityMap.map.get("House").add(hMap);
+		return null;
 	}
 
 	public void updatePosition() {

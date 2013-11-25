@@ -40,14 +40,14 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	//-----------------------------MESSAGES--------------------------------
 	public void msgDeliverThisOrder(BusinessOrder order){
 		orders.add(order);
-		stateChanged();
+		p.msgStateChanged();
 		
 	}
 	
 	public void msgHereIsPayment(int payment){
 		MyPayment pay = new MyPayment(payment);
 		payments.add(pay);
-		stateChanged();
+		p.msgStateChanged();
 		
 	}
 	
@@ -72,10 +72,15 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	//-----------------------------ACTIONS--------------------------------
 	private void DeliverOrder(BusinessOrder order){
+		Do("Deliverying an order to a restaurant");
 		//DoGoToRestaurant(order.restaurant);
 		//order.restaurant.cook.msgHereIsDelivery(order);
-		//order.restaurant.cashier.msgHereIsInvoice(order);
+		//order.restaurant.cashier.msgHereIsInvoice(order.invoice);
 		orders.remove(order);
+		
+		
+		//FOR TESTING:::::
+		msgHereIsPayment(order.invoice);
 	}
 	
 //	private void DoGoToRestaurant(Restaurant rest){
@@ -83,8 +88,10 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 //	}
 	private void DeliverPayment(MyPayment payment){
 		DoGoToCashier();
-		//cashier.msgHereIsBusinessPayment(payment.amount);
-		//^^^change cashier msg to accept an int instead of payment object
+		Do(cashier.getName() + ", here is a business payment.");
+		cashier.msgHereIsBusinessPayment(payment.amount);
+		payments.remove(payment);
+	
 		
 	}
 	
@@ -96,6 +103,10 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	
 	//-----------------------------UTILITIES--------------------------------
+	public String getName(){
+		return name;
+	}
+	
 	public void setCashier(MarketCashier c){
 		cashier = c;
 	}

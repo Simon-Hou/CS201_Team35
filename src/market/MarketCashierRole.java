@@ -13,12 +13,13 @@ import java.util.TimerTask;
 
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
+import interfaces.MarketEmployee;
 import interfaces.Person;
 
 public class MarketCashierRole extends Role implements MarketCashier{
 
 	List<MyCustomer> customers = new ArrayList<MyCustomer>();
-	List<BusinessOrder> orders = new ArrayList<BusinessOrder>();
+	List<MyBusinessOrder> orders = new ArrayList<MyBusinessOrder>();
 	Map<String, Integer> priceList = new HashMap<String,Integer>();
 	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
@@ -65,12 +66,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	//Messages
 	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		customers.add(new MyCustomer(c, groceries));
-		StateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgFinishedComputing(MyCustomer mc){
 	    mc.status = CustomerState.hasTotal;
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 
 	public void msgCustomerPayment(MarketCustomer c, int payment){
@@ -82,18 +83,18 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	}
 	    		
 	    }	
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 	
-	public void msgCalculateBusinessPayment(BusinessOrder order){
-		orders.add(order);
-		StateChanged();
+	public void msgCalculateInvoice(BusinessOrder order, MarketEmployee employee){
+		orders.add(new MyBusinessOrder(order, employee));
+		p.msgStateChanged();
 	}
 
 	public void msgHereIsBusinessPayment(int pay){
 		BusinessPayment payment = new BusinessPayment(pay);
 	    businessPayments.add(payment);
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 	
 	//-----------------------Scheduler---------------------------
@@ -155,10 +156,20 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	}}, mc.order.size()*1000+1000);
 	}
 
-	private void ComputeBusinessPayment(BusinessOrder order){
+	private void ComputeBusinessPayment(MyBusinessOrder order){
 		Do("Calculating a business order");
 		
+		int total = 0;
+		 for (OrderItem item: order.order.order){
+		        total+= item.quantityReceived * priceList.get(item.choice);
+		    }
+		 
+		 Do("This order will cost $" + total + ". Here is the invoice.");
+		 order.employee.msgGiveInvoice(total, order.order);
+		
 		orders.remove(order);
+		
+		
 	}
 	
 	private void AskCustomerToPay(MyCustomer mc){
@@ -184,6 +195,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void ProcessBusinessPayment(BusinessPayment payment){
+		Do("Processing the business payment in the amount of $" + payment.amount);
 	    market.cash+= payment.amount;
 	    businessPayments.remove(payment);
 	}
@@ -213,6 +225,18 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		
 	}
 
-
+	private class MyBusinessOrder{
+		BusinessOrder order;
+		MarketEmployee employee;
+		
+		MyBusinessOrder(BusinessOrder o, MarketEmployee e){
+			order = o;
+			employee = e;
+		}
+	}
+	
+	public void setMarket(Market market){
+		this.market = market;
+	}
 	
 }

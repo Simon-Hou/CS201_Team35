@@ -1,8 +1,11 @@
 package market;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import cityGui.CityMarket;
 import market.gui.MarketPanel;
 import role.Role;
 import util.JobType;
@@ -16,19 +19,28 @@ import person.*;
 
 public class Market implements PlaceOfWork{
 	
-	int cash;
+	int cash = 0;
 
 	public MarketHost host;
 	public MarketCashier cashier;
 	public List<MarketEmployee> employees = new ArrayList<MarketEmployee>();
 	int money;
+	public CityMarket gui;
 	
 	MarketPanel panel;
+	
+	public Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
 	//CONSTRUCTOR
 	public Market(){
 		this.host = new MarketHostRole(null,null);
 		this.cashier = new MarketCashierRole(null,null);
+		
+		inventory.put("Steak", 30);
+		inventory.put("Chicken", 30);
+		inventory.put("Pizza", 30);
+		inventory.put("Salad", 30);
+		inventory.put("Car", 5);
 	}
 	
 	
@@ -102,4 +114,7 @@ public class Market implements PlaceOfWork{
 		panel = p;
 	}
 	
+	public void updateInventory(){
+		panel.updateInventory();
+	}
 }

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JPanel;
+
 public class CityCard extends SimCityPanel {
 
 	public static final int CARD_WIDTH = 500, CARD_HEIGHT = 500;
@@ -22,6 +24,14 @@ public class CityCard extends SimCityPanel {
 		this.setVisible(true);
 		addMouseListener(this);
 		background = c;
+	}
+	
+	public CityCard(SimCityGui city, JPanel animPan) {
+		super(city);
+		this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
+		this.setVisible(true);
+		addMouseListener(this);
+		add(animPan);
 	}
 
 
