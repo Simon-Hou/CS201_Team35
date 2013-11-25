@@ -65,6 +65,17 @@ public class SimCityGui extends JFrame {
 		c.fill = GridBagConstraints.BOTH;
 		this.add(tracePanel, c);*/
 	}
+	
+	
+	public void addNewPerson(String name){
+		PersonAgent p = new PersonAgent(name,cityObject.cityMap);
+		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
+		p.gui = personGui;
+		cityObject.people.add(p);
+		city.addMoving(personGui);
+		p.startThread();
+	}
+	
 
 	/**
 	 * @param args
@@ -83,6 +94,9 @@ public class SimCityGui extends JFrame {
 		int yStartTest = 50;
 		
 		
+		test.addNewPerson("p0");
+		/*cityObject.people.add(new PersonAgent("p0",cityObject.cityMap));
+		cityObject.people.get(0).startThread();*/
 		
 		/*int xStartTest = 300;
 		int yStartTest = 520;

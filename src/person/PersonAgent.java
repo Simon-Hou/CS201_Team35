@@ -34,7 +34,9 @@ import interfaces.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
+import cityGui.test.PersonGui;
 import public_Object.Food;
 import role.Role;
 import agent.Agent;
@@ -91,7 +93,9 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
+	public PersonGui gui;
 	//List<String> foodNames;
+	public Semaphore atDestination = new Semaphore(0,true);
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
@@ -165,6 +169,10 @@ public class PersonAgent extends Agent implements Person {
 	
 
 	//msg
+	
+	public void msgAtDestination(){
+		atDestination.release();
+	}
 	
 	public void msgCarArrivedAtLoc(Loc destination){
 		//blah
@@ -334,23 +342,17 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void goToBank() {
 
-		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
-		
-		//Gets customerRole or creates customerRole
-		/*BankCustomerRole bankRole = null;
-		boolean containsRole = false;
-		for (Role r: roles) {
-			if (r instanceof BankCustomerRole) {
-				activeRole = r;
-				bankRole = (BankCustomerRole) r;
-				containsRole = true;
+		if(city.map.get("Bank").isEmpty()){
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		if (!containsRole) {
-			bankRole = new BankCustomerRole(this.name,this);
-			activeRole = bankRole;
-			roles.add(activeRole);
-		}*/
+		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
+		Loc loc = city.map.get("Bank").get(0).loc;
+		
 		
 		activeRole = bankRole;
 		
@@ -358,7 +360,7 @@ public class PersonAgent extends Agent implements Person {
 		if(belongings.myAccounts.isEmpty()){
 			Do("Going to bank to open new account");
 			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
-			doGoToBank();
+			doGoToBuilding(loc);
 			bankRole.msgYouAreAtBank(b);
 			activeRole = bankRole;
 			return;
@@ -383,7 +385,7 @@ public class PersonAgent extends Agent implements Person {
 			bankRole.Tasks.add(new takeLoan(50 - getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
 		
-		doGoToBank();
+		doGoToBuilding(loc);
 		bankRole.msgYouAreAtBank(b);
 		activeRole = bankRole;
 		
@@ -527,9 +529,9 @@ public class PersonAgent extends Agent implements Person {
 				activeRole = marketRole;
 				roles.add(activeRole);
 			}*/
-			doGoToBank();
+			doGoToBuilding(city.map.get("Bank").get(0).loc);
 			bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
-			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Market").get(myBank)).bank);
+			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Bank").get(myBank)).bank);
 			activeRole = bankRole;
 		}
 		else {
@@ -584,7 +586,21 @@ public class PersonAgent extends Agent implements Person {
 	
 	//ANIMATION
 	
-	private void doGoToBank(){
+	private void doGoToBuilding(Loc loc){
+		
+		if(this.gui!=null){
+			gui.doGoToBuilding(loc);
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
