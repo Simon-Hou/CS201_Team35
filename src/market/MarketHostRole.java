@@ -11,10 +11,12 @@ import java.util.Map.Entry;
 import interfaces.*;
 import role.Role;
 import person.PersonAgent;
+import market.gui.*;
 
 
 public class MarketHostRole extends Role implements MarketHost {
 
+	Market market;
 	//-----------------------------DATA--------------------------------
 	enum CustomerState {waiting, beingServiced, leaving};
 	
@@ -79,7 +81,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
 	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
-	    p.msgStateChanged();
+	    StateChanged();
 		
 	}
 
@@ -93,13 +95,13 @@ public class MarketHostRole extends Role implements MarketHost {
 				mc.groceries = groceries;
 			}
 		}
-		p.msgStateChanged();
+		StateChanged();
 		
 	}
 
 	public void msgBusinessWantsThis(BusinessOrder order) {
 		businessOrders.add(order);
-		p.msgStateChanged();
+		StateChanged();
 		
 	}
 
@@ -134,11 +136,14 @@ public class MarketHostRole extends Role implements MarketHost {
 	//-----------------------------ACTIONS--------------------------------
 	
 	private void CheckCustomer(MyCustomer mc){
-		Do("Checking customer");
+
+		Do("May I see your receipt please, " + mc.customer.getName() + "?");
 		if (mc.groceries.isEmpty()  || (mc.receipt.order == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
+
 			mc.customer.msgYouCanLeave();
+			Do("Okay, you may leave.");
 			customers.remove(mc);
-			
+			market.removeCustomer(mc.customer);
 			return;
 		}
 		
@@ -202,7 +207,12 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	private void DelegateBusinessOrder(BusinessOrder order){
 		
+
+		Do("I got a phone call for a business delivery order.");
+		
+
 		List<OrderItem> unfulfillable = new ArrayList<OrderItem>();
+
 		boolean couldntGetAnything = true;
 		
 		for (OrderItem item : order.order){
@@ -232,7 +242,7 @@ public class MarketHostRole extends Role implements MarketHost {
 			return;
 		}
 		else if (unfulfillable.size()>0){
-			order.restaurant.cook.msgCannotFulfillOrder(m, unfulfillable);
+			//order.restaurant.cook.msgCannotFulfillOrder(m, unfulfillable);
 		}
 		
 		
@@ -246,6 +256,7 @@ public class MarketHostRole extends Role implements MarketHost {
 			}
 		}
 
+		Do("Telling " + e1.employee.getName() + " to fill this business order.");
 		e1.employee.msgGetThis(order);
 		e1.orders++;
 
@@ -266,6 +277,10 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public void addEmployee(MarketEmployee m){
 		this.employees.add(new MyEmployee(m));
+	}
+	
+	public void setMarket(Market m){
+		market = m;
 	}
 	
 	/*String name;

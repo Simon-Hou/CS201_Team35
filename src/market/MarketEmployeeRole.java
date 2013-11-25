@@ -7,7 +7,9 @@ import interfaces.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
+import market.BusinessOrder.OrderState;
 import market.gui.MarketEmployeeGui;
 import person.PersonAgent;
 import role.Role;
@@ -29,6 +31,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	MarketCashier cashier; 
 	
 	MarketEmployeeGui gui;
+	
+	private Semaphore atDestination = new Semaphore(0,true);
 	
 	//SETTERS
 	public void setName(String name){
@@ -68,20 +72,32 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	//Messages
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList){
-	    Do("Better get the customer's item's");
+	    Do("Better get the customer's items");
 		customerOrders.add(new CustomerOrder(c, orderList));
-		p.msgStateChanged();
+		StateChanged();
 	}
 
 	public void msgGetThis(BusinessOrder order){
 	    businessOrders.add(order);
-	    p.msgStateChanged();
+	    StateChanged();
+	}
+	
+	//fromAnimation
+	public void msgAtDestination(){
+		atDestination.release();
 	}
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
 		
 		//Do("SCHEDULER");
+		for (CustomerOrder co: customerOrders){
+			if (co.status == CustomerOrderState.fulfilled){
+				GiveItemsToCustomer(co);
+				return true;
+			}
+		}
+		
 		synchronized(customerOrders){
 			for (CustomerOrder co: customerOrders){
 				if (co.status == CustomerOrderState.none){
@@ -90,21 +106,38 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 				}
 			}
 		}
-		for (CustomerOrder co: customerOrders){
-			if (co.status == CustomerOrderState.fulfilled){
-				GiveItemsToCustomer(co);
-				return true;
-			}
-		}
-		if (!businessOrders.isEmpty()){
+		
+		
+		
+		for(BusinessOrder bo : businessOrders){
+			if (bo.state == OrderState.ordered){
 			    GetBusinessOrder(businessOrders.get(0));
 			    return true;
+			}
 		}
 		return false;
 	}
 	
 	//Actions
 	private void CollectItems(CustomerOrder co){
+		
+		
+	
+		if(gui!=null){
+			gui.DoGetItems();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//^^^this should go inside the for loop for each item needing to be collected
+		
 	    for (String item: co.order.keySet()){
 	    	//DoCollectItem(item, co.order.get(item));
 	    	Do("Collecting " + co.order.get(item) + " " + item + "s.");
@@ -113,21 +146,84 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 
 	private void GiveItemsToCustomer(CustomerOrder co){
+		
+		if(gui!=null){
+			gui.DoGiveCustomerItems();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	    customerOrders.remove(co);
+	    Do("Giving " + co.c.getName() + " their order.");
 	    co.c.msgHereAreItems(co.order);
+	    
+	    if(gui!=null){
+			gui.DoGoHomePosition();
+		}
+	
+
 	}
 
 	private void GetBusinessOrder(BusinessOrder order){
+		Do("Better fill this business order");
+		
+		if(gui!=null){
+			gui.DoGetItems();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//^^^this should go inside the for loop for each item needing to be collected
+		
 		
 		//Discuss changing this so that BusinessOrder is no longer public
 		for (OrderItem item: order.order){
 	    	Do("Collecting " + item.quantityOrdered + " " + item.choice + "s.");
 	    }
 		
+		/////////----------------------------------------------------------------
 	    //after getting the order
-	    Do("Placing business order in delivery man's list");
-	    deliveryList.add(order);
-	    businessOrders.remove(order);
+	    Do("Got all of the items in the order.");
+	    
+	    if(gui!=null){
+			gui.DoGoToCashier();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+		//got to cashier
+		Do(cashier.getName() + ", can you please calculate the invoice for this order?");
+		cashier.msgCalculateBusinessPayment(order);
+	    
+		order.state = OrderState.none;
+	    if(gui!=null){
+			gui.DoGoHomePosition();
+		}
+	
 	}
 	
 	

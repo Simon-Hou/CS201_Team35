@@ -48,8 +48,12 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			this.addStatic(new CitySidewalk(i, RoadDirection.HORIZONTAL,true,false));
 			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL,true,false));
 		}
-		//Creates water
+		//Creates boundaries
 		this.addStatic(new CitySidewalk(100, RoadDirection.VERTICAL,true,true));
+		this.addStatic(new CitySidewalk(0,0));
+		this.addStatic(new CitySidewalk(560,0));
+		this.addStatic(new CitySidewalk(0,560));
+		this.addStatic(new CitySidewalk(560,560));
 		for (int i = 120; i < 480; i += 30) {
 			if (i != 300) {
 				this.addStatic(new CityRoadLines(i, RoadDirection.HORIZONTAL,true));
@@ -126,6 +130,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		case RESTAURANT: temp = new CityRestaurant(-100, -100, "Restaurant " + (statics.size()-19)); break;
 		case ROAD: temp = new CityRoad(-100, RoadDirection.HORIZONTAL); break; //NOTE: DON'T MAKE NEW ROADS
 		case BANK: temp = new CityBank(-100, -100, "Bank " + (statics.size()-19)); break;
+		case HOUSE: temp = new CityHouse(-100, -100, "House " + (statics.size()-19)); break;
+		case MARKET: temp = new CityMarket(-100, -100, "Market " + (statics.size()-19)); break;
 		default: return;
 		}
 		addStatic(temp);

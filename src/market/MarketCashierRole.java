@@ -18,6 +18,7 @@ import interfaces.Person;
 public class MarketCashierRole extends Role implements MarketCashier{
 
 	List<MyCustomer> customers = new ArrayList<MyCustomer>();
+	List<BusinessOrder> orders = new ArrayList<BusinessOrder>();
 	Map<String, Integer> priceList = new HashMap<String,Integer>();
 	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
@@ -64,12 +65,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	//Messages
 	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		customers.add(new MyCustomer(c, groceries));
-		p.msgStateChanged();
+		StateChanged();
 	}
 	
 	public void msgFinishedComputing(MyCustomer mc){
 	    mc.status = CustomerState.hasTotal;
-	    p.msgStateChanged();
+	    StateChanged();
 	}
 
 	public void msgCustomerPayment(MarketCustomer c, int payment){
@@ -81,13 +82,18 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	}
 	    		
 	    }	
-	    p.msgStateChanged();
+	    StateChanged();
+	}
+	
+	public void msgCalculateBusinessPayment(BusinessOrder order){
+		orders.add(order);
+		StateChanged();
 	}
 
 	public void msgHereIsBusinessPayment(int pay){
 		BusinessPayment payment = new BusinessPayment(pay);
 	    businessPayments.add(payment);
-	    p.msgStateChanged();
+	    StateChanged();
 	}
 	
 	//-----------------------Scheduler---------------------------
@@ -109,6 +115,10 @@ public class MarketCashierRole extends Role implements MarketCashier{
 				AcceptPayment(mc);
 				return true;
 			}
+		}
+		if (!orders.isEmpty()){
+			ComputeBusinessPayment(orders.get(0));
+			return true;
 		}
 		if (!businessPayments.isEmpty()){
 		    ProcessBusinessPayment(businessPayments.get(0));
@@ -145,7 +155,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	}}, mc.order.size()*1000+1000);
 	}
 
+	private void ComputeBusinessPayment(BusinessOrder order){
+		Do("Calculating a business order");
+		
+		orders.remove(order);
+	}
+	
 	private void AskCustomerToPay(MyCustomer mc){
+		Do(mc.c.getName() + ", you owe $" + mc.total);
 	    mc.status = CustomerState.askedToPay;
 	    mc.c.msgHereIsTotal(mc.total);
 	}
@@ -154,6 +171,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		Do("Accepting Payment");
 	    int change = mc.payment-mc.total;
 	    if (change>=0){
+	    	Do("Here is your change.");
 	        mc.c.msgHereIsYourChange(new Receipt(mc.order, mc.total, mc.payment, this), change);
 	        customers.remove(mc);
 
