@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import person.PersonAgent;
 import util.Bank;
 import util.CityMap;
+import util.Loc;
 import city.CityObject;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
@@ -89,6 +90,34 @@ public class SimCityGui extends JFrame {
 		
 	}
 	
+	public void addNewBuilding(String type,int x, int y){
+		if(type.equals("Bank")){
+			city.addObject(CityComponents.BANK);
+			city.moveBuildingTo(new Loc(x,y));
+			city.setBuildingDown();
+			return;
+		}
+		if(type.equals("Market")){
+			city.addObject(CityComponents.MARKET);
+			city.moveBuildingTo(new Loc(x,y));
+			city.setBuildingDown();
+			return;
+		}
+		if(type.equals("Restaurant")){
+			city.addObject(CityComponents.RESTAURANT);
+			city.moveBuildingTo(new Loc(x,y));
+			city.setBuildingDown();
+			return;
+		}
+		if(type.equals("House")){
+			city.addObject(CityComponents.HOUSE);
+			city.moveBuildingTo(new Loc(x,y));
+			city.setBuildingDown();
+			return;
+		}
+		
+	}
+	
 
 	/**
 	 * @param args
@@ -106,7 +135,11 @@ public class SimCityGui extends JFrame {
 		int xStartTest = 0;
 		int yStartTest = 570;
 		
-		
+		//HACK ADDS BUILDINGS TO THE MAP
+		test.addNewBuilding("Bank", 5, 100);
+		test.addNewBuilding("Market",200,250);
+		test.addNewBuilding("Market", 250, 200);
+		test.addNewBuilding("House", 200, 5);
 		
 		
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
