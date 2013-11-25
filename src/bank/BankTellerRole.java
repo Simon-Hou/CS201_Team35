@@ -12,6 +12,7 @@ import java.util.Random;
 
 import java.util.concurrent.Semaphore;
 
+import bank.BankCustomerRole;
 import bank.gui.BankTellerGui;
 import person.PersonAgent;
 import role.Role;
@@ -125,7 +126,7 @@ public class BankTellerRole extends Role implements BankTeller{
 		if(!startedWorking){
 			//Do("I'll start working.");
 			startedWorking = bank.startTellerShift(this);
-			GoToPosition();
+			//GoToPosition();
 			return true;
 		}
 		
@@ -137,7 +138,11 @@ public class BankTellerRole extends Role implements BankTeller{
 			if(currentCustomer!=null){
 				//Do("Sending "+ currentCustomer.getName()+" a message to start helping him");
 				System.out.flush();
-				currentCustomer.msgHowCanIHelpYou(this);
+				if (currentCustomer instanceof BankCustomerRole) {
+					((BankCustomerRole)currentCustomer).msgHowCanIHelpYou(this, 100, 100);//TODO fix these numbers!
+				}
+				else
+					currentCustomer.msgHowCanIHelpYou(this);
 				return true;
 			}
 			return false;

@@ -184,7 +184,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 		//if you're being served & the event is that teller is read, do next task
 		if(state == CustState.inLine && event == CustEvent.tellerReady) {
-			goToWindow();
+			//goToWindow();
 			return true;
 		}
 		
