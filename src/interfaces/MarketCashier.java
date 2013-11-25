@@ -3,6 +3,7 @@ package interfaces;
 import java.util.Map;
 
 import market.BusinessOrder;
+import market.Market;
 import market.MarketCashierRole.MyCustomer;
 
 public interface MarketCashier extends Occupation{
@@ -15,6 +16,8 @@ public interface MarketCashier extends Occupation{
 
 	public String getName();
 	public abstract boolean YouAreDoneWithShift();
+	
+	public abstract void setMarket(Market m);
 	
 
 }

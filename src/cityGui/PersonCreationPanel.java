@@ -1,6 +1,7 @@
 package cityGui;
 
 import interfaces.Person;
+import interfaces.PlaceOfWork;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -25,7 +26,11 @@ import javax.swing.event.ListSelectionListener;
 
 import person.PersonAgent;
 import util.BankMapLoc;
+import util.HouseMapLoc;
+import util.JobType;
+import util.MarketMapLoc;
 import util.Place;
+import util.RestaurantMapLoc;
 
 public class PersonCreationPanel extends JFrame implements ActionListener, ListSelectionListener{
 
@@ -41,14 +46,15 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 	JList typesOfJobs;
 	JList<String> placeOptions;
 	JList<String> jobsOptions;
+	JList<String> houseOptions;
 	DefaultListModel<String> listModel2;
-	JTextField nameField;
+	JTextField nameField, shiftStartField,shiftEndField,errorField;
 	SimCityGui c;
 	
 	public PersonCreationPanel(SimCityGui c){
 		this.c = c;
 		
-		setSize(300,400);
+		setSize(600,400);
 		setTitle("Person Creation Panel");
 		
 		//TITLE
@@ -75,12 +81,17 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 		
 		
 		//Place Of Work Panel
+		JPanel placeOfWorkPanel = new JPanel();
+		JLabel placeOfWorkLabel = new JLabel("Employer");
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		placeOptions = new JList<String>(listModel);
-		for(Place bankPlace:c.cityObject.cityMap.map.get("Bank")){
-			listModel.add(listModel.size(), "Bank "+(listModel.size()+1));
-		}
+		listModel.add(listModel.size(), "None");
 		int i = 0;
+		for(Place bankPlace:c.cityObject.cityMap.map.get("Bank")){
+			listModel.add(listModel.size(), "Bank "+(i+1));
+			i+=1;
+		}
+		i = 0;
 		for(Place marketPlace:c.cityObject.cityMap.map.get("Market")){
 			listModel.add(listModel.size(), "Market "+(i+1));
 			i+=1;
@@ -90,19 +101,25 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			listModel.add(listModel.size(), "Restaurant "+(i+1));
 			i+=1;
 		}
+		
 		//String [] placeOptions = {"Bank 1","Bank 2","Bank 3","Bank 4","Bank 5"};
 		//placesToWork = new JList(placeOptions);
 		placeOptions.addListSelectionListener(this);
 		JScrollPane placesS = new JScrollPane(placeOptions);
-		/*Dimension ld = new Dimension(150,50);
-		placesS.setMinimumSize(ld);
+		Dimension ld = new Dimension(150,60);
+		//placesS.setMinimumSize(ld);
 		placesS.setPreferredSize(ld);
-		placesS.setMaximumSize(ld);*/
+		//placesS.setMaximumSize(ld);
 		/*scrollPlacesToWork.setMinimumSize(ld);
 		scrollPlacesToWork.setPreferredSize(ld);
 		scrollPlacesToWork.add(placesToWork);*/
+		placeOfWorkPanel.setLayout(new FlowLayout());
+		placeOfWorkPanel.add(placeOfWorkLabel);
+		placeOfWorkPanel.add(placesS);
 		
 		//JobType Panel
+		JPanel jobTypePanel = new JPanel();
+		JLabel jobTypeLabel = new JLabel("Job");
 		listModel2 = new DefaultListModel<String>();
 		jobsOptions = new JList<String>(listModel2);
 		//String [] jobOptions = {"Market Employee","Bank 2","Bank 3","Bank 4","Bank 5"};
@@ -110,12 +127,61 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 		//jobsOptions.addListSelectionListener(this);
 		JScrollPane jobsS = new JScrollPane(jobsOptions);
 		
-		/*Dimension d2 = new Dimension(150,50);
-		placesS.setMinimumSize(d2);
-		placesS.setPreferredSize(d2);
-		placesS.setMaximumSize(d2);*/
+		Dimension d2 = new Dimension(150,60);
+		jobsS.setMinimumSize(d2);
+		jobsS.setPreferredSize(d2);
+		jobsS.setMaximumSize(d2);
 		//JScrollPane jobsS = new JScrollPane(typesOfJobs);
+		/*jobTypePanel.setLayout(new FlowLayout());
+		jobTypePanel.add(jobTypeLabel);
+		jobTypePanel.add(jobsS);*/
+		placeOfWorkPanel.setLayout(new FlowLayout());
+		placeOfWorkPanel.add(jobTypeLabel);
+		placeOfWorkPanel.add(jobsS);
 		
+		
+		//ShiftTimes Panel
+		JPanel shiftTimes = new JPanel();
+		JLabel shiftStartLabel = new JLabel("Shift start");
+		JLabel shiftEndLabel = new JLabel("Shift end");
+		shiftStartField = new JTextField();
+		shiftEndField = new JTextField();
+		Dimension shiftDim = new Dimension(75,20);
+		
+		shiftStartField.setPreferredSize(shiftDim);
+		shiftEndField.setPreferredSize(shiftDim);
+		shiftTimes.setLayout(new FlowLayout());
+		shiftTimes.add(shiftStartLabel);
+		shiftTimes.add(shiftStartField);
+		shiftTimes.add(shiftEndLabel);
+		shiftTimes.add(shiftEndField);
+		
+		//House Panel
+		JPanel housePanel = new JPanel();
+		JLabel houseLabel = new JLabel("House");
+		DefaultListModel<String> listModel3 = new DefaultListModel<String>();
+		houseOptions = new JList<String>(listModel3);
+		listModel3.add(listModel3.size(), "None");
+		i = 0;
+		for(Place housePlace:c.cityObject.cityMap.map.get("House")){
+			listModel3.add(listModel3.size(), "House "+(i+1));
+			i+=1;
+		}
+		
+		//String [] placeOptions = {"Bank 1","Bank 2","Bank 3","Bank 4","Bank 5"};
+		//placesToWork = new JList(placeOptions);
+		//houseOptions.addListSelectionListener(this);
+		JScrollPane housesS = new JScrollPane(houseOptions);
+		Dimension d4 = new Dimension(150,60);
+		//placesS.setMinimumSize(ld);
+		housesS.setPreferredSize(d4);
+		//placesS.setMaximumSize(ld);
+		/*scrollPlacesToWork.setMinimumSize(ld);
+		scrollPlacesToWork.setPreferredSize(ld);
+		scrollPlacesToWork.add(placesToWork);*/
+		housePanel.setLayout(new FlowLayout());
+		housePanel.add(houseLabel);
+		housePanel.add(housesS);
 		
 		//Creation Action
 		creationPanel = new JPanel();
@@ -123,13 +189,26 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 		add = new JButton("Add");
 		creationPanel.add(add);
 		
+		//ErrorField
+		JPanel errorPanel = new JPanel();
+		errorField = new JTextField();
+		errorField.setEditable(false);
+		Dimension errorDim = new Dimension(400,20);
+		errorField.setPreferredSize(errorDim);
+		errorPanel.add(errorField);
+		
 		
 		getContentPane().setLayout(new BoxLayout((Container) getContentPane(), BoxLayout.Y_AXIS));
 		add(namePanel);
 		//add(scrollPlacesToWork);
-		add(placesS);
-		add(jobsS);
+		//add(placesS);
+		add(placeOfWorkPanel);
+		//add(jobsS);
+		//add(jobTypePanel);
+		add(shiftTimes);
+		add(housePanel);
 		add(creationPanel);
+		add(errorPanel);
 		
 		//pack();
 		setVisible(true);
@@ -157,11 +236,109 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 		
 		String name = nameField.getText();
 		if(name.length()==0){
-			System.err.println("Please enter a name");
+			errorField.setText("Please enter a name");
 			return false;
 		}
-		PersonAgent p  = new PersonAgent(name,c.cityObject.cityMap);
-		c.addNewPerson(p);
+		if(placeOptions.getSelectedValue()==null){
+			errorField.setText("Please select an employer");
+			return false;
+		}
+		if(!placeOptions.getSelectedValue().toString().equals("None") &&
+				jobsOptions.getSelectedValue() == null){
+			errorField.setText("Please select a job");
+			return false;
+		}
+		if(!placeOptions.getSelectedValue().toString().equals("None")&& 
+				(shiftStartField.getText().length()==0 || 
+				shiftEndField.getText().length()==0)){
+			
+			errorField.setText("Please specify shift start and end times");
+			return false;
+		}
+		if(houseOptions.getSelectedValue()==null){
+			errorField.setText("Please select a house");
+			return false;
+		}
+		
+		
+		
+		PersonAgent person  = new PersonAgent(name,c.cityObject.cityMap);
+		
+		//extract the place of work from the panel
+		Place placeOfWorkMapLoc;
+		PlaceOfWork placeOfWork;
+		if(placeOptions.getSelectedValue().toString().equals("None")){
+			placeOfWorkMapLoc = null;
+			placeOfWork = null;
+		}
+		else{
+			String [] split = placeOptions.getSelectedValue().toString().split(" ");
+			int employmentBuildingNum = Integer.parseInt(split[split.length-1]);
+			placeOfWorkMapLoc = c.cityObject.cityMap.map.get(split[0]).get(employmentBuildingNum-1);
+			if(placeOfWorkMapLoc instanceof BankMapLoc){
+				placeOfWork = ((BankMapLoc) placeOfWorkMapLoc).bank;
+			}
+			else if(placeOfWorkMapLoc instanceof MarketMapLoc){
+				placeOfWork = ((MarketMapLoc) placeOfWorkMapLoc).market;
+			}
+			else if(placeOfWorkMapLoc instanceof RestaurantMapLoc){
+				placeOfWork = ((RestaurantMapLoc) placeOfWorkMapLoc).restaurant;
+			}
+			else{
+				placeOfWork = null;
+				System.err.println("Something weird is going on in the placeOfWork section of "
+						+ "person creation.");
+				
+			}
+		}
+		
+		
+		
+		
+		//extract the job from the panel
+		JobType jobType = null;
+		
+		if(jobsOptions.getSelectedValue()==null){
+			jobType = JobType.NOTSELECTED;
+		}
+		else{
+			String parsedJobName = jobsOptions.getSelectedValue().toString().replace(" ", "");
+			for(JobType jt : JobType.values()){
+				//System.out.println(jt.toString());
+				if(parsedJobName.equalsIgnoreCase(jt.name())){
+					jobType = jt;
+				}	
+			}
+		}
+		if(jobType==null){
+			jobType = JobType.NOTSELECTED;
+		}
+		
+		System.out.println(jobType.toString());
+		int start;
+		int end;
+		if(jobType != JobType.NOTSELECTED){
+			start = Integer.parseInt(shiftStartField.getText());
+			end = Integer.parseInt(shiftEndField.getText());
+		}
+		else{
+			start = 0;
+			end = 0;
+		}
+		
+		//see if we need to put the person in a house
+		if(!houseOptions.getSelectedValue().equals("None")){
+			String [] split = houseOptions.getSelectedValue().toString().split(" ");
+			int houseNum = Integer.parseInt(split[split.length-1]);
+			HouseMapLoc houseMapLoc = (HouseMapLoc) c.cityObject.cityMap.map.get(split[0]).get(houseNum-1);
+			person.setHouse(houseMapLoc.house);
+		}
+
+						
+		person.setJob(placeOfWork, jobType, start, end);
+		person.setBank((int) Math.floor(c.cityObject.cityMap.map.get("Bank").size()*Math.random()));
+		
+		c.addNewPerson(person);
 		return true;
 		
 	}
@@ -169,6 +346,10 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
+		if(placeOptions.getSelectedValue().toString().equals("None")){
+			listModel2.clear();
+			return;
+		}
 		if(placeOptions.getSelectedValue().toString().contains("Bank")){
 			listModel2.clear();
 			listModel2.add(0,"Bank Teller");

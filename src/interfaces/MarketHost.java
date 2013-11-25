@@ -3,6 +3,7 @@ package interfaces;
 import java.util.Map;
 
 import market.BusinessOrder;
+import market.Market;
 import market.Receipt;
 
 public interface MarketHost extends Occupation{
@@ -14,6 +15,7 @@ public interface MarketHost extends Occupation{
 	public abstract boolean YouAreDoneWithShift();
 	public abstract boolean NewEmployee(MarketEmployee m);
 	
+	public abstract void setMarket(Market m);
 	
 	
 }

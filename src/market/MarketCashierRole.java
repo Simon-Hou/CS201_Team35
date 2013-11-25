@@ -48,12 +48,19 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		priceList.put("Pizza", 1);
 		priceList.put("Chicken", 2);
 		priceList.put("Salad", 1);
+		priceList.put("Car", 10);
 	}
 
 	
 	public boolean YouAreDoneWithShift(){
-		p.msgThisRoleDone(this);
+		
+		if(true){
+			p.msgThisRoleDone(this);
+			this.p = null;
+			market.DefaultName(this);
+		}
 		return true;
+		
 	}
 	
 	Timer timer = new Timer();

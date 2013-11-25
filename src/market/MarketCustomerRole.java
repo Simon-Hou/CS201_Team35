@@ -171,7 +171,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		
 		Do("Giving my order to the host.");
      	host.msgCustomerWantsThis(this, shoppingList);
-     	gui.DoGoToItemDrop();
+     	if(gui!=null){
+     		gui.DoGoToItemDrop();
+     	}
 	}
 
 	private void GoPay(){
@@ -232,7 +234,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		}
 		p.msgThisRoleDone(this);
 	    
-		gui.DoExitRestaurant();
+		if(gui!=null){
+			gui.DoExitRestaurant();
+		}
 		
 	}
 	
@@ -251,7 +255,12 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			e.printStackTrace();
 		}
 		market.removeCustomer(this);
-		gui.DoExitRestaurant();
+		//JUST ADDED
+		if(gui!=null){
+			gui.DoExitRestaurant();
+		}
+
+		
 		sad = false;
 	}
 	//Utilities
