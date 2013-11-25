@@ -53,8 +53,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	
 	public boolean YouAreDoneWithShift(){
-		p.msgThisRoleDone(this);
+		
+		if(true){
+			p.msgThisRoleDone(this);
+			this.p = null;
+			market.DefaultName(this);
+		}
 		return true;
+		
 	}
 	
 	Timer timer = new Timer();

@@ -36,6 +36,9 @@ public class Market implements PlaceOfWork{
 		this.host = new MarketHostRole("DefaultUnmannedHost",null);
 		this.cashier = new MarketCashierRole("DefaultUnmannedCashier",null);
 		
+		host.setMarket(this);
+		cashier.setMarket(this);
+		
 		inventory.put("Steak", 300);
 		inventory.put("Chicken", 300);
 		inventory.put("Pizza", 50);
@@ -115,6 +118,18 @@ public class Market implements PlaceOfWork{
 	}
 	
 	public void updateInventory(){
-		panel.updateInventory();
+		if(panel!=null){
+			panel.updateInventory();
+		}
 	}
+	
+	public void DefaultName(Role r){
+		if(r instanceof MarketHost){
+			((MarketHostRole) r).name = "DefaultUnmannedHost";
+		}
+		if(r instanceof MarketCashier){
+			((MarketCashierRole) r).name = "DefaultUnmannedCashier";
+		}
+	}
+	
 }

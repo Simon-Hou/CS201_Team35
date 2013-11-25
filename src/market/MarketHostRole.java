@@ -29,7 +29,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	public Person p;
 	public String name;
 	
-	Market m;
+	public Market m;
 	
 	//SETTERS
 	public void setName(String name){
@@ -39,6 +39,8 @@ public class MarketHostRole extends Role implements MarketHost {
 	public void setPerson(PersonAgent p){
 		this.p = p;
 	}
+	
+
 	
 	
 	//GETTERS
@@ -69,7 +71,11 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public boolean YouAreDoneWithShift(){
 		//TODO make sure people don't leave their shifts early
-		p.msgThisRoleDone(this);
+		if(true){
+			p.msgThisRoleDone(this);
+			this.p = null;
+			m.DefaultName(this);
+		}
 		return true;
 	}
 	
@@ -195,6 +201,9 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 		
 		//choose employee for load balancing
+		if(employees.size()==0){
+			System.err.println("No Market employees");
+		}
 		
 		MyEmployee e1 = employees.get(0);
 
