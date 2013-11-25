@@ -72,10 +72,10 @@ public class PersonGui extends CityComponent implements Gui {
     }
     
 	public void updatePosition() {
-		System.out.println("XDest: " + xDestination);
-		System.out.println("YDest: " + yDestination);
-		System.out.println("XPos: " + getXPos());
-		System.out.println("YPos: " + getYPos());
+//		System.out.println("XDest: " + xDestination);
+//		System.out.println("YDest: " + yDestination);
+//		System.out.println("XPos: " + getXPos());
+//		System.out.println("YPos: " + getYPos());
 		if (readyToGoInnerSidewalk) {
 			if (b1(getXPos(),getYPos())) {
 				goVertical(cWalk1i);
@@ -131,31 +131,31 @@ public class PersonGui extends CityComponent implements Gui {
 		}
 		
 		if (topLeftCorner(getXPos(),getYPos()) && topLeftCorner(xDestination,yDestination)) {
-			System.out.println("In top left corner");
+			//System.out.println("In top left corner");
 			goHorizontal(40);
 			goVertical(40);
 		}
 		
 		if (topRightCorner(getXPos(),getYPos()) && topRightCorner(xDestination,yDestination)) {
-			System.out.println("In top right corner");
+			//System.out.println("In top right corner");
 			goHorizontal(550);
 			goVertical(40);
 		}
 		
 		if (bottomLeftCorner(getXPos(),getYPos()) && bottomLeftCorner(xDestination,yDestination)) {
-			System.out.println("In bottom left corner");
+			//System.out.println("In bottom left corner");
 			goHorizontal(40);
 			goVertical(550);
 		}
 		
 		if (bottomRightCorner(getXPos(),getYPos()) && bottomRightCorner(xDestination,yDestination)) {
-			System.out.println("In bottom right corner");
+			//System.out.println("In bottom right corner");
 			goHorizontal(550);
 			goVertical(550);
 		}
 		
     	if (os1(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-			System.out.println("In os1");
+			//System.out.println("In os1");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -196,7 +196,7 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os2(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os2");
+    		//System.out.println("In os2");
     		if (os2(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -227,7 +227,7 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os3(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os3");
+    		//System.out.println("In os3");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -268,7 +268,7 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os4(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os4");
+    		//System.out.println("In os4");
     		if (os4(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -300,7 +300,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
    
     	if (is1(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is1");
+    		//System.out.println("In is1");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -343,7 +343,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
 
     	if (is2(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is2");
+    		//System.out.println("In is2");
     		if (is2(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -376,7 +376,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     	
     	if (is3(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is3");
+    		//System.out.println("In is3");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -419,7 +419,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     
     	if (is4(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is4");
+    		//System.out.println("In is4");
     		if (is4(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
