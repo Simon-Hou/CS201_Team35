@@ -22,13 +22,20 @@ public class CityHouse extends CityComponent implements ImageObserver {
 	public CityHouse(int x, int y) {
 		super(x, y, Color.yellow, "House 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeHouse();
 	}
 
 	public CityHouse(int x, int y, String I) {
 		super(x, y, Color.yellow, I);
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		house = new House();
+		initializeHouse();
 		//house.houseGui = this;
+	}
+	
+	public void initializeHouse(){
+		house = new House();
+		house.houseGui = this;
 	}
 	
 	@Override

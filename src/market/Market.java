@@ -3,6 +3,7 @@ package market;
 import java.util.ArrayList;
 import java.util.List;
 
+import cityGui.CityMarket;
 import market.gui.MarketPanel;
 import role.Role;
 import util.JobType;
@@ -22,6 +23,7 @@ public class Market implements PlaceOfWork{
 	public MarketCashier cashier;
 	public List<MarketEmployee> employees = new ArrayList<MarketEmployee>();
 	int money;
+	public CityMarket gui;
 	
 	MarketPanel panel;
 	

@@ -21,11 +21,18 @@ public class CityMarket extends CityComponent implements ImageObserver{
 	public CityMarket(int x, int y) {
 		super(x, y, Color.magenta, "Bank 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeMarket();
 	}
 
 	public CityMarket(int x, int y, String I) {
 		super(x, y, Color.magenta, I);
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeMarket();
+	}
+	
+	public void initializeMarket(){
+		market = new Market();
+		market.gui = this;
 	}
 	
 	@Override
