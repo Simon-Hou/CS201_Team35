@@ -40,14 +40,14 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	//-----------------------------MESSAGES--------------------------------
 	public void msgDeliverThisOrder(BusinessOrder order){
 		orders.add(order);
-		stateChanged();
+		p.msgStateChanged();
 		
 	}
 	
 	public void msgHereIsPayment(int payment){
 		MyPayment pay = new MyPayment(payment);
 		payments.add(pay);
-		stateChanged();
+		p.msgStateChanged();
 		
 	}
 	

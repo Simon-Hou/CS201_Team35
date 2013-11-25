@@ -65,12 +65,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	//Messages
 	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		customers.add(new MyCustomer(c, groceries));
-		StateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgFinishedComputing(MyCustomer mc){
 	    mc.status = CustomerState.hasTotal;
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 
 	public void msgCustomerPayment(MarketCustomer c, int payment){
@@ -82,18 +82,18 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	}
 	    		
 	    }	
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 	
 	public void msgCalculateBusinessPayment(BusinessOrder order){
 		orders.add(order);
-		StateChanged();
+		p.msgStateChanged();
 	}
 
 	public void msgHereIsBusinessPayment(int pay){
 		BusinessPayment payment = new BusinessPayment(pay);
 	    businessPayments.add(payment);
-	    StateChanged();
+	    p.msgStateChanged();
 	}
 	
 	//-----------------------Scheduler---------------------------
