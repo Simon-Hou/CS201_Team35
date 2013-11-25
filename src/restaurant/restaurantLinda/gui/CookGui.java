@@ -1,7 +1,7 @@
-package restaurantLinda.gui;
+package restaurant.restaurantLinda.gui;
 
-import restaurantLinda.CookAgent;
-import restaurantLinda.WaiterRole;
+import restaurant.restaurantLinda.CookRole;
+import restaurant.restaurantLinda.WaiterRole;
 
 import java.awt.*;
 import java.io.File;
@@ -16,7 +16,7 @@ public class CookGui implements Gui {
 	public static final int WINDOWX = AnimationPanel.WINDOWX;		//Same as animation panel
     public static final int WINDOWY = AnimationPanel.WINDOWY;
 	
-	CookAgent agent;
+	CookRole agent;
 	
 
 	private int personSize=AnimationPanel.PERSONSIZE;
@@ -34,7 +34,7 @@ public class CookGui implements Gui {
 	private String bufferText;
 	public final String path="../../images/";
 
-    public CookGui(CookAgent agent) {
+    public CookGui(CookRole agent) {
     	this.agent = agent;
     	
     	xPos = xDestination = home.x;

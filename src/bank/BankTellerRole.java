@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Random;
 //import org.apache.commons.lang.RandomStringUtils;
 
+import java.util.concurrent.Semaphore;
+
+import bank.gui.BankTellerGui;
 import person.PersonAgent;
 import role.Role;
 import UnitTests.mock.bankMock.MockBank;
@@ -50,6 +53,10 @@ public class BankTellerRole extends Role implements BankTeller{
 		person = p;
 	}
 	
+	public void setGui(BankTellerGui g) {
+		bankTellerGui = g;
+	}
+	
 	//GETTERS
 	
 	public String getName(){
@@ -78,6 +85,9 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	public boolean startedWorking = false;
 	BankInterface bank;
+	public Semaphore atDestination = new Semaphore(0, true);
+	
+	public BankTellerGui bankTellerGui;
 	
 	
 	
@@ -101,6 +111,11 @@ public class BankTellerRole extends Role implements BankTeller{
 		
 	}
 	
+	public void msgAtDestination() {
+		atDestination.release();
+		//person.msgStateChanged();
+	}
+	
 	
 	//SCHED
 	
@@ -110,6 +125,7 @@ public class BankTellerRole extends Role implements BankTeller{
 		if(!startedWorking){
 			//Do("I'll start working.");
 			startedWorking = bank.startTellerShift(this);
+			GoToPosition();
 			return true;
 		}
 		
@@ -163,6 +179,22 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	
 	//ACT
+	
+	private void GoToPosition() {
+		Do("Going to my position to work");
+		if(bankTellerGui!=null){
+			bankTellerGui.DoGoToPosition();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private void OpenAccount(){
 		Do("Helping "+currentCustomer.getName()+ " to open an account");
@@ -220,6 +252,17 @@ public class BankTellerRole extends Role implements BankTeller{
 		int a = bank.rob(currentTask.amount);
 		currentCustomer.msgHereIsMoneyAnythingElse(a);
 		currentTask = null;
+	}
+	
+	private void LeaveBank() {
+		Do("Leaving the bank now");
+		bankTellerGui.DoExitBank();
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//TODO message the bank here and figure out how to seal the deal.
 	}
 	
 	

@@ -1,4 +1,4 @@
-package restaurantLinda.gui;
+package restaurant.restaurantLinda.gui;
 
 import javax.swing.*;
 

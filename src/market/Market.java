@@ -10,6 +10,7 @@ import interfaces.MarketEmployee;
 import interfaces.MarketHost;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
+import person.*;
 
 public class Market implements PlaceOfWork{
 	
@@ -39,8 +40,9 @@ public class Market implements PlaceOfWork{
 	
 	
 	public MarketHost CanIBeHost(Person person){
-		if(host.YouAreDoneWithShift()){
+		if(((MarketHostRole) host).p==null || host.YouAreDoneWithShift()){
 			((MarketHostRole) host).name = person.getName()+"MarketHost";
+			((MarketHostRole) host).p = person;
 			return host;
 		}
 		System.err.println("New host wasn't allowded to take over");
@@ -48,8 +50,9 @@ public class Market implements PlaceOfWork{
 	}
 	
 	public MarketCashier CanIBeCashier(Person person){
-		if(cashier.YouAreDoneWithShift()){
+		if(((MarketCashierRole) cashier).p==null || cashier.YouAreDoneWithShift()){
 			((MarketCashierRole) cashier).name = person.getName()+ "MarketCashier";
+			((MarketCashierRole) cashier).p = person;
 			return cashier;
 		}
 		System.err.println("New cashier wasn't allowed to take over");

@@ -3,13 +3,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
+
+import city.CityObject;
 
 
 public abstract class CityComponent {
 
 	//Consider creating a rectangle for every Component for better universal collision detection
 
+	CityObject cityObject;
+	
 	protected Rectangle rectangle;
 	int x, y;
 	Color color;
@@ -23,6 +28,7 @@ public abstract class CityComponent {
 		ID = "";
 		isActive = true;
 	}
+	
 
 	public CityComponent(int x, int y) {
 		this.x = x;
@@ -85,6 +91,10 @@ public abstract class CityComponent {
 	public void setY(int y) {
 		this.y = y;
 		rectangle.setLocation(x, y);
+	}
+	
+	public void addAgentObjectToMap(){
+		
 	}
 
 	public void setPosition(Point p) {

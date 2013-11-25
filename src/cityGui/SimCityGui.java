@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 import person.PersonAgent;
 import util.CityMap;
+import city.CityObject;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
 import cityGui.trace.TracePanel;
@@ -16,6 +17,7 @@ import cityGui.trace.TracePanel;
 public class SimCityGui extends JFrame {
 	
 	public CityPanel city;
+	public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
 	CityControlPanel CP;
@@ -30,7 +32,11 @@ public class SimCityGui extends JFrame {
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
 
+		//THIS IS THE AGENT CITY
+		cityObject = new CityObject();
+		
 		city = new CityPanel(this);
+		city.cityObject = cityObject;
 		
 		view = new CityView(this);
 		
@@ -54,10 +60,10 @@ public class SimCityGui extends JFrame {
 		c.gridwidth = 11; c.gridheight = 1;
 		this.add(CP, c);
 		
-		c.gridx = 0; c.gridy = 7;
+		/*c.gridx = 0; c.gridy = 7;
 		c.gridwidth = 11; c.gridheight = 3;
 		c.fill = GridBagConstraints.BOTH;
-		this.add(tracePanel, c);
+		this.add(tracePanel, c);*/
 	}
 
 	/**
@@ -73,6 +79,10 @@ public class SimCityGui extends JFrame {
 		
 		int xStartTest = 190;
 		int yStartTest = 50;
+		
+		/*int xStartTest = 300;
+		int yStartTest = 520;
+>>>>>>> a64db29c4079019ef2654a40c1f1c405d34989b6
 
 		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
         PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);
@@ -89,7 +99,7 @@ public class SimCityGui extends JFrame {
 		test.city.addMoving(pg5);
 		test.city.addMoving(pg6);
 		test.city.addMoving(pg7);
-		test.city.addMoving(pg8);
+		test.city.addMoving(pg8);*/
 
 
 	}

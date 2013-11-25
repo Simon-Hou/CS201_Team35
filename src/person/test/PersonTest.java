@@ -37,7 +37,7 @@ public class PersonTest extends TestCase {
 	}	
 
 	public void testPersonGoToJob() {
-		Role job = new BankTellerRole(andrew.name);
+		Role job = new BankTellerRole(andrew.name,andrew);
 		andrew.myJob.jobRole = job;
 		andrew.roles.add(job);
 		andrew.myJob.shiftStart = 8;

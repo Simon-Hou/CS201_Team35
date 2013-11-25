@@ -25,7 +25,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
-	public PersonAgent p;
+	public Person p;
 	public String name;
 	
 	//SETTERS
@@ -43,13 +43,16 @@ public class MarketHostRole extends Role implements MarketHost {
 		return name;
 	}
 	
-	
+
+	public boolean canLeave() {
+		return true;
+	}
 	
 	public MarketHostRole(String name, PersonAgent p){
-		inventory.put("Steak", 10);
-		inventory.put("Chicken", 10);
-		inventory.put("Pizza", 10);
-		inventory.put("Salad", 10);
+		inventory.put("Steak", 1000);
+		inventory.put("Chicken", 1000);
+		inventory.put("Pizza", 1000);
+		inventory.put("Salad", 1000);
 		inventory.put("Car", 5);
 		this.name = name;
 		this.p=p;
@@ -286,5 +289,6 @@ public class MarketHostRole extends Role implements MarketHost {
 	    	
 	    }
 	}
+
 	
 }

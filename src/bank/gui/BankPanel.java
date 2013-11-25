@@ -18,6 +18,7 @@ import bank.BankCustomerRole;
 import bank.BankTellerRole;
 import util.Bank;
 import util.Bank.BankAccount;
+import util.Bank.loan;
 
 
 public class BankPanel extends JPanel {
@@ -26,6 +27,8 @@ public class BankPanel extends JPanel {
 	private ListPanel accountPanel = new ListPanel(this, "Accounts");
 	private ListPanel tellerPanel = new ListPanel(this, "Tellers");
 	private ListPanel customerPanel = new ListPanel(this, "Customers");
+	
+	private String currentAccount;
 	
 	private JPanel groupOfListPanels = new JPanel();
 	
@@ -65,6 +68,17 @@ public class BankPanel extends JPanel {
 //		}
 	}
 	
+	public void addAccount(BankAccount BA) {
+		//bank.addMeToQueue(bcr);
+		System.out.println("entered enterBankTemp");
+		bank.accounts.add(BA);
+		accountPanel.addListButton("" + BA.accountNumber);
+		//gui.bankAnimationPanel.addGui(g);
+//		if (bcr instanceof BankCustomerRole) {
+//			((BankCustomerRole) bcr).startThread();
+//		}
+	}
+	
 	public void enterBank(BankTellerRole bt, BankTellerGui g) {
 		bank.startTellerShift(bt);
 		tellerPanel.addListButton(bt.getName());
@@ -90,11 +104,18 @@ public class BankPanel extends JPanel {
  * @param name name of person
  */
 	public void showInfo(String type, String acctNum) {
-
-		if (type.equalsIgnoreCase("acounts")) {
+		if (type.equalsIgnoreCase("accounts")) {
 			for (BankAccount tempAcct : bank.accounts) {
 				if (Integer.toString(tempAcct.accountNumber).equalsIgnoreCase(acctNum)) {
 					gui.updateInfoPanel(tempAcct);
+					currentAccount = acctNum;
+				}
+			}
+		}
+		else if (type.equalsIgnoreCase("loans")) {
+			for (BankAccount tempAcct : bank.accounts) {
+				if (Integer.toString(tempAcct.accountNumber).equalsIgnoreCase(currentAccount)) {
+					gui.updateLoanLabel(Integer.parseInt(acctNum), tempAcct);
 				}
 			}
 		}

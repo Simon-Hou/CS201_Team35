@@ -30,6 +30,11 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		
 	}
 	
+	public boolean canLeave() {
+
+		return false;
+	}
+	
 	
 	//-----------------------------MESSAGES--------------------------------
 	public void msgDeliverThisOrder(BusinessOrder order){
@@ -104,6 +109,9 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 			
 		}
 	}
+
+
+
 	
 
 }

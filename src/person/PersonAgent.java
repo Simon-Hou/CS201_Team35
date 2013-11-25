@@ -1,6 +1,7 @@
 package person;
 
 import house.InhabitantRole;
+import interfaces.Occupation;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
 
@@ -49,6 +50,12 @@ public class PersonAgent extends Agent implements Person {
 		bankRole = new BankCustomerRole(name+"Bank",this);
 		marketRole = new MarketCustomerRole(name+"Market",this);
 		inhabitantRole = new InhabitantRole(name+"Home",this);
+		
+		this.belongings.myFoods.add(new Food("Steak",10));
+		this.belongings.myFoods.add(new Food("Chicken",10));
+		this.belongings.myFoods.add(new Food("Pizza",10));
+		this.belongings.myFoods.add(new Food("Salad",10));
+		
 	}
 	
 	//GETTERS
@@ -84,6 +91,7 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
+	//List<String> foodNames;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
@@ -190,6 +198,11 @@ public class PersonAgent extends Agent implements Person {
 						return true;
 					}
 				}
+				if(((Occupation) myJob.jobRole).canLeave()){
+					Do("It's quitting time.");
+					activeRole = null;
+					return true;
+				}
 			}
 			
 			return activeRole.pickAndExecuteAnAction();
@@ -199,12 +212,14 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 		
-		if (nextRole != null) {
+		/*if (nextRole != null) {
 			activeRole = nextRole;
 			nextRole = null;
 			return true;
-		}
-		
+		}*/
+		/*if(name.equals("p1")){
+			Do("DECIDING WHAT TO DO");
+		}*/
 		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
@@ -263,10 +278,11 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Actions
 	private void goToWork() {
-		Do("I am going to work");
+		Do("I am going to work as a "+myJob.jobType);
 		doGoToWork();
 		
 		Role tempJobRole = myJob.placeOfWork.canIStartWorking(this, myJob.jobType, myJob.jobRole);
+		
 		//THIS IS JUST A TEMPORARY FIX, IF SOMEONE DOESN'T GET TO WORK,
 		//WE JUST MOVE THEIR SHIFT BACK BY ONE TIME STEP
 		if(tempJobRole==null){
@@ -310,7 +326,7 @@ public class PersonAgent extends Agent implements Person {
 		}*/
 		
 		
-		
+		myJob.jobRole = tempJobRole;
 		activeRole = tempJobRole;
 		//Do(""+ activeRole);
 		//System.out.flush();
@@ -378,6 +394,8 @@ public class PersonAgent extends Agent implements Person {
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
 		Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
+		
+		
 		//ShoppingList shoppingList = makeShoppingList();
 		
 		//Gets customerRole or creates customerRole
@@ -396,6 +414,11 @@ public class PersonAgent extends Agent implements Person {
 			roles.add(activeRole);
 		}*/
 		
+		for(Food f:this.belongings.myFoods){
+			if(f.quantity<10){
+				marketRole.addToShoppingList(f.type, f.quantity);
+			}
+		}
 		
 		//marketRole.setMarket(m);
 		marketRole.msgYouAreAtMarket(m);
@@ -603,12 +626,27 @@ public class PersonAgent extends Agent implements Person {
 		this.stateChanged();
 	}
 	
+	public void putInBag(String item,int amount){
+		this.purse.bag.put(item,amount);
+	}
+	
 	public void addToWallet(int amount) {
 		this.purse.wallet += amount;
 	}
 	
 	public void takeFromWallet(int amount) {
 		this.purse.wallet -= amount;
+	}
+	
+	public int getWalletAmount(){
+		return purse.wallet;
+	}
+	
+	public void addFoodToBag(String type, int quantity){
+		if (purse.bag.containsKey(type))
+			purse.bag.put(type, purse.bag.get(type)+quantity);
+		else
+			purse.bag.put(type, purse.bag.get(type));
 	}
 	
 	public int getMoneyInBank() {

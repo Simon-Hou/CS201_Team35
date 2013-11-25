@@ -57,10 +57,14 @@ public class ListPanel extends JPanel implements ActionListener{
 		/*for (int i = 0; i < list.size(); i++) {
                 JButton temp = list.get(i);*/
 		for (JButton temp:list){
-			if (e.getSource() == temp)
+			if (e.getSource() == temp) {
 				if (type.equalsIgnoreCase("accounts")) {
 					bankPanel.showInfo(type, temp.getText());
 				}
+				if (type.equalsIgnoreCase("loans")) {
+					bankPanel.showInfo(type, temp.getText());
+				}
+			}
 		}
 	}
 
@@ -100,5 +104,12 @@ public class ListPanel extends JPanel implements ActionListener{
 			//view.add(button);
 			validate();
 		}
+	}
+	
+	public void clearListButtons() {
+		list.clear();
+		view.removeAll();
+		System.out.println("The whole list should be empty now");
+		validate();
 	}
 }

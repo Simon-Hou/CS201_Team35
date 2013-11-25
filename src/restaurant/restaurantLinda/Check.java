@@ -1,4 +1,4 @@
-package restaurantLinda;
+package restaurant.restaurantLinda;
 
 public class Check {
 	private String order;
