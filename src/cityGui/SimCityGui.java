@@ -16,8 +16,8 @@ import cityGui.trace.TracePanel;
 
 public class SimCityGui extends JFrame {
 	
-	public CityPanel city;
-	public CityObject cityObject;
+	static public CityPanel city;
+	static public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
 	CityControlPanel CP;
@@ -71,6 +71,8 @@ public class SimCityGui extends JFrame {
 	 */
 	public static void main(String[] args) {
 		
+		
+		
 		SimCityGui test = new SimCityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		test.setResizable(false);
@@ -79,6 +81,8 @@ public class SimCityGui extends JFrame {
 		
 		int xStartTest = 190;
 		int yStartTest = 50;
+		
+		
 		
 		/*int xStartTest = 300;
 		int yStartTest = 520;
