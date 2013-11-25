@@ -15,7 +15,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import person.PersonAgent;
@@ -24,6 +26,14 @@ public class PersonCreationPanel extends JFrame implements ActionListener{
 
 	JButton add;
 	JPanel namePanel,creationPanel;
+	JScrollPane scrollPlacesToWork =
+            new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	JScrollPane scrollTypesOfJobs =
+            new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	JList placesToWork;
+	JList typesOfJobs;
 	JTextField nameField;
 	SimCityGui c;
 	
@@ -54,6 +64,17 @@ public class PersonCreationPanel extends JFrame implements ActionListener{
 		namePanel.add(nameLabel);
 		namePanel.add(nameField);
 		
+		
+		
+		//Place Of Work Panel
+		String [] options = {"Bank 1","Bank 2"};
+		placesToWork = new JList(options);
+		Dimension ld = new Dimension(100,50);
+		scrollPlacesToWork.setMinimumSize(ld);
+		scrollPlacesToWork.setPreferredSize(ld);
+		scrollPlacesToWork.add(placesToWork);
+		
+		
 		//Creation Action
 		creationPanel = new JPanel();
 		creationPanel.setSize(200,30);
@@ -63,6 +84,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener{
 		
 		getContentPane().setLayout(new BoxLayout((Container) getContentPane(), BoxLayout.Y_AXIS));
 		add(namePanel);
+		add(scrollPlacesToWork);
 		add(creationPanel);
 		
 		
