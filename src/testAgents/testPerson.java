@@ -124,7 +124,7 @@ public class testPerson extends Agent implements Person{
 	private void GoToMarket(){
 		Market m = ((MarketMapLoc) cityMap.map.get("Market").get(myMarket)).market;
 		
-		this.marketCustRole.msgYouAreAtMarket(m.host);
+		this.marketCustRole.msgYouAreAtMarket(m);
 		this.activeRole = this.marketCustRole;
 		this.wantsToGoToMarket = true;
 	}
@@ -184,6 +184,24 @@ public class testPerson extends Agent implements Person{
 
 	@Override
 	public void msgDoneEating() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getWalletAmount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void addFoodToBag(String type, int quantity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void putInBag(String item, int amount) {
 		// TODO Auto-generated method stub
 		
 	}
