@@ -63,7 +63,10 @@ public class CityHouse extends CityComponent implements ImageObserver {
 	}
 
 	public void paint(Graphics g) {
-		if (this.outerTopSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerBottomSide((int)rectangle.getX(), (int)rectangle.getY())) {
+		if (this.invalidPlacement) {
+			g.drawImage(img5.getImage(),x,y,35,35,null);
+		}
+		else if (this.outerTopSide((int)rectangle.getX(), (int)rectangle.getY()+35) || this.innerBottomSide((int)rectangle.getX(), (int)rectangle.getY())) {
 			g.drawImage(img1.getImage(),x,y,35,35,null);
 		}
 		else if (this.outerRightSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerLeftSide((int)rectangle.getX(), (int)rectangle.getY())) {
@@ -72,10 +75,9 @@ public class CityHouse extends CityComponent implements ImageObserver {
 		else if (this.outerBottomSide((int)rectangle.getX(), (int)rectangle.getY())|| this.innerTopSide((int)rectangle.getX(), (int)rectangle.getY())) {
 			g.drawImage(img3.getImage(),x,y,35,35,null);
 		}
-		else if (this.outerLeftSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerRightSide((int)rectangle.getX(), (int)rectangle.getY())) {
+		else if (this.outerLeftSide((int)rectangle.getX()+35, (int)rectangle.getY()) || this.innerRightSide((int)rectangle.getX(), (int)rectangle.getY())) {
 			g.drawImage(img4.getImage(),x,y,35,35,null);
 		}
-		else g.drawImage(img5.getImage(),x,y,35,35,null);
 	}
 
 	@Override

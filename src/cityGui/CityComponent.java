@@ -23,6 +23,7 @@ public abstract class CityComponent implements ImageObserver {
 	Color color;
 	String ID;
 	boolean isActive;
+	public boolean invalidPlacement = false;
 
 	public CityComponent() {
 		x = 0;
@@ -118,9 +119,9 @@ public abstract class CityComponent implements ImageObserver {
 			if (innerBuilding(x,y)) {
 				return 400;
 			}
-			else return 560;	
+			else return 550;	
 		}
-		else return x+(this.rectangle.width/2);	
+		else return x+(this.rectangle.width/2)-5;	
 	}
 	
 	public int sidewalkY(int x, int y) {
@@ -134,9 +135,9 @@ public abstract class CityComponent implements ImageObserver {
 			if (innerBuilding(x,y)) {
 				return 400;
 			}
-			else return 560;	
+			else return 550;	
 		}
-		else return y+(this.rectangle.height/2);	
+		else return y+(this.rectangle.height/2)-5;	
 	}
 	
 	public boolean innerBuilding(int x, int y) {
@@ -147,28 +148,28 @@ public abstract class CityComponent implements ImageObserver {
 	}
 	
 	public boolean innerLeftSide(int x, int y) {
-		if ((x >= 200 && x <= 210) && (y >= 200 && y <= 370)) {
+		if ((x >= 200 && x <= 205) && (y >= 200 && y <= 370)) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean innerRightSide(int x, int y) {
-		if ((x >= 360 && x <= 370) && (y >= 200 && y <= 370)) {
+		if ((x >= 360 && x <= 365) && (y >= 200 && y <= 370)) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean innerTopSide(int x, int y) {
-		if ((y >= 200 && y <= 210) && (x > 205 && x < 360)) {
+		if ((y >= 200 && y <= 205) && (x > 205 && x < 360)) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean innerBottomSide(int x, int y) {
-		if ((x > 205 && x < 360) && (y >= 360 && y <= 370)) {
+		if ((x > 205 && x < 360) && (y >= 360 && y <= 365)) {
 			return true;
 		}
 		return false;
