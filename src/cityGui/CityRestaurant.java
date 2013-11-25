@@ -8,6 +8,8 @@ import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import restaurant.Restaurant;
 import util.BankMapLoc;
 import util.Loc;
 import util.RestaurantMapLoc;
@@ -23,30 +25,37 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 	ImageIcon img4 = new ImageIcon(imgURL4);
 	java.net.URL imgURL5 = getClass().getResource("cityImages/restaurant5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
-	//public Restaurant restaurant;
+	public Restaurant restaurant;
 	private int buildingSize = 35;
 	public CityRestaurant(int x, int y) {
 		super(x, y, Color.red, "Restaurant 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeRestaurant();
 		//System.out.println("First");
 	}
 	
 	public CityRestaurant(int x, int y, String ID) {
 		super(x, y, Color.red, ID);
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeRestaurant();
 		//System.out.println("Second");
 
 	}
 
+	public void initializeRestaurant(){
+		this.restaurant = new Restaurant();
+		restaurant.cityRestaurant = this;
+	}
+	
 	public void updatePosition() {
 		
 	}
 	
 	@Override
 	public JPanel addAgentObjectToMap(){
-//		RestaurantMapLoc rMap = new RestaurantMapLoc(restaurant);
-//		rMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
-//		this.cityObject.cityMap.map.get("Bank").add(rMap);
+		RestaurantMapLoc rMap = new RestaurantMapLoc(restaurant);
+		rMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
+		this.cityObject.cityMap.map.get("Restaurant").add(rMap);
 		return null;
 	}
 
