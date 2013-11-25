@@ -13,7 +13,7 @@ import util.Loc;
  */
 public class CityBank extends CityComponent {
 	public Bank bank;
-	private int buildingSize = 50;
+	private int buildingSize = 35;
 	public CityBank(int x, int y) {
 		super(x, y, Color.green, "Bank 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
@@ -29,7 +29,7 @@ public class CityBank extends CityComponent {
 	@Override
 	public void addAgentObjectToMap(){
 		BankMapLoc bMap = new BankMapLoc(bank);
-		bMap.loc = new Loc(x,y);
+		bMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
 		this.cityObject.cityMap.map.get("Bank").add(bMap);
 	}
 

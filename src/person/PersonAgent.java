@@ -655,7 +655,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public void addFoodToInventory(String type, int quantity){
-		Do("Adding "+quantity+"s "+type+" to inventory.");
+		Do("Adding "+quantity+" "+type+"s to inventory.");
 		for(Food f:this.belongings.myFoods){
 			if(f.type.equals(type)){
 				f.quantity+=quantity;
