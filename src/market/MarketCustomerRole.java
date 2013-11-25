@@ -32,6 +32,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
 	
+	public void addToShoppingList(String food, int amount){
+		this.shoppingList.put(food, amount);
+	}
 
 	public MarketCustomerRole(String name, Person p){		
 		this.name = name;

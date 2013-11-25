@@ -50,6 +50,12 @@ public class PersonAgent extends Agent implements Person {
 		bankRole = new BankCustomerRole(name+"Bank",this);
 		marketRole = new MarketCustomerRole(name+"Market",this);
 		inhabitantRole = new InhabitantRole(name+"Home",this);
+		
+		this.belongings.myFoods.add(new Food("Steak",10));
+		this.belongings.myFoods.add(new Food("Chicken",10));
+		this.belongings.myFoods.add(new Food("Pizza",10));
+		this.belongings.myFoods.add(new Food("Salad",10));
+		
 	}
 	
 	//GETTERS
@@ -85,6 +91,7 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
+	//List<String> foodNames;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
@@ -407,6 +414,11 @@ public class PersonAgent extends Agent implements Person {
 			roles.add(activeRole);
 		}*/
 		
+		for(Food f:this.belongings.myFoods){
+			if(f.quantity<10){
+				marketRole.addToShoppingList(f.type, f.quantity);
+			}
+		}
 		
 		//marketRole.setMarket(m);
 		marketRole.msgYouAreAtMarket(m);
