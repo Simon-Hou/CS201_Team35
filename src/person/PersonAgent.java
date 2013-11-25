@@ -111,6 +111,7 @@ public class PersonAgent extends Agent implements Person {
 			myCars = new ArrayList<Car>();
 			myFoods = new ArrayList<Food>();
 			myAccounts = new ArrayList<BankAccount>();
+			
 		}
 		
 		public Property myLiving;
@@ -228,7 +229,7 @@ public class PersonAgent extends Agent implements Person {
 		/*if(name.equals("p1")){
 			Do("DECIDING WHAT TO DO");
 		}*/
-		if (time >= myJob.shiftStart && time < myJob.shiftEnd) {
+		if (myJob.placeOfWork!=null && time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
 		}		
@@ -237,12 +238,12 @@ public class PersonAgent extends Agent implements Person {
 			buyCar();
 		}
 
-		if(belongings.myAccounts.size()==0){
+		if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
 			goToBank();
 			return true;
 		}
 
-		if ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar) {
+		if(!city.map.get("Bank").isEmpty() && ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar)) {
 			goToBank();
 			return true;
 		}
@@ -252,7 +253,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 		
-		if (foodsLow()) {
+		if (!city.map.get("Market").isEmpty() && foodsLow()) {
 			goToMarket();
 			return true;
 		}
@@ -289,6 +290,13 @@ public class PersonAgent extends Agent implements Person {
 		Do("I am going to work as a "+myJob.jobType);
 		doGoToWork();
 		
+		//HACK
+		if(myJob.placeOfWork==null){
+			myJob.shiftStart+=1;
+			myJob.shiftEnd+=1;
+			return;
+		}
+		
 		Role tempJobRole = myJob.placeOfWork.canIStartWorking(this, myJob.jobType, myJob.jobRole);
 		
 		//THIS IS JUST A TEMPORARY FIX, IF SOMEONE DOESN'T GET TO WORK,
@@ -298,40 +306,6 @@ public class PersonAgent extends Agent implements Person {
 			myJob.shiftEnd+=1;
 			return;
 		}
-		
-		/*
-		//Bank Employment
-		if(this.myJob.jobRole instanceof BankTellerRole){
-			((BankMapLoc) myJob.placeOfWork).bank.startTellerShift(((BankTellerRole) myJob.jobRole));
-		}
-		
-		//Market Employment
-		else if(myJob.jobType==JobType.MarketCashier){
-			
-		}
-		else if(myJob.jobType==JobType.MarketCashier){
-			
-		}
-		else if(myJob.jobType==JobType.MarketEmployee){
-			
-		}
-		else if(myJob.jobType==JobType.MarketDeliveryMan){
-			
-		}
-		
-		//Restaurant Employment
-		else if(myJob.jobType==JobType.RestaurantHost){
-			
-		}
-		else if(myJob.jobType==JobType.RestaurantCashier){
-			
-		}
-		else if(myJob.jobType==JobType.RestaurantCook){
-			
-		}
-		else if(myJob.jobType==JobType.RestaurantWaiter){
-			
-		}*/
 		
 		
 		myJob.jobRole = tempJobRole;
@@ -343,12 +317,12 @@ public class PersonAgent extends Agent implements Person {
 	private void goToBank() {
 
 		if(city.map.get("Bank").isEmpty()){
-			try {
+			/*try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 		}
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
 		Loc loc = city.map.get("Bank").get(0).loc;
@@ -400,21 +374,6 @@ public class PersonAgent extends Agent implements Person {
 		
 		//ShoppingList shoppingList = makeShoppingList();
 		
-		//Gets customerRole or creates customerRole
-		/*boolean containsRole = false;
-		for (Role r: roles) {
-			if (r instanceof MarketCustomerRole) {
-				//r.shoppingList = shoppingList;
-				activeRole = r;
-				marketRole = (MarketCustomerRole) r;
-				containsRole = true;
-			}
-		}
-		if (!containsRole) {
-			marketRole = new MarketCustomerRole(this.name,this);
-			activeRole = marketRole;
-			roles.add(activeRole);
-		}*/
 		
 		for(Food f:this.belongings.myFoods){
 			if(f.quantity<=10){
@@ -431,26 +390,7 @@ public class PersonAgent extends Agent implements Person {
 		if (!belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at home");
 			//goHome();
-			/*InhabitantRole inhabitantRole;
-			
-			//Gets inhabitantRole or creates inhabitantRole
-			boolean containsRole = false;
-			for (Role r: roles) {
-				if (r instanceof InhabitantRole) {
-					activeRole = r;
-					inhabitantRole = (InhabitantRole) r;
-					containsRole = true;			
-					//inhabitantRole.msgYouAreAtHome();
-					activeRole = inhabitantRole;
-				}
-			}
-			if (!containsRole) {
-				inhabitantRole = new InhabitantRole();
-				activeRole = inhabitantRole;
-				roles.add(activeRole);	
-				//inhabitantRole.msgYouAreAtHome();
-				activeRole = inhabitantRole;
-			}*/
+
 			activeRole = inhabitantRole;
 		}
 		else if(belongings.myFoods.isEmpty()) {
