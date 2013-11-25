@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import person.PersonAgent;
+//import restaurant.Restaurant;
 import role.Role;
 import interfaces.MarketDeliveryMan;
 import interfaces.MarketCashier;
@@ -71,15 +72,15 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	//-----------------------------ACTIONS--------------------------------
 	private void DeliverOrder(BusinessOrder order){
-		DoGoToRestaurant(order.restaurant);
-		order.restaurant.cook.msgHereIsDelivery(order);
-		order.restaurant.cashier.msgHereIsInvoice(order.invoice);
+		//DoGoToRestaurant(order.restaurant);
+		//order.restaurant.cook.msgHereIsDelivery(order);
+		//order.restaurant.cashier.msgHereIsInvoice(order);
 		orders.remove(order);
 	}
 	
-	private void DoGoToRestaurant(Restaurant rest){
-		//go to the restaurant
-	}
+//	private void DoGoToRestaurant(Restaurant rest){
+//		//go to the restaurant
+//	}
 	private void DeliverPayment(MyPayment payment){
 		DoGoToCashier();
 		//cashier.msgHereIsBusinessPayment(payment.amount);

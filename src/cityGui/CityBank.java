@@ -40,6 +40,7 @@ public class CityBank extends CityComponent implements ImageObserver {
 		bMap.loc.y = sidewalkY(tempX,tempY);
 		System.out.println("New Building X Value: " + bMap.loc.x);
 		System.out.println("New Building Y Value: " + bMap.loc.y);
+		bMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
 		this.cityObject.cityMap.map.get("Bank").add(bMap);
 	}
 

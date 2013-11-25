@@ -16,8 +16,8 @@ import cityGui.trace.TracePanel;
 
 public class SimCityGui extends JFrame {
 	
-	public CityPanel city;
-	public CityObject cityObject;
+	static public CityPanel city;
+	static public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
 	CityControlPanel CP;
@@ -33,7 +33,7 @@ public class SimCityGui extends JFrame {
 		tracePanel.showAlertsForAllTags();
 
 		//THIS IS THE AGENT CITY
-		cityObject = new CityObject();
+		cityObject = new CityObject(this);
 		
 		city = new CityPanel(this);
 		city.cityObject = cityObject;
@@ -65,11 +65,24 @@ public class SimCityGui extends JFrame {
 		c.fill = GridBagConstraints.BOTH;
 		this.add(tracePanel, c);*/
 	}
+	
+	
+	public void addNewPerson(String name){
+		PersonAgent p = new PersonAgent(name,cityObject.cityMap);
+		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
+		p.gui = personGui;
+		cityObject.people.add(p);
+		city.addMoving(personGui);
+		p.startThread();
+	}
+	
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		
 		
 		SimCityGui test = new SimCityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,6 +92,11 @@ public class SimCityGui extends JFrame {
 		
 		int xStartTest = 190;
 		int yStartTest = 50;
+		
+		
+		test.addNewPerson("p0");
+		/*cityObject.people.add(new PersonAgent("p0",cityObject.cityMap));
+		cityObject.people.get(0).startThread();*/
 		
 		/*int xStartTest = 300;
 		int yStartTest = 520;

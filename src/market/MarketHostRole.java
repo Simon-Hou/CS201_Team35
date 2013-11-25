@@ -11,10 +11,12 @@ import java.util.Map.Entry;
 import interfaces.*;
 import role.Role;
 import person.PersonAgent;
+import market.gui.*;
 
 
 public class MarketHostRole extends Role implements MarketHost {
 
+	Market market;
 	//-----------------------------DATA--------------------------------
 	enum CustomerState {waiting, beingServiced, leaving};
 	
@@ -27,6 +29,8 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public Person p;
 	public String name;
+	
+	Market m;
 	
 	//SETTERS
 	public void setName(String name){
@@ -77,13 +81,13 @@ public class MarketHostRole extends Role implements MarketHost {
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
 	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
-	    p.msgStateChanged();
+	    StateChanged();
 		
 	}
 
 	public void msgCustomerLeaving(MarketCustomer c, Receipt receipt, Map<String, Integer> groceries) {
 		
-		Do("Cust trying to leave");
+		//Do("Cust trying to leave");
 		for (MyCustomer mc : customers){
 			if (mc.customer == c){
 				mc.state = CustomerState.leaving;
@@ -91,13 +95,13 @@ public class MarketHostRole extends Role implements MarketHost {
 				mc.groceries = groceries;
 			}
 		}
-		p.msgStateChanged();
+		StateChanged();
 		
 	}
 
 	public void msgBusinessWantsThis(BusinessOrder order) {
 		businessOrders.add(order);
-		p.msgStateChanged();
+		StateChanged();
 		
 	}
 
@@ -132,10 +136,14 @@ public class MarketHostRole extends Role implements MarketHost {
 	//-----------------------------ACTIONS--------------------------------
 	
 	private void CheckCustomer(MyCustomer mc){
-		Do("Checking customer");
-		if (mc.groceries.isEmpty()  || (mc.receipt == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
+
+		Do("May I see your receipt please, " + mc.customer.getName() + "?");
+		if (mc.groceries.isEmpty()  || (mc.receipt.order == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
+
 			mc.customer.msgYouCanLeave();
+			Do("Okay, you may leave.");
 			customers.remove(mc);
+			market.removeCustomer(mc.customer);
 			return;
 		}
 		
@@ -148,8 +156,6 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	private void ServeCustomer(MyCustomer mc){
 		mc.state = CustomerState.beingServiced;
-
-	
 
 		Map<String, Integer> unfulfillable = new HashMap<String, Integer>();
 		for (Entry<String,Integer> item : mc.order.entrySet()){
@@ -175,12 +181,11 @@ public class MarketHostRole extends Role implements MarketHost {
 
 		if (unfulfillable.size()>0){
 			mc.customer.msgOutOfStock(unfulfillable);
-			//^^where is this message?
 		}
 
-		/*if (mc.order.size()==0){
+		if (mc.order.size()==0){
 			return;
-		}*/
+		}
 
 		
 		
@@ -202,38 +207,42 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	private void DelegateBusinessOrder(BusinessOrder order){
 		
+
+		Do("I got a phone call for a business delivery order.");
+		
+
+		List<OrderItem> unfulfillable = new ArrayList<OrderItem>();
+
 		boolean couldntGetAnything = true;
 		
 		for (OrderItem item : order.order){
 			int request = item.quantityOrdered;
 			int stock = inventory.get(item.choice);
 			
-			inventory.remove(item.choice);
-			
 			if (request > stock){
-				if (stock ==0){
-				//quantityReceived remains 0 (it was initialized at 0 by the restaurant)
-				}
-				else {
-					item.quantityReceived = stock;
+				if (stock>0)
 					couldntGetAnything = false;
-				}
+				
+				unfulfillable.add(new OrderItem(request, stock, item.choice));
+				item.quantityReceived = stock;
 				inventory.put(item.choice, 0);
-			}
-			
+			}	
 			else {
-				item.quantityReceived = item.quantityOrdered;
+				item.quantityReceived = request;
 				couldntGetAnything = false;
-				inventory.put(item.choice, stock - item.quantityOrdered);
+				inventory.put(item.choice, stock - request);
 			}
 			
 		}
 		
 		businessOrders.remove(order);
 		
+		//If we had no inventory, just quit. Otherwise, message the cook any unfulfillable parts of the order so they can find another market
 		if (couldntGetAnything){
-			order.restaurant.cook.msgWeHaveNothing();
 			return;
+		}
+		else if (unfulfillable.size()>0){
+			//order.restaurant.cook.msgCannotFulfillOrder(m, unfulfillable);
 		}
 		
 		
@@ -247,6 +256,7 @@ public class MarketHostRole extends Role implements MarketHost {
 			}
 		}
 
+		Do("Telling " + e1.employee.getName() + " to fill this business order.");
 		e1.employee.msgGetThis(order);
 		e1.orders++;
 
@@ -267,6 +277,10 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public void addEmployee(MarketEmployee m){
 		this.employees.add(new MyEmployee(m));
+	}
+	
+	public void setMarket(Market m){
+		market = m;
 	}
 	
 	/*String name;

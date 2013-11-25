@@ -14,15 +14,17 @@ import cityGui.CityPanel;
 import cityGui.SimCityGui;
 import person.PersonAgent;
 import public_Gui.Gui;
+import util.Loc;
 
 public class PersonGui extends CityComponent implements Gui {
 
-    private PersonAgent agent;
+    private PersonAgent person;
+    
 
     SimCityGui gui;
     
-    private int xPos = 20, yPos = 29;//default waiter position
-    private int xDestination = 395, yDestination = 29;//default start position
+    public int xPos = 20, yPos = 29;//default waiter position
+    public int xDestination = 395, yDestination = 29;//default start position
     private int crossWalk = 290;
     public int cWalk1i = 161;
     private int cWalk2i = 429;
@@ -42,21 +44,33 @@ public class PersonGui extends CityComponent implements Gui {
     private boolean transitionDone = true;
     private boolean choseRand = false;
     
+    public boolean onTheMove = false;
+    
     private Semaphore crossingStreet = new Semaphore(0,true);
     
+    
+
+    
     public PersonGui(PersonAgent agent) {
-        this.agent = agent;
+        this.person = agent;
     }
     
     public PersonGui(PersonAgent c, SimCityGui gui, int xPos, int yPos, int xDest, int yDest){ //HostAgent m) {
 		super(xPos, yPos, Color.blue, "Dude");
-    	agent = c;
+    	person = c;
 		xDestination = xDest;
 		yDestination = yDest;
 		this.gui = gui;
 		rectangle = new Rectangle(xPos, yPos, 10, 10);
 		
 	}
+    
+    public void doGoToBuilding(Loc loc){
+    	this.xDestination = loc.x;
+    	this.yDestination = loc.y;
+    	onTheMove = true;
+    }
+    
 	public void updatePosition() {
 		if (readyToGoInnerSidewalk) {
 			if (b1(getXPos(),getYPos())) {
@@ -399,6 +413,14 @@ public class PersonGui extends CityComponent implements Gui {
         			crossWalk4o();
         		}
         	}
+    	}
+    	
+    	//System.out.println("Pos: ("+rectangle.x+","+rectangle.y+")");
+    	//System.out.println("Dest: ("+xDestination+","+yDestination+")");
+    	if(onTheMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
+    		onTheMove = false;
+    		person.msgAtDestination();
+    		
     	}
     }
 

@@ -3,9 +3,11 @@ package market;
 import java.util.ArrayList;
 import java.util.List;
 
+import market.gui.MarketPanel;
 import role.Role;
 import util.JobType;
 import interfaces.MarketCashier;
+import interfaces.MarketCustomer;
 import interfaces.MarketEmployee;
 import interfaces.MarketHost;
 import interfaces.Person;
@@ -20,6 +22,8 @@ public class Market implements PlaceOfWork{
 	public MarketCashier cashier;
 	public List<MarketEmployee> employees = new ArrayList<MarketEmployee>();
 	int money;
+	
+	MarketPanel panel;
 	
 	//CONSTRUCTOR
 	public Market(){
@@ -89,7 +93,13 @@ public class Market implements PlaceOfWork{
 		return null;
 	}
 	
+	public void removeCustomer(MarketCustomer cust){
+		//send the cust to the panel to remove it!
+		panel.removeCustomer();
+	}
 	
-	
+	public void setMarketPanel(MarketPanel p){
+		panel = p;
+	}
 	
 }
