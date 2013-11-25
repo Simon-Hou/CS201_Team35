@@ -61,6 +61,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	public boolean NewEmployee(MarketEmployee m){
+		//Do("This is being called!!!!");
 		addEmployee(m);
 		return true;
 	}

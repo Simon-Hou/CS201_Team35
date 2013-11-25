@@ -36,6 +36,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	private Semaphore receivedInvoice = new Semaphore(0,true);
 	
+	boolean startedWorking = false;
+	
 	//SETTERS
 	public void setName(String name){
 		this.name = name;
@@ -102,6 +104,11 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
+		/*if(!startedWorking){
+			startedWorking = market.CanIStartWorking(this);
+			return startedWorking;
+		}*/
 		
 		//Do("SCHEDULER");
 		for (CustomerOrder co: customerOrders){

@@ -315,6 +315,7 @@ public class PersonAgent extends Agent implements Person {
 	//Actions
 	private void goToWork() {
 		Do("I am going to work as a "+myJob.jobType);
+
 		//HACK
 		if(myJob.placeOfWork==null){
 			myJob.shiftStart+=1;
@@ -326,12 +327,13 @@ public class PersonAgent extends Agent implements Person {
 		doGoToWork();
 		Do("Got to work");
 		Role tempJobRole = myJob.placeOfWork.canIStartWorking(this, myJob.jobType, myJob.jobRole);
-		
+		//System.out.println(myJob.jobType+" "+myJob.jobRole+" "+tempJobRole);
 		//THIS IS JUST A TEMPORARY FIX, IF SOMEONE DOESN'T GET TO WORK,
 		//WE JUST MOVE THEIR SHIFT BACK BY ONE TIME STEP
 		if(tempJobRole==null){
 			myJob.shiftStart+=1;
 			myJob.shiftEnd+=1;
+			Do("Didn't get to start working");
 			return;
 		}
 		
@@ -399,7 +401,8 @@ public class PersonAgent extends Agent implements Person {
 		//MarketCustomerRole marketRole = null;
 		int marketChoice = (int) Math.floor(city.map.get("Market").size()*Math.random());
 		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
-		
+		Loc loc = city.map.get("Market").get(marketChoice).loc;
+		doGoToBuilding(loc);
 		
 		//ShoppingList shoppingList = makeShoppingList();
 		

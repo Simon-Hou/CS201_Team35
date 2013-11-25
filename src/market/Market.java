@@ -48,8 +48,9 @@ public class Market implements PlaceOfWork{
 	
 	
 	public boolean CanIStartWorking(MarketEmployee m){
-		employees.add(m);
+		
 		if(host.NewEmployee(m)){
+			employees.add(m);
 			return true;
 		}
 		System.err.println("Market Employee wasn't allowed to work");
@@ -83,8 +84,9 @@ public class Market implements PlaceOfWork{
 	public Role canIStartWorking(Person p,JobType jobType,Role m) {
 		// TODO Auto-generated method stub
 		if(jobType == JobType.MarketEmployee){
-			employees.add((MarketEmployee) m);
+
 			if(host.NewEmployee((MarketEmployee) m)){
+				employees.add((MarketEmployee) m);
 				return m;
 			}
 			System.err.println("Market Employee wasn't allowed to work");
@@ -110,7 +112,9 @@ public class Market implements PlaceOfWork{
 	
 	public void removeCustomer(MarketCustomer cust){
 		//send the cust to the panel to remove it!
-		panel.removeCustomer();
+		if(panel!=null){
+			panel.removeCustomer();
+		}
 	}
 	
 	public void setMarketPanel(MarketPanel p){
