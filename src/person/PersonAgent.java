@@ -84,7 +84,6 @@ public class PersonAgent extends Agent implements Person {
 	//Time time;
 	public int hungerLevel = 0;
 	public int tiredLevel = 100;
-	public int myBank = 0;
 	public int personalAddress;
 	public Purse purse;
 	public Belongings belongings;
@@ -99,10 +98,15 @@ public class PersonAgent extends Agent implements Person {
 	public PersonGui gui;
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
+	public int MY_BANK = 0;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
 	private Personality personality;
+	
+	public void setBank(int num){
+		MY_BANK = num;
+	}
 	
 	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
 	
@@ -339,8 +343,8 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}*/
 		}
-		Bank b = ((BankMapLoc) city.map.get("Bank").get(0)).bank;
-		Loc loc = city.map.get("Bank").get(0).loc;
+		Bank b = ((BankMapLoc) city.map.get("Bank").get(MY_BANK)).bank;
+		Loc loc = city.map.get("Bank").get(MY_BANK).loc;
 		
 		
 		activeRole = bankRole;
@@ -435,9 +439,9 @@ public class PersonAgent extends Agent implements Person {
 			
 			wantsToBuyCar = true;
 			
-			doGoToBuilding(city.map.get("Bank").get(0).loc);
+			doGoToBuilding(city.map.get("Bank").get(MY_BANK).loc);
 			bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
-			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Bank").get(myBank)).bank);
+			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Bank").get(MY_BANK)).bank);
 			activeRole = bankRole;
 		}
 		else {

@@ -1,6 +1,7 @@
 package cityGui;
 
 import interfaces.Person;
+import interfaces.PlaceOfWork;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -25,6 +26,7 @@ import javax.swing.event.ListSelectionListener;
 
 import person.PersonAgent;
 import util.BankMapLoc;
+import util.JobType;
 import util.Place;
 
 public class PersonCreationPanel extends JFrame implements ActionListener, ListSelectionListener{
@@ -218,8 +220,48 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			errorField.setText("Please select shift start and end times");
 			return false;
 		}
-		PersonAgent p  = new PersonAgent(name,c.cityObject.cityMap);
-		c.addNewPerson(p);
+		
+		
+		
+		PersonAgent person  = new PersonAgent(name,c.cityObject.cityMap);
+		
+		//extract the place of work from the panel
+		Place placeOfWork;
+		if(placeOptions.getSelectedValue().toString().equals("None")){
+			placeOfWork = null;
+		}
+		else{
+			String [] split = placeOptions.getSelectedValue().toString().split(" ");
+			int employmentBuildingNum = Integer.parseInt(split[split.length-1]);
+			placeOfWork = c.cityObject.cityMap.map.get(split[0]).get(employmentBuildingNum-1);
+		}
+		
+		
+		//extract the job from the panel
+		JobType jobType = null;
+		String parsedJobName = jobsOptions.getSelectedValue().toString().replace(" ", "");
+		if(jobsOptions.getSelectedValue()==null){
+			jobType = JobType.NOTSELECTED;
+		}
+		else{
+			for(JobType jt : JobType.values()){
+				//System.out.println(jt.toString());
+				if(parsedJobName.equalsIgnoreCase(jt.name())){
+					jobType = jt;
+				}	
+			}
+		}
+		if(jobType==null){
+			jobType = JobType.NOTSELECTED;
+		}
+		
+		System.out.println(jobType.toString());
+		
+				
+				
+		//person.setJob((PlaceOfWork) placeOfWork, jobType, start, end);
+		
+		c.addNewPerson(person);
 		return true;
 		
 	}
