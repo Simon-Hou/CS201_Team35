@@ -416,8 +416,8 @@ public class PersonAgent extends Agent implements Person {
 	private void getSleep() {
 		
 		
-		
-		Do("I am going home to sleep");
+		Do("I am going home to sleep ");
+		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
 		doGoHome();
 		inhabitantRole.msgTired();
 		activeRole = inhabitantRole;
