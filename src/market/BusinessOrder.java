@@ -2,6 +2,8 @@ package market;
 
 import java.util.List;
 
+import restaurant.Restaurant;
+
 public class BusinessOrder {
 	
 	Restaurant restaurant;
