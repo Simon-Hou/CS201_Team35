@@ -11,7 +11,7 @@ public interface MarketCashier extends Occupation{
 	public void msgFinishedComputing(MyCustomer mc);
 	public void msgCustomerPayment(MarketCustomer c, int payment);
 	public void msgHereIsBusinessPayment(int payment);
-	public void msgCalculateBusinessPayment(BusinessOrder order);
+	public void msgCalculateInvoice(BusinessOrder order, MarketEmployee employee);
 
 	public String getName();
 	public abstract boolean YouAreDoneWithShift();

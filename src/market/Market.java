@@ -17,7 +17,7 @@ import person.*;
 
 public class Market implements PlaceOfWork{
 	
-	int cash;
+	int cash = 0;
 
 	public MarketHost host;
 	public MarketCashier cashier;

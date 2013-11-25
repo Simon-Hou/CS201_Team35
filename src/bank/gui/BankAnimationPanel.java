@@ -11,16 +11,16 @@ import java.util.*;
 
 public class BankAnimationPanel extends JPanel implements ActionListener{
 
-	private final int WINDOWX = 1000;
-	private final int WINDOWY = 550;
+	private final int WINDOWX = 500;
+	private final int WINDOWY = 500;
 	static final int TableX = 200;//a global for the x position of the table.
 	static final int TableY = 250;//a global for the y position of the table.
 	static final int TableWidth = 50;//a global for the x position of the table.
 	static final int TableHeight = 50;//a global for the y position of the table.
 	
-	static final int windowWidth = 599;//a global for the x position of the table.
+	static final int windowWidth = 274;//a global for the x position of the table.
     static final int windowHeight = 15;//a global for the height of each window.
-    static final int counterWidth = 625;//a global for the x position of the table.
+    static final int counterWidth = 300;//a global for the x position of the table.
     static final int counterHeight = 45;//a global for the height of each window.
     
     private static final Color Window = new Color(148,244,244, 123);//Color of the window to be used.

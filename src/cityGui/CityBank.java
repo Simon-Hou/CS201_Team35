@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
+import bank.gui.BankGui;
 import util.Bank;
 import util.BankMapLoc;
 import util.Loc;
@@ -47,6 +48,7 @@ public class CityBank extends CityComponent implements ImageObserver {
 		System.out.println("New Building Y Value: " + bMap.loc.y);
 		bMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
 		this.cityObject.cityMap.map.get("Bank").add(bMap);
+		BankGui.bankMain(bank);
 	}
 
 	public void updatePosition() {

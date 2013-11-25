@@ -132,6 +132,7 @@ public class MarketPanel extends JPanel implements ActionListener{
          employee.setCashier(cashier);
          employee.addDeliveryMan(deliveryMan);
          deliveryMan.setCashier(cashier);
+         cashier.setMarket(market);
          
         // employee:
          MarketEmployeeGui egui = new MarketEmployeeGui(employee);
