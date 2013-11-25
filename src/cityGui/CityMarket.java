@@ -21,11 +21,18 @@ public class CityMarket extends CityComponent implements ImageObserver{
 	public CityMarket(int x, int y) {
 		super(x, y, Color.magenta, "Bank 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeMarket();
 	}
 
 	public CityMarket(int x, int y, String I) {
 		super(x, y, Color.magenta, I);
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		initializeMarket();
+	}
+	
+	public void initializeMarket(){
+		market = new Market();
+		market.gui = this;
 	}
 	
 	@Override
@@ -40,7 +47,7 @@ public class CityMarket extends CityComponent implements ImageObserver{
 		mMap.loc.y = sidewalkY(tempX,tempY);
 		System.out.println("New Building X Value: " + mMap.loc.x);
 		System.out.println("New Building Y Value: " + mMap.loc.y);
-		this.cityObject.cityMap.map.get("Bank").add(mMap);
+		this.cityObject.cityMap.map.get("Market").add(mMap);
 	}
 
 	public void updatePosition() {
