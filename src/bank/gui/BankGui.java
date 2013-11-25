@@ -151,50 +151,15 @@ public class BankGui  extends JFrame implements ActionListener {
         
         
         
-        
+    /**
+     * Action listener method that reacts to the checkbox being clicked;
+     * If it's the customer's checkbox, it will make him hungry
+     * For v3, it will propose a break for the waiter.
+     */ 
     	public void actionPerformed(ActionEvent e) {
     		
         }
-        // Now, setup the info panel
-//        Dimension infoDim = new Dimension(WINDOWX, (int) (WINDOWY * .33));
-//        infoPanel = new JPanel();
-//        infoPanel.setPreferredSize(infoDim);
-//        infoPanel.setMinimumSize(infoDim);
-//        infoPanel.setMaximumSize(infoDim);
-//        infoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
-//
-//        stateCB = new JCheckBox();
-//        stateCB.setVisible(false);
-//        stateCB.addActionListener(this);
-//
-//        infoPanel.setLayout(new GridLayout(infoPanelRows, infoPanelCols, infoPanelXGap, infoPanelYGap));
-//        
-//        infoLabel = new JLabel(); 
-//        infoLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
-//        infoPanel.add(infoLabel);
-//        infoPanel.add(stateCB);
-//        userScreen.add(infoPanel, BorderLayout.CENTER);
-//        
-//        //Another info panel
-//        Dimension infoDim2 = new Dimension(WINDOWX/2, (int) (WINDOWY * .6));
-//        infoPanelMe = new JPanel();
-//        infoPanelMe.setPreferredSize(infoDim2);
-//        infoPanelMe.setMinimumSize(infoDim2);
-//        infoPanelMe.setMaximumSize(infoDim2);
-//        infoPanelMe.setBorder(BorderFactory.createTitledBorder("About Me:"));
-//
-//        infoPanelMe.setLayout(new GridLayout(infoPanelMeRows, infoPanelMeCols, infoPanelMeXGap, infoPanelMeYGap));//rows, col, xgap, ygap
-//        
-//        java.net.URL imgURL = getClass().getResource("Janet.jpg");
-//        hostess = new ImageIcon(imgURL);
-//        infoLabelMe = new JLabel("<html><pre><i>Hostess of the Night:</i></pre></html>", hostess, JLabel.CENTER); 
-//        infoPanelMe.add(infoLabelMe);
-//        pause.addActionListener(this);
-//        infoPanelMe.add(pause);
-//        userScreen.add(infoPanelMe, BorderLayout.SOUTH);
-//        add(userScreen);
-//        add(animationPanel);
-//    }
+        
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
@@ -213,15 +178,8 @@ public class BankGui  extends JFrame implements ActionListener {
 				loans.addListButton("" + l.loanNumber);
 			}
 		}
-        repaint();
-//        stateCB.setText("Hungry?");
-//        //Should checkmark be there? 
-//        stateCB.setSelected(customer.getGui().isHungry());
-//        //Is customer hungry? Hack. Should ask customerGui
-//        stateCB.setEnabled(!customer.getGui().isHungry());
-//        // Hack. Should ask customerGui
-        //infoLabel.setText("<html><pre>     Name: " + customer.getName() + " </pre></html>");
-        //infoPanel.validate();
+        repaint();//moreIno.validate();
+
     }
     
     public void updateLoanLabel(int loanNum, BankAccount ba) {
@@ -235,37 +193,7 @@ public class BankGui  extends JFrame implements ActionListener {
 			}
 		}
     }
-    /**
-     * Action listener method that reacts to the checkbox being clicked;
-     * If it's the customer's checkbox, it will make him hungry
-     * For v3, it will propose a break for the waiter.
-     */
-//    public void actionPerformed(ActionEvent e) {
-//    	if (e.getSource() == stateCB) {
-//    		if (currentPerson instanceof CustomerAgent) {
-//    			CustomerAgent c = (CustomerAgent) currentPerson;
-//    			c.getGui().setHungry();
-//    			stateCB.setEnabled(false);
-//    		}
-//    		else if (currentPerson instanceof WaiterAgent) {
-//    			WaiterAgent w = (WaiterAgent) currentPerson;
-//    			w.getGui().wantBreak();//WantBreak?
-//    			stateCB.setEnabled(false);
-//    		}
-//    	}
-//        else if (e.getSource() == pause) {
-//        	if (isPaused){
-//        		pause.setText("Pause");
-//        		isPaused = false;
-//        		restPanel.resume();
-//        	}
-//        	else {
-//        		isPaused = true;
-//        		pause.setText("Resume");
-//        		restPanel.pause();
-//        	}
-//        }
-//    }
+    
     /**
      * Message sent from a customer gui to enable that customer's
      * "I'm hungry" checkbox.
