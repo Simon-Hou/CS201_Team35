@@ -17,8 +17,8 @@ import javax.swing.Timer;
 
 public class MarketAnimation extends JPanel implements ActionListener {
 
-	private final int speed = 5;
-    private final int doorSpeed = 8;
+	private final int speed = 10;
+    private final int doorSpeed = 4;
     
     private final int panelX = 400;
     private final int panelY = 500;
@@ -51,6 +51,8 @@ public class MarketAnimation extends JPanel implements ActionListener {
         timer = new Timer(speed, this );
     	timer.start();
     }
+    
+
     
 	public void actionPerformed(ActionEvent e) {
 
@@ -181,12 +183,17 @@ public class MarketAnimation extends JPanel implements ActionListener {
 		doorOpen = true;
 	 }
 	 
-	 private void paintDoorOpening(){
-		 
-	 }
+
 	 
 	  public void addGui(Gui gui){
 	    	guis.add(gui);
 	    }
 	 
+	  public void removeGui(Gui gui){
+		  for (Gui g : guis){
+			  if (gui == g){
+				  guis.remove(gui);
+			  }
+		  }
+	  }
 }

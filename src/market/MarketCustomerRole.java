@@ -29,7 +29,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	MarketCashier cashier;
 	public String name;
 	
-	MarketCustomerGui gui;
+	public MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
 	
 
@@ -43,14 +43,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
 	    //this.cashier = cashier;
-	    p.msgStateChanged();
+	    StateChanged();
 	}
 
 	public void msgHereIsTotal(int total){
 		Do("Got the MARKET bill");
 	    bill = total;
 	    event = RoleEvent.askedToPay;
-	    p.msgStateChanged();
+	    StateChanged();
 	}
 
 	public void msgHereIsYourChange(Receipt receipt, int change){
@@ -58,24 +58,24 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	    this.receipt = receipt;
 	    p.addToWallet(change);
 	    event = RoleEvent.paymentReceived;
-	    p.msgStateChanged();
+	    StateChanged();
 	}
 
 	public void msgYouOweMoney(Receipt receipt, int debt){
 	    this.receipt = receipt;
 	    event = RoleEvent.paymentReceived;
-	    p.msgStateChanged();
+	    StateChanged();
 	}
 
 	public void msgYouCanLeave(){
-		Do("Allowed to leave");
+	
 	    event = RoleEvent.allowedToLeave;
-	    p.msgStateChanged();
+	    StateChanged();
 	}
 
 	public void msgOutOfStock(Map<String, Integer> unfullfillable){
 		//what do I do if they don't have what I want??
-		p.msgStateChanged();
+		StateChanged();
 	}
 	
 	public void msgYouAreAtMarket(Market m){
@@ -83,13 +83,13 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.host = m.host;
 		this.cashier = m.cashier;
 		state = RoleState.JustEnteredMarket;
-		p.msgStateChanged();
+		StateChanged();
 	}
 	
 	//from animation
 	public void msgAtDestination(){
 		atDestination.release();
-		//p.stateChanged();
+		//p.msgStateChanged();
 		
 	}
 	//--------Scheduler-------
@@ -127,6 +127,21 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//Actions
 	private void MakeOrder(){
+		//enter door
+		if(gui!=null){
+			gui.DoGoToExit();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//go to host
 		if(gui!=null){
 			gui.DoGoToHost();
 		}
@@ -141,18 +156,33 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			e.printStackTrace();
 		}
 		
-		Do("Making my order.");
+		Do("Giving my order to the host.");
      	host.msgCustomerWantsThis(this, shoppingList);
+     	gui.DoGoToItemDrop();
 	}
 
 	private void GoPay(){
-	    //DoGoToCashier();
+		if(gui!=null){
+			gui.DoGoToCashier();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Do("Hi " + cashier.getName() + ", how much do I owe you?");
 	    cashier.msgServiceCustomer(this, groceries);
 	}
 
 	private void MakePayment(){                //Right now markets letting customer do an IOU
 	    
-		Do("Making payments");
+		Do("Making payment");
 		int payment;
 	    if (p.getWalletAmount()>=bill)
 	        payment = bill;
@@ -164,6 +194,22 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void TryToLeave(){
+		
+		if(gui!=null){
+			gui.DoGoToExit();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Do("Okay, time to leave!");
 	    host.msgCustomerLeaving(this, receipt, groceries);
 	}
 
@@ -173,6 +219,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			
 		}
 	    
+		gui.DoExitRestaurant();
+		
 	}
 	
 	//Utilities

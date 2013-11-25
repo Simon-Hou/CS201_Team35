@@ -18,6 +18,9 @@ import java.util.List;
 
 import javax.swing.*;
 
+import interfaces.MarketCustomer;
+import interfaces.Person;
+
 
 
 
@@ -36,15 +39,17 @@ public class MarketPanel extends JPanel implements ActionListener{
     private InventoryItem button2 = new InventoryItem("Chicken", this);
     
     private JButton startButton = new JButton("Enter");
+    private JButton deliveryButton = new JButton("Delivery");
 	
-    
+
     
     //AGENTS
     CityMap map = new CityMap();
     
     Market market = new Market();
     
-    private MarketCustomerRole customer;
+    private List<MarketCustomerRole> customers = new ArrayList<MarketCustomerRole>();
+   // private MarketCustomerRole customer;
     private MarketCashierRole cashier;
     private MarketHostRole host;
     private MarketEmployeeRole employee;
@@ -91,6 +96,9 @@ public class MarketPanel extends JPanel implements ActionListener{
          startButton.addActionListener(this);
          add(startButton);
          
+         deliveryButton.addActionListener(this);
+         add(deliveryButton);
+         
          
          //--------------------AGENT/GUI TESTING SETUP----------------------
 
@@ -112,9 +120,11 @@ public class MarketPanel extends JPanel implements ActionListener{
          
          market.cashier = cashier;
          market.host = host;
+         market.setMarketPanel(this);
          
        //set contacts for all
          host.addEmployee(employee);
+         host.setMarket(market);
          employee.setCashier(cashier);
          employee.addDeliveryMan(deliveryMan);
          deliveryMan.setCashier(cashier);
@@ -137,6 +147,12 @@ public class MarketPanel extends JPanel implements ActionListener{
 			
 		}
 		
+		if (e.getSource() == deliveryButton){
+			System.out.println("A business order is being called in");
+			addDelivery();
+			
+		}
+		
 		for (InventoryItem item : inventoryList){
 			if (e.getSource() == item.minus && item.inventory >0){
 				//System.err.println("Minus button pressed.");
@@ -155,8 +171,9 @@ public class MarketPanel extends JPanel implements ActionListener{
 	private void addCustomer(){
 		
         PersonAgent p1 = new PersonAgent("Customer", map);
-       customer = new MarketCustomerRole("Customer", p1);
+        MarketCustomerRole customer = new MarketCustomerRole("Customer", p1);
        customer.startThread();
+       customers.add(customer);
        
        
        MarketCustomerGui custGui = new MarketCustomerGui(customer);
@@ -169,6 +186,21 @@ public class MarketPanel extends JPanel implements ActionListener{
        customer.msgYouAreAtMarket(market);
        
        animation.enterCustomer();
+	}
+	
+	private void addDelivery(){
+		BusinessOrder order = new BusinessOrder();
+		OrderItem item = new OrderItem("Steak", 5);
+		order.addItem(item);
+		host.msgBusinessWantsThis(order);
+	}
+	
+	public void removeCustomer(){
+		
+		animation.enterCustomer();
+		//remove from animation gui list
+		//remove role from customers list in here
+		
 	}
 	
 	//Utilities
