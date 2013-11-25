@@ -27,7 +27,9 @@ import javax.swing.event.ListSelectionListener;
 import person.PersonAgent;
 import util.BankMapLoc;
 import util.JobType;
+import util.MarketMapLoc;
 import util.Place;
+import util.RestaurantMapLoc;
 
 public class PersonCreationPanel extends JFrame implements ActionListener, ListSelectionListener{
 
@@ -226,24 +228,44 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 		PersonAgent person  = new PersonAgent(name,c.cityObject.cityMap);
 		
 		//extract the place of work from the panel
-		Place placeOfWork;
+		Place placeOfWorkMapLoc;
+		PlaceOfWork placeOfWork;
 		if(placeOptions.getSelectedValue().toString().equals("None")){
+			placeOfWorkMapLoc = null;
 			placeOfWork = null;
 		}
 		else{
 			String [] split = placeOptions.getSelectedValue().toString().split(" ");
 			int employmentBuildingNum = Integer.parseInt(split[split.length-1]);
-			placeOfWork = c.cityObject.cityMap.map.get(split[0]).get(employmentBuildingNum-1);
+			placeOfWorkMapLoc = c.cityObject.cityMap.map.get(split[0]).get(employmentBuildingNum-1);
+			if(placeOfWorkMapLoc instanceof BankMapLoc){
+				placeOfWork = ((BankMapLoc) placeOfWorkMapLoc).bank;
+			}
+			else if(placeOfWorkMapLoc instanceof MarketMapLoc){
+				placeOfWork = ((MarketMapLoc) placeOfWorkMapLoc).market;
+			}
+			else if(placeOfWorkMapLoc instanceof RestaurantMapLoc){
+				placeOfWork = ((RestaurantMapLoc) placeOfWorkMapLoc).restaurant;
+			}
+			else{
+				placeOfWork = null;
+				System.err.println("Something weird is going on in the placeOfWork section of "
+						+ "person creation.");
+				
+			}
 		}
+		
+		
 		
 		
 		//extract the job from the panel
 		JobType jobType = null;
-		String parsedJobName = jobsOptions.getSelectedValue().toString().replace(" ", "");
+		
 		if(jobsOptions.getSelectedValue()==null){
 			jobType = JobType.NOTSELECTED;
 		}
 		else{
+			String parsedJobName = jobsOptions.getSelectedValue().toString().replace(" ", "");
 			for(JobType jt : JobType.values()){
 				//System.out.println(jt.toString());
 				if(parsedJobName.equalsIgnoreCase(jt.name())){
@@ -257,9 +279,12 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 		
 		System.out.println(jobType.toString());
 		
-				
-				
-		//person.setJob((PlaceOfWork) placeOfWork, jobType, start, end);
+		
+		int start = Integer.parseInt(shiftStartField.getText());
+		int end = Integer.parseInt(shiftEndField.getText());
+		
+						
+		person.setJob(placeOfWork, jobType, start, end);
 		
 		c.addNewPerson(person);
 		return true;
