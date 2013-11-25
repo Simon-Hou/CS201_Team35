@@ -83,7 +83,7 @@ public class MarketHostRole extends Role implements MarketHost {
 
 	public void msgCustomerLeaving(MarketCustomer c, Receipt receipt, Map<String, Integer> groceries) {
 		
-		Do("Cust trying to leave");
+		//Do("Cust trying to leave");
 		for (MyCustomer mc : customers){
 			if (mc.customer == c){
 				mc.state = CustomerState.leaving;
@@ -133,7 +133,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	private void CheckCustomer(MyCustomer mc){
 		Do("Checking customer");
-		if (mc.groceries.isEmpty()  || (mc.receipt == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
+		if (mc.groceries.isEmpty()  || (mc.receipt.order == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
 			mc.customer.msgYouCanLeave();
 			customers.remove(mc);
 			return;
