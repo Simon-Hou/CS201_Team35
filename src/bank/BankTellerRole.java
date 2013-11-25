@@ -182,7 +182,13 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	private void GoToPosition() {
 		Do("Going to my position to work");
-		bankTellerGui.DoGoToPosition();
+		if(bankTellerGui!=null){
+			bankTellerGui.DoGoToPosition();
+		}
+		else{
+			atDestination.release();
+		}
+		
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {

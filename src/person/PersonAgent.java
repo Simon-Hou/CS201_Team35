@@ -405,7 +405,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		
 		//marketRole.setMarket(m);
-		marketRole.msgYouAreAtMarket(m.host);
+		marketRole.msgYouAreAtMarket(m);
 		activeRole = marketRole;
 	}
 	
@@ -536,7 +536,7 @@ public class PersonAgent extends Agent implements Person {
 				roles.add(activeRole);
 			}*/
 			
-			marketRole.msgYouAreAtMarket(m.host);
+			marketRole.msgYouAreAtMarket(m);
 			activeRole = marketRole;
 		}
 	}
@@ -608,6 +608,10 @@ public class PersonAgent extends Agent implements Person {
 	public void msgStateChanged() {
 		//this.pickAndExecuteAnAction();
 		this.stateChanged();
+	}
+	
+	public void putInBag(String item,int amount){
+		this.purse.bag.put(item,amount);
 	}
 	
 	public void addToWallet(int amount) {
