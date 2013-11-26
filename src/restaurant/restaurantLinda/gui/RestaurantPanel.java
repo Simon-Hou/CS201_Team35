@@ -188,7 +188,7 @@ public class RestaurantPanel extends JPanel {
     		c.startThread();
     	}
     	else if (type.equals("Waiters")){
-    		WaiterRole w; 
+    		/*WaiterRole w; 
     		if (name.contains("producerConsumer"))
     				w= new ProducerConsumerWaiterRole(name,host,cook,cashier, orderMonitor);
     		else
@@ -201,7 +201,7 @@ public class RestaurantPanel extends JPanel {
     		host.addWaiter(w);
     		w.setGui(wg);
     		waiters.add(w);
-    		w.startThread();
+    		w.startThread();*/
     	}
     }
      
