@@ -31,6 +31,7 @@ public class Market implements PlaceOfWork{
 	
 	public Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
+	
 	//CONSTRUCTOR
 	public Market(){
 		this.host = new MarketHostRole("DefaultUnmannedHost",null,this);
