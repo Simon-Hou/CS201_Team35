@@ -204,14 +204,21 @@ public class PersonAgent extends Agent implements Person {
 	public void msgBusAtStop(Bus b,BusStop stop){
 		//blah
 		//stateChanged();
-		Do("IN THIS MESSAGE "+gui.x+" "+gui.y+" "+stop.sidewalkLoc.x+" "+stop.sidewalkLoc.y);
+		//Do("IN THIS MESSAGE "+gui.x+" "+gui.y+" "+stop.sidewalkLoc.x+" "+stop.sidewalkLoc.y);
 		if(stop.sidewalkLoc.x == gui.xDestination && stop.sidewalkLoc.y==gui.yDestination){
-			//waitForBusToArrive.release();
+			
+			
 			gui.onBus();
+			onBus = true;
+			Do("Getting on bus");
+			
 			//b.getOnBus(this);
 		}
 		else{
-			Do("SHIT I JUST WOKE UP");
+			Do("Getting OFF bus");
+			waitForBusToArrive.release();
+			onBus = false;
+			//Do("SHIT I JUST WOKE UP");
 			gui.setLoc(stop.sidewalkLoc);
 			gui.offBus();
 			//waitForBusToArrive.release();
@@ -237,6 +244,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}*/
 		
+		//Do("Deciding what to do "+onBus);
 		if(onBus){
 			return false;
 		}
@@ -267,7 +275,9 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 		
+		//Do("Deciding what to do");
 		if(wantsToRideBus){
+			Do("will ride the bus");
 			rideBus();
 		}
 		
@@ -554,6 +564,8 @@ public class PersonAgent extends Agent implements Person {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		onBus = true;
+		
 	}
 	
 	private void doGoToWork(){

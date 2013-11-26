@@ -98,7 +98,7 @@ public class Bus extends Vehicle implements ActionListener{
 		atStop = true;
 	}
 	
-	public void tellPassengersArrived(){
+	/*public void tellPassengersArrived(){
 		
 		synchronized(passengers){
 			for(Person p:this.passengers){
@@ -106,15 +106,39 @@ public class Bus extends Vehicle implements ActionListener{
 				
 			}
 		}
+	}*/
+	
+	public void tellPassengersArrived(){
+		List<Person> passengers2 = new ArrayList<Person>(passengers);
+		synchronized(passengers2){
+			for(Person p:passengers2){
+				p.msgBusAtStop(this,stops.get((currentStop+1)%stops.size()));
+				passengers.remove(p);
+			}
+		}
 	}
 	
+	
+	
+	
+	/*public void tellNextStopPeopleArrived(){
+		
+		synchronized(this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+			for(Person p:this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+				p.msgBusAtStop(this,stops.get((currentStop+1)%stops.size()));
+				System.out.println("SENDING THE MESSAGE THAT BUS HAS ARRIVED");
+			}
+		}
+		
+	}*/
 	
 	public void tellNextStopPeopleArrived(){
 		
 		synchronized(this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
 			for(Person p:this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
 				p.msgBusAtStop(this,stops.get((currentStop+1)%stops.size()));
-				System.out.println("SENDING THE MESSAGE THAT BUS HAS ARRIVED");
+				this.passengers.add(p);
+				//System.out.println("SENDING THE MESSAGE THAT BUS HAS ARRIVED");
 			}
 		}
 		
