@@ -102,22 +102,23 @@ public class Bank implements BankInterface, PlaceOfWork{
 	public void finishTellerShift(BankTeller t) {
 		currentTellers.remove(t);
 		bankGui.bankPanel.tellerPanel.removeAll();
-		for (BankTeller BT : currentTellers) {
-			bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)BT).getName());
-		}
+//		for (BankTeller BT : currentTellers) {
+//			bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)BT).getName());
+//		}
 	}
 	
 	public void exitBank(BankCustomer c) {
 		bankCustomers.remove(c);
 		bankGui.bankPanel.customerPanel.removeAll();
-		for (BankCustomer BC : bankCustomers) {
-			bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)BC).getName());
-		}
+//		for (BankCustomer BC : bankCustomers) {
+//			bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)BC).getName());
+//		}
 	}
 	
 	public BankCustomer getCustomer(){
 		if(!bankCustomers.isEmpty()){
 			BankCustomer b = bankCustomers.get(0);
+			System.out.println("");
 			bankCustomers.remove(0);
 			return b;
 		}

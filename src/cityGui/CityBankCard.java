@@ -53,16 +53,28 @@ public class CityBankCard extends CityCard{
     	g2.fillRect(100+(counterWidth-windowWidth)/2, 100+ (counterHeight-windowHeight)/2, windowWidth, windowHeight);//200 and 250 need to be table params
     	g2.fillRect(100+(counterWidth-windowWidth)/2, 400+ (counterHeight-windowHeight)/2, windowWidth, windowHeight);
     	g2.fillRect(100+(counterWidth-windowWidth)/2 + windowWidth - windowHeight, 100 + (counterHeight-windowHeight)/2 + windowHeight, windowHeight, 300-windowHeight);//300 = 400-100 starting 
-	
-    	for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition(0, 0);//the number here doesn't actually matter.
-			}
-		}
 
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw(g2);
+    	if (!guis.isEmpty()) {
+    		for(Gui gui : guis) {
+    			if (gui.isPresent()) {
+    				gui.updatePosition(0, 0);//the number here doesn't actually matter.
+    			}
+    		}
+
+    		for(Gui gui : guis) {
+    			if (gui.isPresent()) {
+    				gui.draw(g2);
+    			}
+    		}
+    	}
+	}
+	
+	public void run(long t){
+		for(long i=0; i<t-time;i++){
+			for(Gui gui : guis) {
+				//if (gui.isPresent()) {
+					gui.updatePosition(0, 0);
+				//}
 			}
 		}
 	}
