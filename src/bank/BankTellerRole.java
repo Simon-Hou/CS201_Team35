@@ -66,11 +66,13 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	public boolean canLeave(){
 		if (currentCustomer == null) {
-			bankTellerGui.DoExitBank();
-			try {
-				atDestination.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (bankTellerGui!=null) {
+				bankTellerGui.DoExitBank();
+				try {
+					atDestination.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return currentCustomer == null;
