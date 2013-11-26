@@ -276,7 +276,8 @@ public class HostRole extends Role implements Host{
 	}
 	
 	public void changeShifts(Person p){
-		this.p.msgThisRoleDone(this);
+		if (this.p!=null)
+			this.p.msgThisRoleDone(this);
 		
 		this.p = p;
 		this.name = p.getName();

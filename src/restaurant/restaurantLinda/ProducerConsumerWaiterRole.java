@@ -3,6 +3,7 @@ package restaurant.restaurantLinda;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.restaurantLinda.WaiterRole.CustomerState;
 import restaurant.restaurantLinda.WaiterRole.MyCustomer;
+import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Cook;
 import interfaces.restaurantLinda.Host;
@@ -11,13 +12,10 @@ public class ProducerConsumerWaiterRole extends WaiterRole{
 
 	ProducerConsumerMonitor<RestaurantOrder> orderMonitor;
 	
-	public ProducerConsumerWaiterRole(String name, Host host, Cook cook, Cashier cashier, ProducerConsumerMonitor orders) {
+	public ProducerConsumerWaiterRole(String name, Person p) {
 		super();
-		this.host=host;
 		this.name = name;
-		this.cook = cook;
-		this.cashier = cashier;
-		orderMonitor = orders;
+		this.p = p;
 	}
 	
 	//messages, scheduler, and most actions belong in base waiter class
@@ -37,5 +35,9 @@ public class ProducerConsumerWaiterRole extends WaiterRole{
 		mc.state=CustomerState.orderSent;
 
 		orderMonitor.insert(order);
+	}
+	
+	public void setMonitor(ProducerConsumerMonitor<RestaurantOrder> orders){
+		this.orderMonitor = orders;
 	}
 }

@@ -23,7 +23,7 @@ public class CookGui implements Gui {
     private int xPos, yPos;//default waiter position
     private int xDestination, yDestination;//default start position
     private goal destination=goal.none;
-    private enum goal{none, refrigerator, stoveCooking, stovePlating, platingWindow};
+    private enum goal{none, refrigerator, stoveCooking, stovePlating, platingWindow, leaving};
     private Point home = new Point(WINDOWX-personSize, (int)(WINDOWY*0.5));
     
     private List<MyImage> cookingFoods = new ArrayList<MyImage>();			//Doesn't really need to be a list, since we're only using 1 image at a time...but this does make it possible 
@@ -33,6 +33,8 @@ public class CookGui implements Gui {
     private MyImage currentItem;
 	private String bufferText;
 	public final String path="../../images/";
+	
+	boolean isPresent = true;
 
     public CookGui(CookRole agent) {
     	this.agent = agent;
@@ -108,6 +110,11 @@ public class CookGui implements Gui {
         		
         		agent.msgAtDestination();
         	}
+        	else if (xPos == xDestination && yPos == yDestination && destination == goal.leaving){        		
+        		isPresent = false;
+        		destination = goal.none;
+        		agent.msgAtDestination();
+        	}
         }  
     }
 
@@ -129,7 +136,7 @@ public class CookGui implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
     
     public void DoCooking(){
@@ -153,6 +160,11 @@ public class CookGui implements Gui {
     	yDestination = home.y;
     }
     
+    public void DoLeaveRestaurant(){
+    	destination = goal.leaving;
+    	
+    	DoGoToDefault();
+    }
     
     public void DoTalk(String text){
 		bufferText=text;

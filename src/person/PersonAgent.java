@@ -19,6 +19,7 @@ import market.MarketEmployeeRole;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
+import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
 import role.Role;
 import util.Bank;
 import util.Bus;
@@ -645,11 +646,12 @@ public class PersonAgent extends Agent implements Person {
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 		}
 		else if (jobType==JobType.RestaurantWaiter1){
-			//
-					
+			jobRole = new OriginalWaiterRole(name+"normalWaiter",this);					
+		}
+		else if (jobType==JobType.RestaurantWaiter2){
+			jobRole = new ProducerConsumerWaiterRole(name+"pcWaiter", this);
 		}
 		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
-		
 		
 	}
 	

@@ -2,18 +2,17 @@ package restaurant.restaurantLinda;
 
 import restaurant.restaurantLinda.WaiterRole.CustomerState;
 import restaurant.restaurantLinda.WaiterRole.MyCustomer;
+import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Cook;
 import interfaces.restaurantLinda.Host;
 
 public class OriginalWaiterRole extends WaiterRole{
 
-	public OriginalWaiterRole(String name, Host host, Cook cook, Cashier cashier) {
+	public OriginalWaiterRole(String name, Person p) {
 		super();
-		this.host=host;
 		this.name = name;
-		this.cook = cook;
-		this.cashier = cashier;
+		this.p = p;
 	}
 	
 	//messages, scheduler, and most actions belong in base waiter class
