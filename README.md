@@ -3,13 +3,13 @@ team35
 
 ## SimCity201 Project Repository for CS 201 students
 
-### Some Scenarios to Demonstrate Functionality for Grading
+### Some Basic Scenarios to Demonstrate Functionality for Grading
 NOTES: 
 - These scenarios will all be very simple, since they are meant to demonstrate particular
 functionalities of SimCity - one at a time. It'd be quite difficult to see through the print
 statements what was going on if many scenarios were running at once, so these grading aids
 make it easier by doing one scenario at a time. To see lots of things happening at once (at 
-the cost of clarity) call the last scenario (# PUT THE NUMBER IN).
+the cost of clarity) call the last scenario (#5).
 - Most scenarios will end in the person sleeping.
 
 #### 1. Buses
