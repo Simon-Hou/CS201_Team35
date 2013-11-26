@@ -82,7 +82,8 @@ public class Bank implements BankInterface, PlaceOfWork{
 	public boolean startTellerShift(BankTeller t){
 		currentTellers.add(t);
 		BankTellerGui g = new BankTellerGui(((BankTellerRole)t));
-		g.initialSpot(tellerSpots.get(0).xPos, tellerSpots.get(0).yPos);
+		if (!tellerSpots.isEmpty())
+			g.initialSpot(tellerSpots.get(0).xPos, tellerSpots.get(0).yPos);
 		((BankTellerRole)t).setGui(g);
 		bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)t).getName());
 		bankGui.bankAnimationPanel.addGui(g);
