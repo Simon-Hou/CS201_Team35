@@ -205,21 +205,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
-<<<<<<< HEAD
-			if (temp.ID.equalsIgnoreCase("bank")) {
-				tempAnimPanel = temp.addAgentObjectToMap();
-				temp.cityObject = this.cityObject;
-				//city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
-			}
-			else{
-=======
-//			if (temp.ID.equalsIgnoreCase("bank")) {
-//				tempAnimPanel = temp.addAgentObjectToMap();
-//				temp.cityObject = this.cityObject;
-//				city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
-//			}
-//			else{
->>>>>>> 242867b74bcb77cd4240039f1681c40fa364e7e9
+
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
