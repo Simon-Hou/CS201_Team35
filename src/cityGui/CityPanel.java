@@ -2,9 +2,9 @@ package cityGui;
 
 import house.House;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -14,11 +14,10 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import person.PersonAgent;
-import util.CityMap;
+
 import util.Loc;
 import city.CityObject;
-import cityGui.test.PersonGui;
+
 import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
 
@@ -30,7 +29,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	CityComponent temp;
 	public CityObject cityObject;
 
-	private JPanel tempAnimPanel;
+	
 
 	String name = "City Panel";
 	List<House> houses=new ArrayList<House>();

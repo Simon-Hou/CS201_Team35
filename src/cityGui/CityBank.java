@@ -39,6 +39,7 @@ public class CityBank extends CityComponent implements ImageObserver {
 
 	public CityBank(int x, int y, String I) {
 		super(x, y, Color.green, I);
+		type="Bank";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		initializeBank();
 	}
