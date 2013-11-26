@@ -17,7 +17,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	
 	//-----------------------------DATA--------------------------------
-	private List<BusinessOrder> orders = new ArrayList<BusinessOrder>();
+	private List<MarketInvoice> orders = new ArrayList<MarketInvoice>();
 	private List<MyPayment> payments = new ArrayList<MyPayment>();
 	private MarketCashier cashier;
 	private String name;
@@ -38,7 +38,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	
 	//-----------------------------MESSAGES--------------------------------
-	public void msgDeliverThisOrder(BusinessOrder order){
+	public void msgDeliverThisOrder(MarketInvoice order){
 		orders.add(order);
 		p.msgStateChanged();
 		
@@ -71,7 +71,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 
 	
 	//-----------------------------ACTIONS--------------------------------
-	private void DeliverOrder(BusinessOrder order){
+	private void DeliverOrder(MarketInvoice order){
 		Do("Deliverying an order to a restaurant");
 		//DoGoToRestaurant(order.restaurant);
 		//order.restaurant.cook.msgHereIsDelivery(order);
@@ -80,7 +80,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		
 		
 		//FOR TESTING:::::
-		msgHereIsPayment(order.invoice);
+		//msgHereIsPayment(order.payment);
 	}
 	
 //	private void DoGoToRestaurant(Restaurant rest){

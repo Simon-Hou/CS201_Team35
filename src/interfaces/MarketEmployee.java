@@ -1,15 +1,18 @@
 package interfaces;
 
+import java.util.List;
 import java.util.Map;
 
-import market.BusinessOrder;
+
+import market.MarketInvoice;
+import market.OrderItem;
+import restaurant.Restaurant;
 
 public interface MarketEmployee extends Occupation {
 	
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList);
-	public void msgGetThis(BusinessOrder order);
-	public void msgGiveInvoice(int invoice, BusinessOrder order);
+	public void msgGetThis(List<OrderItem> order, Restaurant r);
+	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total);
 	public String getName();
 	
-
 }

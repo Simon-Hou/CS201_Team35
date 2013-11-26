@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import interfaces.*;
+import restaurant.Restaurant;
 import role.Role;
 import person.PersonAgent;
 import market.gui.*;
@@ -15,60 +16,28 @@ import market.gui.*;
 
 public class MarketHostRole extends Role implements MarketHost {
 
-	Market market;
+	
 	//-----------------------------DATA--------------------------------
 	enum CustomerState {waiting, beingServiced, leaving};
 	
 	public List<MyEmployee> employees = new ArrayList<MyEmployee>();
 	private List<MyCustomer> customers= new ArrayList<MyCustomer>();
-	
-	private List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
-	
-	
+	private List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
 	
 	public Person p;
 	public String name;
-	
-	
-	//SETTERS
-	public void setName(String name){
-		this.name = name;
-	}
-	
-	public void setPerson(PersonAgent p){
-		this.p = p;
-	}
-	
 
+	Market market;
 	
-	
-	//GETTERS
-	public String getName(){
-		return name;
-	}
-	
-
-	public boolean canLeave() {
-		return true;
-	}
-	
-	public MarketHostRole(String name, PersonAgent p){
-		
+	public MarketHostRole(String name, PersonAgent p, Market m){		
 		this.name = name;
 		this.p=p;
-		
-	}
-	
-	public boolean NewEmployee(MarketEmployee m){
-		//Do("This is being called!!!!");
-		addEmployee(m);
-		return true;
+		this.market=m;		
 	}
 	
 	//-----------------------------MESSAGES--------------------------------
 	
-	
-	
+
 	public boolean YouAreDoneWithShift(){
 		//TODO make sure people don't leave their shifts early
 		if(true){
@@ -102,8 +71,13 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 	}
 
-	public void msgBusinessWantsThis(BusinessOrder order) {
-		businessOrders.add(order);
+	public void msgBusinessWantsThis(Restaurant r, Map<String, Integer> order) {
+		List<OrderItem> temp = new ArrayList<OrderItem>();
+		for (Entry<String,Integer> item: order.entrySet()){
+			temp.add(new OrderItem(item.getKey(),item.getValue()));
+		}
+		
+		businessOrders.add(new MyBusinessOrder(r, temp));
 		p.msgStateChanged();
 		
 	}
@@ -221,18 +195,18 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 
 	
-	private void DelegateBusinessOrder(BusinessOrder order){
+	private void DelegateBusinessOrder(MyBusinessOrder bo){
 		
 		Map<String, Integer> inventory = market.inventory;
 		
 		Do("I got a phone call for a business delivery order.");
 		
 
-		List<OrderItem> unfulfillable = new ArrayList<OrderItem>();
+		Map<String, Integer> unfulfillable = new HashMap<String, Integer>();
 
 		boolean couldntGetAnything = true;
 		
-		for (OrderItem item : order.order){
+		for (OrderItem item : bo.order){
 			int request = item.quantityOrdered;
 			int stock = inventory.get(item.choice);
 			
@@ -240,7 +214,7 @@ public class MarketHostRole extends Role implements MarketHost {
 				if (stock>0)
 					couldntGetAnything = false;
 				
-				unfulfillable.add(new OrderItem(request, stock, item.choice));
+				unfulfillable.put(item.choice, request-stock);
 				item.quantityReceived = stock;
 				inventory.put(item.choice, 0);
 			}	
@@ -252,14 +226,15 @@ public class MarketHostRole extends Role implements MarketHost {
 			
 		}
 		
-		businessOrders.remove(order);
+		businessOrders.remove(bo);
 		
 		//If we had no inventory, just quit. Otherwise, message the cook any unfulfillable parts of the order so they can find another market
 		if (couldntGetAnything){
+			bo.r.cook.msgCannotFulfillOrder(market, unfulfillable);
 			return;
 		}
 		else if (unfulfillable.size()>0){
-			//order.restaurant.cook.msgCannotFulfillOrder(m, unfulfillable);
+			bo.r.cook.msgCannotFulfillOrder(market, unfulfillable);
 		}
 		
 		
@@ -274,7 +249,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		}
 
 		Do("Telling " + e1.employee.getName() + " to fill this business order.");
-		e1.employee.msgGetThis(order);
+		e1.employee.msgGetThis(bo.order, bo.r);
 		e1.orders++;
 
 		market.updateInventory();
@@ -320,6 +295,40 @@ public class MarketHostRole extends Role implements MarketHost {
 	    	
 	    }
 	}
+	
+	class MyBusinessOrder{
+		List<OrderItem> order;
+		Restaurant r;
+		
+		MyBusinessOrder(Restaurant r, List<OrderItem> order){
+			this.order = order;
+			this.r = r;
+		}
+	}
 
 	
+	//SETTERS
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public void setPerson(PersonAgent p){
+		this.p = p;
+	}
+	
+	//GETTERS
+	public String getName(){
+		return name;
+	}
+	
+
+	public boolean canLeave() {
+		return true;
+	}
+	
+	public boolean NewEmployee(MarketEmployee m){
+		//Do("This is being called!!!!");
+		addEmployee(m);
+		return true;
+	}
 }

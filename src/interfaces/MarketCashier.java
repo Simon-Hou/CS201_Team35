@@ -1,10 +1,14 @@
 package interfaces;
 
+import java.util.List;
 import java.util.Map;
 
-import market.BusinessOrder;
+import restaurant.Restaurant;
+
+import market.MarketInvoice;
 import market.Market;
 import market.MarketCashierRole.MyCustomer;
+import market.OrderItem;
 
 public interface MarketCashier extends Occupation{
 	
@@ -12,7 +16,7 @@ public interface MarketCashier extends Occupation{
 	public void msgFinishedComputing(MyCustomer mc);
 	public void msgCustomerPayment(MarketCustomer c, int payment);
 	public void msgHereIsBusinessPayment(int payment);
-	public void msgCalculateInvoice(BusinessOrder order, MarketEmployee employee);
+	public void msgCalculateInvoice(MarketEmployee employee, List<OrderItem> order, Restaurant r);
 
 	public String getName();
 	public abstract boolean YouAreDoneWithShift();

@@ -186,7 +186,7 @@ public class CashierRole extends Role implements Cashier{
 		
 		b.owed-=payment;
 		
-		log.add(new LoggedEvent("Paying " + b.m +  " " + payment + " for food shipment. Still owe " + b.owed + ". " + restaurant.cash + " left in restaurant.cash."));
+		log.add(new LoggedEvent("Paying " + b.order +  " " + payment + " for food shipment. Still owe " + b.owed + ". " + restaurant.cash + " left in restaurant.cash."));
 		Do("Paying " + b.m +  " $" + payment/100 + "." + payment%100 + " for food shipment. Still owe $" + b.owed/100 + "." + b.owed%100 + ". $" + restaurant.cash/100 + "." + restaurant.cash%100 + " left.");
 		
 		b.m.msgHereIsPayment(this, b.order, payment);
@@ -239,21 +239,19 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	public class MyBill{
-		BusinessOrder
+		BusinessOrder order;
 		int owed;
 		public MyBillState status;
 		
-		public MyBill(Market m, Map<String, Integer> o, int amount){
-			this.m = m;
+		public MyBill(BusinessOrder o){
 			this.order = o;
-			this.owed = this.total = amount;
 			status = MyBillState.newlyReceived;
 		}
 		
 		public boolean equals (Object anObject){
 			if (anObject instanceof MyBill){
 				MyBill mb = (MyBill) anObject;
-				return mb.m==m && mb.order.equals(order) && mb.total==total && mb.owed==owed && mb.status.equals(status);
+				return order.equals(mb.order);
 			}
 			return false;
 		}

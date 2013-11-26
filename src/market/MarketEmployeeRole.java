@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
-import market.BusinessOrder.OrderState;
 import market.gui.MarketEmployeeGui;
 import person.PersonAgent;
+import restaurant.Restaurant;
 import role.Role;
 import interfaces.MarketCustomer;
 import interfaces.MarketDeliveryMan;
@@ -21,8 +21,7 @@ import interfaces.Person;
 public class MarketEmployeeRole extends Role implements MarketEmployee{
 
 	List<CustomerOrder> customerOrders = Collections.synchronizedList(new ArrayList<CustomerOrder>());
-	List<BusinessOrder> businessOrders = new ArrayList<BusinessOrder>();
-	List<BusinessOrder> deliveryList = new ArrayList<BusinessOrder>();
+	List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
 	PersonAgent p;
 	public String name;
 	private Market market;
@@ -81,18 +80,16 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		p.msgStateChanged();
 	}
 
-	public void msgGetThis(BusinessOrder order){
-	    businessOrders.add(order);
+	public void msgGetThis(List<OrderItem> order, Restaurant r){
+	    businessOrders.add(new MyBusinessOrder(order, r));
 	    p.msgStateChanged();
 	}
 	
-	public void msgGiveInvoice(int invoice, BusinessOrder order){
+	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total){
 		receivedInvoice.release();
-		for(BusinessOrder o : businessOrders){
-			if (o == order){
-				o.invoice = invoice;
-				o.state = OrderState.gotInvoice;
-				p.msgStateChanged();
+		for(MyBusinessOrder o : businessOrders){
+			if (o.order.equals(order) && o.restaurant==r){
+				o.invoice = new MarketInvoice(o.order, market, o.restaurant, total);
 			}
 		}
 		
@@ -127,14 +124,14 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 			}
 		}
 		
-		for(BusinessOrder bo : businessOrders){
+		for(MyBusinessOrder bo : businessOrders){
 			if (bo.state == OrderState.gotInvoice){
 				PlaceOrderOnDock(bo);
 				return true;
 			}
 		}
 		
-		for(BusinessOrder bo : businessOrders){
+		for(MyBusinessOrder bo : businessOrders){
 			if (bo.state == OrderState.ordered){
 			    GetBusinessOrder(bo);
 			    return true;
@@ -202,11 +199,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 
 	}
 
-	private void GetBusinessOrder(BusinessOrder order){
+	private void GetBusinessOrder(MyBusinessOrder order){
 		Do("Better fill this business order");
-		
-
-		
 		
 		//Discuss changing this so that BusinessOrder is no longer public
 		for (OrderItem item: order.order){
@@ -246,7 +240,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    
 		//got to cashier
 		Do(cashier.getName() + ", can you please calculate the invoice for this order?");
-		cashier.msgCalculateInvoice(order, this);
+		cashier.msgCalculateInvoice(this, order.order, order.restaurant);
 	    
 		order.state = OrderState.none;
 
@@ -259,7 +253,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	}
 	
-	private void PlaceOrderOnDock(BusinessOrder order){
+	private void PlaceOrderOnDock(MyBusinessOrder order){
 		businessOrders.remove(order);
 		
 		 if(gui!=null){
@@ -284,7 +278,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 			}
 			//otherwise...
 			//load balance deliverymen
-			deliveryMen.get(0).msgDeliverThisOrder(order);
+			deliveryMen.get(0).msgDeliverThisOrder(order.invoice);
 			gui.DoGoHomePosition();
 	}
 	
@@ -301,7 +295,21 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    	status = CustomerOrderState.none;
 	    }
 	}
-	enum CustomerOrderState {none,  fulfilled };
+	enum CustomerOrderState {none,  fulfilled};
+	
+	class MyBusinessOrder{
+		List<OrderItem> order = new ArrayList<OrderItem>();
+		Restaurant restaurant;
+		MarketInvoice invoice;
+		OrderState state = OrderState.ordered;
+		
+		MyBusinessOrder(List<OrderItem> o, Restaurant r){
+			this.order = o;
+			this.restaurant = r;
+		}
+		
+	}
+	public enum OrderState {ordered, acquired, gotInvoice, none};
 	
 	public void setMarket(Market market) {
 		// TODO Auto-generated method stub
