@@ -1,9 +1,14 @@
 package house;
 
+import java.util.Timer;
+
+import java.util.TimerTask;
+
 import public_Object.Food;
 import house.gui.InhabitantGui;
 import interfaces.Inhabitant;
 import interfaces.Person;
+
 import role.Role;
 
 public class InhabitantRole extends Role implements Inhabitant {
@@ -27,29 +32,35 @@ public class InhabitantRole extends Role implements Inhabitant {
 	String name;
 	LivingUnit myRoom;
 	Person self;
-	enum InhabitantState {IDLE,HUNGRY,FOODREADY, TIRED,EXIT};
-	public InhabitantState s=InhabitantState.IDLE;
-	String foodEaten=null;
+	//enum InhabitantState {IDLE,HUNGRY,FOODREADY, TIRED,EXIT};
+	//public InhabitantState s=InhabitantState.IDLE;
+	boolean wantEat=false;
+	boolean wantSleep=false;
+	boolean wantLeave=false;
+	boolean foodReady=false;
 	InhabitantGui gui;
 
+	String foodEating=null;
+	Timer timer;
+	
 	//msg
 	
 	public void msgTired(){
 		//Do("I am tired");
-		this.s = InhabitantState.TIRED;
+		wantSleep=true;
 		self.msgStateChanged();
 	}
 	
 	public void msgGotHungry(){ //called by Person
-		s=InhabitantState.HUNGRY;
+		wantEat=true;
 		self.msgStateChanged();
 	}
 	public void msgFoodReady(){ //called by Timer//may be able to merge all into one action
-		s=InhabitantState.FOODREADY;
+		foodReady=true;
 		self.msgStateChanged();
 	}
 	public void msgLeaveHouse(){
-		s=InhabitantState.EXIT;
+		wantLeave=true;
 		self.msgStateChanged();
 
 	}
@@ -62,21 +73,24 @@ public class InhabitantRole extends Role implements Inhabitant {
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
 		//Do("Deciding what to do");
-		if(s==InhabitantState.TIRED){
+		if(foodReady){
+			PlateAndEat();
+			return true;
+		}
+		if(wantEat){
+			GetAndCook();
+			return true;
+		}
+		if(wantSleep){
 			Sleep();
 			return true;
 		}
-		
-		if(s==InhabitantState.HUNGRY){
-			GetAndCook();
-		}
-		if(s==InhabitantState.FOODREADY){
-			PlateAndEat();
-		}
-		if(s==InhabitantState.EXIT){
+		if(wantLeave){
 			ExitHouse();
+			return true;
 		}
-				
+		
+		gui.DoIdle();		
 		return false;
 	}
 	
@@ -84,28 +98,37 @@ public class InhabitantRole extends Role implements Inhabitant {
 	
 	private void Sleep(){
 		//Do("Going to sleep");
-		int randSleep = (int) Math.floor(3*Math.random());
-		try {
-			Thread.sleep(3000 + randSleep);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		s = InhabitantState.EXIT;
+		wantSleep=false;
+		gui.DoSleep();
 		//Do("I HAVE AWAKENED");
 		return;
 	}
 	
 	private void GetAndCook(){
+		wantEat=false;
+		gui.DoGoToFridge();
 		PickFood();
-		DoGetAndCook();
+		gui.DoGoToGrill();
+		gui.DoIdle();
+		timer.schedule(new TimerTask() {
+			
+			public void run() {
+				print("Cooking");
+				foodReady=true;
+				//isHungry = false;
+				stateChanged();
+			}
+		},
+		500);
+		
 	}
 	private void PlateAndEat(){
-		DoPlateAndEat();
+		foodReady=false;
+		gui.DoPlateAndEat();
 		self.msgDoneEating();
 	}
 	private void ExitHouse(){
-		DoExit();
+		gui.DoExit();
 		if(myRoom!=null){
 			myRoom.inhabitant=null;
 		}
@@ -116,22 +139,13 @@ public class InhabitantRole extends Role implements Inhabitant {
 		for(Food food : myRoom.inventory){
 			if(food.quantity>0){
 				food.quantity--;
-				foodEaten=food.type;
+				foodEating=food.type;
 				break;
 			}
 		}
 	}
 	//Animation
-	public void DoGetAndCook(){
-		
-	}
-	public void DoPlateAndEat(){
-		
-	}
-
-	public void DoExit(){
-		
-	}
+	
 	
 	//utilities
 	public void setGui(InhabitantGui g){

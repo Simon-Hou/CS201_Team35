@@ -271,6 +271,16 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
+		//test.addNewBuilding("Bank", 5, 400);
+//		test.addNewBuilding("Market",200,250);
+//		test.addNewBuilding("Market", 250, 200);
+//		test.addNewBuilding("House", 200, 5);
+//		test.addNewBuilding("House", 500, 5);
+		
+		//test.fullyManBuilding("Bank",0);
+		//test.fullyManBuilding("Market",0);
+		//test.fullyManBuilding("Market",1);
+		test.addBuses(test);
 		test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Market", 250, 200);
@@ -280,10 +290,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
-		
-		
-
-
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
 
@@ -300,22 +306,22 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//		int yStartTest = 520;
 
 
-		/*PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
-        PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);
-		PersonGui pg3 = new PersonGui(new PersonAgent("C",new CityMap()),test, xStartTest, yStartTest, 300, 400);
-		PersonGui pg4 = new PersonGui(new PersonAgent("D",new CityMap()),test, xStartTest, yStartTest, 300, 190);
-		PersonGui pg5 = new PersonGui(new PersonAgent("E",new CityMap()),test, xStartTest, yStartTest, 190, 300);
-		PersonGui pg6 = new PersonGui(new PersonAgent("F",new CityMap()),test, xStartTest, yStartTest, 520, 300);
-		PersonGui pg7 = new PersonGui(new PersonAgent("G",new CityMap()),test, xStartTest, yStartTest, 400, 300);
-		PersonGui pg8 = new PersonGui(new PersonAgent("G",new CityMap()),test, xStartTest, yStartTest, 70, 300);
-		test.city.addMoving(pg1);
-		test.city.addMoving(pg2);
-		test.city.addMoving(pg3);
-		test.city.addMoving(pg4);
-		test.city.addMoving(pg5);
-		test.city.addMoving(pg6);
-		test.city.addMoving(pg7);
-		test.city.addMoving(pg8);*/
+//		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
+//        PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);
+//		PersonGui pg3 = new PersonGui(new PersonAgent("C",new CityMap()),test, xStartTest, yStartTest, 300, 400);
+//		PersonGui pg4 = new PersonGui(new PersonAgent("D",new CityMap()),test, xStartTest, yStartTest, 300, 190);
+//		PersonGui pg5 = new PersonGui(new PersonAgent("E",new CityMap()),test, xStartTest, yStartTest, 190, 300);
+//		PersonGui pg6 = new PersonGui(new PersonAgent("F",new CityMap()),test, xStartTest, yStartTest, 520, 300);
+//		PersonGui pg7 = new PersonGui(new PersonAgent("G",new CityMap()),test, xStartTest, yStartTest, 400, 300);
+//		PersonGui pg8 = new PersonGui(new PersonAgent("G",new CityMap()),test, xStartTest, yStartTest, 70, 300);
+//		test.city.addMoving(pg1);
+//		test.city.addMoving(pg2);
+//		test.city.addMoving(pg3);
+//		test.city.addMoving(pg4);
+//		test.city.addMoving(pg5);
+//		test.city.addMoving(pg6);
+//		test.city.addMoving(pg7);
+//		test.city.addMoving(pg8);
 
 
 
