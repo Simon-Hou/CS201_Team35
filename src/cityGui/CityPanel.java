@@ -14,6 +14,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import person.PersonAgent;
+import util.Bank;
+import util.CityMap;
 
 import util.Loc;
 import city.CityObject;
@@ -33,6 +36,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 	String name = "City Panel";
 	List<House> houses=new ArrayList<House>();
+	List<Bank> banks = new ArrayList<Bank>();
 
 
 	public CityPanel(SimCityGui city) {
