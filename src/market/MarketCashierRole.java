@@ -1,6 +1,7 @@
 package market;
 
 import person.PersonAgent;
+import restaurant.Restaurant;
 import role.Role;
 import testAgents.testPerson;
 
@@ -41,9 +42,10 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	//CONSTRUCTOR
-	public MarketCashierRole(String name, Person p){
+	public MarketCashierRole(String name, Person p, Market m){
 		this.p = p;
 		this.name = name;
+		this.market = m;
 		priceList.put("Steak", 2);
 		priceList.put("Pizza", 1);
 		priceList.put("Chicken", 2);
@@ -93,8 +95,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    p.msgStateChanged();
 	}
 	
-	public void msgCalculateInvoice(MarketInvoice order, MarketEmployee employee){
-		orders.add(new MyBusinessOrder(order, employee));
+	public void msgCalculateInvoice(MarketEmployee employee, List<OrderItem> order, Restaurant r){
+		orders.add(new MyBusinessOrder(order, employee, r));
 		p.msgStateChanged();
 	}
 
@@ -170,12 +172,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		Do("Calculating a business order");
 		
 		int total = 0;
-		 for (OrderItem item: order.order.order){
+		 for (OrderItem item: order.order){
 		        total+= item.quantityReceived * priceList.get(item.choice);
 		    }
 		 
 		 Do("This order will cost $" + total + ". Here is the invoice.");
-		 order.employee.msgGiveInvoice(total, order.order);
+		 order.employee.msgGiveInvoice(order.order, order.restaurant, total);
 		
 		orders.remove(order);
 		
@@ -237,12 +239,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private class MyBusinessOrder{
-		MarketInvoice order;
+		List<OrderItem> order;
 		MarketEmployee employee;
+		Restaurant restaurant;
 		
-		MyBusinessOrder(MarketInvoice o, MarketEmployee e){
+		MyBusinessOrder(List<OrderItem> o, MarketEmployee e, Restaurant r){
 			order = o;
 			employee = e;
+			restaurant = r;
 		}
 	}
 	

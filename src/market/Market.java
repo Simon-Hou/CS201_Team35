@@ -33,8 +33,8 @@ public class Market implements PlaceOfWork{
 	
 	//CONSTRUCTOR
 	public Market(){
-		this.host = new MarketHostRole("DefaultUnmannedHost",null);
-		this.cashier = new MarketCashierRole("DefaultUnmannedCashier",null);
+		this.host = new MarketHostRole("DefaultUnmannedHost",null,this);
+		this.cashier = new MarketCashierRole("DefaultUnmannedCashier",null, this);
 		
 		host.setMarket(this);
 		cashier.setMarket(this);
