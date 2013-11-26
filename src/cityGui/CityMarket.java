@@ -38,6 +38,7 @@ public class CityMarket extends CityComponent implements ImageObserver{
 
 	public CityMarket(int x, int y, String I) {
 		super(x, y, Color.magenta, I);
+		type="Market";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		initializeMarket();
 	}

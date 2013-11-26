@@ -3,17 +3,16 @@ package interfaces;
 import java.util.List;
 import java.util.Map;
 
-import restaurant.Restaurant;
 
 import market.MarketInvoice;
 import market.OrderItem;
+import restaurant.Restaurant;
 
 public interface MarketEmployee extends Occupation {
 	
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList);
 	public void msgGetThis(List<OrderItem> order, Restaurant r);
-	public void msgGiveInvoice(int invoice, MarketInvoice order);
+	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total);
 	public String getName();
 	
-
 }

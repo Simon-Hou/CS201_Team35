@@ -80,18 +80,16 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		p.msgStateChanged();
 	}
 
-	public void msgGetThis(List<OrderItem> order){
-	    businessOrders.add(new MyBusinessOrder(order);
+	public void msgGetThis(List<OrderItem> order, Restaurant r){
+	    businessOrders.add(new MyBusinessOrder(order, r));
 	    p.msgStateChanged();
 	}
 	
-	public void msgGiveInvoice(int invoice, MarketInvoice order){
+	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total){
 		receivedInvoice.release();
-		for(MarketInvoice o : businessOrders){
-			if (o == order){
-				o.invoice = invoice;
-				o.state = OrderState.gotInvoice;
-				p.msgStateChanged();
+		for(MyBusinessOrder o : businessOrders){
+			if (o.order.equals(order) && o.restaurant==r){
+				o.invoice = new MarketInvoice(o.order, market, o.restaurant, total);
 			}
 		}
 		
@@ -126,14 +124,14 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 			}
 		}
 		
-		for(MarketInvoice bo : businessOrders){
+		for(MyBusinessOrder bo : businessOrders){
 			if (bo.state == OrderState.gotInvoice){
 				PlaceOrderOnDock(bo);
 				return true;
 			}
 		}
 		
-		for(MarketInvoice bo : businessOrders){
+		for(MyBusinessOrder bo : businessOrders){
 			if (bo.state == OrderState.ordered){
 			    GetBusinessOrder(bo);
 			    return true;
@@ -201,7 +199,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 
 	}
 
-	private void GetBusinessOrder(MarketInvoice order){
+	private void GetBusinessOrder(MyBusinessOrder order){
 		Do("Better fill this business order");
 		
 		//Discuss changing this so that BusinessOrder is no longer public
@@ -242,7 +240,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    
 		//got to cashier
 		Do(cashier.getName() + ", can you please calculate the invoice for this order?");
-		cashier.msgCalculateInvoice(order, this);
+		cashier.msgCalculateInvoice(this, order.order, order.restaurant);
 	    
 		order.state = OrderState.none;
 
@@ -255,7 +253,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	}
 	
-	private void PlaceOrderOnDock(MarketInvoice order){
+	private void PlaceOrderOnDock(MyBusinessOrder order){
 		businessOrders.remove(order);
 		
 		 if(gui!=null){
@@ -280,7 +278,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 			}
 			//otherwise...
 			//load balance deliverymen
-			deliveryMen.get(0).msgDeliverThisOrder(order);
+			deliveryMen.get(0).msgDeliverThisOrder(order.invoice);
 			gui.DoGoHomePosition();
 	}
 	
@@ -302,6 +300,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	class MyBusinessOrder{
 		List<OrderItem> order = new ArrayList<OrderItem>();
 		Restaurant restaurant;
+		MarketInvoice invoice;
 		OrderState state = OrderState.ordered;
 		
 		MyBusinessOrder(List<OrderItem> o, Restaurant r){
