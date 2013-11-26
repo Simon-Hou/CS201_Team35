@@ -34,10 +34,10 @@ public class CashierRole extends Role implements Cashier{
 	
 	public CashierRole(String name, Restaurant r) {
 		super();	
-		priceList.put("Steak", 1599);
-		priceList.put("Chicken", 1099);
-		priceList.put("Salad", 599);
-		priceList.put("Pizza", 899);
+		priceList.put("Steak", 16);
+		priceList.put("Chicken", 11);
+		priceList.put("Salad", 6);
+		priceList.put("Pizza", 9);
 		this.name = name;
 		this.restaurant = r;
 	}
@@ -61,7 +61,7 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	public void msgHereIsPayment(Customer cust, Check bill, int payment){
-		log.add(new LoggedEvent("Received payment of $" + payment/100 + "." + payment%100 + " from customer " + cust.getName() + " for the bill " + bill));
+		log.add(new LoggedEvent("Received payment of $" + payment + " from customer " + cust.getName() + " for the bill " + bill));
 		customers.add(new MyCustomer(cust, bill, payment));
 		p.msgStateChanged();
 	}
@@ -148,18 +148,18 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	private void NotifyWaiter(Bill b){
-		log.add(new LoggedEvent("Notifying waiter of finished bill for customer " + b.cust.getName() + " who ordered " + b.choice + ". Total is $" + b.total/100 + "." + b.total%100));
+		log.add(new LoggedEvent("Notifying waiter of finished bill for customer " + b.cust.getName() + " who ordered " + b.choice + ". Total is $" + b.total));
 		b.w.msgHereIsBill(b.choice, b.cust, b.total);
 		b.status=BillState.done;
 	}
 	
 	private void AcceptPayment(MyCustomer mc){
 		log.add(new LoggedEvent("Processing payment from customer"));
-		Do("Payment received: $" + mc.payment/100 + "." + mc.payment%100);
+		Do("Payment received: $" + mc.payment);
 		restaurant.cash+=mc.payment;
 		int debt = mc.bill.getTotal()-mc.payment;
 		if (mc.bill.getTotal()>mc.payment){
-			Do(mc.c.getName()+" owes $"+debt/100 + "." + debt%100);
+			Do(mc.c.getName()+" owes $"+debt);
 			
 			if (debtors.containsKey(mc.c))
 				debtors.put(mc.c, debtors.get(mc.c)+debt);
@@ -188,7 +188,7 @@ public class CashierRole extends Role implements Cashier{
 		}
 			
 		log.add(new LoggedEvent("Paying " + b.order.market +  " " + payment + " for food shipment. Still owe " + b.owed + ". " + restaurant.cash + " left in restaurant.cash."));
-		Do("Paying " + b.order.market +  " $" + payment/100 + "." + payment%100 + " for food shipment. Still owe $" + b.owed/100 + "." + b.owed%100 + ". $" + restaurant.cash/100 + "." + restaurant.cash%100 + " left.");
+		Do("Paying " + b.order.market +  " $" + payment + " for food shipment. Still owe $" + b.owed + ". $" + restaurant.cash + " left.");
 		
 		b.deliveryMan.msgHereIsPayment(payment, b.order);
 		
