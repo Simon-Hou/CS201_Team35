@@ -80,7 +80,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		
 		
 		//FOR TESTING:::::
-		msgHereIsPayment(order.invoice);
+		//msgHereIsPayment(order.payment);
 	}
 	
 //	private void DoGoToRestaurant(Restaurant rest){

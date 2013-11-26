@@ -16,7 +16,7 @@ import market.gui.*;
 
 public class MarketHostRole extends Role implements MarketHost {
 
-	Market market;
+	
 	//-----------------------------DATA--------------------------------
 	enum CustomerState {waiting, beingServiced, leaving};
 	
@@ -26,14 +26,13 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public Person p;
 	public String name;
-	
-	Market m;
-	
+
+	Market market;
 	
 	public MarketHostRole(String name, PersonAgent p, Market m){		
 		this.name = name;
 		this.p=p;
-		this.m=m;		
+		this.market=m;		
 	}
 	
 	//-----------------------------MESSAGES--------------------------------
@@ -231,11 +230,11 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 		//If we had no inventory, just quit. Otherwise, message the cook any unfulfillable parts of the order so they can find another market
 		if (couldntGetAnything){
-			bo.r.cook.msgCannotFulfillOrder(m, unfulfillable);
+			bo.r.cook.msgCannotFulfillOrder(market, unfulfillable);
 			return;
 		}
 		else if (unfulfillable.size()>0){
-			bo.r.cook.msgCannotFulfillOrder(m, unfulfillable);
+			bo.r.cook.msgCannotFulfillOrder(market, unfulfillable);
 		}
 		
 		
