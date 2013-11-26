@@ -45,7 +45,7 @@ public class CityBank extends CityComponent implements ImageObserver {
 	
 	public void initializeBank(){
 		bank = new Bank();
-		bank.bankGui = this;
+		bank.cityBankGui = this;
 	}
 	
 	public JPanel addAgentObjectToMap(){

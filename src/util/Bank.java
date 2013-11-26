@@ -24,7 +24,9 @@ public class Bank implements BankInterface, PlaceOfWork{
 	public List<BankTeller> currentTellers = new ArrayList<BankTeller>();
 	public List<BankAccount> accounts = new ArrayList<BankAccount>();
 	
-	public CityBank bankGui;
+	//public BankGui
+	
+	public CityBank cityBankGui;
 	
 	int totalAmount = 1000000000;
 	
