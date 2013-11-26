@@ -223,6 +223,7 @@ public class PersonAgent extends Agent implements Person {
 			Do("Getting OFF bus");
 			waitForBusToArrive.release();
 			onBus = false;
+			
 			//Do("SHIT I JUST WOKE UP");
 			gui.setLoc(stop.sidewalkLoc);
 			gui.offBus();
@@ -464,6 +465,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		//marketRole.setMarket(m);
 		marketRole.msgYouAreAtMarket(m);
+		m.newCustomer(marketRole);
 		activeRole = marketRole;
 	}
 	

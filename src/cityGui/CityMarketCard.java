@@ -10,6 +10,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Timer;
 
+import market.MarketCashierRole;
+import market.gui.MarketPanel;
 import public_Gui.Gui;
 
 public class CityMarketCard extends CityCard {//implements ActionListener{
@@ -36,12 +38,15 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 	    private int paintCount = 0;
 	    private int doorCount = 0;
 	    
+	    private MarketPanel panel;
+	    
 //		private final int speed = 10;
 //	     private Timer timer;
 	
 	
 	public CityMarketCard(SimCityGui city) {
 		super(city);
+
 		
 //		setSize(panelX, panelY);
 //		setBorder(BorderFactory.createRaisedBevelBorder());
@@ -52,6 +57,10 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 //    	timer.start();
 		
     
+	}
+	
+	public void setPanel(MarketPanel p){
+		this.panel = p;
 	}
 
 	 public void paint(Graphics g) {
@@ -116,12 +125,16 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 	        paint.fillRect(panelX/2-30, barrierY - 7, 60, 19);
 	        
 	        //CASHIER
-	        paint.setColor(Color.PINK);
-	        paint.fillRect(10, 90, 20, 20);
+
+	        	paint.setColor(Color.PINK);
+	        	paint.fillRect(10, 90, 20, 20);
+	        
 	        
 	        //HOST
-	        paint.setColor(Color.MAGENTA);
-	        paint.fillRect(panelX - 30, 90, 20, 20);
+
+	       		paint.setColor(Color.MAGENTA);
+	       		paint.fillRect(panelX - 30, 90, 20, 20);
+	       	
 	        
 	        //LABELS
 	        paint.setColor(Color.BLACK);

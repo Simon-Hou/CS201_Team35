@@ -150,12 +150,12 @@ public class PersonGui extends CityComponent implements Gui {
     
 	public void updatePosition() {
 		if (!atDestination()) {
-			System.out.println("XDest: " + xDestination);
+			/*System.out.println("XDest: " + xDestination);
 			System.out.println("YDest: " + yDestination);
 			System.out.println("XPos: " + getXPos());
-			System.out.println("YPos: " + getYPos());
+			System.out.println("YPos: " + getYPos());*/
 			if (transitionDone) {
-				System.out.println("Transition is done");
+				//System.out.println("Transition is done");
 			}
 		}
 		if (readyToGoInnerSidewalk) {
