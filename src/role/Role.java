@@ -7,7 +7,7 @@ import agent.Agent;
 public abstract class Role extends Agent{
 	
 	public EventLog log = new EventLog();
-	protected Person p;
+	public Person p;
 	
 	public abstract boolean pickAndExecuteAnAction();
 	

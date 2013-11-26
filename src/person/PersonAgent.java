@@ -263,6 +263,7 @@ public class PersonAgent extends Agent implements Person {
 				if(myJob.jobRole instanceof BankTellerRole){
 					if(((BankTellerRole) myJob.jobRole).canLeave()){
 						Do("It's quitting time.");
+						//activeRole.p = null;
 						activeRole = null;
 						return true;
 					}
