@@ -21,6 +21,7 @@ import javax.swing.*;
 
 import cityGui.CityMarketCard;
 import interfaces.MarketCustomer;
+import interfaces.MarketEmployee;
 import interfaces.Person;
 
 
@@ -29,7 +30,7 @@ import interfaces.Person;
 public class MarketPanel extends JFrame implements ActionListener{
 
 	private CityMarketCard animation; 
-	private Market market;
+	public Market market;
 	
 	private JLabel title = new JLabel("Market");
 	private List<InventoryItem> inventoryList = new ArrayList<InventoryItem>();
@@ -47,7 +48,7 @@ public class MarketPanel extends JFrame implements ActionListener{
    // private MarketCustomerRole customer;
     private MarketCashierRole cashier;
     private MarketHostRole host;
-    private MarketEmployeeRole employee;
+   // private MarketEmployeeRole employee;
     private MarketDeliveryManRole deliveryMan;
     
     
@@ -154,13 +155,13 @@ public class MarketPanel extends JFrame implements ActionListener{
 		
 		if (e.getSource() == startButton){
 			System.out.println("A customer has entered the market");
-			addCustomer();
+			//addCustomer();
 			
 		}
 		
 		if (e.getSource() == deliveryButton){
 			System.out.println("A business order is being called in");
-			addDelivery();
+			//addDelivery();
 			
 		}
 		
@@ -181,14 +182,11 @@ public class MarketPanel extends JFrame implements ActionListener{
 		
 	}
 
-	private void addCustomer(){
-	/*	
-        PersonAgent p1 = new PersonAgent("Customer", map);
-        MarketCustomerRole customer = new MarketCustomerRole("Customer", p1);
-        //customer.addToShoppingList("Pizza", 12 );
-        customer.addToShoppingList("Car", 2);
-        p1.activeRole = customer;
-       p1.startThread();
+	public void addCustomer(MarketCustomerRole customer){
+		
+       
+      
+     
        customers.add(customer);
        
        
@@ -198,12 +196,18 @@ public class MarketPanel extends JFrame implements ActionListener{
 
     
        
-       //testing, this should come from the person agent
-       customer.msgYouAreAtMarket(market);
+      
+     //  customer.msgYouAreAtMarket(market);
        
        animation.enterCustomer();
        
-       */
+       
+	}
+	
+	public void addEmployee(MarketEmployeeRole e){
+        MarketEmployeeGui egui = new MarketEmployeeGui(e);
+        e.setGui(egui);
+        animation.addGui(egui);
 	}
 	
 	private void addDelivery(){

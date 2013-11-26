@@ -464,6 +464,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		//marketRole.setMarket(m);
 		marketRole.msgYouAreAtMarket(m);
+		m.newCustomer(marketRole);
 		activeRole = marketRole;
 	}
 	

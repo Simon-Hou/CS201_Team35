@@ -87,6 +87,7 @@ public class Market implements PlaceOfWork{
 
 			if(host.NewEmployee((MarketEmployee) m)){
 				employees.add((MarketEmployee) m);
+				panel.addEmployee((MarketEmployeeRole) m);
 				return m;
 			}
 			System.err.println("Market Employee wasn't allowed to work");
@@ -108,6 +109,10 @@ public class Market implements PlaceOfWork{
 		
 		System.err.println("A non-markter is trying to work at the market");
 		return null;
+	}
+	
+	public void newCustomer(MarketCustomer cust){
+		panel.addCustomer((MarketCustomerRole) cust);
 	}
 	
 	public void removeCustomer(MarketCustomer cust){
