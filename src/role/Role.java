@@ -7,6 +7,7 @@ import agent.Agent;
 public abstract class Role extends Agent{
 	
 	public EventLog log = new EventLog();
+	protected Person p;
 	
 	public abstract boolean pickAndExecuteAnAction();
 	
@@ -20,5 +21,9 @@ public abstract class Role extends Agent{
 	
 	public void StateChanged(){
 		super.stateChanged();
+	}
+	
+	public Person getPerson(){
+		return p;
 	}
 }
