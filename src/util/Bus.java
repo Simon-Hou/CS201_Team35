@@ -98,7 +98,7 @@ public class Bus extends Vehicle implements ActionListener{
 		atStop = true;
 	}
 	
-	public void tellPassengersArrived(){
+	/*public void tellPassengersArrived(){
 		
 		synchronized(passengers){
 			for(Person p:this.passengers){
@@ -106,10 +106,22 @@ public class Bus extends Vehicle implements ActionListener{
 				
 			}
 		}
+	}*/
+	
+	public void tellPassengersArrived(){
+		List<Person> passengers2 = new ArrayList<Person>(passengers);
+		synchronized(passengers2){
+			for(Person p:passengers2){
+				p.msgBusAtStop(this,stops.get((currentStop+1)%stops.size()));
+				passengers.remove(p);
+			}
+		}
 	}
 	
 	
-	public void tellNextStopPeopleArrived(){
+	
+	
+	/*public void tellNextStopPeopleArrived(){
 		
 		synchronized(this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
 			for(Person p:this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
@@ -118,14 +130,26 @@ public class Bus extends Vehicle implements ActionListener{
 			}
 		}
 		
+	}*/
+	
+	public void tellNextStopPeopleArrived(){
+		
+		synchronized(this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+			for(Person p:this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+				p.msgBusAtStop(this,stops.get((currentStop+1)%stops.size()));
+				this.passengers.add(p);
+				//System.out.println("SENDING THE MESSAGE THAT BUS HAS ARRIVED");
+			}
+		}
+		
 	}
 	
 	
 	public void getOnBus(Person p){
 		System.out.println("GETTING ON BUS");
-		if(stops.get(currentStop).peopleWaiting.contains(p)){
+		if(stops.get((currentStop+1)%stops.size()).peopleWaiting.contains(p)){
 			passengers.add(p);
-			stops.get(currentStop).peopleWaiting.remove(p);
+			stops.get((currentStop+1)%stops.size()).peopleWaiting.remove(p);
 			return;
 		}
 		else{

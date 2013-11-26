@@ -3,6 +3,7 @@ package bank;
 import interfaces.BankCustomer;
 import interfaces.BankInterface;
 import interfaces.BankTeller;
+import interfaces.Occupation;
 import interfaces.Person;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import UnitTests.mock.bankMock.MockBank;
 import agent.Agent;
 import util.*;
 
-public class BankTellerRole extends Role implements BankTeller{
+public class BankTellerRole extends Role implements BankTeller, Occupation{
 	
 	//Constructor
 	

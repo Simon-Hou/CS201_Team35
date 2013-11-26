@@ -73,6 +73,7 @@ public class PersonGui extends CityComponent implements Gui {
     private boolean readyToGoOuterSidewalk = false;
     private boolean transitionDone = true;
     private boolean choseRand = false;
+    private boolean visible = true;
     
     public boolean onTheMove = false;
     public boolean waitingForBus = false;
@@ -105,11 +106,17 @@ public class PersonGui extends CityComponent implements Gui {
     public void doGoToBus(Loc loc){
     	this.xDestination = loc.x;
     	this.yDestination = loc.y;
+    	onTheMove = true;
     	waitingForBus = true;
     }
     
     public void onBus(){
     	waitingForBus = false;
+    	visible = false;
+    }
+    
+    public void offBus(){
+    	visible = true;
     }
     
 	public void updatePosition() {
@@ -509,11 +516,19 @@ public class PersonGui extends CityComponent implements Gui {
 		hasArrived = arrived;
 	}
 	
+	public void setLoc(Loc loc){
+		rectangle.x = loc.x;
+		rectangle.y = loc.y;
+	}
+	
 	public boolean getStartPosition() {
 		return startPosition;
 	}
 	
     public void paint(Graphics g) {
+    	if(!visible){
+    		return;
+    	}
     	if (!atDestination() || waitingForBus) {
     		g.drawImage(currentImage.getImage(),getXPos(),getYPos(),10,10,null);
     	}
