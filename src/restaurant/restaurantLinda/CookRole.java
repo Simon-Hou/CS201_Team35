@@ -3,13 +3,17 @@ package restaurant.restaurantLinda;
 import agent.Agent;
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Cook;
-import interfaces.restaurantLinda.Market;
 import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import market.Market;
+import market.MarketInvoice;
+import market.OrderItem;
+
 import restaurant.ProducerConsumerMonitor;
+import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CookGui;
 import role.Role;
 
@@ -22,14 +26,14 @@ public class CookRole extends Role implements Cook{
 	List<Market> markets = Collections.synchronizedList(new ArrayList<Market>());
 	boolean checkInventory=false;
 	boolean checkOrderStand=true;
-	Cashier cashier;
+	Restaurant restaurant;
 	
 	ProducerConsumerMonitor<RestaurantOrder> orderMonitor;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
 	private CookGui cookGui;
 	
-	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor) {
+	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor, Restaurant restaurant) {
 		super();
 		foodMap.put("Steak", new Food("Steak",5000,5,5,1));
 		foodMap.put("Chicken", new Food("Chicken",4000,5,5,1));
@@ -37,6 +41,7 @@ public class CookRole extends Role implements Cook{
 		foodMap.put("Pizza", new Food("Pizza",3000,5,5,1));
 		this.name = name;
 		this.orderMonitor = monitor;
+		this.restaurant = restaurant;
 		//checkInventory=true;
 	}
 	
@@ -52,14 +57,14 @@ public class CookRole extends Role implements Cook{
 		stateChanged();		
 	}
 	
-	public void msgCannotFulfillOrder(Market m, Map<String, Integer> items)	{
+	public void msgCannotFulfillOrder(Market m, Map<String,Integer> unfulfillable){
 		Do("Need to reorder from another market");
 		
-		for (String f: items.keySet()){
+		for (String f: unfulfillable.keySet()){
 			Food food = foodMap.get(f);
 			food.status=FoodState.partialOrdering;
 			food.uselessMarkets.add(m);
-			food.onOrder-=items.get(f);
+			food.onOrder-=unfulfillable.get(f);
 			if (food.uselessMarkets.size()==markets.size()){
 				food.status=FoodState.impossible;
 				Do("Cannot order any more "+f+" because all markets out");
@@ -68,17 +73,17 @@ public class CookRole extends Role implements Cook{
 		stateChanged();		
 	}
 	
-	public void msgFoodShipment(Map<String, Integer> items){
+	public void msgHereIsDelivery(MarketInvoice order){
 		Do("Received a food shipment");
 		String shipmentMessage="Received ";
 		
-		for (String f: items.keySet()){
-			Food food = foodMap.get(f);
-			int shipment = items.get(f);
+		for (OrderItem item: order.order){
+			Food food = foodMap.get(item.choice);
+			int shipment = item.quantityReceived;
 			if (shipment==food.onOrder && food.status==FoodState.fullOrdering)
 				food.status=FoodState.none;
 			
-			shipmentMessage+=shipment+f+"s, ";
+			shipmentMessage+= shipment+item.choice+"s, ";
 			food.quantity+=shipment;
 			food.onOrder-=shipment;
 		}
@@ -219,12 +224,12 @@ public class CookRole extends Role implements Cook{
 		
 		if (markets.size()==1){
 			Do("ordering");
-			markets.get(0).msgHereIsOrder(this, cashier, shoppingList);
+			markets.get(0).host.msgBusinessWantsThis(restaurant, shoppingList);
 		}
 		else if (markets.size()>1){
 			Market m = markets.remove(0);		//Rearrange markets, kind of like a circular queue?
 			markets.add(m);
-			m.msgHereIsOrder(this, cashier, shoppingList);
+			m.host.msgBusinessWantsThis(restaurant, shoppingList);
 		}
 	}
 	
@@ -293,8 +298,8 @@ public class CookRole extends Role implements Cook{
 		return emptyFoods;
 	}
 	
-	public void setCashier (Cashier c){
-		cashier = c;
+	public void setRestaurant (Restaurant r){
+		restaurant = r;
 	}
 	
 	public void addMarket(Market m){

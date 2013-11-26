@@ -6,13 +6,17 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import person.PersonAgent;
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;
+import util.BusStop;
 import util.CityMap;
 import util.HouseMapLoc;
 import util.JobType;
@@ -24,9 +28,9 @@ import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
 import cityGui.trace.TracePanel;
 
-public class SimCityGui extends JFrame {
-	
-	 public CityPanel city;
+public class SimCityGui extends JFrame implements ActionListener {
+
+	public CityPanel city;
 	public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
@@ -35,10 +39,12 @@ public class SimCityGui extends JFrame {
 	GridBagConstraints c = new GridBagConstraints();
 	int SHIFTS = 3;
 	int MAXTIME = 100;
+	protected Timer timer;
+	public long time=0;
 
 	public SimCityGui() throws HeadlessException {
 		CP = new CityControlPanel(this);
-		
+
 		tracePanel = new TracePanel();
 		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
 		tracePanel.showAlertsForAllLevels();
@@ -47,20 +53,20 @@ public class SimCityGui extends JFrame {
 		//THIS IS THE AGENT CITY
 		cityObject = new CityObject(this);
 		cityObject.MAXTIME = this.MAXTIME;
-		
+
 		city = new CityPanel(this);
 		city.cityObject = cityObject;
-		
+
 		view = new CityView(this);
-		
+
 		info = new InfoPanel(this);
-		
+
 		this.setLayout(new GridBagLayout());
-		
+
 		c.gridx = 0; c.gridy = 0;
 		c.gridwidth = 6; c.gridheight = 6;
 		this.add(city, c);
-		
+
 		c.gridx = 6; c.gridy = 0;
 		c.gridwidth = 5; c.gridheight = 1;
 		this.add(info, c);
@@ -72,20 +78,23 @@ public class SimCityGui extends JFrame {
 		c.gridx = 0; c.gridy = 6;
 		c.gridwidth = 11; c.gridheight = 1;
 		this.add(CP, c);
-		
+
+
+		timer = new Timer(10,  this);
+		timer.start();
 		/*c.gridx = 0; c.gridy = 7;
 		c.gridwidth = 11; c.gridheight = 3;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(tracePanel, c);*/
 	}
-	
+
 	public void NewPersonCreationPanel(){
 		PersonCreationPanel pCreate = new PersonCreationPanel(this);
 	}
-	
+
 	public void addNewPerson(PersonAgent p){
-		
-		
+
+
 		/*String name = "p0";
 		PersonAgent p = new PersonAgent(name,cityObject.cityMap);
 		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
@@ -98,20 +107,20 @@ public class SimCityGui extends JFrame {
 		cityObject.people.add(p);
 		city.addMoving(personGui);
 		p.startThread();
-		
+
 	}
-	
+
 	public void addNewPersonHard(String name, PlaceOfWork placeOfWork,
 			JobType jobType,int start,int end,int bankNum,int houseNum){
-		
+
 		PersonAgent person = new PersonAgent(name,cityObject.cityMap);
 		person.setJob(placeOfWork, jobType, start, end);
 		person.setBank(bankNum);
 		person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
 		addNewPerson(person);
-		
+
 	}
-	
+
 	public void addNewBuilding(String type,int x, int y){
 		if(type.equals("Bank")){
 			city.addObject(CityComponents.BANK);
@@ -137,13 +146,13 @@ public class SimCityGui extends JFrame {
 			city.setBuildingDown();
 			return;
 		}
-		
+
 	}
-	
+
 	//HACK
 	public void fullyManBuilding(String type,int num){
 
-		
+
 		if(type.equals("Bank")){
 			int j = 0;
 			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
@@ -188,7 +197,7 @@ public class SimCityGui extends JFrame {
 						JobType.MarketCashier,start,end,bankNum,houseNum);
 				j = j+1;
 			}
-			
+
 			for(int numEmployees = 0;numEmployees<2;++numEmployees){
 				randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
 				for(int i = 0;i<SHIFTS;++i){
@@ -210,56 +219,76 @@ public class SimCityGui extends JFrame {
 		Bus b = new Bus();
 		Bus b2 = new Bus();
 		//b.gui = new BusGui(b,test,110,110,30,50);
-		b.gui = new BusGui(b,simCityGui,false);
-		b2.gui = new BusGui(b2,simCityGui,true);
+		b.gui = new BusGui(b,simCityGui,true);
+		b2.gui = new BusGui(b2,simCityGui,false);
+		
+		cityObject.fBus = b;
+		cityObject.bBus = b2;
+		
+		cityObject.cityMap.fStops.add(new BusStop(new Loc(380,450)));
+		cityObject.cityMap.fStops.add(new BusStop(new Loc(170,130)));
+		
+		cityObject.cityMap.fStops.get(0).sidewalkLoc = new Loc(410,430);
+		cityObject.cityMap.fStops.get(1).sidewalkLoc = new Loc(180,160);
+		
+		cityObject.cityMap.bStops.add(new BusStop(new Loc(460,90)));
+		cityObject.cityMap.bStops.add(new BusStop(new Loc(100,490)));
+		
+		cityObject.cityMap.bStops.get(0).sidewalkLoc = new Loc(490,70);
+		cityObject.cityMap.bStops.get(1).sidewalkLoc = new Loc(120,520);
+		
+		b.stops = cityObject.cityMap.fStops;
+		b2.stops = cityObject.cityMap.bStops;
+		
 		city.addMoving(b.gui);
 		city.addMoving(b2.gui);
 	}
-	
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		
-		
+
+
+
 		SimCityGui test = new SimCityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		test.setResizable(false);
 		test.pack();
 		test.setVisible(true);
-		
+
 		int xStartTest = 0;
 		int yStartTest = 0;
-		
+
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
-		//test.addNewBuilding("Bank", 5, 400);
-		//test.addNewBuilding("Market",200,250);
+		test.addNewBuilding("Bank", 5, 400);
+		test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Market", 250, 200);
-		//test.addNewBuilding("House", 200, 5);
+		test.addNewBuilding("House", 200, 5);
 		//test.addNewBuilding("House", 500, 5);
-		
+
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
+		//test.fullyManBuilding("Market",1);
 		test.addBuses(test);
-		
-		
+
+
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
 
-		
-		
+
+
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//test.addNewPerson("p1");
 		//test.cityObject.people.get(0).setJob(placeOfWork, jobType, start, end);
 		/*cityObject.people.add(new PersonAgent("p0",cityObject.cityMap));
 		cityObject.people.get(0).startThread();*/
-		
-//		int xStartTest = 300;
-//		int yStartTest = 520;
+
+		//		int xStartTest = 300;
+		//		int yStartTest = 520;
 
 
 		/*PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
@@ -280,6 +309,12 @@ public class SimCityGui extends JFrame {
 		test.city.addMoving(pg8);*/
 
 
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		time++;
 
 	}
 

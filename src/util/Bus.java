@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.Timer;
 
@@ -33,11 +34,14 @@ public class Bus extends Vehicle implements ActionListener{
 	
 	//DATA
 	static int TIME_AT_STOP = 10000;
-	
+	boolean atStop = true;
 	Timer timer = new Timer(TIME_AT_STOP, this);
 
 	public List<BusStop> stops = new ArrayList<BusStop>();
 	public int currentStop = 0;
+	int randomOffset = (int) Math.floor(3*Math.random());
+	public int TIME_BETWEEN_STOPS = 3;
+	public Semaphore atStopFreeze = new Semaphore(1,true);
 	
 	public BusGui gui;
 	
@@ -79,18 +83,27 @@ public class Bus extends Vehicle implements ActionListener{
 		
 		
 		
+		/*tellPassengersArrived();
+		tellNextStopPeopleArrived();
+		
+		currentStop = (currentStop+1)%stops.size();*/
+		
+	}
+	
+	public void updateBus(){
 		tellPassengersArrived();
 		tellNextStopPeopleArrived();
 		
 		currentStop = (currentStop+1)%stops.size();
-		
+		atStop = true;
 	}
 	
 	public void tellPassengersArrived(){
 		
 		synchronized(passengers){
 			for(Person p:this.passengers){
-				p.msgBusAtStop(stops.get(currentStop+1));
+				p.msgBusAtStop(this,stops.get(currentStop+1));
+				
 			}
 		}
 	}
@@ -98,9 +111,10 @@ public class Bus extends Vehicle implements ActionListener{
 	
 	public void tellNextStopPeopleArrived(){
 		
-		synchronized(this.stops.get(currentStop+1).peopleWaiting){
-			for(Person p:this.stops.get(currentStop+1).peopleWaiting){
-				p.msgBusAtStop(stops.get(currentStop+1));
+		synchronized(this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+			for(Person p:this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+				p.msgBusAtStop(this,stops.get((currentStop+1)%stops.size()));
+				System.out.println("SENDING THE MESSAGE THAT BUS HAS ARRIVED");
 			}
 		}
 		
@@ -108,6 +122,7 @@ public class Bus extends Vehicle implements ActionListener{
 	
 	
 	public void getOnBus(Person p){
+		System.out.println("GETTING ON BUS");
 		if(stops.get(currentStop).peopleWaiting.contains(p)){
 			passengers.add(p);
 			stops.get(currentStop).peopleWaiting.remove(p);
@@ -134,6 +149,25 @@ public class Bus extends Vehicle implements ActionListener{
 	
 	private void doGoToNextStop(){
 		//blah 
+		/*System.out.println("BLAH"+stops==null);
+        System.out.println("GOING TO "+stops.get((currentStop+1)%stops.size()).loc.x+" "+
+        		stops.get((currentStop+1)%stops.size()).loc.y);
+        System.out.flush();*/
+		gui.doGoToNextStop(stops.get((currentStop+1)%stops.size()).location);
+		try {
+			atStopFreeze.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateTime(int time){
+		if((time+randomOffset)%TIME_BETWEEN_STOPS==0 && atStop){
+			atStop = false;
+			GoToNextStop();
+			atStop = true;
+		}
 	}
 	
 	

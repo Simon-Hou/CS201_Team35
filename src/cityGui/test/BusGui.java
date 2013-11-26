@@ -45,6 +45,7 @@ public class BusGui extends CityComponent implements Gui {
     private boolean transitionDone = true;
     private boolean choseRand = false;
     private boolean clockwise = true;
+    private boolean moving = true;
     
     public boolean onTheMove = false;
     
@@ -82,11 +83,10 @@ public class BusGui extends CityComponent implements Gui {
 	}
     
     public void doGoToNextStop(Loc loc){
-            
     	
-    		this.xDestination = loc.x;
-            this.yDestination = loc.y;
-            onTheMove = true;
+    	this.xDestination = loc.x;
+    	this.yDestination = loc.y;
+    	this.moving = true;
     }
     
     public boolean topLaneF(){
@@ -195,6 +195,9 @@ public class BusGui extends CityComponent implements Gui {
 	@Override
 	public void updatePosition() {
 		// TODO Auto-generated method stub
+		if(!moving){
+			return;
+		}
 		if(clockwise){
         	if(topLaneF()){
         		rectangle.x++;
@@ -254,6 +257,11 @@ public class BusGui extends CityComponent implements Gui {
 
 
 
+		}
+		if(moving && rectangle.x==this.xDestination && rectangle.y ==this.yDestination){
+			moving = false;
+			this.bus.atStopFreeze.release();
+			this.bus.updateBus();
 		}
 		
 		

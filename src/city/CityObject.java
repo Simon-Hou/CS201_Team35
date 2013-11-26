@@ -18,6 +18,7 @@ import bank.BankTellerRole;
 import testAgents.testPerson;
 import util.Bank;
 import util.BankMapLoc;
+import util.Bus;
 import util.BusStop;
 import util.CityMap;
 import util.Job;
@@ -50,6 +51,10 @@ public class CityObject implements ActionListener{
 	List<BankMapLoc> banks = new ArrayList<BankMapLoc>();
 	List<MarketMapLoc> markets = new ArrayList<MarketMapLoc>();
 	
+	//public List<BusStop> fStops = new ArrayList<BusStop>();
+	//public List<BusStop> bStops = new ArrayList<BusStop>();
+	public Bus fBus;
+	public Bus bBus;
 	
 	int currentTime = 0;
 	static int TIMER_DELAY = 3000;
@@ -72,7 +77,10 @@ public class CityObject implements ActionListener{
 		cityMap.map.put("Market", new ArrayList<Place>());
 		cityMap.map.put("Restaurant", new ArrayList<Place>());
 		cityMap.map.put("House", new ArrayList<Place>());
-		cityMap.map.put("BusStop", new ArrayList<Place>());
+		//cityMap.map.put("BusStop", new ArrayList<Place>());
+		
+		
+		
 		
 		
 		//CREATE THE OBJECTS, ADD THEM TO THE MAP
@@ -180,6 +188,12 @@ public class CityObject implements ActionListener{
 		for(PersonAgent p:people){
 			p.setTime(currentTime);
 			p.msgStateChanged();
+		}
+		if(fBus!=null){
+			fBus.updateTime(currentTime);
+		}
+		if(bBus!=null){
+			bBus.updateTime(currentTime);
 		}
 		System.out.println(cityMap.map.get("Bank").size());
 		

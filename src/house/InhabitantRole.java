@@ -13,6 +13,11 @@ public class InhabitantRole extends Role implements Inhabitant {
 		
 	}
 	
+	public InhabitantRole(String name,Person p){
+		this.self = p;
+		this.name = name;
+	}
+	
 	public String getName(){
 		return name;
 	}
@@ -101,7 +106,9 @@ public class InhabitantRole extends Role implements Inhabitant {
 	}
 	private void ExitHouse(){
 		DoExit();
-		myRoom.inhabitant=null;
+		if(myRoom!=null){
+			myRoom.inhabitant=null;
+		}
 		self.msgThisRoleDone(this);
 	}
 	

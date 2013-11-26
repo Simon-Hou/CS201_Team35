@@ -10,12 +10,11 @@ import restaurant.Restaurant;
 public class MarketInvoice {
 	
 	//Restaurant restaurant;
-    List<OrderItem> order = new ArrayList<OrderItem>();
-    int total;
-    int paid=0;
-    
-    Market market;
-    Restaurant restaurant;
+    public List<OrderItem> order = new ArrayList<OrderItem>();
+    public int total;
+    public int paid=0; 
+    public Market market;
+    public Restaurant restaurant;
     
     public MarketInvoice (List<OrderItem> o, Market m, Restaurant r, int total){
     	this.order = o;

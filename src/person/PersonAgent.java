@@ -19,6 +19,7 @@ import market.MarketEmployeeRole;
 import restaurant.Restaurant;
 import role.Role;
 import util.Bank;
+import util.Bus;
 import util.BusStop;
 import util.CityMap;
 import util.Job;
@@ -54,7 +55,7 @@ public class PersonAgent extends Agent implements Person {
 		purse = new Purse();
 		bankRole = new BankCustomerRole(name+"Bank",this);
 		marketRole = new MarketCustomerRole(name+"Market",this);
-		inhabitantRole = new InhabitantRole();
+		inhabitantRole = new InhabitantRole(name + "Home",this);
 		
 		this.belongings.myFoods.add(new Food("Steak",10));
 		this.belongings.myFoods.add(new Food("Chicken",10));
@@ -62,6 +63,8 @@ public class PersonAgent extends Agent implements Person {
 		this.belongings.myFoods.add(new Food("Salad",10));
 		
 	}
+	
+	
 	
 	//GETTERS
 	public String getName(){
@@ -195,9 +198,18 @@ public class PersonAgent extends Agent implements Person {
 		//stateChanged();
 	}
 	
-	public void msgBusAtStop(BusStop stop){
+	public void msgBusAtStop(Bus b,BusStop stop){
 		//blah
 		//stateChanged();
+		Do("IN THIS MESSAGE "+gui.x+" "+gui.y+" "+stop.sidewalkLoc.x+" "+stop.sidewalkLoc.y);
+		if(stop.sidewalkLoc.x == gui.xDestination && stop.sidewalkLoc.y==gui.yDestination){
+			gui.onBus();
+			b.getOnBus(this);
+		}
+		else{
+			b.getOffBuss(this);
+		}
+		
 	}
 	
 	
@@ -407,7 +419,13 @@ public class PersonAgent extends Agent implements Person {
 		int marketChoice = (int) Math.floor(city.map.get("Market").size()*Math.random());
 		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
 		Loc loc = city.map.get("Market").get(marketChoice).loc;
-		doGoToBuilding(loc);
+		
+		if(Math.random()>.8){
+			doGoToBuilding(loc);
+		}
+		else{
+			doGoToBus();
+		}
 		
 		//ShoppingList shoppingList = makeShoppingList();
 		
@@ -488,6 +506,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void doGoToBuilding(Loc loc){
 		
+		
 		if(this.gui!=null){
 			gui.doGoToBuilding(loc);
 		}
@@ -502,6 +521,11 @@ public class PersonAgent extends Agent implements Person {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void doGoToBus(){
+		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
+		city.fStops.get(0).waitForBus(this);
 	}
 	
 	private void doGoToWork(){

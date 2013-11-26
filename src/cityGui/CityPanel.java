@@ -31,6 +31,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	boolean addingObject = false;
 	CityComponent temp;
 	public CityObject cityObject;
+	
 
 	
 
@@ -130,6 +131,15 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
 
+			}
+			else if (temp.type.equals("Bank")) {
+				CityBankCard tempAnimation = new CityBankCard(city);
+				((CityBank)temp).bank.setAnimationPanel(tempAnimation);
+				banks.add(((CityBank)temp).bank);
+				city.view.addView(tempAnimation, temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
+				
 			}
 			else{
 
