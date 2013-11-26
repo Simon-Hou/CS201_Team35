@@ -45,14 +45,15 @@ public class CityBank extends CityComponent implements ImageObserver {
 	
 	public void initializeBank(){
 		bank = new Bank();
-		bank.bankGui = this;
+		bank.cityBankGui = this;
 	}
 	
 	public JPanel addAgentObjectToMap(){
 		BankMapLoc bMap = new BankMapLoc(bank);
 		bMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
 		this.cityObject.cityMap.map.get("Bank").add(bMap);
-		return BankGui.bankMain(bank);
+		JPanel tempAnim = BankGui.bankMain(bank);
+		return tempAnim;
 	}
 
 	public void updatePosition() {

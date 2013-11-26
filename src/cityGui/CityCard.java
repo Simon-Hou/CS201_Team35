@@ -28,10 +28,10 @@ public class CityCard extends SimCityPanel {
 	
 	public CityCard(SimCityGui city, JPanel animPan) {
 		super(city);
+		add(animPan);
 		this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		this.setVisible(true);
 		addMouseListener(this);
-		add(animPan);
 	}
 
 

@@ -26,8 +26,8 @@ public class BankGui  extends JFrame implements ActionListener {
 	public static final int WINDOWX = 450;
 	public static final int WINDOWY = 350;
 	
-	public static final int animPanelWidth = 780;
-	public static final int animPanelHeight = 550;
+	public static final int animPanelWidth = 500;
+	public static final int animPanelHeight = 500;
 	
 	public static final int controlPanelWidth = 450;
 	public static final int controlPanelHeight = 550;
@@ -55,7 +55,7 @@ public class BankGui  extends JFrame implements ActionListener {
 	
 	//JFrame animationFrame = new JFrame("Restaurant Animation");
 	//AnimationPanel animationPanel = new AnimationPanel();
-	static BankAnimationPanel bankAnimationPanel = new BankAnimationPanel();
+	public static BankAnimationPanel bankAnimationPanel = new BankAnimationPanel();
 	
 	BankAccount currentAccount = null;
 	

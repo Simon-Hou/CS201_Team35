@@ -135,6 +135,8 @@ public class SimCityGui extends JFrame {
 		int xStartTest = 0;
 		int yStartTest = 0;
 		
+		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
+		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
 		test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);

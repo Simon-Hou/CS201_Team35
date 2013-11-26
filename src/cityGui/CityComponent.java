@@ -111,7 +111,7 @@ public abstract class CityComponent implements ImageObserver {
 	public int sidewalkX(int x, int y) {
 		if (outerLeftSide(x,y) || innerLeftSide(x,y)) {
 			if (innerBuilding(x,y)) {
-				return 190;
+				return 200;
 			}
 			else return 40;
 		}
@@ -127,7 +127,7 @@ public abstract class CityComponent implements ImageObserver {
 	public int sidewalkY(int x, int y) {
 		if (outerTopSide(x,y) || innerTopSide(x,y)) {
 			if (innerBuilding(x,y)) {
-				return 190;
+				return 200;
 			}
 			else return 40;
 		}
