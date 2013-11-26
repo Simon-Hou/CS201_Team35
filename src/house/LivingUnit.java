@@ -7,15 +7,25 @@ import public_Object.Food;
 
 public class LivingUnit {
 	//data
-	Person inhabitant;
+	InhabitantRole inhabitant;
 	List<Food> inventory=new ArrayList<Food>(); //should we have many kinds of food or only one at the very beginning?
-
+	
+	public LivingUnit(){
+		inhabitant=new InhabitantRole();
+		
+	}
+	
+	
+	
 	//msg
+	
+	
 	public void msgImHome(Person p){ //called by Person
-		inhabitant=p;
+		inhabitant.self=p;
+		
 	}
 	public void msgLeaveHome(){ //called by Person
-		inhabitant=null;
+		inhabitant.self=null;
 	}
 	public void msgFoodIn(List<Food> foods){
 		for(Food bought : foods){
@@ -33,4 +43,8 @@ public class LivingUnit {
 
 		}
 	}
+	
+	
+
+
 }

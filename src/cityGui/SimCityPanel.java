@@ -23,8 +23,7 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	public ArrayList<CityComponent> statics, movings;
 	protected Color background;
 	protected Timer timer;
-	public ArrayList<JPanel> animPanelList = new ArrayList<JPanel>();
-	
+		
 	public SimCityPanel(SimCityGui city) {
 		this.city = city;
 		statics = new ArrayList<CityComponent>();
@@ -34,16 +33,11 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	}
 	
 	public void paint(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
 		g.setColor(background);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		moveComponents();
 		drawComponents(g);
-		if (!animPanelList.isEmpty()) {
-			for (JPanel JP : animPanelList) {
-				JP.paint(g2);
-			}
-		}
+		
 	}
 	
 	public void drawComponents(Graphics g) {
@@ -71,11 +65,9 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		this.repaint();
+		repaint();
 	}
 	
-	public void addAnimPanel(JPanel animPanel) {
-		animPanelList.add(animPanel);
-	}
+	
 
 }
