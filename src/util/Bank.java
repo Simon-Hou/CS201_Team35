@@ -84,7 +84,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 		BankTellerGui g = new BankTellerGui(((BankTellerRole)t));
 		if (!tellerSpots.isEmpty())
 			g.initialSpot(tellerSpots.get(0).xPos, tellerSpots.get(0).yPos);
-		((BankTellerRole)t).setGui(g);
+		//((BankTellerRole)t).setGui(g);
 		bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)t).getName());
 		bankGui.bankAnimationPanel.addGui(g);
 		//t.msgStateChanged();
@@ -105,7 +105,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 		//System.out.println("Here");
 		bankCustomers.add(c);
 		BankCustomerGui g = new BankCustomerGui(((BankCustomerRole)c));
-		((BankCustomerRole)c).setGui(g);
+		//((BankCustomerRole)c).setGui(g);
 		bankGui.bankPanel.tellerPanel.addListButton(((BankCustomerRole)c).getName());
 		bankGui.bankAnimationPanel.addGui(g);
 		//System.out.println("Size of the queue is "+bankCustomers.size());

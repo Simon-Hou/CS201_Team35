@@ -61,7 +61,6 @@ public class BankPanel extends JPanel {
 	}
 	public void enterBankTemp(String bcr) {
 		//bank.addMeToQueue(bcr);
-		System.out.println("entered enterBankTemp");
 		customerPanel.addListButton(bcr);
 		//gui.bankAnimationPanel.addGui(g);
 //		if (bcr instanceof BankCustomerRole) {
@@ -71,7 +70,6 @@ public class BankPanel extends JPanel {
 	
 	public void addAccount(BankAccount BA) {
 		//bank.addMeToQueue(bcr);
-		System.out.println("entered enterBankTemp");
 		bank.accounts.add(BA);
 		accountPanel.addListButton("" + BA.accountNumber);
 		//gui.bankAnimationPanel.addGui(g);
