@@ -1,7 +1,6 @@
 package restaurant.restaurantLinda;
 
 import agent.Agent;
-
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Cook;
 import interfaces.restaurantLinda.Market;

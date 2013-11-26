@@ -1,5 +1,7 @@
 package cityGui;
 
+import house.House;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -27,17 +29,19 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	boolean addingObject = false;
 	CityComponent temp;
 	public CityObject cityObject;
-	
+
 	private JPanel tempAnimPanel;
-	
+
 	String name = "City Panel";
-	
+	List<House> houses=new ArrayList<House>();
+
+
 	public CityPanel(SimCityGui city) {
 		super(city);
 		//setSize(CITY_WIDTH,CITY_HEIGHT);
 		this.setPreferredSize(new Dimension(CITY_WIDTH, CITY_HEIGHT));
 		this.setVisible(true);
-		
+
 		//fountainImage = ImageIO.read(new File(""));
 		background = new Color(0, 183, 96);
 		for (int i = 80; i < 700; i += 360) {
@@ -82,19 +86,19 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
-	
+
 	public void mouseClicked(MouseEvent arg0) {
-		
+
 	}
-	
+
 	public void mouseEntered(MouseEvent arg0) {
-		
+
 	}
-	
+
 	public void mouseExited(MouseEvent arg0) {
-		
+
 	}
-	
+
 	public void mousePressed(MouseEvent arg0) {
 		if (addingObject) {
 			//make sure we aren't overlapping anything
@@ -108,19 +112,24 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
-			if (temp.ID.contains("Bank")) {
-				JPanel tempAnim;
-				city.view.addView(new CityCard(city, Color.pink), temp.ID);
+
+			if(temp.type.equals("Restaurant")){
+
+				city.view.addView(new CityRestaurantCard(city), temp.ID);
 				temp.cityObject = this.cityObject;
-				tempAnim = temp.addAgentObjectToMap();
-				addAnimPanel(tempAnim);
-//				tempAnimPanel = temp.addAgentObjectToMap();
-//				temp.cityObject = this.cityObject;
-//				city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
-				System.err.println("Bank Added");
+				temp.addAgentObjectToMap();
+			}
+			else if(temp.type.equals("House")){
+				CityHouseCard tempAnimation= new CityHouseCard(city);
+				((CityHouse)temp).house.setAnimationPanel(tempAnimation);
+				houses.add(((CityHouse)temp).house);//hack: this is not necessary because we have the cityObject already. Change it later
+				city.view.addView(tempAnimation, temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
+
 			}
 			else{
-				System.err.println("HERE HERE HERE");
+
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
@@ -136,11 +145,11 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 		}
 	}
-	
+
 	public void mouseReleased(MouseEvent arg0) {
-		
+
 	}
-	
+
 	public void addObject(CityComponents c) {
 		if (addingObject)
 			return;
@@ -157,7 +166,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	}
 
 	public void mouseDragged(MouseEvent arg0) {
-		
+
 	}
 
 	public void mouseMoved(MouseEvent arg0) {
@@ -174,14 +183,14 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 		}
 	}
-	
+
 	public void moveBuildingTo(Loc loc){
 		//FOR HACKS
 		if(addingObject){
 			temp.setPosition(new Point(loc.x,loc.y));
 		}
 	}
-	
+
 	public void setBuildingDown(){
 		//FOR HACKS
 		if (addingObject) {
@@ -196,16 +205,11 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
-			if (temp.ID.equalsIgnoreCase("bank")) {
-				tempAnimPanel = temp.addAgentObjectToMap();
-				temp.cityObject = this.cityObject;
-				city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
-			}
-			else{
+
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
-			}
+//			}
 			temp = null;
 		}
 	}

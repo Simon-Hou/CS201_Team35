@@ -242,6 +242,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		if(Tasks.isEmpty()){
 			Do("Finished what I needed done. I'm leaving");
 			state = CustState.leaving;
+			
 			if(bankCustomerGui!=null){
 				bankCustomerGui.DoExitBank();
 			}
@@ -255,6 +256,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			((Bank)bank).exitBank(this);
 			event = CustEvent.left;
 			person.msgThisRoleDone(this);
 			return;

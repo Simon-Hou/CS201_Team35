@@ -26,7 +26,7 @@ import cityGui.trace.TracePanel;
 
 public class SimCityGui extends JFrame {
 	
-	static public CityPanel city;
+	 public CityPanel city;
 	public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
@@ -235,17 +235,19 @@ public class SimCityGui extends JFrame {
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
-		test.addNewBuilding("Bank", 5, 400);
-		test.addNewBuilding("Market",200,250);
+		//test.addNewBuilding("Bank", 5, 400);
+		//test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Market", 250, 200);
-		test.addNewBuilding("House", 200, 5);
-		test.addNewBuilding("House", 500, 5);
+		//test.addNewBuilding("House", 200, 5);
+		//test.addNewBuilding("House", 500, 5);
 		
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
 		test.addBuses(test);
 		
 		
+		//test.fullyManBuilding("Bank",0);
+		//test.fullyManBuilding("Market",0);
 
 		
 		

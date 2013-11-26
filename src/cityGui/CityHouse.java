@@ -39,6 +39,7 @@ public class CityHouse extends CityComponent implements ImageObserver {
 
 	public CityHouse(int x, int y, String I) {
 		super(x, y, Color.yellow, I);
+		type="House";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		initializeHouse();
 		//house.houseGui = this;

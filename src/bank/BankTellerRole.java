@@ -65,6 +65,16 @@ public class BankTellerRole extends Role implements BankTeller{
 	}
 	
 	public boolean canLeave(){
+		if (currentCustomer == null) {
+			if (bankTellerGui!=null) {
+				bankTellerGui.DoExitBank();
+				try {
+					atDestination.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return currentCustomer == null;
 	}
 
@@ -121,7 +131,7 @@ public class BankTellerRole extends Role implements BankTeller{
 	//SCHED
 	
 	public boolean pickAndExecuteAnAction(){
-		
+		//GoToPosition();
 		//If not started working, tell BankInterface you're starting
 		if(!startedWorking){
 			//Do("I'll start working.");
@@ -189,6 +199,7 @@ public class BankTellerRole extends Role implements BankTeller{
 		Do("Going to my position to work");
 		if(bankTellerGui!=null){
 			bankTellerGui.DoGoToPosition();
+			System.err.println();
 		}
 		else{
 			atDestination.release();
@@ -261,11 +272,14 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	private void LeaveBank() {
 		Do("Leaving the bank now");
-		bankTellerGui.DoExitBank();
-		try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		((Bank)bank).finishTellerShift(this);
+		if (bankTellerGui!=null) {
+			bankTellerGui.DoExitBank();
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		//TODO message the bank here and figure out how to seal the deal.
 	}

@@ -13,7 +13,7 @@ import house.InhabitantRole;
 public class InhabitantGui implements Gui {
 
 
-	private InhabitantRole agent = null;
+	private InhabitantRole role = null;
 	private HouseGui gui=null;
 	private boolean pause=false;
 	
@@ -25,9 +25,12 @@ public class InhabitantGui implements Gui {
 	private int yResting=100;		
 	private int xDestination = xResting, 		yDestination = yResting;//default start position
 
-
+	public InhabitantGui(InhabitantRole role){
+		this.role = role;
+	}
+	
 	public InhabitantGui(InhabitantRole agent,HouseGui gui) {
-		this.agent = agent;
+		this.role = agent;
 		this.gui=gui;
 	}
 

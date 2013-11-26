@@ -17,6 +17,7 @@ public abstract class CityComponent implements ImageObserver {
 	//Consider creating a rectangle for every Component for better universal collision detection
 
 	CityObject cityObject;
+	String type=null;
 	
 	protected Rectangle rectangle;
 	public int x, y;
@@ -55,6 +56,14 @@ public abstract class CityComponent implements ImageObserver {
 		this.y = y;
 		color = c;
 		ID = I;
+		isActive = true;
+	}
+	public CityComponent(int x, int y, Color c, String I, String t) {
+		this.x = x;
+		this.y = y;
+		color = c;
+		ID = I;
+		type=t;
 		isActive = true;
 	}
 

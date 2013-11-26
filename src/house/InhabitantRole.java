@@ -1,6 +1,7 @@
 package house;
 
 import public_Object.Food;
+import house.gui.InhabitantGui;
 import interfaces.Inhabitant;
 import interfaces.Person;
 import role.Role;
@@ -8,9 +9,8 @@ import role.Role;
 public class InhabitantRole extends Role implements Inhabitant {
 
 	//Constructor
-	public InhabitantRole(String name,Person p){
-		this.name = name;
-		this.self = p;
+	public InhabitantRole(){
+		
 	}
 	
 	public String getName(){
@@ -20,11 +20,12 @@ public class InhabitantRole extends Role implements Inhabitant {
 	
 	//data
 	String name;
-	LivingUnit myRoom = new LivingUnit();
+	LivingUnit myRoom;
 	Person self;
 	enum InhabitantState {IDLE,HUNGRY,FOODREADY, TIRED,EXIT};
 	public InhabitantState s=InhabitantState.IDLE;
 	String foodEaten=null;
+	InhabitantGui gui;
 
 	//msg
 	
@@ -124,4 +125,12 @@ public class InhabitantRole extends Role implements Inhabitant {
 	public void DoExit(){
 		
 	}
+	
+	//utilities
+	public void setGui(InhabitantGui g){
+		gui=g;
+		
+	}
+	
+	
 }
