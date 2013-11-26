@@ -3,8 +3,16 @@ package cityGui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import restaurant.restaurantLinda.gui.Gui;
+import restaurant.restaurantLinda.gui.MyImage;
+import restaurant.restaurantLinda.gui.RestaurantPanel;
 
 
 
@@ -12,18 +20,14 @@ import java.util.List;
 public class CityRestaurantCard extends CityCard{
 	//initial values
 	public static final int CARD_WIDTH = 500, CARD_HEIGHT = 500;
-	public static final int xTableUnit = 50;
-	public static final int yTableUnit = 250;
-	public static final int xSize = 50;
-	public static final int ySize = 50;
-	public static final int deskXPos=300;
-	public static final int deskYPos=40;
-	public static final int deskX=30;
-	public static final int deskY=100;
-	public static final int grillY=30;
-	public static final int fridgeY=20;
-	
-	private List<Gui> guis = new ArrayList<Gui>();
+	public static final Rectangle REFRIGERATOR = new Rectangle(CARD_WIDTH-100, 0, 79, 30);
+    public static final Rectangle STOVE = new Rectangle(CARD_WIDTH-100, CARD_HEIGHT-50, 80, 50);
+    public static final int TABLESIZE=50;
+    public static final int PERSONSIZE=25;
+    
+    private List<Gui> guis = new ArrayList<Gui>();
+    private Collection<Point> tableMap = new ArrayList<Point>();
+    public List<MyImage> platedFoods = Collections.synchronizedList(new ArrayList<MyImage>());
 
 
 	public CityRestaurantCard(SimCityGui city) {
@@ -33,31 +37,67 @@ public class CityRestaurantCard extends CityCard{
 
 
 	public void paint(Graphics g) {
+		
 		g.setColor(getBackground());
-		g.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT );
+        g.fillRect(0, 0, CARD_WIDTH+50, CARD_HEIGHT+50);
+        
+        //Here is the cook's area       
+        g.setColor(Color.WHITE);
+        g.fillRect(REFRIGERATOR.x, REFRIGERATOR.y, REFRIGERATOR.width+20, REFRIGERATOR.height);
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(STOVE.x, STOVE.y, STOVE.width+20, STOVE.height);
+        g.draw3DRect(REFRIGERATOR.x, REFRIGERATOR.y, REFRIGERATOR.width+20, REFRIGERATOR.height, true);
+        g.drawString("Refrigerator", CARD_WIDTH-80, 20);
+        g.setColor(Color.GRAY);
+        g.fillRect(CARD_WIDTH-150, 0, 50, CARD_HEIGHT);
+        g.drawOval(CARD_WIDTH-92, CARD_HEIGHT-50, 24, 24);
+        g.drawOval(CARD_WIDTH-61, CARD_HEIGHT-50, 24, 24);
+        g.drawOval(CARD_WIDTH-30, CARD_HEIGHT-50, 24, 24);
+        g.drawOval(CARD_WIDTH-92, CARD_HEIGHT-26, 24, 24);
+        g.drawOval(CARD_WIDTH-61, CARD_HEIGHT-26, 24, 24);
+        g.drawOval(CARD_WIDTH-30, CARD_HEIGHT-26, 24, 24);
 
-		//Here is the table
-		g.setColor(Color.ORANGE);
-		g.fillRect(xTableUnit, yTableUnit, xSize, ySize);//200 and 250 need to be table params
+        int cellSize = RestaurantPanel.cellSize;
+        int gridX = CARD_WIDTH/cellSize;
+        int gridY = CARD_HEIGHT/cellSize;
+        
+        for (int i=0; i<gridX ; i++)
+    	    for (int j = 0; j<gridY; j++){
+    	    	g.drawRect(i*cellSize, j*cellSize, cellSize, cellSize);
+    	    	g.drawString(i*cellSize + " " + j*cellSize, i*cellSize+5, j*cellSize+PERSONSIZE);
+    	    }
 
-		//more tables
-		g.fillRect(3*xTableUnit, yTableUnit, xSize, ySize);//200 and 250 need to be table params
-		g.fillRect(5*xTableUnit, yTableUnit, xSize, ySize);//200 and 250 need to be table params
+        //Here are the tables
+        for (Point table: tableMap)
+		{
+        	g.setColor(Color.ORANGE);
+        	g.fillRect(table.x, table.y, TABLESIZE, TABLESIZE);
+        }
 
-		//desks!
-		g.setColor(Color.BLUE);
-		g.fillRect(deskXPos, deskYPos, deskX,deskY);
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 
-		//grills
-		g.setColor(Color.GRAY);
-		g.fillRect(deskXPos+80, deskYPos, deskX, grillY);
-		g.fillRect(deskXPos+70, deskYPos+33, deskX, grillY);
-		g.fillRect(deskXPos+60, deskYPos+66, deskX, grillY);
-
-		//refrigerator
-		g.setColor(Color.WHITE);
-		g.fillRect(deskXPos+30,deskYPos-20,deskX,fridgeY);
-
-	}
-	
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.draw(g);
+            }
+        }
+        
+        //The plated foods
+        synchronized(platedFoods){
+        	for (MyImage plate: platedFoods){
+        		plate.draw(g);
+        	}
+        }
+        
+        //The cashier
+        g.setColor(Color.BLUE);
+        g.fillRect(0, 100, PERSONSIZE, PERSONSIZE);
+    }
+        
 }
+	
+

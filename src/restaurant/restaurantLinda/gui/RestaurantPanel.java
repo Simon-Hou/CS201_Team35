@@ -31,7 +31,7 @@ import java.util.concurrent.Semaphore;
  */
 public class RestaurantPanel extends JPanel {
 
-	static int cellSize = 50;
+	public static int cellSize = 50;
 	static int gridX = AnimationPanel.WINDOWX/cellSize;
     static int gridY = AnimationPanel.WINDOWY/cellSize;
     //Create grid for AStar

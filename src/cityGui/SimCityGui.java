@@ -217,14 +217,20 @@ public class SimCityGui extends JFrame {
 		cityObject.fBus = b;
 		cityObject.bBus = b2;
 		
-		cityObject.fStops.add(new BusStop(new Loc(380,450)));
-		cityObject.fStops.add(new BusStop(new Loc(170,130)));
+		cityObject.cityMap.fStops.add(new BusStop(new Loc(380,450)));
+		cityObject.cityMap.fStops.add(new BusStop(new Loc(170,130)));
 		
-		cityObject.bStops.add(new BusStop(new Loc(460,90)));
-		cityObject.bStops.add(new BusStop(new Loc(100,490)));
+		cityObject.cityMap.fStops.get(0).sidewalkLoc = new Loc(410,430);
+		cityObject.cityMap.fStops.get(1).sidewalkLoc = new Loc(180,160);
 		
-		b.stops = cityObject.fStops;
-		b2.stops = cityObject.bStops;
+		cityObject.cityMap.bStops.add(new BusStop(new Loc(460,90)));
+		cityObject.cityMap.bStops.add(new BusStop(new Loc(100,490)));
+		
+		cityObject.cityMap.bStops.get(0).sidewalkLoc = new Loc(490,70);
+		cityObject.cityMap.bStops.get(1).sidewalkLoc = new Loc(120,520);
+		
+		b.stops = cityObject.cityMap.fStops;
+		b2.stops = cityObject.cityMap.bStops;
 		
 		city.addMoving(b.gui);
 		city.addMoving(b2.gui);
@@ -249,16 +255,16 @@ public class SimCityGui extends JFrame {
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
-		/*test.addNewBuilding("Bank", 5, 400);
+		test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);
-		test.addNewBuilding("Market", 250, 200);
+		//test.addNewBuilding("Market", 250, 200);
 		test.addNewBuilding("House", 200, 5);
-		test.addNewBuilding("House", 500, 5);
+		//test.addNewBuilding("House", 500, 5);
 		
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
-		test.fullyManBuilding("Market",1);
-		test.addBuses(test);*/
+		//test.fullyManBuilding("Market",1);
+		test.addBuses(test);
 		
 		
 		//test.fullyManBuilding("Bank",0);
