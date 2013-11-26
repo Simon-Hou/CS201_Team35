@@ -486,6 +486,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		Do("I am going home to sleep ");
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
+		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
 		doGoHome();
 		inhabitantRole.msgTired();
 		activeRole = inhabitantRole;
