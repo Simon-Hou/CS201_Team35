@@ -78,14 +78,15 @@ public class InhabitantRole extends Role implements Inhabitant {
 	
 	private void Sleep(){
 		//Do("Going to sleep");
+		int randSleep = (int) Math.floor(3*Math.random());
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(3000 + randSleep);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		s = InhabitantState.EXIT;
-		Do("I HAVE AWAKENED");
+		//Do("I HAVE AWAKENED");
 		return;
 	}
 	

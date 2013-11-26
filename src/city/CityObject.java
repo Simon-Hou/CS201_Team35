@@ -44,6 +44,7 @@ public class CityObject implements ActionListener{
 	public final int numBanks = 0;
 	public final int numMarkets = 0;
 	public final int numRestaurants = 1;
+	public int MAXTIME = 100;
 	
 	List<BankMapLoc> banks = new ArrayList<BankMapLoc>();
 	List<MarketMapLoc> markets = new ArrayList<MarketMapLoc>();
@@ -173,7 +174,7 @@ public class CityObject implements ActionListener{
 	
 	public void updateTime(){
 		System.out.println("CITY: Updating time");
-		currentTime = (currentTime+1)%100;
+		currentTime = (currentTime+1)%MAXTIME;
 		for(PersonAgent p:people){
 			p.setTime(currentTime);
 			p.msgStateChanged();

@@ -1,5 +1,7 @@
 package cityGui;
 
+import interfaces.PlaceOfWork;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,8 +11,12 @@ import javax.swing.JFrame;
 
 import person.PersonAgent;
 import util.Bank;
+import util.BankMapLoc;
 import util.CityMap;
+import util.HouseMapLoc;
+import util.JobType;
 import util.Loc;
+import util.MarketMapLoc;
 import city.CityObject;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
@@ -25,6 +31,8 @@ public class SimCityGui extends JFrame {
 	CityControlPanel CP;
 	TracePanel tracePanel;
 	GridBagConstraints c = new GridBagConstraints();
+	int SHIFTS = 3;
+	int MAXTIME = 100;
 
 	public SimCityGui() throws HeadlessException {
 		CP = new CityControlPanel(this);
@@ -36,6 +44,7 @@ public class SimCityGui extends JFrame {
 
 		//THIS IS THE AGENT CITY
 		cityObject = new CityObject(this);
+		cityObject.MAXTIME = this.MAXTIME;
 		
 		city = new CityPanel(this);
 		city.cityObject = cityObject;
@@ -90,6 +99,17 @@ public class SimCityGui extends JFrame {
 		
 	}
 	
+	public void addNewPersonHard(String name, PlaceOfWork placeOfWork,
+			JobType jobType,int start,int end,int bankNum,int houseNum){
+		
+		PersonAgent person = new PersonAgent(name,cityObject.cityMap);
+		person.setJob(placeOfWork, jobType, start, end);
+		person.setBank(bankNum);
+		person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		addNewPerson(person);
+		
+	}
+	
 	public void addNewBuilding(String type,int x, int y){
 		if(type.equals("Bank")){
 			city.addObject(CityComponents.BANK);
@@ -118,6 +138,69 @@ public class SimCityGui extends JFrame {
 		
 	}
 	
+	//HACK
+	public void fullyManBuilding(String type,int num){
+		if(type.equals("Bank")){
+			int j = 0;
+			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			//System.out.println("Rand offset: "+randOffset);
+			for(int i = 0;i<SHIFTS;++i){
+				int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				//System.out.println("Shift start, end: "+start+" " +end);
+				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
+				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
+				addNewPersonHard("p"+j,
+						((BankMapLoc) cityObject.cityMap.map.get("Bank").get(num)).bank,
+						JobType.BankTeller,start,end,bankNum,houseNum);
+				j = j+1;
+			}
+			return;
+		}
+		if(type.equals("Market")){
+			int j = 0;
+			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			//System.out.println("Rand offset: "+randOffset);
+			for(int i = 0;i<SHIFTS;++i){
+				int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				//System.out.println("Shift start, end: "+start+" " +end);
+				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
+				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
+				addNewPersonHard("p"+j,
+						((MarketMapLoc) cityObject.cityMap.map.get("Market").get(num)).market,
+						JobType.MarketHost,start,end,bankNum,houseNum);
+				j = j+1;
+			}
+			randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			for(int i = 0;i<SHIFTS;++i){
+				int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				//System.out.println("Shift start, end: "+start+" " +end);
+				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
+				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
+				addNewPersonHard("p"+j,
+						((MarketMapLoc) cityObject.cityMap.map.get("Market").get(num)).market,
+						JobType.MarketCashier,start,end,bankNum,houseNum);
+				j = j+1;
+			}
+			
+			for(int numEmployees = 0;numEmployees<2;++numEmployees){
+				randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+				for(int i = 0;i<SHIFTS;++i){
+					int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+					int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+					//System.out.println("Shift start, end: "+start+" " +end);
+					int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
+					int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
+					addNewPersonHard("p"+j,
+							((MarketMapLoc) cityObject.cityMap.map.get("Market").get(num)).market,
+							JobType.MarketEmployee,start,end,bankNum,houseNum);
+					j = j+1;
+				}
+			}
+		}
+	}
 
 	/**
 	 * @param args
@@ -140,8 +223,13 @@ public class SimCityGui extends JFrame {
 		//HACK ADDS BUILDINGS TO THE MAP
 		test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);
-		test.addNewBuilding("Market", 250, 200);
+		//test.addNewBuilding("Market", 250, 200);
 		test.addNewBuilding("House", 200, 5);
+		test.addNewBuilding("House", 500, 5);
+		
+		test.fullyManBuilding("Bank",0);
+		test.fullyManBuilding("Market",0);
+
 		
 		
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
