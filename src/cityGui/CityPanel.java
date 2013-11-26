@@ -109,11 +109,11 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
 			if (temp.ID.contains("Bank")) {
-				JPanel tempAnim;
+				//JPanel tempAnim;
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);
 				temp.cityObject = this.cityObject;
-				tempAnim = temp.addAgentObjectToMap();
-				addAnimPanel(tempAnim);
+				temp.addAgentObjectToMap();
+				//addAnimPanel(tempAnim);
 //				tempAnimPanel = temp.addAgentObjectToMap();
 //				temp.cityObject = this.cityObject;
 //				city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
@@ -196,16 +196,16 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
-			if (temp.ID.equalsIgnoreCase("bank")) {
-				tempAnimPanel = temp.addAgentObjectToMap();
-				temp.cityObject = this.cityObject;
-				city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
-			}
-			else{
+//			if (temp.ID.equalsIgnoreCase("bank")) {
+//				tempAnimPanel = temp.addAgentObjectToMap();
+//				temp.cityObject = this.cityObject;
+//				city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
+//			}
+//			else{
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
-			}
+//			}
 			temp = null;
 		}
 	}

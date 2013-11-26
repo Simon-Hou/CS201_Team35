@@ -64,7 +64,7 @@ public class BankGui  extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private BankPanel bankPanel;
+    public BankPanel bankPanel;
     private JFrame controlPanel = new JFrame();//changed userScreen to controlPanel
     private JPanel moreInfo = new JPanel();
     

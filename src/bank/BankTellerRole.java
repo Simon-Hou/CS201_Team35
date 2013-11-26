@@ -121,7 +121,7 @@ public class BankTellerRole extends Role implements BankTeller{
 	//SCHED
 	
 	public boolean pickAndExecuteAnAction(){
-		
+		GoToPosition();
 		//If not started working, tell BankInterface you're starting
 		if(!startedWorking){
 			//Do("I'll start working.");
@@ -189,6 +189,7 @@ public class BankTellerRole extends Role implements BankTeller{
 		Do("Going to my position to work");
 		if(bankTellerGui!=null){
 			bankTellerGui.DoGoToPosition();
+			System.err.println();
 		}
 		else{
 			atDestination.release();

@@ -34,16 +34,15 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	}
 	
 	public void paint(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
 		g.setColor(background);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		moveComponents();
 		drawComponents(g);
-		if (!animPanelList.isEmpty()) {
-			for (JPanel JP : animPanelList) {
-				JP.paint(g2);
-			}
-		}
+//		if (!animPanelList.isEmpty()) {
+//			for (JPanel JP : animPanelList) {
+//				JP.paint(g2);
+//			}
+//		}
 	}
 	
 	public void drawComponents(Graphics g) {

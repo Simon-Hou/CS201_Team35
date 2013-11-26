@@ -28,8 +28,10 @@ public class BankTellerGui implements Gui{
 	public static final int yDoor = 100;
 	public static final int xSafe = 100;
 	public static final int ySafe = 100;
+	public int xSpot = 0;
+	public int ySpot = 0;
 	
-	public void BankTellerGui(BankTellerRole btr) {
+	public BankTellerGui(BankTellerRole btr) {
 		role = btr;
 		xPos = xDoor;
 		yPos = yDoor;
@@ -74,8 +76,8 @@ public class BankTellerGui implements Gui{
 	}
 	
 	public void DoGoToPosition() {//TODO figure out how to get the proper thing here......
-		xDestination = 100;
-		yDestination = 100;
+		xDestination = xSpot;
+		yDestination = ySpot;
 		command = Command.GoToSpot;
 	}
 	
@@ -87,5 +89,10 @@ public class BankTellerGui implements Gui{
 	
 	public boolean isPresent() {
 		return true;
+	}
+
+	public void initialSpot(int xPos2, int yPos2) {
+		xSpot = xPos2;
+		ySpot = yPos2;
 	}
 }

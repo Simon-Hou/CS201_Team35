@@ -24,8 +24,8 @@ import util.Bank.loan;
 public class BankPanel extends JPanel {
 
 
-	private ListPanel accountPanel = new ListPanel(this, "Accounts");
-	private ListPanel tellerPanel = new ListPanel(this, "Tellers");
+	public ListPanel accountPanel = new ListPanel(this, "Accounts");
+	public ListPanel tellerPanel = new ListPanel(this, "Tellers");
 	private ListPanel customerPanel = new ListPanel(this, "Customers");
 	
 	private String currentAccount;
