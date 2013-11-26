@@ -314,7 +314,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			jobType = JobType.NOTSELECTED;
 		}
 		
-		System.out.println(jobType.toString());
+		//System.out.println(jobType.toString());
 		int start;
 		int end;
 		if(jobType != JobType.NOTSELECTED){
