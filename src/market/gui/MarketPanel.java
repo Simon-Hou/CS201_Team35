@@ -80,6 +80,7 @@ public class MarketPanel extends JFrame implements ActionListener{
         pane.setMinimumSize(paneSize);
         pane.setMaximumSize(paneSize);
         
+        
       
 
         
