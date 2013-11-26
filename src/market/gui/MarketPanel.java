@@ -177,7 +177,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         PersonAgent p1 = new PersonAgent("Customer", map);
         MarketCustomerRole customer = new MarketCustomerRole("Customer", p1);
         customer.addToShoppingList("Pizza", 12 );
-        customer.addToShoppingList("Car", 1);
+        customer.addToShoppingList("Car", 2);
         p1.activeRole = customer;
        p1.startThread();
        customers.add(customer);

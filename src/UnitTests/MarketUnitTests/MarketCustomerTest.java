@@ -32,7 +32,6 @@ public class MarketCustomerTest extends TestCase{
 		host.customer = customer;
 		employee.customer = customer;
 		cashier.customer = customer;
-		//set roles and mocks role contact properties
 		
 	}
 	
