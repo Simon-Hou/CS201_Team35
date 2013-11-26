@@ -1,8 +1,10 @@
 package interfaces.restaurantLinda;
 
+import interfaces.Occupation;
+
 import java.util.List;
 
-public interface Waiter {
+public interface Waiter extends Occupation{
 
 	public abstract void msgPleaseServeCustomer(Customer c, int table);
 

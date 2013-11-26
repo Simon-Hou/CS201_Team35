@@ -246,7 +246,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 						JobType.RestaurantCook,start,end,bankNum,houseNum);
 				addNewPersonHard("pwaiter"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
-						JobType.RestaurantWaiter,start,end,bankNum,houseNum);
+						JobType.RestaurantWaiter1,start,end,bankNum,houseNum);
+				addNewPersonHard("pwaiter"+j,
+						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+						JobType.RestaurantWaiter2,start,end,bankNum,houseNum);
 				addNewPersonHard("prcash"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantCashier,start,end,bankNum,houseNum);

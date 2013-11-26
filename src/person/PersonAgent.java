@@ -17,6 +17,8 @@ import market.Market;
 import market.MarketCustomerRole;
 import market.MarketEmployeeRole;
 import restaurant.Restaurant;
+import restaurant.restaurantLinda.CustomerRole;
+import restaurant.restaurantLinda.OriginalWaiterRole;
 import role.Role;
 import util.Bank;
 import util.Bus;
@@ -56,6 +58,9 @@ public class PersonAgent extends Agent implements Person {
 		bankRole = new BankCustomerRole(name+"Bank",this);
 		marketRole = new MarketCustomerRole(name+"Market",this);
 		inhabitantRole = new InhabitantRole(name + "Home",this);
+		
+		//will be changed later to request the correct role from the restaurant diretly
+		CustomerRole restaurantRole = new CustomerRole(name+"Restaurant", this);
 		
 		this.belongings.myFoods.add(new Food("Steak",10));
 		this.belongings.myFoods.add(new Food("Chicken",10));
@@ -362,7 +367,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Actions
 	private void goToWork() {
-		Do("I am going to work as a "+myJob.jobType);
+		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole);
 
 		//HACK
 		if(myJob.placeOfWork==null){
@@ -616,11 +621,12 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Utilities
 	
+	//I'm thinking this should include the actual Role rather than having the person make it....
 	public void setJob(PlaceOfWork placeOfWork,JobType jobType,int start,int end){
 		
 		Role jobRole = null;
 		if(jobType==JobType.MarketHost || jobType==JobType.MarketCashier 
-				|| jobType==jobType.RestaurantHost){
+				|| jobType==jobType.RestaurantHost || jobType==jobType.RestaurantCashier || jobType == jobType.RestaurantCook){
 			jobRole = null;
 			//myJob = new Job(null,start,end,placeOfWork,this,jobType);
 			//return;
@@ -633,6 +639,10 @@ public class PersonAgent extends Agent implements Person {
 		else if(jobType==JobType.MarketEmployee){
 			jobRole = new MarketEmployeeRole(name+"MarketEmployee",this);
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
+		}
+		else if (jobType==JobType.RestaurantWaiter1){
+			//
+					
 		}
 		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 		

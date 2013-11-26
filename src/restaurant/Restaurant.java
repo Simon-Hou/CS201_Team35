@@ -67,13 +67,8 @@ public class Restaurant implements PlaceOfWork{
 	}
 	
 	public Host CanIBeHost(Person person){
-		if(((HostRole) host).getPerson()==null){
-			((HostRole) host).setName(person.getName()+"RestaurantHost");
-			((HostRole) host).setPerson(person);
-			return host;
-		}
-		System.err.println("New host wasn't allowded to take over");
-		return null;
+		((HostRole)host).changeShifts(person);
+		return host;
 	}
 	
 	public void waiterComingToWork(Waiter m){
@@ -83,9 +78,7 @@ public class Restaurant implements PlaceOfWork{
 	}
 	
 	public BaseRestaurantCook cookComingToWork(Person p){
-		((CookRole) cook).setPerson(p);
-		((CookRole)cook).setName(p.getName() + "Cook");
-		
+		((CookRole)cook).changeShifts(p);
 		return cook;
 	}
 	

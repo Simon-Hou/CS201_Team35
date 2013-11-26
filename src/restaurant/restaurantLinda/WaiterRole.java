@@ -4,6 +4,7 @@ import agent.Agent;
 import restaurant.restaurantLinda.gui.WaiterGui;
 import role.Role;
 
+import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Cook;
 import interfaces.restaurantLinda.Customer;
@@ -34,6 +35,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 	
 	protected Semaphore atDestination = new Semaphore(0,true);
 	protected WaiterGui waiterGui=null;
+
 	
 	public WaiterRole(){
 		super();
@@ -437,6 +439,18 @@ public abstract class WaiterRole extends Role implements Waiter{
 	
 	public String getName() {
 		return name;
+	}
+	
+	@Override
+	public boolean canLeave() {
+		return true;
+	}
+	
+	public void changeShifts(Person p){
+		this.p.msgThisRoleDone(this);
+		
+		this.p = p;
+		this.name = p.getName();
 	}
 
 }
