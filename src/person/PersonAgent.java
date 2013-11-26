@@ -137,6 +137,7 @@ public class PersonAgent extends Agent implements Person {
 		public List<Food> myFoods;
 		public List<BankAccount> myAccounts;
 		public House myHouse;
+		public boolean bike = false;
 	}
 	
 	public class BankAccount {

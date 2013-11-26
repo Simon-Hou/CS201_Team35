@@ -130,10 +130,6 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
     	    System.out.println("Unexpected exception caught in during setup:"+ e);
     	}
         
-        //Cheat to make tables and a market
-        addTable(1,200,150);
-        addTable(1,350,150);
-        addTable(1,500,150);
 	}
     
 	
@@ -240,6 +236,11 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
         host.startThread();
         cook.startThread();
         cashier.startThread();
+        
+        //Cheat to make tables and a market
+        addTable(1,200,150);
+        addTable(1,350,150);
+        addTable(1,500,150);
 
 	}
 }
