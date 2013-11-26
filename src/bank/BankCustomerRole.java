@@ -259,6 +259,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			((Bank)bank).exitBank(this);
 			event = CustEvent.left;
 			person.msgThisRoleDone(this);
+			System.err.println("I should be out of the bank");
 			return;
 		}
 		

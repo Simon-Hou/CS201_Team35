@@ -38,17 +38,19 @@ public class Bank implements BankInterface, PlaceOfWork{
 	
 	int totalAmount = 1000000000;
 	
+	public Bank() {
+		tellerSpots.add(new TellerSpot(100 + 300/2-12, 75));//x value of the counter + center of counter - half width
+		tellerSpots.add(new TellerSpot(100 + 300/2-12, 445));//x value of the counter + center of counter - half width
+		tellerSpots.add(new TellerSpot(100 + 300, 175));//x value of the counter + counterWidth
+		tellerSpots.add(new TellerSpot(100 + 300, 325));//x value of the counter + counterWidth
+	}
+	
 	public class BankAccount{
 		public BankAccount(int amount,int accountNumber,String custName,String passWord){
 			this.amount = amount;
 			this.accountNumber = accountNumber;
 			this.custName = custName;
 			this.passWord = passWord;
-			tellerSpots.add(new TellerSpot(100 + 300/2-12, 75));//x value of the counter + center of counter - half width
-			tellerSpots.add(new TellerSpot(100 + 300/2-12, 445));//x value of the counter + center of counter - half width
-			tellerSpots.add(new TellerSpot(100 + 300, 175));//x value of the counter + counterWidth
-			tellerSpots.add(new TellerSpot(100 + 300, 325));//x value of the counter + counterWidth
-			
 		}
 		public int amount;
 		public int accountNumber;
@@ -85,13 +87,14 @@ public class Bank implements BankInterface, PlaceOfWork{
 	
 	public boolean startTellerShift(BankTeller t){
 		currentTellers.add(t);
+		((BankTellerRole)t).startedWorking=true;
 		BankTellerGui g = new BankTellerGui(((BankTellerRole)t));
 		if (!tellerSpots.isEmpty())
 			g.initialSpot(tellerSpots.get(0).xPos, tellerSpots.get(0).yPos);
-		//((BankTellerRole)t).setGui(g);
+		((BankTellerRole)t).setGui(g);
 		bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)t).getName());
 		animation.addGui(g);
-		bankGui.bankAnimationPanel.addGui(g);
+		//bankGui.bankAnimationPanel.addGui(g);
 		//t.msgStateChanged();
 		return true;
 	}
@@ -122,12 +125,12 @@ public class Bank implements BankInterface, PlaceOfWork{
 	}
 	
 	public boolean addMeToQueue(BankCustomer c){
-		//System.out.println("Here");
+		System.err.println("Requested to be put in line now.");
 		bankCustomers.add(c);
 		BankCustomerGui g = new BankCustomerGui(((BankCustomerRole)c));
-		//((BankCustomerRole)c).setGui(g);
+		((BankCustomerRole)c).setGui(g);
 		bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)c).getName());
-		bankGui.bankAnimationPanel.addGui(g);
+		//bankGui.bankAnimationPanel.addGui(g);
 		animation.addGui(g);
 		//System.out.println("Size of the queue is "+bankCustomers.size());
 		for(BankTeller t:currentTellers){
