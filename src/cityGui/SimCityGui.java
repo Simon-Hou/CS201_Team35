@@ -326,11 +326,16 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
-		//test.addNewBuilding("Bank", 5, 400);
-//		test.addNewBuilding("Market",200,250);
-//		test.addNewBuilding("Market", 250, 200);
-//		test.addNewBuilding("House", 200, 5);
-//		test.addNewBuilding("House", 500, 5);
+		/*test.addBuses(test);
+		test.addNewBuilding("Bank", 5, 400);
+		test.addNewBuilding("Market",200,250);
+		test.addNewBuilding("Market", 250, 200);
+		test.addNewBuilding("House", 200, 5);
+		test.addNewBuilding("House", 500, 5);
+		test.fullyManBuilding("Bank",0);
+		test.fullyManBuilding("Market",0);
+		test.fullyManBuilding("Market",1);*/
+		
 		
 		/*test.addBuses(test);
 		test.addNewBuilding("Bank", 5, 400);
@@ -410,6 +415,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		PersonAgent busRider = new PersonAgent("Rider",this.cityObject.cityMap);
 		busRider.myJob = new Job();
 		busRider.wantsToRideBus = true;
+		busRider.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(0)).house);
 		
 		addNewPerson(busRider);
 		

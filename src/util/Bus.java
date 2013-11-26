@@ -189,8 +189,9 @@ public class Bus extends Vehicle implements ActionListener{
 	public void updateTime(int time){
 		if((time+randomOffset)%TIME_BETWEEN_STOPS==0 && atStop){
 			atStop = false;
-			GoToNextStop();
-			atStop = true;
+			//GoToNextStop();
+			gui.doGoToNextStop(stops.get((currentStop+1)%stops.size()).location);
+			//atStop = true;
 		}
 	}
 	
