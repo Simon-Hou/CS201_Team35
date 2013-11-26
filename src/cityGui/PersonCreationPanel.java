@@ -247,6 +247,14 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			c.bankScenario();
 			return true;
 		}
+		if(name.equals("Market")){
+			c.marketScenario();
+			return true;
+		}
+		if(name.equals("Busy")){
+			c.busyScenario();
+			return true;
+		}
 		if(placeOptions.getSelectedValue()==null){
 			errorField.setText("Please select an employer");
 			return false;

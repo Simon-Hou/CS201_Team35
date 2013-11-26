@@ -44,6 +44,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	int MAXTIME = 100;
 	protected Timer timer;
 	public long time=0;
+	boolean hasBuses = false;
 
 	public SimCityGui() throws HeadlessException {
 		CP = new CityControlPanel(this);
@@ -120,6 +121,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		person.setJob(placeOfWork, jobType, start, end);
 		person.setBank(bankNum);
 		person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		boolean wantsToRideBus = false;
+		if(Math.random()>.75 && hasBuses){
+			wantsToRideBus = true;
+		}
+		person.wantsToRideBus = wantsToRideBus;
 		addNewPerson(person);
 
 	}
@@ -409,6 +415,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void busRideScenario(){
 		
+		hasBuses = true;
+		
 		addNewBuilding("House", 200, 5);
 		addBuses(this);
 		
@@ -422,14 +430,33 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 	
 	public void bankScenario(){
+		hasBuses = false;
 		MAXTIME = 20;
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Bank",200,250);
 		fullyManBuilding("Bank",0);
 		
-		
-		
-		
+	}
+	
+	public void marketScenario(){
+		hasBuses = false;
+		MAXTIME = 40;
+		addNewBuilding("House", 200, 560);
+		addNewBuilding("Market",250,200);
+		fullyManBuilding("Market",0);
+	}
+	
+	public void busyScenario(){
+		hasBuses = true;
+		addBuses(this);
+		addNewBuilding("Bank", 5, 400);
+		addNewBuilding("Market",200,250);
+		addNewBuilding("Market", 250, 200);
+		addNewBuilding("House", 200, 5);
+		addNewBuilding("House", 500, 5);
+		fullyManBuilding("Bank",0);
+		fullyManBuilding("Market",0);
+		fullyManBuilding("Market",1);
 	}
 	
 
