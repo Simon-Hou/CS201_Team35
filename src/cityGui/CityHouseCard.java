@@ -18,6 +18,15 @@ public class CityHouseCard extends CityCard{
 	
 	public static final int xSize = 50;
 	public static final int ySize = 50;
+	public static final int bedX=(int)(CARD_WIDTH*0.5);
+	public static final int bedY=(int)(CARD_HEIGHT*0.1);
+	public static final int tableX=(int)(CARD_WIDTH*0.7);
+	public static final int tableY=(int)(CARD_HEIGHT*0.7);
+	public static final int refrigeratorX=(int)(CARD_WIDTH*0.1);
+	public static final int refrigeratorY=(int)(CARD_HEIGHT*0.7);
+	public static final int grillX=(int)(CARD_WIDTH*0.2);
+	public static final int grillY=(int)(CARD_HEIGHT*0.5);
+	
 	
 	private List<Gui> guis = new ArrayList<Gui>();
 	
@@ -35,11 +44,20 @@ public class CityHouseCard extends CityCard{
 		
 		//Here is the table
 		g2.setColor(Color.ORANGE);
-		g2.fillRect((int)(CARD_WIDTH*0.5), (int)(CARD_HEIGHT*0.5), xSize, ySize);//200 and 250 need to be table params
+		g2.fillRect(tableX, tableY, xSize, ySize);//200 and 250 need to be table params
 
 		//refrigerator
 		g2.setColor(Color.WHITE);
-		g2.fillRect((int)(CARD_WIDTH*0.1),(int)(CARD_HEIGHT*0.5),xSize,ySize);
+		g2.fillRect(refrigeratorX,refrigeratorY,xSize,ySize);
+		
+		//bed
+		g2.setColor(Color.BLACK);
+		g2.fillRect(bedX,bedY,xSize,2*ySize);
+		
+		//grill
+		g2.setColor(Color.gray);
+		g2.fillRect(grillX,grillY,xSize,2*ySize);
+		
 		
 		for(Gui gui : guis) {
 			//if (gui.isPresent()) {
