@@ -10,6 +10,7 @@ import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.HostRole;
 import restaurant.restaurantLinda.RestaurantOrder;
 import restaurant.restaurantLinda.WaiterRole;
+import restaurant.restaurantLinda.gui.Gui;
 import role.Role;
 import util.JobType;
 import cityGui.CityRestaurant;
@@ -36,6 +37,10 @@ public class Restaurant implements PlaceOfWork{
 	//private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
 	
 	public int cash;	
+	
+	public Restaurant(CityRestaurant cr){
+		this.cityRestaurant = cr;
+	}
 	
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
@@ -77,6 +82,10 @@ public class Restaurant implements PlaceOfWork{
 		((CookRole)cook).setName(p.getName() + "Cook");
 		
 		return cook;
+	}
+	
+	public void leaveRestaurant(Gui gui){
+		cityRestaurant.animationPanel.removeGui(gui);
 	}
 	
 }

@@ -105,6 +105,11 @@ public class CityRestaurantCard extends CityCard{
     public void addTable(Point p){
     	tableMap.add(p);
     }
+
+
+	public void removeGui(Gui gui) {
+		guis.remove(g);		
+	}
         
 }
 	
