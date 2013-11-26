@@ -8,7 +8,6 @@ import interfaces.MarketDeliveryMan;
 import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Customer;
-import interfaces.restaurantLinda.Market;
 import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
@@ -44,7 +43,7 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	//Overloaded function with person
-	public CashierRole(String name, Person p) {
+	public CashierRole(String name, Person p, Restaurant r) {
 		super();	
 		priceList.put("Steak", 1599);
 		priceList.put("Chicken", 1099);
@@ -52,6 +51,7 @@ public class CashierRole extends Role implements Cashier{
 		priceList.put("Pizza", 899);
 		this.name = name;
 		this.p = p;
+		this.restaurant = r;
 	}
 	
 	//messages
