@@ -35,7 +35,7 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 	}
 	
 	public CityRestaurant(int x, int y, String ID) {
-		super(x, y, Color.red, ID);
+		super(x, y, Color.red, ID, "Restaurant");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		initializeRestaurant();
 		//System.out.println("Second");
