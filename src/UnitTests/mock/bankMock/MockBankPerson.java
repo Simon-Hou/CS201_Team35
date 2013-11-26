@@ -7,9 +7,7 @@ import util.Loc;
 import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
-public class MockBankPerson extends Mock implements Person {
-
-	
+public class MockBankPerson extends Mock implements Person {	
 	
 	public MockBankPerson(String name) {
 		super(name);
@@ -66,6 +64,24 @@ public class MockBankPerson extends Mock implements Person {
 
 	@Override
 	public void msgCarArrivedAtLoc(Loc destination) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getWalletAmount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void addFoodToBag(String type, int quantity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void putInBag(String item, int amount) {
 		// TODO Auto-generated method stub
 		
 	}

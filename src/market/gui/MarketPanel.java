@@ -196,7 +196,7 @@ public class MarketPanel extends JPanel implements ActionListener{
 	}
 	
 	private void addDelivery(){
-		BusinessOrder order = new BusinessOrder();
+		MarketInvoice order = new MarketInvoice();
 		OrderItem item = new OrderItem("Steak", 5);
 		OrderItem item2 = new OrderItem("Salad", 4);
 		order.addItem(item);
