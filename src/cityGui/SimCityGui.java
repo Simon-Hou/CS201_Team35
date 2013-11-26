@@ -346,7 +346,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
-		test.addBuses(test);
+/*		test.addBuses(test);
 		test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Restaurant", 5, 200);
@@ -358,7 +358,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.addNewBuilding("Restaurant", 5, 200);
 
 		test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);
+		test.fullyManBuilding("Market",0);			*/
 		//test.fullyManBuilding("Restaurant",0);
 		//test.addBuses(test);
 
@@ -418,6 +418,17 @@ public class SimCityGui extends JFrame implements ActionListener {
 		busRider.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(0)).house);
 		
 		addNewPerson(busRider);
+		
+	}
+	
+	public void bankScenario(){
+		MAXTIME = 20;
+		addNewBuilding("House", 200, 5);
+		addNewBuilding("Bank",200,250);
+		fullyManBuilding("Bank",0);
+		
+		
+		
 		
 	}
 	
