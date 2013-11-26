@@ -75,6 +75,7 @@ public class PersonGui extends CityComponent implements Gui {
     private boolean choseRand = false;
     
     public boolean onTheMove = false;
+    public boolean waitingForBus = false;
     
     private Semaphore crossingStreet = new Semaphore(0,true);
      
@@ -99,6 +100,16 @@ public class PersonGui extends CityComponent implements Gui {
     	this.xDestination = loc.x;
     	this.yDestination = loc.y;
     	onTheMove = true;
+    }
+    
+    public void doGoToBus(Loc loc){
+    	this.xDestination = loc.x;
+    	this.yDestination = loc.y;
+    	waitingForBus = true;
+    }
+    
+    public void onBus(){
+    	waitingForBus = false;
     }
     
 	public void updatePosition() {
@@ -503,7 +514,7 @@ public class PersonGui extends CityComponent implements Gui {
 	}
 	
     public void paint(Graphics g) {
-    	if (!atDestination()) {
+    	if (!atDestination() || waitingForBus) {
     		g.drawImage(currentImage.getImage(),getXPos(),getYPos(),10,10,null);
     	}
     }    	
@@ -656,22 +667,22 @@ public class PersonGui extends CityComponent implements Gui {
     public void goHorizontal(int xDest) {
 		if (rectangle.x < xDest) {
             rectangle.x++;
-			currentImage = this.right.get(rectangle.x % 4);
+			currentImage = this.right.get(0/*rectangle.x % 4*/);
 		}
         else if (rectangle.x > xDest) {
             rectangle.x--;
-			currentImage = this.left.get(rectangle.x % 4);
+			currentImage = this.left.get(0/*rectangle.x % 4*/);
         }
     }
     
     public void goVertical(int yDest) {
         if (rectangle.y < yDest) {
             rectangle.y++;
-            currentImage = this.down.get(rectangle.y % 4);
+            currentImage = this.down.get(0/*rectangle.y % 4*/);
         }
         else if (rectangle.y > yDest) {
         	rectangle.y--;
-        	currentImage = this.up.get(rectangle.y % 4);
+        	currentImage = this.up.get(0/*rectangle.y % 4*/);
         }
     }
     

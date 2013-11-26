@@ -1,6 +1,7 @@
 package interfaces;
 
 import role.Role;
+import util.Bus;
 import util.BusStop;
 import util.Loc;
 
@@ -10,7 +11,7 @@ public interface Person {
 	
 	public abstract void msgStateChanged();
 	
-	public abstract void msgBusAtStop(BusStop stop);
+	public abstract void msgBusAtStop(Bus b,BusStop stop);
 	public abstract void msgCarArrivedAtLoc(Loc destination);
 	
 	public abstract void addToWallet(int amount);

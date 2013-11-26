@@ -51,8 +51,8 @@ public class CityObject implements ActionListener{
 	List<BankMapLoc> banks = new ArrayList<BankMapLoc>();
 	List<MarketMapLoc> markets = new ArrayList<MarketMapLoc>();
 	
-	public List<BusStop> fStops = new ArrayList<BusStop>();
-	public List<BusStop> bStops = new ArrayList<BusStop>();
+	//public List<BusStop> fStops = new ArrayList<BusStop>();
+	//public List<BusStop> bStops = new ArrayList<BusStop>();
 	public Bus fBus;
 	public Bus bBus;
 	
