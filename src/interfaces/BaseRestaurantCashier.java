@@ -1,9 +1,9 @@
 package interfaces;
 
-import market.BusinessOrder;
+import market.MarketInvoice;
 
 public interface BaseRestaurantCashier {
 	
-	public abstract void msgHereIsInvoice(BusinessOrder order);
+	public abstract void msgHereIsInvoice(MarketInvoice order);
 
 }

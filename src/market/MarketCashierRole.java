@@ -93,7 +93,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    p.msgStateChanged();
 	}
 	
-	public void msgCalculateInvoice(BusinessOrder order, MarketEmployee employee){
+	public void msgCalculateInvoice(MarketInvoice order, MarketEmployee employee){
 		orders.add(new MyBusinessOrder(order, employee));
 		p.msgStateChanged();
 	}
@@ -225,7 +225,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    }
 	}
 	enum CustomerState{needsTotal, computingTotal, hasTotal, askedToPay, paid }
-	
+
+	//Thinking we should pass the entire order over so the cashier knows how much to have expected...
 	private class BusinessPayment{
 		int amount;
 		
@@ -236,10 +237,10 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private class MyBusinessOrder{
-		BusinessOrder order;
+		MarketInvoice order;
 		MarketEmployee employee;
 		
-		MyBusinessOrder(BusinessOrder o, MarketEmployee e){
+		MyBusinessOrder(MarketInvoice o, MarketEmployee e){
 			order = o;
 			employee = e;
 		}
