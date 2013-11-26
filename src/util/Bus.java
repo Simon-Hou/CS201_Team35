@@ -133,14 +133,16 @@ public class Bus extends Vehicle implements ActionListener{
 	}*/
 	
 	public void tellNextStopPeopleArrived(){
-		
-		synchronized(this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
-			for(Person p:this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+		List<Person> people = this.stops.get((currentStop+1)%stops.size()).peopleWaiting;
+		List<Person> people2 = new ArrayList<Person>(this.stops.get((currentStop+1)%stops.size()).peopleWaiting);
+		//synchronized(this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+			for(Person p:people2){
 				p.msgBusAtStop(this,stops.get((currentStop+1)%stops.size()));
 				this.passengers.add(p);
+				people.remove(p);
 				//System.out.println("SENDING THE MESSAGE THAT BUS HAS ARRIVED");
 			}
-		}
+		//}
 		
 	}
 	
