@@ -23,7 +23,7 @@ public class BankCustomerGui implements Gui{
 
 	public static final int BankCustomerWidth = 20;
 	public static final int BankCustomerHeight = 20;
-	public static final int xDoor = 40;
+	public static final int xDoor = -40;
 	public static final int yDoor = 100;
 	
 

@@ -201,14 +201,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	private void getInLine(){
 		Do("Getting in line!");
-		if(bank.addMeToQueue(this)){
+		bank.addMeToQueue(this);
 			doGetInLine();
 			state = CustState.inLine;
-			
-		}
-		else{
-			System.err.println("Customer wasn't allowed in line");
-		}
 		
 		//Thread.dumpStack();
 		System.out.flush();
