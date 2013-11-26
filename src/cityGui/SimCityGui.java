@@ -95,11 +95,8 @@ public class SimCityGui extends JFrame {
 		int yStartTest = 50;
 		
 		
-		
-		
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		test.addNewPerson("p0");
-		test.addNewPerson("p1");
 		//test.cityObject.people.get(0).setJob(placeOfWork, jobType, start, end);
 		/*cityObject.people.add(new PersonAgent("p0",cityObject.cityMap));
 		cityObject.people.get(0).startThread();*/
