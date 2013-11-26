@@ -54,7 +54,7 @@ public class PersonAgent extends Agent implements Person {
 		purse = new Purse();
 		bankRole = new BankCustomerRole(name+"Bank",this);
 		marketRole = new MarketCustomerRole(name+"Market",this);
-		inhabitantRole = new InhabitantRole(name+"Home",this);
+		inhabitantRole = new InhabitantRole();
 		
 		this.belongings.myFoods.add(new Food("Steak",10));
 		this.belongings.myFoods.add(new Food("Chicken",10));
