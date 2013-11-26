@@ -50,6 +50,31 @@ public class PersonGui extends CityComponent implements Gui {
 	java.net.URL right3 = getClass().getResource("personImages/right3.png");
 	ImageIcon r3 = new ImageIcon(right3);
 	ImageIcon currentImage = new ImageIcon(down1);
+	
+//	public List<ImageIcon> bup = new ArrayList<ImageIcon>();
+//    java.net.URL bup1 = getClass().getResource("personImages/bup1.png");
+//	ImageIcon bu1 = new ImageIcon(bup1);
+//	java.net.URL bup2 = getClass().getResource("personImages/bup2.png");
+//	ImageIcon bu2 = new ImageIcon(bup2);
+//	java.net.URL bup3 = getClass().getResource("personImages/bup3.png");
+//	ImageIcon bu3 = new ImageIcon(bup3);
+//	public List<ImageIcon> bdown = new ArrayList<ImageIcon>();
+//	java.net.URL bdown1 = getClass().getResource("personImages/bdown1.png");
+//	ImageIcon bd1 = new ImageIcon(bdown1);
+//	java.net.URL bdown2 = getClass().getResource("personImages/bdown2.png");
+//	ImageIcon bd2 = new ImageIcon(bdown2);
+//	java.net.URL bdown3 = getClass().getResource("personImages/bdown3.png");
+//	ImageIcon bd3 = new ImageIcon(bdown3);
+//	public List<ImageIcon> bleft = new ArrayList<ImageIcon>();
+//	java.net.URL bleft1 = getClass().getResource("personImages/bleft1.png");
+//	ImageIcon bl1 = new ImageIcon(bleft1);
+//	java.net.URL bleft2 = getClass().getResource("personImages/bleft2.png");
+//	ImageIcon bl2 = new ImageIcon(bleft2);
+//	public List<ImageIcon> bright = new ArrayList<ImageIcon>();
+//	java.net.URL bright1 = getClass().getResource("personImages/bright1.png");
+//	ImageIcon br1 = new ImageIcon(bright1);
+//	java.net.URL bright2 = getClass().getResource("personImages/bright2.png");
+//	ImageIcon br2 = new ImageIcon(bright2);
 
     SimCityGui gui;
     
@@ -93,6 +118,10 @@ public class PersonGui extends CityComponent implements Gui {
 		down.add(d1); down.add(d2); down.add(d1); down.add(d3);
 		left.add(l1); left.add(l2); left.add(l1); left.add(l3);
 		right.add(r1); right.add(r2); right.add(r1); right.add(r3);
+//		bup.add(u1); bup.add(u2); bup.add(u1); bup.add(u3);
+//		bdown.add(d1); bdown.add(d2); bdown.add(d1); bdown.add(d3);
+//		bleft.add(l1); bleft.add(l2);
+//		bright.add(r1); bright.add(r2);
 	}
     
     public void doGoToBuilding(Loc loc){
@@ -102,60 +131,77 @@ public class PersonGui extends CityComponent implements Gui {
     }
     
 	public void updatePosition() {
-//		System.out.println("XDest: " + xDestination);
-//		System.out.println("YDest: " + yDestination);
-//		System.out.println("XPos: " + getXPos());
-//		System.out.println("YPos: " + getYPos());
+		if (!atDestination()) {
+			System.out.println("XDest: " + xDestination);
+			System.out.println("YDest: " + yDestination);
+			System.out.println("XPos: " + getXPos());
+			System.out.println("YPos: " + getYPos());
+			if (transitionDone) {
+				System.out.println("Transition is done");
+			}
+		}
 		if (readyToGoInnerSidewalk) {
+			//System.out.println("In inner sidewalk method");
 			if (b1(getXPos(),getYPos())) {
 				goVertical(cWalk1i);
 				if (getYPos() == cWalk1i) {
     				readyToGoInnerSidewalk = false;
+    				transitionDone = true;
     			}
 			}
 			if (b2(getXPos(),getYPos())) {
 				goHorizontal(cWalk2i);
 				if (getXPos() == cWalk2i) {
     				readyToGoInnerSidewalk = false;
+    				transitionDone = true;
     			}
 			}
 			if (b3(getXPos(),getYPos())) {
 				goVertical(cWalk3i);
 				if (getYPos() == cWalk3i) {
     				readyToGoInnerSidewalk = false;
+    				transitionDone = true;
     			}
 			}
 			if (b4(getXPos(),getYPos())) {
 				goHorizontal(cWalk4i);
 				if (getXPos() == cWalk4i) {
     				readyToGoInnerSidewalk = false;
+    				transitionDone = true;
     			}
 			}
 		}
 		
 		if (readyToGoOuterSidewalk) {
+			System.out.println("Going to outer sidewalk");
 			if (b1(getXPos(),getYPos())) {
 				goVertical(cWalk1o);
 				if (getYPos() == cWalk1o) {
     				readyToGoOuterSidewalk = false;
+    				transitionDone = true;
     			}
+				//else System.out.println("Didnt reach crosswalk destination");
+
 			}
 			if (b2(getXPos(),getYPos())) {
 				goHorizontal(cWalk2o);
 				if (getXPos() == cWalk2o) {
     				readyToGoOuterSidewalk = false;
+    				transitionDone = true;
     			}
 			}
 			if (b3(getXPos(),getYPos())) {
 				goVertical(cWalk3o);
 				if (getYPos() == cWalk3o) {
     				readyToGoOuterSidewalk = false;
+    				transitionDone = true;
     			}
 			}
 			if (b4(getXPos(),getYPos())) {
 				goHorizontal(cWalk4o);
 				if (getXPos() == cWalk4o) {
     				readyToGoOuterSidewalk = false;
+    				transitionDone = true;
     			}
 			}
 		}
@@ -185,7 +231,7 @@ public class PersonGui extends CityComponent implements Gui {
 		}
 		
     	if (os1(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-			//System.out.println("In os1");
+			//System.out.println("XPos: " + getXPos() + " In os1");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -193,9 +239,12 @@ public class PersonGui extends CityComponent implements Gui {
     			}
 			}
         	if (os1(xDestination,yDestination) && transitionDone) {
+        		//System.out.println("XDestination: " + getXPos() + " In os1");
         		goHorizontal(xDestination);
-    			if (getXPos() == xDestination) {
-    				goVertical(yDestination);
+    			if (getXPos() == xDestination && !atDestination()) {
+//            		System.out.println("XPosition: " + getXPos() + " is at XDestination: " + xDestination);
+//            		System.out.println("YPosition: " + getYPos() + " needs to be at YDestination: " + yDestination);
+            		goVertical(yDestination);
     			}
         	}
     		if (is(xDestination,yDestination) && transitionDone) {
@@ -217,7 +266,7 @@ public class PersonGui extends CityComponent implements Gui {
     			else {
     				goHorizontal(xRand);
     				if (getXPos() == xRand) {
-    					if (getYPos() == 80) {
+    					if (getYPos() == 70) {
         					choseRand = false;
     					}
     					goVertical(yDestination);
@@ -249,7 +298,11 @@ public class PersonGui extends CityComponent implements Gui {
     				else yRand = (int) (520 + (Math.random() * 29));
     				choseRand = true;
     			}
-        		if (getYPos() == 81 || getYPos() == 519) {
+//        		if (getYPos() == 81 || getYPos() == 519) {
+//    				choseRand = false;
+//    				transitionDone = false;
+//    			}	
+        		if (getYPos() == 71 || getYPos() == 519) {
     				choseRand = false;
     				transitionDone = false;
     			}	
@@ -321,7 +374,7 @@ public class PersonGui extends CityComponent implements Gui {
     				else yRand = (int) (520 + (Math.random() * 29));
     				choseRand = true;
     			}
-        		if (getYPos() == 81 || getYPos() == 519) {
+        		if (getYPos() == 71 || getYPos() == 519) {
     				choseRand = false;
     				transitionDone = false;
     			}	
@@ -330,7 +383,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
    
     	if (is1(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		//System.out.println("In is1");
+    		//System.out.println("XPos: " + getXPos() + " In is1");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -355,7 +408,7 @@ public class PersonGui extends CityComponent implements Gui {
     			else {
     				goHorizontal(xRand);
     				if (getXPos() == xRand) {
-    					if (getYPos() == 200) {
+    					if (getYPos() == 190) {
         					choseRand = false;
     					}
     					goVertical(yDestination);
@@ -389,7 +442,11 @@ public class PersonGui extends CityComponent implements Gui {
     				else yRand = (int) (190 - (Math.random() * 29));
     				choseRand = true;
     			}
-    			if (getYPos() == 201 || getYPos() == 399) {
+//    			if (getYPos() == 201 || getYPos() == 399) {
+//    				choseRand = false;
+//    				transitionDone = false;
+//    			}	
+    			if (getYPos() == 191 || getYPos() == 399) {
     				choseRand = false;
     				transitionDone = false;
     			}	
@@ -465,7 +522,11 @@ public class PersonGui extends CityComponent implements Gui {
     				else yRand = (int) (190 - (Math.random() * 29));
     				choseRand = true;
     			}
-    			if (getYPos() == 201 || getYPos() == 399) {
+//    			if (getYPos() == 201 || getYPos() == 399) {
+//    				choseRand = false;
+//    				transitionDone = false;
+//    			}	
+    			if (getYPos() == 191 || getYPos() == 399) {
     				choseRand = false;
     				transitionDone = false;
     			}	
@@ -511,11 +572,6 @@ public class PersonGui extends CityComponent implements Gui {
     public boolean isPresent() {
         return true;
     }
-    
-    public void DoGoToCookingStation() {
-    	xDestination = 385;
-    	yDestination = 0;
-    }
 
     public int getXPos() {
         return rectangle.x;
@@ -526,56 +582,56 @@ public class PersonGui extends CityComponent implements Gui {
     }
     
     public boolean os1(int x, int y) {
-    	if (y >= 40 && y <= 80) {
+    	if (x >= 40 && x <= 550 && y >= 40 && y <= 70) {
     		return true;
     	}
     	else return false;
     }
     
     public boolean os2(int x, int y) {
-    	if ((x >= 520 && x <= 550) && (y > 80 && y < 520)) {
+    	if (x >= 520 && x <= 550 && y > 70 && y < 520) {
     		return true;
     	}
     	else return false;
     }
 	
     public boolean os3(int x, int y) {
-    	if (y >= 520 && y <= 550) {
+    	if (x >= 40 && x <= 550 && y >= 520 && y <= 550) {
     		return true;
     	}
     	else return false;
 	}
 	
     public boolean os4(int x, int y) {
-    	if ((x >= 40 && x <= 70) && (y > 80 && y < 520)) {
+    	if (x >= 40 && x <= 70 && y > 70 && y < 520) {
     		return true;
     	}
     	else return false;
 	}
    
     public boolean is1(int x, int y) {
-    	if (((x >= 160 && x <= 440) && (y >= 160 && y <= 200)) || ((x > 200 && x < 400) && (y > 200 && y < 240))) {
+    	if (x >= 160 && x <= 430 && y >= 160 && y <= 190) {
     		return true;
     	}
     	else return false;
     }
     
     public boolean is2(int x, int y) {
-    	if ((x >= 400 && x <= 440 && y > 200 && y < 400) || (x >= 360 && x <= 440 && y >= 240 && y <= 360)) {
+    	if ((x >= 400 && x <= 430 && y > 190 && y < 400)) {
     		return true;
     	}
     	else return false;
     }
 	
     public boolean is3(int x, int y) {
-    	if ((x >= 160 && x <= 440 && y >= 400 && y <= 440) || (x > 200 && x < 400 && y >= 360 && y < 400)) {
+    	if ((x >= 160 && x <= 430 && y >= 400 && y <= 430)) {
     		return true;
     	}
     	else return false;
 	}
 	
     public boolean is4(int x, int y) {
-    	if ((x >= 160 && x <= 200 && y > 200 && y < 400) || (x >= 160 && x <= 240 && y >= 240 && y <= 360)) {
+    	if ((x >= 160 && x <= 190 && y > 190 && y < 400)) {
     		return true;
     	}
     	else return false;
@@ -654,25 +710,71 @@ public class PersonGui extends CityComponent implements Gui {
     }
     
     public void goHorizontal(int xDest) {
-		if (rectangle.x < xDest) {
-            rectangle.x++;
-			currentImage = this.right.get(rectangle.x % 4);
-		}
-        else if (rectangle.x > xDest) {
-            rectangle.x--;
-			currentImage = this.left.get(rectangle.x % 4);
-        }
+    	if (rectangle.x == xDest) {
+    		return;
+    	}
+    	if (!this.person.belongings.bike) {	
+    		if (rectangle.x < xDest) {
+    			rectangle.x++;
+    			currentImage = this.right.get(rectangle.x % 4);
+    		}
+    		else if (rectangle.x > xDest) {
+    			rectangle.x--;
+    			currentImage = this.left.get(rectangle.x % 4);
+    		}
+    	}
+//    	else {
+//    		if (this.rectangle.x < xDest) {
+//    			this.rectangle.x++;
+//    			currentImage = this.bright.get(rectangle.x % 2);
+//    		}
+//    		if (this.rectangle.x < xDest) {
+//    			this.rectangle.x++;
+//    			currentImage = this.bright.get(rectangle.x % 2);
+//    		}
+//    		if (this.rectangle.x > xDest) {
+//    			this.rectangle.x--;
+//    			currentImage = this.bleft.get(rectangle.x % 2);
+//    		}
+//    		if (this.rectangle.x > xDest) {
+//    			this.rectangle.x--;
+//    			currentImage = this.bleft.get(rectangle.x % 2);
+//    		}
+//    	}
     }
     
     public void goVertical(int yDest) {
-        if (rectangle.y < yDest) {
-            rectangle.y++;
-            currentImage = this.down.get(rectangle.y % 4);
-        }
-        else if (rectangle.y > yDest) {
-        	rectangle.y--;
-        	currentImage = this.up.get(rectangle.y % 4);
-        }
+    	if (this.rectangle.y == yDest) {
+    		return;
+    	}
+    	else if (!this.person.belongings.bike) {
+    		if (this.rectangle.y < yDest) {
+    			this.rectangle.y++;
+    			currentImage = this.down.get(rectangle.y % 4);
+    		}
+    		else if (rectangle.y > yDest) {
+    			this.rectangle.y--;
+    			currentImage = this.up.get(rectangle.y % 4);
+    		}
+    	}
+//    	else {
+//    		if (this.rectangle.y < yDest) {
+//    			this.rectangle.y++;
+//    			currentImage = this.bdown.get(rectangle.y % 4);
+//    		}
+//    		if (this.rectangle.y < yDest) {
+//    			this.rectangle.y++;
+//    			currentImage = this.bdown.get(rectangle.y % 4);
+//    		}
+//    		if (this.rectangle.y > yDest) {		
+//    			this.rectangle.y--;
+//    			currentImage = this.bup.get(rectangle.y % 4);
+//    		}
+//    		if (this.rectangle.y > yDest) {
+//    			this.rectangle.y--;
+//    			currentImage = this.bup.get(rectangle.y % 4);
+//    		}
+//    	}
     }
     
     private void crossWalk1o() {   	
@@ -689,7 +791,6 @@ public class PersonGui extends CityComponent implements Gui {
     }
     public void crossWalk1i() {
     	cWalk1i = (int) (161 + (Math.random() * 29));
-    	System.out.println("New value: " + cWalk1i);
     }
     public void crossWalk2i() {
     	cWalk2i = (int) (429 - (Math.random() * 29));
