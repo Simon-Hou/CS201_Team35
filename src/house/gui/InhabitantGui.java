@@ -18,7 +18,7 @@ public class InhabitantGui implements Gui {
 
 
 	private InhabitantRole role = null;
-	private HouseGui gui=null;
+	
 	private boolean pause=false;
 
 	private int xInitial=-20;
@@ -27,7 +27,7 @@ public class InhabitantGui implements Gui {
 	private  int yPos = yInitial;
 	private int xResting=100;
 	private int yResting=100;		
-	private int xDestination = xResting, 		yDestination = yResting;//default start position
+	private int xDestination = xInitial, 		yDestination = yInitial;//default start position
 	public static final int xSize=20;
 	public static final int ySize=20;
 
@@ -46,10 +46,10 @@ public class InhabitantGui implements Gui {
 		this.role = role;
 	}
 
-	public InhabitantGui(InhabitantRole agent,HouseGui gui) {
+	/*public InhabitantGui(InhabitantRole agent,HouseGui gui) {
 		this.role = agent;
 		this.gui=gui;
-	}
+	}*/
 
 	@Override
 	public void updatePosition() {

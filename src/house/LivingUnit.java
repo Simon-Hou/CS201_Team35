@@ -1,4 +1,5 @@
 package house;
+import house.gui.InhabitantGui;
 import interfaces.Person;
 
 import java.util.*;
@@ -12,6 +13,7 @@ public class LivingUnit {
 	
 	public LivingUnit(){
 		inhabitant=new InhabitantRole();
+		inhabitant.setGui(new InhabitantGui(inhabitant));
 		
 	}
 	

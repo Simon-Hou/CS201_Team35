@@ -43,7 +43,7 @@ public class CityHouseCard extends CityCard{
 		g2.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT );
 		
 		//Here is the table
-		g2.setColor(Color.ORANGE);
+		g2.setColor(Color.cyan);
 		g2.fillRect(tableX, tableY, xSize, ySize);//200 and 250 need to be table params
 
 		//refrigerator
@@ -51,12 +51,12 @@ public class CityHouseCard extends CityCard{
 		g2.fillRect(refrigeratorX,refrigeratorY,xSize,ySize);
 		
 		//bed
-		g2.setColor(Color.BLACK);
+		g2.setColor(Color.blue);
 		g2.fillRect(bedX,bedY,xSize,2*ySize);
 		
 		//grill
 		g2.setColor(Color.gray);
-		g2.fillRect(grillX,grillY,xSize,2*ySize);
+		g2.fillRect(grillX,grillY,xSize,ySize);
 		
 		
 		for(Gui gui : guis) {
