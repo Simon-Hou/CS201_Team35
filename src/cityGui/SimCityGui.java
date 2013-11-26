@@ -142,6 +142,8 @@ public class SimCityGui extends JFrame {
 	
 	//HACK
 	public void fullyManBuilding(String type,int num){
+
+		
 		if(type.equals("Bank")){
 			int j = 0;
 			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
@@ -204,6 +206,16 @@ public class SimCityGui extends JFrame {
 		}
 	}
 
+	public void addBuses(SimCityGui simCityGui){
+		Bus b = new Bus();
+		Bus b2 = new Bus();
+		//b.gui = new BusGui(b,test,110,110,30,50);
+		b.gui = new BusGui(b,simCityGui,false);
+		b2.gui = new BusGui(b2,simCityGui,true);
+		city.addMoving(b.gui);
+		city.addMoving(b2.gui);
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -231,13 +243,9 @@ public class SimCityGui extends JFrame {
 		
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
-		Bus b = new Bus();
-		Bus b2 = new Bus();
-		//b.gui = new BusGui(b,test,110,110,30,50);
-		b.gui = new BusGui(b,test,false);
-		b2.gui = new BusGui(b2,test,true);
-		city.addMoving(b.gui);
-		city.addMoving(b2.gui);
+		test.addBuses(test);
+		
+		
 
 		
 		

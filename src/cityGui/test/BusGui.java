@@ -102,10 +102,10 @@ public class BusGui extends CityComponent implements Gui {
     	return false;
     }
     public boolean topLaneB(){
-    	System.out.println("YEAAAAAAAA");
-    	System.out.println(rectangle.x+" "+rectangle.y);
+    	//System.out.println("YEAAAAAAAA");
+    	//System.out.println(rectangle.x+" "+rectangle.y);
     	if(rectangle.y==90 && (rectangle.x>=90 && rectangle.x<=460)){
-    		System.out.println("NOOOOOO");
+    		//System.out.println("NOOOOOO");
     		return true;
     	}
     	return false;

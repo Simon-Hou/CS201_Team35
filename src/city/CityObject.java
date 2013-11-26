@@ -18,6 +18,7 @@ import bank.BankTellerRole;
 import testAgents.testPerson;
 import util.Bank;
 import util.BankMapLoc;
+import util.BusStop;
 import util.CityMap;
 import util.Job;
 import util.JobType;
@@ -71,6 +72,7 @@ public class CityObject implements ActionListener{
 		cityMap.map.put("Market", new ArrayList<Place>());
 		cityMap.map.put("Restaurant", new ArrayList<Place>());
 		cityMap.map.put("House", new ArrayList<Place>());
+		cityMap.map.put("BusStop", new ArrayList<Place>());
 		
 		
 		//CREATE THE OBJECTS, ADD THEM TO THE MAP
