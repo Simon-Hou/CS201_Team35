@@ -21,7 +21,7 @@ import util.Bank.loan;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;;
 
-public class BankGui  extends JFrame implements ActionListener {
+public class BankGui  extends JPanel implements ActionListener {
 	
 	public static final int WINDOWX = 450;
 	public static final int WINDOWY = 350;
@@ -148,6 +148,7 @@ public class BankGui  extends JFrame implements ActionListener {
         Dimension controlDim = new Dimension(controlPanelWidth, (int) (controlPanelHeight));
         controlPanel.setPreferredSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
+        controlPanel.setVisible(false);
         //add(controlPanel, BorderLayout.WEST);
         add(bankAnimationPanel, BorderLayout.CENTER);
     }
@@ -237,7 +238,7 @@ public class BankGui  extends JFrame implements ActionListener {
      */
     public static BankGui bankMain(Bank b) {
         BankGui gui = new BankGui(b);
-        gui.setTitle("Bank");
+        //gui.setTitle("Bank");
         gui.setVisible(true);
         //gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.bankPanel.enterBankTemp("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");

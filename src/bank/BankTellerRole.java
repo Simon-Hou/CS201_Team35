@@ -65,6 +65,16 @@ public class BankTellerRole extends Role implements BankTeller{
 	}
 	
 	public boolean canLeave(){
+		if (currentCustomer == null) {
+			if (bankTellerGui!=null) {
+				bankTellerGui.DoExitBank();
+				try {
+					atDestination.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return currentCustomer == null;
 	}
 
@@ -262,11 +272,14 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	private void LeaveBank() {
 		Do("Leaving the bank now");
-		bankTellerGui.DoExitBank();
-		try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		((Bank)bank).finishTellerShift(this);
+		if (bankTellerGui!=null) {
+			bankTellerGui.DoExitBank();
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		//TODO message the bank here and figure out how to seal the deal.
 	}
