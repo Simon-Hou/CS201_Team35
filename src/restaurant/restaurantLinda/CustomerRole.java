@@ -69,13 +69,13 @@ public class CustomerRole extends Role implements Customer{
 				cash=(int)(Double.parseDouble(name.substring(name.indexOf('$')+1))*100);
 			}
 			catch(NumberFormatException e){
-				cash=2000;
+				cash=20;
 			}
 		}
 		else
-			cash=2000;
+			cash=20;
 		
-		Do("I have $"+cash/100 + "." + cash%100 + " in cash");
+		Do("I have $"+cash + " in cash");
 		
 		stateChanged();
 	}

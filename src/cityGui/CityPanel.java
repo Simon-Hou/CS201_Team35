@@ -131,6 +131,15 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				temp.addAgentObjectToMap();
 
 			}
+			else if (temp.type.equals("Bank")) {
+				CityBankCard tempAnimation = new CityBankCard(city);
+				((CityBank)temp).bank.setAnimationPanel(tempAnimation);
+				banks.add(((CityBank)temp).bank);
+				city.view.addView(tempAnimation, temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
+				
+			}
 			else{
 
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);

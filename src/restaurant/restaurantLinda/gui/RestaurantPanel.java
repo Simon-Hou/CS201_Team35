@@ -1,16 +1,17 @@
 package restaurant.restaurantLinda.gui;
 
 import restaurant.ProducerConsumerMonitor;
+import restaurant.Restaurant;
 import restaurant.restaurantLinda.CashierRole;
 import restaurant.restaurantLinda.CookRole;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.HostRole;
-import restaurant.restaurantLinda.MarketRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
 import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
 import restaurant.restaurantLinda.RestaurantOrder;
 import restaurant.restaurantLinda.WaiterRole;
 
+import interfaces.Person;
 import javax.swing.*;
 
 import astar.AStarTraversal;
@@ -30,7 +31,7 @@ import java.util.concurrent.Semaphore;
  */
 public class RestaurantPanel extends JPanel {
 
-	static int cellSize = 50;
+	public static int cellSize = 50;
 	static int gridX = AnimationPanel.WINDOWX/cellSize;
     static int gridY = AnimationPanel.WINDOWY/cellSize;
     //Create grid for AStar
@@ -41,10 +42,9 @@ public class RestaurantPanel extends JPanel {
     //Host, cook, waiters and customers
     private HostRole host = new HostRole("Sarah");
 	private CookRole cook;
-	private CashierRole cashier = new CashierRole("Cashier");
+	private CashierRole cashier;
     private Vector<CustomerRole> customers = new Vector<CustomerRole>();
     private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
-    private Vector<MarketRole> markets = new Vector<MarketRole>();
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -54,16 +54,17 @@ public class RestaurantPanel extends JPanel {
     
     private RestaurantGui gui; //reference to main gui
 
+    Restaurant r;
+    
     public RestaurantPanel(RestaurantGui gui) {
     	
         this.gui = gui;
-        
-        cook = new CookRole("Cook", orderMonitor);
+        cashier =  new CashierRole("Cashier", r);
+        cook = new CookRole("Cook", orderMonitor, r);
         CookGui cg = new CookGui(cook);
         cg.setPlates(gui.animationPanel.platedFoods);
         gui.animationPanel.addGui(cg);
         cook.setGui(cg);
-        cook.setCashier(cashier);
         
         host.startThread();
         cook.startThread();
@@ -115,11 +116,7 @@ public class RestaurantPanel extends JPanel {
         //Cheat to make tables and a market
         addTable(1,200,150);
         addTable(1,350,150);
-        addTable(1,500,150);
-        addMarket(2,2,2,1,1);
-        addMarket(2,2,2,2,2);
-        addMarket(2,2,2,2,3);
-                
+        addTable(1,500,150);                
     }
 
     /**
@@ -134,10 +131,10 @@ public class RestaurantPanel extends JPanel {
         label.setText(
                 "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td>" +
                 		"</tr></table><h3><u> Menu</u></h3><table>" +
-                		"<tr><td>Steak</td><td>$15.99</td></tr>" +
-                		"<tr><td>Chicken</td><td>$10.99</td></tr>" +
-                		"<tr><td>Salad</td><td>$5.99</td></tr>" +
-                		"<tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
+                		"<tr><td>Steak</td><td>$16.00</td></tr>" +
+                		"<tr><td>Chicken</td><td>$11.00</td></tr>" +
+                		"<tr><td>Salad</td><td>$6.00</td></tr>" +
+                		"<tr><td>Pizza</td><td>$9.00</td></tr></table><br></html>");
 
         restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
         restLabel.add(label, BorderLayout.CENTER);
@@ -252,12 +249,6 @@ public class RestaurantPanel extends JPanel {
     	return true;
     }
     
-    public void addMarket(int steaks, int chickens, int salads, int pizzas, int identifier){
-    	MarketRole m = new MarketRole(steaks, chickens, salads, pizzas, identifier); 
-    	markets.add(m);
-    	m.startThread();
-    	cook.addMarket(m);
-    }
     
     public void pause(){
     	cook.pause();
