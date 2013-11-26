@@ -145,9 +145,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 			return;
 		}
 		if(type.equals("Restaurant")){
-			city.addObject(CityComponents.RESTAURANT);
-			city.moveBuildingTo(new Loc(x,y));
-			city.setBuildingDown();
+			CityComponent temp = new CityRestaurant(x, y, "Restaurant " + (city.statics.size()-19));
+			CityRestaurantCard tempAnimation = new CityRestaurantCard(this);
+			((CityRestaurant)temp).setAnimationPanel(tempAnimation);
+			city.restaurants.add(((CityRestaurant)temp).restaurant);
+			this.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+			city.statics.add(temp);
 			return;
 		}
 		if(type.equals("House")){
