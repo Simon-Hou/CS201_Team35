@@ -30,6 +30,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	boolean addingObject = false;
 	CityComponent temp;
 	public CityObject cityObject;
+	
 
 	
 
@@ -117,8 +118,9 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			addingObject = false;
 
 			if(temp.type.equals("Restaurant")){
-
-				city.view.addView(new CityRestaurantCard(city), temp.ID);
+				CityRestaurantCard tempAnimation = new CityRestaurantCard(city);
+				((CityRestaurant)temp).animationPanel = tempAnimation;
+				city.view.addView(tempAnimation, temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
 			}
@@ -140,6 +142,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				temp.addAgentObjectToMap();
 				
 			}
+
 			else if (temp.type.equals("Market")){
 				CityMarketCard tempAnimation = new CityMarketCard(city);
 				((CityMarket)temp).market.setMarketPanel(new MarketPanel(tempAnimation, ((CityMarket)temp).market));

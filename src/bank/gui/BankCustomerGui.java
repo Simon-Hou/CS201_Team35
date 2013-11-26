@@ -23,11 +23,12 @@ public class BankCustomerGui implements Gui{
 
 	public static final int BankCustomerWidth = 20;
 	public static final int BankCustomerHeight = 20;
-	public static final int xDoor = -40;
+	public static final int xDoor = 40;
 	public static final int yDoor = 100;
 	
 
 	public BankCustomerGui(BankCustomerRole bcr/*, RestaurantGui gui*/){ 
+		isPresent = true;
 		role = bcr;
 		xPos = xDoor;
 		yPos = yDoor;
@@ -48,7 +49,9 @@ public class BankCustomerGui implements Gui{
 			yPos--;
 
 		if (xPos == xDestination && yPos == yDestination) {
-			if (command==Command.GoToTellerWindow) role.msgAtDestination();//release a semaphore?
+			if (command==Command.GoToTellerWindow) {
+				role.msgAtDestination();//release a semaphore?
+			}
 			else if (command==Command.LeaveBank) {
 				role.msgAtDestination();
 				//role.msgAnimationFinishedLeaveRestaurant();//set this role.

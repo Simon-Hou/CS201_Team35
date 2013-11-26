@@ -15,6 +15,7 @@ public class Restaurant implements PlaceOfWork{
 	public BaseRestaurantCashier cashier;
 	public BaseRestaurantCook cook;
 	public int cash;
+	
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
 		// TODO Auto-generated method stub
