@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.ImageIcon;
 import javax.swing.table.TableStringConverter;
 
 import cityGui.CityComponent;
@@ -20,6 +21,35 @@ public class PersonGui extends CityComponent implements Gui {
 
     private PersonAgent person;
     
+	public List<ImageIcon> up = new ArrayList<ImageIcon>();
+    java.net.URL up1 = getClass().getResource("personImages/up1.png");
+	ImageIcon u1 = new ImageIcon(up1);
+	java.net.URL up2 = getClass().getResource("personImages/up2.png");
+	ImageIcon u2 = new ImageIcon(up2);
+	java.net.URL up3 = getClass().getResource("personImages/up3.png");
+	ImageIcon u3 = new ImageIcon(up3);
+	public List<ImageIcon> down = new ArrayList<ImageIcon>();
+	java.net.URL down1 = getClass().getResource("personImages/down1.png");
+	ImageIcon d1 = new ImageIcon(down1);
+	java.net.URL down2 = getClass().getResource("personImages/down2.png");
+	ImageIcon d2 = new ImageIcon(down2);
+	java.net.URL down3 = getClass().getResource("personImages/down3.png");
+	ImageIcon d3 = new ImageIcon(down3);
+	public List<ImageIcon> left = new ArrayList<ImageIcon>();
+	java.net.URL left1 = getClass().getResource("personImages/left1.png");
+	ImageIcon l1 = new ImageIcon(left1);
+	java.net.URL left2 = getClass().getResource("personImages/left2.png");
+	ImageIcon l2 = new ImageIcon(left2);
+	java.net.URL left3 = getClass().getResource("personImages/left3.png");
+	ImageIcon l3 = new ImageIcon(left3);
+	public List<ImageIcon> right = new ArrayList<ImageIcon>();
+	java.net.URL right1 = getClass().getResource("personImages/right1.png");
+	ImageIcon r1 = new ImageIcon(right1);
+	java.net.URL right2 = getClass().getResource("personImages/right2.png");
+	ImageIcon r2 = new ImageIcon(right2);
+	java.net.URL right3 = getClass().getResource("personImages/right3.png");
+	ImageIcon r3 = new ImageIcon(right3);
+	ImageIcon currentImage = new ImageIcon(down1);
 
     SimCityGui gui;
     
@@ -47,22 +77,22 @@ public class PersonGui extends CityComponent implements Gui {
     public boolean onTheMove = false;
     
     private Semaphore crossingStreet = new Semaphore(0,true);
-    
-    
-
-    
+     
     public PersonGui(PersonAgent agent) {
         this.person = agent;
     }
     
     public PersonGui(PersonAgent c, SimCityGui gui, int xPos, int yPos, int xDest, int yDest){ //HostAgent m) {
-		super(xPos, yPos, Color.blue, "Dude");
+    	super(xPos, yPos, Color.blue, "Dude");
     	person = c;
 		xDestination = xDest;
 		yDestination = yDest;
 		this.gui = gui;
 		rectangle = new Rectangle(xPos, yPos, 10, 10);
-		
+		up.add(u1); up.add(u2); up.add(u1); up.add(u3);
+		down.add(d1); down.add(d2); down.add(d1); down.add(d3);
+		left.add(l1); left.add(l2); left.add(l1); left.add(l3);
+		right.add(r1); right.add(r2); right.add(r1); right.add(r3);
 	}
     
     public void doGoToBuilding(Loc loc){
@@ -72,10 +102,10 @@ public class PersonGui extends CityComponent implements Gui {
     }
     
 	public void updatePosition() {
-		System.out.println("XDest: " + xDestination);
-		System.out.println("YDest: " + yDestination);
-		System.out.println("XPos: " + getXPos());
-		System.out.println("YPos: " + getYPos());
+//		System.out.println("XDest: " + xDestination);
+//		System.out.println("YDest: " + yDestination);
+//		System.out.println("XPos: " + getXPos());
+//		System.out.println("YPos: " + getYPos());
 		if (readyToGoInnerSidewalk) {
 			if (b1(getXPos(),getYPos())) {
 				goVertical(cWalk1i);
@@ -131,31 +161,31 @@ public class PersonGui extends CityComponent implements Gui {
 		}
 		
 		if (topLeftCorner(getXPos(),getYPos()) && topLeftCorner(xDestination,yDestination)) {
-			System.out.println("In top left corner");
+			//System.out.println("In top left corner");
 			goHorizontal(40);
 			goVertical(40);
 		}
 		
 		if (topRightCorner(getXPos(),getYPos()) && topRightCorner(xDestination,yDestination)) {
-			System.out.println("In top right corner");
+			//System.out.println("In top right corner");
 			goHorizontal(550);
 			goVertical(40);
 		}
 		
 		if (bottomLeftCorner(getXPos(),getYPos()) && bottomLeftCorner(xDestination,yDestination)) {
-			System.out.println("In bottom left corner");
+			//System.out.println("In bottom left corner");
 			goHorizontal(40);
 			goVertical(550);
 		}
 		
 		if (bottomRightCorner(getXPos(),getYPos()) && bottomRightCorner(xDestination,yDestination)) {
-			System.out.println("In bottom right corner");
+			//System.out.println("In bottom right corner");
 			goHorizontal(550);
 			goVertical(550);
 		}
 		
     	if (os1(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-			System.out.println("In os1");
+			//System.out.println("In os1");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -196,7 +226,7 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os2(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os2");
+    		//System.out.println("In os2");
     		if (os2(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -227,7 +257,7 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os3(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os3");
+    		//System.out.println("In os3");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -268,7 +298,7 @@ public class PersonGui extends CityComponent implements Gui {
         	}
     	}
     	if (os4(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		System.out.println("In os4");
+    		//System.out.println("In os4");
     		if (os4(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -300,7 +330,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
    
     	if (is1(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is1");
+    		//System.out.println("In is1");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -343,7 +373,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
 
     	if (is2(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is2");
+    		//System.out.println("In is2");
     		if (is2(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -376,7 +406,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     	
     	if (is3(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is3");
+    		//System.out.println("In is3");
     		if (!transitionDone) {
     			goVertical(yRand);
     			if (getYPos() == yRand) {
@@ -419,7 +449,7 @@ public class PersonGui extends CityComponent implements Gui {
     	}
     
     	if (is4(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		System.out.println("In is4");
+    		//System.out.println("In is4");
     		if (is4(xDestination,yDestination)) {
         		goVertical(yDestination);
     			if (getYPos() == yDestination) {
@@ -472,9 +502,10 @@ public class PersonGui extends CityComponent implements Gui {
 		return startPosition;
 	}
 	
-    public void paint(Graphics2D g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(xPos, yPos, 20, 20);
+    public void paint(Graphics g) {
+    	if (!atDestination()) {
+    		g.drawImage(currentImage.getImage(),getXPos(),getYPos(),10,10,null);
+    	}
     }    	
 
     public boolean isPresent() {
@@ -615,18 +646,33 @@ public class PersonGui extends CityComponent implements Gui {
     	return false;
     }
     
+    public boolean atDestination() {
+    	if (getXPos() == xDestination && getYPos() == yDestination) {
+    		return true;
+    	}
+    	return false;
+    }
+    
     public void goHorizontal(int xDest) {
-		if (rectangle.x < xDest)
+		if (rectangle.x < xDest) {
             rectangle.x++;
-        else if (rectangle.x > xDest)
+			currentImage = this.right.get(rectangle.x % 4);
+		}
+        else if (rectangle.x > xDest) {
             rectangle.x--;
+			currentImage = this.left.get(rectangle.x % 4);
+        }
     }
     
     public void goVertical(int yDest) {
-        if (rectangle.y < yDest)
+        if (rectangle.y < yDest) {
             rectangle.y++;
-        else if (rectangle.y > yDest)
-            rectangle.y--;
+            currentImage = this.down.get(rectangle.y % 4);
+        }
+        else if (rectangle.y > yDest) {
+        	rectangle.y--;
+        	currentImage = this.up.get(rectangle.y % 4);
+        }
     }
     
     private void crossWalk1o() {   	
