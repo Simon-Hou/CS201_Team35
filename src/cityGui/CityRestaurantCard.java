@@ -15,8 +15,6 @@ import restaurant.restaurantLinda.gui.MyImage;
 import restaurant.restaurantLinda.gui.RestaurantPanel;
 
 
-
-
 public class CityRestaurantCard extends CityCard{
 	//initial values
 	public static final int CARD_WIDTH = 500, CARD_HEIGHT = 500;
