@@ -26,7 +26,7 @@ public class BankPanel extends JPanel {
 
 	public ListPanel accountPanel = new ListPanel(this, "Accounts");
 	public ListPanel tellerPanel = new ListPanel(this, "Tellers");
-	private ListPanel customerPanel = new ListPanel(this, "Customers");
+	public ListPanel customerPanel = new ListPanel(this, "Customers");
 	
 	private String currentAccount;
 	
