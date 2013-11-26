@@ -123,9 +123,9 @@ public class Bus extends Vehicle implements ActionListener{
 	
 	public void getOnBus(Person p){
 		System.out.println("GETTING ON BUS");
-		if(stops.get(currentStop).peopleWaiting.contains(p)){
+		if(stops.get((currentStop+1)%stops.size()).peopleWaiting.contains(p)){
 			passengers.add(p);
-			stops.get(currentStop).peopleWaiting.remove(p);
+			stops.get((currentStop+1)%stops.size()).peopleWaiting.remove(p);
 			return;
 		}
 		else{

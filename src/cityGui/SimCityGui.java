@@ -260,11 +260,11 @@ public class SimCityGui extends JFrame {
 		//test.addNewBuilding("Market", 250, 200);
 		test.addNewBuilding("House", 200, 5);
 		//test.addNewBuilding("House", 500, 5);
-		
+		test.addBuses(test);
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
-		test.addBuses(test);
+		
 		
 		
 		//test.fullyManBuilding("Bank",0);

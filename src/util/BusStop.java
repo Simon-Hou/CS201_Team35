@@ -17,6 +17,7 @@ public class BusStop extends Place{
 	}
 	
 	public BusStop(Loc location,List<Person> peopleWaiting){
+
 		this.location = location;
 		this.peopleWaiting = peopleWaiting;
 	}
@@ -27,6 +28,7 @@ public class BusStop extends Place{
 	
 	
 	public void waitForBus(Person p){
+		System.out.println("Waiting at the bus Stop");
 		peopleWaiting.add(p);
 	}
 	
