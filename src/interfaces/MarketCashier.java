@@ -21,6 +21,7 @@ public interface MarketCashier extends Occupation{
 	public void msgCalculateInvoice(MarketEmployee employee, List<OrderItem> order, Restaurant r);
 
 	public String getName();
+	public boolean isPresent();
 	public abstract boolean YouAreDoneWithShift();
 	
 	public abstract void setMarket(Market m);

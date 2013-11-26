@@ -35,6 +35,12 @@ public class MarketHostRole extends Role implements MarketHost {
 		this.market=m;		
 	}
 	
+	
+	public boolean isPresent(){
+		if (p==null)
+			return false;
+		else return true;
+	}
 	//-----------------------------MESSAGES--------------------------------
 	
 

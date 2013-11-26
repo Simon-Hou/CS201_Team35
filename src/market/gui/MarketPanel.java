@@ -58,7 +58,7 @@ public class MarketPanel extends JFrame implements ActionListener{
 		this.market = market;
 		
 		//FRAME SETUP
-	    int WINDOWX = 400;
+	    int WINDOWX = 300;
 	    int WINDOWY = 500;	
 		setBounds(100, 50, WINDOWX,WINDOWY);
 		
@@ -75,7 +75,7 @@ public class MarketPanel extends JFrame implements ActionListener{
         add(pane);
 	
          
-        Dimension paneSize = new Dimension (400,200);
+        Dimension paneSize = new Dimension (WINDOWX,300);
         pane.setPreferredSize(paneSize);
         pane.setMinimumSize(paneSize);
         pane.setMaximumSize(paneSize);
@@ -98,12 +98,12 @@ public class MarketPanel extends JFrame implements ActionListener{
 		
          validate();
          
-         startButton.addActionListener(this);
-         add(startButton);
-         
-         deliveryButton.addActionListener(this);
-         add(deliveryButton);
-         
+//         startButton.addActionListener(this);
+//         add(startButton);
+//         
+//         deliveryButton.addActionListener(this);
+//         add(deliveryButton);
+//         
          
          //--------------------AGENT/GUI TESTING SETUP----------------------
 /*
