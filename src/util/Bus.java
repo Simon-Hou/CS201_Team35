@@ -11,6 +11,9 @@ import java.util.List;
 
 import javax.swing.Timer;
 
+import cityGui.test.BusGui;
+import cityGui.test.PersonGui;
+
 
 public class Bus extends Vehicle implements ActionListener{
 	
@@ -36,7 +39,7 @@ public class Bus extends Vehicle implements ActionListener{
 	public List<BusStop> stops = new ArrayList<BusStop>();
 	public int currentStop = 0;
 	
-	
+	public BusGui gui;
 	
 	
 	//SETTERS
@@ -56,6 +59,7 @@ public class Bus extends Vehicle implements ActionListener{
 	//CONSTRUCTOR
 	public Bus(){
 		//timer.start();
+		this.gui = new BusGui(this);
 	}
 	
 	public void start(int currentStop){

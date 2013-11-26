@@ -19,7 +19,7 @@ public abstract class CityComponent implements ImageObserver {
 	CityObject cityObject;
 	
 	protected Rectangle rectangle;
-	int x, y;
+	public int x, y;
 	Color color;
 	String ID;
 	boolean isActive;

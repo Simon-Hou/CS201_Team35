@@ -12,12 +12,14 @@ import javax.swing.JFrame;
 import person.PersonAgent;
 import util.Bank;
 import util.BankMapLoc;
+import util.Bus;
 import util.CityMap;
 import util.HouseMapLoc;
 import util.JobType;
 import util.Loc;
 import util.MarketMapLoc;
 import city.CityObject;
+import cityGui.test.BusGui;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
 import cityGui.trace.TracePanel;
@@ -229,6 +231,13 @@ public class SimCityGui extends JFrame {
 		
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
+		Bus b = new Bus();
+		Bus b2 = new Bus();
+		//b.gui = new BusGui(b,test,110,110,30,50);
+		b.gui = new BusGui(b,test,false);
+		b2.gui = new BusGui(b2,test,true);
+		city.addMoving(b.gui);
+		city.addMoving(b2.gui);
 
 		
 		
