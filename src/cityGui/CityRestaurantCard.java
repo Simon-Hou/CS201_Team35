@@ -37,48 +37,19 @@ public class CityRestaurantCard extends CityCard{
 
 
 	public void paint(Graphics g) {
+
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setColor(getBackground());
+		g2.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT );
+
 		
-		g.setColor(getBackground());
-        g.fillRect(0, 0, CARD_WIDTH+50, CARD_HEIGHT+50);
-        
-        //Here is the cook's area       
-        g.setColor(Color.WHITE);
-        g.fillRect(REFRIGERATOR.x, REFRIGERATOR.y, REFRIGERATOR.width+20, REFRIGERATOR.height);
-        g.setColor(Color.DARK_GRAY);
-        g.fillRect(STOVE.x, STOVE.y, STOVE.width+20, STOVE.height);
-        g.draw3DRect(REFRIGERATOR.x, REFRIGERATOR.y, REFRIGERATOR.width+20, REFRIGERATOR.height, true);
-        g.drawString("Refrigerator", CARD_WIDTH-80, 20);
-        g.setColor(Color.GRAY);
-        g.fillRect(CARD_WIDTH-150, 0, 50, CARD_HEIGHT);
-        g.drawOval(CARD_WIDTH-92, CARD_HEIGHT-50, 24, 24);
-        g.drawOval(CARD_WIDTH-61, CARD_HEIGHT-50, 24, 24);
-        g.drawOval(CARD_WIDTH-30, CARD_HEIGHT-50, 24, 24);
-        g.drawOval(CARD_WIDTH-92, CARD_HEIGHT-26, 24, 24);
-        g.drawOval(CARD_WIDTH-61, CARD_HEIGHT-26, 24, 24);
-        g.drawOval(CARD_WIDTH-30, CARD_HEIGHT-26, 24, 24);
-
-        int cellSize = RestaurantPanel.cellSize;
-        int gridX = CARD_WIDTH/cellSize;
-        int gridY = CARD_HEIGHT/cellSize;
-        
-        for (int i=0; i<gridX ; i++)
-    	    for (int j = 0; j<gridY; j++){
-    	    	g.drawRect(i*cellSize, j*cellSize, cellSize, cellSize);
-    	    	g.drawString(i*cellSize + " " + j*cellSize, i*cellSize+5, j*cellSize+PERSONSIZE);
-    	    }
-
-        //Here are the tables
-        for (Point table: tableMap)
-		{
-        	g.setColor(Color.ORANGE);
-        	g.fillRect(table.x, table.y, TABLESIZE, TABLESIZE);
-        }
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
+
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -96,6 +67,15 @@ public class CityRestaurantCard extends CityCard{
         //The cashier
         g.setColor(Color.BLUE);
         g.fillRect(0, 100, PERSONSIZE, PERSONSIZE);
+    }
+
+	
+    public void addGui(Gui gui) {
+        guis.add(gui);
+    }
+    
+    public void addTable(Point p){
+    	tableMap.add(p);
     }
         
 }

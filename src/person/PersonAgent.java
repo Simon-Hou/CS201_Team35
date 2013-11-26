@@ -19,6 +19,7 @@ import market.MarketEmployeeRole;
 import restaurant.Restaurant;
 import role.Role;
 import util.Bank;
+import util.Bus;
 import util.BusStop;
 import util.CityMap;
 import util.Job;
@@ -63,6 +64,8 @@ public class PersonAgent extends Agent implements Person {
 		
 	}
 	
+	
+	
 	//GETTERS
 	public String getName(){
 		return name;
@@ -99,6 +102,9 @@ public class PersonAgent extends Agent implements Person {
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
 	public int MY_BANK = 0;
+	public boolean wantsToRideBus = false;
+	public Semaphore waitForBusToArrive = new Semaphore(0,true);
+	private boolean onBus = false;
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
@@ -187,6 +193,10 @@ public class PersonAgent extends Agent implements Person {
 
 	//msg
 	
+	public void msgYouWantToRideBus(boolean want){
+		this.wantsToRideBus = want;
+	}
+	
 	public void msgAtDestination(){
 		atDestination.release();
 	}
@@ -196,9 +206,30 @@ public class PersonAgent extends Agent implements Person {
 		//stateChanged();
 	}
 	
-	public void msgBusAtStop(BusStop stop){
+	public void msgBusAtStop(Bus b,BusStop stop){
 		//blah
 		//stateChanged();
+		//Do("IN THIS MESSAGE "+gui.x+" "+gui.y+" "+stop.sidewalkLoc.x+" "+stop.sidewalkLoc.y);
+		if(stop.sidewalkLoc.x == gui.xDestination && stop.sidewalkLoc.y==gui.yDestination){
+			
+			
+			gui.onBus();
+			onBus = true;
+			Do("Getting on bus");
+			
+			//b.getOnBus(this);
+		}
+		else{
+			Do("Getting OFF bus");
+			waitForBusToArrive.release();
+			onBus = false;
+			//Do("SHIT I JUST WOKE UP");
+			gui.setLoc(stop.sidewalkLoc);
+			gui.offBus();
+			//waitForBusToArrive.release();
+			//b.getOffBuss(this);
+		}
+		
 	}
 	
 	
@@ -217,6 +248,12 @@ public class PersonAgent extends Agent implements Person {
 				setJob(((BankMapLoc) city.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100);
 			}
 		}*/
+		
+		//Do("Deciding what to do "+onBus);
+		if(onBus){
+			return false;
+		}
+		
 		if (activeRole != null) {
 			activeRoleCalls++;
 			
@@ -243,6 +280,11 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 		
+		//Do("Deciding what to do");
+		if(wantsToRideBus){
+			Do("will ride the bus");
+			rideBus();
+		}
 		
 		/*if (nextRole != null) {
 			activeRole = nextRole;
@@ -408,6 +450,7 @@ public class PersonAgent extends Agent implements Person {
 		int marketChoice = (int) Math.floor(city.map.get("Market").size()*Math.random());
 		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
 		Loc loc = city.map.get("Market").get(marketChoice).loc;
+		
 		doGoToBuilding(loc);
 		
 		//ShoppingList shoppingList = makeShoppingList();
@@ -479,6 +522,11 @@ public class PersonAgent extends Agent implements Person {
 		p.maintenanceLevel = 0;
 	}
 	
+	private void rideBus(){
+		doRideBus();
+		//this.wantsToRideBus = false;
+	}
+	
 	//ANIMATION
 	
 	public void doGoHome(){
@@ -488,6 +536,7 @@ public class PersonAgent extends Agent implements Person {
 
 	
 	private void doGoToBuilding(Loc loc){
+		
 		
 		if(this.gui!=null){
 			gui.doGoToBuilding(loc);
@@ -502,6 +551,25 @@ public class PersonAgent extends Agent implements Person {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public void doRideBus(){
+		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		city.fStops.get(0).waitForBus(this);
+		try {
+			waitForBusToArrive.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		onBus = true;
 		
 	}
 	

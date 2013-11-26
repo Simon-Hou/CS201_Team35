@@ -98,8 +98,10 @@ public class PersonGui extends CityComponent implements Gui {
     private boolean readyToGoOuterSidewalk = false;
     private boolean transitionDone = true;
     private boolean choseRand = false;
+    private boolean visible = true;
     
     public boolean onTheMove = false;
+    public boolean waitingForBus = false;
     
     private Semaphore crossingStreet = new Semaphore(0,true);
      
@@ -128,6 +130,22 @@ public class PersonGui extends CityComponent implements Gui {
     	this.xDestination = loc.x;
     	this.yDestination = loc.y;
     	onTheMove = true;
+    }
+    
+    public void doGoToBus(Loc loc){
+    	this.xDestination = loc.x;
+    	this.yDestination = loc.y;
+    	onTheMove = true;
+    	waitingForBus = true;
+    }
+    
+    public void onBus(){
+    	waitingForBus = false;
+    	visible = false;
+    }
+    
+    public void offBus(){
+    	visible = true;
     }
     
 	public void updatePosition() {
@@ -559,12 +577,20 @@ public class PersonGui extends CityComponent implements Gui {
 		hasArrived = arrived;
 	}
 	
+	public void setLoc(Loc loc){
+		rectangle.x = loc.x;
+		rectangle.y = loc.y;
+	}
+	
 	public boolean getStartPosition() {
 		return startPosition;
 	}
 	
     public void paint(Graphics g) {
-    	if (!atDestination()) {
+    	if(!visible){
+    		return;
+    	}
+    	if (!atDestination() || waitingForBus) {
     		g.drawImage(currentImage.getImage(),getXPos(),getYPos(),10,10,null);
     	}
     }    	
@@ -723,6 +749,7 @@ public class PersonGui extends CityComponent implements Gui {
     			currentImage = this.left.get(rectangle.x % 4);
     		}
     	}
+    }
 //    	else {
 //    		if (this.rectangle.x < xDest) {
 //    			this.rectangle.x++;
@@ -741,7 +768,7 @@ public class PersonGui extends CityComponent implements Gui {
 //    			currentImage = this.bleft.get(rectangle.x % 2);
 //    		}
 //    	}
-    }
+//    }
     
     public void goVertical(int yDest) {
     	if (this.rectangle.y == yDest) {
@@ -775,7 +802,26 @@ public class PersonGui extends CityComponent implements Gui {
 //    			currentImage = this.bup.get(rectangle.y % 4);
 //    		}
 //    	}
+//		if (rectangle.x < xDest) {
+//            rectangle.x++;
+//			currentImage = this.right.get(0/*rectangle.x % 4*/);
+//		}
+//        else if (rectangle.x > xDest) {
+//            rectangle.x--;
+//			currentImage = this.left.get(0/*rectangle.x % 4*/);
+//        }
     }
+    
+//    public void goVertical(int yDest) {
+//        if (rectangle.y < yDest) {
+//            rectangle.y++;
+//            currentImage = this.down.get(0/*rectangle.y % 4*/);
+//        }
+//        else if (rectangle.y > yDest) {
+//        	rectangle.y--;
+//        	currentImage = this.up.get(0/*rectangle.y % 4*/);
+//        }
+//    }
     
     private void crossWalk1o() {   	
     	cWalk1o =  (int) (69 - (Math.random() * 29));
