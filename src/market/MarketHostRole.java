@@ -148,7 +148,7 @@ public class MarketHostRole extends Role implements MarketHost {
 				unfulfillable.put(item.getKey(), request - stock);
 				inventory.put(item.getKey(), 0);
 				if (stock ==0){
-					mc.order.remove(item.getKey());
+					//mc.order.remove(item.getKey());
 				}
 				else{
 					mc.order.put(item.getKey(), stock);
@@ -186,11 +186,15 @@ public class MarketHostRole extends Role implements MarketHost {
 				e1 = employees.get(i);
 			}
 		}
+
+		market.updateInventory();
+	
+		
 		Do("Giving this order to " + e1.employee.getName());
 		e1.employee.msgGetItemsForCustomer(mc.customer, mc.order);
 		e1.orders++;
 		
-		market.updateInventory();
+
 
 	}
 
