@@ -127,6 +127,8 @@ public class PersonGui extends CityComponent implements Gui {
 	}
     
     public void doGoToBuilding(Loc loc){
+    	//System.out.println(
+    	//		"Being told to go: "+rectangle.x + " "+rectangle.y + " and "+xDestination+ " "+yDestination);
     	this.xDestination = loc.x;
     	this.yDestination = loc.y;
     	onTheMove = true;
@@ -150,12 +152,12 @@ public class PersonGui extends CityComponent implements Gui {
     
 	public void updatePosition() {
 		if (!atDestination()) {
-			System.out.println("XDest: " + xDestination);
+			/*System.out.println("XDest: " + xDestination);
 			System.out.println("YDest: " + yDestination);
 			System.out.println("XPos: " + getXPos());
-			System.out.println("YPos: " + getYPos());
+			System.out.println("YPos: " + getYPos());*/
 			if (transitionDone) {
-				System.out.println("Transition is done");
+				//System.out.println("Transition is done");
 			}
 		}
 		if (readyToGoInnerSidewalk) {
@@ -191,7 +193,7 @@ public class PersonGui extends CityComponent implements Gui {
 		}
 		
 		if (readyToGoOuterSidewalk) {
-			System.out.println("Going to outer sidewalk");
+			//System.out.println("Going to outer sidewalk");
 			if (b1(getXPos(),getYPos())) {
 				goVertical(cWalk1o);
 				if (getYPos() == cWalk1o) {

@@ -12,6 +12,8 @@ import market.OrderItem;
 
 public interface MarketCashier extends Occupation{
 	
+
+
 	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries);
 	public void msgFinishedComputing(MyCustomer mc);
 	public void msgCustomerPayment(MarketCustomer c, int payment);

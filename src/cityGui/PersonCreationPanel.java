@@ -239,6 +239,10 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			errorField.setText("Please enter a name");
 			return false;
 		}
+		if(name.equals("Bus Ride")){
+			c.busRideScenario();
+			return true;
+		}
 		if(placeOptions.getSelectedValue()==null){
 			errorField.setText("Please select an employer");
 			return false;
