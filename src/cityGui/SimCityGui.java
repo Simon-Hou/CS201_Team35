@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import market.gui.MarketPanel;
 import person.PersonAgent;
-
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;
@@ -139,11 +139,17 @@ public class SimCityGui extends JFrame implements ActionListener {
 			return;
 		}
 		if(type.equals("Market")){
-			city.addObject(CityComponents.MARKET);
-			city.moveBuildingTo(new Loc(x,y));
-			city.setBuildingDown();
+			CityComponent temp = new CityMarket(x, y, "Market " + (city.statics.size()-19));
+			CityMarketCard tempAnimation = new CityMarketCard(this);
+			((CityMarket)temp).market.setMarketPanel(new MarketPanel(tempAnimation, ((CityMarket)temp).market));
+			city.markets.add(((CityMarket)temp).market);
+			this.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+			city.statics.add(temp);
 			return;
 		}
+		
 		if(type.equals("Restaurant")){
 			CityComponent temp = new CityRestaurant(x, y, "Restaurant " + (city.statics.size()-19));
 			CityRestaurantCard tempAnimation = new CityRestaurantCard(this);
@@ -156,11 +162,25 @@ public class SimCityGui extends JFrame implements ActionListener {
 			return;
 		}
 		if(type.equals("House")){
-			city.addObject(CityComponents.HOUSE);
-			city.moveBuildingTo(new Loc(x,y));
-			city.setBuildingDown();
+			CityComponent temp = new CityHouse(x, y, "House " + (city.statics.size()-19));
+			CityHouseCard tempAnimation = new CityHouseCard(this);
+			((CityHouse)temp).house.setAnimationPanel(tempAnimation);
+			city.houses.add(((CityHouse)temp).house);
+			this.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+			city.statics.add(temp);
 			return;
 		}
+		
+		/*
+		 	CityHouseCard tempAnimation= new CityHouseCard(city);
+			((CityHouse)temp).house.setAnimationPanel(tempAnimation);
+			houses.add(((CityHouse)temp).house);//hack: this is not necessary because we have the cityObject already. Change it later
+			city.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+				*/
 
 	}
 
