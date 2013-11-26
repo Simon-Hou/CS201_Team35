@@ -289,10 +289,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		
 		//Do("Deciding what to do");
-		if(wantsToRideBus){
-			Do("will ride the bus");
-			rideBus();
-		}
+
 		
 		/*if (nextRole != null) {
 			activeRole = nextRole;
@@ -310,6 +307,11 @@ public class PersonAgent extends Agent implements Person {
 		if(myJob.placeOfWork!=null && timeInJobShift()){
 			goToWork();
 			return true;
+		}
+		
+		if(wantsToRideBus){
+			Do("will ride the bus");
+			rideBus();
 		}
 
 		//FOR NOW - TODO - GET THIS TO WORK

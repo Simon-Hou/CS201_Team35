@@ -1,10 +1,12 @@
 package UnitTests.mock.MarketMock;
 
+import java.util.List;
 import java.util.Map;
 
-import market.BusinessOrder;
+import restaurant.Restaurant;
 import market.Market;
 import market.MarketCashierRole.MyCustomer;
+import market.OrderItem;
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
 import interfaces.MarketEmployee;
@@ -55,11 +57,6 @@ public class MockMarketCashier extends Mock implements MarketCashier{
 		
 	}
 
-	@Override
-	public void msgCalculateInvoice(BusinessOrder order, MarketEmployee employee) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public boolean YouAreDoneWithShift() {
@@ -69,6 +66,13 @@ public class MockMarketCashier extends Mock implements MarketCashier{
 
 	@Override
 	public void setMarket(Market m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCalculateInvoice(MarketEmployee employee,
+			List<OrderItem> order, Restaurant r) {
 		// TODO Auto-generated method stub
 		
 	}

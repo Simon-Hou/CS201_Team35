@@ -1,6 +1,7 @@
 package UnitTests.mock.MarketMock;
 
 import role.Role;
+import util.Bus;
 import util.BusStop;
 import util.Loc;
 import interfaces.Person;
@@ -21,11 +22,6 @@ public class MockMarketPerson extends Mock implements Person {
 		
 	}
 
-	@Override
-	public void msgBusAtStop(BusStop stop) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void msgCarArrivedAtLoc(Loc destination) {
@@ -96,6 +92,12 @@ public class MockMarketPerson extends Mock implements Person {
 
 	@Override
 	public void putInBag(String item, int amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgBusAtStop(Bus b, BusStop stop) {
 		// TODO Auto-generated method stub
 		
 	}

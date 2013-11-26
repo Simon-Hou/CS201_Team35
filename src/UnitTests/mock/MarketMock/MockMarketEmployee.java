@@ -1,9 +1,12 @@
 package UnitTests.mock.MarketMock;
 
+import java.util.List;
 import java.util.Map;
 
-import market.BusinessOrder;
+import restaurant.Restaurant;
+import market.OrderItem;
 import interfaces.MarketCustomer;
+import interfaces.MarketDeliveryMan;
 import interfaces.MarketEmployee;
 import UnitTests.mock.Mock;
 
@@ -33,14 +36,22 @@ public class MockMarketEmployee extends Mock implements MarketEmployee{
 		
 	}
 
+
+
 	@Override
-	public void msgGetThis(BusinessOrder order) {
+	public void msgGetThis(List<OrderItem> order, Restaurant r) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void msgGiveInvoice(int invoice, BusinessOrder order) {
+	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addDeliveryMan(MarketDeliveryMan m) {
 		// TODO Auto-generated method stub
 		
 	}

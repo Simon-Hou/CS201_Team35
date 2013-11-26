@@ -11,6 +11,7 @@ import role.Role;
 import util.JobType;
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
+import interfaces.MarketDeliveryMan;
 import interfaces.MarketEmployee;
 import interfaces.MarketHost;
 import interfaces.Person;
@@ -24,6 +25,7 @@ public class Market implements PlaceOfWork{
 	public MarketHost host;
 	public MarketCashier cashier;
 	public List<MarketEmployee> employees = new ArrayList<MarketEmployee>();
+	public List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
 	int money;
 	public CityMarket gui;
 	
@@ -102,8 +104,13 @@ public class Market implements PlaceOfWork{
 		}
 		
 		else if(jobType == jobType.MarketDeliveryMan){
-			System.err.println("Delivery man not dealt with yet");
-			return null;
+			
+				deliveryMen.add((MarketDeliveryMan) m);
+				for (MarketEmployee e : employees){
+					e.addDeliveryMan((MarketDeliveryMan)m);
+				}
+				return m;
+			
 		}
 		
 		
