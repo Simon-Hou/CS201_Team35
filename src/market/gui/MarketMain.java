@@ -13,7 +13,7 @@ public class MarketMain extends JFrame{
 
 	
 	MarketMain(){
-	    int WINDOWX = 800;
+	  /*  int WINDOWX = 800;
 	    int WINDOWY = 500;	
 		setBounds(100, 50, WINDOWX,WINDOWY);
 		setLayout(new GridLayout(1,2,5,5));
@@ -35,7 +35,7 @@ public class MarketMain extends JFrame{
     	add(mp);
 		add(ma);
 
-		
+		*/
 	}
 
 	public static void main(String[] args) {
