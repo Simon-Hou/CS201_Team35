@@ -115,9 +115,17 @@ public class SimCityGui extends JFrame {
 	
 	public void addNewBuilding(String type,int x, int y){
 		if(type.equals("Bank")){
-			city.addObject(CityComponents.BANK);
+			/*city.addObject(CityComponents.BANK);
 			city.moveBuildingTo(new Loc(x,y));
-			city.setBuildingDown();
+			city.setBuildingDown();*/
+			CityComponent temp = new CityBank(x, y, "Bank " + (city.statics.size()-19));
+			CityBankCard tempAnimation = new CityBankCard(this);
+			((CityBank)temp).bank.setAnimationPanel(tempAnimation);
+			city.banks.add(((CityBank)temp).bank);
+			this.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+			city.statics.add(temp);
 			return;
 		}
 		if(type.equals("Market")){

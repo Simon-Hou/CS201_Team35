@@ -102,7 +102,7 @@ public class PersonAgent extends Agent implements Person {
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
 	public int MY_BANK = 0;
-	public boolean wantsToRideBus = true;
+	public boolean wantsToRideBus = false;
 	public Semaphore waitForBusToArrive = new Semaphore(0,true);
 	private boolean onBus = false;
 	
@@ -191,6 +191,10 @@ public class PersonAgent extends Agent implements Person {
 	
 
 	//msg
+	
+	public void msgYouWantToRideBus(boolean want){
+		this.wantsToRideBus = want;
+	}
 	
 	public void msgAtDestination(){
 		atDestination.release();
