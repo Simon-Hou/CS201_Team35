@@ -138,26 +138,38 @@ public class MarketHostRole extends Role implements MarketHost {
 		Map<String, Integer> inventory = market.inventory;
 
 		Map<String, Integer> unfulfillable = new HashMap<String, Integer>();
-		for (Entry<String,Integer> item : mc.order.entrySet()){
-			int request = item.getValue();
-			int stock = inventory.get(item.getKey());
+		
+		
 
-			inventory.remove(item.getKey());
+		List<OrderItem> custOrder = new ArrayList<OrderItem>();
+		for (Entry<String,Integer> item : mc.order.entrySet()){
+			custOrder.add(new OrderItem(item.getKey(), item.getValue()));
+		}
+
+		
+		
+		for (OrderItem item : custOrder){
+			int request = item.quantityOrdered;
+			int stock = inventory.get(item.choice);
+
+			inventory.remove(item.choice);
 
 			if (request > stock){
-				unfulfillable.put(item.getKey(), request - stock);
-				inventory.put(item.getKey(), 0);
+				unfulfillable.put(item.choice, request - stock);
+				inventory.put(item.choice, 0);
 				if (stock ==0){
-					//mc.order.remove(item.getKey());
+					mc.order.remove(item.choice);
 				}
 				else{
-					mc.order.put(item.getKey(), stock);
+					mc.order.put(item.choice, stock);
 				}
 			}
 			else {//(request <= stock)
-				inventory.put(item.getKey(), stock-request);
+				inventory.put(item.choice, stock-request);
 			}
 		}
+		
+	
 
 		if (mc.order.size()==0){
 			Do(mc.customer.getName() + ", you didn't order anything, or we are out of everything you ordered.");
