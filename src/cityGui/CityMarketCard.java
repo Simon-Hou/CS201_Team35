@@ -135,6 +135,7 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 	       		paint.setColor(Color.MAGENTA);
 	       		paint.fillRect(panelX - 30, 90, 20, 20);
 	       	
+	       		
 	        
 	        //LABELS
 	        paint.setColor(Color.BLACK);

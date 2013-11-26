@@ -26,6 +26,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 	CityBankCard animation;
 	
 	public List<BankCustomer> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
+	public List<BankCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	
 	public List<BankTeller> myTellers = new ArrayList<BankTeller>();
 	public List<BankTeller> currentTellers = new ArrayList<BankTeller>();
@@ -121,8 +122,8 @@ public class Bank implements BankInterface, PlaceOfWork{
 	}
 	
 	public void exitBank(BankCustomer c) {
-		bankCustomers.remove(c);
-		bankGui.bankPanel.customerPanel.removeAll();
+		//bankCustomers.remove(c);
+		//bankGui.bankPanel.customerPanel.removeAll();
 //		for (BankCustomer BC : bankCustomers) {
 //			bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)BC).getName());
 //		}
