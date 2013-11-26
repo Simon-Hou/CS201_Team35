@@ -100,7 +100,6 @@ public class ListPanel extends JPanel implements ActionListener{
 
 			list.add(button);
 			view.add(button);
-			System.out.println("There should be a button here now");
 			//view.add(button);
 			validate();
 		}
@@ -109,7 +108,6 @@ public class ListPanel extends JPanel implements ActionListener{
 	public void clearListButtons() {
 		list.clear();
 		view.removeAll();
-		System.out.println("The whole list should be empty now");
 		validate();
 	}
 }
