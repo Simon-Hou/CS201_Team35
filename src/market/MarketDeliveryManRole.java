@@ -3,6 +3,7 @@ package market;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import person.PersonAgent;
 //import restaurant.Restaurant;
@@ -13,21 +14,20 @@ import interfaces.MarketCashier;
 public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 
 	
-	
-	
-	
 	//-----------------------------DATA--------------------------------
 	private List<MarketInvoice> orders = new ArrayList<MarketInvoice>();
 	private List<MyPayment> payments = new ArrayList<MyPayment>();
-	private MarketCashier cashier;
+	private Market market;
 	private String name;
 	private PersonAgent p;
 	
+	//DeliveryMan is just going to wait for the restaurant cashier
+	private Semaphore receivedPayment = new Semaphore(0,true);
 	
-	
-	public MarketDeliveryManRole(String name, PersonAgent p){
+	public MarketDeliveryManRole(String name, PersonAgent p, Market m){
 		this.name = name;
 		this.p = p;
+		this.market = m;
 		
 	}
 	
@@ -44,9 +44,10 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		
 	}
 	
-	public void msgHereIsPayment(int payment){
-		MyPayment pay = new MyPayment(payment);
+	public void msgHereIsPayment(int payment, MarketInvoice invoice){
+		MyPayment pay = new MyPayment(payment, invoice);
 		payments.add(pay);
+		receivedPayment.release();
 		p.msgStateChanged();
 		
 	}
@@ -74,13 +75,17 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	private void DeliverOrder(MarketInvoice order){
 		Do("Deliverying an order to a restaurant");
 		//DoGoToRestaurant(order.restaurant);
-		//order.restaurant.cook.msgHereIsDelivery(order);
-		//order.restaurant.cashier.msgHereIsInvoice(order.invoice);
+		
 		orders.remove(order);
 		
+		order.restaurant.cook.msgHereIsDelivery(order);
+		order.restaurant.cashier.msgHereIsInvoice(this, order);
 		
-		//FOR TESTING:::::
-		//msgHereIsPayment(order.payment);
+		try {
+			receivedPayment.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 //	private void DoGoToRestaurant(Restaurant rest){
@@ -88,8 +93,8 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 //	}
 	private void DeliverPayment(MyPayment payment){
 		DoGoToCashier();
-		Do(cashier.getName() + ", here is a business payment.");
-		cashier.msgHereIsBusinessPayment(payment.amount);
+		Do(market.cashier.getName() + ", here is a business payment.");
+		market.cashier.msgHereIsBusinessPayment(payment.amount);
 		payments.remove(payment);
 	
 		
@@ -107,18 +112,17 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		return name;
 	}
 	
-	public void setCashier(MarketCashier c){
-		cashier = c;
+	public void setMarket(Market m){
+		market = m;
 	}
 	
 	private class MyPayment {
 		int amount;
-		//Restaurant restaurant;
+		MarketInvoice invoice;
 	
-		MyPayment(int payment){
+		MyPayment(int payment, MarketInvoice invoice){
 			amount = payment;
-	
-			
+			this.invoice = invoice;			
 		}
 	}
 

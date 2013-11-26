@@ -5,7 +5,7 @@ import market.MarketInvoice;
 public interface MarketDeliveryMan extends Occupation {
 
 	public void msgDeliverThisOrder(MarketInvoice order);
-	public void msgHereIsPayment(int payment);
+	public void msgHereIsPayment(int payment, MarketInvoice invoice);
 	
 	public String getName();
 	
