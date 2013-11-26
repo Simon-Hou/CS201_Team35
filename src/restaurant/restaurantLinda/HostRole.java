@@ -1,6 +1,7 @@
 package restaurant.restaurantLinda;
 
 import agent.Agent;
+import interfaces.Person;
 import interfaces.restaurantLinda.Customer;
 import interfaces.restaurantLinda.Host;
 import interfaces.restaurantLinda.Waiter;
@@ -259,6 +260,12 @@ public class HostRole extends Role implements Host{
 
 	public String getName() {
 		return name;
+	}
+
+
+	public void setPerson(Person person) {
+		p = person;
+		
 	}
 	
 	

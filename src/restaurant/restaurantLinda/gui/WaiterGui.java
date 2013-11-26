@@ -14,7 +14,6 @@ import astar.*;
 
 public class WaiterGui extends GuiPerson {	
 	private WaiterRole agent = null;
-	RestaurantGui gui;
 
     private int personSize=30;
     private Map<Integer,Point> tableMap;
@@ -34,9 +33,8 @@ public class WaiterGui extends GuiPerson {
 	private String bufferText;
 	
 
-    public WaiterGui(WaiterRole agent, RestaurantGui gui, int position, AStarTraversal aStar) {
+    public WaiterGui(WaiterRole agent, int position, AStarTraversal aStar) {
         this.agent = agent;
-        this.gui = gui;
         this.aStar = aStar;
         
         int limit = (WINDOWX-300)/cellSize;
@@ -147,7 +145,7 @@ public class WaiterGui extends GuiPerson {
 	}
     
     public void UpdateInfo(){
-    	gui.updateWaiter(agent);
+    	//gui.updateWaiter(agent);
     }
 
     public void updatePosition() {
@@ -169,7 +167,7 @@ public class WaiterGui extends GuiPerson {
     	}
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(Graphics g) {
         g.setColor(Color.MAGENTA);
         g.fillRect(xPos, yPos, personSize, personSize);
         

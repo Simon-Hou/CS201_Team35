@@ -148,11 +148,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 			if(currentCustomer!=null){
 				//Do("Sending "+ currentCustomer.getName()+" a message to start helping him");
 				System.out.flush();
-				if (currentCustomer instanceof BankCustomerRole) {
-					((BankCustomerRole)currentCustomer).msgHowCanIHelpYou(this, bankTellerGui.xPos, bankTellerGui.yPos);//TODO fix these numbers!
-				}
-				else
-					currentCustomer.msgHowCanIHelpYou(this);
+				callCustomer(currentCustomer);
 				return true;
 			}
 			return false;
@@ -194,6 +190,15 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	
 	
 	//ACT
+	
+	private void callCustomer(BankCustomer c) {
+		GoToPosition();
+		if (c instanceof BankCustomerRole) {
+			((BankCustomerRole)c).msgHowCanIHelpYou(this, bankTellerGui.xPos, bankTellerGui.yPos);//TODO fix these numbers!
+		}
+		else
+			c.msgHowCanIHelpYou(this);
+	}
 	
 	private void GoToPosition() {
 		Do("Going to my position to work");

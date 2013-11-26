@@ -51,6 +51,7 @@ public class BankPanel extends JPanel {
         add(customerPanel);
 	}
 	
+
 	public void enterBank(BankCustomer bcr, BankCustomerGui g) {
 		bank.addMeToQueue(bcr);
 		customerPanel.addListButton(bcr.getName());
