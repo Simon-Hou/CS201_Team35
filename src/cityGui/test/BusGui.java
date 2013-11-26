@@ -83,7 +83,7 @@ public class BusGui extends CityComponent implements Gui {
 	}
     
     public void doGoToNextStop(Loc loc){
-
+    	
     	this.xDestination = loc.x;
     	this.yDestination = loc.y;
     	this.moving = true;
@@ -258,8 +258,10 @@ public class BusGui extends CityComponent implements Gui {
 
 
 		}
-		if(rectangle.x==this.xDestination && rectangle.y ==this.yDestination){
+		if(moving && rectangle.x==this.xDestination && rectangle.y ==this.yDestination){
 			moving = false;
+			this.bus.atStopFreeze.release();
+			this.bus.updateBus();
 		}
 		
 		

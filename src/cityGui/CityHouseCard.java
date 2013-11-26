@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,19 +42,27 @@ public class CityHouseCard extends CityCard{
 		g2.fillRect((int)(CARD_WIDTH*0.1),(int)(CARD_HEIGHT*0.5),xSize,ySize);
 		
 		for(Gui gui : guis) {
-			if (gui.isPresent()) {
+			//if (gui.isPresent()) {
 				gui.updatePosition();
-			}
+			//}
 		}
 
 		for(Gui gui : guis) {
-			if (gui.isPresent()) {
+			//if (gui.isPresent()) {
 				gui.draw(g2);
-			}
+			//}
 		}
 
 	}
-	
+	public void run(long t){
+		for(long i=0; i<t-time;i++){
+			for(Gui gui : guis) {
+				//if (gui.isPresent()) {
+					gui.updatePosition();
+				//}
+			}
+		}
+	}
 	public void addGui(InhabitantGui gui) {
 		guis.add(gui);
 	}
