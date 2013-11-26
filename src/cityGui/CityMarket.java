@@ -6,8 +6,8 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
 import market.Market;
 import util.Bank;
 import util.BankMapLoc;
@@ -18,6 +18,16 @@ import util.MarketMapLoc;
  * Not to be confused with CitiBank
  */
 public class CityMarket extends CityComponent implements ImageObserver{
+	java.net.URL imgURL1 = getClass().getResource("cityImages/market1.png");
+	ImageIcon img1 = new ImageIcon(imgURL1);
+	java.net.URL imgURL2 = getClass().getResource("cityImages/market2.png");
+	ImageIcon img2 = new ImageIcon(imgURL2);
+	java.net.URL imgURL3 = getClass().getResource("cityImages/market3.png");
+	ImageIcon img3 = new ImageIcon(imgURL3);
+	java.net.URL imgURL4 = getClass().getResource("cityImages/market4.png");
+	ImageIcon img4 = new ImageIcon(imgURL4);
+	java.net.URL imgURL5 = getClass().getResource("cityImages/market5.png");
+	ImageIcon img5 = new ImageIcon(imgURL5);
 	public Market market;
 	private int buildingSize = 35;
 	public CityMarket(int x, int y) {
@@ -40,15 +50,7 @@ public class CityMarket extends CityComponent implements ImageObserver{
 	@Override
 	public JPanel addAgentObjectToMap(){
 		MarketMapLoc mMap = new MarketMapLoc(market);
-		mMap.loc = new Loc(x,y);
-		int tempX = mMap.loc.x;
-		int tempY = mMap.loc.y;
-		System.out.println("Old Building X Value: " + mMap.loc.x);
-		System.out.println("Old Building Y Value: " + mMap.loc.y);
-		mMap.loc.x = sidewalkX(tempX,tempY);
-		mMap.loc.y = sidewalkY(tempX,tempY);
-		System.out.println("New Building X Value: " + mMap.loc.x);
-		System.out.println("New Building Y Value: " + mMap.loc.y);
+		mMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
 		this.cityObject.cityMap.map.get("Market").add(mMap);
 		return null;
 	}
@@ -58,8 +60,21 @@ public class CityMarket extends CityComponent implements ImageObserver{
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(color);
-		g.fillRect(x, y, buildingSize, buildingSize);
+		if (this.invalidPlacement) {
+			g.drawImage(img5.getImage(),x,y,35,35,null);
+		}
+		else if (this.outerTopSide((int)rectangle.getX(), (int)rectangle.getY()+35) || this.innerBottomSide((int)rectangle.getX(), (int)rectangle.getY())) {
+			g.drawImage(img1.getImage(),x,y,35,35,null);
+		}
+		else if (this.outerRightSide((int)rectangle.getX(), (int)rectangle.getY()) || this.innerLeftSide((int)rectangle.getX(), (int)rectangle.getY())) {
+			g.drawImage(img2.getImage(),x,y,35,35,null);
+		}
+		else if (this.outerBottomSide((int)rectangle.getX(), (int)rectangle.getY())|| this.innerTopSide((int)rectangle.getX(), (int)rectangle.getY())) {
+			g.drawImage(img3.getImage(),x,y,35,35,null);
+		}
+		else if (this.outerLeftSide((int)rectangle.getX()+35, (int)rectangle.getY()) || this.innerRightSide((int)rectangle.getX(), (int)rectangle.getY())) {
+			g.drawImage(img4.getImage(),x,y,35,35,null);
+		}
 	}
 
 	@Override

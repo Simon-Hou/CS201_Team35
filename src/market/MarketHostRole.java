@@ -29,7 +29,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	public Person p;
 	public String name;
 	
-	Market m;
+	public Market m;
 	
 	//SETTERS
 	public void setName(String name){
@@ -39,6 +39,8 @@ public class MarketHostRole extends Role implements MarketHost {
 	public void setPerson(PersonAgent p){
 		this.p = p;
 	}
+	
+
 	
 	
 	//GETTERS
@@ -59,6 +61,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	public boolean NewEmployee(MarketEmployee m){
+		//Do("This is being called!!!!");
 		addEmployee(m);
 		return true;
 	}
@@ -69,14 +72,20 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public boolean YouAreDoneWithShift(){
 		//TODO make sure people don't leave their shifts early
-		p.msgThisRoleDone(this);
+		if(true){
+			p.msgThisRoleDone(this);
+			this.p = null;
+			m.DefaultName(this);
+		}
 		return true;
 	}
 	
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
 	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
-	    p.msgStateChanged();
+	    if(p!=null){
+	    	p.msgStateChanged();
+	    }
 		
 	}
 
@@ -177,18 +186,25 @@ public class MarketHostRole extends Role implements MarketHost {
 			}
 		}
 
-		if (unfulfillable.size()>0){
-			mc.customer.msgOutOfStock(unfulfillable);
-		}
-
 		if (mc.order.size()==0){
-			Do(mc.customer.getName() + ", you didn't order anything!");
+			Do(mc.customer.getName() + ", you didn't order anything, or we are out of everything you ordered.");
+			mc.customer.msgWeHaveNothing();
 			return;
 		}
+		
+		if (unfulfillable.size()>0){
+			mc.customer.msgOutOfStock(unfulfillable);
+			Do("Sorry, we don't have some of the items that you requested");
+		}
+
+
 
 		
 		
 		//choose employee for load balancing
+		if(employees.size()==0){
+			System.err.println("No Market employees");
+		}
 		
 		MyEmployee e1 = employees.get(0);
 

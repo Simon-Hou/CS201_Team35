@@ -34,6 +34,10 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	private Semaphore atDestination = new Semaphore(0,true);
 	
+	private Semaphore receivedInvoice = new Semaphore(0,true);
+	
+	boolean startedWorking = false;
+	
 	//SETTERS
 	public void setName(String name){
 		this.name = name;
@@ -83,6 +87,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public void msgGiveInvoice(int invoice, BusinessOrder order){
+		receivedInvoice.release();
 		for(BusinessOrder o : businessOrders){
 			if (o == order){
 				o.invoice = invoice;
@@ -99,6 +104,11 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
+		/*if(!startedWorking){
+			startedWorking = market.CanIStartWorking(this);
+			return startedWorking;
+		}*/
 		
 		//Do("SCHEDULER");
 		for (CustomerOrder co: customerOrders){
@@ -136,30 +146,34 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	//Actions
 	private void CollectItems(CustomerOrder co){
 		
-		
+	    co.status = CustomerOrderState.fulfilled;
 	
-		if(gui!=null){
-			gui.DoGetItems();
-		}
-		else{
-			atDestination.release();
-		}
 		
-		try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		//^^^this should go inside the for loop for each item needing to be collected
 		
 	    for (String item: co.order.keySet()){
 	    	//DoCollectItem(item, co.order.get(item));
+	    	if(gui!=null){
+				gui.DoGetItem(item);
+			}
+			else{
+				atDestination.release();
+			}
+			
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
 	    	Do("Collecting " + co.order.get(item) + " " + item + "s.");
 	    }
-	    co.status = CustomerOrderState.fulfilled;
+	    
+	   
 	}
 
+	
 	private void GiveItemsToCustomer(CustomerOrder co){
 		
 		if(gui!=null){
@@ -191,29 +205,29 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	private void GetBusinessOrder(BusinessOrder order){
 		Do("Better fill this business order");
 		
-		if(gui!=null){
-			gui.DoGetItems();
-		}
-		else{
-			atDestination.release();
-		}
-		
-		try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//^^^this should go inside the for loop for each item needing to be collected
+
 		
 		
 		//Discuss changing this so that BusinessOrder is no longer public
 		for (OrderItem item: order.order){
+			if(gui!=null){
+				gui.DoGetItem(item.choice);
+			}
+			else{
+				atDestination.release();
+			}
+			
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    	Do("Collecting " + item.quantityReceived + " " + item.choice + "s.");
 	    }
 		
-		/////////----------------------------------------------------------------
-	    //after getting the order
+		/////////--------------------------after getting the order-----------------//////////////
+	    
 	    Do("Got all of the items in the order.");
 	    
 	    if(gui!=null){
@@ -235,9 +249,13 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		cashier.msgCalculateInvoice(order, this);
 	    
 		order.state = OrderState.none;
-//	    if(gui!=null){
-//			gui.DoGoHomePosition();
-//		}
+
+		
+		try {
+			receivedInvoice.acquire();
+		} catch (InterruptedException e){
+			e.printStackTrace();
+		}
 	
 	}
 	

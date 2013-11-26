@@ -48,6 +48,7 @@ public class CityObject implements ActionListener{
 	List<BankMapLoc> banks = new ArrayList<BankMapLoc>();
 	List<MarketMapLoc> markets = new ArrayList<MarketMapLoc>();
 	
+	
 	int currentTime = 0;
 	static int TIMER_DELAY = 3000;
 	
@@ -68,6 +69,7 @@ public class CityObject implements ActionListener{
 		cityMap.map.put("Bank", new ArrayList<Place>());
 		cityMap.map.put("Market", new ArrayList<Place>());
 		cityMap.map.put("Restaurant", new ArrayList<Place>());
+		cityMap.map.put("House", new ArrayList<Place>());
 		
 		
 		//CREATE THE OBJECTS, ADD THEM TO THE MAP

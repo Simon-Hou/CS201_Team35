@@ -157,14 +157,16 @@ public class MarketPanel extends JPanel implements ActionListener{
 		
 		for (InventoryItem item : inventoryList){
 			if (e.getSource() == item.minus && item.inventory >0){
-				//System.err.println("Minus button pressed.");
 				item.inventory--;
-				item.inventoryLabel.setText(item.inventory.toString());
+				market.inventory.put(item.choice, item.inventory);
+				updateInventory();
 			}
 			else if (e.getSource() == item.plus){
-				//System.err.println("Plus button pressed.");
 				item.inventory++;
-				item.inventoryLabel.setText(item.inventory.toString());
+				//item.inventoryLabel.setText(item.inventory.toString());
+				//market.inventory.remove(item.choice);
+				market.inventory.put(item.choice, item.inventory);
+				updateInventory();
 			}
 		}
 		
@@ -175,6 +177,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         PersonAgent p1 = new PersonAgent("Customer", map);
         MarketCustomerRole customer = new MarketCustomerRole("Customer", p1);
         customer.addToShoppingList("Pizza", 12 );
+        customer.addToShoppingList("Car", 1);
         p1.activeRole = customer;
        p1.startThread();
        customers.add(customer);
@@ -195,7 +198,9 @@ public class MarketPanel extends JPanel implements ActionListener{
 	private void addDelivery(){
 		BusinessOrder order = new BusinessOrder();
 		OrderItem item = new OrderItem("Steak", 5);
+		OrderItem item2 = new OrderItem("Salad", 4);
 		order.addItem(item);
+		order.addItem(item2);
 		host.msgBusinessWantsThis(order);
 	}
 	
@@ -208,7 +213,10 @@ public class MarketPanel extends JPanel implements ActionListener{
 	}
 	
 	public void updateInventory(){
-		
+		for (InventoryItem item : inventoryList){
+			item.inventory = market.inventory.get(item.choice);
+			item.inventoryLabel.setText(item.inventory.toString());
+		}
 	}
 	
 	//Utilities
@@ -219,7 +227,7 @@ public class MarketPanel extends JPanel implements ActionListener{
 		Market market;
 		
 		String choice;
-		Integer inventory;
+		 Integer inventory;
 		
 		JButton minus = new JButton("-");
 		JLabel choiceLabel = new JLabel();

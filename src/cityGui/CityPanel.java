@@ -3,6 +3,7 @@ package cityGui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 
 import person.PersonAgent;
 import util.CityMap;
+import util.Loc;
 import city.CityObject;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
@@ -38,8 +40,6 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		
 		//fountainImage = ImageIO.read(new File(""));
 		background = new Color(0, 183, 96);
-		this.addStatic(new CityRestaurant(30, 30));
-		this.addStatic(new CityRestaurant(60, 30, "Restaurant 2"));
 		for (int i = 80; i < 700; i += 360) {
 			this.addStatic(new CityRoad(i, RoadDirection.HORIZONTAL));
 			this.addStatic(new CityRoad(i, RoadDirection.VERTICAL));
@@ -120,6 +120,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				System.err.println("Bank Added");
 			}
 			else{
+				System.err.println("HERE HERE HERE");
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
@@ -162,6 +163,50 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	public void mouseMoved(MouseEvent arg0) {
 		if (addingObject) {
 			temp.setPosition(arg0.getPoint());
+			for (CityComponent c: statics) {
+				if (c.equals(temp))
+					continue;
+				if (c.rectangle.intersects(temp.rectangle)) {
+					temp.invalidPlacement = true;
+					return;
+				}
+				else temp.invalidPlacement = false;
+			}
+		}
+	}
+	
+	public void moveBuildingTo(Loc loc){
+		//FOR HACKS
+		if(addingObject){
+			temp.setPosition(new Point(loc.x,loc.y));
+		}
+	}
+	
+	public void setBuildingDown(){
+		//FOR HACKS
+		if (addingObject) {
+			//make sure we aren't overlapping anything
+			for (CityComponent c: statics) {
+				if (c.equals(temp))
+					continue;
+				if (c.rectangle.intersects(temp.rectangle)) {
+					AlertLog.getInstance().logError(AlertTag.GENERAL_CITY, this.name, "Can't add building, location obstructed!");
+					return;
+				}
+			}
+			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
+			addingObject = false;
+			if (temp.ID.equalsIgnoreCase("bank")) {
+				tempAnimPanel = temp.addAgentObjectToMap();
+				temp.cityObject = this.cityObject;
+				city.view.addView(new CityCard(city, tempAnimPanel), temp.ID);
+			}
+			else{
+				city.view.addView(new CityCard(city, Color.pink), temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
+			}
+			temp = null;
 		}
 	}
 

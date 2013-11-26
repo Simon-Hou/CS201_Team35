@@ -64,9 +64,18 @@ public class MarketEmployeeGui implements Gui{
 		
 	}
 	
-	public void DoGetItems(){
-		xDestination = 190;
-		yDestination = 400;
+	public void DoGetItem(String i){
+		
+		
+		switch(i){
+		case "Steak": xDestination = 245; yDestination = 315; break;
+		case "Chicken":  xDestination = 245; yDestination = 245; break;
+		case "Pizza": xDestination = 115; yDestination = 245; break;
+		case "Salad": xDestination = 115; yDestination = 315; break;
+		case "Car": xDestination = 115; yDestination = 385; break;
+		case "Other": xDestination = 245; yDestination = 385; break;
+		default: System.err.println("We don't have that item!"); return;
+		}
 		gotToDestination = false;
 	}
 	

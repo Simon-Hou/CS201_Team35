@@ -27,26 +27,30 @@ public class Market implements PlaceOfWork{
 	int money;
 	public CityMarket gui;
 	
-	MarketPanel panel;
+	public MarketPanel panel;
 	
 	public Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
 	//CONSTRUCTOR
 	public Market(){
-		this.host = new MarketHostRole(null,null);
-		this.cashier = new MarketCashierRole(null,null);
+		this.host = new MarketHostRole("DefaultUnmannedHost",null);
+		this.cashier = new MarketCashierRole("DefaultUnmannedCashier",null);
 		
-		inventory.put("Steak", 30);
-		inventory.put("Chicken", 30);
-		inventory.put("Pizza", 30);
-		inventory.put("Salad", 30);
+		host.setMarket(this);
+		cashier.setMarket(this);
+		
+		inventory.put("Steak", 300);
+		inventory.put("Chicken", 300);
+		inventory.put("Pizza", 50);
+		inventory.put("Salad", 300);
 		inventory.put("Car", 5);
 	}
 	
 	
 	public boolean CanIStartWorking(MarketEmployee m){
-		employees.add(m);
+		
 		if(host.NewEmployee(m)){
+			employees.add(m);
 			return true;
 		}
 		System.err.println("Market Employee wasn't allowed to work");
@@ -80,8 +84,9 @@ public class Market implements PlaceOfWork{
 	public Role canIStartWorking(Person p,JobType jobType,Role m) {
 		// TODO Auto-generated method stub
 		if(jobType == JobType.MarketEmployee){
-			employees.add((MarketEmployee) m);
+
 			if(host.NewEmployee((MarketEmployee) m)){
+				employees.add((MarketEmployee) m);
 				return m;
 			}
 			System.err.println("Market Employee wasn't allowed to work");
@@ -107,7 +112,9 @@ public class Market implements PlaceOfWork{
 	
 	public void removeCustomer(MarketCustomer cust){
 		//send the cust to the panel to remove it!
-		panel.removeCustomer();
+		if(panel!=null){
+			panel.removeCustomer();
+		}
 	}
 	
 	public void setMarketPanel(MarketPanel p){
@@ -115,6 +122,18 @@ public class Market implements PlaceOfWork{
 	}
 	
 	public void updateInventory(){
-		panel.updateInventory();
+		if(panel!=null){
+			panel.updateInventory();
+		}
 	}
+	
+	public void DefaultName(Role r){
+		if(r instanceof MarketHost){
+			((MarketHostRole) r).name = "DefaultUnmannedHost";
+		}
+		if(r instanceof MarketCashier){
+			((MarketCashierRole) r).name = "DefaultUnmannedCashier";
+		}
+	}
+	
 }

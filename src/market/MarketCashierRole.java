@@ -48,12 +48,19 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		priceList.put("Pizza", 1);
 		priceList.put("Chicken", 2);
 		priceList.put("Salad", 1);
+		priceList.put("Car", 10);
 	}
 
 	
 	public boolean YouAreDoneWithShift(){
-		p.msgThisRoleDone(this);
+		
+		if(true){
+			p.msgThisRoleDone(this);
+			this.p = null;
+			market.DefaultName(this);
+		}
 		return true;
+		
 	}
 	
 	Timer timer = new Timer();
@@ -99,6 +106,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//-----------------------Scheduler---------------------------
 	public boolean pickAndExecuteAnAction() {
+		
+		if (!orders.isEmpty()){
+			ComputeBusinessPayment(orders.get(0));
+			return true;
+		}
+		
 		for (MyCustomer mc: customers){
 			if (mc.status == CustomerState.needsTotal){
 				ComputeTotal(mc);
@@ -117,10 +130,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 				return true;
 			}
 		}
-		if (!orders.isEmpty()){
-			ComputeBusinessPayment(orders.get(0));
-			return true;
-		}
+
 		if (!businessPayments.isEmpty()){
 		    ProcessBusinessPayment(businessPayments.get(0));
 		    return true;

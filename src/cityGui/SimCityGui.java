@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import person.PersonAgent;
 import util.Bank;
 import util.CityMap;
+import util.Loc;
 import city.CityObject;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
@@ -18,7 +19,7 @@ import cityGui.trace.TracePanel;
 public class SimCityGui extends JFrame {
 	
 	static public CityPanel city;
-	static public CityObject cityObject;
+	public CityObject cityObject;
 	InfoPanel info;
 	CityView view;
 	CityControlPanel CP;
@@ -67,14 +68,54 @@ public class SimCityGui extends JFrame {
 		this.add(tracePanel, c);*/
 	}
 	
+	public void NewPersonCreationPanel(){
+		PersonCreationPanel pCreate = new PersonCreationPanel(this);
+	}
 	
-	public void addNewPerson(String name){
+	public void addNewPerson(PersonAgent p){
+		
+		
+		/*String name = "p0";
 		PersonAgent p = new PersonAgent(name,cityObject.cityMap);
 		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
 		p.gui = personGui;
 		cityObject.people.add(p);
 		city.addMoving(personGui);
+		p.startThread();*/
+		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
+		p.gui = personGui;
+		cityObject.people.add(p);
+		city.addMoving(personGui);
 		p.startThread();
+		
+	}
+	
+	public void addNewBuilding(String type,int x, int y){
+		if(type.equals("Bank")){
+			city.addObject(CityComponents.BANK);
+			city.moveBuildingTo(new Loc(x,y));
+			city.setBuildingDown();
+			return;
+		}
+		if(type.equals("Market")){
+			city.addObject(CityComponents.MARKET);
+			city.moveBuildingTo(new Loc(x,y));
+			city.setBuildingDown();
+			return;
+		}
+		if(type.equals("Restaurant")){
+			city.addObject(CityComponents.RESTAURANT);
+			city.moveBuildingTo(new Loc(x,y));
+			city.setBuildingDown();
+			return;
+		}
+		if(type.equals("House")){
+			city.addObject(CityComponents.HOUSE);
+			city.moveBuildingTo(new Loc(x,y));
+			city.setBuildingDown();
+			return;
+		}
+		
 	}
 	
 
@@ -91,20 +132,30 @@ public class SimCityGui extends JFrame {
 		test.pack();
 		test.setVisible(true);
 		
-		int xStartTest = 190;
-		int yStartTest = 50;
+		int xStartTest = 0;
+		int yStartTest = 0;
+		
+		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
+		//test.addNewPerson("p0");
+		//HACK ADDS BUILDINGS TO THE MAP
+		test.addNewBuilding("Bank", 5, 100);
+		test.addNewBuilding("Market",200,250);
+		test.addNewBuilding("Market", 250, 200);
+		test.addNewBuilding("House", 200, 5);
 		
 		
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
-		test.addNewPerson("p0");
+		//test.addNewPerson("p0");
+		//test.addNewPerson("p1");
 		//test.cityObject.people.get(0).setJob(placeOfWork, jobType, start, end);
 		/*cityObject.people.add(new PersonAgent("p0",cityObject.cityMap));
 		cityObject.people.get(0).startThread();*/
 		
-		/*int xStartTest = 300;
-		int yStartTest = 520;
+//		int xStartTest = 300;
+//		int yStartTest = 520;
 
-		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
+
+		/*PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
         PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);
 		PersonGui pg3 = new PersonGui(new PersonAgent("C",new CityMap()),test, xStartTest, yStartTest, 300, 400);
 		PersonGui pg4 = new PersonGui(new PersonAgent("D",new CityMap()),test, xStartTest, yStartTest, 300, 190);
@@ -120,6 +171,7 @@ public class SimCityGui extends JFrame {
 		test.city.addMoving(pg6);
 		test.city.addMoving(pg7);
 		test.city.addMoving(pg8);*/
+
 
 
 	}
