@@ -194,7 +194,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	private void callCustomer(BankCustomer c) {
 		GoToPosition();
 		if (c instanceof BankCustomerRole) {
-			((BankCustomerRole)c).msgHowCanIHelpYou(this, bankTellerGui.xPos, bankTellerGui.yPos);//TODO fix these numbers!
+			((BankCustomerRole)c).msgHowCanIHelpYou(this, bankTellerGui.xPos, bankTellerGui.yPos + 50 + bankTellerGui.BankTellerHeight);//TODO fix these numbers!
 		}
 		else
 			c.msgHowCanIHelpYou(this);
