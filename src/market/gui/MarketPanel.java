@@ -100,7 +100,7 @@ public class MarketPanel extends JPanel implements ActionListener{
          //--------------------AGENT/GUI TESTING SETUP----------------------
 
          PersonAgent p1 = new PersonAgent("Host", map);
-         host = new MarketHostRole("Host", p1);
+         host = new MarketHostRole("Host", p1, market);
          p1.activeRole = host;
          p1.startThread();
         
@@ -110,7 +110,7 @@ public class MarketPanel extends JPanel implements ActionListener{
          p2.startThread();
         
          PersonAgent p3 = new PersonAgent("Cashier", map);
-         cashier = new MarketCashierRole("Cashier", p3);
+         cashier = new MarketCashierRole("Cashier", p3,market);
          p3.activeRole = cashier;
          p3.startThread();
          
@@ -125,11 +125,11 @@ public class MarketPanel extends JPanel implements ActionListener{
          
        //set contacts for all
          host.addEmployee(employee);
-         host.setMarket(market);
+         //host.setMarket(market);
          employee.setCashier(cashier);
          employee.addDeliveryMan(deliveryMan);
          deliveryMan.setCashier(cashier);
-         cashier.setMarket(market);
+        // cashier.setMarket(market);
          
         // employee:
          MarketEmployeeGui egui = new MarketEmployeeGui(employee);
@@ -196,12 +196,14 @@ public class MarketPanel extends JPanel implements ActionListener{
 	}
 	
 	private void addDelivery(){
+		/*
 		MarketInvoice order = new MarketInvoice();
 		OrderItem item = new OrderItem("Steak", 5);
 		OrderItem item2 = new OrderItem("Salad", 4);
 		order.addItem(item);
 		order.addItem(item2);
 		host.msgBusinessWantsThis(order);
+		*/
 	}
 	
 	public void removeCustomer(){
