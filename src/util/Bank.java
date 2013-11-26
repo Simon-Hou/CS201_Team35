@@ -14,6 +14,7 @@ import cityGui.CityBank;
 import role.Role;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
+import bank.gui.BankGui;
 
 public class Bank implements BankInterface, PlaceOfWork{
 	
@@ -23,8 +24,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 	public List<BankTeller> myTellers = new ArrayList<BankTeller>();
 	public List<BankTeller> currentTellers = new ArrayList<BankTeller>();
 	public List<BankAccount> accounts = new ArrayList<BankAccount>();
-	
-	//public BankGui
+	public BankGui bankGui = new BankGui(this);
 	
 	public CityBank cityBankGui;
 	
