@@ -97,6 +97,15 @@ public class CityRestaurantCard extends CityCard{
         g.setColor(Color.BLUE);
         g.fillRect(0, 100, PERSONSIZE, PERSONSIZE);
     }
+
+	
+    public void addGui(Gui gui) {
+        guis.add(gui);
+    }
+    
+    public void addTable(Point p){
+    	tableMap.add(p);
+    }
         
 }
 	

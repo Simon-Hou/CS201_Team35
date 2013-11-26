@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import person.PersonAgent;
 import util.Bank;
 import util.CityMap;
 
@@ -117,8 +116,9 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			addingObject = false;
 
 			if(temp.type.equals("Restaurant")){
-
-				city.view.addView(new CityRestaurantCard(city), temp.ID);
+				CityRestaurantCard tempAnimation = new CityRestaurantCard(city);
+				((CityRestaurant)temp).animationPanel = tempAnimation;
+				city.view.addView(tempAnimation, temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
 			}

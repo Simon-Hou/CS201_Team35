@@ -40,7 +40,7 @@ public class RestaurantPanel extends JPanel {
     ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
     
     //Host, cook, waiters and customers
-    private HostRole host = new HostRole("Sarah");
+    private HostRole host = new HostRole("Sarah"); 
 	private CookRole cook;
 	private CashierRole cashier;
     private Vector<CustomerRole> customers = new Vector<CustomerRole>();
