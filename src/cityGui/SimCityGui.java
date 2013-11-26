@@ -249,7 +249,7 @@ public class SimCityGui extends JFrame {
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
-		test.addNewBuilding("Bank", 5, 400);
+		/*test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);
 		test.addNewBuilding("Market", 250, 200);
 		test.addNewBuilding("House", 200, 5);
@@ -258,7 +258,7 @@ public class SimCityGui extends JFrame {
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
 		test.fullyManBuilding("Market",1);
-		test.addBuses(test);
+		test.addBuses(test);*/
 		
 		
 		//test.fullyManBuilding("Bank",0);
