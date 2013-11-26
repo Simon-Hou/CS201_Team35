@@ -29,7 +29,6 @@ public class MarketHostRole extends Role implements MarketHost {
 	public Person p;
 	public String name;
 	
-	public Market m;
 	
 	//SETTERS
 	public void setName(String name){
@@ -75,7 +74,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		if(true){
 			p.msgThisRoleDone(this);
 			this.p = null;
-			m.DefaultName(this);
+			market.DefaultName(this);
 		}
 		return true;
 	}
@@ -298,7 +297,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	public void setMarket(Market m){
-		market = m;
+		this.market = m;
 	}
 	
 	/*String name;

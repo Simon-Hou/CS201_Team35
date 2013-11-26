@@ -211,16 +211,16 @@ public class PersonAgent extends Agent implements Person {
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
 	 
-		if(name.equals("p1")){
+		/*if(name.equals("p1")){
 			if(myJob.placeOfWork==null && !city.map.get("Bank").isEmpty()){
 				setJob(((BankMapLoc) city.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100);
 			}
-		}
+		}*/
 		if (activeRole != null) {
 			activeRoleCalls++;
 			
 			//This takes care of getting off work
-			if(activeRole == myJob.jobRole && time >= myJob.shiftEnd){
+			if(activeRole == myJob.jobRole && !timeInJobShift()){
 				if(myJob.jobRole instanceof BankTellerRole){
 					if(((BankTellerRole) myJob.jobRole).canLeave()){
 						Do("It's quitting time.");
@@ -251,10 +251,15 @@ public class PersonAgent extends Agent implements Person {
 		/*if(name.equals("p1")){
 			Do("DECIDING WHAT TO DO");
 		}*/
-		if (myJob.placeOfWork!=null && time >= myJob.shiftStart && time < myJob.shiftEnd) {
+		/*if (myJob.placeOfWork!=null && time >= myJob.shiftStart && time < myJob.shiftEnd) {
 			goToWork();
 			return true;
-		}		
+		}*/
+		
+		if(myJob.placeOfWork!=null && timeInJobShift()){
+			goToWork();
+			return true;
+		}
 
 		//FOR NOW - TODO - GET THIS TO WORK
 		/*
@@ -683,6 +688,22 @@ public class PersonAgent extends Agent implements Person {
 		}
 		return true;
 		
+	}
+	
+	public boolean timeInJobShift(){
+		if(myJob.shiftEnd>=myJob.shiftStart){
+			if(time>=myJob.shiftStart && time<=myJob.shiftEnd){
+				return true;
+			}
+			return false;
+		}
+		if(myJob.shiftEnd<myJob.shiftStart){
+			if(time<myJob.shiftStart && time>myJob.shiftEnd){
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	
