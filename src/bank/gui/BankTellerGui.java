@@ -15,7 +15,8 @@ public class BankTellerGui implements Gui{
 
 	//RestaurantGui gui;//TODO bank Gui?
 
-	private int xPos, yPos;
+	public int xPos;
+	public int yPos;
 	private int xDestination, yDestination;
 	private enum Command {noCommand, GoToSpot, GoToSafe, LeaveBank};
 	private Command command=Command.noCommand;
@@ -35,8 +36,10 @@ public class BankTellerGui implements Gui{
 		role = btr;
 		xPos = xDoor;
 		yPos = yDoor;
-		xDestination = xDoor;
-		yDestination = yDoor;
+//		xDestination = xDoor;
+//		yDestination = yDoor;
+		xDestination = 10;
+		yDestination = 10;
 	}
 	
 	public void updatePosition(int x, int y) {
@@ -94,5 +97,8 @@ public class BankTellerGui implements Gui{
 	public void initialSpot(int xPos2, int yPos2) {
 		xSpot = xPos2;
 		ySpot = yPos2;
+		xDestination = xSpot;
+		yDestination = ySpot;
+		command = Command.GoToSpot;
 	}
 }

@@ -19,15 +19,17 @@ import java.util.Map;
 
 import javax.swing.*;
 
+import cityGui.CityMarketCard;
 import interfaces.MarketCustomer;
 import interfaces.Person;
 
 
 
 
-public class MarketPanel extends JPanel implements ActionListener{
+public class MarketPanel extends JFrame implements ActionListener{
 
-	private MarketAnimation animation; //= new MarketAnimation();
+	private CityMarketCard animation; 
+	private Market market;
 	
 	private JLabel title = new JLabel("Market");
 	private List<InventoryItem> inventoryList = new ArrayList<InventoryItem>();
@@ -41,11 +43,6 @@ public class MarketPanel extends JPanel implements ActionListener{
 	
 
     
-    //AGENTS
-    CityMap map = new CityMap();
-    
-    Market market = new Market();
-    
     private List<MarketCustomerRole> customers = new ArrayList<MarketCustomerRole>();
    // private MarketCustomerRole customer;
     private MarketCashierRole cashier;
@@ -55,8 +52,18 @@ public class MarketPanel extends JPanel implements ActionListener{
     
     
     
-	public MarketPanel(MarketAnimation anim){
+	public MarketPanel(CityMarketCard anim, Market market){
 		animation = anim;
+		this.market = market;
+		
+		//FRAME SETUP
+	    int WINDOWX = 400;
+	    int WINDOWY = 500;	
+		setBounds(100, 50, WINDOWX,WINDOWY);
+		
+		setTitle("Market Panel");
+	    setVisible(true);
+	    setResizable(true);
 		
 		//-----------------------CONTROLS---------------------------
         setLayout(new FlowLayout());
@@ -98,7 +105,7 @@ public class MarketPanel extends JPanel implements ActionListener{
          
          
          //--------------------AGENT/GUI TESTING SETUP----------------------
-
+/*
          PersonAgent p1 = new PersonAgent("Host", map);
          host = new MarketHostRole("Host", p1, market);
          p1.activeRole = host;
@@ -135,6 +142,8 @@ public class MarketPanel extends JPanel implements ActionListener{
          MarketEmployeeGui egui = new MarketEmployeeGui(employee);
          employee.setGui(egui);
          animation.addGui(egui);
+         
+         */
 	}
 	
 	
@@ -173,7 +182,7 @@ public class MarketPanel extends JPanel implements ActionListener{
 	}
 
 	private void addCustomer(){
-		
+	/*	
         PersonAgent p1 = new PersonAgent("Customer", map);
         MarketCustomerRole customer = new MarketCustomerRole("Customer", p1);
         //customer.addToShoppingList("Pizza", 12 );
@@ -193,6 +202,8 @@ public class MarketPanel extends JPanel implements ActionListener{
        customer.msgYouAreAtMarket(market);
        
        animation.enterCustomer();
+       
+       */
 	}
 	
 	private void addDelivery(){
@@ -265,7 +276,7 @@ public class MarketPanel extends JPanel implements ActionListener{
 		}
 	}
 	
-	void setAnimation (MarketAnimation ma){
+	void setAnimation (CityMarketCard ma){
 		animation = ma;
 	}
 	

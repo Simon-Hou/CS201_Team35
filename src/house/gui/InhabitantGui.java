@@ -21,8 +21,8 @@ public class InhabitantGui implements Gui {
 	private int yInitial=-20;
 	private  int xPos = xInitial;//default inhabitant position
 	private  int yPos = yInitial;
-	private int xResting=xInitial;
-	private int yResting=yInitial;		
+	private int xResting=100;
+	private int yResting=100;		
 	private int xDestination = xResting, 		yDestination = yResting;//default start position
 
 	public InhabitantGui(InhabitantRole role){

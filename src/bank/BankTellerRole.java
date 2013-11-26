@@ -3,6 +3,7 @@ package bank;
 import interfaces.BankCustomer;
 import interfaces.BankInterface;
 import interfaces.BankTeller;
+import interfaces.Occupation;
 import interfaces.Person;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import UnitTests.mock.bankMock.MockBank;
 import agent.Agent;
 import util.*;
 
-public class BankTellerRole extends Role implements BankTeller{
+public class BankTellerRole extends Role implements BankTeller, Occupation{
 	
 	//Constructor
 	
@@ -124,14 +125,13 @@ public class BankTellerRole extends Role implements BankTeller{
 	
 	public void msgAtDestination() {
 		atDestination.release();
-		//person.msgStateChanged();
+		person.msgStateChanged();
 	}
 	
 	
 	//SCHED
 	
 	public boolean pickAndExecuteAnAction(){
-		//GoToPosition();
 		//If not started working, tell BankInterface you're starting
 		if(!startedWorking){
 			//Do("I'll start working.");
@@ -149,7 +149,7 @@ public class BankTellerRole extends Role implements BankTeller{
 				//Do("Sending "+ currentCustomer.getName()+" a message to start helping him");
 				System.out.flush();
 				if (currentCustomer instanceof BankCustomerRole) {
-					((BankCustomerRole)currentCustomer).msgHowCanIHelpYou(this, 100, 100);//TODO fix these numbers!
+					((BankCustomerRole)currentCustomer).msgHowCanIHelpYou(this, bankTellerGui.xPos, bankTellerGui.yPos);//TODO fix these numbers!
 				}
 				else
 					currentCustomer.msgHowCanIHelpYou(this);
@@ -281,6 +281,8 @@ public class BankTellerRole extends Role implements BankTeller{
 				e.printStackTrace();
 			}
 		}
+		person.msgThisRoleDone(this);
+		return;
 		//TODO message the bank here and figure out how to seal the deal.
 	}
 	
