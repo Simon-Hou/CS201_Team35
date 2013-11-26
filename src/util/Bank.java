@@ -121,7 +121,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 		bankCustomers.add(c);
 		BankCustomerGui g = new BankCustomerGui(((BankCustomerRole)c));
 		//((BankCustomerRole)c).setGui(g);
-		bankGui.bankPanel.tellerPanel.addListButton(((BankCustomerRole)c).getName());
+		bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)c).getName());
 		bankGui.bankAnimationPanel.addGui(g);
 		//System.out.println("Size of the queue is "+bankCustomers.size());
 		for(BankTeller t:currentTellers){
