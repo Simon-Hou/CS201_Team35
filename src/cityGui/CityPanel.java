@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import market.Market;
 import market.gui.MarketPanel;
 import person.PersonAgent;
+import restaurant.Restaurant;
 import util.Bank;
 import util.CityMap;
 import util.Loc;
@@ -38,6 +39,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	List<House> houses=new ArrayList<House>();
 	List<Bank> banks = new ArrayList<Bank>();
 	List<Market> markets = new ArrayList<Market>();
+	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 
 
 	public CityPanel(SimCityGui city) {

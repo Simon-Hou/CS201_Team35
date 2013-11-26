@@ -1,5 +1,7 @@
 package restaurant;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import market.MarketHostRole;
@@ -10,6 +12,8 @@ import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.HostRole;
 import restaurant.restaurantLinda.RestaurantOrder;
 import restaurant.restaurantLinda.WaiterRole;
+import restaurant.restaurantLinda.gui.Gui;
+import restaurant.restaurantLinda.gui.WaiterGui;
 import role.Role;
 import util.JobType;
 import cityGui.CityRestaurant;
@@ -33,20 +37,25 @@ public class Restaurant implements PlaceOfWork{
 	public BaseRestaurantCashier cashier =  new CashierRole("RestaurantCashier", this);
 	public BaseRestaurantCook cook = new CookRole("Cook", orderMonitor, this);
 	//private Vector<CustomerRole> customers = new Vector<CustomerRole>();
-	//private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
+	private List<WaiterRole> waiters = new ArrayList<WaiterRole>();
 	
 	public int cash;	
+	
+	public Restaurant(CityRestaurant cr){
+		this.cityRestaurant = cr;
+	}
 	
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
 		if (type == JobType.RestaurantHost){
-			
-		}
-		else if (type == JobType.RestaurantHost){
-			
+			if (CanIBeHost(p)!=null){
+				return (Role) host;
+			}
 		}
 		else if (type == JobType.RestaurantWaiter){
-			
+			if (r instanceof WaiterRole){
+				return r;
+			}
 		}
 		else if (type == JobType.RestaurantCook){
 			
@@ -68,8 +77,9 @@ public class Restaurant implements PlaceOfWork{
 	}
 	
 	public void waiterComingToWork(Waiter m){
-		//waiters.add(m);
+		WaiterGui g = ((WaiterRole)m).getGui();
 		host.addWaiter(m);
+		cityRestaurant.animationPanel.addGui(g);
 	}
 	
 	public BaseRestaurantCook cookComingToWork(Person p){
@@ -77,6 +87,10 @@ public class Restaurant implements PlaceOfWork{
 		((CookRole)cook).setName(p.getName() + "Cook");
 		
 		return cook;
+	}
+	
+	public void leaveRestaurant(Gui gui){
+		cityRestaurant.animationPanel.removeGui(gui);
 	}
 	
 }

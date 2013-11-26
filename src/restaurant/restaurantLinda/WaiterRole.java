@@ -39,9 +39,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 		super();
 	}
 
-	public String getName() {
-		return name;
-	}
+
 
 	
 	//Messages
@@ -435,6 +433,10 @@ public abstract class WaiterRole extends Role implements Waiter{
 	
 	public BreakStatus getBreakStatus(){
 		return breakStatus;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 }
