@@ -1,6 +1,7 @@
 package restaurant.restaurantLinda.gui;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class MyImage {
 		this.y = y;
 	}
 	
-	public void draw(Graphics2D g){
+	public void draw(Graphics g){
 		if (bufferImage!=null)
 			g.drawImage(bufferImage,x,y, null);
 		
