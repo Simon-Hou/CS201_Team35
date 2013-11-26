@@ -243,7 +243,6 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			Do("Finished what I needed done. I'm leaving");
 			state = CustState.leaving;
 			
-			((Bank)bank).exitBank(this);
 			if(bankCustomerGui!=null){
 				bankCustomerGui.DoExitBank();
 			}
