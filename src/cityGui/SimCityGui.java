@@ -152,7 +152,7 @@ public class SimCityGui extends JFrame {
 //		int xStartTest = 300;
 //		int yStartTest = 520;
 
-		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
+		/*PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
         PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);
 		PersonGui pg3 = new PersonGui(new PersonAgent("C",new CityMap()),test, xStartTest, yStartTest, 300, 400);
 		PersonGui pg4 = new PersonGui(new PersonAgent("D",new CityMap()),test, xStartTest, yStartTest, 300, 190);
@@ -167,7 +167,7 @@ public class SimCityGui extends JFrame {
 		test.city.addMoving(pg5);
 		test.city.addMoving(pg6);
 		test.city.addMoving(pg7);
-		test.city.addMoving(pg8);
+		test.city.addMoving(pg8);*/
 
 
 	}
