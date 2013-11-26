@@ -2,6 +2,7 @@ package cityGui;
 
 import house.House;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -13,13 +14,13 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import market.Market;
-import market.gui.MarketPanel;
 import person.PersonAgent;
 import util.Bank;
 import util.CityMap;
+
 import util.Loc;
 import city.CityObject;
+
 import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
 
@@ -30,13 +31,13 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	boolean addingObject = false;
 	CityComponent temp;
 	public CityObject cityObject;
+	
 
 	
 
 	String name = "City Panel";
 	List<House> houses=new ArrayList<House>();
 	List<Bank> banks = new ArrayList<Bank>();
-	List<Market> markets = new ArrayList<Market>();
 
 
 	public CityPanel(SimCityGui city) {
@@ -140,14 +141,6 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
 				
-			}
-			else if (temp.type.equals("Market")){
-				CityMarketCard tempAnimation = new CityMarketCard(city);
-				//((CityMarket)temp).market.setMarketPanel(new MarketPanel(tempAnimation));
-				markets.add(((CityMarket)temp).market);
-				city.view.addView(tempAnimation, temp.ID);
-				temp.cityObject = this.cityObject;
-				temp.addAgentObjectToMap();
 			}
 			else{
 
