@@ -42,10 +42,10 @@ public class Market implements PlaceOfWork{
 		host.setMarket(this);
 		cashier.setMarket(this);
 		
-		inventory.put("Steak", 300);
-		inventory.put("Chicken", 300);
-		inventory.put("Pizza", 50);
-		inventory.put("Salad", 300);
+		inventory.put("Steak", 10);
+		inventory.put("Chicken", 10);
+		inventory.put("Pizza", 10);
+		inventory.put("Salad", 10);
 		inventory.put("Car", 5);
 	}
 	

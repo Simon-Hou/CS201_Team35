@@ -260,7 +260,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			gui.DoExitRestaurant();
 		}
 
-		
+		p.msgThisRoleDone(this);
+	    
 		sad = false;
 	}
 	//Utilities

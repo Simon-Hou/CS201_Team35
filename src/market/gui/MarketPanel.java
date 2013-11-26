@@ -151,7 +151,7 @@ public class MarketPanel extends JFrame implements ActionListener{
 
 	
 	public void actionPerformed(ActionEvent e) {
-		System.err.println("Something was pressed.");
+		//System.err.println("Something was pressed.");
 		
 		if (e.getSource() == startButton){
 			System.out.println("A customer has entered the market");
