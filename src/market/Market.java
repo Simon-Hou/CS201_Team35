@@ -59,7 +59,6 @@ public class Market implements PlaceOfWork{
 		
 	}
 	
-	
 	public MarketHost CanIBeHost(Person person){
 		if(((MarketHostRole) host).p==null || host.YouAreDoneWithShift()){
 			((MarketHostRole) host).name = person.getName()+"MarketHost";

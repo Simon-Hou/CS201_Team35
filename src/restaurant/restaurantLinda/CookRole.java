@@ -1,6 +1,7 @@
 package restaurant.restaurantLinda;
 
 import agent.Agent;
+import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Cook;
 import interfaces.restaurantLinda.Waiter;
@@ -313,6 +314,11 @@ public class CookRole extends Role implements Cook{
 	
 	public String getName() {
 		return name;
+	}
+
+	public void setPerson(Person p) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

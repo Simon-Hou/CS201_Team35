@@ -61,4 +61,40 @@ public class InhabitantGui implements Gui {
 	public boolean isPresent() {
 		return true;
 	}
+	
+	public void DoSleep(){
+		
+	}
+	
+	public void DoGoToFridge(){
+		
+	}
+	
+	public void DoIdle(){
+		
+	}
+	
+	public void DoGoToGrill(){
+		
+	}
+
+	public void DoPlateAndEat() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void DoExit() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

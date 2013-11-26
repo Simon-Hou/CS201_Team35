@@ -169,7 +169,7 @@ public class WaiterGui extends GuiPerson {
     	}
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(Graphics g) {
         g.setColor(Color.MAGENTA);
         g.fillRect(xPos, yPos, personSize, personSize);
         
