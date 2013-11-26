@@ -38,6 +38,8 @@ public class Bus extends Vehicle implements ActionListener{
 
 	public List<BusStop> stops = new ArrayList<BusStop>();
 	public int currentStop = 0;
+	int randomOffset = (int) Math.floor(3*Math.random());
+	public int TIME_BETWEEN_STOPS = 3;
 	
 	public BusGui gui;
 	
@@ -98,9 +100,9 @@ public class Bus extends Vehicle implements ActionListener{
 	
 	public void tellNextStopPeopleArrived(){
 		
-		synchronized(this.stops.get(currentStop+1).peopleWaiting){
-			for(Person p:this.stops.get(currentStop+1).peopleWaiting){
-				p.msgBusAtStop(stops.get(currentStop+1));
+		synchronized(this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+			for(Person p:this.stops.get((currentStop+1)%stops.size()).peopleWaiting){
+				p.msgBusAtStop(stops.get((currentStop+1)%stops.size()));
 			}
 		}
 		
@@ -134,6 +136,17 @@ public class Bus extends Vehicle implements ActionListener{
 	
 	private void doGoToNextStop(){
 		//blah 
+		/*System.out.println("BLAH"+stops==null);
+        System.out.println("GOING TO "+stops.get((currentStop+1)%stops.size()).loc.x+" "+
+        		stops.get((currentStop+1)%stops.size()).loc.y);
+        System.out.flush();*/
+		gui.doGoToNextStop(stops.get((currentStop+1)%stops.size()).location);
+	}
+	
+	public void updateTime(int time){
+		if((time+randomOffset)%TIME_BETWEEN_STOPS==0){
+			GoToNextStop();
+		}
 	}
 	
 	

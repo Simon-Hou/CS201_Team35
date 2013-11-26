@@ -4,6 +4,6 @@ import market.MarketInvoice;
 
 public interface BaseRestaurantCashier {
 	
-	public abstract void msgHereIsInvoice(MarketInvoice order);
+	public abstract void msgHereIsInvoice(MarketDeliveryMan deliveryMan, MarketInvoice order);
 
 }
