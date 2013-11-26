@@ -165,7 +165,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	public void run(){
 	    		msgFinishedComputing(cust);
 	    		//timer.cancel();
-	    	}}, mc.order.size()*1000+1000);
+	    	}}, mc.order.size()*300);
 	}
 
 	private void ComputeBusinessPayment(MyBusinessOrder order){
