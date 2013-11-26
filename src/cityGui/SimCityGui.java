@@ -19,6 +19,7 @@ import util.Bus;
 import util.BusStop;
 import util.CityMap;
 import util.HouseMapLoc;
+import util.Job;
 import util.JobType;
 import util.Loc;
 import util.MarketMapLoc;
@@ -277,18 +278,24 @@ public class SimCityGui extends JFrame implements ActionListener {
 //		test.addNewBuilding("House", 200, 5);
 //		test.addNewBuilding("House", 500, 5);
 		
+		/*test.addBuses(test);
+		test.addNewBuilding("Bank", 5, 400);
+		test.addNewBuilding("Market",200,250);
+		test.addNewBuilding("House", 200, 5);
+		test.fullyManBuilding("Bank",0);
+		test.fullyManBuilding("Market",0);*/
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
-		test.addBuses(test);
-		test.addNewBuilding("Bank", 5, 400);
-		test.addNewBuilding("Market",200,250);
+		//test.addBuses(test);
+		//test.addNewBuilding("Bank", 5, 400);
+		//test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Market", 250, 200);
-		test.addNewBuilding("House", 200, 5);
+		//test.addNewBuilding("House", 200, 5);
 		//test.addNewBuilding("House", 500, 5);
-		test.addBuses(test);
-		test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);
+		//test.addBuses(test);
+		//test.fullyManBuilding("Bank",0);
+		//test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
@@ -326,6 +333,21 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 
 	}
+	
+	
+	public void busRideScenario(){
+		
+		addNewBuilding("House", 200, 5);
+		addBuses(this);
+		
+		PersonAgent busRider = new PersonAgent("Rider",this.cityObject.cityMap);
+		busRider.myJob = new Job();
+		busRider.wantsToRideBus = true;
+		
+		addNewPerson(busRider);
+		
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
