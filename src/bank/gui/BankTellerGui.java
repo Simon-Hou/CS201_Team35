@@ -36,6 +36,7 @@ public class BankTellerGui implements Gui{
 	public int ySpot = 0;
 	
 	private int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
 	
 	public BankTellerGui(BankTellerRole btr) {
 		role = btr;
@@ -53,33 +54,39 @@ public class BankTellerGui implements Gui{
 			xPos++;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.person).rightSprites.get(spriteCounter % ((PersonAgent)this.role.person).rightSprites.size());
+				currentImage = ((PersonAgent)this.role.person).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).rightSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 		else if (xPos > xDestination) {
 			xPos--;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.person).leftSprites.get(spriteCounter % ((PersonAgent)this.role.person).leftSprites.size());
+				currentImage = ((PersonAgent)this.role.person).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).leftSprites.size());
+				changeSpriteCounter++;
 			}			
 		}
 		if (yPos < yDestination) {
 			yPos++;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.person).downSprites.get(spriteCounter % ((PersonAgent)this.role.person).downSprites.size());
+				currentImage = ((PersonAgent)this.role.person).downSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).downSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 		else if (yPos > yDestination) {
 			yPos--;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				System.out.println(xPos % ((PersonAgent)this.role.person).upSprites.size());
-				System.out.println(((PersonAgent)this.role.person).upSprites.size());
-				currentImage = ((PersonAgent)this.role.person).upSprites.get(spriteCounter % ((PersonAgent)this.role.person).upSprites.size());
+				currentImage = ((PersonAgent)this.role.person).upSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).upSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 		if (xPos == xDestination && yPos == yDestination) {
+			if (yPos < 300) {
+				currentImage = ((PersonAgent)this.role.person).downSprites.get(0);
+			}
+			else currentImage = ((PersonAgent)this.role.person).upSprites.get(0);
 			if (command==Command.GoToSpot) {
 				role.msgAtDestination();//release a semaphore?
 			}

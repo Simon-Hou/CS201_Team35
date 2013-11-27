@@ -8,10 +8,14 @@ import market.Receipt;
 import interfaces.MarketCustomer;
 import interfaces.MarketEmployee;
 import interfaces.MarketHost;
+import UnitTests.mock.EventLog;
+import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
 public class MockMarketHost extends Mock implements MarketHost{
 
+	
+	public EventLog log = new EventLog();
 	String name;
 	public MarketCustomer customer;
 	
@@ -34,12 +38,17 @@ public class MockMarketHost extends Mock implements MarketHost{
 			Map<String, Integer> orderList) {
 		// TODO Auto-generated method stub
 		
+		log.add(new LoggedEvent("got msgCustomerWantsThis"));
+		
+		
 	}
 
 	@Override
 	public void msgCustomerLeaving(MarketCustomer c, Receipt receipt,
 			Map<String, Integer> groceries) {
 		// TODO Auto-generated method stub
+		
+		log.add(new LoggedEvent("got msgCustomerLeaving"));
 		
 	}
 
@@ -67,6 +76,12 @@ public class MockMarketHost extends Mock implements MarketHost{
 	public void msgBusinessWantsThis(Restaurant r, Map<String, Integer> order) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

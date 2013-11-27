@@ -18,8 +18,6 @@ public class House {
 	public Loc address;
 	public House(){
 		room=new LivingUnit();
-		InhabitantGui tempGui=new InhabitantGui(room.inhabitant);
-		room.inhabitant.setGui(tempGui ); 
 		
 	}
 	
@@ -33,6 +31,10 @@ public class House {
 		animation=chc;
 		animation.addGui(room.inhabitant.gui);
 		
+	}
+	
+	public void personIn(Person p){
+		room.inhabitant.self=p;
 	}
 	
 	

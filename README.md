@@ -45,6 +45,14 @@ behavior.
 
 ### Individual Contributions
 
+##### Bobby Groom
+
++ Worked on bank animation.
++ Helped design bank.
++ The GUIs.(bank, btr, bcr).
++ Integrating the building GUIs with the SimCity zoom panel.
++ Connecting the bank animations to the personAgent.
+
 ##### Gabriel Mel de Fontenay
 
 + Co-designed the bank (with rgroom)
@@ -53,10 +61,11 @@ behavior.
 + Coded and unit tested the Bus system
 + Integrated most of the agent code in the city (except Restaurant)
 	- Market staffers shift changes is not fully coded yet.
-+ Helped write/added to much of the person code
++ Helped write/added to much of the person code (with yocca)
 + Created and wrote unit tests for the Person Creation Panel
 	- Panel tests not completely exhaustive, could be longer
 + Wrote grading scenarios
+
 
 ### Known Bugs/Missing Functionality
 
