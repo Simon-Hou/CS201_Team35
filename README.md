@@ -42,3 +42,25 @@ several buildings and enough people to staff them. The buses will also be added.
 go to work at the buildings, some will go to the bank to do business, others will board the 
 bus. Click on any building to see what's inside. People will go home to sleep as the default
 behavior.
+
+### Individual Contributions
+
+##### Gabriel Mel de Fontenay
+
++ Co-designed the bank (with rgroom)
++ Fully coded and unit tested the non-animation code of the bank
++ Co-designed the bus system (pseags)
++ Coded and unit tested the Bus system
++ Integrated most of the agent code in the city (except Restaurant)
+	- Market staffers shift changes is not fully coded yet.
++ Helped write/added to much of the person code
++ Created and wrote unit tests for the Person Creation Panel
+	- Panel tests not completely exhaustive, could be longer
++ Wrote grading scenarios
+
+### Known Bugs/Missing Functionality
+
++ Market agent code does not fully allow shift changes, works fine with one shift of 
+employees
++ Some bugs in the zoomed animation of the bank, agent code seems to be working fine
++ 
