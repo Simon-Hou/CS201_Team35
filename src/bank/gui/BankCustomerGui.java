@@ -30,7 +30,8 @@ public class BankCustomerGui implements Gui{
 	public static final int xDoor = -40;
 	public static final int yDoor = 250;
 	
-	private int spriteCounter = 0;
+	private int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
 	
 	public BankCustomerGui(BankCustomerRole bcr/*, RestaurantGui gui*/){ 
 		isPresent = true;
@@ -48,28 +49,33 @@ public class BankCustomerGui implements Gui{
 			xPos++;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.person).rightSprites.get(spriteCounter % ((PersonAgent)this.role.person).rightSprites.size());
+				//System.out.println()
+				currentImage = ((PersonAgent)this.role.person).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).rightSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 		else if (xPos > xDestination) {
 			xPos--;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.person).leftSprites.get(spriteCounter % ((PersonAgent)this.role.person).leftSprites.size());
+				currentImage = ((PersonAgent)this.role.person).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).leftSprites.size());
+				changeSpriteCounter++;
 			}			
 		}
 		if (yPos < yDestination) {
 			yPos++;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.person).downSprites.get(spriteCounter % ((PersonAgent)this.role.person).downSprites.size());
+				currentImage = ((PersonAgent)this.role.person).downSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).downSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 		else if (yPos > yDestination) {
 			yPos--;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.person).upSprites.get(spriteCounter % ((PersonAgent)this.role.person).upSprites.size());
+				currentImage = ((PersonAgent)this.role.person).upSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).upSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 		if (xPos == xDestination && yPos == yDestination) {

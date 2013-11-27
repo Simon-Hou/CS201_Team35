@@ -41,8 +41,8 @@ public class CustomerRole extends Role implements Customer{
 	AgentEvent event = AgentEvent.none;
 	
 	// agent correspondents
+	private Restaurant r;
 	private Waiter waiter;
-	private Host host;
 	private Cashier cashier;
 	//private Table table=null; //hack(?) for gui
 
@@ -56,6 +56,9 @@ public class CustomerRole extends Role implements Customer{
 		super();
 		this.name = name;
 		this.p = p;
+		this.cash = p.getWalletAmount();
+		
+		//Do("I have $" + cash);
 	}
 
 
@@ -63,14 +66,14 @@ public class CustomerRole extends Role implements Customer{
 	public void atRestaurant(Restaurant r) {
 		event = AgentEvent.atRestaurant;
 		print("Arrived at restaurant");
-		this.host = r.host;
+		this.r = r;
 		stateChanged();
 	}
 	
 	public void msgRestaurantFull(){
 		if (name.contains("wait")){
 			Do("I will wait");
-			host.msgIWillWait(this, true);
+			r.host.msgIWillWait(this, true);
 		}
 		else
 			event = AgentEvent.impatient;
@@ -209,7 +212,7 @@ public class CustomerRole extends Role implements Customer{
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			//no action
+			FinishLeaving();
 			return true;
 		}
 		return false;
@@ -218,15 +221,17 @@ public class CustomerRole extends Role implements Customer{
 	// Actions
 	private void goToRestaurant() {
 		Do("Going to restaurant");
-		host.msgIWantFood(this);//send our instance, so he can respond to us
+		r.host.msgIWantFood(this);//send our instance, so he can respond to us
 	}
 	
 	private void ReadMenu(){
+		System.err.println("cash: " + cash + menu.m.toString());
 		timer.schedule(new TimerTask(){
 			public void run(){
 				choice=pickFood();
-				if (choice.compareToIgnoreCase("Error")==0)
+				if (choice.compareToIgnoreCase("Error")==0){
 					event = AgentEvent.noFood;
+				}
 				stateChanged();
 			}
 		},1000);
@@ -277,26 +282,32 @@ public class CustomerRole extends Role implements Customer{
 	
 	
 	private void MakePayment(){
+		int payment;
 		if (cash>=check.getTotal()){
-			cashier.msgHereIsPayment(this, check, check.getTotal());
-			cash-=check.getTotal();
-			check=null;
+			payment = check.getTotal();
 		}
 		else{
-			cashier.msgHereIsPayment(this, check, cash);
-			cash=0;
-			check=null;
+			payment = cash;
 		}
-			
+		
+		cashier.msgHereIsPayment(this, check, cash);
+		p.takeFromWallet(payment);
+		check=null;
 	}
 	
 	private void LeaveRestaurant(){
+		Do("Leaving.");
+		customerGui.DoExitRestaurant();
+	}
+	
+	public void FinishLeaving(){
 		choice=null;
 		check=null;
 		menu=null;
 		waiter=null;
-		Do("Leaving.");
-		customerGui.DoExitRestaurant();
+		
+		r.leaveRestaurant(customerGui);
+		r=null;
 	}
 	
 	private String pickFood(){
@@ -333,10 +344,6 @@ public class CustomerRole extends Role implements Customer{
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public void setHost(Host host) {
-		this.host=host;
-	}
-
 	public String getCustomerName() {
 		return name;
 	}

@@ -12,4 +12,6 @@ public interface BaseRestaurantCook extends Occupation{
 
 	public abstract void msgCannotFulfillOrder(Market m, Map<String,Integer> unfulfillable);
 
+	public abstract boolean isPresent();
+
 }

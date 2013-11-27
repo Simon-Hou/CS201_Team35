@@ -26,6 +26,7 @@ public class MarketEmployeeGui implements Gui{
 	private final int yDock = 420;
 	
 	private int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
 	ImageIcon currentImage;
 	
 	//default start position
@@ -48,28 +49,32 @@ public class MarketEmployeeGui implements Gui{
 			xPos++;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.p).rightSprites.get(xPos % ((PersonAgent)this.role.p).rightSprites.size());
+				currentImage = ((PersonAgent)this.role.p).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.role.p).rightSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 		else if (xPos > xDestination) {
 			xPos--;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.p).leftSprites.get(xPos % ((PersonAgent)this.role.p).leftSprites.size());
+				currentImage = ((PersonAgent)this.role.p).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.role.p).leftSprites.size());
+				changeSpriteCounter++;
 			}			
 		}
 		if (yPos < yDestination) {
 			yPos++;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.p).downSprites.get(xPos % ((PersonAgent)this.role.p).downSprites.size());
+				currentImage = ((PersonAgent)this.role.p).downSprites.get(changeSpriteCounter % ((PersonAgent)this.role.p).downSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 		else if (yPos > yDestination) {
 			yPos--;
 			spriteCounter++;
 			if (spriteCounter % 6 == 0) {
-				currentImage = ((PersonAgent)this.role.p).upSprites.get(xPos % ((PersonAgent)this.role.p).upSprites.size());
+				currentImage = ((PersonAgent)this.role.p).upSprites.get(changeSpriteCounter % ((PersonAgent)this.role.p).upSprites.size());
+				changeSpriteCounter++;
 			}
 		}
 	    if (!gotToDestination){

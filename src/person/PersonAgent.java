@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
@@ -65,16 +66,11 @@ public class PersonAgent extends Agent implements Person {
 		//will be changed later to request the correct role from the restaurant diretly
 		restaurantRole = new CustomerRole(name+"Restaurant", this);
 
-		this.belongings.myFoods.add(new Food("Steak",10));
-		this.belongings.myFoods.add(new Food("Chicken",10));
-		this.belongings.myFoods.add(new Food("Pizza",10));
-		this.belongings.myFoods.add(new Food("Salad",10));
-		
-		if (name.contains("restaurant")){
-			activeRole = restaurantRole;
-			goToRestaurant();
-		}
-		
+		//this.belongings.myFoods.add(new Food("Steak",10));
+		//this.belongings.myFoods.add(new Food("Chicken",10));
+		//this.belongings.myFoods.add(new Food("Pizza",10));
+		//this.belongings.myFoods.add(new Food("Salad",10));
+		purse.wallet = 50;
 	}
 	
 	
@@ -97,7 +93,7 @@ public class PersonAgent extends Agent implements Person {
 	public CityMap city;
 	public int activeRoleCalls = 0;
 	//Time time;
-	public int hungerLevel = 0;
+	public int hungerLevel = 10;
 	public int tiredLevel = 100;
 	public int personalAddress;
 	public Purse purse;
@@ -334,6 +330,12 @@ public class PersonAgent extends Agent implements Person {
 			buyCar();
 		}*/
 
+		if (hungerLevel > 6) {
+			getFood();
+			return true;
+		}
+		
+		
 		if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
 			goToBank();
 			return true;
@@ -344,10 +346,6 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 		
-		if (hungerLevel > 6) {
-			getFood();
-			return true;
-		}
 		
 		if (!city.map.get("Market").isEmpty() && foodsLow()) {
 			goToMarket();
@@ -496,7 +494,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		//marketRole.setMarket(m);
 		
-		//HACK--------if no host or cashier in restaurant then give yourself some food and leave!
+		//HACK--------if no host or cashier in market then give yourself some food and leave!
 		if (!m.host.isPresent() || !m.cashier.isPresent()){
 			for(Food f:this.belongings.myFoods){
 					f.quantity+=5;
@@ -519,7 +517,6 @@ public class PersonAgent extends Agent implements Person {
 			activeRole = inhabitantRole;
 		}
 		else if(belongings.myFoods.isEmpty()) {
-			Do("I am going to eat at a restaurant");
 			goToRestaurant();
 		}
 	}
@@ -534,20 +531,29 @@ public class PersonAgent extends Agent implements Person {
 		activeRole = inhabitantRole;
 	}
 	
-	private void goToRestaurant() {
+	private void goToRestaurant() {		
 		if(city.map.get("Restaurant").isEmpty()){
-			/*try {
+			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
+			
+			if(city.map.get("Restaurant").isEmpty())
+				return;
 		}
-		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(0)).restaurant;
+		Random random = new Random();
+		
+		//choose a restaurant at random?
+		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(random.nextInt(city.map.get("Restaurant").size()))).restaurant;
+		if (b.unStaffed())
+			return;
+		
 		Loc loc = city.map.get("Restaurant").get(0).loc;
 		doGoToBuilding(loc);
+		
 		b.customerEntering(restaurantRole);
-		restaurantRole.atRestaurant(b);
 		activeRole = restaurantRole;
 	}
 	
