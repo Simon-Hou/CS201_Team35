@@ -47,7 +47,7 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 	static int gridX = CityRestaurantCard.CARD_HEIGHT/cellSize;
     static int gridY = CityRestaurantCard.CARD_WIDTH/cellSize;
     //Create grid for AStar
-    Semaphore[][] grid = new Semaphore[gridX][gridY];
+    public Semaphore[][] grid = new Semaphore[gridX][gridY];
 
     //private JPanel restLabel = new JPanel();
     //private ListPanel customerPanel = new ListPanel(this, "Customers");

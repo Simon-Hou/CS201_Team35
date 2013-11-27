@@ -11,15 +11,17 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import cityGui.CityRestaurantCard;
+
 public class CookGui implements Gui {
 
-	public static final int WINDOWX = AnimationPanel.WINDOWX;		//Same as animation panel
-    public static final int WINDOWY = AnimationPanel.WINDOWY;
+	public static final int WINDOWX = CityRestaurantCard.CARD_WIDTH;		//Same as animation panel
+    public static final int WINDOWY = CityRestaurantCard.CARD_WIDTH;
 	
 	CookRole agent;
 	
 
-	private int personSize=AnimationPanel.PERSONSIZE;
+	private int personSize=CityRestaurantCard.PERSONSIZE;
     private int xPos, yPos;//default waiter position
     private int xDestination, yDestination;//default start position
     private goal destination=goal.none;
@@ -33,8 +35,6 @@ public class CookGui implements Gui {
     private MyImage currentItem;
 	private String bufferText;
 	public final String path="../../images/";
-	
-	boolean isPresent = true;
 
     public CookGui(CookRole agent) {
     	this.agent = agent;
@@ -111,7 +111,6 @@ public class CookGui implements Gui {
         		agent.msgAtDestination();
         	}
         	else if (xPos == xDestination && yPos == yDestination && destination == goal.leaving){        		
-        		isPresent = false;
         		destination = goal.none;
         		agent.msgAtDestination();
         	}
@@ -136,7 +135,7 @@ public class CookGui implements Gui {
     }
 
     public boolean isPresent() {
-        return isPresent;
+        return true;
     }
     
     public void DoCooking(){

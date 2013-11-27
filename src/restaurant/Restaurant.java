@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import astar.AStarTraversal;
+
 import market.MarketHostRole;
 
 import restaurant.restaurantLinda.CashierRole;
@@ -15,6 +17,7 @@ import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
 import restaurant.restaurantLinda.RestaurantOrder;
 import restaurant.restaurantLinda.WaiterRole;
 import restaurant.restaurantLinda.gui.CookGui;
+import restaurant.restaurantLinda.gui.CustomerGui;
 import restaurant.restaurantLinda.gui.Gui;
 import restaurant.restaurantLinda.gui.WaiterGui;
 import role.Role;
@@ -27,6 +30,7 @@ import interfaces.MarketHost;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
 import interfaces.restaurantLinda.Cook;
+import interfaces.restaurantLinda.Customer;
 import interfaces.restaurantLinda.Host;
 import interfaces.restaurantLinda.Waiter;
 
@@ -48,6 +52,7 @@ public class Restaurant implements PlaceOfWork{
 		this.cityRestaurant = cr;
 		CookGui cg = new CookGui((CookRole)cook);
 		((CookRole)cook).setGui(cg);
+		cityRestaurant.animationPanel.addGui(cg);
 	}
 	
 	@Override
@@ -58,11 +63,18 @@ public class Restaurant implements PlaceOfWork{
 		}
 		else if (type == JobType.RestaurantWaiter1){
 			((WaiterRole)r).setRestaurant(this);
+			WaiterGui wg = new WaiterGui((WaiterRole)r, waiters.size(), new AStarTraversal(cityRestaurant.grid));
+			((WaiterRole)r).setGui(wg);
+			waiters.add((WaiterRole)r);
+			cityRestaurant.animationPanel.addGui(wg);
 			return r;
 		}
 		else if (type == JobType.RestaurantWaiter2){
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
+			WaiterGui wg = new WaiterGui((WaiterRole)r, waiters.size(), new AStarTraversal(cityRestaurant.grid));
+			((WaiterRole)r).setGui(wg);
+			cityRestaurant.animationPanel.addGui(wg);
 			return r;
 		}
 		else if (type == JobType.RestaurantCook){
@@ -73,6 +85,8 @@ public class Restaurant implements PlaceOfWork{
 			((CashierRole)cashier).changeShifts(p);
 			return (Role) cashier;
 		}
+		
+		System.out.println("Unrecognized job type: " + type);
 		return null;
 	}
 		
@@ -89,6 +103,13 @@ public class Restaurant implements PlaceOfWork{
 	
 	public void leaveRestaurant(Gui gui){
 		cityRestaurant.animationPanel.removeGui(gui);
+	}
+	
+	public void customerEntering(Customer c){
+		CustomerGui cg = new CustomerGui((CustomerRole)c);
+		((CustomerRole)c).setGui(cg);
+		cityRestaurant.animationPanel.addGui(cg);
+		
 	}
 	
 }

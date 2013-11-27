@@ -255,6 +255,10 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			c.busyScenario();
 			return true;
 		}
+		if(name.equals("Restaurant")){
+			c.restaurantScenario();
+			return true;
+		}
 		if(placeOptions.getSelectedValue()==null){
 			errorField.setText("Please select an employer");
 			return false;
@@ -383,7 +387,8 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			listModel2.clear();
 			listModel2.add(listModel2.size(),"Restaurant Host");
 			listModel2.add(listModel2.size(),"Restaurant Cashier");
-			listModel2.add(listModel2.size(),"Restaurant Waiter");
+			listModel2.add(listModel2.size(),"Restaurant Waiter1");
+			listModel2.add(listModel2.size(),"Restaurant Waiter2");
 			listModel2.add(listModel2.size(),"Restaurant Cook");
 			return;
 		}

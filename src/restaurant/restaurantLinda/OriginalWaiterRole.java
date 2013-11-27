@@ -21,6 +21,6 @@ public class OriginalWaiterRole extends WaiterRole{
 	protected void SendOrder(MyCustomer mc){
 		Do("Magically sending " + mc.c.getName() + "'s order to cook");
 		mc.state=CustomerState.orderSent;
-		cook.msgHereIsOrder(this, mc.choice, mc.table);		
+		((CookRole)restaurant.cook).msgHereIsOrder(this, mc.choice, mc.table);		
 	}
 }

@@ -447,12 +447,15 @@ public abstract class WaiterRole extends Role implements Waiter{
 		return true;
 	}
 	
-	public void changeShifts(Person p){
-		this.p.msgThisRoleDone(this);
+	public void LeaveRestaurant(){
+		waiterGui.DoLeaveRestaurant();
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
-		this.p = p;
-		this.name = p.getName();
+		this.p.msgThisRoleDone(this);
 	}
-
 }
 
