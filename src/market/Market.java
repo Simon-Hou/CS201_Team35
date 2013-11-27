@@ -42,16 +42,16 @@ public class Market implements PlaceOfWork{
 		host.setMarket(this);
 		cashier.setMarket(this);
 		
-		inventory.put("Steak", 10);
-		inventory.put("Chicken", 10);
-		inventory.put("Pizza", 10);
-		inventory.put("Salad", 10);
-		inventory.put("Car", 5);
+		inventory.put("Steak", 100);
+		inventory.put("Chicken", 100);
+		inventory.put("Pizza", 100);
+		inventory.put("Salad", 100);
+		inventory.put("Car", 15);
 	}
 	
 	
 	public boolean CanIStartWorking(MarketEmployee m){
-		
+		System.out.println("Deciding whether to let employee work");
 		if(host.NewEmployee(m)){
 			employees.add(m);
 			return true;

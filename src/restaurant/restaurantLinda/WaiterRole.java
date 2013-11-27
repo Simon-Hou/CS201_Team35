@@ -1,13 +1,13 @@
 package restaurant.restaurantLinda;
 
 import agent.Agent;
+import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.WaiterGui;
 import role.Role;
 
+import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
-import interfaces.restaurantLinda.Cook;
 import interfaces.restaurantLinda.Customer;
-import interfaces.restaurantLinda.Host;
 import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
@@ -18,7 +18,7 @@ import java.util.concurrent.Semaphore;
  */
 //We only have 2 types of agents in this prototype. A customer and an agent that
 //does all the rest. Rather than calling the other agent a waiter, we called him
-//the Host. A Host is the manager of a restaurant who sees that all
+//the restaurant.host. A restaurant.host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public abstract class WaiterRole extends Role implements Waiter{
 	public List<MyCustomer> customers	= new ArrayList<MyCustomer>();
@@ -27,13 +27,12 @@ public abstract class WaiterRole extends Role implements Waiter{
 	private enum WaiterState {ready, takingOrder};
 	BreakStatus breakStatus = BreakStatus.none;
 	public enum BreakStatus {none, wantBreak, asked, hasPermission, onBreak, finished}
-	protected Host host;
-	protected Cook cook;
-	protected Cashier cashier;
+	protected Restaurant restaurant;
 	protected List<String> unavailableFoods;
 	
 	protected Semaphore atDestination = new Semaphore(0,true);
 	protected WaiterGui waiterGui=null;
+
 	
 	public WaiterRole(){
 		super();
@@ -47,7 +46,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 		customers.add(new MyCustomer(c,table,CustomerState.waiting));
 		print("Received request to set customer "+c.getName()+" at table "+table);
 		
-		//Just in case the host screws up somehow
+		//Just in case the restaurant.host screws up somehow
 		if(breakStatus == BreakStatus.onBreak){
 			breakStatus = BreakStatus.none;
 		}
@@ -181,7 +180,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 	}
 	
 	public void msgWantBreak(){
-		//Don't update if waiter is already on break/ has asked the host
+		//Don't update if waiter is already on break/ has asked the restaurant.host
 		if (breakStatus == BreakStatus.none)
 			breakStatus = BreakStatus.wantBreak;
 		
@@ -229,7 +228,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 				}
 				for (MyCustomer mc: customers){
 					if (mc.state==CustomerState.paying || mc.state==CustomerState.leaving){
-						NotifyHost(mc);
+						Notifyrestauranthost(mc);
 						return true;
 					}
 				}
@@ -357,7 +356,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 		waiterGui.DoRelinquishFood();
 		mc.state=CustomerState.eating;
 		mc.c.msgHereIsFood(mc.choice);
-		cashier.msgPleaseComputeBill(this, mc.choice, mc.c);
+		((Cashier)restaurant.cashier).msgPleaseComputeBill(this, mc.choice, mc.c);
 		
 	}
 	
@@ -373,12 +372,12 @@ public abstract class WaiterRole extends Role implements Waiter{
 		}
 		waiterGui.DoTalk(null);
 		mc.needsCheck=false;
-		mc.c.msgHereIsCheck(mc.bill, cashier);
+		mc.c.msgHereIsCheck(mc.bill, (Cashier)restaurant.cashier);
 	}
 	
-	private void NotifyHost(MyCustomer mc){
+	private void Notifyrestauranthost(MyCustomer mc){
 		mc.state=CustomerState.done;
-		host.msgCustomerLeaving(this,mc.c, mc.table);	
+		restaurant.host.msgCustomerLeaving(this,mc.c, mc.table);	
 	}
 	
 	private void DoGoToDefault(){
@@ -387,13 +386,13 @@ public abstract class WaiterRole extends Role implements Waiter{
 	
 	private void AskForBreak(){
 		breakStatus = BreakStatus.asked;
-		host.msgIWantBreak(this);
+		restaurant.host.msgIWantBreak(this);
 	}
 	
 	private void GoOffBreak(){
 		waiterGui.DoGoToDefault();
 		breakStatus=BreakStatus.none;
-		host.msgOffBreak(this);
+		restaurant.host.msgOffBreak(this);
 		waiterGui.UpdateInfo();
 	}
 	
@@ -438,6 +437,33 @@ public abstract class WaiterRole extends Role implements Waiter{
 	public String getName() {
 		return name;
 	}
-
+	
+	public void setRestaurant(Restaurant r){
+		this.restaurant = r;
+	}
+	
+	@Override
+	public boolean canLeave() {
+		if (breakStatus==BreakStatus.onBreak){
+			LeaveRestaurant();
+			return true;
+		}
+		
+		msgWantBreak();
+		
+		return false;
+		
+	}
+	
+	public void LeaveRestaurant(){
+		waiterGui.DoLeaveRestaurant();
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		this.p.msgThisRoleDone(this);
+	}
 }
 

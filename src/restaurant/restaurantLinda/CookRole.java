@@ -317,9 +317,32 @@ public class CookRole extends Role implements Cook{
 	}
 
 	public void setPerson(Person p) {
-		// TODO Auto-generated method stub
-		
+		this.p = p;		
+	}
+
+	@Override
+	public boolean canLeave() {
+		return true;
 	}
 	
+	public void changeShifts(Person p){
+		if (this.p!=null){
+			LeaveRestaurant();
+		}
+		
+		this.p = p;
+		this.name = p.getName();
+	}
+	
+	public void LeaveRestaurant(){
+		cookGui.DoLeaveRestaurant();
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.p.msgThisRoleDone(this);
+	}
 }
 

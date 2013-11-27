@@ -29,7 +29,7 @@ import interfaces.Person;
 
 public class MarketPanel extends JFrame implements ActionListener{
 
-	private CityMarketCard animation; 
+	public CityMarketCard animation; 
 	public Market market;
 	
 	private JLabel title = new JLabel("Market");

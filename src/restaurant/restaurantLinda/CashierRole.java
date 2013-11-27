@@ -30,8 +30,6 @@ public class CashierRole extends Role implements Cashier{
 	private Timer timer = new Timer();
 	Restaurant restaurant;
 	
-	private Person p;
-	
 	public CashierRole(String name, Restaurant r) {
 		super();	
 		priceList.put("Steak", 16);
@@ -294,6 +292,20 @@ public class CashierRole extends Role implements Cashier{
 	
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public boolean canLeave() {
+		return true;
+	}
+	
+	public void changeShifts(Person p){
+		if (this.p!=null){
+			this.p.msgThisRoleDone(this);
+		}
+		
+		this.p = p;
+		this.name = p.getName();
 	}
 	
 }

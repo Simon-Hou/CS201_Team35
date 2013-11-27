@@ -387,7 +387,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		PersonAgent person = new PersonAgent(name,cityObject.cityMap);
 		person.setJob(placeOfWork, jobType, start, end);
 		person.setBank(bankNum);
-		person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		if(!cityObject.cityMap.map.get("House").isEmpty()){
+			person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		}
+		//person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
 		boolean wantsToRideBus = false;
 		if(Math.random()>.75 && hasBuses){
 			wantsToRideBus = true;
@@ -509,12 +512,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 				j = j+1;
 			}
 
-			for(int numEmployees = 0;numEmployees<2;++numEmployees){
+			//for(int numEmployees = 0;numEmployees<2;++numEmployees){
 				randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
 				for(int i = 0;i<SHIFTS;++i){
 					int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
 					int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-					//System.out.println("Shift start, end: "+start+" " +end);
+					System.out.println(j+" Shift start, end: "+start+" " +end);
 					int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 					int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
 					addNewPersonHard("p"+j,
@@ -522,7 +525,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 							JobType.MarketEmployee,start,end,bankNum,houseNum);
 					j = j+1;
 				}
-			}
+			//}
 		}
 		if(type.equals("Restaurant")){
 			int j = 0;
@@ -540,9 +543,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 				addNewPersonHard("pcook"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantCook,start,end,bankNum,houseNum);
-				addNewPersonHard("pwaiter"+j,
+				addNewPersonHard("pboringwaiter"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
-						JobType.RestaurantWaiter,start,end,bankNum,houseNum);
+						JobType.RestaurantWaiter1,start,end,bankNum,houseNum);
+				addNewPersonHard("pnewwaiter"+j,
+						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+						JobType.RestaurantWaiter2,start,end,bankNum,houseNum);
 				addNewPersonHard("prcash"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantCashier,start,end,bankNum,houseNum);
@@ -598,25 +604,39 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int xStartTest = 0;
 		int yStartTest = 0;
 
+		/*test.addNewBuilding("Market", 250, 200);
+		test.addNewPersonHard("p"+0,
+				((MarketMapLoc) test.cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketHost,0,33,0,0);
+		test.addNewPersonHard("p"+1,
+				((MarketMapLoc) test.cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,33,0,0);*/
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
 
 		test.addBuses(test);
-		//test.addNewBuilding("Bank", 5, 400);
+		
+		
+		/*test.addBuses(test);
+		test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);
-		//test.addNewBuilding("Restaurant", 5, 200);
 		test.addNewBuilding("House", 200, 5);
-
+		test.fullyManBuilding("Bank",0);
+		test.fullyManBuilding("Market",0);*/
+		//test.fullyManBuilding("Bank",0);
+		//test.fullyManBuilding("Market",0);
+		//test.fullyManBuilding("Market",1);
 		//test.addBuses(test);
 		//test.addNewBuilding("Bank", 5, 400);
 		//test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Restaurant", 5, 200);
+		//test.addNewBuilding("House", 200, 5);
 
-		//test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);			
-		//test.fullyManBuilding("Restaurant",0);
-		//test.addBuses(test);
+		test.addBuses(test);
+		//test.addNewBuilding("Bank", 5, 400);
+		//test.addNewBuilding("Market",200,250);
+		//test.addNewBuilding("Restaurant", 5, 200);
 
 		//test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
@@ -688,10 +708,39 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void marketScenario(){
 		hasBuses = false;
-		MAXTIME = 40;
+		MAXTIME = 100;
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
-		fullyManBuilding("Market",0);
+		addNewPersonHard("p"+0,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketHost,0,100,0,0);
+		addNewPersonHard("p"+1,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,100,0,0);
+		/*addNewPersonHard("p"+2,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,100,0,0);*/
+		addNewPersonHard("p"+2,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketCashier,0,100,0,0);
+		
+		/*try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
+		addNewPersonHard("p"+3,null,null,0,0,0,0);
+		addNewPersonHard("p"+4,null,null,0,0,0,0);
+		/*addNewPersonHard("p"+5,null,null,0,0,0,0);
+		addNewPersonHard("p"+6,null,null,0,0,0,0);
+		addNewPersonHard("p"+7,null,null,0,0,0,0);
+		addNewPersonHard("p"+8,null,null,0,0,0,0);
+		addNewPersonHard("p"+9,null,null,0,0,0,0);
+		addNewPersonHard("p"+10,null,null,0,0,0,0);*/
+		
+		//fullyManBuilding("Market",0);
 	}
 	
 	public void busyScenario(){
@@ -705,6 +754,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 		fullyManBuilding("Bank",0);
 		fullyManBuilding("Market",0);
 		fullyManBuilding("Market",1);
+	}
+	
+	public void restaurantScenario(){
+		hasBuses = false;
+		MAXTIME = 20;
+		addNewBuilding("House", 200, 5);
+		addNewBuilding("Restaurant",5, 300);
+		fullyManBuilding("Restaurant",0);
 	}
 	
 

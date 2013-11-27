@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import person.PersonAgent;
+import public_Object.Food;
 import role.Role;
 import testAgents.testPerson;
 
@@ -260,9 +261,16 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			gui.DoExitRestaurant();
 		}
 
+		
 		p.msgThisRoleDone(this);
 	    
 		sad = false;
+		
+		
+		//HACK--------give yourself some food
+	
+	
+		
 	}
 	//Utilities
 	public Person getPerson(){

@@ -1,9 +1,11 @@
 package restaurant.restaurantLinda;
 
+import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CustomerGui;
 import role.Role;
 import agent.Agent;
 
+import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
 import interfaces.restaurantLinda.Customer;
 import interfaces.restaurantLinda.Host;
@@ -35,7 +37,7 @@ public class CustomerRole extends Role implements Customer{
 	private AgentState state = AgentState.DoingNothing;//The start state
 
 	public enum AgentEvent 
-	{none, gotHungry, impatient, followWaiter, seated, askedToOrder, redoChoice, noFood, foodHere, doneEating, atCashier, paymentReceived, doneLeaving};
+	{none, atRestaurant, impatient, followWaiter, seated, askedToOrder, redoChoice, noFood, foodHere, doneEating, atCashier, paymentReceived, doneLeaving};
 	AgentEvent event = AgentEvent.none;
 	
 	// agent correspondents
@@ -50,33 +52,18 @@ public class CustomerRole extends Role implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerRole(String name){
+	public CustomerRole(String name, Person p){
 		super();
 		this.name = name;
-		
+		this.p = p;
 	}
 
 
 	// Messages
-	public void gotHungry() {//from animation
-		event = AgentEvent.gotHungry;
-		print("I'm hungry");
-		
-		//Instantiate money here. Includes a hack to control amount of money.
-		if (name.contains("$")){
-			try
-			{
-				cash=(int)(Double.parseDouble(name.substring(name.indexOf('$')+1))*100);
-			}
-			catch(NumberFormatException e){
-				cash=20;
-			}
-		}
-		else
-			cash=20;
-		
-		Do("I have $"+cash + " in cash");
-		
+	public void atRestaurant(Restaurant r) {
+		event = AgentEvent.atRestaurant;
+		print("Arrived at restaurant");
+		this.host = r.host;
 		stateChanged();
 	}
 	
@@ -159,7 +146,7 @@ public class CustomerRole extends Role implements Customer{
 	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
-		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
+		if (state == AgentState.DoingNothing && event == AgentEvent.atRestaurant ){
 			state = AgentState.WaitingInRestaurant;
 			goToRestaurant();
 			return true;

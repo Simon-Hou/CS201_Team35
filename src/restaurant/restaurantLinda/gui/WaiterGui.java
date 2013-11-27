@@ -19,7 +19,7 @@ public class WaiterGui extends GuiPerson {
     private Map<Integer,Point> tableMap;
     private List<MyImage> platedFoods;
     private goal destination=goal.none;
-    private enum goal{none,customer,table,cook,plating};
+    private enum goal{none,customer,table,cook,plating,leaving};
     private CustomerGui customer;
     
     Position homePosition;
@@ -44,8 +44,10 @@ public class WaiterGui extends GuiPerson {
         
         homePosition = new Position(1+position, WINDOWY/cellSize-1);
         
-        xPos = xDestination = xfinal = homePosition.getX()*cellSize;
-        yPos = yDestination = yfinal = homePosition.getY()*cellSize;
+        xPos = yPos = 0;
+        
+        xDestination = xfinal = homePosition.getX()*cellSize;
+        yDestination = yfinal = homePosition.getY()*cellSize;
         System.out.println("homePosition = " + homePosition);
         previousPosition = currentPosition = new Position(xPos/cellSize, yPos/cellSize);
         currentPosition.moveInto(aStar.getGrid());
@@ -123,6 +125,10 @@ public class WaiterGui extends GuiPerson {
     
     public void DoGoToDefault(){
     	bufferText = null;
+    	
+    	if (xfinal==homePosition.getX()*cellSize && yfinal == homePosition.getY()*cellSize)
+    		return;
+    	
     	xfinal = homePosition.getX()*cellSize;
     	yfinal = homePosition.getY()*cellSize;
     	CalculatePath(homePosition);
@@ -138,6 +144,14 @@ public class WaiterGui extends GuiPerson {
     public void DoGoOffBreak(){
     	bufferText = null;
     	DoGoToDefault();
+    }
+    
+    
+    public void DoLeaveRestaurant(){
+    	destination = goal.leaving;
+    	xfinal = -personSize;
+    	yfinal = -personSize;
+    	CalculatePath(new Position(0,0));
     }
     
     public void DoTalk(String text){
