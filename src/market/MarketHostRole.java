@@ -175,7 +175,7 @@ public class MarketHostRole extends Role implements MarketHost {
 			}
 		}
 		
-	
+		Do("GOT HERE");
 
 		if (mc.order.size()==0){
 			Do(mc.customer.getName() + ", you didn't order anything, or we are out of everything you ordered.");
