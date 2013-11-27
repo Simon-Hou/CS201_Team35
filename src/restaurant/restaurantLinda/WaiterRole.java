@@ -444,7 +444,15 @@ public abstract class WaiterRole extends Role implements Waiter{
 	
 	@Override
 	public boolean canLeave() {
-		return true;
+		if (breakStatus==BreakStatus.onBreak){
+			LeaveRestaurant();
+			return true;
+		}
+		
+		msgWantBreak();
+		
+		return false;
+		
 	}
 	
 	public void LeaveRestaurant(){

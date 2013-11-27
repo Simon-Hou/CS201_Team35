@@ -31,8 +31,8 @@ the print statements. Afterwards, they all go home to sleep.
 
 #### 3. Market
 Start SimCity and open the Person Creation panel. Enter the name as "Market". This will create
-a market and people, who will staff and buy from the market. 4 people will 
-work during any one shift, and at the end of the shift, another group will take over. To see
+a market and people, who will staff and buy from the market. 3 people will 
+work during the shift, and the others will do business with the market staffers. To see
 the animation, click on the market in the city view. Also, see the print statements, which 
 detail the market purchases. The people will go hom after they have finished all business. 
 
