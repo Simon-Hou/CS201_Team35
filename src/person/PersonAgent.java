@@ -473,6 +473,17 @@ public class PersonAgent extends Agent implements Person {
 		}
 		
 		//marketRole.setMarket(m);
+		
+		//HACK--------if no host or cashier in restaurant then give yourself some food and leave!
+		if (!m.host.isPresent() || !m.cashier.isPresent()){
+			for(Food f:this.belongings.myFoods){
+					f.quantity+=5;
+					return;
+			}
+		}
+		
+		
+		
 		marketRole.msgYouAreAtMarket(m);
 		m.newCustomer(marketRole);
 		activeRole = marketRole;

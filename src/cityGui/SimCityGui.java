@@ -120,7 +120,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		PersonAgent person = new PersonAgent(name,cityObject.cityMap);
 		person.setJob(placeOfWork, jobType, start, end);
 		person.setBank(bankNum);
-		person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		if(!cityObject.cityMap.map.get("House").isEmpty()){
+			person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		}
+		//person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
 		boolean wantsToRideBus = false;
 		if(Math.random()>.75 && hasBuses){
 			wantsToRideBus = true;
@@ -242,7 +245,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 				j = j+1;
 			}
 
-			for(int numEmployees = 0;numEmployees<2;++numEmployees){
+			//for(int numEmployees = 0;numEmployees<2;++numEmployees){
 				randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
 				for(int i = 0;i<SHIFTS;++i){
 					int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
@@ -255,7 +258,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 							JobType.MarketEmployee,start,end,bankNum,houseNum);
 					j = j+1;
 				}
-			}
+			//}
 		}
 		if(type.equals("Restaurant")){
 			int j = 0;
@@ -334,6 +337,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int xStartTest = 0;
 		int yStartTest = 0;
 
+		/*test.addNewBuilding("Market", 250, 200);
+		test.addNewPersonHard("p"+0,
+				((MarketMapLoc) test.cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketHost,0,33,0,0);
+		test.addNewPersonHard("p"+1,
+				((MarketMapLoc) test.cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,33,0,0);*/
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP

@@ -51,7 +51,7 @@ public class Market implements PlaceOfWork{
 	
 	
 	public boolean CanIStartWorking(MarketEmployee m){
-		
+		System.out.println("Deciding whether to let employee work");
 		if(host.NewEmployee(m)){
 			employees.add(m);
 			return true;

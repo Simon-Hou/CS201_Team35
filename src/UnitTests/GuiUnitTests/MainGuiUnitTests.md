@@ -2,7 +2,7 @@ This is a script to generally test the system's gui. It is not exhaustive, but i
 good start. It will mainly involve running scenarios and creating objects and observing
 their behavior.
 
-#### Test 0 - Main city
+#### Test 0 - Main City Basics
 
 1. Start SimCity. There should be the general square layout of the city, with no buildings
 added and no people walking around. 
