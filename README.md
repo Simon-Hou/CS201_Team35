@@ -43,6 +43,13 @@ go to work at the buildings, some will go to the bank to do business, others wil
 bus. Click on any building to see what's inside. People will go home to sleep as the default
 behavior.
 
+#### 5. House
+Start SimCity(run the SimCityGui.java), and click “Add House” button. Place the image on the green and left click. 
+Each house contains one inhabitant and the inventory.
+Click on the house to view inside: bed (black), table (cyan), refrigerator (white), grill (gray).
+Entering: the building can be entered by call the personIn method in House; and set the active role in person to inhabitant.
+	-I have already modified the method in person, and waiting for the city animation people to make the person walk to the house and call this method.
+
 ### Individual Contributions
 
 ##### Bobby Groom
@@ -65,6 +72,18 @@ behavior.
 + Created and wrote unit tests for the Person Creation Panel
 	- Panel tests not completely exhaustive, could be longer
 + Wrote grading scenarios
+
+##### Simon (Fangli) Hou
+
++ Co-designed the Person with yocca
++ Fully coded the House and House animation(CityHouseCard.java)
++ Fully coded the InhabitantRole and InhabitantGui
++ Co-designed the CityAnimation with yocca
++ Designed the method to integrate the Animation of building into the the main window
++ Helped all teammates to integrate their building animations into the main window
++ Designed the method to keep individual animation panels running in the background
++ Created / added to multiple interfaces
++ Kept designs simple and efficient, and cleared other’s redundant codes
 
 
 ### Known Bugs/Missing Functionality

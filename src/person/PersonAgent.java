@@ -434,6 +434,13 @@ public class PersonAgent extends Agent implements Person {
 		
 		activeRole = bankRole;
 		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//open account
 		if(belongings.myAccounts.isEmpty()){
 			Do("Going to bank to open new account");
@@ -531,8 +538,9 @@ public class PersonAgent extends Agent implements Person {
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
 		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
 		doGoHome();
-		inhabitantRole.msgTired();
-		activeRole = inhabitantRole;
+		//inhabitantRole.msgTired();
+		belongings.myHouse.personIn(this);
+		activeRole = belongings.myHouse.room.inhabitant;;
 	}
 	
 	private void goToRestaurant() {		

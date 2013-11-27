@@ -14,7 +14,7 @@ public class House {
 	CityHouseCard animation;
 	public CityHouse houseGui;
 	
-	LivingUnit room;
+	public LivingUnit room;
 	public Loc address;
 	public House(){
 		room=new LivingUnit();
