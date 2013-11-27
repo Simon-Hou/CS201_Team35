@@ -88,8 +88,7 @@ public class MarketEmployeeGui implements Gui{
 	}
 	
 	public void DoGetItem(String i){
-		
-		
+			
 		switch(i){
 		case "Steak": xDestination = 245; yDestination = 315; break;
 		case "Chicken":  xDestination = 245; yDestination = 245; break;

@@ -212,7 +212,7 @@ public class PersonGui extends CityComponent implements Gui {
 			}
 			
 			if (readyToGoOuterSidewalk) {
-				System.out.println("Going to outer sidewalk");
+				//System.out.println("Going to outer sidewalk");
 				if (b1(getXPos(),getYPos())) {
 					goVertical(cWalk1o);
 					if (getYPos() == cWalk1o) {
