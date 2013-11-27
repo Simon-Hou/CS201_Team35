@@ -34,12 +34,12 @@ public class Bus extends Vehicle implements ActionListener{
 	
 	//DATA
 	static int TIME_AT_STOP = 10000;
-	boolean atStop = true;
+	public boolean atStop = true;
 	Timer timer = new Timer(TIME_AT_STOP, this);
 
 	public List<BusStop> stops = new ArrayList<BusStop>();
 	public int currentStop = 0;
-	int randomOffset = (int) Math.floor(3*Math.random());
+	public int randomOffset = (int) Math.floor(3*Math.random());
 	public int TIME_BETWEEN_STOPS = 3;
 	public Semaphore atStopFreeze = new Semaphore(1,true);
 	

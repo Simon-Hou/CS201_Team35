@@ -45,4 +45,5 @@ public interface Person {
 	public abstract void putInBag(String item,int amount);
 	public abstract void msgSetTiredLevel(int level);
 	
+	
 }
