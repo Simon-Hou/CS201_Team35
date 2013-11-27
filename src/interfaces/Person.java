@@ -1,14 +1,22 @@
 package interfaces;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+
 import role.Role;
 import util.Bus;
 import util.BusStop;
 import util.Loc;
 
 public interface Person {
+	
+//	public List<ImageIcon> upSprites = null;
+//	public List<ImageIcon> downSprites = null;
+//	public List<ImageIcon> leftSprites = null;
+//	public List<ImageIcon> rightSprites = null;
 
-	
-	
 	public abstract void msgStateChanged();
 	
 	public abstract void msgBusAtStop(Bus b,BusStop stop);

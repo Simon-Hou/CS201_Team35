@@ -3,6 +3,9 @@ package market.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import javax.swing.ImageIcon;
+
+import person.PersonAgent;
 import public_Gui.Gui;
 import market.MarketEmployeeRole;
 
@@ -22,6 +25,9 @@ public class MarketEmployeeGui implements Gui{
 	private final int xDock = 30;
 	private final int yDock = 420;
 	
+	private int spriteCounter = 6;
+	ImageIcon currentImage;
+	
 	//default start position
 	private final int xInitial = 370;
 	private final int yInitial = 200;
@@ -33,40 +39,56 @@ public class MarketEmployeeGui implements Gui{
 	 
 	public MarketEmployeeGui(MarketEmployeeRole e){
 		role = e;
+		currentImage = ((PersonAgent)this.role.p).downSprites.get(0);
 	}
 
 
 	public void updatePosition() {
-		 if (xPos < xDestination)
-	            xPos++;
-	        else if (xPos > xDestination)
-	            xPos--;
-
-	        if (yPos < yDestination)
-	            yPos++;
-	        else if (yPos > yDestination)
-	            yPos--;
-
-	        if (!gotToDestination){
-	        	if (xPos == xDestination && yPos == yDestination && !(xDestination == xInitial && yDestination == yInitial) )
-	        	{
-	        		role.msgAtDestination();
-	        		gotToDestination = true;
-	        	}
-	        }
-		
+		if (xPos < xDestination) {
+			xPos++;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.p).rightSprites.get(xPos % ((PersonAgent)this.role.p).rightSprites.size());
+			}
+		}
+		else if (xPos > xDestination) {
+			xPos--;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.p).leftSprites.get(xPos % ((PersonAgent)this.role.p).leftSprites.size());
+			}			
+		}
+		if (yPos < yDestination) {
+			yPos++;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.p).downSprites.get(xPos % ((PersonAgent)this.role.p).downSprites.size());
+			}
+		}
+		else if (yPos > yDestination) {
+			yPos--;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.p).upSprites.get(xPos % ((PersonAgent)this.role.p).upSprites.size());
+			}
+		}
+	    if (!gotToDestination){
+	     	if (xPos == xDestination && yPos == yDestination && !(xDestination == xInitial && yDestination == yInitial) )	{
+	       		role.msgAtDestination();
+	       		gotToDestination = true;
+	       	}
+	    }	
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
 		 g.setColor(Color.BLUE);
-	     g.fillRect(xPos, yPos, 20, 20);
-		
+	    // g.fillRect(xPos, yPos, 20, 20);
+	     g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);	
 	}
 	
 	public void DoGetItem(String i){
-		
-		
+		/* switch this from a switch to a else if b/c of version issues	
 		switch(i){
 		case "Steak": xDestination = 245; yDestination = 315; break;
 		case "Chicken":  xDestination = 245; yDestination = 245; break;
@@ -75,6 +97,36 @@ public class MarketEmployeeGui implements Gui{
 		case "Car": xDestination = 115; yDestination = 385; break;
 		case "Other": xDestination = 245; yDestination = 385; break;
 		default: System.err.println("We don't have that item!"); return;
+		}
+		*/
+		
+		if (i.equals("Steak")){
+			xDestination = 245; 
+			yDestination = 315;;
+		}
+		else if (i.equals("Chicken")){
+			xDestination = 245; 
+			yDestination = 245; 
+		}
+		else if (i.equals("Pizza")){
+			xDestination = 115; 
+			yDestination = 245;
+		}
+		else if (i.equals("Salad")){
+			xDestination = 115; 
+			yDestination = 315;
+		}
+		else if (i.equals("Car")){
+			xDestination = 115; 
+			yDestination = 385;
+		}
+		else if (i.equals("Other")){
+			xDestination = 245; 
+			yDestination = 385;
+		}
+		else{
+			System.err.println("We don't have that item!"); 
+			return;
 		}
 		gotToDestination = false;
 	}

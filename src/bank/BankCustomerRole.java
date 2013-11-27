@@ -62,7 +62,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	public BankInterface bank;
 	
-	Person person;
+	public Person person;
 	
 	
 	public BankTeller teller;

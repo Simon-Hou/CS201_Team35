@@ -84,7 +84,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	
 	String alphabet = "abcdefghijklmnopqrstuvwxyz";
 	
-	Person person;
+	public Person person;
 	
 	String name;
 	

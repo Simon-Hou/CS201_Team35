@@ -16,7 +16,7 @@ import role.Role;
 import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-	Person p;
+	public Person p;
 	RoleState state;
 	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
 	RoleEvent event;

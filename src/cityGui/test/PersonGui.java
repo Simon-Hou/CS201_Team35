@@ -21,35 +21,36 @@ public class PersonGui extends CityComponent implements Gui {
 
     private PersonAgent person;
     
-	public List<ImageIcon> up = new ArrayList<ImageIcon>();
-    java.net.URL up1 = getClass().getResource("personImages/up1.png");
-	ImageIcon u1 = new ImageIcon(up1);
-	java.net.URL up2 = getClass().getResource("personImages/up2.png");
-	ImageIcon u2 = new ImageIcon(up2);
-	java.net.URL up3 = getClass().getResource("personImages/up3.png");
-	ImageIcon u3 = new ImageIcon(up3);
-	public List<ImageIcon> down = new ArrayList<ImageIcon>();
-	java.net.URL down1 = getClass().getResource("personImages/down1.png");
-	ImageIcon d1 = new ImageIcon(down1);
-	java.net.URL down2 = getClass().getResource("personImages/down2.png");
-	ImageIcon d2 = new ImageIcon(down2);
-	java.net.URL down3 = getClass().getResource("personImages/down3.png");
-	ImageIcon d3 = new ImageIcon(down3);
-	public List<ImageIcon> left = new ArrayList<ImageIcon>();
-	java.net.URL left1 = getClass().getResource("personImages/left1.png");
-	ImageIcon l1 = new ImageIcon(left1);
-	java.net.URL left2 = getClass().getResource("personImages/left2.png");
-	ImageIcon l2 = new ImageIcon(left2);
-	java.net.URL left3 = getClass().getResource("personImages/left3.png");
-	ImageIcon l3 = new ImageIcon(left3);
-	public List<ImageIcon> right = new ArrayList<ImageIcon>();
-	java.net.URL right1 = getClass().getResource("personImages/right1.png");
-	ImageIcon r1 = new ImageIcon(right1);
-	java.net.URL right2 = getClass().getResource("personImages/right2.png");
-	ImageIcon r2 = new ImageIcon(right2);
-	java.net.URL right3 = getClass().getResource("personImages/right3.png");
-	ImageIcon r3 = new ImageIcon(right3);
-	ImageIcon currentImage = new ImageIcon(down1);
+//	public List<ImageIcon> up = new ArrayList<ImageIcon>();
+//    java.net.URL up1 = getClass().getResource("personImages/up1.png");
+//	ImageIcon u1 = new ImageIcon(up1);
+//	java.net.URL up2 = getClass().getResource("personImages/up2.png");
+//	ImageIcon u2 = new ImageIcon(up2);
+//	java.net.URL up3 = getClass().getResource("personImages/up3.png");
+//	ImageIcon u3 = new ImageIcon(up3);
+//	public List<ImageIcon> down = new ArrayList<ImageIcon>();
+//	java.net.URL down1 = getClass().getResource("personImages/down1.png");
+//	ImageIcon d1 = new ImageIcon(down1);
+//	java.net.URL down2 = getClass().getResource("personImages/down2.png");
+//	ImageIcon d2 = new ImageIcon(down2);
+//	java.net.URL down3 = getClass().getResource("personImages/down3.png");
+//	ImageIcon d3 = new ImageIcon(down3);
+//	public List<ImageIcon> left = new ArrayList<ImageIcon>();
+//	java.net.URL left1 = getClass().getResource("personImages/left1.png");
+//	ImageIcon l1 = new ImageIcon(left1);
+//	java.net.URL left2 = getClass().getResource("personImages/left2.png");
+//	ImageIcon l2 = new ImageIcon(left2);
+//	java.net.URL left3 = getClass().getResource("personImages/left3.png");
+//	ImageIcon l3 = new ImageIcon(left3);
+//	public List<ImageIcon> right = new ArrayList<ImageIcon>();
+//	java.net.URL right1 = getClass().getResource("personImages/right1.png");
+//	ImageIcon r1 = new ImageIcon(right1);
+//	java.net.URL right2 = getClass().getResource("personImages/right2.png");
+//	ImageIcon r2 = new ImageIcon(right2);
+//	java.net.URL right3 = getClass().getResource("personImages/right3.png");
+//	ImageIcon r3 = new ImageIcon(right3);
+
+    ImageIcon currentImage;
 	
 //	public List<ImageIcon> bup = new ArrayList<ImageIcon>();
 //    java.net.URL bup1 = getClass().getResource("personImages/bup1.png");
@@ -116,10 +117,20 @@ public class PersonGui extends CityComponent implements Gui {
 		yDestination = yDest;
 		this.gui = gui;
 		rectangle = new Rectangle(xPos, yPos, 10, 10);
-		up.add(u1); up.add(u2); up.add(u1); up.add(u3);
-		down.add(d1); down.add(d2); down.add(d1); down.add(d3);
-		left.add(l1); left.add(l2); left.add(l1); left.add(l3);
-		right.add(r1); right.add(r2); right.add(r1); right.add(r3);
+
+		this.person.spriteChoice = (int) (Math.random() * gui.upAll.size());
+		
+		this.person.upSprites = gui.upAll.get(this.person.spriteChoice);
+		this.person.downSprites = gui.downAll.get(this.person.spriteChoice);
+		this.person.rightSprites = gui.rightAll.get(this.person.spriteChoice);
+		this.person.leftSprites = gui.leftAll.get(this.person.spriteChoice);
+		
+		currentImage = this.person.downSprites.get(0);
+		
+//		up.add(u1); up.add(u2); up.add(u1); up.add(u3);
+//		down.add(d1); down.add(d2); down.add(d1); down.add(d3);
+//		left.add(l1); left.add(l2); left.add(l1); left.add(l3);
+//		right.add(r1); right.add(r2); right.add(r1); right.add(r3);
 //		bup.add(u1); bup.add(u2); bup.add(u1); bup.add(u3);
 //		bdown.add(d1); bdown.add(d2); bdown.add(d1); bdown.add(d3);
 //		bleft.add(l1); bleft.add(l2);
@@ -151,7 +162,47 @@ public class PersonGui extends CityComponent implements Gui {
     }
     
 	public void updatePosition() {
+		
 		if (!atDestination()) {
+//			System.out.println("XDest: " + xDestination);
+//			System.out.println("YDest: " + yDestination);
+//			System.out.println("XPos: " + getXPos());
+//			System.out.println("YPos: " + getYPos());
+//			if (transitionDone) {
+//				System.out.println("Transition is done");
+//			}
+			if (readyToGoInnerSidewalk) {
+				//System.out.println("In inner sidewalk method");
+				if (b1(getXPos(),getYPos())) {
+					goVertical(cWalk1i);
+					if (getYPos() == cWalk1i) {
+	    				readyToGoInnerSidewalk = false;
+	    				transitionDone = true;
+	    			}
+				}
+				if (b2(getXPos(),getYPos())) {
+					goHorizontal(cWalk2i);
+					if (getXPos() == cWalk2i) {
+	    				readyToGoInnerSidewalk = false;
+	    				transitionDone = true;
+	    			}
+				}
+				if (b3(getXPos(),getYPos())) {
+					goVertical(cWalk3i);
+					if (getYPos() == cWalk3i) {
+	    				readyToGoInnerSidewalk = false;
+	    				transitionDone = true;
+	    			}
+				}
+				if (b4(getXPos(),getYPos())) {
+					goHorizontal(cWalk4i);
+					if (getXPos() == cWalk4i) {
+	    				readyToGoInnerSidewalk = false;
+	    				transitionDone = true;
+	    			}
+				}
+			}
+
 			/*System.out.println("XDest: " + xDestination);
 			System.out.println("YDest: " + yDestination);
 			System.out.println("XPos: " + getXPos());
@@ -159,416 +210,385 @@ public class PersonGui extends CityComponent implements Gui {
 			if (transitionDone) {
 				//System.out.println("Transition is done");
 			}
-		}
-		if (readyToGoInnerSidewalk) {
-			//System.out.println("In inner sidewalk method");
-			if (b1(getXPos(),getYPos())) {
-				goVertical(cWalk1i);
-				if (getYPos() == cWalk1i) {
-    				readyToGoInnerSidewalk = false;
-    				transitionDone = true;
-    			}
+			
+			if (readyToGoOuterSidewalk) {
+				//System.out.println("Going to outer sidewalk");
+				if (b1(getXPos(),getYPos())) {
+					goVertical(cWalk1o);
+					if (getYPos() == cWalk1o) {
+	    				readyToGoOuterSidewalk = false;
+	    				transitionDone = true;
+	    			}
+					//else System.out.println("Didnt reach crosswalk destination");
+	
+				}
+				if (b2(getXPos(),getYPos())) {
+					goHorizontal(cWalk2o);
+					if (getXPos() == cWalk2o) {
+	    				readyToGoOuterSidewalk = false;
+	    				transitionDone = true;
+	    			}
+				}
+				if (b3(getXPos(),getYPos())) {
+					goVertical(cWalk3o);
+					if (getYPos() == cWalk3o) {
+	    				readyToGoOuterSidewalk = false;
+	    				transitionDone = true;
+	    			}
+				}
+				if (b4(getXPos(),getYPos())) {
+					goHorizontal(cWalk4o);
+					if (getXPos() == cWalk4o) {
+	    				readyToGoOuterSidewalk = false;
+	    				transitionDone = true;
+	    			}
+				}
 			}
-			if (b2(getXPos(),getYPos())) {
-				goHorizontal(cWalk2i);
-				if (getXPos() == cWalk2i) {
-    				readyToGoInnerSidewalk = false;
-    				transitionDone = true;
-    			}
+			
+			if (topLeftCorner(getXPos(),getYPos()) && topLeftCorner(xDestination,yDestination)) {
+				//System.out.println("In top left corner");
+				goHorizontal(40);
+				goVertical(40);
 			}
-			if (b3(getXPos(),getYPos())) {
-				goVertical(cWalk3i);
-				if (getYPos() == cWalk3i) {
-    				readyToGoInnerSidewalk = false;
-    				transitionDone = true;
-    			}
+			
+			if (topRightCorner(getXPos(),getYPos()) && topRightCorner(xDestination,yDestination)) {
+				//System.out.println("In top right corner");
+				goHorizontal(550);
+				goVertical(40);
 			}
-			if (b4(getXPos(),getYPos())) {
-				goHorizontal(cWalk4i);
-				if (getXPos() == cWalk4i) {
-    				readyToGoInnerSidewalk = false;
-    				transitionDone = true;
-    			}
+			
+			if (bottomLeftCorner(getXPos(),getYPos()) && bottomLeftCorner(xDestination,yDestination)) {
+				//System.out.println("In bottom left corner");
+				goHorizontal(40);
+				goVertical(550);
 			}
-		}
-		
-		if (readyToGoOuterSidewalk) {
-			//System.out.println("Going to outer sidewalk");
-			if (b1(getXPos(),getYPos())) {
-				goVertical(cWalk1o);
-				if (getYPos() == cWalk1o) {
-    				readyToGoOuterSidewalk = false;
-    				transitionDone = true;
-    			}
-				//else System.out.println("Didnt reach crosswalk destination");
-
+			
+			if (bottomRightCorner(getXPos(),getYPos()) && bottomRightCorner(xDestination,yDestination)) {
+				//System.out.println("In bottom right corner");
+				goHorizontal(550);
+				goVertical(550);
 			}
-			if (b2(getXPos(),getYPos())) {
-				goHorizontal(cWalk2o);
-				if (getXPos() == cWalk2o) {
-    				readyToGoOuterSidewalk = false;
-    				transitionDone = true;
-    			}
+			
+	    	if (os1(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
+				//System.out.println("XPos: " + getXPos() + " In os1");
+	    		if (!transitionDone) {
+	    			goVertical(yRand);
+	    			if (getYPos() == yRand) {
+	    				transitionDone = true;
+	    			}
+				}
+	        	if (os1(xDestination,yDestination) && transitionDone) {
+	        		//System.out.println("XDestination: " + getXPos() + " In os1");
+	        		goHorizontal(xDestination);
+	    			if (getXPos() == xDestination && !atDestination()) {
+	//            		System.out.println("XPosition: " + getXPos() + " is at XDestination: " + xDestination);
+	//            		System.out.println("YPosition: " + getYPos() + " needs to be at YDestination: " + yDestination);
+	            		goVertical(yDestination);
+	    			}
+	        	}
+	    		if (is(xDestination,yDestination) && transitionDone) {
+	    			goHorizontal(crossWalk);
+	    			goVertical(cWalk1o);
+	    			if (getXPos() == crossWalk && getYPos() == cWalk1o) {
+	    				readyToGoInnerSidewalk = true;
+	    				crossWalk1i();
+	    			}
+	    		}
+	        	if (os(xDestination,yDestination) && !os1(xDestination,yDestination) && transitionDone) {
+	        		if (choseRand == false) {
+	    				if (os2(xDestination,yDestination)) {
+	    					xRand = (int) (520 + (Math.random() * 29));
+	    				}
+	    				else xRand = (int) (70 - (Math.random() * 29));
+	    				choseRand = true;
+	    			}
+	    			else {
+	    				goHorizontal(xRand);
+	    				if (getXPos() == xRand) {
+	    					if (getYPos() == 70) {
+	        					choseRand = false;
+	    					}
+	    					goVertical(yDestination);
+	    				}	
+	    			}
+	        	}
+	    	}
+	    	if (os2(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
+	    		//System.out.println("In os2");
+	    		if (os2(xDestination,yDestination)) {
+	        		goVertical(yDestination);
+	    			if (getYPos() == yDestination) {
+	    				goHorizontal(xDestination);
+	    			}
+	        	}
+	    		if (is(xDestination,yDestination)) {
+	    			goVertical(crossWalk);
+	    			goHorizontal(cWalk2o);
+	    			if (getYPos() == crossWalk && getXPos() == cWalk2o) {
+	    				readyToGoInnerSidewalk = true;
+	    				crossWalk2i();
+	    			}
+	    		}
+	        	if (os(xDestination,yDestination) && !os2(xDestination,yDestination)) {
+	        		if (choseRand == false) {
+	    				if (os1(xDestination,yDestination)) {
+	    					yRand = (int) (70 - (Math.random() * 29));
+	    				}
+	    				else yRand = (int) (520 + (Math.random() * 29));
+	    				choseRand = true;
+	    			}
+	//        		if (getYPos() == 81 || getYPos() == 519) {
+	//    				choseRand = false;
+	//    				transitionDone = false;
+	//    			}	
+	        		if (getYPos() == 71 || getYPos() == 519) {
+	    				choseRand = false;
+	    				transitionDone = false;
+	    			}	
+	    			goVertical(yRand);	
+	        	}
+	    	}
+	    	if (os3(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
+	    		//System.out.println("In os3");
+	    		if (!transitionDone) {
+	    			goVertical(yRand);
+	    			if (getYPos() == yRand) {
+	    				transitionDone = true;
+	    			}
+				}
+	        	if (os3(xDestination,yDestination) && transitionDone) {
+	        		goHorizontal(xDestination);
+	    			if (getXPos() == xDestination) {
+	    				goVertical(yDestination);
+	    			}
+	        	}
+	    		if (is(xDestination,yDestination) && transitionDone) {
+	    			goHorizontal(crossWalk);
+	    			goVertical(cWalk3o);
+	    			if (getXPos() == crossWalk && getYPos() == cWalk3o) {
+	    				readyToGoInnerSidewalk = true;
+	    				crossWalk3i();
+	    			}
+	    		}
+	        	if (os(xDestination,yDestination) && !os3(xDestination,yDestination) && transitionDone) {
+	        		if (choseRand == false) {
+	    				if (os2(xDestination,yDestination)) {
+	    					xRand = (int) (520 + (Math.random() * 29));
+	    				}
+	    				else xRand = (int) (70 - (Math.random() * 29));
+	    				choseRand = true;
+	    			}
+	    			else {
+	    				goHorizontal(xRand);
+	    				if (getXPos() == xRand) {
+	    					if (getYPos() == 520) {
+	        					choseRand = false;
+	    					}
+	    					goVertical(yDestination);
+	    				}	
+	    			}
+	        	}
+	    	}
+	    	if (os4(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
+	    		//System.out.println("In os4");
+	    		if (os4(xDestination,yDestination)) {
+	        		goVertical(yDestination);
+	    			if (getYPos() == yDestination) {
+	    				goHorizontal(xDestination);
+	    			}
+	        	}
+	    		if (is(xDestination,yDestination)) {
+	    			goVertical(crossWalk);
+	    			goHorizontal(cWalk4o);
+	    			if (getYPos() == crossWalk && getXPos() == cWalk4o) {
+	    				readyToGoInnerSidewalk = true;
+	    				crossWalk4i();
+	    			}
+	    		}
+	        	if (os(xDestination,yDestination) && !os4(xDestination,yDestination)) {
+	        		if (choseRand == false) {
+	    				if (os1(xDestination,yDestination)) {
+	    					yRand = (int) (70 - (Math.random() * 29));
+	    				}
+	    				else yRand = (int) (520 + (Math.random() * 29));
+	    				choseRand = true;
+	    			}
+	        		if (getYPos() == 71 || getYPos() == 519) {
+	    				choseRand = false;
+	    				transitionDone = false;
+	    			}	
+	    			goVertical(yRand);	
+	        	}
+	    	}
+	   
+	    	if (is1(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
+	    		//System.out.println("XPos: " + getXPos() + " In is1");
+	    		if (!transitionDone) {
+	    			goVertical(yRand);
+	    			if (getYPos() == yRand) {
+	    				transitionDone = true;
+	    			}
+				}
+	        	if (is1(xDestination,yDestination) && transitionDone) {
+	        		goHorizontal(xDestination);
+	    			if (getXPos() == xDestination) {
+	    				goVertical(yDestination);
+	    				//atDestination
+	    			}
+	        	}
+	    		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is1(xDestination,yDestination) && !os1(xDestination,yDestination) && transitionDone) {
+	    			if (choseRand == false) {
+	    				if (is2(xDestination,yDestination) || os2(xDestination,yDestination)) {
+	    					xRand = (int) (400 + (Math.random() * 29));
+	    				}
+	    				else xRand = (int) (190 - (Math.random() * 29));
+	    				choseRand = true;
+	    			}
+	    			else {
+	    				goHorizontal(xRand);
+	    				if (getXPos() == xRand) {
+	    					if (getYPos() == 190) {
+	        					choseRand = false;
+	    					}
+	    					goVertical(yDestination);
+	    				}	
+	    			}
+	    		}
+	    		else if (os1(xDestination,yDestination)) {
+	        		goHorizontal(crossWalk);
+	        		goVertical(cWalk1i);
+	        		if (getXPos() == crossWalk && getYPos() == cWalk1i) {
+	        			readyToGoOuterSidewalk = true;
+	        			crossWalk1o();
+	        		}
+	        	}
+	    	}
+	
+	    	if (is2(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
+	    		//System.out.println("In is2");
+	    		if (is2(xDestination,yDestination)) {
+	        		goVertical(yDestination);
+	    			if (getYPos() == yDestination) {
+	    				goHorizontal(xDestination);
+	    				//atDestination
+	    			}
+	        	}
+	    		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is2(xDestination,yDestination) && !os2(xDestination,yDestination)) {
+	    			if (choseRand == false) {
+	    				if (is3(xDestination,yDestination) ||os3(xDestination,yDestination)) {
+	    					yRand = (int) (400 + (Math.random() * 29));
+	    				}
+	    				else yRand = (int) (190 - (Math.random() * 29));
+	    				choseRand = true;
+	    			}
+	//    			if (getYPos() == 201 || getYPos() == 399) {
+	//    				choseRand = false;
+	//    				transitionDone = false;
+	//    			}	
+	    			if (getYPos() == 191 || getYPos() == 399) {
+	    				choseRand = false;
+	    				transitionDone = false;
+	    			}	
+	    			goVertical(yRand);
+	    		}
+	    		if (os2(xDestination,yDestination)) {
+	        		goVertical(crossWalk);
+	        		goHorizontal(cWalk2i);
+	        		if (getYPos() == crossWalk && getXPos() == cWalk2i) {
+	        			readyToGoOuterSidewalk = true;
+	        			crossWalk2o();
+	        		}
+	        	}
+	    	}
+	    	
+	    	if (is3(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
+	    		//System.out.println("In is3");
+	    		if (!transitionDone) {
+	    			goVertical(yRand);
+	    			if (getYPos() == yRand) {
+	    				transitionDone = true;
+	    			}
+				}
+	        	if (is3(xDestination,yDestination) && transitionDone) {
+	        		goHorizontal(xDestination);
+	    			if (getXPos() == xDestination) {
+	    				goVertical(yDestination);
+	    				//atDestination
+	    			}
+	        	}
+	    		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is3(xDestination,yDestination) && !os3(xDestination,yDestination) && transitionDone) {
+	    			if (choseRand == false) {
+	    				if (is2(xDestination,yDestination) || os2(xDestination,yDestination)) {
+	    					xRand = (int) (400 + (Math.random() * 29));
+	    				}
+	    				else xRand = (int) (190 - (Math.random() * 29));
+	    				choseRand = true;
+	    			}
+	    			else {
+	    				goHorizontal(xRand);
+	    				if (getXPos() == xRand) {
+	    					if (getYPos() == 400) {
+	        					choseRand = false;
+	    					}
+	    					goVertical(yDestination);
+	    				}	
+	    			}
+	    		}
+	    		else if (os3(xDestination,yDestination)) {
+	        		goHorizontal(crossWalk);
+	        		goVertical(cWalk3i);
+	        		if (getXPos() == crossWalk && getYPos() == cWalk3i) {
+	        			readyToGoOuterSidewalk = true;
+	        			crossWalk3o();
+	        		}
+	        	}
+	    	}
+	    
+	    	if (is4(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
+	    		//System.out.println("In is4");
+	    		if (is4(xDestination,yDestination)) {
+	        		goVertical(yDestination);
+	    			if (getYPos() == yDestination) {
+	    				goHorizontal(xDestination);
+	    				//atDestination
+	    			}
+	        	}
+	    		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is4(xDestination,yDestination) && !os4(xDestination,yDestination)) {
+	    			if (choseRand == false) {
+	    				if (is3(xDestination,yDestination) || os3(xDestination,yDestination)  ) {
+	    					yRand = (int) (400 + (Math.random() * 29));
+	    				}
+	    				else yRand = (int) (190 - (Math.random() * 29));
+	    				choseRand = true;
+	    			}
+	//    			if (getYPos() == 201 || getYPos() == 399) {
+	//    				choseRand = false;
+	//    				transitionDone = false;
+	//    			}	
+	    			if (getYPos() == 191 || getYPos() == 399) {
+	    				choseRand = false;
+	    				transitionDone = false;
+	    			}	
+	    			goVertical(yRand);
+	    		}
+	    		if (os4(xDestination,yDestination)) {
+	        		goVertical(crossWalk);
+	        		goHorizontal(cWalk4i);
+	        		if (getYPos() == crossWalk && getXPos() == cWalk4i) {
+	        			readyToGoOuterSidewalk = true;
+	        			crossWalk4o();
+	        		}
+	        	}
+	    	}
+	    	
+	    	//System.out.println("Pos: ("+rectangle.x+","+rectangle.y+")");
+	    	//System.out.println("Dest: ("+xDestination+","+yDestination+")");
+	    	if(onTheMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
+	    		onTheMove = false;
+	    		person.msgAtDestination();
+	    		
+	    	}
 			}
-			if (b3(getXPos(),getYPos())) {
-				goVertical(cWalk3o);
-				if (getYPos() == cWalk3o) {
-    				readyToGoOuterSidewalk = false;
-    				transitionDone = true;
-    			}
-			}
-			if (b4(getXPos(),getYPos())) {
-				goHorizontal(cWalk4o);
-				if (getXPos() == cWalk4o) {
-    				readyToGoOuterSidewalk = false;
-    				transitionDone = true;
-    			}
-			}
-		}
-		
-		if (topLeftCorner(getXPos(),getYPos()) && topLeftCorner(xDestination,yDestination)) {
-			//System.out.println("In top left corner");
-			goHorizontal(40);
-			goVertical(40);
-		}
-		
-		if (topRightCorner(getXPos(),getYPos()) && topRightCorner(xDestination,yDestination)) {
-			//System.out.println("In top right corner");
-			goHorizontal(550);
-			goVertical(40);
-		}
-		
-		if (bottomLeftCorner(getXPos(),getYPos()) && bottomLeftCorner(xDestination,yDestination)) {
-			//System.out.println("In bottom left corner");
-			goHorizontal(40);
-			goVertical(550);
-		}
-		
-		if (bottomRightCorner(getXPos(),getYPos()) && bottomRightCorner(xDestination,yDestination)) {
-			//System.out.println("In bottom right corner");
-			goHorizontal(550);
-			goVertical(550);
-		}
-		
-    	if (os1(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-			//System.out.println("XPos: " + getXPos() + " In os1");
-    		if (!transitionDone) {
-    			goVertical(yRand);
-    			if (getYPos() == yRand) {
-    				transitionDone = true;
-    			}
-			}
-        	if (os1(xDestination,yDestination) && transitionDone) {
-        		//System.out.println("XDestination: " + getXPos() + " In os1");
-        		goHorizontal(xDestination);
-    			if (getXPos() == xDestination && !atDestination()) {
-//            		System.out.println("XPosition: " + getXPos() + " is at XDestination: " + xDestination);
-//            		System.out.println("YPosition: " + getYPos() + " needs to be at YDestination: " + yDestination);
-            		goVertical(yDestination);
-    			}
-        	}
-    		if (is(xDestination,yDestination) && transitionDone) {
-    			goHorizontal(crossWalk);
-    			goVertical(cWalk1o);
-    			if (getXPos() == crossWalk && getYPos() == cWalk1o) {
-    				readyToGoInnerSidewalk = true;
-    				crossWalk1i();
-    			}
-    		}
-        	if (os(xDestination,yDestination) && !os1(xDestination,yDestination) && transitionDone) {
-        		if (choseRand == false) {
-    				if (os2(xDestination,yDestination)) {
-    					xRand = (int) (520 + (Math.random() * 29));
-    				}
-    				else xRand = (int) (70 - (Math.random() * 29));
-    				choseRand = true;
-    			}
-    			else {
-    				goHorizontal(xRand);
-    				if (getXPos() == xRand) {
-    					if (getYPos() == 70) {
-        					choseRand = false;
-    					}
-    					goVertical(yDestination);
-    				}	
-    			}
-        	}
-    	}
-    	if (os2(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		//System.out.println("In os2");
-    		if (os2(xDestination,yDestination)) {
-        		goVertical(yDestination);
-    			if (getYPos() == yDestination) {
-    				goHorizontal(xDestination);
-    			}
-        	}
-    		if (is(xDestination,yDestination)) {
-    			goVertical(crossWalk);
-    			goHorizontal(cWalk2o);
-    			if (getYPos() == crossWalk && getXPos() == cWalk2o) {
-    				readyToGoInnerSidewalk = true;
-    				crossWalk2i();
-    			}
-    		}
-        	if (os(xDestination,yDestination) && !os2(xDestination,yDestination)) {
-        		if (choseRand == false) {
-    				if (os1(xDestination,yDestination)) {
-    					yRand = (int) (70 - (Math.random() * 29));
-    				}
-    				else yRand = (int) (520 + (Math.random() * 29));
-    				choseRand = true;
-    			}
-//        		if (getYPos() == 81 || getYPos() == 519) {
-//    				choseRand = false;
-//    				transitionDone = false;
-//    			}	
-        		if (getYPos() == 71 || getYPos() == 519) {
-    				choseRand = false;
-    				transitionDone = false;
-    			}	
-    			goVertical(yRand);	
-        	}
-    	}
-    	if (os3(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		//System.out.println("In os3");
-    		if (!transitionDone) {
-    			goVertical(yRand);
-    			if (getYPos() == yRand) {
-    				transitionDone = true;
-    			}
-			}
-        	if (os3(xDestination,yDestination) && transitionDone) {
-        		goHorizontal(xDestination);
-    			if (getXPos() == xDestination) {
-    				goVertical(yDestination);
-    			}
-        	}
-    		if (is(xDestination,yDestination) && transitionDone) {
-    			goHorizontal(crossWalk);
-    			goVertical(cWalk3o);
-    			if (getXPos() == crossWalk && getYPos() == cWalk3o) {
-    				readyToGoInnerSidewalk = true;
-    				crossWalk3i();
-    			}
-    		}
-        	if (os(xDestination,yDestination) && !os3(xDestination,yDestination) && transitionDone) {
-        		if (choseRand == false) {
-    				if (os2(xDestination,yDestination)) {
-    					xRand = (int) (520 + (Math.random() * 29));
-    				}
-    				else xRand = (int) (70 - (Math.random() * 29));
-    				choseRand = true;
-    			}
-    			else {
-    				goHorizontal(xRand);
-    				if (getXPos() == xRand) {
-    					if (getYPos() == 520) {
-        					choseRand = false;
-    					}
-    					goVertical(yDestination);
-    				}	
-    			}
-        	}
-    	}
-    	if (os4(getXPos(),getYPos()) && !readyToGoInnerSidewalk && !readyToGoOuterSidewalk) {
-    		//System.out.println("In os4");
-    		if (os4(xDestination,yDestination)) {
-        		goVertical(yDestination);
-    			if (getYPos() == yDestination) {
-    				goHorizontal(xDestination);
-    			}
-        	}
-    		if (is(xDestination,yDestination)) {
-    			goVertical(crossWalk);
-    			goHorizontal(cWalk4o);
-    			if (getYPos() == crossWalk && getXPos() == cWalk4o) {
-    				readyToGoInnerSidewalk = true;
-    				crossWalk4i();
-    			}
-    		}
-        	if (os(xDestination,yDestination) && !os4(xDestination,yDestination)) {
-        		if (choseRand == false) {
-    				if (os1(xDestination,yDestination)) {
-    					yRand = (int) (70 - (Math.random() * 29));
-    				}
-    				else yRand = (int) (520 + (Math.random() * 29));
-    				choseRand = true;
-    			}
-        		if (getYPos() == 71 || getYPos() == 519) {
-    				choseRand = false;
-    				transitionDone = false;
-    			}	
-    			goVertical(yRand);	
-        	}
-    	}
-   
-    	if (is1(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		//System.out.println("XPos: " + getXPos() + " In is1");
-    		if (!transitionDone) {
-    			goVertical(yRand);
-    			if (getYPos() == yRand) {
-    				transitionDone = true;
-    			}
-			}
-        	if (is1(xDestination,yDestination) && transitionDone) {
-        		goHorizontal(xDestination);
-    			if (getXPos() == xDestination) {
-    				goVertical(yDestination);
-    				//atDestination
-    			}
-        	}
-    		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is1(xDestination,yDestination) && !os1(xDestination,yDestination) && transitionDone) {
-    			if (choseRand == false) {
-    				if (is2(xDestination,yDestination) || os2(xDestination,yDestination)) {
-    					xRand = (int) (400 + (Math.random() * 29));
-    				}
-    				else xRand = (int) (190 - (Math.random() * 29));
-    				choseRand = true;
-    			}
-    			else {
-    				goHorizontal(xRand);
-    				if (getXPos() == xRand) {
-    					if (getYPos() == 190) {
-        					choseRand = false;
-    					}
-    					goVertical(yDestination);
-    				}	
-    			}
-    		}
-    		else if (os1(xDestination,yDestination)) {
-        		goHorizontal(crossWalk);
-        		goVertical(cWalk1i);
-        		if (getXPos() == crossWalk && getYPos() == cWalk1i) {
-        			readyToGoOuterSidewalk = true;
-        			crossWalk1o();
-        		}
-        	}
-    	}
-
-    	if (is2(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		//System.out.println("In is2");
-    		if (is2(xDestination,yDestination)) {
-        		goVertical(yDestination);
-    			if (getYPos() == yDestination) {
-    				goHorizontal(xDestination);
-    				//atDestination
-    			}
-        	}
-    		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is2(xDestination,yDestination) && !os2(xDestination,yDestination)) {
-    			if (choseRand == false) {
-    				if (is3(xDestination,yDestination) ||os3(xDestination,yDestination)) {
-    					yRand = (int) (400 + (Math.random() * 29));
-    				}
-    				else yRand = (int) (190 - (Math.random() * 29));
-    				choseRand = true;
-    			}
-//    			if (getYPos() == 201 || getYPos() == 399) {
-//    				choseRand = false;
-//    				transitionDone = false;
-//    			}	
-    			if (getYPos() == 191 || getYPos() == 399) {
-    				choseRand = false;
-    				transitionDone = false;
-    			}	
-    			goVertical(yRand);
-    		}
-    		if (os2(xDestination,yDestination)) {
-        		goVertical(crossWalk);
-        		goHorizontal(cWalk2i);
-        		if (getYPos() == crossWalk && getXPos() == cWalk2i) {
-        			readyToGoOuterSidewalk = true;
-        			crossWalk2o();
-        		}
-        	}
-    	}
-    	
-    	if (is3(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		//System.out.println("In is3");
-    		if (!transitionDone) {
-    			goVertical(yRand);
-    			if (getYPos() == yRand) {
-    				transitionDone = true;
-    			}
-			}
-        	if (is3(xDestination,yDestination) && transitionDone) {
-        		goHorizontal(xDestination);
-    			if (getXPos() == xDestination) {
-    				goVertical(yDestination);
-    				//atDestination
-    			}
-        	}
-    		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is3(xDestination,yDestination) && !os3(xDestination,yDestination) && transitionDone) {
-    			if (choseRand == false) {
-    				if (is2(xDestination,yDestination) || os2(xDestination,yDestination)) {
-    					xRand = (int) (400 + (Math.random() * 29));
-    				}
-    				else xRand = (int) (190 - (Math.random() * 29));
-    				choseRand = true;
-    			}
-    			else {
-    				goHorizontal(xRand);
-    				if (getXPos() == xRand) {
-    					if (getYPos() == 400) {
-        					choseRand = false;
-    					}
-    					goVertical(yDestination);
-    				}	
-    			}
-    		}
-    		else if (os3(xDestination,yDestination)) {
-        		goHorizontal(crossWalk);
-        		goVertical(cWalk3i);
-        		if (getXPos() == crossWalk && getYPos() == cWalk3i) {
-        			readyToGoOuterSidewalk = true;
-        			crossWalk3o();
-        		}
-        	}
-    	}
-    
-    	if (is4(getXPos(),getYPos()) && !readyToGoOuterSidewalk && !readyToGoInnerSidewalk) {
-    		//System.out.println("In is4");
-    		if (is4(xDestination,yDestination)) {
-        		goVertical(yDestination);
-    			if (getYPos() == yDestination) {
-    				goHorizontal(xDestination);
-    				//atDestination
-    			}
-        	}
-    		if ((os(xDestination,yDestination) || is(xDestination,yDestination)) && !is4(xDestination,yDestination) && !os4(xDestination,yDestination)) {
-    			if (choseRand == false) {
-    				if (is3(xDestination,yDestination) || os3(xDestination,yDestination)  ) {
-    					yRand = (int) (400 + (Math.random() * 29));
-    				}
-    				else yRand = (int) (190 - (Math.random() * 29));
-    				choseRand = true;
-    			}
-//    			if (getYPos() == 201 || getYPos() == 399) {
-//    				choseRand = false;
-//    				transitionDone = false;
-//    			}	
-    			if (getYPos() == 191 || getYPos() == 399) {
-    				choseRand = false;
-    				transitionDone = false;
-    			}	
-    			goVertical(yRand);
-    		}
-    		if (os4(xDestination,yDestination)) {
-        		goVertical(crossWalk);
-        		goHorizontal(cWalk4i);
-        		if (getYPos() == crossWalk && getXPos() == cWalk4i) {
-        			readyToGoOuterSidewalk = true;
-        			crossWalk4o();
-        		}
-        	}
-    	}
-    	
-    	//System.out.println("Pos: ("+rectangle.x+","+rectangle.y+")");
-    	//System.out.println("Dest: ("+xDestination+","+yDestination+")");
-    	if(onTheMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
-    		onTheMove = false;
-    		person.msgAtDestination();
-    		
-    	}
     }
 
 	public boolean getArrived() {
@@ -744,11 +764,11 @@ public class PersonGui extends CityComponent implements Gui {
     	if (!this.person.belongings.bike) {	
     		if (rectangle.x < xDest) {
     			rectangle.x++;
-    			currentImage = this.right.get(rectangle.x % 4);
+    			currentImage = this.person.rightSprites.get(rectangle.x % this.person.rightSprites.size());
     		}
     		else if (rectangle.x > xDest) {
     			rectangle.x--;
-    			currentImage = this.left.get(rectangle.x % 4);
+    			currentImage = this.person.leftSprites.get(rectangle.x % this.person.leftSprites.size());
     		}
     	}
     }
@@ -779,11 +799,11 @@ public class PersonGui extends CityComponent implements Gui {
     	else if (!this.person.belongings.bike) {
     		if (this.rectangle.y < yDest) {
     			this.rectangle.y++;
-    			currentImage = this.down.get(rectangle.y % 4);
+    			currentImage = this.person.downSprites.get(rectangle.y % this.person.downSprites.size());
     		}
     		else if (rectangle.y > yDest) {
     			this.rectangle.y--;
-    			currentImage = this.up.get(rectangle.y % 4);
+    			currentImage = currentImage = this.person.upSprites.get(rectangle.y % this.person.upSprites.size());
     		}
     	}
 //    	else {

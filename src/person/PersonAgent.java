@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.ImageIcon;
+
 import cityGui.test.PersonGui;
 import public_Object.Food;
 import role.Role;
@@ -62,11 +64,16 @@ public class PersonAgent extends Agent implements Person {
 		
 		//will be changed later to request the correct role from the restaurant diretly
 		restaurantRole = new CustomerRole(name+"Restaurant", this);
-		
+
 		this.belongings.myFoods.add(new Food("Steak",10));
 		this.belongings.myFoods.add(new Food("Chicken",10));
 		this.belongings.myFoods.add(new Food("Pizza",10));
 		this.belongings.myFoods.add(new Food("Salad",10));
+		
+		if (name.contains("restaurant")){
+			activeRole = restaurantRole;
+			goToRestaurant();
+		}
 		
 	}
 	
@@ -82,7 +89,6 @@ public class PersonAgent extends Agent implements Person {
 	public void setTime(int time){
 		this.time = time;
 	}
-	
 	
 	//data
 	public List<Role> roles = new ArrayList<Role>();
@@ -112,6 +118,12 @@ public class PersonAgent extends Agent implements Person {
 	public boolean wantsToRideBus = false;
 	public Semaphore waitForBusToArrive = new Semaphore(0,true);
 	private boolean onBus = false;
+	
+	public int spriteChoice;
+	public List<ImageIcon> upSprites = new ArrayList<ImageIcon>();
+	public List<ImageIcon> downSprites = new ArrayList<ImageIcon>();
+	public List<ImageIcon> leftSprites = new ArrayList<ImageIcon>();
+	public List<ImageIcon> rightSprites = new ArrayList<ImageIcon>();
 	
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
@@ -828,8 +840,9 @@ public class PersonAgent extends Agent implements Person {
 	
 	
 	//hack for restaurant stuff?
-	public void setHunger(int level){
-		hungerLevel = level;
+	public void setActiveRole(String role){
+		if (role.equals("RestaurantCustomer"))
+			activeRole = restaurantRole;
 	}
 	
 	
