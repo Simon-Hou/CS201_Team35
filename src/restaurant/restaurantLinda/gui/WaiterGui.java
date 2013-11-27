@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import cityGui.CityRestaurantCard;
+
 import astar.*;
 
 public class WaiterGui extends GuiPerson {	
@@ -32,6 +34,8 @@ public class WaiterGui extends GuiPerson {
     private List<MyImage> stillItems = Collections.synchronizedList(new ArrayList<MyImage>());
 	private String bufferText;
 	
+	public boolean isPresent = true;
+	
 
     public WaiterGui(WaiterRole agent, int position, AStarTraversal aStar) {
         this.agent = agent;
@@ -46,8 +50,8 @@ public class WaiterGui extends GuiPerson {
         
         xPos = yPos = 0;
         
-        xDestination = xfinal = homePosition.getX()*cellSize;
-        yDestination = yfinal = homePosition.getY()*cellSize;
+        xPos = xDestination = xfinal = homePosition.getX()*cellSize;
+        yPos = yDestination = yfinal = homePosition.getY()*cellSize;
         System.out.println("homePosition = " + homePosition);
         previousPosition = currentPosition = new Position(xPos/cellSize, yPos/cellSize);
         //currentPosition.moveInto(aStar.getGrid());
@@ -149,10 +153,12 @@ public class WaiterGui extends GuiPerson {
     
     
     public void DoLeaveRestaurant(){
+    	//Just leave out the "back" which is the bottom half of the restaurant
     	destination = goal.leaving;
-    	xfinal = -personSize;
-    	yfinal = -personSize;
-    	CalculatePath(new Position(0,0));
+    	xfinal = xPos;
+    	yfinal = CityRestaurantCard.CARD_HEIGHT;
+    	
+    	CalculatePath(homePosition);
     }
     
     public void DoTalk(String text){
@@ -168,9 +174,10 @@ public class WaiterGui extends GuiPerson {
     	if (moveAndCheckDestination())		//Gui has an actual destination that agent wants to be notified about
         {        	
     		if (destination!=goal.none){
-	    		path = null;
-	    		xDestination = xfinal;
-	    		yDestination = yfinal;
+	    		if (destination == goal.leaving)
+	    			isPresent = false;
+    			
+    			path = null;
 	    		destination=goal.none;
 	            agent.msgAtDestination();
     		}

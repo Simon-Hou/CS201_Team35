@@ -25,7 +25,6 @@ import java.util.TimerTask;
 public class CustomerRole extends Role implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
-	private int cash;
 	Timer timer = new Timer();
 	private CustomerGui customerGui;
 	MyMenu menu;
@@ -56,9 +55,6 @@ public class CustomerRole extends Role implements Customer{
 		super();
 		this.name = name;
 		this.p = p;
-		this.cash = p.getWalletAmount();
-		
-		//Do("I have $" + cash);
 	}
 
 
@@ -66,8 +62,9 @@ public class CustomerRole extends Role implements Customer{
 	public void atRestaurant(Restaurant r) {
 		event = AgentEvent.atRestaurant;
 		print("Arrived at restaurant");
+		
 		this.r = r;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgRestaurantFull(){
@@ -78,7 +75,7 @@ public class CustomerRole extends Role implements Customer{
 		else
 			event = AgentEvent.impatient;
 		
-		stateChanged();
+		p.msgStateChanged();
 	}
 
 	public void msgFollowMe(Waiter w, Menu m) {
@@ -86,18 +83,20 @@ public class CustomerRole extends Role implements Customer{
 		waiter=w;
 		menu=new MyMenu(m);
 		event = AgentEvent.followWaiter;
-		stateChanged();
+		p.msgStateChanged();
 	}
 
 	public void msgAnimationFinishedGoToSeat() {
+		Do("Got to seat");
+		
 		//from animation
 		event = AgentEvent.seated;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgWhatDoYouWant(){
 		event=AgentEvent.askedToOrder;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgRedoOrder(Menu menu,String food){
@@ -109,7 +108,7 @@ public class CustomerRole extends Role implements Customer{
 		choice=null;
 		event=AgentEvent.redoChoice;
 		this.menu=new MyMenu(menu);
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgHereIsFood(String food){
@@ -118,29 +117,29 @@ public class CustomerRole extends Role implements Customer{
 			customerGui.DoTalk("WRONG FOOD!");
 			
 		customerGui.DoReceiveFood(food);
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgHereIsCheck(Check bill, Cashier cashier){
 		check=bill;
 		this.cashier=cashier;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgAnimationFinishedGoToCashier(){
 		event = AgentEvent.atCashier;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgPaymentReceived(int owed){
 		event = AgentEvent.paymentReceived;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
 		event = AgentEvent.doneLeaving;
-		stateChanged();
+		p.msgStateChanged();
 	}
 
 	/**
@@ -225,14 +224,14 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	private void ReadMenu(){
-		System.err.println("cash: " + cash + menu.m.toString());
+		Do("Reading menu");
 		timer.schedule(new TimerTask(){
 			public void run(){
 				choice=pickFood();
 				if (choice.compareToIgnoreCase("Error")==0){
 					event = AgentEvent.noFood;
 				}
-				stateChanged();
+				p.msgStateChanged();
 			}
 		},1000);
 	}
@@ -261,10 +260,11 @@ public class CustomerRole extends Role implements Customer{
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
+				p.msgDoneEating();
 				event = AgentEvent.doneEating;
 				print("Done eating, cookie=" + cookie);
 				customerGui.DoFinishFood();
-				stateChanged();
+				p.msgStateChanged();
 			}
 		},
 		hungerLevel*1000);
@@ -283,14 +283,14 @@ public class CustomerRole extends Role implements Customer{
 	
 	private void MakePayment(){
 		int payment;
-		if (cash>=check.getTotal()){
+		if (p.getWalletAmount()>=check.getTotal()){
 			payment = check.getTotal();
 		}
 		else{
-			payment = cash;
+			payment = p.getWalletAmount();
 		}
 		
-		cashier.msgHereIsPayment(this, check, cash);
+		cashier.msgHereIsPayment(this, check, payment);
 		p.takeFromWallet(payment);
 		check=null;
 	}
@@ -306,8 +306,11 @@ public class CustomerRole extends Role implements Customer{
 		menu=null;
 		waiter=null;
 		
+		customerGui.isPresent=false;
 		r.leaveRestaurant(customerGui);
 		r=null;
+		
+		p.msgThisRoleDone(this);
 	}
 	
 	private String pickFood(){
@@ -328,7 +331,7 @@ public class CustomerRole extends Role implements Customer{
 		String tempChoice = "Error";
 		if (choiceNames.size()>0){
 			for (String food: choiceNames){
-				if (menu.m.get(food)>cash)
+				if (menu.m.get(food)>p.getWalletAmount())
 					menu.m.remove(food);
 			}
 			

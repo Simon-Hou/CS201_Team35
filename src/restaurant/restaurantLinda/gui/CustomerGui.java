@@ -28,6 +28,8 @@ public class CustomerGui implements Gui{
 	private String bufferText;
     private Dimension bufferSize;
     public final String path="../../images/";
+    
+    public boolean isPresent = true;
 
 	public CustomerGui(CustomerRole c){ //HostAgent m) {
 		agent = c;
@@ -58,6 +60,7 @@ public class CustomerGui implements Gui{
 				agent.msgAnimationFinishedGoToCashier();
 			}
 			else if (command==Command.LeaveRestaurant) {
+				isPresent = false;
 				agent.msgAnimationFinishedLeaveRestaurant();
 				bufferText = null;
 				carriedItems.clear();
