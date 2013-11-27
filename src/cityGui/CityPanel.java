@@ -132,7 +132,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				houses.add(((CityHouse)temp).house);//hack: this is not necessary because we have the cityObject already. Change it later
 				city.view.addView(tempAnimation, temp.ID);
 				temp.cityObject = this.cityObject;
-				temp.addAgentObjectToMap();
+				//PersonAgent p=new PersonAgent("",cityObject.cityMap);
+				//((CityHouse)temp).house.personIn(p);//hack! for testing
 
 			}
 			else if (temp.type.equals("Bank")) {

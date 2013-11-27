@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,7 +33,7 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 	    
 	    private final int barrierY = 150;
 
-	    private List<Gui> guis = new ArrayList<Gui>();
+	    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	    
 	    private boolean doorOpen = false;
 	    private int paintCount = 0;
@@ -200,11 +201,7 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 	    }
 	 
 	  public void removeGui(Gui gui){
-		  for (Gui g : guis){
-			  if (gui == g){
-				  guis.remove(gui);
-			  }
-		  }
+		  guis.remove(gui);
 	  }
 }
 
