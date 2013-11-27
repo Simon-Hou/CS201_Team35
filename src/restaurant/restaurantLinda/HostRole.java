@@ -272,7 +272,7 @@ public class HostRole extends Role implements Host{
 
 	@Override
 	public boolean canLeave() {
-		return true;
+		return false;
 	}
 	
 	public void changeShifts(Person p){
@@ -283,7 +283,9 @@ public class HostRole extends Role implements Host{
 		this.name = p.getName();
 	}
 	
-	
+	public boolean isPresent(){
+		return this.p!=null;
+	}
 	
 }
 

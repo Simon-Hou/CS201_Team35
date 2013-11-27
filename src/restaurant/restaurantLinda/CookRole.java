@@ -322,7 +322,7 @@ public class CookRole extends Role implements Cook{
 
 	@Override
 	public boolean canLeave() {
-		return true;
+		return false;
 	}
 	
 	public void changeShifts(Person p){
@@ -343,6 +343,10 @@ public class CookRole extends Role implements Cook{
 			e.printStackTrace();
 		}
 		this.p.msgThisRoleDone(this);
+	}
+	
+	public boolean isPresent(){
+		return this.p!=null;
 	}
 }
 

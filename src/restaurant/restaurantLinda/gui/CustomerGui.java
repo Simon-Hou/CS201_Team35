@@ -10,10 +10,11 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import cityGui.CityRestaurantCard;
+
 public class CustomerGui implements Gui{
 
 	private CustomerRole agent = null;
-	private boolean isPresent = false;
 	private boolean isHungry = false;
 
 	private int xPos, yPos;
@@ -83,23 +84,17 @@ public class CustomerGui implements Gui{
 	}
 
 	public boolean isPresent() {
-		return isPresent;
+		return true;
 	}
 	public void setHungry() {
 		isHungry = true;
-		agent.gotHungry();
-		setPresent(true);
 	}
 	public boolean isHungry() {
 		return isHungry;
 	}
-
-	public void setPresent(boolean p) {
-		isPresent = p;
-	}
 	
 	public void DoWaitInLine(int position){
-		int limit = (AnimationPanel.WINDOWX-300)/(personSize+5);
+		int limit = (CityRestaurantCard.CARD_WIDTH-150)/(personSize+5);
         if (position>=limit){
         	position%=limit;
         }

@@ -23,7 +23,7 @@ public abstract class GuiPerson implements Gui{
     public static final int WINDOWY = CityRestaurantCard.CARD_HEIGHT;
     public final int cellSize = RestaurantPanel.cellSize;
 	
-    protected int personSize=30;
+    protected int personSize=25;
     protected int xPos, yPos;
     protected int xDestination, yDestination;
     protected int xfinal, yfinal;

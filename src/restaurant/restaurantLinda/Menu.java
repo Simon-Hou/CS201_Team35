@@ -8,21 +8,21 @@ public class Menu {
 	private Map<String, Integer> foodList = new HashMap<String,Integer>();
 	
 	public Menu(){
-		foodList.put("Steak", 1599);
-		foodList.put("Chicken", 1099);
-		foodList.put("Salad", 599);
-		foodList.put("Pizza", 899);
+		foodList.put("Steak", 16);
+		foodList.put("Chicken", 11);
+		foodList.put("Salad", 6);
+		foodList.put("Pizza", 9);
 	}
 	
 	public Menu(List<String> exclusionList){
 		if (!exclusionList.contains("Steak"))
-			foodList.put("Steak", 1599);
+			foodList.put("Steak", 16);
 		if (!exclusionList.contains("Chicken"))
-			foodList.put("Chicken", 1099);
+			foodList.put("Chicken", 11);
 		if (!exclusionList.contains("Salad"))
-			foodList.put("Salad", 599);
+			foodList.put("Salad", 6);
 		if (!exclusionList.contains("Pizza"))
-			foodList.put("Pizza", 899);
+			foodList.put("Pizza", 9);
 	}
 	
 	public Map<String,Integer> getMenu(){

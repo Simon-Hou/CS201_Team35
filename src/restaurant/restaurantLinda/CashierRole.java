@@ -296,7 +296,7 @@ public class CashierRole extends Role implements Cashier{
 
 	@Override
 	public boolean canLeave() {
-		return true;
+		return false;
 	}
 	
 	public void changeShifts(Person p){
@@ -306,6 +306,10 @@ public class CashierRole extends Role implements Cashier{
 		
 		this.p = p;
 		this.name = p.getName();
+	}
+	
+	public boolean isPresent(){
+		return this.p!=null;
 	}
 	
 }
