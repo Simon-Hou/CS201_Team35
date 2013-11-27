@@ -354,11 +354,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
-		test.addBuses(test);
+		//test.addBuses(test);
 		//test.addNewBuilding("Bank", 5, 400);
-		test.addNewBuilding("Market",200,250);
+		//test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Restaurant", 5, 200);
-		test.addNewBuilding("House", 200, 5);
+		//test.addNewBuilding("House", 200, 5);
 
 		//test.addBuses(test);
 		//test.addNewBuilding("Bank", 5, 400);
@@ -366,7 +366,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.addNewBuilding("Restaurant", 5, 200);
 
 		//test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);			
+		//test.fullyManBuilding("Market",0);			
 		//test.fullyManBuilding("Restaurant",0);
 		//test.addBuses(test);
 
