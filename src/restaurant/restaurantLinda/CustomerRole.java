@@ -1,5 +1,6 @@
 package restaurant.restaurantLinda;
 
+import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CustomerGui;
 import role.Role;
 import agent.Agent;
@@ -36,7 +37,7 @@ public class CustomerRole extends Role implements Customer{
 	private AgentState state = AgentState.DoingNothing;//The start state
 
 	public enum AgentEvent 
-	{none, gotHungry, impatient, followWaiter, seated, askedToOrder, redoChoice, noFood, foodHere, doneEating, atCashier, paymentReceived, doneLeaving};
+	{none, atRestaurant, impatient, followWaiter, seated, askedToOrder, redoChoice, noFood, foodHere, doneEating, atCashier, paymentReceived, doneLeaving};
 	AgentEvent event = AgentEvent.none;
 	
 	// agent correspondents
@@ -59,10 +60,10 @@ public class CustomerRole extends Role implements Customer{
 
 
 	// Messages
-	public void gotHungry() {//from animation
-		event = AgentEvent.gotHungry;
-		print("I'm hungry");
-		
+	public void atRestaurant(Restaurant r) {
+		event = AgentEvent.atRestaurant;
+		print("Arrived at restaurant");
+		this.host = r.host;
 		stateChanged();
 	}
 	
@@ -145,7 +146,7 @@ public class CustomerRole extends Role implements Customer{
 	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
-		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
+		if (state == AgentState.DoingNothing && event == AgentEvent.atRestaurant ){
 			state = AgentState.WaitingInRestaurant;
 			goToRestaurant();
 			return true;
