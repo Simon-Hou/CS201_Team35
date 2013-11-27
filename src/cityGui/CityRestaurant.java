@@ -216,4 +216,8 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
  
         
 	}
+	
+	public Map<Integer, Point> getTables(){
+		return tableMap;
+	}
 }

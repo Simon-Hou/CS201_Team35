@@ -1,50 +1,54 @@
 package house;
+import house.gui.InhabitantGui;
 import interfaces.Person;
 
 import java.util.*;
 
 import public_Object.Food;
 
+
 public class LivingUnit {
 	//data
-	InhabitantRole inhabitant;
+	public InhabitantRole inhabitant;
 	List<Food> inventory=new ArrayList<Food>(); //should we have many kinds of food or only one at the very beginning?
 	
-	public LivingUnit(){
-		inhabitant=new InhabitantRole();
 		
-	}
-	
-	
-	
-	//msg
-	
-	
-	public void msgImHome(Person p){ //called by Person
-		inhabitant.self=p;
-		
-	}
-	public void msgLeaveHome(){ //called by Person
-		inhabitant.self=null;
-	}
-	public void msgFoodIn(List<Food> foods){
-		for(Food bought : foods){
-
-			boolean added=false;
-			for(Food food : inventory){
-				if(bought.type.equals(food.type)){
-					food.quantity+=bought.quantity;
-					added=true;
-				}
-			}
-			if(!added){
-				inventory.add(new Food(bought));
-			}
-
+		public LivingUnit(){
+			inhabitant=new InhabitantRole();
+			inhabitant.setGui(new InhabitantGui(inhabitant));
+			
 		}
-	}
+		
+		
+		
+		//msg
+		
+		
+		public void msgImHome(Person p){ //called by Person
+			inhabitant.self=p;
+			
+		}
+		public void msgLeaveHome(){ //called by Person
+			inhabitant.self=null;
+		}
+		public void msgFoodIn(List<Food> foods){
+			for(Food bought : foods){
 	
+				boolean added=false;
+				for(Food food : inventory){
+					if(bought.type.equals(food.type)){
+						food.quantity+=bought.quantity;
+						added=true;
+					}
+				}
+				if(!added){
+					inventory.add(new Food(bought));
+				}
 	
+			}
+		}
+		
+		
 
 
 }

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import UnitTests.mock.EventLog;
+import UnitTests.mock.LoggedEvent;
 import interfaces.*;
 import restaurant.Restaurant;
 import role.Role;
@@ -18,18 +20,20 @@ public class MarketHostRole extends Role implements MarketHost {
 
 	
 	//-----------------------------DATA--------------------------------
+	public EventLog log = new EventLog();
+	
 	enum CustomerState {waiting, beingServiced, leaving};
 	
 	public List<MyEmployee> employees = new ArrayList<MyEmployee>();
-	private List<MyCustomer> customers= new ArrayList<MyCustomer>();
-	private List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
+	public List<MyCustomer> customers= new ArrayList<MyCustomer>();
+	public List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
 	
 	public Person p;
 	public String name;
 
 	Market market;
 	
-	public MarketHostRole(String name, PersonAgent p, Market m){		
+	public MarketHostRole(String name, Person p, Market m){		
 		this.name = name;
 		this.p=p;
 		this.market=m;		
@@ -55,7 +59,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
-		
+		log.add(new LoggedEvent("got msgCustomerWantsThis"));
 	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
 	    if(p!=null){
@@ -65,7 +69,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 
 	public void msgCustomerLeaving(MarketCustomer c, Receipt receipt, Map<String, Integer> groceries) {
-		
+		log.add(new LoggedEvent("got msgCustomerLeaving"));
 		//Do("Cust trying to leave");
 		for (MyCustomer mc : customers){
 			if (mc.customer == c){
@@ -120,7 +124,8 @@ public class MarketHostRole extends Role implements MarketHost {
 	//-----------------------------ACTIONS--------------------------------
 	
 	private void CheckCustomer(MyCustomer mc){
-
+		log.add(new LoggedEvent("action CheckCustomer"));
+		
 		Do("May I see your receipt please, " + mc.customer.getName() + "?");
 		if (mc.groceries.isEmpty()  || (mc.receipt.order == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
 
@@ -133,12 +138,15 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 		
 		else {
+			log.add(new LoggedEvent("bad customer"));
 			 //error handling for robbers/scammers
 		 } 
 		 
 	}
 	
 	private void ServeCustomer(MyCustomer mc){
+		
+		log.add(new LoggedEvent("action ServeCustomer"));
 		
 		
 		Do("Serving customer");
@@ -181,6 +189,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		//Do("GOT HERE");
 
 		if (mc.order.size()==0){
+			log.add(new LoggedEvent("no inventory"));
 			Do(mc.customer.getName() + ", you didn't order anything, or we are out of everything you ordered.");
 			mc.customer.msgWeHaveNothing();
 			return;
@@ -197,6 +206,8 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 		//choose employee for load balancing
 		if(employees.size()==0){
+			log.add(new LoggedEvent("no employees"));
+		
 			System.err.println("No Market employees");
 			mc.customer.msgWeHaveNothing();
 			return;

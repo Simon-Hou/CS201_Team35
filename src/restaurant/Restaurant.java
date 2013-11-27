@@ -1,6 +1,7 @@
 package restaurant;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -44,7 +45,7 @@ public class Restaurant implements PlaceOfWork{
 	public BaseRestaurantCashier cashier =  new CashierRole("RestaurantCashier", this);
 	public BaseRestaurantCook cook = new CookRole("Cook", orderMonitor, this);
 	//private Vector<CustomerRole> customers = new Vector<CustomerRole>();
-	private List<WaiterRole> waiters = new ArrayList<WaiterRole>();
+	private List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
 	
 	public int cash;	
 	
@@ -87,8 +88,10 @@ public class Restaurant implements PlaceOfWork{
 		
 	public void waiterComingToWork(Waiter r){
 		WaiterGui wg = new WaiterGui((WaiterRole)r, waiters.size(), new AStarTraversal(cityRestaurant.grid));
-		((WaiterRole)r).setGui(wg);
 		waiters.add((WaiterRole)r);
+		((WaiterRole)r).setGui(wg);
+		wg.setTables(cityRestaurant.getTables());
+		wg.setPlates(cityRestaurant.animationPanel.platedFoods);
 		host.addWaiter(r);
 		cityRestaurant.animationPanel.addGui(wg);
 	}
@@ -96,6 +99,11 @@ public class Restaurant implements PlaceOfWork{
 	public BaseRestaurantCook cookComingToWork(Person p){
 		((CookRole)cook).changeShifts(p);
 		return cook;
+	}
+	
+	public void waiterLeaving(Waiter w){
+		waiters.remove(w);
+		leaveRestaurant(((WaiterRole)w).getGui());
 	}
 	
 	public void leaveRestaurant(Gui gui){
@@ -106,7 +114,12 @@ public class Restaurant implements PlaceOfWork{
 		CustomerGui cg = new CustomerGui((CustomerRole)c);
 		((CustomerRole)c).setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
+		((CustomerRole)c).atRestaurant(this);
 		
+	}
+	
+	public boolean unStaffed(){
+		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
 	}
 	
 }
