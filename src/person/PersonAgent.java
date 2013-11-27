@@ -432,6 +432,13 @@ public class PersonAgent extends Agent implements Person {
 		
 		activeRole = bankRole;
 		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//open account
 		if(belongings.myAccounts.isEmpty()){
 			Do("Going to bank to open new account");
