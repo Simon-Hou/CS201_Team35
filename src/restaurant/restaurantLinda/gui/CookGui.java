@@ -11,19 +11,21 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import cityGui.CityRestaurantCard;
+
 public class CookGui implements Gui {
 
-	public static final int WINDOWX = AnimationPanel.WINDOWX;		//Same as animation panel
-    public static final int WINDOWY = AnimationPanel.WINDOWY;
+	public static final int WINDOWX = CityRestaurantCard.CARD_WIDTH;		//Same as animation panel
+    public static final int WINDOWY = CityRestaurantCard.CARD_WIDTH;
 	
 	CookRole agent;
 	
 
-	private int personSize=AnimationPanel.PERSONSIZE;
+	private int personSize=CityRestaurantCard.PERSONSIZE;
     private int xPos, yPos;//default waiter position
     private int xDestination, yDestination;//default start position
     private goal destination=goal.none;
-    private enum goal{none, refrigerator, stoveCooking, stovePlating, platingWindow};
+    private enum goal{none, refrigerator, stoveCooking, stovePlating, platingWindow, leaving};
     private Point home = new Point(WINDOWX-personSize, (int)(WINDOWY*0.5));
     
     private List<MyImage> cookingFoods = new ArrayList<MyImage>();			//Doesn't really need to be a list, since we're only using 1 image at a time...but this does make it possible 
@@ -108,6 +110,10 @@ public class CookGui implements Gui {
         		
         		agent.msgAtDestination();
         	}
+        	else if (xPos == xDestination && yPos == yDestination && destination == goal.leaving){        		
+        		destination = goal.none;
+        		agent.msgAtDestination();
+        	}
         }  
     }
 
@@ -153,6 +159,11 @@ public class CookGui implements Gui {
     	yDestination = home.y;
     }
     
+    public void DoLeaveRestaurant(){
+    	destination = goal.leaving;
+    	
+    	DoGoToDefault();
+    }
     
     public void DoTalk(String text){
 		bufferText=text;

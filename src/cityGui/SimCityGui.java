@@ -273,9 +273,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 				addNewPersonHard("pcook"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantCook,start,end,bankNum,houseNum);
-				addNewPersonHard("pwaiter"+j,
+				addNewPersonHard("pboringwaiter"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
-						JobType.RestaurantWaiter,start,end,bankNum,houseNum);
+						JobType.RestaurantWaiter1,start,end,bankNum,houseNum);
+				addNewPersonHard("pnewwaiter"+j,
+						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+						JobType.RestaurantWaiter2,start,end,bankNum,houseNum);
 				addNewPersonHard("prcash"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantCashier,start,end,bankNum,houseNum);
@@ -459,6 +462,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 		fullyManBuilding("Bank",0);
 		fullyManBuilding("Market",0);
 		fullyManBuilding("Market",1);
+	}
+	
+	public void restaurantScenario(){
+		hasBuses = false;
+		MAXTIME = 20;
+		addNewBuilding("House", 200, 5);
+		addNewBuilding("Restaurant",5, 300);
+		fullyManBuilding("Restaurant",0);
 	}
 	
 

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cityGui.CityRestaurantCard;
+
 import restaurant.restaurantLinda.gui.AnimationPanel;
 import restaurant.restaurantLinda.gui.MyImage;
 import restaurant.restaurantLinda.gui.RestaurantGui;
@@ -17,8 +19,8 @@ import astar.Position;
 
 public abstract class GuiPerson implements Gui{
 	
-	public static final int WINDOWX = AnimationPanel.WINDOWX;		//Same as animation panel
-    public static final int WINDOWY = AnimationPanel.WINDOWY;
+	public static final int WINDOWX = CityRestaurantCard.CARD_WIDTH;		//Same as animation panel
+    public static final int WINDOWY = CityRestaurantCard.CARD_HEIGHT;
     public final int cellSize = RestaurantPanel.cellSize;
 	
     protected int personSize=30;
