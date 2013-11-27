@@ -22,7 +22,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 
 	List<CustomerOrder> customerOrders = Collections.synchronizedList(new ArrayList<CustomerOrder>());
 	List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
-	PersonAgent p;
+	public PersonAgent p;
 	public String name;
 	private Market market;
 	
@@ -63,7 +63,12 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public boolean canLeave() {
-		return (customerOrders.isEmpty() && businessOrders.isEmpty());
+		boolean answer = (customerOrders.isEmpty() && businessOrders.isEmpty());
+		if (answer){
+			market.panel.animation.removeGui(this.gui);
+		}
+		return answer;
+		
 	}
 	
 	
