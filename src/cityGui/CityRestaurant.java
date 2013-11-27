@@ -100,6 +100,13 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
         		}
         	}
         	
+        	//Cashier
+        	for(int i=0; i<CityRestaurantCard.PERSONSIZE/cellSize; i++){
+        		for(int j=0; i<CityRestaurantCard.PERSONSIZE/cellSize; j++){
+        			grid[0+i][100+j].acquire();
+        		}
+        	}
+        	
         }catch (Exception e) {
     	    System.out.println("Unexpected exception caught in during setup:"+ e);
     	}

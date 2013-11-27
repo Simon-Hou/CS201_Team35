@@ -63,18 +63,13 @@ public class Restaurant implements PlaceOfWork{
 		}
 		else if (type == JobType.RestaurantWaiter1){
 			((WaiterRole)r).setRestaurant(this);
-			WaiterGui wg = new WaiterGui((WaiterRole)r, waiters.size(), new AStarTraversal(cityRestaurant.grid));
-			((WaiterRole)r).setGui(wg);
-			waiters.add((WaiterRole)r);
-			cityRestaurant.animationPanel.addGui(wg);
+			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantWaiter2){
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
-			WaiterGui wg = new WaiterGui((WaiterRole)r, waiters.size(), new AStarTraversal(cityRestaurant.grid));
-			((WaiterRole)r).setGui(wg);
-			cityRestaurant.animationPanel.addGui(wg);
+			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantCook){
@@ -90,10 +85,12 @@ public class Restaurant implements PlaceOfWork{
 		return null;
 	}
 		
-	public void waiterComingToWork(Waiter m){
-		WaiterGui g = ((WaiterRole)m).getGui();
-		host.addWaiter(m);
-		cityRestaurant.animationPanel.addGui(g);
+	public void waiterComingToWork(Waiter r){
+		WaiterGui wg = new WaiterGui((WaiterRole)r, waiters.size(), new AStarTraversal(cityRestaurant.grid));
+		((WaiterRole)r).setGui(wg);
+		waiters.add((WaiterRole)r);
+		host.addWaiter(r);
+		cityRestaurant.animationPanel.addGui(wg);
 	}
 	
 	public BaseRestaurantCook cookComingToWork(Person p){

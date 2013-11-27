@@ -68,6 +68,11 @@ public class PersonAgent extends Agent implements Person {
 		this.belongings.myFoods.add(new Food("Pizza",10));
 		this.belongings.myFoods.add(new Food("Salad",10));
 		
+		if (name.contains("restaurant")){
+			activeRole = restaurantRole;
+			goToRestaurant();
+		}
+		
 	}
 	
 	
@@ -827,8 +832,9 @@ public class PersonAgent extends Agent implements Person {
 	
 	
 	//hack for restaurant stuff?
-	public void setHunger(int level){
-		hungerLevel = level;
+	public void setActiveRole(String role){
+		if (role.equals("RestaurantCustomer"))
+			activeRole = restaurantRole;
 	}
 	
 	
