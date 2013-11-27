@@ -41,6 +41,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		return true;
 	}
 	
+	public boolean isPresent(){
+		if (p==null)
+			return false;
+		else return true;
+	}
+	
 	//CONSTRUCTOR
 	public MarketCashierRole(String name, Person p, Market m){
 		this.p = p;
@@ -165,7 +171,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	public void run(){
 	    		msgFinishedComputing(cust);
 	    		//timer.cancel();
-	    	}}, mc.order.size()*1000+1000);
+	    	}}, mc.order.size()*300);
 	}
 
 	private void ComputeBusinessPayment(MyBusinessOrder order){

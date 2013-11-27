@@ -3,6 +3,9 @@ package bank.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import javax.swing.ImageIcon;
+
+import person.PersonAgent;
 import bank.BankTellerRole;
 
 
@@ -11,8 +14,8 @@ public class BankTellerGui implements Gui{
 	private BankTellerRole role = null;
 	private boolean isPresent = false;
 	private String dialogue = "";
-
-
+	
+	ImageIcon currentImage;
 	//RestaurantGui gui;//TODO bank Gui?
 
 	public int xPos;
@@ -32,6 +35,8 @@ public class BankTellerGui implements Gui{
 	public int xSpot = 0;
 	public int ySpot = 0;
 	
+	private int spriteCounter = 6;
+	
 	public BankTellerGui(BankTellerRole btr) {
 		role = btr;
 		xPos = xDoor;
@@ -40,19 +45,40 @@ public class BankTellerGui implements Gui{
 //		yDestination = yDoor;
 		xDestination = 10;
 		yDestination = 10;
+		currentImage = ((PersonAgent)this.role.person).downSprites.get(0);
 	}
 	
 	public void updatePosition(int x, int y) {
-		if (xPos < xDestination)
+		if (xPos < xDestination) {
 			xPos++;
-		else if (xPos > xDestination)
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.person).rightSprites.get(spriteCounter % ((PersonAgent)this.role.person).rightSprites.size());
+			}
+		}
+		else if (xPos > xDestination) {
 			xPos--;
-
-		if (yPos < yDestination)
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.person).leftSprites.get(spriteCounter % ((PersonAgent)this.role.person).leftSprites.size());
+			}			
+		}
+		if (yPos < yDestination) {
 			yPos++;
-		else if (yPos > yDestination)
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.person).downSprites.get(spriteCounter % ((PersonAgent)this.role.person).downSprites.size());
+			}
+		}
+		else if (yPos > yDestination) {
 			yPos--;
-
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				System.out.println(xPos % ((PersonAgent)this.role.person).upSprites.size());
+				System.out.println(((PersonAgent)this.role.person).upSprites.size());
+				currentImage = ((PersonAgent)this.role.person).upSprites.get(spriteCounter % ((PersonAgent)this.role.person).upSprites.size());
+			}
+		}
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToSpot) {
 				role.msgAtDestination();//release a semaphore?
@@ -73,7 +99,8 @@ public class BankTellerGui implements Gui{
 	
 	public void draw(Graphics2D g) {
 		g.setColor(Color.CYAN);
-		g.fillRect(xPos, yPos, BankTellerWidth, BankTellerHeight);
+		//g.fillRect(xPos, yPos, BankTellerWidth, BankTellerHeight);
+	    g.drawImage(currentImage.getImage(),xPos,yPos,BankTellerWidth,BankTellerWidth,null);
 		g.setColor(Color.BLACK);
 		//g.drawString(dialogue, xPos, yPos);
 	}

@@ -21,6 +21,7 @@ import javax.swing.*;
 
 import cityGui.CityMarketCard;
 import interfaces.MarketCustomer;
+import interfaces.MarketEmployee;
 import interfaces.Person;
 
 
@@ -29,7 +30,7 @@ import interfaces.Person;
 public class MarketPanel extends JFrame implements ActionListener{
 
 	private CityMarketCard animation; 
-	private Market market;
+	public Market market;
 	
 	private JLabel title = new JLabel("Market");
 	private List<InventoryItem> inventoryList = new ArrayList<InventoryItem>();
@@ -47,7 +48,7 @@ public class MarketPanel extends JFrame implements ActionListener{
    // private MarketCustomerRole customer;
     private MarketCashierRole cashier;
     private MarketHostRole host;
-    private MarketEmployeeRole employee;
+   // private MarketEmployeeRole employee;
     private MarketDeliveryManRole deliveryMan;
     
     
@@ -57,7 +58,7 @@ public class MarketPanel extends JFrame implements ActionListener{
 		this.market = market;
 		
 		//FRAME SETUP
-	    int WINDOWX = 400;
+	    int WINDOWX = 300;
 	    int WINDOWY = 500;	
 		setBounds(100, 50, WINDOWX,WINDOWY);
 		
@@ -74,10 +75,11 @@ public class MarketPanel extends JFrame implements ActionListener{
         add(pane);
 	
          
-        Dimension paneSize = new Dimension (400,200);
+        Dimension paneSize = new Dimension (WINDOWX,300);
         pane.setPreferredSize(paneSize);
         pane.setMinimumSize(paneSize);
         pane.setMaximumSize(paneSize);
+        
         
       
 
@@ -97,12 +99,12 @@ public class MarketPanel extends JFrame implements ActionListener{
 		
          validate();
          
-         startButton.addActionListener(this);
-         add(startButton);
-         
-         deliveryButton.addActionListener(this);
-         add(deliveryButton);
-         
+//         startButton.addActionListener(this);
+//         add(startButton);
+//         
+//         deliveryButton.addActionListener(this);
+//         add(deliveryButton);
+//         
          
          //--------------------AGENT/GUI TESTING SETUP----------------------
 /*
@@ -150,17 +152,17 @@ public class MarketPanel extends JFrame implements ActionListener{
 
 	
 	public void actionPerformed(ActionEvent e) {
-		System.err.println("Something was pressed.");
+		//System.err.println("Something was pressed.");
 		
 		if (e.getSource() == startButton){
 			System.out.println("A customer has entered the market");
-			addCustomer();
+			//addCustomer();
 			
 		}
 		
 		if (e.getSource() == deliveryButton){
 			System.out.println("A business order is being called in");
-			addDelivery();
+			//addDelivery();
 			
 		}
 		
@@ -181,14 +183,11 @@ public class MarketPanel extends JFrame implements ActionListener{
 		
 	}
 
-	private void addCustomer(){
-	/*	
-        PersonAgent p1 = new PersonAgent("Customer", map);
-        MarketCustomerRole customer = new MarketCustomerRole("Customer", p1);
-        //customer.addToShoppingList("Pizza", 12 );
-        customer.addToShoppingList("Car", 2);
-        p1.activeRole = customer;
-       p1.startThread();
+	public void addCustomer(MarketCustomerRole customer){
+		
+       
+      
+     
        customers.add(customer);
        
        
@@ -198,12 +197,18 @@ public class MarketPanel extends JFrame implements ActionListener{
 
     
        
-       //testing, this should come from the person agent
-       customer.msgYouAreAtMarket(market);
+      
+     //  customer.msgYouAreAtMarket(market);
        
        animation.enterCustomer();
        
-       */
+       
+	}
+	
+	public void addEmployee(MarketEmployeeRole e){
+        MarketEmployeeGui egui = new MarketEmployeeGui(e);
+        e.setGui(egui);
+        animation.addGui(egui);
 	}
 	
 	private void addDelivery(){

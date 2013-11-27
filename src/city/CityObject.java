@@ -195,7 +195,7 @@ public class CityObject implements ActionListener{
 		if(bBus!=null){
 			bBus.updateTime(currentTime);
 		}
-		System.out.println(cityMap.map.get("Bank").size());
+		//System.out.println(cityMap.map.get("Bank").size());
 		
 		
 	}

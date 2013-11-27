@@ -26,6 +26,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 	CityBankCard animation;
 	
 	public List<BankCustomer> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
+	public List<BankCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	
 	public List<BankTeller> myTellers = new ArrayList<BankTeller>();
 	public List<BankTeller> currentTellers = new ArrayList<BankTeller>();
@@ -87,37 +88,51 @@ public class Bank implements BankInterface, PlaceOfWork{
 	
 	public boolean startTellerShift(BankTeller t){
 		currentTellers.add(t);
-		((BankTellerRole)t).startedWorking=true;
-		BankTellerGui g = new BankTellerGui(((BankTellerRole)t));
-		if (!tellerSpots.isEmpty())
-			g.initialSpot(tellerSpots.get(0).xPos, tellerSpots.get(0).yPos);
-		((BankTellerRole)t).setGui(g);
-		bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)t).getName());
-		animation.addGui(g);
+		if (t instanceof BankTellerRole) {
+			((BankTellerRole)t).startedWorking=true;
+			BankTellerGui g = new BankTellerGui(((BankTellerRole)t));
+			if (!tellerSpots.isEmpty())
+				for (TellerSpot TS : tellerSpots) {
+					if (TS.currentTeller==null) {
+						g.initialSpot(TS.xPos, TS.yPos);
+						TS.currentTeller = t;
+						break;
+					}
+				}
+			((BankTellerRole)t).setGui(g);
+			bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)t).getName());
+			animation.addGui(g);
+		}
 		//bankGui.bankAnimationPanel.addGui(g);
 		//t.msgStateChanged();
 		return true;
 	}
 	
 	public void finishTellerShift(BankTeller t) {
+		for (TellerSpot TS : tellerSpots) {
+			if (TS.currentTeller==t) {
+				TS.currentTeller = null;
+			}
+		}
 		currentTellers.remove(t);
 		bankGui.bankPanel.tellerPanel.removeAll();
-		for (BankTeller BT : currentTellers) {
-			bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)BT).getName());
-		}
+//		for (BankTeller BT : currentTellers) {
+//			bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)BT).getName());
+//		}
 	}
 	
 	public void exitBank(BankCustomer c) {
-		bankCustomers.remove(c);
-		bankGui.bankPanel.customerPanel.removeAll();
-		for (BankCustomer BC : bankCustomers) {
-			bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)BC).getName());
-		}
+		//bankCustomers.remove(c);
+		//bankGui.bankPanel.customerPanel.removeAll();
+//		for (BankCustomer BC : bankCustomers) {
+//			bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)BC).getName());
+//		}
 	}
 	
 	public BankCustomer getCustomer(){
 		if(!bankCustomers.isEmpty()){
 			BankCustomer b = bankCustomers.get(0);
+			System.out.println("");
 			bankCustomers.remove(0);
 			return b;
 		}
@@ -127,11 +142,13 @@ public class Bank implements BankInterface, PlaceOfWork{
 	public boolean addMeToQueue(BankCustomer c){
 		System.err.println("Requested to be put in line now.");
 		bankCustomers.add(c);
-		BankCustomerGui g = new BankCustomerGui(((BankCustomerRole)c));
-		((BankCustomerRole)c).setGui(g);
-		bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)c).getName());
-		//bankGui.bankAnimationPanel.addGui(g);
-		animation.addGui(g);
+		if (c instanceof BankCustomerRole) {
+			BankCustomerGui g = new BankCustomerGui(((BankCustomerRole)c));
+			((BankCustomerRole)c).setGui(g);
+			bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)c).getName());
+			//bankGui.bankAnimationPanel.addGui(g);
+			animation.addGui(g);
+		}
 		//System.out.println("Size of the queue is "+bankCustomers.size());
 		for(BankTeller t:currentTellers){
 			//System.out.println("Teller messaged");

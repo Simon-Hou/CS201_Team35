@@ -35,6 +35,12 @@ public class MarketHostRole extends Role implements MarketHost {
 		this.market=m;		
 	}
 	
+	
+	public boolean isPresent(){
+		if (p==null)
+			return false;
+		else return true;
+	}
 	//-----------------------------MESSAGES--------------------------------
 	
 
@@ -189,6 +195,8 @@ public class MarketHostRole extends Role implements MarketHost {
 		//choose employee for load balancing
 		if(employees.size()==0){
 			System.err.println("No Market employees");
+			mc.customer.msgWeHaveNothing();
+			return;
 		}
 		
 		MyEmployee e1 = employees.get(0);

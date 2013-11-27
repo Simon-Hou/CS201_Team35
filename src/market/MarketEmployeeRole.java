@@ -22,7 +22,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 
 	List<CustomerOrder> customerOrders = Collections.synchronizedList(new ArrayList<CustomerOrder>());
 	List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
-	PersonAgent p;
+	public PersonAgent p;
 	public String name;
 	private Market market;
 	

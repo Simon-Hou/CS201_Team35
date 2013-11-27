@@ -12,4 +12,8 @@ public interface Host {
 	
 	public abstract void msgOffBreak(Waiter waiter);
 
+	public abstract void addTable(int size);
+
+	public abstract void addWaiter(Waiter m);
+
 }

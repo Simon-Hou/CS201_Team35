@@ -230,6 +230,7 @@ public class PersonAgent extends Agent implements Person {
 			Do("Getting OFF bus");
 			waitForBusToArrive.release();
 			onBus = false;
+			
 			//Do("SHIT I JUST WOKE UP");
 			gui.setLoc(stop.sidewalkLoc);
 			gui.offBus();
@@ -269,6 +270,7 @@ public class PersonAgent extends Agent implements Person {
 				if(myJob.jobRole instanceof BankTellerRole){
 					if(((BankTellerRole) myJob.jobRole).canLeave()){
 						Do("It's quitting time.");
+						//activeRole.p = null;
 						activeRole = null;
 						return true;
 					}
@@ -288,10 +290,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		
 		//Do("Deciding what to do");
-		if(wantsToRideBus){
-			Do("will ride the bus");
-			rideBus();
-		}
+
 		
 		/*if (nextRole != null) {
 			activeRole = nextRole;
@@ -309,6 +308,11 @@ public class PersonAgent extends Agent implements Person {
 		if(myJob.placeOfWork!=null && timeInJobShift()){
 			goToWork();
 			return true;
+		}
+		
+		if(wantsToRideBus){
+			Do("will ride the bus");
+			rideBus();
 		}
 
 		//FOR NOW - TODO - GET THIS TO WORK
@@ -471,6 +475,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		//marketRole.setMarket(m);
 		marketRole.msgYouAreAtMarket(m);
+		m.newCustomer(marketRole);
 		activeRole = marketRole;
 	}
 	
@@ -491,6 +496,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		Do("I am going home to sleep ");
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
+		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
 		doGoHome();
 		inhabitantRole.msgTired();
 		activeRole = inhabitantRole;

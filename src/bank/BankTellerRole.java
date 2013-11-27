@@ -67,6 +67,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	
 	public boolean canLeave(){
 		if (currentCustomer == null) {
+			((Bank)bank).finishTellerShift(this);
 			if (bankTellerGui!=null) {
 				bankTellerGui.DoExitBank();
 				try {
@@ -83,7 +84,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	
 	String alphabet = "abcdefghijklmnopqrstuvwxyz";
 	
-	Person person;
+	public Person person;
 	
 	String name;
 	
@@ -148,11 +149,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 			if(currentCustomer!=null){
 				//Do("Sending "+ currentCustomer.getName()+" a message to start helping him");
 				System.out.flush();
-				if (currentCustomer instanceof BankCustomerRole) {
-					((BankCustomerRole)currentCustomer).msgHowCanIHelpYou(this, bankTellerGui.xPos, bankTellerGui.yPos);//TODO fix these numbers!
-				}
-				else
-					currentCustomer.msgHowCanIHelpYou(this);
+				callCustomer(currentCustomer);
 				return true;
 			}
 			return false;
@@ -194,6 +191,28 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	
 	
 	//ACT
+	
+	private void callCustomer(BankCustomer c) {
+		GoToPosition();
+		if (c instanceof BankCustomerRole) {
+			/*tellerSpots.add(new TellerSpot(100 + 300/2-12, 75));//x value of the counter + center of counter - half width
+			tellerSpots.add(new TellerSpot(100 + 300/2-12, 445));//x value of the counter + center of counter - half width
+			tellerSpots.add(new TellerSpot(100 + 300, 175));//x value of the counter + counterWidth
+			tellerSpots.add(new TellerSpot(100 + 300, 325));//x value of the counter + counterWidth*/
+			if (bankTellerGui.xPos==100 + 300) {
+				((BankCustomerRole)c).msgHowCanIHelpYou(this, bankTellerGui.xPos - 50 - bankTellerGui.BankTellerHeight, bankTellerGui.yPos);
+			}
+			else {
+				if (bankTellerGui.yPos == 75)
+					((BankCustomerRole)c).msgHowCanIHelpYou(this, bankTellerGui.xPos, bankTellerGui.yPos + 50 + bankTellerGui.BankTellerHeight);//TODO fix these numbers!
+				else
+					((BankCustomerRole)c).msgHowCanIHelpYou(this, bankTellerGui.xPos, bankTellerGui.yPos - 50 - bankTellerGui.BankTellerHeight);//TODO fix these numbers!
+			}
+			
+		}
+		else
+			c.msgHowCanIHelpYou(this);
+	}
 	
 	private void GoToPosition() {
 		Do("Going to my position to work");

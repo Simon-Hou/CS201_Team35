@@ -25,11 +25,13 @@ public class BankCustomerGui implements Gui{
 
 	public static final int BankCustomerWidth = 20;
 	public static final int BankCustomerHeight = 20;
-	public static final int xDoor = 40;
-	public static final int yDoor = 100;
-
+	
 	ImageIcon currentImage;
-
+	public static final int xDoor = -40;
+	public static final int yDoor = 250;
+	
+	private int spriteCounter = 0;
+	
 	public BankCustomerGui(BankCustomerRole bcr/*, RestaurantGui gui*/){ 
 		isPresent = true;
 		role = bcr;
@@ -38,24 +40,37 @@ public class BankCustomerGui implements Gui{
 		xDestination = xDoor;
 		yDestination = yDoor;
 		//this.gui = gui;//TODO figure out the Gui!
+		currentImage = ((PersonAgent)this.role.person).downSprites.get(0);
 	}
 
 	public void updatePosition(int x, int y) {
 		if (xPos < xDestination) {
 			xPos++;
-			currentImage = ((PersonAgent)this.role.person).rightSprites.get(xPos % ((PersonAgent)this.role.person).rightSprites.size());
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.person).rightSprites.get(spriteCounter % ((PersonAgent)this.role.person).rightSprites.size());
+			}
 		}
 		else if (xPos > xDestination) {
 			xPos--;
-			currentImage = ((PersonAgent)this.role.person).leftSprites.get(xPos % ((PersonAgent)this.role.person).leftSprites.size());
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.person).leftSprites.get(spriteCounter % ((PersonAgent)this.role.person).leftSprites.size());
+			}			
 		}
 		if (yPos < yDestination) {
 			yPos++;
-			currentImage = ((PersonAgent)this.role.person).downSprites.get(yPos % ((PersonAgent)this.role.person).downSprites.size());
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.person).downSprites.get(spriteCounter % ((PersonAgent)this.role.person).downSprites.size());
+			}
 		}
 		else if (yPos > yDestination) {
 			yPos--;
-			currentImage = ((PersonAgent)this.role.person).upSprites.get(yPos % ((PersonAgent)this.role.person).upSprites.size());
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.role.person).upSprites.get(spriteCounter % ((PersonAgent)this.role.person).upSprites.size());
+			}
 		}
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToTellerWindow) {

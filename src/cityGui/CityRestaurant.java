@@ -40,7 +40,7 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 	ImageIcon img4 = new ImageIcon(imgURL4);
 	java.net.URL imgURL5 = getClass().getResource("cityImages/restaurant5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
-	Restaurant restaurant = new Restaurant();
+	Restaurant restaurant;
 	private int buildingSize = 35;
 	
 	public static int cellSize = 50;
@@ -49,22 +49,13 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
     //Create grid for AStar
     Semaphore[][] grid = new Semaphore[gridX][gridY];
 
-    ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
-    
-    //Host, cook, waiters and customers
-    private HostRole host = new HostRole("Sarah"); 
-	private CookRole cook;
-	private CashierRole cashier;
-    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
-    private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
-
-    private JPanel restLabel = new JPanel();
+    //private JPanel restLabel = new JPanel();
     //private ListPanel customerPanel = new ListPanel(this, "Customers");
     //private ListPanel waiterPanel = new ListPanel(this,"Waiters");
     //private TablePanel tablePanel = new TablePanel(this);
     private Map<Integer,Point> tableMap=new HashMap<Integer,Point>();
     
-    CityRestaurantCard animationPanel;
+    public CityRestaurantCard animationPanel;
 	
 	
 	public CityRestaurant(int x, int y) {
@@ -78,29 +69,12 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 		super(x, y, Color.red, ID, "Restaurant");
 		type="Restaurant";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
-		initializeRestaurant();
 		//System.out.println("Second");
 
 	}
 
-	public void initializeRestaurant(){
-		restaurant.cityRestaurant = this;
-		
-		/*
-        JPanel group = new JPanel();
-        setLayout(new FlowLayout(FlowLayout.CENTER,20,10));
-        group.setLayout(new GridLayout(1, 2, 20, 10));
-        group.add(customerPanel);
-        group.add(waiterPanel);
-        
-        tablePanel.setTables(tableMap);
-        tablePanel.setPreferredSize(new Dimension((int) (RestaurantGui.WINDOWX*.2), (int) (RestaurantGui.WINDOWY*.35)));
-        
-        initRestLabel();
-        add(restLabel);
-        add(group);
-        add(tablePanel);
-*/        
+	public void initializeRestaurant(){	
+		restaurant = new Restaurant(this);   
        
         //initialize the semaphores
         for (int i=0; i<gridX ; i++)
@@ -129,6 +103,11 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
         }catch (Exception e) {
     	    System.out.println("Unexpected exception caught in during setup:"+ e);
     	}
+        
+        //add 3 tables
+        addTable(1,150,150);
+        addTable(1,150,250);
+        addTable(1,150,350);
         
 	}
     
@@ -184,7 +163,7 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 		if(tryAddTable(CityRestaurantCard.TABLESIZE/cellSize, xLoc, yLoc)) {
 			tableMap.put(tableMap.size()+1, new Point(xLoc*cellSize,yLoc*cellSize));
 			animationPanel.addTable(new Point(xLoc*cellSize,yLoc*cellSize));
-			host.addTable(size);
+			restaurant.host.addTable(size);
 			System.out.println("Added table " + (tableMap.size()+1));
 			return true;
 		}
@@ -225,22 +204,13 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 	
 	public void setAnimationPanel(CityRestaurantCard p){
 		animationPanel = p;
-		
-        cashier =  new CashierRole("Cashier", restaurant);
-        cook = new CookRole("Cook", orderMonitor, restaurant);
-        CookGui cg = new CookGui(cook);
-        cg.setPlates(animationPanel.platedFoods);
-        animationPanel.addGui(cg);
-        cook.setGui(cg);
         
-        host.startThread();
-        cook.startThread();
-        cashier.startThread();
+        //host.startThread();
+        //cook.startThread();
+        //cashier.startThread();
         
-        //Cheat to make tables and a market
-        addTable(1,200,150);
-        addTable(1,350,150);
-        addTable(1,500,150);
-
+        initializeRestaurant();
+ 
+        
 	}
 }

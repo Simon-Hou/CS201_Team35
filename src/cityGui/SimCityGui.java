@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import market.gui.MarketPanel;
 import person.PersonAgent;
 import util.Bank;
 import util.BankMapLoc;
@@ -22,9 +23,11 @@ import util.Bus;
 import util.BusStop;
 import util.CityMap;
 import util.HouseMapLoc;
+import util.Job;
 import util.JobType;
 import util.Loc;
 import util.MarketMapLoc;
+import util.RestaurantMapLoc;
 import city.CityObject;
 import cityGui.test.BusGui;
 import cityGui.test.PersonGui;
@@ -253,6 +256,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	int MAXTIME = 100;
 	protected Timer timer;
 	public long time=0;
+	boolean hasBuses = false;
 
 	public SimCityGui() throws HeadlessException {
 		//Adds person images to its sprite array
@@ -290,7 +294,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		
 		//Adds gohan images to sprite arrays
 		ghup.add(ghu1); ghup.add(ghu2); ghup.add(ghu3); ghup.add(ghu4);
-		ghdown.add(ghd1); ghdown.add(ghd2); down.add(ghd3); ghdown.add(ghd4);
+		ghdown.add(ghd1); ghdown.add(ghd2); ghdown.add(ghd3); ghdown.add(ghd4);
 		ghleft.add(ghl1); ghleft.add(ghl2); ghleft.add(ghl3); ghleft.add(ghl4);
 		ghright.add(ghr1); ghright.add(ghr2); ghright.add(ghr3); ghright.add(ghr4);
 		
@@ -384,6 +388,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		person.setJob(placeOfWork, jobType, start, end);
 		person.setBank(bankNum);
 		person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		boolean wantsToRideBus = false;
+		if(Math.random()>.75 && hasBuses){
+			wantsToRideBus = true;
+		}
+		person.wantsToRideBus = wantsToRideBus;
 		addNewPerson(person);
 
 	}
@@ -404,23 +413,50 @@ public class SimCityGui extends JFrame implements ActionListener {
 			return;
 		}
 		if(type.equals("Market")){
-			city.addObject(CityComponents.MARKET);
-			city.moveBuildingTo(new Loc(x,y));
-			city.setBuildingDown();
+			CityComponent temp = new CityMarket(x, y, "Market " + (city.statics.size()-19));
+			CityMarketCard tempAnimation = new CityMarketCard(this);
+			MarketPanel panel = new MarketPanel(tempAnimation, ((CityMarket)temp).market);
+			((CityMarket)temp).market.setMarketPanel(panel);
+			tempAnimation.setPanel(panel);
+			city.markets.add(((CityMarket)temp).market);
+			this.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+			city.statics.add(temp);
 			return;
 		}
+		
 		if(type.equals("Restaurant")){
-			city.addObject(CityComponents.RESTAURANT);
-			city.moveBuildingTo(new Loc(x,y));
-			city.setBuildingDown();
+			CityComponent temp = new CityRestaurant(x, y, "Restaurant " + (city.statics.size()-19));
+			CityRestaurantCard tempAnimation = new CityRestaurantCard(this);
+			((CityRestaurant)temp).setAnimationPanel(tempAnimation);
+			city.restaurants.add(((CityRestaurant)temp).restaurant);
+			this.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+			city.statics.add(temp);
 			return;
 		}
 		if(type.equals("House")){
-			city.addObject(CityComponents.HOUSE);
-			city.moveBuildingTo(new Loc(x,y));
-			city.setBuildingDown();
+			CityComponent temp = new CityHouse(x, y, "House " + (city.statics.size()-19));
+			CityHouseCard tempAnimation = new CityHouseCard(this);
+			((CityHouse)temp).house.setAnimationPanel(tempAnimation);
+			city.houses.add(((CityHouse)temp).house);
+			this.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+			city.statics.add(temp);
 			return;
 		}
+		
+		/*
+		 	CityHouseCard tempAnimation= new CityHouseCard(city);
+			((CityHouse)temp).house.setAnimationPanel(tempAnimation);
+			houses.add(((CityHouse)temp).house);//hack: this is not necessary because we have the cityObject already. Change it later
+			city.view.addView(tempAnimation, temp.ID);
+			temp.cityObject = this.cityObject;
+			temp.addAgentObjectToMap();
+				*/
 
 	}
 
@@ -488,6 +524,33 @@ public class SimCityGui extends JFrame implements ActionListener {
 				}
 			}
 		}
+		if(type.equals("Restaurant")){
+			int j = 0;
+			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			//System.out.println("Rand offset: "+randOffset);
+			for(int i = 0;i<SHIFTS;++i){
+				int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				//System.out.println("Shift start, end: "+start+" " +end);
+				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
+				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
+				addNewPersonHard("prhost"+j,
+						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+						JobType.RestaurantHost,start,end,bankNum,houseNum);
+				addNewPersonHard("pcook"+j,
+						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+						JobType.RestaurantCook,start,end,bankNum,houseNum);
+				addNewPersonHard("pwaiter"+j,
+						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+						JobType.RestaurantWaiter,start,end,bankNum,houseNum);
+				addNewPersonHard("prcash"+j,
+						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+						JobType.RestaurantCashier,start,end,bankNum,houseNum);
+				
+				j = j+1;
+			}
+			return;
+		}
 	}
 
 	public void addBuses(SimCityGui simCityGui){
@@ -538,28 +601,33 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
+
+		test.addBuses(test);
 		//test.addNewBuilding("Bank", 5, 400);
-//		test.addNewBuilding("Market",200,250);
-//		test.addNewBuilding("Market", 250, 200);
-//		test.addNewBuilding("House", 200, 5);
-//		test.addNewBuilding("House", 500, 5);
-		
-		//test.fullyManBuilding("Bank",0);
-		//test.fullyManBuilding("Market",0);
-		//test.fullyManBuilding("Market",1);
-//		test.addBuses(test);
-//		test.addNewBuilding("Bank", 5, 400);
-//		test.addNewBuilding("Market",200,250);
-		//test.addNewBuilding("Market", 250, 200);
-//		test.addNewBuilding("House", 200, 5);
-		//test.addNewBuilding("House", 500, 5);
+		test.addNewBuilding("Market",200,250);
+		//test.addNewBuilding("Restaurant", 5, 200);
+		test.addNewBuilding("House", 200, 5);
+
 		//test.addBuses(test);
-//		test.fullyManBuilding("Bank",0);
-//		test.fullyManBuilding("Market",0);
-		//test.fullyManBuilding("Market",1);
+		//test.addNewBuilding("Bank", 5, 400);
+		//test.addNewBuilding("Market",200,250);
+		//test.addNewBuilding("Restaurant", 5, 200);
+
+		//test.fullyManBuilding("Bank",0);
+		test.fullyManBuilding("Market",0);			
+		//test.fullyManBuilding("Restaurant",0);
+		//test.addBuses(test);
+
+		//test.fullyManBuilding("Bank",0);
+		test.fullyManBuilding("Market",0);
+		test.fullyManBuilding("Market",1);
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
 
+		
+		//PARKER TESTING
+//		test.addNewBuilding("Market", 200,250);
+//		test.fullyManBuilding("Market", 0);
 
 
 		//Bank b = test.cityObject.cityMap.map.get("Bank").get(0).bank;
@@ -574,7 +642,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 
 //		PersonGui pg1 = new PersonGui(new PersonAgent("A",new CityMap()),test, xStartTest, yStartTest, 300, 520);
-//        PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);
+//      PersonGui pg2 = new PersonGui(new PersonAgent("B",new CityMap()),test, xStartTest, yStartTest, 300, 70);
 //		PersonGui pg3 = new PersonGui(new PersonAgent("C",new CityMap()),test, xStartTest, yStartTest, 300, 400);
 //		PersonGui pg4 = new PersonGui(new PersonAgent("D",new CityMap()),test, xStartTest, yStartTest, 300, 190);
 //		PersonGui pg5 = new PersonGui(new PersonAgent("E",new CityMap()),test, xStartTest, yStartTest, 190, 300);
@@ -590,9 +658,55 @@ public class SimCityGui extends JFrame implements ActionListener {
 //		test.city.addMoving(pg7);
 //		test.city.addMoving(pg8);
 
-
-
 	}
+	
+	
+	public void busRideScenario(){
+		
+		hasBuses = true;
+		
+		addNewBuilding("House", 200, 5);
+		addBuses(this);
+		
+		PersonAgent busRider = new PersonAgent("Rider",this.cityObject.cityMap);
+		busRider.myJob = new Job();
+		busRider.wantsToRideBus = true;
+		busRider.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(0)).house);
+		
+		addNewPerson(busRider);
+		
+	}
+	
+	public void bankScenario(){
+		hasBuses = false;
+		MAXTIME = 20;
+		addNewBuilding("House", 200, 5);
+		addNewBuilding("Bank",200,250);
+		fullyManBuilding("Bank",0);
+		
+	}
+	
+	public void marketScenario(){
+		hasBuses = false;
+		MAXTIME = 40;
+		addNewBuilding("House", 200, 560);
+		addNewBuilding("Market",250,200);
+		fullyManBuilding("Market",0);
+	}
+	
+	public void busyScenario(){
+		hasBuses = true;
+		addBuses(this);
+		addNewBuilding("Bank", 5, 400);
+		addNewBuilding("Market",200,250);
+		addNewBuilding("Market", 250, 200);
+		addNewBuilding("House", 200, 5);
+		addNewBuilding("House", 500, 5);
+		fullyManBuilding("Bank",0);
+		fullyManBuilding("Market",0);
+		fullyManBuilding("Market",1);
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

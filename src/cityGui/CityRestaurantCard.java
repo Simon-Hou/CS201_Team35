@@ -15,8 +15,6 @@ import restaurant.restaurantLinda.gui.MyImage;
 import restaurant.restaurantLinda.gui.RestaurantPanel;
 
 
-
-
 public class CityRestaurantCard extends CityCard{
 	//initial values
 	public static final int CARD_WIDTH = 500, CARD_HEIGHT = 500;
@@ -107,6 +105,11 @@ public class CityRestaurantCard extends CityCard{
     public void addTable(Point p){
     	tableMap.add(p);
     }
+
+
+	public void removeGui(Gui gui) {
+		guis.remove(g);		
+	}
         
 }
 	

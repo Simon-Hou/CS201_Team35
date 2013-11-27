@@ -11,6 +11,7 @@ import role.Role;
 import util.JobType;
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
+import interfaces.MarketDeliveryMan;
 import interfaces.MarketEmployee;
 import interfaces.MarketHost;
 import interfaces.Person;
@@ -24,6 +25,7 @@ public class Market implements PlaceOfWork{
 	public MarketHost host;
 	public MarketCashier cashier;
 	public List<MarketEmployee> employees = new ArrayList<MarketEmployee>();
+	public List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
 	int money;
 	public CityMarket gui;
 	
@@ -40,10 +42,10 @@ public class Market implements PlaceOfWork{
 		host.setMarket(this);
 		cashier.setMarket(this);
 		
-		inventory.put("Steak", 300);
-		inventory.put("Chicken", 300);
-		inventory.put("Pizza", 50);
-		inventory.put("Salad", 300);
+		inventory.put("Steak", 10);
+		inventory.put("Chicken", 10);
+		inventory.put("Pizza", 10);
+		inventory.put("Salad", 10);
 		inventory.put("Car", 5);
 	}
 	
@@ -58,7 +60,6 @@ public class Market implements PlaceOfWork{
 		return false;
 		
 	}
-	
 	
 	public MarketHost CanIBeHost(Person person){
 		if(((MarketHostRole) host).p==null || host.YouAreDoneWithShift()){
@@ -88,6 +89,7 @@ public class Market implements PlaceOfWork{
 
 			if(host.NewEmployee((MarketEmployee) m)){
 				employees.add((MarketEmployee) m);
+				panel.addEmployee((MarketEmployeeRole) m);
 				return m;
 			}
 			System.err.println("Market Employee wasn't allowed to work");
@@ -102,13 +104,22 @@ public class Market implements PlaceOfWork{
 		}
 		
 		else if(jobType == jobType.MarketDeliveryMan){
-			System.err.println("Delivery man not dealt with yet");
-			return null;
+			
+				deliveryMen.add((MarketDeliveryMan) m);
+				for (MarketEmployee e : employees){
+					e.addDeliveryMan((MarketDeliveryMan)m);
+				}
+				return m;
+			
 		}
 		
 		
 		System.err.println("A non-markter is trying to work at the market");
 		return null;
+	}
+	
+	public void newCustomer(MarketCustomer cust){
+		panel.addCustomer((MarketCustomerRole) cust);
 	}
 	
 	public void removeCustomer(MarketCustomer cust){

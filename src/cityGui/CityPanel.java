@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import market.Market;
 import market.gui.MarketPanel;
 import person.PersonAgent;
+import restaurant.Restaurant;
 import util.Bank;
 import util.CityMap;
 import util.Loc;
@@ -38,6 +39,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 	List<House> houses=new ArrayList<House>();
 	List<Bank> banks = new ArrayList<Bank>();
 	List<Market> markets = new ArrayList<Market>();
+	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 
 
 	public CityPanel(SimCityGui city) {
@@ -119,7 +121,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 			if(temp.type.equals("Restaurant")){
 				CityRestaurantCard tempAnimation = new CityRestaurantCard(city);
-				((CityRestaurant)temp).animationPanel = tempAnimation;
+				((CityRestaurant)temp).setAnimationPanel(tempAnimation);
 				city.view.addView(tempAnimation, temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
@@ -145,7 +147,9 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 			else if (temp.type.equals("Market")){
 				CityMarketCard tempAnimation = new CityMarketCard(city);
-				((CityMarket)temp).market.setMarketPanel(new MarketPanel(tempAnimation, ((CityMarket)temp).market));
+				MarketPanel panel = new MarketPanel(tempAnimation, ((CityMarket)temp).market);
+				((CityMarket)temp).market.setMarketPanel(panel);
+				tempAnimation.setPanel(panel);
 				markets.add(((CityMarket)temp).market);
 				city.view.addView(tempAnimation, temp.ID);
 				temp.cityObject = this.cityObject;

@@ -138,6 +138,8 @@ public class PersonGui extends CityComponent implements Gui {
 	}
     
     public void doGoToBuilding(Loc loc){
+    	//System.out.println(
+    	//		"Being told to go: "+rectangle.x + " "+rectangle.y + " and "+xDestination+ " "+yDestination);
     	this.xDestination = loc.x;
     	this.yDestination = loc.y;
     	onTheMove = true;
@@ -199,6 +201,14 @@ public class PersonGui extends CityComponent implements Gui {
 	    				transitionDone = true;
 	    			}
 				}
+			}
+
+			/*System.out.println("XDest: " + xDestination);
+			System.out.println("YDest: " + yDestination);
+			System.out.println("XPos: " + getXPos());
+			System.out.println("YPos: " + getYPos());*/
+			if (transitionDone) {
+				//System.out.println("Transition is done");
 			}
 			
 			if (readyToGoOuterSidewalk) {
@@ -578,7 +588,7 @@ public class PersonGui extends CityComponent implements Gui {
 	    		person.msgAtDestination();
 	    		
 	    	}
-		}
+			}
     }
 
 	public boolean getArrived() {

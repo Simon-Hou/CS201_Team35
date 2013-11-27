@@ -71,7 +71,7 @@ public class CustomerGui implements Gui{
 		}
 	}
 
-	public void draw(Graphics2D g) {
+	public void draw(Graphics g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(xPos, yPos, personSize, personSize);
 		
