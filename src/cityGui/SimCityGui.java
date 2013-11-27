@@ -762,6 +762,21 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Restaurant",5, 300);
 		fullyManBuilding("Restaurant",0);
+		
+		int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
+		int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
+		
+		PersonAgent person = new PersonAgent("restaurant",cityObject.cityMap);
+		person.setJob(null, JobType.NOTSELECTED, 0, 0);
+		person.setBank(bankNum);
+		if(!cityObject.cityMap.map.get("House").isEmpty()){
+			person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		}
+		//person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
+		boolean wantsToRideBus = false;
+		if(Math.random()>.75 && hasBuses){
+			wantsToRideBus = true;
+		}
 	}
 	
 

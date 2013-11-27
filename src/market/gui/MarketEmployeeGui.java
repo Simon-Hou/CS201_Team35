@@ -93,7 +93,7 @@ public class MarketEmployeeGui implements Gui{
 	}
 	
 	public void DoGetItem(String i){
-			
+		/* switch this from a switch to a else if b/c of version issues	
 		switch(i){
 		case "Steak": xDestination = 245; yDestination = 315; break;
 		case "Chicken":  xDestination = 245; yDestination = 245; break;
@@ -102,6 +102,36 @@ public class MarketEmployeeGui implements Gui{
 		case "Car": xDestination = 115; yDestination = 385; break;
 		case "Other": xDestination = 245; yDestination = 385; break;
 		default: System.err.println("We don't have that item!"); return;
+		}
+		*/
+		
+		if (i.equals("Steak")){
+			xDestination = 245; 
+			yDestination = 315;;
+		}
+		else if (i.equals("Chicken")){
+			xDestination = 245; 
+			yDestination = 245; 
+		}
+		else if (i.equals("Pizza")){
+			xDestination = 115; 
+			yDestination = 245;
+		}
+		else if (i.equals("Salad")){
+			xDestination = 115; 
+			yDestination = 315;
+		}
+		else if (i.equals("Car")){
+			xDestination = 115; 
+			yDestination = 385;
+		}
+		else if (i.equals("Other")){
+			xDestination = 245; 
+			yDestination = 385;
+		}
+		else{
+			System.err.println("We don't have that item!"); 
+			return;
 		}
 		gotToDestination = false;
 	}

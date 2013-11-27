@@ -450,7 +450,6 @@ public abstract class WaiterRole extends Role implements Waiter{
 		}
 		
 		msgWantBreak();
-		
 		return false;
 		
 	}

@@ -164,7 +164,7 @@ public abstract class GuiPerson implements Gui{
     	else
     		yDestination = (currentPosition.getY()+1)*cellSize - personSize;
     	
-    	//System.out.println("new path: " + path + ", finalDestination: " + xfinal + " " + yfinal);
+    	System.out.println("new path: " + path + ", finalDestination: " + xfinal + " " + yfinal);
     	
     	
     }
