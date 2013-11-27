@@ -250,7 +250,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 				for(int i = 0;i<SHIFTS;++i){
 					int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
 					int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-					//System.out.println("Shift start, end: "+start+" " +end);
+					System.out.println(j+" Shift start, end: "+start+" " +end);
 					int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 					int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
 					addNewPersonHard("p"+j,
@@ -455,10 +455,39 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void marketScenario(){
 		hasBuses = false;
-		MAXTIME = 40;
+		MAXTIME = 100;
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
-		fullyManBuilding("Market",0);
+		addNewPersonHard("p"+0,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketHost,0,100,0,0);
+		addNewPersonHard("p"+1,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,100,0,0);
+		/*addNewPersonHard("p"+2,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,100,0,0);*/
+		addNewPersonHard("p"+2,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketCashier,0,100,0,0);
+		
+		/*try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
+		addNewPersonHard("p"+3,null,null,0,0,0,0);
+		addNewPersonHard("p"+4,null,null,0,0,0,0);
+		/*addNewPersonHard("p"+5,null,null,0,0,0,0);
+		addNewPersonHard("p"+6,null,null,0,0,0,0);
+		addNewPersonHard("p"+7,null,null,0,0,0,0);
+		addNewPersonHard("p"+8,null,null,0,0,0,0);
+		addNewPersonHard("p"+9,null,null,0,0,0,0);
+		addNewPersonHard("p"+10,null,null,0,0,0,0);*/
+		
+		//fullyManBuilding("Market",0);
 	}
 	
 	public void busyScenario(){

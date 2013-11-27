@@ -454,6 +454,14 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void goToMarket() {
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
