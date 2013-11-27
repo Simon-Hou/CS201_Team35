@@ -64,7 +64,7 @@ public class CustomerRole extends Role implements Customer{
 		print("Arrived at restaurant");
 		
 		this.r = r;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgRestaurantFull(){
@@ -75,7 +75,7 @@ public class CustomerRole extends Role implements Customer{
 		else
 			event = AgentEvent.impatient;
 		
-		stateChanged();
+		p.msgStateChanged();
 	}
 
 	public void msgFollowMe(Waiter w, Menu m) {
@@ -83,18 +83,20 @@ public class CustomerRole extends Role implements Customer{
 		waiter=w;
 		menu=new MyMenu(m);
 		event = AgentEvent.followWaiter;
-		stateChanged();
+		p.msgStateChanged();
 	}
 
 	public void msgAnimationFinishedGoToSeat() {
+		Do("Got to seat");
+		
 		//from animation
 		event = AgentEvent.seated;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgWhatDoYouWant(){
 		event=AgentEvent.askedToOrder;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgRedoOrder(Menu menu,String food){
@@ -106,7 +108,7 @@ public class CustomerRole extends Role implements Customer{
 		choice=null;
 		event=AgentEvent.redoChoice;
 		this.menu=new MyMenu(menu);
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgHereIsFood(String food){
@@ -115,29 +117,29 @@ public class CustomerRole extends Role implements Customer{
 			customerGui.DoTalk("WRONG FOOD!");
 			
 		customerGui.DoReceiveFood(food);
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgHereIsCheck(Check bill, Cashier cashier){
 		check=bill;
 		this.cashier=cashier;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgAnimationFinishedGoToCashier(){
 		event = AgentEvent.atCashier;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgPaymentReceived(int owed){
 		event = AgentEvent.paymentReceived;
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
 		event = AgentEvent.doneLeaving;
-		stateChanged();
+		p.msgStateChanged();
 	}
 
 	/**
@@ -222,14 +224,14 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	private void ReadMenu(){
-		System.err.println("cash: " + p.getWalletAmount() + menu.m.toString());
+		Do("Reading menu");
 		timer.schedule(new TimerTask(){
 			public void run(){
 				choice=pickFood();
 				if (choice.compareToIgnoreCase("Error")==0){
 					event = AgentEvent.noFood;
 				}
-				stateChanged();
+				p.msgStateChanged();
 			}
 		},1000);
 	}
@@ -262,7 +264,7 @@ public class CustomerRole extends Role implements Customer{
 				event = AgentEvent.doneEating;
 				print("Done eating, cookie=" + cookie);
 				customerGui.DoFinishFood();
-				stateChanged();
+				p.msgStateChanged();
 			}
 		},
 		hungerLevel*1000);

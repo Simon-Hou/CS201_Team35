@@ -55,13 +55,13 @@ public abstract class WaiterRole extends Role implements Waiter{
 		if (name.compareToIgnoreCase("onBreak")==0)
 			msgWantBreak();
 		
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgAtDestination() {//from animation
 		atDestination.release();// = true;
 		waiterGui.DoTalk(null);
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 
@@ -71,7 +71,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 				if (mc.c==c && mc.state!=CustomerState.done){
 					Do("Received readyToOrder from " + c.getName());
 					mc.state=CustomerState.readyToOrder;
-					stateChanged();
+					p.msgStateChanged();
 					break;
 				}				
 			}
@@ -90,7 +90,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 					mc.state=CustomerState.ordered;
 					mc.choice=choice;
 					Do(mc.c.getName() + " has ordered " + mc.choice);
-					stateChanged();
+					p.msgStateChanged();
 					break;
 				}
 			}
@@ -107,7 +107,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 			for (MyCustomer mc: customers){
 				if (mc.table==table && mc.choice.compareToIgnoreCase(choice)==0 && mc.state==CustomerState.orderSent){
 					mc.state=CustomerState.noFood;
-					stateChanged();
+					p.msgStateChanged();
 					break;
 				}
 			}
@@ -122,7 +122,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 			for (MyCustomer mc: customers){
 				if (mc.table==table && mc.choice.compareToIgnoreCase(choice)==0 && mc.state==CustomerState.orderSent){
 					mc.state=CustomerState.foodReady;
-					stateChanged();
+					p.msgStateChanged();
 					break;
 				}
 			}
@@ -139,7 +139,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 				if (mc.c==c && mc.state!=CustomerState.done){
 					mc.bill=new Check(choice,total);
 					mc.needsCheck=true;
-					stateChanged();
+					p.msgStateChanged();
 					break;
 				}
 			}
@@ -154,7 +154,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 			for (MyCustomer mc: customers){
 				if (mc.c==c && mc.state!=CustomerState.done){
 					mc.state=CustomerState.leaving;
-					stateChanged();
+					p.msgStateChanged();
 					break;
 				}
 			}
@@ -169,7 +169,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 			for (MyCustomer mc: customers){
 				if (mc.c==c && mc.state!=CustomerState.done){
 					mc.state=CustomerState.paying;
-					stateChanged();
+					p.msgStateChanged();
 					break;
 				}
 			}
@@ -185,13 +185,13 @@ public abstract class WaiterRole extends Role implements Waiter{
 			breakStatus = BreakStatus.wantBreak;
 		
 		waiterGui.UpdateInfo();
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgBreakDone(){
 		breakStatus = BreakStatus.finished;
 		waiterGui.UpdateInfo();
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgBreakStatus(boolean permission){
@@ -201,7 +201,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 			breakStatus=BreakStatus.none;
 		
 		waiterGui.UpdateInfo();
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	

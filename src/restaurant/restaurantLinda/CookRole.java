@@ -50,13 +50,13 @@ public class CookRole extends Role implements Cook{
 	public void msgHereIsOrder(Waiter w, String choice, int table){
 		Do(w.getName() + " says table " + table + " wants " + choice);
 		orders.add(new Order(w,choice,table,OrderState.pending));
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgTimerDone(Order o){
 		System.err.println("Finished cooking");
 		o.state=OrderState.done;
-		stateChanged();		
+		p.msgStateChanged();		
 	}
 	
 	public void msgCannotFulfillOrder(Market m, Map<String,Integer> unfulfillable){
@@ -72,7 +72,7 @@ public class CookRole extends Role implements Cook{
 				Do("Cannot order any more "+f+" because all markets out");
 			}
 		}
-		stateChanged();		
+		p.msgStateChanged();		
 	}
 	
 	public void msgHereIsDelivery(MarketInvoice order){
@@ -91,12 +91,12 @@ public class CookRole extends Role implements Cook{
 		}
 		Do(shipmentMessage);
 		
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void msgAtDestination() {//from animation
 		atDestination.release();// = true;
-		stateChanged();
+		p.msgStateChanged();
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class CookRole extends Role implements Cook{
 			timer.schedule(new TimerTask(){
 				public void run(){
 					checkOrderStand = true;
-					stateChanged();
+					p.msgStateChanged();
 				}				
 			}, 5000);		//Wake up every 5 seconds to check the stand
 		}
@@ -306,7 +306,7 @@ public class CookRole extends Role implements Cook{
 	
 	public void addMarket(Market m){
 		markets.add(m);
-		stateChanged();
+		p.msgStateChanged();
 	}
 	
 	public void setGui(CookGui cg){
