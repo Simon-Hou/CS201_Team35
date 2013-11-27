@@ -8,7 +8,7 @@ import public_Object.Food;
 
 public class LivingUnit {
 	//data
-	InhabitantRole inhabitant;
+	public InhabitantRole inhabitant;
 	List<Food> inventory=new ArrayList<Food>(); //should we have many kinds of food or only one at the very beginning?
 	
 	public LivingUnit(){
