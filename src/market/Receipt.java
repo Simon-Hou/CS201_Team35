@@ -16,5 +16,9 @@ public class Receipt {
 		 this.payment = payment;
 		 this.cashier = cashier;
 	 }
+	 
+	 public Receipt(){
+		 
+	 }
 	    
 }
