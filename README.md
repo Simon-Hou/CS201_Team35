@@ -45,6 +45,14 @@ behavior.
 
 ### Individual Contributions
 
+##### Bobby Groom
+
++ Worked on bank animation.
++ Helped design bank.
++ The GUIs.(bank, btr, bcr).
++ Integrating the building GUIs with the SimCity zoom panel.
++ Connecting the bank animations to the personAgent.
+
 ##### Gabriel Mel de Fontenay
 
 + Co-designed the bank (with rgroom)
@@ -57,6 +65,7 @@ behavior.
 + Created and wrote unit tests for the Person Creation Panel
 	- Panel tests not completely exhaustive, could be longer
 + Wrote grading scenarios
+
 
 ### Known Bugs/Missing Functionality
 
