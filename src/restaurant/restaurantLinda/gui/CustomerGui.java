@@ -16,8 +16,6 @@ public class CustomerGui implements Gui{
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
-	RestaurantGui gui;
-
 	private int xPos, yPos;
 	private int xDestination, yDestination;
 	private enum Command {noCommand, GoToSeat, GoToCashier, LeaveRestaurant};
@@ -30,14 +28,13 @@ public class CustomerGui implements Gui{
     private Dimension bufferSize;
     public final String path="../../images/";
 
-	public CustomerGui(CustomerRole c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(CustomerRole c){ //HostAgent m) {
 		agent = c;
 		xPos = -2*personSize;
 		yPos = -2*personSize;
 		xDestination = xPos;
 		yDestination = yPos;
 		//maitreD = m;
-		this.gui = gui;
 	}
 
 	public void updatePosition() {
@@ -64,8 +61,8 @@ public class CustomerGui implements Gui{
 				bufferText = null;
 				carriedItems.clear();
 				//System.out.println("about to call gui.setCustomerEnabled(agent);");
-				isHungry = false;
-				gui.setCustomerEnabled(agent);
+				//isHungry = false;
+				//gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}

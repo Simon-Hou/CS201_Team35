@@ -27,7 +27,8 @@ public class HostRole extends Role implements Host{
 	private Collection<Table> tables = Collections.synchronizedList(new ArrayList<Table>()); 
 	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	private String name;
-
+	
+	Person backupWorker;
 
 	public HostRole(String name) {
 		super();
@@ -267,7 +268,20 @@ public class HostRole extends Role implements Host{
 		p = person;
 		
 	}
+
+
+	@Override
+	public boolean canLeave() {
+		return true;
+	}
 	
+	public void changeShifts(Person p){
+		if (this.p!=null)
+			this.p.msgThisRoleDone(this);
+		
+		this.p = p;
+		this.name = p.getName();
+	}
 	
 	
 	

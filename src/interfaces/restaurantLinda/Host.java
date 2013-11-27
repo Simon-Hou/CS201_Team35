@@ -1,6 +1,8 @@
 package interfaces.restaurantLinda;
 
-public interface Host {
+import interfaces.Occupation;
+
+public interface Host extends Occupation{
 	
 	public abstract void msgIWantFood(Customer cust);
 	

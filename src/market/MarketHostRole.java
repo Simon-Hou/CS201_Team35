@@ -55,6 +55,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
+		
 	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
 	    if(p!=null){
@@ -138,6 +139,8 @@ public class MarketHostRole extends Role implements MarketHost {
 	}
 	
 	private void ServeCustomer(MyCustomer mc){
+		
+		
 		Do("Serving customer");
 		mc.state = CustomerState.beingServiced;
 		

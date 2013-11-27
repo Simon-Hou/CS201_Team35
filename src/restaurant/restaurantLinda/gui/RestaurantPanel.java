@@ -175,7 +175,7 @@ public class RestaurantPanel extends JPanel {
      */
     public void addPerson(String type, String name, boolean hungry) {
 
-    	if (type.equals("Customers")) {
+    	/*if (type.equals("Customers")) {
     		CustomerRole c = new CustomerRole(name);	
     		CustomerGui g = new CustomerGui(c, gui);
     		if (hungry)
@@ -202,7 +202,7 @@ public class RestaurantPanel extends JPanel {
     		w.setGui(wg);
     		waiters.add(w);
     		w.startThread();*/
-    	}
+    	//}
     }
      
     public boolean addTable(int size, int xLoc, int yLoc) {
