@@ -63,7 +63,12 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public boolean canLeave() {
-		return (customerOrders.isEmpty() && businessOrders.isEmpty());
+		boolean answer = (customerOrders.isEmpty() && businessOrders.isEmpty());
+		if (answer){
+			market.panel.animation.removeGui(this.gui);
+		}
+		return answer;
+		
 	}
 	
 	

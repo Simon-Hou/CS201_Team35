@@ -275,6 +275,7 @@ public class PersonAgent extends Agent implements Person {
 					}
 				}
 				if(((Occupation) myJob.jobRole).canLeave()){
+		
 					Do("It's quitting time.");
 					activeRole = null;
 					return true;
