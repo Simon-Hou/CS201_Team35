@@ -10,15 +10,10 @@ import market.OrderItem;
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
 import interfaces.MarketEmployee;
-import UnitTests.mock.EventLog;
-import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
 public class MockMarketCashier extends Mock implements MarketCashier{
 
-	
-	public EventLog log = new EventLog();
-	
 	String name;
 	public MarketCustomer customer;
 	
@@ -42,8 +37,6 @@ public class MockMarketCashier extends Mock implements MarketCashier{
 			Map<String, Integer> groceries) {
 		// TODO Auto-generated method stub
 		
-		log.add(new LoggedEvent("got msgServiceCustomer"));
-		
 	}
 
 	@Override
@@ -55,7 +48,7 @@ public class MockMarketCashier extends Mock implements MarketCashier{
 	@Override
 	public void msgCustomerPayment(MarketCustomer c, int payment) {
 		// TODO Auto-generated method stub
-		log.add(new LoggedEvent("got msgCustomerPayment"));
+		
 	}
 
 	@Override
@@ -81,14 +74,7 @@ public class MockMarketCashier extends Mock implements MarketCashier{
 	public void msgCalculateInvoice(MarketEmployee employee,
 			List<OrderItem> order, Restaurant r) {
 		// TODO Auto-generated method stub
-		log.add(new LoggedEvent("got msgCalculateInvoice"));
 		
-	}
-
-	@Override
-	public boolean isPresent() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

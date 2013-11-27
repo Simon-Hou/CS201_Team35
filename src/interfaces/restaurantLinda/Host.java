@@ -18,6 +18,4 @@ public interface Host extends Occupation{
 
 	public abstract void addWaiter(Waiter m);
 
-	public abstract boolean isPresent();
-
 }

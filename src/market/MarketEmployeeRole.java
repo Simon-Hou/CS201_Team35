@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
-import UnitTests.mock.EventLog;
-import UnitTests.mock.LoggedEvent;
 import market.gui.MarketEmployeeGui;
 import person.PersonAgent;
 import restaurant.Restaurant;
@@ -22,17 +20,14 @@ import interfaces.Person;
 
 public class MarketEmployeeRole extends Role implements MarketEmployee{
 
-	public EventLog log = new EventLog();
-	
-	
-	public List<CustomerOrder> customerOrders = Collections.synchronizedList(new ArrayList<CustomerOrder>());
-	public List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
-	public Person p;
+	List<CustomerOrder> customerOrders = Collections.synchronizedList(new ArrayList<CustomerOrder>());
+	List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
+	public PersonAgent p;
 	public String name;
 	private Market market;
 	
 	List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
-	public MarketCashier cashier; 
+	MarketCashier cashier; 
 	
 	MarketEmployeeGui gui;
 	
@@ -78,27 +73,24 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	
 	//constructor
-	public MarketEmployeeRole(String name, Person p){
+	public MarketEmployeeRole(String name, PersonAgent p){
 		this.name = name;
 		this.p = p;
 	}
 	
 	//Messages
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList){
-		log.add(new LoggedEvent("got msgGetItemsForCustomer"));
 	    Do("Better get the customer's items");
 		customerOrders.add(new CustomerOrder(c, orderList));
 		p.msgStateChanged();
 	}
 
 	public void msgGetThis(List<OrderItem> order, Restaurant r){
-		log.add(new LoggedEvent("got msgGetThis"));
 	    businessOrders.add(new MyBusinessOrder(order, r));
 	    p.msgStateChanged();
 	}
 	
 	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total){
-		log.add(new LoggedEvent("got msgGiveInvoice"));
 		receivedInvoice.release();
 		for(MyBusinessOrder o : businessOrders){
 			if (o.order.equals(order) && o.restaurant==r){
@@ -156,15 +148,12 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	//Actions
 	private void CollectItems(CustomerOrder co){
 		
-		log.add(new LoggedEvent("action CollectItems"));
-		
 	    co.status = CustomerOrderState.fulfilled;
 	
 		
 		//^^^this should go inside the for loop for each item needing to be collected
 		
 	    for (String item: co.order.keySet()){
-	    	log.add(new LoggedEvent("collecting item"));
 	    	//DoCollectItem(item, co.order.get(item));
 	    	if(gui!=null){
 				gui.DoGetItem(item);
@@ -188,7 +177,6 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 
 	
 	private void GiveItemsToCustomer(CustomerOrder co){
-		log.add(new LoggedEvent("action GiveItemsToCustomer") );
 		
 		if(gui!=null){
 			gui.DoGiveCustomerItems();
@@ -217,8 +205,6 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 
 	private void GetBusinessOrder(MyBusinessOrder order){
-	
-		log.add(new LoggedEvent("action GetBusinessOrder"));
 		Do("Better fill this business order");
 		
 		//Discuss changing this so that BusinessOrder is no longer public
@@ -259,26 +245,20 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    
 		//got to cashier
 		Do(cashier.getName() + ", can you please calculate the invoice for this order?");
-		
-		if (order.restaurant!= null){
-			cashier.msgCalculateInvoice(this, order.order, order.restaurant);
-		}
-		else cashier.msgCalculateInvoice(this, order.order, null);
+		cashier.msgCalculateInvoice(this, order.order, order.restaurant);
 	    
 		order.state = OrderState.none;
 
-		if (gui!=null){
+		
 		try {
 			receivedInvoice.acquire();
 		} catch (InterruptedException e){
 			e.printStackTrace();
 		}
-		}
 	
 	}
 	
 	private void PlaceOrderOnDock(MyBusinessOrder order){
-		log.add(new LoggedEvent("action PlaceOrderOnDock"));
 		businessOrders.remove(order);
 		
 		 if(gui!=null){

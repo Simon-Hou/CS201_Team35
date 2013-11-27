@@ -1,5 +1,5 @@
 package person.test.mock;
-/*
+
 import role.Role;
 import bank.interfaces.Person;
 import bank.test.mock.EventLog;
@@ -48,5 +48,5 @@ public class MockPerson extends Mock implements Person {
 	public void msgThisRoleDone(Role role) {
 		log.add(new LoggedEvent("My BankCustomerRole just finished"));
 	}
-*/
 
+}

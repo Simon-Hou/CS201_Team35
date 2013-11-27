@@ -10,33 +10,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
-import UnitTests.mock.EventLog;
-import UnitTests.mock.LoggedEvent;
 import person.PersonAgent;
 import public_Object.Food;
 import role.Role;
 import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-
-	
-	public EventLog log = new EventLog();
-	
 	public Person p;
-	public RoleState state;
-	public enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
-	public RoleEvent event;
-	public enum RoleEvent {none, itemsArrived, askedToPay, paymentReceived, allowedToLeave }
-	public Map<String, Integer> shoppingList = new HashMap<String, Integer>();    
-	public Map<String, Integer> groceries = new HashMap<String,Integer>();
-	public int bill;
-	public Receipt receipt;
-	public Market market;
-
+	RoleState state;
+	enum RoleState {JustEnteredMarket, Ordered, ReceivedItems, WaitingForTotal, Paying, Leaving, Done}
+	RoleEvent event;
+	enum RoleEvent {none, itemsArrived, askedToPay, paymentReceived, allowedToLeave }
+	Map<String, Integer> shoppingList = new HashMap<String, Integer>();    
+	Map<String, Integer> groceries = new HashMap<String,Integer>();
+	int bill;
+	Receipt receipt;
+	Market market;
 	MarketHost host;
 	MarketCashier cashier;
 	public String name;
-	public boolean sad = false;
+	boolean sad = false;
 	
 	public MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
@@ -51,7 +44,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	public void msgHereAreItems(Map<String, Integer> groceries){
-		log.add(new LoggedEvent("got msgHereAreItems"));
 		Do("Got my MARKET items");
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
@@ -60,7 +52,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	public void msgHereIsTotal(int total){
-		log.add(new LoggedEvent("got msgHereIsTotal"));
 		Do("Got the MARKET bill");
 	    bill = total;
 	    event = RoleEvent.askedToPay;
@@ -68,7 +59,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	public void msgHereIsYourChange(Receipt receipt, int change){
-		log.add(new LoggedEvent("got msgHereIsYourChange"));
 		Do("got change");
 	    this.receipt = receipt;
 	    p.addToWallet(change);
@@ -77,7 +67,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	public void msgYouOweMoney(Receipt receipt, int debt){
-		log.add(new LoggedEvent("got msgYouOweMoney"));
 	    this.receipt = receipt;
 	    event = RoleEvent.paymentReceived;
 	    p.msgStateChanged();
@@ -85,7 +74,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	public void msgYouCanLeave(){
 	
-		log.add(new LoggedEvent("got msgYouCanLeave"));
 	    event = RoleEvent.allowedToLeave;
 	    p.msgStateChanged();
 	}
@@ -96,13 +84,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	public void msgWeHaveNothing(){
-		log.add(new LoggedEvent("got msgWeHaveNothing"));
 		sad = true;
 		p.msgStateChanged();
 	}
 	
 	public void msgYouAreAtMarket(Market m){
-		log.add(new LoggedEvent("got msgYouAreAtMarket"));
 		Do("I'm at the market.");
 		setMarket(m);
 		state = RoleState.JustEnteredMarket;
@@ -155,8 +141,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//Actions
 	private void MakeOrder(){
-		
-		log.add(new LoggedEvent("MakeOrder action"));
 		//enter door
 		if(gui!=null){
 			gui.DoGoToExit();
@@ -194,7 +178,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void GoPay(){
-		log.add(new LoggedEvent("action GoPay"));
 		if(gui!=null){
 			gui.DoGoToCashier();
 		}
@@ -215,7 +198,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void MakePayment(){                //Right now markets letting customer do an IOU
 	    
-		log.add(new LoggedEvent("action MakePayment"));
 		Do("Making payment");
 		int payment;
 	    if (p.getWalletAmount()>=bill)
@@ -228,7 +210,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void TryToLeave(){
-		log.add(new LoggedEvent("action TryToLeave"));
 		
 		if(gui!=null){
 			gui.DoGoToExit();
@@ -249,7 +230,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void LeaveMarket(){
-		log.add(new LoggedEvent("action LeaveMarket"));
 		for (String item: groceries.keySet()){
 			p.putInBag(item, groceries.get(item));
 		}
@@ -262,7 +242,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	private void LeaveSad(){
-		log.add(new LoggedEvent("action LeaveSad"));
 		if(gui!=null){
 			gui.DoGoToExit();
 		}

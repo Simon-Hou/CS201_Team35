@@ -8,17 +8,12 @@ import market.OrderItem;
 import interfaces.MarketCustomer;
 import interfaces.MarketDeliveryMan;
 import interfaces.MarketEmployee;
-import interfaces.MarketHost;
-import UnitTests.mock.EventLog;
-import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
 public class MockMarketEmployee extends Mock implements MarketEmployee{
 
-	public EventLog log = new EventLog();
 	String name;
 	public MarketCustomer customer;
-	public MarketHost host;
 	
 	public MockMarketEmployee(String name){
 		this.name = name;
@@ -38,7 +33,6 @@ public class MockMarketEmployee extends Mock implements MarketEmployee{
 	public void msgGetItemsForCustomer(MarketCustomer c,
 			Map<String, Integer> orderList) {
 		// TODO Auto-generated method stub
-		log.add(new LoggedEvent("got msgGetItemsForCustomer"));
 		
 	}
 

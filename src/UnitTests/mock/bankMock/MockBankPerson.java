@@ -92,10 +92,4 @@ public class MockBankPerson extends Mock implements Person {
 		
 	}
 
-	@Override
-	public void msgSetTiredLevel(int level) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

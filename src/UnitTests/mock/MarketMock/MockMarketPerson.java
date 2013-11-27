@@ -5,16 +5,10 @@ import util.Bus;
 import util.BusStop;
 import util.Loc;
 import interfaces.Person;
-import UnitTests.mock.EventLog;
-import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
 public class MockMarketPerson extends Mock implements Person {
 
-	public int wallet = 0;
-	
-	public EventLog log = new EventLog();
-	
 	
 	
 	public MockMarketPerson(String name) {
@@ -39,21 +33,18 @@ public class MockMarketPerson extends Mock implements Person {
 	public void addToWallet(int amount) {
 		// TODO Auto-generated method stub
 		
-		wallet += amount;
-		
 	}
 
 	@Override
 	public void takeFromWallet(int amount) {
 		// TODO Auto-generated method stub
-		wallet = wallet - amount;
 		
 	}
 
 	@Override
 	public int getWalletAmount() {
 		// TODO Auto-generated method stub
-		return wallet;
+		return 0;
 	}
 
 	@Override
@@ -90,7 +81,7 @@ public class MockMarketPerson extends Mock implements Person {
 	@Override
 	public void msgThisRoleDone(Role role) {
 		// TODO Auto-generated method stub
-		log.add(new LoggedEvent("got msgThisRoleDone"));
+		
 	}
 
 	@Override
@@ -107,12 +98,6 @@ public class MockMarketPerson extends Mock implements Person {
 
 	@Override
 	public void msgBusAtStop(Bus b, BusStop stop) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgSetTiredLevel(int level) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -31,7 +31,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	//data
 	String name;
 	LivingUnit myRoom;
-	public Person self=null;
+	Person self;
 	//enum InhabitantState {IDLE,HUNGRY,FOODREADY, TIRED,EXIT};
 	//public InhabitantState s=InhabitantState.IDLE;
 	boolean wantEat=false;
@@ -90,7 +90,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 			return true;
 		}
 		
-		gui.DoIdle();		
+		//gui.DoIdle();		
 		return false;
 	}
 	
@@ -99,8 +99,8 @@ public class InhabitantRole extends Role implements Inhabitant {
 	private void Sleep(){
 		//Do("Going to sleep");
 		wantSleep=false;
-		gui.DoSleep();
-		self.msgSetTiredLevel(0);
+		//gui.DoSleep();
+		//Do("I HAVE AWAKENED");
 		return;
 	}
 	
