@@ -125,16 +125,17 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 	        paint.fillRect(panelX/2-30, barrierY - 7, 60, 19);
 	        
 	        //CASHIER
-
+	        if (panel.market.cashier.isPresent()){
 	        	paint.setColor(Color.PINK);
 	        	paint.fillRect(10, 90, 20, 20);
+	        }
 	        
 	        
 	        //HOST
-
+	        if (panel.market.host.isPresent()){
 	       		paint.setColor(Color.MAGENTA);
 	       		paint.fillRect(panelX - 30, 90, 20, 20);
-	       	
+	        }
 	       		
 	        
 	        //LABELS

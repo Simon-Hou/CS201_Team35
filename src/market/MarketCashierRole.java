@@ -41,6 +41,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		return true;
 	}
 	
+	public boolean isPresent(){
+		if (p==null)
+			return false;
+		else return true;
+	}
+	
 	//CONSTRUCTOR
 	public MarketCashierRole(String name, Person p, Market m){
 		this.p = p;

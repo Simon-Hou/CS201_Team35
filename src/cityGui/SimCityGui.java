@@ -148,7 +148,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 		if(type.equals("Market")){
 			CityComponent temp = new CityMarket(x, y, "Market " + (city.statics.size()-19));
 			CityMarketCard tempAnimation = new CityMarketCard(this);
-			((CityMarket)temp).market.setMarketPanel(new MarketPanel(tempAnimation, ((CityMarket)temp).market));
+			MarketPanel panel = new MarketPanel(tempAnimation, ((CityMarket)temp).market);
+			((CityMarket)temp).market.setMarketPanel(panel);
+			tempAnimation.setPanel(panel);
 			city.markets.add(((CityMarket)temp).market);
 			this.view.addView(tempAnimation, temp.ID);
 			temp.cityObject = this.cityObject;
@@ -352,8 +354,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
-/*		test.addBuses(test);
-		test.addNewBuilding("Bank", 5, 400);
+		test.addBuses(test);
+		//test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Restaurant", 5, 200);
 		test.addNewBuilding("House", 200, 5);
@@ -363,8 +365,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Restaurant", 5, 200);
 
-		test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);			*/
+		//test.fullyManBuilding("Bank",0);
+		test.fullyManBuilding("Market",0);			
 		//test.fullyManBuilding("Restaurant",0);
 		//test.addBuses(test);
 
