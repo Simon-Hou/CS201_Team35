@@ -8,7 +8,10 @@ import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -30,6 +33,215 @@ import cityGui.trace.TracePanel;
 
 public class SimCityGui extends JFrame implements ActionListener {
 
+	//Creates a list of the different lists of sprites
+	public List<ArrayList<ImageIcon>> upAll = new ArrayList<ArrayList<ImageIcon>>();
+	public List<ArrayList<ImageIcon>> downAll = new ArrayList<ArrayList<ImageIcon>>();
+	public List<ArrayList<ImageIcon>> leftAll = new ArrayList<ArrayList<ImageIcon>>();
+	public List<ArrayList<ImageIcon>> rightAll = new ArrayList<ArrayList<ImageIcon>>();
+	
+	public List<ImageIcon> up = new ArrayList<ImageIcon>();
+    java.net.URL up1 = getClass().getResource("personImages/up1.png");
+	ImageIcon u1 = new ImageIcon(up1);
+	java.net.URL up2 = getClass().getResource("personImages/up2.png");
+	ImageIcon u2 = new ImageIcon(up2);
+	java.net.URL up3 = getClass().getResource("personImages/up3.png");
+	ImageIcon u3 = new ImageIcon(up3);
+	public List<ImageIcon> down = new ArrayList<ImageIcon>();
+	java.net.URL down1 = getClass().getResource("personImages/down1.png");
+	ImageIcon d1 = new ImageIcon(down1);
+	java.net.URL down2 = getClass().getResource("personImages/down2.png");
+	ImageIcon d2 = new ImageIcon(down2);
+	java.net.URL down3 = getClass().getResource("personImages/down3.png");
+	ImageIcon d3 = new ImageIcon(down3);
+	public List<ImageIcon> left = new ArrayList<ImageIcon>();
+	java.net.URL left1 = getClass().getResource("personImages/left1.png");
+	ImageIcon l1 = new ImageIcon(left1);
+	java.net.URL left2 = getClass().getResource("personImages/left2.png");
+	ImageIcon l2 = new ImageIcon(left2);
+	java.net.URL left3 = getClass().getResource("personImages/left3.png");
+	ImageIcon l3 = new ImageIcon(left3);
+	public List<ImageIcon> right = new ArrayList<ImageIcon>();
+	java.net.URL right1 = getClass().getResource("personImages/right1.png");
+	ImageIcon r1 = new ImageIcon(right1);
+	java.net.URL right2 = getClass().getResource("personImages/right2.png");
+	ImageIcon r2 = new ImageIcon(right2);
+	java.net.URL right3 = getClass().getResource("personImages/right3.png");
+	ImageIcon r3 = new ImageIcon(right3);
+	
+	//Goku Sprites
+	public List<ImageIcon> gup = new ArrayList<ImageIcon>();
+    java.net.URL gup1 = getClass().getResource("personImages/gup1.png");
+	ImageIcon gu1 = new ImageIcon(gup1);
+	java.net.URL gup2 = getClass().getResource("personImages/gup2.png");
+	ImageIcon gu2 = new ImageIcon(gup2);
+	java.net.URL gup3 = getClass().getResource("personImages/gup3.png");
+	ImageIcon gu3 = new ImageIcon(gup3);
+	java.net.URL gup4 = getClass().getResource("personImages/gup4.png");
+	ImageIcon gu4 = new ImageIcon(gup4);
+	public List<ImageIcon> gdown = new ArrayList<ImageIcon>();
+	java.net.URL gdown1 = getClass().getResource("personImages/gdown1.png");
+	ImageIcon gd1 = new ImageIcon(gdown1);
+	java.net.URL gdown2 = getClass().getResource("personImages/gdown2.png");
+	ImageIcon gd2 = new ImageIcon(gdown2);
+	java.net.URL gdown3 = getClass().getResource("personImages/gdown3.png");
+	ImageIcon gd3 = new ImageIcon(gdown3);
+	java.net.URL gdown4 = getClass().getResource("personImages/gdown4.png");
+	ImageIcon gd4 = new ImageIcon(gdown4);
+	public List<ImageIcon> gleft = new ArrayList<ImageIcon>();
+	java.net.URL gleft1 = getClass().getResource("personImages/gleft1.png");
+	ImageIcon gl1 = new ImageIcon(gleft1);
+	java.net.URL gleft2 = getClass().getResource("personImages/gleft2.png");
+	ImageIcon gl2 = new ImageIcon(gleft2);
+	java.net.URL gleft3 = getClass().getResource("personImages/gleft3.png");
+	ImageIcon gl3 = new ImageIcon(gleft3);
+	java.net.URL gleft4 = getClass().getResource("personImages/gleft4.png");
+	ImageIcon gl4 = new ImageIcon(gleft4);
+	public List<ImageIcon> gright = new ArrayList<ImageIcon>();
+	java.net.URL gright1 = getClass().getResource("personImages/gright1.png");
+	ImageIcon gr1 = new ImageIcon(gright1);
+	java.net.URL gright2 = getClass().getResource("personImages/gright2.png");
+	ImageIcon gr2 = new ImageIcon(gright2);
+	java.net.URL gright3 = getClass().getResource("personImages/gright3.png");
+	ImageIcon gr3 = new ImageIcon(gright3);
+	java.net.URL gright4 = getClass().getResource("personImages/gright4.png");
+	ImageIcon gr4 = new ImageIcon(gright4);
+	
+	//Gohan Sprites
+	public List<ImageIcon> ghup = new ArrayList<ImageIcon>();
+    java.net.URL ghup1 = getClass().getResource("personImages/ghup1.png");
+	ImageIcon ghu1 = new ImageIcon(ghup1);
+	java.net.URL ghup2 = getClass().getResource("personImages/ghup2.png");
+	ImageIcon ghu2 = new ImageIcon(ghup2);
+	java.net.URL ghup3 = getClass().getResource("personImages/ghup3.png");
+	ImageIcon ghu3 = new ImageIcon(ghup3);
+	java.net.URL ghup4 = getClass().getResource("personImages/ghup4.png");
+	ImageIcon ghu4 = new ImageIcon(ghup4);
+	public List<ImageIcon> ghdown = new ArrayList<ImageIcon>();
+	java.net.URL ghdown1 = getClass().getResource("personImages/ghdown1.png");
+	ImageIcon ghd1 = new ImageIcon(ghdown1);
+	java.net.URL ghdown2 = getClass().getResource("personImages/ghdown2.png");
+	ImageIcon ghd2 = new ImageIcon(ghdown2);
+	java.net.URL ghdown3 = getClass().getResource("personImages/ghdown3.png");
+	ImageIcon ghd3 = new ImageIcon(ghdown3);
+	java.net.URL ghdown4 = getClass().getResource("personImages/ghdown4.png");
+	ImageIcon ghd4 = new ImageIcon(ghdown4);
+	public List<ImageIcon> ghleft = new ArrayList<ImageIcon>();
+	java.net.URL ghleft1 = getClass().getResource("personImages/ghleft1.png");
+	ImageIcon ghl1 = new ImageIcon(ghleft1);
+	java.net.URL ghleft2 = getClass().getResource("personImages/ghleft2.png");
+	ImageIcon ghl2 = new ImageIcon(ghleft2);
+	java.net.URL ghleft3 = getClass().getResource("personImages/ghleft3.png");
+	ImageIcon ghl3 = new ImageIcon(ghleft3);
+	java.net.URL ghleft4 = getClass().getResource("personImages/ghleft4.png");
+	ImageIcon ghl4 = new ImageIcon(ghleft4);
+	public List<ImageIcon> ghright = new ArrayList<ImageIcon>();
+	java.net.URL ghright1 = getClass().getResource("personImages/ghright1.png");
+	ImageIcon ghr1 = new ImageIcon(ghright1);
+	java.net.URL ghright2 = getClass().getResource("personImages/ghright2.png");
+	ImageIcon ghr2 = new ImageIcon(ghright2);
+	java.net.URL ghright3 = getClass().getResource("personImages/ghright3.png");
+	ImageIcon ghr3 = new ImageIcon(ghright3);
+	java.net.URL ghright4 = getClass().getResource("personImages/ghright4.png");
+	ImageIcon ghr4 = new ImageIcon(ghright4);
+	
+	//Hercule Sprites
+	public List<ImageIcon> hup = new ArrayList<ImageIcon>();
+    java.net.URL hup1 = getClass().getResource("personImages/hup1.png");
+	ImageIcon hu1 = new ImageIcon(hup1);
+	java.net.URL hup2 = getClass().getResource("personImages/hup2.png");
+	ImageIcon hu2 = new ImageIcon(hup2);
+	java.net.URL hup3 = getClass().getResource("personImages/hup3.png");
+	ImageIcon hu3 = new ImageIcon(hup3);
+	java.net.URL hup4 = getClass().getResource("personImages/hup4.png");
+	ImageIcon hu4 = new ImageIcon(hup4);
+	public List<ImageIcon> hdown = new ArrayList<ImageIcon>();
+	java.net.URL hdown1 = getClass().getResource("personImages/hdown1.png");
+	ImageIcon hd1 = new ImageIcon(hdown1);
+	java.net.URL hdown2 = getClass().getResource("personImages/hdown2.png");
+	ImageIcon hd2 = new ImageIcon(hdown2);
+	java.net.URL hdown3 = getClass().getResource("personImages/hdown3.png");
+	ImageIcon hd3 = new ImageIcon(hdown3);
+	java.net.URL hdown4 = getClass().getResource("personImages/hdown4.png");
+	ImageIcon hd4 = new ImageIcon(hdown4);
+	public List<ImageIcon> hleft = new ArrayList<ImageIcon>();
+	java.net.URL hleft1 = getClass().getResource("personImages/hleft1.png");
+	ImageIcon hl1 = new ImageIcon(hleft1);
+	java.net.URL hleft2 = getClass().getResource("personImages/hleft2.png");
+	ImageIcon hl2 = new ImageIcon(hleft2);
+	java.net.URL hleft3 = getClass().getResource("personImages/hleft3.png");
+	ImageIcon hl3 = new ImageIcon(hleft3);
+	java.net.URL hleft4 = getClass().getResource("personImages/hleft4.png");
+	ImageIcon hl4 = new ImageIcon(hleft4);
+	public List<ImageIcon> hright = new ArrayList<ImageIcon>();
+	java.net.URL hright1 = getClass().getResource("personImages/hright1.png");
+	ImageIcon hr1 = new ImageIcon(hright1);
+	java.net.URL hright2 = getClass().getResource("personImages/hright2.png");
+	ImageIcon hr2 = new ImageIcon(hright2);
+	java.net.URL hright3 = getClass().getResource("personImages/hright3.png");
+	ImageIcon hr3 = new ImageIcon(hright3);
+	java.net.URL hright4 = getClass().getResource("personImages/hright4.png");
+	ImageIcon hr4 = new ImageIcon(hright4);
+	
+//	//Olibu Sprites
+//	public List<ImageIcon> oup = new ArrayList<ImageIcon>();
+//    java.net.URL oup1 = getClass().getResource("personImages/oup1.png");
+//	ImageIcon ou1 = new ImageIcon(oup1);
+//	java.net.URL oup2 = getClass().getResource("personImages/oup2.png");
+//	ImageIcon ou2 = new ImageIcon(oup2);
+//	java.net.URL oup3 = getClass().getResource("personImages/oup3.png");
+//	ImageIcon ou3 = new ImageIcon(oup3);
+//	public List<ImageIcon> odown = new ArrayList<ImageIcon>();
+//	java.net.URL odown1 = getClass().getResource("personImages/odown1.png");
+//	ImageIcon od1 = new ImageIcon(odown1);
+//	java.net.URL odown2 = getClass().getResource("personImages/odown2.png");
+//	ImageIcon od2 = new ImageIcon(odown2);
+//	java.net.URL odown3 = getClass().getResource("personImages/odown3.png");
+//	ImageIcon od3 = new ImageIcon(odown3);
+//	public List<ImageIcon> oleft = new ArrayList<ImageIcon>();
+//	java.net.URL oleft1 = getClass().getResource("personImages/oleft1.png");
+//	ImageIcon ol1 = new ImageIcon(oleft1);
+//	java.net.URL oleft2 = getClass().getResource("personImages/oleft2.png");
+//	ImageIcon ol2 = new ImageIcon(oleft2);
+//	java.net.URL oleft3 = getClass().getResource("personImages/oleft3.png");
+//	ImageIcon ol3 = new ImageIcon(oleft3);
+//	public List<ImageIcon> oright = new ArrayList<ImageIcon>();
+//	java.net.URL oright1 = getClass().getResource("personImages/oright1.png");
+//	ImageIcon or1 = new ImageIcon(oright1);
+//	java.net.URL oright2 = getClass().getResource("personImages/oright2.png");
+//	ImageIcon or2 = new ImageIcon(oright2);
+//	java.net.URL oright3 = getClass().getResource("personImages/oright3.png");
+//	ImageIcon or3 = new ImageIcon(oright3);
+	
+	//Piccolo Sprites
+//	public List<ImageIcon> pup = new ArrayList<ImageIcon>();
+//    java.net.URL pup1 = getClass().getResource("personImages/pup1.png");
+//	ImageIcon pu1 = new ImageIcon(pup1);
+//	java.net.URL pup2 = getClass().getResource("personImages/pup2.png");
+//	ImageIcon pu2 = new ImageIcon(pup2);
+//	java.net.URL pup3 = getClass().getResource("personImages/pup3.png");
+//	ImageIcon pu3 = new ImageIcon(pup3);
+//	public List<ImageIcon> pdown = new ArrayList<ImageIcon>();
+//	java.net.URL pdown1 = getClass().getResource("personImages/pdown1.png");
+//	ImageIcon pd1 = new ImageIcon(pdown1);
+//	java.net.URL pdown2 = getClass().getResource("personImages/pdown2.png");
+//	ImageIcon pd2 = new ImageIcon(pdown2);
+//	java.net.URL pdown3 = getClass().getResource("personImages/pdown3.png");
+//	ImageIcon pd3 = new ImageIcon(pdown3);
+//	public List<ImageIcon> pleft = new ArrayList<ImageIcon>();
+//	java.net.URL pleft1 = getClass().getResource("personImages/pleft1.png");
+//	ImageIcon pl1 = new ImageIcon(pleft1);
+//	java.net.URL pleft2 = getClass().getResource("personImages/pleft2.png");
+//	ImageIcon pl2 = new ImageIcon(pleft2);
+//	java.net.URL pleft3 = getClass().getResource("personImages/pleft3.png");
+//	ImageIcon pl3 = new ImageIcon(pleft3);
+//	public List<ImageIcon> pright = new ArrayList<ImageIcon>();
+//	java.net.URL pright1 = getClass().getResource("personImages/pright1.png");
+//	ImageIcon pr1 = new ImageIcon(pright1);
+//	java.net.URL pright2 = getClass().getResource("personImages/pright2.png");
+//	ImageIcon pr2 = new ImageIcon(pright2);
+//	java.net.URL pright3 = getClass().getResource("personImages/pright3.png");
+//	ImageIcon pr3 = new ImageIcon(pright3);
+
 	public CityPanel city;
 	public CityObject cityObject;
 	InfoPanel info;
@@ -43,6 +255,61 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public long time=0;
 
 	public SimCityGui() throws HeadlessException {
+		//Adds person images to its sprite array
+		up.add(u1); up.add(u2); up.add(u1); up.add(u3);
+		down.add(d1); down.add(d2); down.add(d1); down.add(d3);
+		left.add(l1); left.add(l2); left.add(l1); left.add(l3);
+		right.add(r1); right.add(r2); right.add(r1); right.add(r3);
+		
+		upAll.add((ArrayList<ImageIcon>) up);
+		downAll.add((ArrayList<ImageIcon>) down);
+		leftAll.add((ArrayList<ImageIcon>) left);
+		rightAll.add((ArrayList<ImageIcon>) right);
+		
+		//Adds piccolo images to sprite arrays
+//		pup.add(pu1); pup.add(pu2); pup.add(pu1); pup.add(pu3);
+//		pdown.add(pd1); pdown.add(pd2); pdown.add(pd1); pdown.add(pd3);
+//		pleft.add(pl1); pleft.add(pl2); pleft.add(pl1); pleft.add(pl3);
+//		pright.add(pr1); pright.add(pr2); pright.add(pr1); pright.add(pr3);
+		
+		//Adds goku images to sprite arrays
+		gup.add(gu1); gup.add(gu2); gup.add(gu3); gup.add(gu4);
+		gdown.add(gd1); gdown.add(gd2); gdown.add(gd3); gdown.add(gd4);
+		gleft.add(gl1); gleft.add(gl2); gleft.add(gl3); gleft.add(gl4);
+		gright.add(gr1); gright.add(gr2); gright.add(gr3); gright.add(gr4);
+		
+		upAll.add((ArrayList<ImageIcon>) gup);
+		downAll.add((ArrayList<ImageIcon>) gdown);
+		leftAll.add((ArrayList<ImageIcon>) gleft);
+		rightAll.add((ArrayList<ImageIcon>) gright);
+		
+//		up.add(u1); up.add(u2); up.add(u1); up.add(u3); up.add(u4);
+//		down.add(d1); down.add(d2); down.add(d1); down.add(d3); up.add(d4);
+//		left.add(l1); left.add(l2); left.add(l1); left.add(l3); up.add(l4);
+//		right.add(r1); right.add(r2); right.add(r1); right.add(r3); up.add(r4);
+		
+		//Adds gohan images to sprite arrays
+		ghup.add(ghu1); ghup.add(ghu2); ghup.add(ghu3); ghup.add(ghu4);
+		ghdown.add(ghd1); ghdown.add(ghd2); down.add(ghd3); ghdown.add(ghd4);
+		ghleft.add(ghl1); ghleft.add(ghl2); ghleft.add(ghl3); ghleft.add(ghl4);
+		ghright.add(ghr1); ghright.add(ghr2); ghright.add(ghr3); ghright.add(ghr4);
+		
+		upAll.add((ArrayList<ImageIcon>) ghup);
+		downAll.add((ArrayList<ImageIcon>) ghdown);
+		leftAll.add((ArrayList<ImageIcon>) ghleft);
+		rightAll.add((ArrayList<ImageIcon>) ghright);
+		
+		//Adds hercule images to sprite arrays
+		hup.add(hu1); hup.add(hu2); hup.add(hu3); hup.add(hu4);
+		hdown.add(hd1); hdown.add(hd2); hdown.add(hd3); hdown.add(hd4);
+		hleft.add(hl1); hleft.add(hl2); hleft.add(hl3); hleft.add(hl4);
+		hright.add(hr1); hright.add(hr2); hright.add(hr3); hright.add(hr4);
+		
+		upAll.add((ArrayList<ImageIcon>) hup);
+		downAll.add((ArrayList<ImageIcon>) hdown);
+		leftAll.add((ArrayList<ImageIcon>) hleft);
+		rightAll.add((ArrayList<ImageIcon>) hright);
+			
 		CP = new CityControlPanel(this);
 
 		tracePanel = new TracePanel();
@@ -280,15 +547,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
-		test.addBuses(test);
-		test.addNewBuilding("Bank", 5, 400);
-		test.addNewBuilding("Market",200,250);
+//		test.addBuses(test);
+//		test.addNewBuilding("Bank", 5, 400);
+//		test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Market", 250, 200);
-		test.addNewBuilding("House", 200, 5);
+//		test.addNewBuilding("House", 200, 5);
 		//test.addNewBuilding("House", 500, 5);
-		test.addBuses(test);
-		test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);
+		//test.addBuses(test);
+//		test.fullyManBuilding("Bank",0);
+//		test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
