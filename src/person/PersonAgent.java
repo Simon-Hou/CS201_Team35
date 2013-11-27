@@ -207,6 +207,10 @@ public class PersonAgent extends Agent implements Person {
 	
 
 	//msg
+	public void msgSetTiredLevel(int level){
+		tiredLevel=0;
+		stateChanged();
+	}
 	
 	public void msgYouWantToRideBus(boolean want){
 		this.wantsToRideBus = want;
