@@ -53,7 +53,7 @@ behavior.
 + Coded and unit tested the Bus system
 + Integrated most of the agent code in the city (except Restaurant)
 	- Market staffers shift changes is not fully coded yet.
-+ Helped write/added to much of the person code
++ Helped write/added to much of the person code (with yocca)
 + Created and wrote unit tests for the Person Creation Panel
 	- Panel tests not completely exhaustive, could be longer
 + Wrote grading scenarios
