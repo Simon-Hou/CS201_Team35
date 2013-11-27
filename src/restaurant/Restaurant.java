@@ -47,7 +47,7 @@ public class Restaurant implements PlaceOfWork{
 	//private Vector<CustomerRole> customers = new Vector<CustomerRole>();
 	private List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
 	
-	public int cash;	
+	public int cash=5000;	
 	
 	public Restaurant(CityRestaurant cr){
 		this.cityRestaurant = cr;
@@ -55,6 +55,11 @@ public class Restaurant implements PlaceOfWork{
 		((CookRole)cook).setGui(cg);
 		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
 		cityRestaurant.animationPanel.addGui(cg);
+	}
+	
+	//dummy constructor for agent-only unit tests
+	public Restaurant(){
+		
 	}
 	
 	@Override

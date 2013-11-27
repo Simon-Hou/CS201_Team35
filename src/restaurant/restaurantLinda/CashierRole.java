@@ -126,7 +126,7 @@ public class CashierRole extends Role implements Cashier{
 	
 	//actions
 	private void ComputeBill(Bill b){
-		//log.add(new LoggedEvent("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice));
+		log.add(new LoggedEvent("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice));
 		Do("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice);
 		b.status=BillState.computing;
 		int debt = 0;
@@ -174,19 +174,19 @@ public class CashierRole extends Role implements Cashier{
 		int payment;
 		
 		if (restaurant.cash >= b.owed){
-			restaurant.cash-= b.owed;
 			payment = b.order.total;
 			myBills.remove(b);
 		}
 		else{
 			payment = restaurant.cash;
-			restaurant.cash=0;
 			b.owed=b.order.total-payment;
 			b.status = MyBillState.partiallyPaid;
 		}
+		
+		restaurant.cash -= payment;
 			
-		log.add(new LoggedEvent("Paying " + b.order.market +  " " + payment + " for food shipment. Still owe " + b.owed + ". " + restaurant.cash + " left in restaurant.cash."));
-		Do("Paying " + b.order.market +  " $" + payment + " for food shipment. Still owe $" + b.owed + ". $" + restaurant.cash + " left.");
+		log.add(new LoggedEvent("Paying market $" + payment + " for food shipment. Still owe " + b.owed + ". $" + restaurant.cash + " left in cash."));
+		Do("Paying market $" + payment + " for food shipment. Still owe $" + b.owed + ". $" + restaurant.cash + " left.");
 		
 		b.deliveryMan.msgHereIsPayment(payment, b.order);
 		
@@ -310,6 +310,14 @@ public class CashierRole extends Role implements Cashier{
 	
 	public boolean isPresent(){
 		return this.p!=null;
+	}
+	
+	public void setRestaurant(Restaurant r){
+		this.restaurant = r;
+	}
+	
+	public void setPerson(Person p){
+		this.p = p;
 	}
 	
 }
