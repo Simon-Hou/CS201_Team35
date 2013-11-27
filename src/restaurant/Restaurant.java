@@ -53,6 +53,7 @@ public class Restaurant implements PlaceOfWork{
 		this.cityRestaurant = cr;
 		CookGui cg = new CookGui((CookRole)cook);
 		((CookRole)cook).setGui(cg);
+		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
 		cityRestaurant.animationPanel.addGui(cg);
 	}
 	
@@ -115,7 +116,6 @@ public class Restaurant implements PlaceOfWork{
 		((CustomerRole)c).setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
 		((CustomerRole)c).atRestaurant(this);
-		
 	}
 	
 	public boolean unStaffed(){

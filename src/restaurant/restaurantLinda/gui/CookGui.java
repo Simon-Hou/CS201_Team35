@@ -30,7 +30,7 @@ public class CookGui implements Gui {
     
     private List<MyImage> cookingFoods = new ArrayList<MyImage>();			//Doesn't really need to be a list, since we're only using 1 image at a time...but this does make it possible 
     private List<MyImage> carriedItems = new ArrayList<MyImage>();
-    private List<MyImage> platedFoods = new ArrayList<MyImage>();
+    private List<MyImage> platedFoods;
     int plateNum=0; //Just a cheat to cycle through plating areas (lazy way to avoid plate-stacking)
     private MyImage currentItem;
 	private String bufferText;
@@ -63,14 +63,14 @@ public class CookGui implements Gui {
         {
         	if (xPos == xDestination && yPos == yDestination && destination==goal.refrigerator){
             	destination=goal.stoveCooking;
-        		xDestination = AnimationPanel.STOVE.x;
-        		yDestination = AnimationPanel.STOVE.y-personSize;
+        		xDestination = CityRestaurantCard.STOVE.x;
+        		yDestination = CityRestaurantCard.STOVE.y-personSize;
         		currentItem = new MyImage("RawFood",xPos,yPos);
         		carriedItems.add(currentItem);
             }
         	else if(xPos == xDestination && yPos == yDestination && destination==goal.stoveCooking){
-        		currentItem.x=AnimationPanel.STOVE.x;
-        		currentItem.y = AnimationPanel.STOVE.y;
+        		currentItem.x=CityRestaurantCard.STOVE.x;
+        		currentItem.y = CityRestaurantCard.STOVE.y;
         		carriedItems.remove(currentItem);
         		cookingFoods.add(currentItem);
         		currentItem=null;
@@ -84,9 +84,9 @@ public class CookGui implements Gui {
 	        		
 	        		destination=goal.platingWindow;
 	            	xDestination = WINDOWX-100;
-	        		yDestination = AnimationPanel.REFRIGERATOR.height+(40*plateNum++);
+	        		yDestination = CityRestaurantCard.REFRIGERATOR.height+(40*plateNum++);
 	        		
-	        		plateNum %= (WINDOWY-AnimationPanel.REFRIGERATOR.height-AnimationPanel.STOVE.height)/40;
+	        		plateNum %= (WINDOWY-CityRestaurantCard.REFRIGERATOR.height-CityRestaurantCard.STOVE.height)/40;
       		
 	        		for (MyImage i: cookingFoods){
 	        			if (i.type.equals("RawFood")){
@@ -141,15 +141,15 @@ public class CookGui implements Gui {
     public void DoCooking(){
     	destination = goal.refrigerator;
 
-    	xDestination = AnimationPanel.REFRIGERATOR.x;
-    	yDestination = AnimationPanel.REFRIGERATOR.y+AnimationPanel.REFRIGERATOR.height;
+    	xDestination = CityRestaurantCard.REFRIGERATOR.x;
+    	yDestination = CityRestaurantCard.REFRIGERATOR.y+CityRestaurantCard.REFRIGERATOR.height;
     }
     
     public void DoPlating(String food){
     	destination = goal.stovePlating;
     	
-    	xDestination = AnimationPanel.STOVE.x;
-		yDestination = AnimationPanel.STOVE.y-personSize;
+    	xDestination = CityRestaurantCard.STOVE.x;
+		yDestination = CityRestaurantCard.STOVE.y-personSize;
 		
 		currentItem = new MyImage(food);
     }

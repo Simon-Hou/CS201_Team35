@@ -361,8 +361,8 @@ public abstract class WaiterRole extends Role implements Waiter{
 	}
 	
 	private void GiveCheck(MyCustomer mc){
-		waiterGui.DoTalk("$"+mc.bill.getTotal()/100 + "." + mc.bill.getTotal()%100);
-		Do("Delivering check to "+mc.c.getName()+": $"+mc.bill.getTotal()/100 + "." + mc.bill.getTotal()%100);
+		waiterGui.DoTalk("$"+mc.bill);
+		Do("Delivering check to "+mc.c.getName()+": $"+mc.bill);
 		waiterGui.DoGoToTable(mc.table);
 		try{
 			atDestination.acquire();

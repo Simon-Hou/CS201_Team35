@@ -25,7 +25,6 @@ import java.util.TimerTask;
 public class CustomerRole extends Role implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
-	private int cash;
 	Timer timer = new Timer();
 	private CustomerGui customerGui;
 	MyMenu menu;
@@ -56,9 +55,6 @@ public class CustomerRole extends Role implements Customer{
 		super();
 		this.name = name;
 		this.p = p;
-		this.cash = p.getWalletAmount();
-		
-		//Do("I have $" + cash);
 	}
 
 
@@ -66,6 +62,7 @@ public class CustomerRole extends Role implements Customer{
 	public void atRestaurant(Restaurant r) {
 		event = AgentEvent.atRestaurant;
 		print("Arrived at restaurant");
+		
 		this.r = r;
 		stateChanged();
 	}
@@ -225,7 +222,7 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	private void ReadMenu(){
-		System.err.println("cash: " + cash + menu.m.toString());
+		System.err.println("cash: " + p.getWalletAmount() + menu.m.toString());
 		timer.schedule(new TimerTask(){
 			public void run(){
 				choice=pickFood();
@@ -261,6 +258,7 @@ public class CustomerRole extends Role implements Customer{
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
+				p.msgDoneEating();
 				event = AgentEvent.doneEating;
 				print("Done eating, cookie=" + cookie);
 				customerGui.DoFinishFood();
@@ -283,14 +281,14 @@ public class CustomerRole extends Role implements Customer{
 	
 	private void MakePayment(){
 		int payment;
-		if (cash>=check.getTotal()){
+		if (p.getWalletAmount()>=check.getTotal()){
 			payment = check.getTotal();
 		}
 		else{
-			payment = cash;
+			payment = p.getWalletAmount();
 		}
 		
-		cashier.msgHereIsPayment(this, check, cash);
+		cashier.msgHereIsPayment(this, check, payment);
 		p.takeFromWallet(payment);
 		check=null;
 	}
@@ -306,8 +304,11 @@ public class CustomerRole extends Role implements Customer{
 		menu=null;
 		waiter=null;
 		
+		customerGui.isPresent=false;
 		r.leaveRestaurant(customerGui);
 		r=null;
+		
+		p.msgThisRoleDone(this);
 	}
 	
 	private String pickFood(){
@@ -328,7 +329,7 @@ public class CustomerRole extends Role implements Customer{
 		String tempChoice = "Error";
 		if (choiceNames.size()>0){
 			for (String food: choiceNames){
-				if (menu.m.get(food)>cash)
+				if (menu.m.get(food)>p.getWalletAmount())
 					menu.m.remove(food);
 			}
 			

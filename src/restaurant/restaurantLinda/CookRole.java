@@ -54,6 +54,7 @@ public class CookRole extends Role implements Cook{
 	}
 	
 	public void msgTimerDone(Order o){
+		System.err.println("Finished cooking");
 		o.state=OrderState.done;
 		stateChanged();		
 	}
