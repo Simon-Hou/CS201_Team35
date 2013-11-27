@@ -18,6 +18,7 @@ public interface MarketHost extends Occupation{
 	public abstract boolean NewEmployee(MarketEmployee m);
 	
 	public abstract void setMarket(Market m);
+	public boolean isPresent();
 	
 	
 }
