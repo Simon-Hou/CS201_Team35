@@ -3,6 +3,9 @@ team35
 
 ## SimCity201 Project Repository for CS 201 students
 
+### How to Run our SimCity
+Run cityGui.SimCityGui. This is our main application. To run tests, run the tests in UnitTests.BankUnitTests, UnitTests.BusUnitTest, UnitTests.MarketUnitTests, and UnitTests.restaurantLindaUnitTests. There are also gui unit tests in UnitTests.GuiUnitTests.
+
 ### Some Basic Scenarios to Demonstrate Functionality for Grading
 NOTES: 
 - These scenarios will all be very simple, since they are meant to demonstrate particular
@@ -84,6 +87,25 @@ Entering: the building can be entered by call the personIn method in House; and 
 + Designed the method to keep individual animation panels running in the background
 + Created / added to multiple interfaces
 + Kept designs simple and efficient, and cleared other’s redundant codes
+
+##### Parker Seagren
++ Co-designed the Market roles (with Linda Xu)
++ Co-implemented the Market roles (with Linda Xu)
++ Fully designed and coded the market animation
++ Fully designed and coded the market panel
++ Updated all market roles to cohere with animation and city
++ Fully unit tested all market roles, including those that I did not design/implement
++ Co-designed transportation (with Gabriel)
++ Integrated the market animation, panel, and guis into the main city gui
++ Helped the rest of the team to suppress bugs and compiler errors
+
+##### Andrew Yocca
++ Designed the City Gui with the exception of the bus system
++ Coded the person movement in the City Gui
++ Implemented sprites into the city gui, market, bank, restaurant, and house
++ Coded the person agent and designed the person scheduler
+	- ‘meldefon’ made a lot of additions to make it work properly and to test it
++ Created and wrote unit test for the Person Agent
 
 
 ### Known Bugs/Missing Functionality
