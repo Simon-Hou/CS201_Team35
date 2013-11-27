@@ -61,7 +61,7 @@ public class PersonAgent extends Agent implements Person {
 		inhabitantRole = new InhabitantRole(name + "Home",this);
 		
 		//will be changed later to request the correct role from the restaurant diretly
-		CustomerRole restaurantRole = new CustomerRole(name+"Restaurant", this);
+		restaurantRole = new CustomerRole(name+"Restaurant", this);
 		
 		this.belongings.myFoods.add(new Food("Steak",10));
 		this.belongings.myFoods.add(new Food("Chicken",10));
@@ -104,6 +104,7 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
+	public CustomerRole restaurantRole ;
 	public PersonGui gui;
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
@@ -513,8 +514,20 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void goToRestaurant() {
-		//doGoToRestaurant();
-		//activeRole = new RestaurantCustomer();
+		if(city.map.get("Restaurant").isEmpty()){
+			/*try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+		}
+		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(0)).restaurant;
+		Loc loc = city.map.get("Restaurant").get(0).loc;
+		doGoToBuilding(loc);
+		b.customerEntering(restaurantRole);
+		restaurantRole.atRestaurant(b);
+		activeRole = restaurantRole;
 	}
 	
 	private void buyCar() {
@@ -804,6 +817,11 @@ public class PersonAgent extends Agent implements Person {
 		return false;
 	}
 	
+	
+	//hack for restaurant stuff?
+	public void setHunger(int level){
+		hungerLevel = level;
+	}
 	
 	
 	
