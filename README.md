@@ -107,6 +107,12 @@ Entering: the building can be entered by call the personIn method in House; and 
 	- ‘meldefon’ made a lot of additions to make it work properly and to test it
 + Created and wrote unit test for the Person Agent
 
+#### Linda Xu
++ Integrated own restaurant into the city, with updates
++ Implemented some amount of AStar to the Waiters in the restaurant (only the waiters)
++ Co-designed/implemented Market roles with Parker
++ Integrated Restaurant 
++ Helped team integrate stuff and revert back using Github
 
 ### Known Bugs/Missing Functionality
 
