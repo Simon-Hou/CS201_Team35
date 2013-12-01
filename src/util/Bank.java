@@ -142,11 +142,14 @@ public class Bank implements BankInterface, PlaceOfWork{
 	}
 	
 	public BankCustomer getCustomer(){
-		if(!bankCustomers.isEmpty()){
-			BankCustomer b = bankCustomers.get(0);
-			System.out.println("");
-			bankCustomers.remove(0);
-			return b;
+		
+		synchronized(bankCustomers){
+			if(!bankCustomers.isEmpty()){
+				BankCustomer b = bankCustomers.get(0);
+				System.out.println("");
+				bankCustomers.remove(0);
+				return b;
+			}
 		}
 		return null;
 	}

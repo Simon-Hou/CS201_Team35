@@ -220,10 +220,10 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	private void getInLine(){
 		Do("Getting in line!");
 		if(bank.addMeToQueue(this)){
-		
+			//Do("BEFORE");
 			doGetInLine();
 			state = CustState.inLine;
-		
+			//Do("After");
 			//Thread.dumpStack();
 			System.out.flush();
 		}

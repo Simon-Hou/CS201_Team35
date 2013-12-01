@@ -3,6 +3,7 @@ package cityGui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class CityBankCard extends CityCard{
 	}
 	
 	public void paint(Graphics g) {
+		//System.out.println("PAINT IS BEING CALLED");
 		Graphics2D g2 = (Graphics2D)g;
 
 		//Clear the screen by painting a rectangle the size of the frame
@@ -70,6 +72,7 @@ public class CityBankCard extends CityCard{
 	}
 	
 	public void run(long t){
+		//System.out.println("RUN IS BEING CALLED");
 		for(long i=0; i<t-time;i++){
 			for(Gui gui : guis) {
 				//if (gui.isPresent()) {
@@ -89,6 +92,23 @@ public class CityBankCard extends CityCard{
 
 	public void removeGui(Gui gui) {
 		guis.remove(gui);
+	}
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//System.out.println("repaint being called!");
+		//moveComponents();
+		
+		if(!guis.isEmpty()){
+			for(Gui gui : guis) {
+    			if (gui.isPresent()) {
+    				gui.updatePosition(0, 0);//the number here doesn't actually matter.
+    			}
+    		}
+		}
+		
+		repaint();
 	}
 	
 }

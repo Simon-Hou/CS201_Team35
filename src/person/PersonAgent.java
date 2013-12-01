@@ -427,9 +427,9 @@ public class PersonAgent extends Agent implements Person {
 		if(belongings.myAccounts.isEmpty()){
 			Do("Going to bank to open new account");
 			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
-			Do("Before");
+			//Do("Before");
 			doGoToBuilding(loc);
-			Do("After");
+			//Do("After");
 			bankRole.msgYouAreAtBank(b);
 			activeRole = bankRole;
 			return;
