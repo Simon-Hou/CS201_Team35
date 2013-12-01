@@ -268,12 +268,13 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}*/
 		
-		//Do("Deciding what to do "+onBus);
+		//Do("Deciding what to do ");
 		if(onBus){
 			return false;
 		}
 		
 		if (activeRole != null) {
+			//Do("will do role stuff");
 			activeRoleCalls++;
 			
 			//This takes care of getting off work
@@ -377,6 +378,13 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Actions
 	private void goToWork() {
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 
 		//HACK
@@ -699,6 +707,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void msgStateChanged() {
 		//this.pickAndExecuteAnAction();
+		//Do("Got the stateChanged message");
 		this.stateChanged();
 	}
 	

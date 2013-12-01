@@ -100,7 +100,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	public void msgYouAreAtBank(Bank b){
-		System.out.println("YOU ARE AT BANK");
+		//System.out.println("YOU ARE AT BANK");
 		this.bank = b;
 		this.state = CustState.inBank;
 	}
@@ -229,6 +229,13 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		}
 		else{
 			Do("Not allowed in line, no tellers working");
+			Tasks.clear();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			leaveBank();
 		}
 		
@@ -254,7 +261,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void NextTask(){
-		
+		System.out.println(Tasks.size());
 		//Do("Telling teller the next task");
 		
 		//Task t = Tasks.get(0);

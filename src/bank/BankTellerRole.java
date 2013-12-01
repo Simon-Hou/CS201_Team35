@@ -234,7 +234,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Do("MADE IT HERE");
+		//Do("MADE IT HERE");
 	}
 	
 	private void OpenAccount(){

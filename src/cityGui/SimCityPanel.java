@@ -66,7 +66,7 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("repaint being called!");
-		moveComponents();
+		//moveComponents();
 		repaint();
 	}
 	
