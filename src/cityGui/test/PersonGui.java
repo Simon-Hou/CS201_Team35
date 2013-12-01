@@ -97,7 +97,7 @@ public class PersonGui extends CityComponent implements Gui {
     	visible = true;
     }
     
-	public void updatePosition() {
+	/*public void updatePosition() {
 		
 		if (!atDestination()) {
 			if (readyToGoInnerSidewalk) {
@@ -497,7 +497,30 @@ public class PersonGui extends CityComponent implements Gui {
 	    		
 	    	}
 		}
+    }*/
+    
+    public void updatePosition() {
+    	if(rectangle.x<xDestination){
+    		rectangle.x++;
+    	}
+    	else if(rectangle.x>xDestination){
+    		rectangle.x--;
+    	}
+    	
+    	if(rectangle.y<yDestination){
+    		rectangle.y++;
+    	}
+    	else if(rectangle.y>yDestination){
+    		rectangle.y--;
+    	}
+    	
+    	if(onTheMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
+    		onTheMove = false;
+    		person.msgAtDestination();
+    		
+    	}
     }
+    
 
 	public boolean getArrived() {
 		return hasArrived;

@@ -469,11 +469,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		if(type.equals("Bank")){
 			int j = 0;
-			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			//int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			int randOffset = 0;
 			//System.out.println("Rand offset: "+randOffset);
 			for(int i = 0;i<SHIFTS;++i){
-				int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				int start = (i*(MAXTIME/SHIFTS) + randOffset+MAXTIME-2)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset+2)%MAXTIME;
 				//System.out.println("Shift start, end: "+start+" " +end);
 				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
@@ -593,7 +594,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 
-
+		//System.out.println(""+ (-2)%100);
 
 		SimCityGui test = new SimCityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -615,15 +616,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
 
-		test.addBuses(test);
+		//test.addBuses(test);
 		
 		
 //		test.addBuses(test);
-		test.addNewBuilding("Bank", 5, 400);
-		test.addNewBuilding("Market",200,250);
+		//test.addNewBuilding("Bank", 5, 400);
+		//test.addNewBuilding("Market",200,250);
 //		test.addNewBuilding("House", 200, 5);
-		test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);
+		//test.fullyManBuilding("Bank",0);
+		//test.fullyManBuilding("Market",0);
 //		test.fullyManBuilding("Bank",0);
 //		test.fullyManBuilding("Market",0);
 //		test.fullyManBuilding("Market",1);
@@ -638,8 +639,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Restaurant", 5, 200);
 
-		test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);
+		//test.fullyManBuilding("Bank",0);
+		//test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
@@ -699,7 +700,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void bankScenario(){
 		hasBuses = false;
-		MAXTIME = 20;
+		MAXTIME = 50;
+		cityObject.MAXTIME = 50;
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Bank",200,250);
 		fullyManBuilding("Bank",0);

@@ -66,6 +66,11 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	}
 	
 	public boolean canLeave(){
+		//System.out.println("Available Permits: "+atDestination.availablePermits());
+		if(atDestination.availablePermits()>0){
+			atDestination = new Semaphore(0,true);
+		}
+		
 		if (currentCustomer == null) {
 			((Bank)bank).finishTellerShift(this);
 			if (bankTellerGui!=null) {

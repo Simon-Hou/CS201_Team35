@@ -280,8 +280,9 @@ public class PersonAgent extends Agent implements Person {
 			if(activeRole == myJob.jobRole && !timeInJobShift()){
 				if(myJob.jobRole instanceof BankTellerRole){
 					if(((BankTellerRole) myJob.jobRole).canLeave()){
-						Do("It's quitting time.");
+						Do("It's bank quitting time.");
 						//activeRole.p = null;
+						//((BankTellerRole) myJob.jobRole).msgLeaveBank();
 						activeRole = null;
 						return true;
 					}
@@ -289,6 +290,7 @@ public class PersonAgent extends Agent implements Person {
 				if(((Occupation) myJob.jobRole).canLeave()){
 		
 					Do("It's quitting time.");
+					
 					activeRole = null;
 					return true;
 				}
@@ -296,26 +298,12 @@ public class PersonAgent extends Agent implements Person {
 			
 			return activeRole.pickAndExecuteAnAction();
 		}
-		
+		//Do("ALIVE");
 		if(time == myJob.shiftStart-1){
 			return false;
 		}
 		
 		//Do("Deciding what to do");
-
-		
-		/*if (nextRole != null) {
-			activeRole = nextRole;
-			nextRole = null;
-			return true;
-		}*/
-		/*if(name.equals("p1")){
-			Do("DECIDING WHAT TO DO");
-		}*/
-		/*if (myJob.placeOfWork!=null && time >= myJob.shiftStart && time < myJob.shiftEnd) {
-			goToWork();
-			return true;
-		}*/
 		
 		if(myJob.placeOfWork!=null && timeInJobShift()){
 			goToWork();
@@ -389,7 +377,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Actions
 	private void goToWork() {
-		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole);
+		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 
 		//HACK
 		if(myJob.placeOfWork==null){
@@ -439,7 +427,9 @@ public class PersonAgent extends Agent implements Person {
 		if(belongings.myAccounts.isEmpty()){
 			Do("Going to bank to open new account");
 			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
+			Do("Before");
 			doGoToBuilding(loc);
+			Do("After");
 			bankRole.msgYouAreAtBank(b);
 			activeRole = bankRole;
 			return;
@@ -539,6 +529,8 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void goToRestaurant() {
 		if(city.map.get("Restaurant").isEmpty()){
+			hungerLevel = 0;
+			return;
 			/*try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
