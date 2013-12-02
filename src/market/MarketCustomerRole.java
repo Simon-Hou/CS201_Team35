@@ -30,6 +30,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	MarketCashier cashier;
 	public String name;
 	boolean sad = false;
+	boolean noEmployees = false;
 	
 	public MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
@@ -88,6 +89,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		p.msgStateChanged();
 	}
 	
+	public void msgNoEmployees(){
+		noEmployees = true;
+		p.msgStateChanged();
+	}
+	
 	public void msgYouAreAtMarket(Market m){
 		Do("I'm at the market.");
 		setMarket(m);
@@ -105,6 +111,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	
 	public boolean pickAndExecuteAnAction() {
+		if(noEmployees){
+			tryAgainLater();
+			return false;
+		}
 		if (state==RoleState.JustEnteredMarket && host!=null){
 		    state = RoleState.Ordered;        
 		    MakeOrder();
@@ -140,8 +150,23 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	
 	//Actions
+	protected void tryAgainLater(){
+		noEmployees = false;
+		this.state = RoleState.JustEnteredMarket;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.msgYouAreAtMarket(this.market);
+	}
+	
 	private void MakeOrder(){
 		//enter door
+		
+		
+		
 		if(gui!=null){
 			gui.DoGoToExit();
 		}
@@ -163,6 +188,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			atDestination.release();
 		}
 		
+		
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
@@ -170,8 +196,15 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			e.printStackTrace();
 		}
 		
+		if(!market.host.isPresent()){
+			tryAgainLater();
+			return;
+		}
+		
 		Do("Giving my order to the host.");
      	host.msgCustomerWantsThis(this, shoppingList);
+     	
+     	
      	if(gui!=null){
      		gui.DoGoToItemDrop();
      	}

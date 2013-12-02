@@ -56,6 +56,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
 		
+     	
 	    Do("I received a MARKET order from " + c.getName());
 		customers.add(new MyCustomer(c, orderList));
 	    if(p!=null){
@@ -198,7 +199,8 @@ public class MarketHostRole extends Role implements MarketHost {
 		//choose employee for load balancing
 		if(employees.size()==0){
 			System.err.println("No Market employees");
-			mc.customer.msgWeHaveNothing();
+			//mc.customer.msgWeHaveNothing();
+			mc.customer.msgNoEmployees();
 			return;
 		}
 		

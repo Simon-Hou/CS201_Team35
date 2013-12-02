@@ -66,10 +66,10 @@ public class PersonAgent extends Agent implements Person {
 		//will be changed later to request the correct role from the restaurant diretly
 		restaurantRole = new CustomerRole(name+"Restaurant", this);
 
-		//this.belongings.myFoods.add(new Food("Steak",10));
-		//this.belongings.myFoods.add(new Food("Chicken",10));
-		//this.belongings.myFoods.add(new Food("Pizza",10));
-		//this.belongings.myFoods.add(new Food("Salad",10));
+		this.belongings.myFoods.add(new Food("Steak",10));
+		this.belongings.myFoods.add(new Food("Chicken",10));
+		this.belongings.myFoods.add(new Food("Pizza",10));
+		this.belongings.myFoods.add(new Food("Salad",10));
 		Random random = new Random();
 		purse.wallet = 50;
 		hungerLevel = random.nextInt(10);
@@ -378,12 +378,12 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Actions
 	private void goToWork() {
-		/*try {
+		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 
@@ -470,12 +470,12 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void goToMarket() {
 		
-		try {
+		/*try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
@@ -492,18 +492,20 @@ public class PersonAgent extends Agent implements Person {
 		for(Food f:this.belongings.myFoods){
 			if(f.quantity<=10){
 				marketRole.addToShoppingList(f.type, 10);
+				//Do("f.type");
 			}
 		}
 		
 		//marketRole.setMarket(m);
 		
 		//HACK--------if no host or cashier in restaurant then give yourself some food and leave!
-		if (!m.host.isPresent() || !m.cashier.isPresent()){
+		/*if (!m.host.isPresent() || !m.cashier.isPresent()){
+			Do("NO ONE AT THE MARKET");
 			for(Food f:this.belongings.myFoods){
 					f.quantity+=5;
 					return;
 			}
-		}
+		}*/
 		
 		
 		

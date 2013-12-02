@@ -16,6 +16,7 @@ public interface MarketCustomer {
 	public void msgOutOfStock(Map<String, Integer> unfullfillable);
 	public void msgWeHaveNothing();
 	public abstract String getName();
+	public abstract void msgNoEmployees();
 	
 	public Person getPerson();
 }

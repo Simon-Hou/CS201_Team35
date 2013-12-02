@@ -700,8 +700,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void bankScenario(){
 		hasBuses = false;
-		MAXTIME = 50;
-		cityObject.MAXTIME = 50;
+		setMAXTIME(50);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Bank",200,250);
 		fullyManBuilding("Bank",0);
@@ -710,7 +709,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void marketScenario(){
 		hasBuses = false;
-		MAXTIME = 100;
+		setMAXTIME(50);
+		cityObject.MAXTIME = 50;
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
 		addNewPersonHard("p"+0,
@@ -760,7 +760,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void restaurantScenario(){
 		hasBuses = false;
-		MAXTIME = 20;
+		setMAXTIME(20);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Restaurant",5, 300);
 		fullyManBuilding("Restaurant",0);
@@ -779,6 +779,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		if(Math.random()>.75 && hasBuses){
 			wantsToRideBus = true;
 		}
+	}
+	
+	public void setMAXTIME(int m){
+		MAXTIME = m;
+		cityObject.MAXTIME = m;
 	}
 	
 
