@@ -378,12 +378,12 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Actions
 	private void goToWork() {
-		try {
+		/*try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 

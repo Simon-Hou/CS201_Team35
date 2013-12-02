@@ -166,7 +166,17 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		}
 		
 		//Task currentTask = currentTasks.get(0);
-		//if you have a task, do the right thing:
+		//if you have a task, wait for a second, then
+		//do the right thing:
+		if(currentTask!=null){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		if (currentTask instanceof openAccount) {
 			OpenAccount();
 			return true;
