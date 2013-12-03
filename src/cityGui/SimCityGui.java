@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import market.gui.MarketPanel;
@@ -257,6 +258,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	protected Timer timer;
 	public long time=0;
 	boolean hasBuses = false;
+	
 
 	public SimCityGui() throws HeadlessException {
 		//Adds person images to its sprite array
@@ -349,7 +351,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		c.gridx = 0; c.gridy = 6;
 		c.gridwidth = 11; c.gridheight = 1;
 		this.add(CP, c);
-
+		
 
 		timer = new Timer(10,  this);
 		timer.start();
