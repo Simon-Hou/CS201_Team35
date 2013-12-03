@@ -728,9 +728,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketHost,0,5,0,0);
 		
+		addNewPersonHard("p"+1,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,5,0,0);
+		
 		addNewPersonHard("p"+2,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-				JobType.MarketCashier,0,16,0,0);
+				JobType.MarketCashier,0,6,0,0);
 		
 		addNewPersonHard("replacementHOST",
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
@@ -740,13 +744,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketEmployee,4,100,0,0);
 		
-		addNewPersonHard("p"+1,
-				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-				JobType.MarketEmployee,0,5,0,0);
 		
-		/*addNewPersonHard("p"+2,
+		addNewPersonHard("relacementCASHIER",
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-				JobType.MarketEmployee,0,100,0,0);*/
+				JobType.MarketCashier,6,100,0,0);
 		
 		
 		/*try {

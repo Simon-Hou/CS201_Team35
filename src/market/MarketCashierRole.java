@@ -62,12 +62,15 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public boolean YouAreDoneWithShift(){
 		
+		
 		if(true){
+			Do("Being kicked off the job now");
 			p.msgThisRoleDone(this);
 			this.p = null;
 			market.DefaultName(this);
 		}
 		return true;
+		
 		
 	}
 	

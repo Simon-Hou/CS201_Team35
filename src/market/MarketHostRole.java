@@ -375,8 +375,8 @@ public class MarketHostRole extends Role implements MarketHost {
 		Do("Host removing an employee");
 		synchronized(employees){
 			for(MyEmployee mE : employees){
-				System.out.println("hosts: "+mE.employee);
-				System.out.println("Actual: "+m);
+				//System.out.println("hosts: "+mE.employee);
+				//System.out.println("Actual: "+m);
 				if(mE.employee.equals(m)){
 					Do("Removed "+mE.employee.getName());
 					employees.remove(mE);
