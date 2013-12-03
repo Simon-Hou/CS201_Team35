@@ -73,6 +73,7 @@ public class PersonAgent extends Agent implements Person {
 		Random random = new Random();
 		purse.wallet = 50;
 		hungerLevel = random.nextInt(10);
+		hungerLevel = 0;
 		
 	}
 	
@@ -110,7 +111,7 @@ public class PersonAgent extends Agent implements Person {
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
 	public CustomerRole restaurantRole ;
-	public PersonGui gui;
+	private PersonGui gui;
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
 	public int MY_BANK = 0;
@@ -134,6 +135,11 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setHouse(House h){
 		this.belongings.myHouse = h;
+	}
+	
+	public void setGui(PersonGui g){
+		//this.gui = g;
+		this.gui = null;
 	}
 	
 	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
@@ -267,6 +273,17 @@ public class PersonAgent extends Agent implements Person {
 				setJob(((BankMapLoc) city.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100);
 			}
 		}*/
+		/*if(name.equals("p1")&&time==6){
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(name.equals("p3")&&time<6){
+			return false;
+		}*/
 		
 		//Do("Deciding what to do ");
 		if(onBus){
@@ -305,8 +322,10 @@ public class PersonAgent extends Agent implements Person {
 		}
 		
 		//Do("Deciding what to do");
-		
-		if(myJob.placeOfWork!=null && timeInJobShift()){
+		//TODO FIX THIS MAXTIME ISSUE
+		if(myJob.placeOfWork!=null && timeInJobShift() && timeInJobShift((time+1)%50) && timeInJobShift((time+2)%50)
+				&&timeInJobShift((time+3)%50)&&timeInJobShift((time+4)%50)&&timeInJobShift((time+5)%50)
+				){
 			goToWork();
 			return true;
 		}
@@ -483,7 +502,7 @@ public class PersonAgent extends Agent implements Person {
 		int marketChoice = (int) Math.floor(city.map.get("Market").size()*Math.random());
 		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
 		Loc loc = city.map.get("Market").get(marketChoice).loc;
-		
+	
 		doGoToBuilding(loc);
 		
 		//ShoppingList shoppingList = makeShoppingList();
@@ -529,7 +548,7 @@ public class PersonAgent extends Agent implements Person {
 	private void getSleep() {
 		
 		
-		Do("I am going home to sleep ");
+		//Do("I am going home to sleep ");
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
 		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
 		doGoHome();
@@ -829,6 +848,25 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public boolean timeInJobShift(){
+		
+		return timeInJobShift(time);
+		
+		/*if(myJob.shiftEnd>=myJob.shiftStart){
+			if(time>=myJob.shiftStart && time<=myJob.shiftEnd){
+				return true;
+			}
+			return false;
+		}
+		if(myJob.shiftEnd<myJob.shiftStart){
+			if(time<myJob.shiftStart && time>myJob.shiftEnd){
+				return false;
+			}
+			return true;
+		}
+		return false;*/
+	}
+	
+	public boolean timeInJobShift(int time){
 		if(myJob.shiftEnd>=myJob.shiftStart){
 			if(time>=myJob.shiftStart && time<=myJob.shiftEnd){
 				return true;

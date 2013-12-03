@@ -25,11 +25,12 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	public PersonAgent p;
 	public String name;
 	private Market market;
+	public boolean inEmployeeList;
 	
 	List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
 	MarketCashier cashier; 
 	
-	MarketEmployeeGui gui;
+	private MarketEmployeeGui gui;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
 	
@@ -43,7 +44,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public void setGui(MarketEmployeeGui g){
-		gui = g;
+		//gui = g;
+		this.gui = null;
 	}
 	public void setCashier(MarketCashier cash){
 		cashier = cash;
@@ -63,12 +65,40 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public boolean canLeave() {
-		boolean answer = (customerOrders.isEmpty() && businessOrders.isEmpty());
-		if (answer){
-			market.panel.animation.removeGui(this.gui);
-		}
-		return answer;
+		Do("Trying to GET OFF WORK");
+		boolean busy;
 		
+		if(!inEmployeeList){
+			busy = !(customerOrders.isEmpty() && businessOrders.isEmpty());
+			return !busy;
+		}
+	
+		
+		if(!market.employeeLeaving(this)){
+			
+			Do("This is weird, MarketHostRole @ line 76");
+			
+			//System.err.println();
+		}
+		
+		inEmployeeList = false;
+		busy = !(customerOrders.isEmpty() && businessOrders.isEmpty());
+		
+		Do("CANLEAVE RETURNING "+!busy);
+		
+		if(busy){
+			return false;
+		}
+		
+		market.employeeLeft(this);
+		
+		return true;
+	
+		
+	}
+	
+	public MarketEmployeeGui getGui(){
+		return gui;
 	}
 	
 	
@@ -169,8 +199,9 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 				e.printStackTrace();
 			}
 	    	
-	    	Do("Collecting " + co.order.get(item) + " " + item + "s.");
+	    	//Do("Collecting " + co.order.get(item) + " " + item + "s.");
 	    }
+	    Do("Collecting items");
 	    
 	   
 	}
@@ -193,13 +224,25 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		}
 		
 		
-	    customerOrders.remove(co);
+	    
 	    Do("Giving " + co.c.getName() + " their order.");
 	    co.c.msgHereAreItems(co.order);
 	    
 	    if(gui!=null){
 			gui.DoGoHomePosition();
 		}
+	    else{
+	    	atDestination.release();
+	    }
+	    
+	    try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    customerOrders.remove(co);
 	
 
 	}
@@ -278,13 +321,39 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 			Do("Putting completed order and invoice on dock for delivery man.");
 			if (deliveryMen.isEmpty()){
 				Do("There are no delivery men.");
-				gui.DoGoHomePosition();
+				
+				if(gui!=null){
+					gui.DoGoHomePosition();
+				}
+				else{
+					atDestination.release();
+				}
+				
+				try {
+					atDestination.acquire();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				return;
 			}
 			//otherwise...
 			//load balance deliverymen
 			deliveryMen.get(0).msgDeliverThisOrder(order.invoice);
-			gui.DoGoHomePosition();
+			if(gui!=null){
+				gui.DoGoHomePosition();
+			}
+			else{
+				atDestination.release();
+			}
+			
+			try {
+				atDestination.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 	

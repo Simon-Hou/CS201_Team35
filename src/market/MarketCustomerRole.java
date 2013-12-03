@@ -32,7 +32,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	boolean sad = false;
 	boolean noEmployees = false;
 	
-	public MarketCustomerGui gui;
+	private MarketCustomerGui gui;
 	private Semaphore atDestination = new Semaphore(0,true);
 	
 	public void addToShoppingList(String food, int amount){
@@ -166,8 +166,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		//enter door
 		
 		
+		//Do("Trying to make my order");
 		
 		if(gui!=null){
+			Do("Calling gui");
 			gui.DoGoToExit();
 		}
 		else{
@@ -208,6 +210,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
      	if(gui!=null){
      		gui.DoGoToItemDrop();
      	}
+     	
 	}
 
 	private void GoPay(){
@@ -271,6 +274,16 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		if(gui!=null){
 			gui.DoExitRestaurant();
 		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -293,6 +306,16 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		if(gui!=null){
 			gui.DoExitRestaurant();
 		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		
 		p.msgThisRoleDone(this);
@@ -313,7 +336,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		host = host2;
 		
 	}public void setGui(MarketCustomerGui g){
-		gui = g;
+		//gui = g;
+		this.gui = null;
 	}
 	public String getName(){
 		return name;
