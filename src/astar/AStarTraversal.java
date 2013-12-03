@@ -4,7 +4,7 @@ import java.util.concurrent.*;
 
 public class AStarTraversal extends GraphTraversal
 {
-    private Semaphore[][] grid;
+    protected Semaphore[][] grid;
 
     public AStarTraversal(Semaphore[][] grid){
 		super();
@@ -78,7 +78,7 @@ public class AStarTraversal extends GraphTraversal
 		}
 		return expandedNodes;
     }//end expandFunc
-    private boolean inPath (Position pos, List<Position> path){
+    protected boolean inPath (Position pos, List<Position> path){
 		for (Position n:path) {if (pos.equals(n)) return true;};
 		return false;
     }
