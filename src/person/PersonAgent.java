@@ -120,8 +120,8 @@ public class PersonAgent extends Agent implements Person {
 	public CustomerRole restaurantRole ;
 	
 	public AStarTraversalPerson aStar;
-    Position currentPosition; 
-    Position originalPosition;
+    Position currentPosition = new Position(0,0); 
+    Position originalPosition = new Position(0,0);
 	private PersonGui gui;
 	
 	
@@ -637,7 +637,7 @@ public class PersonAgent extends Agent implements Person {
 	private void tempDoGoToMarket(Loc loc) {
 		// TODO Auto-generated method stub
 		System.out.println("CALLING THE TEMP MARKET MOVE");
-		guiMoveFromCurrentPostionTo(new Position(loc.x,loc.y));
+		guiMoveFromCurrentPostionTo(new Position(loc.x/10,loc.y/10));
 		
 	}
 	
@@ -927,11 +927,17 @@ public class PersonAgent extends Agent implements Person {
     void guiMoveFromCurrentPostionTo(Position to){
         //System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
+    	to = new Position(2,5);
+    	System.out.println("("+currentPosition.getX()+","+currentPosition.getY()+")");
+    	System.out.println("("+to.getX()+","+to.getY()+")");
+
+    	
     	
     	Do("CALLING PERSON MOVE");
     	
         AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
         List<Position> path = aStarNode.getPath();
+        Do("Got here, path calculated");
         Boolean firstStep   = true;
         Boolean gotPermit   = true;
 
@@ -969,6 +975,7 @@ public class PersonAgent extends Agent implements Person {
             //System.out.println("[Gaut] " + guiWaiter.getName() + " got permit for " + tmpPath.toString());
             currentPosition.release(aStar.getGrid());
             currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
+            System.out.println(gui==null);
             gui.move(currentPosition.getX(), currentPosition.getY());
         }
         /*

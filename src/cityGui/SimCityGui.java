@@ -31,6 +31,7 @@ import util.Loc;
 import util.MarketMapLoc;
 import util.RestaurantMapLoc;
 import city.CityObject;
+import cityGui.test.AStarTraversalPerson;
 import cityGui.test.BusGui;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
@@ -260,7 +261,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public long time=0;
 	boolean hasBuses = false;
 	
-	int gridX,gridY,cityScale;
+	int gridX = 300;
+	int gridY = 300;
+	int cityScale = 10;
+	
 	public Semaphore[][] grid = new Semaphore[gridX/cityScale][gridY/cityScale];
 
 	public SimCityGui() throws HeadlessException {
@@ -325,6 +329,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
+		
+		
+		//Makes the A* grid for the city
+		initializeGrid();
 
 		//THIS IS THE AGENT CITY
 		cityObject = new CityObject(this);
@@ -378,6 +386,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		cityObject.people.add(p);
 		city.addMoving(personGui);
 		p.startThread();*/
+		p.setAStar(new AStarTraversalPerson(grid));
 		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
 		p.setGui(personGui);
 		cityObject.people.add(p);
@@ -826,6 +835,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		time++;
 
+	}
+	
+	public void initializeGrid(){
+		for (int i=0; i<gridX/10 ; i++)
+            for (int j = 0; j<gridY/10; j++)
+                grid[i][j]=new Semaphore(1,true);
 	}
 
 }

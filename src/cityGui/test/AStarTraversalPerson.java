@@ -29,6 +29,12 @@ public class AStarTraversalPerson extends AStarTraversal{
 			//create the potential next position
 			int nextX=x+i;
 			int nextY=y+j;
+			
+			//get rid of diagonal moves
+			if(i*j!=0){
+				continue;
+			}
+			
 			//make sure next point is on the grid
 			if ((nextX+1>grid.length || nextY+1>grid[0].length) ||
 			      (nextX<0 || nextY<0)) continue;
