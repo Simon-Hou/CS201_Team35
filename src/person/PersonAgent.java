@@ -88,6 +88,11 @@ public class PersonAgent extends Agent implements Person {
 	
 	
 	//SETTERS
+	
+	public void setAStar(AStarTraversalPerson a){
+		this.aStar = a;
+	}
+	
 	public void setTime(int time){
 		this.time = time;
 	}
@@ -511,7 +516,14 @@ public class PersonAgent extends Agent implements Person {
 		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
 		Loc loc = city.map.get("Market").get(marketChoice).loc;
 	
-		doGoToBuilding(loc);
+		
+		tempDoGoToMarket(loc);
+		
+		
+		//TODO UNCOMMENT THIS 
+		//doGoToBuilding(loc);
+		
+		
 		
 		//ShoppingList shoppingList = makeShoppingList();
 		
@@ -541,6 +553,10 @@ public class PersonAgent extends Agent implements Person {
 		activeRole = marketRole;
 	}
 	
+	
+
+
+
 	private void getFood() {
 		if (!belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at home");
@@ -617,6 +633,13 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	//ANIMATION
+	
+	private void tempDoGoToMarket(Loc loc) {
+		// TODO Auto-generated method stub
+		System.out.println("CALLING THE TEMP MARKET MOVE");
+		guiMoveFromCurrentPostionTo(new Position(loc.x,loc.y));
+		
+	}
 	
 	public void doGoHome(){
 		//Do("My address: "+belongings.myHouse.address.x+" "+belongings.myHouse.address.y);
@@ -904,6 +927,9 @@ public class PersonAgent extends Agent implements Person {
     void guiMoveFromCurrentPostionTo(Position to){
         //System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
+    	
+    	Do("CALLING PERSON MOVE");
+    	
         AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
         List<Position> path = aStarNode.getPath();
         Boolean firstStep   = true;

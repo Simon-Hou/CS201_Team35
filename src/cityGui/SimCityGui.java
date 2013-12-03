@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -258,6 +259,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 	protected Timer timer;
 	public long time=0;
 	boolean hasBuses = false;
+	
+	int gridX,gridY,cityScale;
+	public Semaphore[][] grid = new Semaphore[gridX/cityScale][gridY/cityScale];
 
 	public SimCityGui() throws HeadlessException {
 		//Adds person images to its sprite array
@@ -610,7 +614,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int xStartTest = 0;
 		int yStartTest = 0;
 		
-		test.marketScenario();
+		
+		
+		//THIS SHOWS THE MARKET TESTS I'VE (GABE) BEEN WORKING ON
+		//test.marketScenario();
 
 		/*test.addNewBuilding("Market", 250, 200);
 		test.addNewPersonHard("p"+0,
