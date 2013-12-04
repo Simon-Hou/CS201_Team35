@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import cityGui.CityRestaurantCard;
+import cityGui.CityRestaurantLindaCard;
 
 import astar.*;
 
@@ -156,7 +156,7 @@ public class WaiterGui extends GuiPerson {
     	//Just leave out the "back" which is the bottom half of the restaurant
     	destination = goal.leaving;
     	xfinal = xPos;
-    	yfinal = CityRestaurantCard.CARD_HEIGHT;
+    	yfinal = CityRestaurantLindaCard.CARD_HEIGHT;
     	
     	CalculatePath(homePosition);
     }

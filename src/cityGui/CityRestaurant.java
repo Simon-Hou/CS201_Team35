@@ -23,13 +23,14 @@ import restaurant.restaurantLinda.CashierRole;
 import restaurant.restaurantLinda.CookRole;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.HostRole;
+import restaurant.restaurantLinda.RestaurantLinda;
 import restaurant.restaurantLinda.RestaurantOrder;
 import restaurant.restaurantLinda.WaiterRole;
 import restaurant.restaurantLinda.gui.CookGui;
 import util.Loc;
 import util.RestaurantMapLoc;
 
-public class CityRestaurant extends CityComponent implements ImageObserver {
+public abstract class CityRestaurant extends CityComponent implements ImageObserver {
 	java.net.URL imgURL1 = getClass().getResource("cityImages/restaurant1.png");
 	ImageIcon img1 = new ImageIcon(imgURL1);
 	java.net.URL imgURL2 = getClass().getResource("cityImages/restaurant2.png");
@@ -41,27 +42,15 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 	java.net.URL imgURL5 = getClass().getResource("cityImages/restaurant5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
 	Restaurant restaurant;
-	private int buildingSize = 35;
-	
-	public static int cellSize = 50;
-	static int gridX = CityRestaurantCard.CARD_HEIGHT/cellSize;
-    static int gridY = CityRestaurantCard.CARD_WIDTH/cellSize;
-    //Create grid for AStar
-    public Semaphore[][] grid = new Semaphore[gridX][gridY];
-
-    //private JPanel restLabel = new JPanel();
-    //private ListPanel customerPanel = new ListPanel(this, "Customers");
-    //private ListPanel waiterPanel = new ListPanel(this,"Waiters");
-    //private TablePanel tablePanel = new TablePanel(this);
-    private Map<Integer,Point> tableMap=new HashMap<Integer,Point>();
+	protected int buildingSize = 35;
     
+	//without inheritance, you'll just have to make sure to include your own card inside your restaurant
     public CityRestaurantCard animationPanel;
 	
 	
 	public CityRestaurant(int x, int y) {
 		super(x, y, Color.red, "Restaurant 1");
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
-		initializeRestaurant();
 		//System.out.println("First");
 	}
 	
@@ -73,46 +62,7 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 
 	}
 
-	public void initializeRestaurant(){	
-		restaurant = new Restaurant(this);   
-       
-        //initialize the semaphores
-        for (int i=0; i<gridX ; i++)
-    	    for (int j = 0; j<gridY; j++)
-    	    	grid[i][j]=new Semaphore(1,true);
-        try{
-        	//Plating area
-        	for (int i=gridX-(150/cellSize); i<gridX-(100/cellSize); i++){
-        		for (int j=0; j<gridY; j++){
-        			grid[i][j].acquire();
-        		}
-        	}
-        	//Refrigerator
-        	for (int i=0; i<(CityRestaurantCard.REFRIGERATOR.width/cellSize); i++){
-        		for (int j=0; j<(CityRestaurantCard.REFRIGERATOR.height/cellSize); j++){
-        			grid[(CityRestaurantCard.REFRIGERATOR.x/cellSize)+i][(CityRestaurantCard.REFRIGERATOR.y/cellSize)+j].acquire();
-        		}
-        	}
-        	//Stove
-        	for(int i=0; i<(CityRestaurantCard.STOVE.width/cellSize); i++){
-        		for (int j=0; j<(CityRestaurantCard.STOVE.height/cellSize); j++){
-        			grid[(CityRestaurantCard.STOVE.x/cellSize)+i][(CityRestaurantCard.STOVE.y/cellSize)+j].acquire();
-        		}
-        	}
-        	
-        	//Cashier
-        	grid[0][100/cellSize].acquire();
-        	
-        }catch (Exception e) {
-    	    System.out.println("Unexpected exception caught in during setup:"+ e);
-    	}
-        
-        //add 3 tables
-        addTable(1,150,150);
-        addTable(1,150,250);
-        addTable(1,150,350);
-        
-	}
+	public abstract void initializeRestaurant();
     
 	
 	public void updatePosition() {
@@ -159,65 +109,6 @@ public class CityRestaurant extends CityComponent implements ImageObserver {
 //				return true;
 //		return false;
 //	}
-	
-	public boolean addTable(int size, int xLoc, int yLoc) {
-    	xLoc = xLoc/cellSize;
-    	yLoc = yLoc/cellSize;
-		if(tryAddTable(CityRestaurantCard.TABLESIZE/cellSize, xLoc, yLoc)) {
-			tableMap.put(tableMap.size()+1, new Point(xLoc*cellSize,yLoc*cellSize));
-			animationPanel.addTable(new Point(xLoc*cellSize,yLoc*cellSize));
-			restaurant.host.addTable(size);
-			System.out.println("Added table " + (tableMap.size()+1));
-			return true;
-		}
-		System.out.println("Cannot add table " + (tableMap.size()+1));
-		return false;
-	}
-    
-    //Takes in the reduced coordinates and sizes 
-    private boolean tryAddTable(int size, int x, int y)
-    {
-    	try
-		{
-			int acqCnt = -1;
-			int[][] acqList = new int[size*size][2];
-			for (int i=0; i<size; i++) {
-				for (int j=0; j<size; j++) {
-					boolean acquired = grid[x+i][y+j].tryAcquire();
-					if(acquired) {
-						acqCnt++;
-						acqList[acqCnt][0] = x+i;
-						acqList[acqCnt][1] = y+j;
-					}
-				    if(!acquired) {
-						for(int k=0; k<=acqCnt; k++) {
-							grid[acqList[k][0]][acqList[k][1]].release();
-						}
-						return false;
-					}
-				}
-			}
-		}catch (Exception e)
-		{
-		    System.out.println("Unexpected exception caught in during setup:"+ e);
-		}
-    	return true;
-    }
-    
-	
-	public void setAnimationPanel(CityRestaurantCard p){
-		animationPanel = p;
-        
-        //host.startThread();
-        //cook.startThread();
-        //cashier.startThread();
-        
-        initializeRestaurant();
- 
-        
-	}
-	
-	public Map<Integer, Point> getTables(){
-		return tableMap;
-	}
+
+
 }

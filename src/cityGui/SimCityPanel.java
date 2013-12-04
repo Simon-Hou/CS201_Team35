@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -20,14 +21,14 @@ import cityGui.test.PersonGui;
 public abstract class SimCityPanel extends JPanel implements ActionListener, MouseListener {
 
 	protected SimCityGui city;
-	public ArrayList<CityComponent> statics, movings;
+	public List<CityComponent> statics, movings;
 	protected Color background;
 	protected Timer timer;
 		
 	public SimCityPanel(SimCityGui city) {
 		this.city = city;
-		statics = new ArrayList<CityComponent>();
-		movings = new ArrayList<CityComponent>();
+		statics = Collections.synchronizedList(new ArrayList<CityComponent>());
+		movings = Collections.synchronizedList(new ArrayList<CityComponent>());
 		timer = new Timer(10, this);
 		timer.start();
 	}
@@ -41,18 +42,24 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	}
 	
 	public void drawComponents(Graphics g) {
-		for (CityComponent c:statics) {
-			c.paint(g);
+		synchronized(statics){
+			for (CityComponent c:statics) {
+				c.paint(g);
+			}
 		}
 		
-		for (CityComponent c:movings) {
-			c.paint(g);
+		synchronized(movings){
+			for (CityComponent c:movings) {
+				c.paint(g);
+			}
 		}
 	}
 	
 	public void moveComponents() {
-		for (CityComponent c:movings) {
-			c.updatePosition();
+		synchronized(movings){
+			for (CityComponent c:movings) {
+				c.updatePosition();
+			}
 		}
 	}
 	

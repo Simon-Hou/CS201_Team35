@@ -120,8 +120,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			addingObject = false;
 
 			if(temp.type.equals("Restaurant")){
-				CityRestaurantCard tempAnimation = new CityRestaurantCard(city);
-				((CityRestaurant)temp).setAnimationPanel(tempAnimation);
+				CityRestaurantLindaCard tempAnimation = new CityRestaurantLindaCard(city);
+				((CityRestaurantLinda)temp).setAnimationPanel(tempAnimation);
 				city.view.addView(tempAnimation, temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
@@ -182,7 +182,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			return;
 		addingObject = true;
 		switch (c) {
-		case RESTAURANT: temp = new CityRestaurant(-100, -100, "Restaurant " + (statics.size()-19)); break;
+		//Need to make multiple restaurant enums, probably
+		case RESTAURANT: temp = new CityRestaurantLinda(-100, -100, "Restaurant " + (statics.size()-19)); break;
 		case ROAD: temp = new CityRoad(-100, RoadDirection.HORIZONTAL); break; //NOTE: DON'T MAKE NEW ROADS
 		case BANK: temp = new CityBank(-100, -100, "Bank " + (statics.size()-19)); break;
 		case HOUSE: temp = new CityHouse(-100, -100, "House " + (statics.size()-19)); break;

@@ -26,6 +26,9 @@ import util.JobType;
 import cityGui.CityRestaurant;
 import interfaces.BaseRestaurantCashier;
 import interfaces.BaseRestaurantCook;
+import interfaces.BaseRestaurantCustomer;
+import interfaces.BaseRestaurantHost;
+import interfaces.BaseRestaurantWaiter;
 import interfaces.MarketEmployee;
 import interfaces.MarketHost;
 import interfaces.Person;
@@ -35,93 +38,16 @@ import interfaces.restaurantLinda.Customer;
 import interfaces.restaurantLinda.Host;
 import interfaces.restaurantLinda.Waiter;
 
-public class Restaurant implements PlaceOfWork{
+public abstract class Restaurant implements PlaceOfWork{
 	
-	public CityRestaurant cityRestaurant;	
+	public BaseRestaurantHost host;
+	public BaseRestaurantCashier cashier;
+	public BaseRestaurantCook cook;
+	protected List<BaseRestaurantWaiter> waiters;
+	public CityRestaurant cityRestaurant;
+	public int cash;
 	
-	ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
-	
-	public Host host = new HostRole("RestaurantHost"); 
-	public BaseRestaurantCashier cashier =  new CashierRole("RestaurantCashier", this);
-	public BaseRestaurantCook cook = new CookRole("Cook", orderMonitor, this);
-	//private Vector<CustomerRole> customers = new Vector<CustomerRole>();
-	private List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
-	
-	public int cash=5000;	
-	
-	public Restaurant(CityRestaurant cr){
-		this.cityRestaurant = cr;
-		CookGui cg = new CookGui((CookRole)cook);
-		((CookRole)cook).setGui(cg);
-		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
-		cityRestaurant.animationPanel.addGui(cg);
-	}
-	
-	//dummy constructor for agent-only unit tests
-	public Restaurant(){
-		
-	}
-	
-	@Override
-	public Role canIStartWorking(Person p, JobType type, Role r) {
-		if (type == JobType.RestaurantHost){
-			((HostRole)host).changeShifts(p);
-			return (Role)host;
-		}
-		else if (type == JobType.RestaurantWaiter1){
-			((WaiterRole)r).setRestaurant(this);
-			waiterComingToWork((Waiter) r);
-			return r;
-		}
-		else if (type == JobType.RestaurantWaiter2){
-			((WaiterRole)r).setRestaurant(this);
-			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
-			waiterComingToWork((Waiter) r);
-			return r;
-		}
-		else if (type == JobType.RestaurantCook){
-			((CookRole)cook).changeShifts(p);
-			return (Role)cook;
-		}
-		else if (type == JobType.RestaurantCashier){
-			((CashierRole)cashier).changeShifts(p);
-			return (Role) cashier;
-		}
-		
-		System.out.println("Unrecognized job type: " + type);
-		return null;
-	}
-		
-	public void waiterComingToWork(Waiter r){
-		WaiterGui wg = new WaiterGui((WaiterRole)r, waiters.size(), new AStarTraversal(cityRestaurant.grid));
-		waiters.add((WaiterRole)r);
-		((WaiterRole)r).setGui(wg);
-		wg.setTables(cityRestaurant.getTables());
-		wg.setPlates(cityRestaurant.animationPanel.platedFoods);
-		host.addWaiter(r);
-		cityRestaurant.animationPanel.addGui(wg);
-	}
-	
-	public BaseRestaurantCook cookComingToWork(Person p){
-		((CookRole)cook).changeShifts(p);
-		return cook;
-	}
-	
-	public void waiterLeaving(Waiter w){
-		waiters.remove(w);
-		leaveRestaurant(((WaiterRole)w).getGui());
-	}
-	
-	public void leaveRestaurant(Gui gui){
-		cityRestaurant.animationPanel.removeGui(gui);
-	}
-	
-	public void customerEntering(Customer c){
-		CustomerGui cg = new CustomerGui((CustomerRole)c);
-		((CustomerRole)c).setGui(cg);
-		cityRestaurant.animationPanel.addGui(cg);
-		((CustomerRole)c).atRestaurant(this);
-	}
+	public abstract void customerEntering(BaseRestaurantCustomer c);
 	
 	public boolean unStaffed(){
 		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();

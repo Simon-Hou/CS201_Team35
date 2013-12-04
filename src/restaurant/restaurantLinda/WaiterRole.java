@@ -27,7 +27,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 	private enum WaiterState {ready, takingOrder};
 	BreakStatus breakStatus = BreakStatus.none;
 	public enum BreakStatus {none, wantBreak, asked, hasPermission, onBreak, finished}
-	protected Restaurant restaurant;
+	protected RestaurantLinda restaurant;
 	protected List<String> unavailableFoods;
 	
 	protected Semaphore atDestination = new Semaphore(0,true);
@@ -37,9 +37,6 @@ public abstract class WaiterRole extends Role implements Waiter{
 	public WaiterRole(){
 		super();
 	}
-
-
-
 	
 	//Messages
 	public void msgPleaseServeCustomer(Customer c, int table){		
@@ -438,7 +435,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 		return name;
 	}
 	
-	public void setRestaurant(Restaurant r){
+	public void setRestaurant(RestaurantLinda r){
 		this.restaurant = r;
 	}
 	
