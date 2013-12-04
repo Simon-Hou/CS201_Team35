@@ -646,6 +646,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		guiMoveFromCurrentPostionTo(new Position(gridLoc.x,gridLoc.y));
 		
+		this.gui.doGoToBuilding(loc);
 		
 	}
 	

@@ -48,7 +48,7 @@ public class AStarTraversalPerson extends AStarTraversal{
 			      (nextX<0 || nextY<0)) continue;
 			Position next = new Position(nextX,nextY);
 			//System.out.println("considering"+next);
-			if (inPath(next,path) || !next.open(grid) ) continue;
+			if (inPath(next,path) || (!next.open(grid) && !CityComponent.onSidewalk(nextX, nextY)) ) continue;
 			//printCurrentList();
 			//System.out.println("available"+next);
 			AStarNode nodeTemp = new AStarNode(next);
