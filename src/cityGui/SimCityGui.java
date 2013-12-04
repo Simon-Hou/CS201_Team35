@@ -358,7 +358,19 @@ public class SimCityGui extends JFrame implements ActionListener {
 		c.gridwidth = 11; c.gridheight = 1;
 		this.add(CP, c);
 		
-
+		//(-P)
+		/*
+		Dimension bcpDim = new Dimension(100, 800);
+		buildingControlPanel.setPreferredSize(bcpDim);
+		buildingControlPanel.setMaximumSize(bcpDim);
+		buildingControlPanel.setMinimumSize(bcpDim);
+		c.gridx = 11; c.gridy = 0;
+		c.gridwidth = 5; c.gridheight = 6;
+		this.add(buildingControlPanel, c);
+*/
+		
+		
+		
 		timer = new Timer(10,  this);
 		timer.start();
 		/*c.gridx = 0; c.gridy = 7;
