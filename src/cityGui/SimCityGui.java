@@ -10,12 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import market.Market;
 import market.gui.MarketPanel;
 import person.PersonAgent;
 import util.Bank;
@@ -30,6 +32,7 @@ import util.Loc;
 import util.MarketMapLoc;
 import util.RestaurantMapLoc;
 import city.CityObject;
+import cityGui.test.AStarTraversalPerson;
 import cityGui.test.BusGui;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
@@ -259,12 +262,19 @@ public class SimCityGui extends JFrame implements ActionListener {
 	CityControlPanel CP;
 	TracePanel tracePanel;
 	GridBagConstraints c = new GridBagConstraints();
-	int SHIFTS = 3;
+	int SHIFTS = 2;
 	int MAXTIME = 100;
 	protected Timer timer;
 	public long time=0;
 	boolean hasBuses = false;
 	
+
+	int gridX = 600;
+	int gridY = 600;
+	double cityScale = 30;
+	
+	public Semaphore[][] grid = new Semaphore[(int) ((int) gridX/cityScale)][(int) ((int) gridY/cityScale)];
+
 
 	public SimCityGui() throws HeadlessException {
 		//Adds person images to its sprite array
@@ -328,6 +338,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
+		
+		
+		//Makes the A* grid for the city
+		initializeGrid();
 
 		//THIS IS THE AGENT CITY
 		cityObject = new CityObject(this);
@@ -393,8 +407,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 		cityObject.people.add(p);
 		city.addMoving(personGui);
 		p.startThread();*/
+		p.setAStar(new AStarTraversalPerson(grid));
 		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
-		p.gui = personGui;
+		p.setGui(personGui);
 		cityObject.people.add(p);
 		city.addMoving(personGui);
 		p.startThread();
@@ -489,11 +504,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		if(type.equals("Bank")){
 			int j = 0;
-			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			//int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			int randOffset = 0;
 			//System.out.println("Rand offset: "+randOffset);
 			for(int i = 0;i<SHIFTS;++i){
-				int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+				int start = (i*(MAXTIME/SHIFTS) + randOffset+MAXTIME-2)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset+2)%MAXTIME;
 				//System.out.println("Shift start, end: "+start+" " +end);
 				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
@@ -508,10 +524,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 			int j = 0;
 			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
 			//System.out.println("Rand offset: "+randOffset);
+			randOffset = 0;
 			for(int i = 0;i<SHIFTS;++i){
-				int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-				//System.out.println("Shift start, end: "+start+" " +end);
+				int start = (i*(MAXTIME/SHIFTS) + randOffset+MAXTIME-2)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset+2)%MAXTIME;
+				System.out.println(j+ " Shift start, end: "+start+" " +end);
 				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
 				addNewPersonHard("p"+j,
@@ -520,10 +537,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 				j = j+1;
 			}
 			randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			randOffset = 0;
 			for(int i = 0;i<SHIFTS;++i){
-				int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-				//System.out.println("Shift start, end: "+start+" " +end);
+				int start = (i*(MAXTIME/SHIFTS) + randOffset+MAXTIME-2)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset+2)%MAXTIME;
+				System.out.println(j+" Shift start, end: "+start+" " +end);
 				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
 				addNewPersonHard("p"+j,
@@ -534,9 +552,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 			//for(int numEmployees = 0;numEmployees<2;++numEmployees){
 				randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+				randOffset = 0;
 				for(int i = 0;i<SHIFTS;++i){
-					int start = (i*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
-					int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset)%MAXTIME;
+					int start = (i*(MAXTIME/SHIFTS) + randOffset+MAXTIME-2)%MAXTIME;
+					int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset+2)%MAXTIME;
 					System.out.println(j+" Shift start, end: "+start+" " +end);
 					int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 					int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
@@ -544,6 +563,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 							((MarketMapLoc) cityObject.cityMap.map.get("Market").get(num)).market,
 							JobType.MarketEmployee,start,end,bankNum,houseNum);
 					j = j+1;
+					
 				}
 			//}
 		}
@@ -613,7 +633,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 
-
+		//System.out.println(""+ (-2)%100);
 
 		SimCityGui test = new SimCityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -623,6 +643,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		int xStartTest = 0;
 		int yStartTest = 0;
+		
+		
+		
+		//THIS SHOWS THE MARKET TESTS I'VE (GABE) BEEN WORKING ON
+		//test.marketScenario();
 
 		/*test.addNewBuilding("Market", 250, 200);
 		test.addNewPersonHard("p"+0,
@@ -635,15 +660,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.addNewPerson("p0");
 		//HACK ADDS BUILDINGS TO THE MAP
 
-		test.addBuses(test);
+		//test.addBuses(test);
 		
 		
 //		test.addBuses(test);
-		test.addNewBuilding("Bank", 5, 400);
-		test.addNewBuilding("Market",200,250);
+		//test.addNewBuilding("Bank", 5, 400);
+		//test.addNewBuilding("Market",200,250);
 //		test.addNewBuilding("House", 200, 5);
-		test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);
+		//test.fullyManBuilding("Bank",0);
+		//test.fullyManBuilding("Market",0);
 //		test.fullyManBuilding("Bank",0);
 //		test.fullyManBuilding("Market",0);
 //		test.fullyManBuilding("Market",1);
@@ -658,8 +683,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//test.addNewBuilding("Market",200,250);
 		//test.addNewBuilding("Restaurant", 5, 200);
 
-		test.fullyManBuilding("Bank",0);
-		test.fullyManBuilding("Market",0);
+		//test.fullyManBuilding("Bank",0);
+		//test.fullyManBuilding("Market",0);
 		//test.fullyManBuilding("Market",1);
 		//test.fullyManBuilding("Bank",0);
 		//test.fullyManBuilding("Market",0);
@@ -719,7 +744,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void bankScenario(){
 		hasBuses = false;
-		MAXTIME = 20;
+		setMAXTIME(50);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Bank",200,250);
 		fullyManBuilding("Bank",0);
@@ -728,21 +753,39 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void marketScenario(){
 		hasBuses = false;
-		MAXTIME = 100;
+		setMAXTIME(50);
+		//cityObject.MAXTIME = 50;
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
+		
+		//fullyManBuilding("Market",0);
+		
+		
 		addNewPersonHard("p"+0,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-				JobType.MarketHost,0,100,0,0);
+				JobType.MarketHost,0,5,0,0);
+		
 		addNewPersonHard("p"+1,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-				JobType.MarketEmployee,0,100,0,0);
-		/*addNewPersonHard("p"+2,
-				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-				JobType.MarketEmployee,0,100,0,0);*/
+				JobType.MarketEmployee,0,5,0,0);
+		
 		addNewPersonHard("p"+2,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-				JobType.MarketCashier,0,100,0,0);
+				JobType.MarketCashier,0,6,0,0);
+		
+		addNewPersonHard("replacementHOST",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketHost,5,100,0,0);
+		
+		addNewPersonHard("replacementEMPLOYEE",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,4,100,0,0);
+		
+		
+		addNewPersonHard("relacementCASHIER",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketCashier,6,100,0,0);
+		
 		
 		/*try {
 			Thread.sleep(2000);
@@ -751,8 +794,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}*/
 		
+		
+		
 		addNewPersonHard("p"+3,null,null,0,0,0,0);
 		addNewPersonHard("p"+4,null,null,0,0,0,0);
+		
+		
 		/*addNewPersonHard("p"+5,null,null,0,0,0,0);
 		addNewPersonHard("p"+6,null,null,0,0,0,0);
 		addNewPersonHard("p"+7,null,null,0,0,0,0);
@@ -778,7 +825,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void restaurantScenario(){
 		hasBuses = false;
-		MAXTIME = 20;
+		setMAXTIME(20);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Restaurant",5, 300);
 		fullyManBuilding("Restaurant",0);
@@ -799,11 +846,36 @@ public class SimCityGui extends JFrame implements ActionListener {
 		}
 	}
 	
+	public void setMAXTIME(int m){
+		MAXTIME = m;
+		cityObject.MAXTIME = m;
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		time++;
 
+	}
+	
+	public void initializeGrid(){
+		for (int i=0; i<gridX/cityScale ; i++)
+            for (int j = 0; j<gridY/cityScale; j++)
+                grid[i][j]=new Semaphore(1,true);
+		
+		try{
+			for(int i = (int) Math.ceil(200/cityScale);i<(int) Math.floor(400/cityScale);++i){
+				for(int j = (int) Math.ceil(200/cityScale);j<(int) Math.floor(400/cityScale);++j){
+					System.out.println("("+i+","+j+")");
+					grid[i][j].acquire();
+				}
+			}
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }

@@ -183,7 +183,7 @@ public class CityObject implements ActionListener{
 	
 	
 	public void updateTime(){
-		System.out.println("CITY: Updating time");
+		System.out.println("CITY: Updating time to "+(currentTime+1)%MAXTIME);
 		currentTime = (currentTime+1)%MAXTIME;
 		for(PersonAgent p:people){
 			p.setTime(currentTime);
@@ -203,13 +203,13 @@ public class CityObject implements ActionListener{
 	
 	
 	
-	public static void main(String [] args){
+	/*public static void main(String [] args){
 		
 		//CityObject city = new CityObject();
 		
 		
 		return;
-	}
+	}*/
 	
 	
 	

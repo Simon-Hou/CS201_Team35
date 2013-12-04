@@ -2,6 +2,7 @@ package market;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	//-----------------------------DATA--------------------------------
 	enum CustomerState {waiting, beingServiced, leaving};
 	
-	public List<MyEmployee> employees = new ArrayList<MyEmployee>();
+	public List<MyEmployee> employees = Collections.synchronizedList(new ArrayList<MyEmployee>());
 	private List<MyCustomer> customers= new ArrayList<MyCustomer>();
 	private List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
 	
@@ -47,6 +48,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	public boolean YouAreDoneWithShift(){
 		//TODO make sure people don't leave their shifts early
 		if(true){
+			Do("Being kicked off the job now");
 			p.msgThisRoleDone(this);
 			this.p = null;
 			market.DefaultName(this);
@@ -56,7 +58,8 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public void msgCustomerWantsThis(MarketCustomer c, Map<String, Integer> orderList) {
 		
-	    Do("I received a MARKET order from " + c.getName());
+     	
+	    Do("I received a MARKET order from " + c.getName()+", I have "+customers.size()+" custs");
 		customers.add(new MyCustomer(c, orderList));
 	    if(p!=null){
 	    	p.msgStateChanged();
@@ -198,15 +201,21 @@ public class MarketHostRole extends Role implements MarketHost {
 		//choose employee for load balancing
 		if(employees.size()==0){
 			System.err.println("No Market employees");
-			mc.customer.msgWeHaveNothing();
+			//mc.customer.msgWeHaveNothing();
+			mc.customer.msgNoEmployees();
 			return;
 		}
 		
 		MyEmployee e1 = employees.get(0);
-
-		for (int i =1; i< employees.size(); i++){
-			if (employees.get(i).orders < e1.orders){
-				e1 = employees.get(i);
+		synchronized(employees){
+			for (int i =0; i< employees.size(); i++){
+				if(employees.get(i).employee.getName().equals("p1MarketEmployee")){
+					e1 = employees.get(i);
+					break;
+				}
+				if (employees.get(i).orders < e1.orders){
+					e1 = employees.get(i);
+				}
 			}
 		}
 
@@ -269,9 +278,11 @@ public class MarketHostRole extends Role implements MarketHost {
 
 		MyEmployee e1 = employees.get(0);
 
-		for (int i =1; i< employees.size(); i++){
-			if (employees.get(i).orders < e1.orders){
-				e1 = employees.get(i);
+		synchronized(employees){
+			for (int i =1; i< employees.size(); i++){
+				if (employees.get(i).orders < e1.orders){
+					e1 = employees.get(i);
+				}
 			}
 		}
 
@@ -355,7 +366,25 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 	public boolean NewEmployee(MarketEmployee m){
 		//Do("This is being called!!!!");
+		Do("Host adding a new employee");
 		addEmployee(m);
 		return true;
 	}
+	
+	public boolean employeeLeaving(MarketEmployee m){
+		Do("Host removing an employee");
+		synchronized(employees){
+			for(MyEmployee mE : employees){
+				//System.out.println("hosts: "+mE.employee);
+				//System.out.println("Actual: "+m);
+				if(mE.employee.equals(m)){
+					Do("Removed "+mE.employee.getName());
+					employees.remove(mE);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 }

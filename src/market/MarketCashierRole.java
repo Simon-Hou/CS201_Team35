@@ -62,12 +62,15 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public boolean YouAreDoneWithShift(){
 		
+		
 		if(true){
+			Do("Being kicked off the job now");
 			p.msgThisRoleDone(this);
 			this.p = null;
 			market.DefaultName(this);
 		}
 		return true;
+		
 		
 	}
 	
@@ -80,6 +83,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Messages
 	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
+		//Do("GOT THE SERVICE MESSAGE");
 		customers.add(new MyCustomer(c, groceries));
 		p.msgStateChanged();
 	}
@@ -114,7 +118,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//-----------------------Scheduler---------------------------
 	public boolean pickAndExecuteAnAction() {
-		
+		//Do("DECIDING WHAT TO DO "+customers.size());
 		if (!orders.isEmpty()){
 			ComputeBusinessPayment(orders.get(0));
 			return true;
