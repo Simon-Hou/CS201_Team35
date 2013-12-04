@@ -246,6 +246,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 //	java.net.URL pright3 = getClass().getResource("personImages/pright3.png");
 //	ImageIcon pr3 = new ImageIcon(pright3);
 
+	
+	//(-P)
+	JPanel buildingControlPanel = new JPanel();
+	
 	public CityPanel city;
 	public CityObject cityObject;
 	InfoPanel info;
