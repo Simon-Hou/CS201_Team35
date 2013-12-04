@@ -250,6 +250,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	//(-P)
 	JPanel buildingControlPanel = new JPanel();
 	
+	
 	public CityPanel city;
 	public CityObject cityObject;
 	InfoPanel info;
