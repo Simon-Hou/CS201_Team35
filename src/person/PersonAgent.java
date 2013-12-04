@@ -6,6 +6,7 @@ import interfaces.Occupation;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,9 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 
+import cityGui.CityComponent;
+import cityGui.test.AStarTraversalPerson;
+import astar.*;
 import cityGui.test.PersonGui;
 import public_Object.Food;
 import role.Role;
@@ -66,13 +70,14 @@ public class PersonAgent extends Agent implements Person {
 		//will be changed later to request the correct role from the restaurant diretly
 		restaurantRole = new CustomerRole(name+"Restaurant", this);
 
-		//this.belongings.myFoods.add(new Food("Steak",10));
-		//this.belongings.myFoods.add(new Food("Chicken",10));
-		//this.belongings.myFoods.add(new Food("Pizza",10));
-		//this.belongings.myFoods.add(new Food("Salad",10));
+		this.belongings.myFoods.add(new Food("Steak",10));
+		this.belongings.myFoods.add(new Food("Chicken",10));
+		this.belongings.myFoods.add(new Food("Pizza",10));
+		this.belongings.myFoods.add(new Food("Salad",10));
 		Random random = new Random();
 		purse.wallet = 50;
 		hungerLevel = random.nextInt(10);
+		hungerLevel = 0;
 		
 	}
 	
@@ -85,6 +90,11 @@ public class PersonAgent extends Agent implements Person {
 	
 	
 	//SETTERS
+	
+	public void setAStar(AStarTraversalPerson a){
+		this.aStar = a;
+	}
+	
 	public void setTime(int time){
 		this.time = time;
 	}
@@ -110,7 +120,14 @@ public class PersonAgent extends Agent implements Person {
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
 	public CustomerRole restaurantRole ;
-	public PersonGui gui;
+	
+	public AStarTraversalPerson aStar;
+    Position currentPosition = new Position(2,2); 
+    Position originalPosition = new Position(2,2);
+	private PersonGui gui;
+	int scale = 30;
+	
+	
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
 	public int MY_BANK = 0;
@@ -134,6 +151,11 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setHouse(House h){
 		this.belongings.myHouse = h;
+	}
+	
+	public void setGui(PersonGui g){
+		this.gui = g;
+		//this.gui = null;
 	}
 	
 	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
@@ -267,21 +289,34 @@ public class PersonAgent extends Agent implements Person {
 				setJob(((BankMapLoc) city.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100);
 			}
 		}*/
+		if(name.equals("p1")&&time==6){
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(name.equals("p3")&&time<6){
+			return false;
+		}
 		
-		//Do("Deciding what to do "+onBus);
+		//Do("Deciding what to do ");
 		if(onBus){
 			return false;
 		}
 		
 		if (activeRole != null) {
+			//Do("will do role stuff");
 			activeRoleCalls++;
 			
 			//This takes care of getting off work
 			if(activeRole == myJob.jobRole && !timeInJobShift()){
 				if(myJob.jobRole instanceof BankTellerRole){
 					if(((BankTellerRole) myJob.jobRole).canLeave()){
-						Do("It's quitting time.");
+						Do("It's bank quitting time.");
 						//activeRole.p = null;
+						//((BankTellerRole) myJob.jobRole).msgLeaveBank();
 						activeRole = null;
 						return true;
 					}
@@ -289,6 +324,7 @@ public class PersonAgent extends Agent implements Person {
 				if(((Occupation) myJob.jobRole).canLeave()){
 		
 					Do("It's quitting time.");
+					
 					activeRole = null;
 					return true;
 				}
@@ -296,28 +332,16 @@ public class PersonAgent extends Agent implements Person {
 			
 			return activeRole.pickAndExecuteAnAction();
 		}
-		
+		//Do("ALIVE");
 		if(time == myJob.shiftStart-1){
 			return false;
 		}
 		
 		//Do("Deciding what to do");
-
-		
-		/*if (nextRole != null) {
-			activeRole = nextRole;
-			nextRole = null;
-			return true;
-		}*/
-		/*if(name.equals("p1")){
-			Do("DECIDING WHAT TO DO");
-		}*/
-		/*if (myJob.placeOfWork!=null && time >= myJob.shiftStart && time < myJob.shiftEnd) {
-			goToWork();
-			return true;
-		}*/
-		
-		if(myJob.placeOfWork!=null && timeInJobShift()){
+		//TODO FIX THIS MAXTIME ISSUE
+		if(myJob.placeOfWork!=null && timeInJobShift() && timeInJobShift((time+1)%50) && timeInJobShift((time+2)%50)
+				&&timeInJobShift((time+3)%50)&&timeInJobShift((time+4)%50)&&timeInJobShift((time+5)%50)
+				){
 			goToWork();
 			return true;
 		}
@@ -389,7 +413,14 @@ public class PersonAgent extends Agent implements Person {
 	
 	//Actions
 	private void goToWork() {
-		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 
 		//HACK
 		if(myJob.placeOfWork==null){
@@ -439,7 +470,13 @@ public class PersonAgent extends Agent implements Person {
 		if(belongings.myAccounts.isEmpty()){
 			Do("Going to bank to open new account");
 			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
-			doGoToBuilding(loc);
+			//Do("Before");
+			
+			tempDoGoToCityLoc(loc);
+			//doGoToBuilding(loc);
+			
+			
+			//Do("After");
 			bankRole.msgYouAreAtBank(b);
 			activeRole = bankRole;
 			return;
@@ -472,12 +509,12 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void goToMarket() {
 		
-		try {
+		/*try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
@@ -485,8 +522,15 @@ public class PersonAgent extends Agent implements Person {
 		int marketChoice = (int) Math.floor(city.map.get("Market").size()*Math.random());
 		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
 		Loc loc = city.map.get("Market").get(marketChoice).loc;
+	
 		
-		doGoToBuilding(loc);
+		tempDoGoToCityLoc(loc);
+		
+		
+		//TODO UNCOMMENT THIS 
+		//doGoToBuilding(loc);
+		
+		
 		
 		//ShoppingList shoppingList = makeShoppingList();
 		
@@ -494,18 +538,20 @@ public class PersonAgent extends Agent implements Person {
 		for(Food f:this.belongings.myFoods){
 			if(f.quantity<=10){
 				marketRole.addToShoppingList(f.type, 10);
+				//Do("f.type");
 			}
 		}
 		
 		//marketRole.setMarket(m);
 		
 		//HACK--------if no host or cashier in restaurant then give yourself some food and leave!
-		if (!m.host.isPresent() || !m.cashier.isPresent()){
+		/*if (!m.host.isPresent() || !m.cashier.isPresent()){
+			Do("NO ONE AT THE MARKET");
 			for(Food f:this.belongings.myFoods){
 					f.quantity+=5;
 					return;
 			}
-		}
+		}*/
 		
 		
 		
@@ -514,6 +560,10 @@ public class PersonAgent extends Agent implements Person {
 		activeRole = marketRole;
 	}
 	
+	
+
+
+
 	private void getFood() {
 		if (!belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at home");
@@ -529,7 +579,7 @@ public class PersonAgent extends Agent implements Person {
 	private void getSleep() {
 		
 		
-		Do("I am going home to sleep ");
+		//Do("I am going home to sleep ");
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
 		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
 		doGoHome();
@@ -539,6 +589,8 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void goToRestaurant() {
 		if(city.map.get("Restaurant").isEmpty()){
+			hungerLevel = 0;
+			return;
 			/*try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
@@ -589,9 +641,22 @@ public class PersonAgent extends Agent implements Person {
 	
 	//ANIMATION
 	
+	private void tempDoGoToCityLoc(Loc loc) {
+		// TODO Auto-generated method stub
+		//System.out.println("CALLING THE TEMP MARKET MOVE");
+		
+		
+		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
+		
+		guiMoveFromCurrentPostionTo(new Position(gridLoc.x,gridLoc.y));
+		
+		this.gui.doGoToBuilding(loc);
+		
+	}
+	
 	public void doGoHome(){
 		//Do("My address: "+belongings.myHouse.address.x+" "+belongings.myHouse.address.y);
-		doGoToBuilding(belongings.myHouse.address);
+		tempDoGoToCityLoc(belongings.myHouse.address);
 	}
 
 	
@@ -635,7 +700,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void doGoToWork(){
 		Loc location = findPlaceOfWork(myJob.placeOfWork);
-		doGoToBuilding(location);
+		tempDoGoToCityLoc(location);
 	}
 	
 	public Loc findPlaceOfWork(PlaceOfWork workPlace){
@@ -707,6 +772,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void msgStateChanged() {
 		//this.pickAndExecuteAnAction();
+		//Do("Got the stateChanged message");
 		this.stateChanged();
 	}
 	
@@ -826,6 +892,25 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public boolean timeInJobShift(){
+		
+		return timeInJobShift(time);
+		
+		/*if(myJob.shiftEnd>=myJob.shiftStart){
+			if(time>=myJob.shiftStart && time<=myJob.shiftEnd){
+				return true;
+			}
+			return false;
+		}
+		if(myJob.shiftEnd<myJob.shiftStart){
+			if(time<myJob.shiftStart && time>myJob.shiftEnd){
+				return false;
+			}
+			return true;
+		}
+		return false;*/
+	}
+	
+	public boolean timeInJobShift(int time){
 		if(myJob.shiftEnd>=myJob.shiftStart){
 			if(time>=myJob.shiftStart && time<=myJob.shiftEnd){
 				return true;
@@ -847,6 +932,116 @@ public class PersonAgent extends Agent implements Person {
 		if (role.equals("RestaurantCustomer"))
 			activeRole = restaurantRole;
 	}
+	
+	
+	
+	 //this is just a subroutine for waiter moves. It's not an "Action"
+    //itself, it is called by Actions.
+    void guiMoveFromCurrentPostionTo(Position to){
+        //System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
+
+    	//to = new Position(2,5);
+    	Loc l = CityComponent.findNearestGridLoc(new Point(gui.rectangle.x,gui.rectangle.y));
+    	currentPosition = new Position(l.x,l.y);
+    	//System.out.println("("+currentPosition.getX()+","+currentPosition.getY()+")");
+    	//System.out.println("("+to.getX()+","+to.getY()+")");
+
+    	
+    	
+    	//Do("CALLING PERSON MOVE");
+    	
+        AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+        List<Position> path = aStarNode.getPath();
+       // Do("Got here, path calculated");
+        Boolean firstStep   = true;
+        Boolean gotPermit   = true;
+
+        for (Position tmpPath: path) {
+            //The first node in the path is the current node. So skip it.
+            if (firstStep) {
+                firstStep   = false;
+                continue;
+            }
+
+            //Try and get lock for the next step.
+            int attempts    = 1;
+            gotPermit       = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
+
+            //Did not get lock. Lets make n attempts.
+            while (!gotPermit && attempts < 3) {
+                //System.out.println("[Gaut] " + guiWaiter.getName() + " got NO permit for " + tmpPath.toString() + " on attempt " + attempts);
+
+                //Wait for 1sec and try again to get lock.
+                try { Thread.sleep(1000); }
+                catch (Exception e){}
+
+                gotPermit   = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
+                attempts ++;
+            }
+
+            //Did not get lock after trying n attempts. So recalculating path.            
+            if (!gotPermit) {
+                //System.out.println("[Gaut] " + guiWaiter.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
+                guiMoveFromCurrentPostionTo(to);
+                break;
+            }
+
+            //Got the required lock. Lets move.
+            //System.out.println("[Gaut] " + guiWaiter.getName() + " got permit for " + tmpPath.toString());
+            currentPosition.release(aStar.getGrid());
+            currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
+            //System.out.println(gui==null);
+            gui.move(currentPosition.getX(), currentPosition.getY());
+        }
+        /*
+        boolean pathTaken = false;
+        while (!pathTaken) {
+            pathTaken = true;
+            //print("A* search from " + currentPosition + "to "+to);
+            AStarNode a = (AStarNode)aStar.generalSearch(currentPosition,to);
+            if (a == null) {//generally won't happen. A* will run out of space first.
+                System.out.println("no path found. What should we do?");
+                break; //dw for now
+            }
+            //dw coming. Get the table position for table 4 from the gui
+            //now we have a path. We should try to move there
+            List<Position> ps = a.getPath();
+            Do("Moving to position " + to + " via " + ps);
+            for (int i=1; i<ps.size();i++){//i=0 is where we are
+                //we will try to move to each position from where we are.
+                //this should work unless someone has moved into our way
+                //during our calculation. This could easily happen. If it
+                //does we need to recompute another A* on the fly.
+                Position next = ps.get(i);
+                if (next.moveInto(aStar.getGrid())){
+                    //tell the layout gui
+                    guiWaiter.move(next.getX(),next.getY());
+                    currentPosition.release(aStar.getGrid());
+                    currentPosition = next;
+                }
+                else {
+                    System.out.println("going to break out path-moving");
+                    pathTaken = false;
+                    break;
+                }
+            }
+        }
+        */
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

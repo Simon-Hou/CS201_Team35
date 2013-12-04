@@ -9,6 +9,7 @@ import java.awt.image.ImageObserver;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import util.Loc;
 import city.CityObject;
 
 
@@ -21,6 +22,7 @@ public abstract class CityComponent implements ImageObserver {
 	
 	public Rectangle rectangle;
 	public int x, y;
+	public int gridX,gridY;
 	Color color;
 	String ID;
 	boolean isActive;
@@ -112,9 +114,14 @@ public abstract class CityComponent implements ImageObserver {
 	}
 
 	public void setPosition(Point p) {
+		//System.out.println("Point: "+p.x+", "+p.y);
 		this.x = p.x;
 		this.y = p.y;
 		rectangle.setLocation(p);
+		Loc starLoc = findNearestGridLoc(p);
+		this.gridX = starLoc.x;
+		this.gridY = starLoc.y;
+		//System.out.println("("+gridX+","+gridY+")");
 	}
 	
 	public int sidewalkX(int x, int y) {
@@ -147,6 +154,45 @@ public abstract class CityComponent implements ImageObserver {
 			else return 550;	
 		}
 		else return y+(this.rectangle.height/2)-5;	
+	}
+	
+	public static Loc findNearestGridLoc(Point p){
+		double minDistance = 10000;
+		int minI = -1;
+		int minJ = -1;
+		for(int i = 0;i<20;++i){
+			for(int j = 0;j<20;++j){
+				double tempDistance = Math.pow(30*i-p.x,2) + Math.pow(30*j - p.y,2);
+				if(tempDistance<minDistance){
+					boolean use = onSidewalk(30*i,30*j);
+					//System.out.println("On sidewalk: "+use+", "+i+", "+j+", "+tempDistance);
+					if(onSidewalk(30*i,30*j)){
+						minDistance = tempDistance;
+						minI = i;
+						minJ  = j;
+					}
+				}
+			}
+		}
+		return new Loc(minI,minJ);
+	}
+	
+	public static boolean onSidewalk(int x,int y){
+		//System.out.println("Sidewalk: "+x+", "+y);
+		if((x>=40 && x<=560)&&(y>=40 && y<=560)){
+			if(!((x>=80 && x<=520)&&(y>=80 && y <=520))){
+				return true;
+			}
+		}
+		
+		if((x>=160 && x<=440)&&(y>=160 && y<=440)){
+			if(!((x>=200 && x<=400)&&(y>=200 && y <=400))){
+				return true;
+			}
+		}
+		return false;
+		
+		
 	}
 	
 	public boolean innerBuilding(int x, int y) {
