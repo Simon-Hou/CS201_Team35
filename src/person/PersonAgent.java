@@ -471,7 +471,11 @@ public class PersonAgent extends Agent implements Person {
 			Do("Going to bank to open new account");
 			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
 			//Do("Before");
-			doGoToBuilding(loc);
+			
+			tempDoGoToCityLoc(loc);
+			//doGoToBuilding(loc);
+			
+			
 			//Do("After");
 			bankRole.msgYouAreAtBank(b);
 			activeRole = bankRole;
@@ -520,7 +524,7 @@ public class PersonAgent extends Agent implements Person {
 		Loc loc = city.map.get("Market").get(marketChoice).loc;
 	
 		
-		tempDoGoToMarket(loc);
+		tempDoGoToCityLoc(loc);
 		
 		
 		//TODO UNCOMMENT THIS 
@@ -637,9 +641,9 @@ public class PersonAgent extends Agent implements Person {
 	
 	//ANIMATION
 	
-	private void tempDoGoToMarket(Loc loc) {
+	private void tempDoGoToCityLoc(Loc loc) {
 		// TODO Auto-generated method stub
-		System.out.println("CALLING THE TEMP MARKET MOVE");
+		//System.out.println("CALLING THE TEMP MARKET MOVE");
 		
 		
 		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
@@ -652,7 +656,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void doGoHome(){
 		//Do("My address: "+belongings.myHouse.address.x+" "+belongings.myHouse.address.y);
-		doGoToBuilding(belongings.myHouse.address);
+		tempDoGoToCityLoc(belongings.myHouse.address);
 	}
 
 	
@@ -696,7 +700,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	private void doGoToWork(){
 		Loc location = findPlaceOfWork(myJob.placeOfWork);
-		doGoToBuilding(location);
+		tempDoGoToCityLoc(location);
 	}
 	
 	public Loc findPlaceOfWork(PlaceOfWork workPlace){
@@ -937,8 +941,10 @@ public class PersonAgent extends Agent implements Person {
         //System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
     	//to = new Position(2,5);
-    	System.out.println("("+currentPosition.getX()+","+currentPosition.getY()+")");
-    	System.out.println("("+to.getX()+","+to.getY()+")");
+    	Loc l = CityComponent.findNearestGridLoc(new Point(gui.rectangle.x,gui.rectangle.y));
+    	currentPosition = new Position(l.x,l.y);
+    	//System.out.println("("+currentPosition.getX()+","+currentPosition.getY()+")");
+    	//System.out.println("("+to.getX()+","+to.getY()+")");
 
     	
     	

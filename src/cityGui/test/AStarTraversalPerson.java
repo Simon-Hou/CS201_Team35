@@ -14,7 +14,7 @@ public class AStarTraversalPerson extends AStarTraversal{
 		// TODO Auto-generated constructor stub
 	}
 	
-	int scale = 30;
+	static int scale = 30;
 	
 	@Override
 	public List<Node> expandFunc(Node n) {
@@ -71,7 +71,7 @@ public class AStarTraversalPerson extends AStarTraversal{
 		return expandedNodes;
     }//end expandFunc
 	
-	public boolean walkable(int xChunk,int yChunk){
+	public static boolean walkable(int xChunk,int yChunk){
 		int x = scale*xChunk;
 		int y = scale*yChunk;
 		
