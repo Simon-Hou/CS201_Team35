@@ -261,9 +261,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public long time=0;
 	boolean hasBuses = false;
 	
-	int gridX = 300;
-	int gridY = 300;
-	int cityScale = 10;
+	int gridX = 600;
+	int gridY = 600;
+	int cityScale = 30;
 	
 	public Semaphore[][] grid = new Semaphore[gridX/cityScale][gridY/cityScale];
 
@@ -838,9 +838,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 	
 	public void initializeGrid(){
-		for (int i=0; i<gridX/10 ; i++)
-            for (int j = 0; j<gridY/10; j++)
+		for (int i=0; i<gridX/cityScale ; i++)
+            for (int j = 0; j<gridY/cityScale; j++)
                 grid[i][j]=new Semaphore(1,true);
+		
+		
+		
+		
+		
 	}
 
 }

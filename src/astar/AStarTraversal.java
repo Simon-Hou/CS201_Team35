@@ -76,6 +76,7 @@ public class AStarTraversal extends GraphTraversal
 						    //them directly to nodelist 
 		    }
 		}
+		
 		return expandedNodes;
     }//end expandFunc
     protected boolean inPath (Position pos, List<Position> path){
@@ -95,6 +96,7 @@ public class AStarTraversal extends GraphTraversal
     public void queueFn(Queue<Node> old, List<Node> newNodes){
 		for (Node m:newNodes) {
 		    old.offer((AStarNode)m);
+		    //old.add((AStarNode)m);
 		}
     }
     public Semaphore[][] getGrid(){return grid;}

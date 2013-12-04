@@ -38,11 +38,31 @@ public abstract class GraphTraversal
 		} else {
 		    //printCurrentList();
 		    //Console.pause();
+			/*Node first = new AStarNode(new Position(0,0));
+			double minScore = ((AStarNode)first).getApproxTotalDist()+((AStarNode)first).getDistTravelled();
+			int mindex = 0;
+			int currentIndex = 0;
+			for(Node node:nodes){
+				currentIndex++;
+				double tempScore = ((AStarNode)node).getApproxTotalDist()+((AStarNode)node).getDistTravelled();
+				if(tempScore<minScore){
+					mindex = currentIndex;
+					minScore = tempScore;
+				}
+			}*/
+			
+			//first = nodes.get(mindex);
+			//nodes.remove(first);
+			
+			
 		    Node first = nodes.poll(); 
+			
+			
 		    if (first.goalTest(endingState)){
 			//printMessage("Path Found.", first); 
 			return first;
 		    }else{
+		    
 			queueFn(nodes, expandFunc(first)); 
 		    }		
 		}

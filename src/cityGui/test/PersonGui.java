@@ -38,7 +38,7 @@ public class PersonGui extends CityComponent implements Gui {
     private int xRand;
     private int yRand;
     
-    int gridScale = 10;
+    int gridScale = 30;
     boolean doingMove = false;
     
     private boolean startPosition = true;
@@ -105,8 +105,8 @@ public class PersonGui extends CityComponent implements Gui {
     	
     	doingMove = true;
     	
-    	this.xDestination = 10*x;
-    	this.yDestination = 10*y;
+    	this.xDestination = gridScale*x;
+    	this.yDestination = gridScale*y;
     	
     	try {
 			atMove.acquire();
