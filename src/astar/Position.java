@@ -42,7 +42,8 @@ public class Position {
     }
     public boolean moveInto(Semaphore[][] grid){
 	//System.out.println("moveInto"+this+ " permits="+grid[x][y].availablePermits());
-    	if(AStarTraversalPerson.walkable(30*x, 30*y)){
+    	//if(CityComponent.onSidewalk(30*x, 30*y)){
+    	if(AStarTraversalPerson.walkable(x, y)){
     		return true;
     	}
     	return grid[x][y].tryAcquire();
