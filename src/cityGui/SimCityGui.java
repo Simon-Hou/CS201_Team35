@@ -263,9 +263,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	int gridX = 600;
 	int gridY = 600;
-	int cityScale = 30;
+	double cityScale = 30;
 	
-	public Semaphore[][] grid = new Semaphore[gridX/cityScale][gridY/cityScale];
+	public Semaphore[][] grid = new Semaphore[(int) ((int) gridX/cityScale)][(int) ((int) gridY/cityScale)];
 
 	public SimCityGui() throws HeadlessException {
 		//Adds person images to its sprite array
@@ -842,8 +842,17 @@ public class SimCityGui extends JFrame implements ActionListener {
             for (int j = 0; j<gridY/cityScale; j++)
                 grid[i][j]=new Semaphore(1,true);
 		
-		
-		
+		try{
+			for(int i = (int) Math.ceil(200/cityScale);i<(int) Math.floor(400/cityScale);++i){
+				for(int j = (int) Math.ceil(200/cityScale);j<(int) Math.floor(400/cityScale);++j){
+					System.out.println("("+i+","+j+")");
+					grid[i][j].acquire();
+				}
+			}
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
 		
 		
 	}

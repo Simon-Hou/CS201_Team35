@@ -6,6 +6,7 @@ import interfaces.Occupation;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 
+import cityGui.CityComponent;
 import cityGui.test.AStarTraversalPerson;
 import astar.*;
 import cityGui.test.PersonGui;
@@ -120,8 +122,8 @@ public class PersonAgent extends Agent implements Person {
 	public CustomerRole restaurantRole ;
 	
 	public AStarTraversalPerson aStar;
-    Position currentPosition = new Position(0,0); 
-    Position originalPosition = new Position(0,0);
+    Position currentPosition = new Position(2,2); 
+    Position originalPosition = new Position(2,2);
 	private PersonGui gui;
 	int scale = 30;
 	
@@ -638,7 +640,12 @@ public class PersonAgent extends Agent implements Person {
 	private void tempDoGoToMarket(Loc loc) {
 		// TODO Auto-generated method stub
 		System.out.println("CALLING THE TEMP MARKET MOVE");
-		guiMoveFromCurrentPostionTo(new Position(loc.x/scale,loc.y/scale));
+		
+		
+		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
+		
+		guiMoveFromCurrentPostionTo(new Position(gridLoc.x,gridLoc.y));
+		
 		
 	}
 	
@@ -938,7 +945,7 @@ public class PersonAgent extends Agent implements Person {
     	
         AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
         List<Position> path = aStarNode.getPath();
-        Do("Got here, path calculated");
+       // Do("Got here, path calculated");
         Boolean firstStep   = true;
         Boolean gotPermit   = true;
 
@@ -976,7 +983,7 @@ public class PersonAgent extends Agent implements Person {
             //System.out.println("[Gaut] " + guiWaiter.getName() + " got permit for " + tmpPath.toString());
             currentPosition.release(aStar.getGrid());
             currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
-            System.out.println(gui==null);
+            //System.out.println(gui==null);
             gui.move(currentPosition.getX(), currentPosition.getY());
         }
         /*

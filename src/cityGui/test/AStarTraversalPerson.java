@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import cityGui.CityComponent;
 import astar.*;
 
 public class AStarTraversalPerson extends AStarTraversal{
@@ -33,7 +34,7 @@ public class AStarTraversalPerson extends AStarTraversal{
 			int nextX=x+i;
 			int nextY=y+j;
 			
-			if(inRoad(nextX,nextY)){
+			if(!walkable(nextX,nextY)){
 				continue;
 			}
 			
@@ -70,6 +71,31 @@ public class AStarTraversalPerson extends AStarTraversal{
 		return expandedNodes;
     }//end expandFunc
 	
+	public boolean walkable(int xChunk,int yChunk){
+		int x = scale*xChunk;
+		int y = scale*yChunk;
+		
+		if(CityComponent.onSidewalk(x, y)){
+			return true;
+		}
+		
+		//crosswalk
+		if((x>=280 && x<=320)&&(y>=80 && y<=160)){
+			return true;
+		}
+		if((x>=280 && x<=320)&&(y>=440 && y<=520)){
+			return true;
+		}
+		if((x>=80 && x<=160)&&(y>=280 && y<=320)){
+			return true;
+		}
+		if((x>=440 && x<=520)&&(y>=280 && y<=320)){
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public boolean inRoad(int xChunk, int yChunk){
 		int x = scale*xChunk;
 		int y = scale*yChunk;
@@ -78,7 +104,18 @@ public class AStarTraversalPerson extends AStarTraversal{
 		if((x>=280 && x<=320)&&(y>=80 && y<=160)){
 			return false;
 		}
+		if((x>=280 && x<=320)&&(y>=440 && y<=520)){
+			return false;
+		}
+		if((x>=80 && x<=160)&&(y>=280 && y<=320)){
+			return false;
+		}
+		if((x>=440 && x<=520)&&(y>=280 && y<=320)){
+			return false;
+		}
 		
+		
+		//initial check
 		if(x<80 || x>520 || y<80 || y>520){
 			return false;
 		}
