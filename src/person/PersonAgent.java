@@ -1,5 +1,6 @@
 package person;
 
+
 import house.House;
 import house.InhabitantRole;
 import interfaces.Occupation;
