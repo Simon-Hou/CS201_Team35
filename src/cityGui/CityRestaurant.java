@@ -109,6 +109,7 @@ public abstract class CityRestaurant extends CityComponent implements ImageObser
 //				return true;
 //		return false;
 //	}
-
+	
+	public abstract void createAnimationPanel(SimCityGui city);
 
 }

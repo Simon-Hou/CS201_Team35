@@ -432,7 +432,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		if(type.equals("RestaurantLinda")){
 			CityRestaurantLinda temp = new CityRestaurantLinda(x, y, "Restaurant " + (city.statics.size()-19));
 			CityRestaurantLindaCard tempAnimation = new CityRestaurantLindaCard(this);
-			temp.setAnimationPanel(tempAnimation);
+			temp.createAnimationPanel(this);
 			city.restaurants.add(temp.restaurant);
 			this.view.addView(tempAnimation, temp.ID);
 			temp.cityObject = this.cityObject;

@@ -194,8 +194,8 @@ public class CityRestaurantLinda extends CityRestaurant {
     }
     
 	
-	public void setAnimationPanel(CityRestaurantLindaCard p){
-		animationPanel = p;
+    public void createAnimationPanel(SimCityGui city){
+    	animationPanel = new CityRestaurantLindaCard(city);
 		
 		initializeRestaurant();
 	}
