@@ -50,6 +50,8 @@ public class BankTellerGui implements Gui{
 	}
 	
 	public void updatePosition(int x, int y) {
+		
+		//System.out.println("\tGetting called!!!!!!!!!");
 		if (xPos < xDestination) {
 			xPos++;
 			spriteCounter++;

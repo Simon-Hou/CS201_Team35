@@ -30,7 +30,7 @@ public class CityObject implements ActionListener{
 
 	
 	
-	//THIS WILL BE THE MAIN CITY OBJECT WHICH WILL HOLD THE CITY 
+	//TTHIS WILL BE THE MAIN CITY OBJECT WHICH WILL HOLD THE CITY 
 	//AND EVERYTHING IN IT.
 	
 	//IT WILL ALSO CONNECT AGENTS/ROLES/BUILDINGS VIA THE 
@@ -183,7 +183,7 @@ public class CityObject implements ActionListener{
 	
 	
 	public void updateTime(){
-		System.out.println("CITY: Updating time");
+		System.out.println("CITY: Updating time to "+(currentTime+1)%MAXTIME);
 		currentTime = (currentTime+1)%MAXTIME;
 		for(PersonAgent p:people){
 			p.setTime(currentTime);
@@ -203,13 +203,13 @@ public class CityObject implements ActionListener{
 	
 	
 	
-	public static void main(String [] args){
+	/*public static void main(String [] args){
 		
 		//CityObject city = new CityObject();
 		
 		
 		return;
-	}
+	}*/
 	
 	
 	

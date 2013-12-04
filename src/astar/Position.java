@@ -4,6 +4,9 @@ import java.awt.Point;
 import java.lang.Math;
 import java.util.concurrent.*;
 
+import cityGui.CityComponent;
+import cityGui.test.AStarTraversalPerson;
+
 public class Position {
     int x;
     int y;
@@ -39,7 +42,11 @@ public class Position {
     }
     public boolean moveInto(Semaphore[][] grid){
 	//System.out.println("moveInto"+this+ " permits="+grid[x][y].availablePermits());
-	return grid[x][y].tryAcquire();
+    	//if(CityComponent.onSidewalk(30*x, 30*y)){
+    	if(AStarTraversalPerson.walkable(x, y)){
+    		return true;
+    	}
+    	return grid[x][y].tryAcquire();
     }
     public void release(Semaphore[][] grid){
 	grid[x][y].release();

@@ -1,14 +1,12 @@
 package house;
 
 import java.util.Timer;
-
 import java.util.TimerTask;
 
 import public_Object.Food;
 import house.gui.InhabitantGui;
 import interfaces.Inhabitant;
 import interfaces.Person;
-
 import role.Role;
 
 public class InhabitantRole extends Role implements Inhabitant {
@@ -97,8 +95,17 @@ public class InhabitantRole extends Role implements Inhabitant {
 	//action
 	
 	private void Sleep(){
-		//Do("Going to sleep");
+		Do("Going to sleep");
 		wantSleep=false;
+		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		self.msgThisRoleDone(this);
 		//gui.DoSleep();
 		//Do("I HAVE AWAKENED");
 		return;

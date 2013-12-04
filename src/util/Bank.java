@@ -119,6 +119,18 @@ public class Bank implements BankInterface, PlaceOfWork{
 //		for (BankTeller BT : currentTellers) {
 //			bankGui.bankPanel.tellerPanel.addListButton(((BankTellerRole)BT).getName());
 //		}
+		if(currentTellers.isEmpty()){
+			tellCustomersNoTellers();
+		}
+	}
+	
+	public void tellCustomersNoTellers(){
+		synchronized(bankCustomers){
+			for(int i  =0;i<bankCustomers.size();++i){
+				bankCustomers.get(0).msgNoTellers();
+				bankCustomers.remove(0);
+			}
+		}
 	}
 	
 	public void exitBank(BankCustomer c) {
@@ -130,16 +142,24 @@ public class Bank implements BankInterface, PlaceOfWork{
 	}
 	
 	public BankCustomer getCustomer(){
-		if(!bankCustomers.isEmpty()){
-			BankCustomer b = bankCustomers.get(0);
-			System.out.println("");
-			bankCustomers.remove(0);
-			return b;
+		
+		synchronized(bankCustomers){
+			if(!bankCustomers.isEmpty()){
+				BankCustomer b = bankCustomers.get(0);
+				System.out.println("");
+				bankCustomers.remove(0);
+				return b;
+			}
 		}
 		return null;
 	}
 	
 	public boolean addMeToQueue(BankCustomer c){
+		
+		if(currentTellers.isEmpty()){
+			System.err.println("Cust not allowed in line at empty bank");
+			return false;
+		}
 		System.err.println("Requested to be put in line now.");
 		bankCustomers.add(c);
 		if (c instanceof BankCustomerRole) {

@@ -38,6 +38,9 @@ public class PersonGui extends CityComponent implements Gui {
     private int xRand;
     private int yRand;
     
+    int gridScale = 30;
+    boolean doingMove = false;
+    
     private boolean startPosition = true;
     private boolean hasArrived = false;
     private boolean readyToGoInnerSidewalk = false;
@@ -50,6 +53,7 @@ public class PersonGui extends CityComponent implements Gui {
     public boolean waitingForBus = false;
     
     private Semaphore crossingStreet = new Semaphore(0,true);
+    private Semaphore atMove = new Semaphore(0,true);
      
     public PersonGui(PersonAgent agent) {
         this.person = agent;
@@ -97,7 +101,26 @@ public class PersonGui extends CityComponent implements Gui {
     	visible = true;
     }
     
-	public void updatePosition() {
+    public void move(int x, int y){
+    	
+    	doingMove = true;
+    	
+    	this.xDestination = gridScale*x;
+    	this.yDestination = gridScale*y;
+    	
+    	try {
+			atMove.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    	
+    }
+    
+	/*public void updatePosition() {
 		
 		if (!atDestination()) {
 			if (readyToGoInnerSidewalk) {
@@ -497,7 +520,35 @@ public class PersonGui extends CityComponent implements Gui {
 	    		
 	    	}
 		}
+    }*/
+    
+    public void updatePosition() {
+    	if(rectangle.x<xDestination){
+    		rectangle.x++;
+    	}
+    	else if(rectangle.x>xDestination){
+    		rectangle.x--;
+    	}
+    	
+    	if(rectangle.y<yDestination){
+    		rectangle.y++;
+    	}
+    	else if(rectangle.y>yDestination){
+    		rectangle.y--;
+    	}
+    	
+    	if(doingMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
+    		doingMove = false;
+    		atMove.release();
+    	}
+    	
+    	if(onTheMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
+    		onTheMove = false;
+    		person.msgAtDestination();
+    		
+    	}
     }
+    
 
 	public boolean getArrived() {
 		return hasArrived;

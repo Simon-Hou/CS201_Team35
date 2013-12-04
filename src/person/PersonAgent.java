@@ -1,11 +1,13 @@
 package person;
 
+
 import house.House;
 import house.InhabitantRole;
 import interfaces.Occupation;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,13 +48,16 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 
+import cityGui.CityComponent;
+import cityGui.test.AStarTraversalPerson;
+import astar.*;
 import cityGui.test.PersonGui;
 import public_Object.Food;
 import role.Role;
 import agent.Agent;
 
 public class PersonAgent extends Agent implements Person {
-	
+
 	public PersonAgent(String name, CityMap city) {
 		this.name = name;
 		this.city = city;
@@ -62,33 +67,43 @@ public class PersonAgent extends Agent implements Person {
 		bankRole = new BankCustomerRole(name+"Bank",this);
 		marketRole = new MarketCustomerRole(name+"Market",this);
 		inhabitantRole = new InhabitantRole(name + "Home",this);
-		
+
 		//will be changed later to request the correct role from the restaurant diretly
 		restaurantRole = new CustomerRole(name+"Restaurant", this);
-
-		//this.belongings.myFoods.add(new Food("Steak",10));
-		//this.belongings.myFoods.add(new Food("Chicken",10));
-		//this.belongings.myFoods.add(new Food("Pizza",10));
-		//this.belongings.myFoods.add(new Food("Salad",10));
+		
 		Random random = new Random();
-		purse.wallet = 50;
 		hungerLevel = random.nextInt(10);
 		
+		if (random.nextBoolean()){
+			this.belongings.myFoods.add(new Food("Steak",10));
+			this.belongings.myFoods.add(new Food("Chicken",10));
+			this.belongings.myFoods.add(new Food("Pizza",10));
+			this.belongings.myFoods.add(new Food("Salad",10));
+		}
+		purse.wallet = 50;
+		
+		//hungerLevel = 0;
+
 	}
-	
-	
-	
+
+
+
 	//GETTERS
 	public String getName(){
 		return name;
 	}
-	
-	
+
+
 	//SETTERS
+
+	public void setAStar(AStarTraversalPerson a){
+		this.aStar = a;
+	}
+
 	public void setTime(int time){
 		this.time = time;
 	}
-	
+
 	//data
 	public List<Role> roles = new ArrayList<Role>();
 	public int time;
@@ -110,36 +125,48 @@ public class PersonAgent extends Agent implements Person {
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
 	public CustomerRole restaurantRole ;
-	public PersonGui gui;
+
+	public AStarTraversalPerson aStar;
+    Position currentPosition = new Position(2,2);
+    Position originalPosition = new Position(2,2);
+	private PersonGui gui;
+	int scale = 30;
+
+
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
 	public int MY_BANK = 0;
 	public boolean wantsToRideBus = false;
 	public Semaphore waitForBusToArrive = new Semaphore(0,true);
 	private boolean onBus = false;
-	
+
 	public int spriteChoice;
 	public List<ImageIcon> upSprites = new ArrayList<ImageIcon>();
 	public List<ImageIcon> downSprites = new ArrayList<ImageIcon>();
 	public List<ImageIcon> leftSprites = new ArrayList<ImageIcon>();
 	public List<ImageIcon> rightSprites = new ArrayList<ImageIcon>();
-	
+
 	public enum Personality
 	{Normal, Wealthy, Deadbeat, Crook};
 	private Personality personality;
-	
+
 	public void setBank(int num){
 		MY_BANK = num;
 	}
-	
+
 	public void setHouse(House h){
 		this.belongings.myHouse = h;
 	}
-	
+
+	public void setGui(PersonGui g){
+		this.gui = g;
+		//this.gui = null;
+	}
+
 	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
-	
+
 	public class Belongings {
-		
+
 		public Belongings() {
 			myLiving = new Property();
 			myEstates = new ArrayList<Property>();
@@ -148,7 +175,7 @@ public class PersonAgent extends Agent implements Person {
 			myAccounts = new ArrayList<BankAccount>();
 			myHouse = new House(new Loc(5,5));
 		}
-		
+
 		public Property myLiving;
 		public List<Property> myEstates;
 		public List<Car> myCars;
@@ -157,9 +184,9 @@ public class PersonAgent extends Agent implements Person {
 		public House myHouse;
 		public boolean bike = false;
 	}
-	
+
 	public class BankAccount {
-		
+
 		public BankAccount(int accNumber,int amt,String name,String pw) {
 			accountNumber = accNumber;
 			amount = amt;
@@ -168,165 +195,167 @@ public class PersonAgent extends Agent implements Person {
 			myLoans = new ArrayList<Loan>();
 
 		}
-		
+
 		public int amount;
 		public int accountNumber;
 		public String custName;
 		public String password;
 		public List<Loan> myLoans;
-		
+
 	}
-	
+
 	public class Loan {
 		public int loanNumber;
 		public int total;
 		public int amountLeft;
-		
+
 		public void loan(int totalAmount) {
 			total = totalAmount;
 			amountLeft = total;
 		}
-		
+
 		public void payoff(int payment) {
 			amountLeft -= payment;
 		}
 	}
-	
+
 	public class Purse {
 		public Map<String, Integer> bag = new HashMap<String,Integer>();
 		public int wallet;
 	}
-	
+
 	public class Property {
 		public int address;
 		public Person tenant;
 		public int maintenanceLevel;
-		
+
 	}
-	
+
 	public class Car {
 		public int licensePlateNumber;
 	}
-	
+
 
 	//msg
-	
+
 	public void msgYouWantToRideBus(boolean want){
 		this.wantsToRideBus = want;
 	}
-	
+
 	public void msgAtDestination(){
 		atDestination.release();
 	}
-	
+
 	public void msgCarArrivedAtLoc(Loc destination){
 		//blah
 		//stateChanged();
 	}
-	
+
 	public void msgBusAtStop(Bus b,BusStop stop){
 		//blah
 		//stateChanged();
 		//Do("IN THIS MESSAGE "+gui.x+" "+gui.y+" "+stop.sidewalkLoc.x+" "+stop.sidewalkLoc.y);
 		if(stop.sidewalkLoc.x == gui.xDestination && stop.sidewalkLoc.y==gui.yDestination){
-			
-			
+
+
 			gui.onBus();
 			onBus = true;
 			Do("Getting on bus");
-			
+
 			//b.getOnBus(this);
 		}
 		else{
 			Do("Getting OFF bus");
 			waitForBusToArrive.release();
 			onBus = false;
-			
+
 			//Do("SHIT I JUST WOKE UP");
 			gui.setLoc(stop.sidewalkLoc);
 			gui.offBus();
 			//waitForBusToArrive.release();
 			//b.getOffBuss(this);
 		}
-		
+
 	}
-	
-	
+
+
 	public void msgDoneEating(){
 		hungerLevel=0;
 		stateChanged();
 	}
-	
+
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
-	 
+
 		/*if(name.equals("p1")){
 			if(myJob.placeOfWork==null && !city.map.get("Bank").isEmpty()){
 				setJob(((BankMapLoc) city.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100);
 			}
 		}*/
-		
-		//Do("Deciding what to do "+onBus);
+		if(name.equals("p1")&&time==6){
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(name.equals("p3")&&time<6){
+			return false;
+		}
+
+		//Do("Deciding what to do ");
 		if(onBus){
 			return false;
 		}
-		
+
 		if (activeRole != null) {
+			//Do("will do role stuff");
 			activeRoleCalls++;
-			
+
 			//This takes care of getting off work
 			if(activeRole == myJob.jobRole && !timeInJobShift()){
 				if(myJob.jobRole instanceof BankTellerRole){
 					if(((BankTellerRole) myJob.jobRole).canLeave()){
-						Do("It's quitting time.");
+						Do("It's bank quitting time.");
 						//activeRole.p = null;
+						//((BankTellerRole) myJob.jobRole).msgLeaveBank();
 						activeRole = null;
 						return true;
 					}
 				}
 				if(((Occupation) myJob.jobRole).canLeave()){
-		
+
 					Do("It's quitting time.");
+
 					activeRole = null;
 					return true;
 				}
 			}
-			
+
 			return activeRole.pickAndExecuteAnAction();
 		}
-		
+		//Do("ALIVE");
 		if(time == myJob.shiftStart-1){
 			return false;
 		}
-		
-		//Do("Deciding what to do");
 
-		
-		/*if (nextRole != null) {
-			activeRole = nextRole;
-			nextRole = null;
-			return true;
-		}*/
-		/*if(name.equals("p1")){
-			Do("DECIDING WHAT TO DO");
-		}*/
-		/*if (myJob.placeOfWork!=null && time >= myJob.shiftStart && time < myJob.shiftEnd) {
-			goToWork();
-			return true;
-		}*/
-		
-		if(myJob.placeOfWork!=null && timeInJobShift()){
+		//Do("Deciding what to do");
+		//TODO FIX THIS MAXTIME ISSUE
+		if(myJob.placeOfWork!=null && timeInJobShift() && timeInJobShift((time+1)%50) && timeInJobShift((time+2)%50)
+				&&timeInJobShift((time+3)%50)&&timeInJobShift((time+4)%50)&&timeInJobShift((time+5)%50)
+				){
 			goToWork();
 			return true;
 		}
-		
+
 		if(wantsToRideBus){
 			Do("will ride the bus");
 			rideBus();
 		}
-		
+
 		//FOR NOW - TODO - GET THIS TO WORK
 		/*
 		if (purse.wallet > 500 && wantsToBuyCar) {
@@ -336,7 +365,7 @@ public class PersonAgent extends Agent implements Person {
 			getFood();
 			return true;
 		}
-		
+
 		if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
 			goToBank();
 			return true;
@@ -346,22 +375,22 @@ public class PersonAgent extends Agent implements Person {
 			goToBank();
 			return true;
 		}
-		
+
 		if (hungerLevel > 6) {
 			getFood();
 			return true;
 		}
-		
+
 		if (!city.map.get("Market").isEmpty() && foodsLow()) {
 			goToMarket();
 			return true;
 		}
-		
+
 		if (tiredLevel > 14) {
 			getSleep();
 			return true;
 		}
-		
+
 		if (!belongings.myEstates.isEmpty()) {
 			for (Property property: belongings.myEstates) {
 				if (property.maintenanceLevel > 168) {
@@ -371,25 +400,32 @@ public class PersonAgent extends Agent implements Person {
 			}
 			return true;
 		}
-		
+
 		if (belongings.myLiving.maintenanceLevel > 168) {
 			goDoMaintenance(belongings.myLiving);
 			return true;
 		}
-		
+
 		//FOR NOW - TODO GET THIS TO WORK
 		/*
 		if (getNetWorth() > 500) {
 			buyCar();
 			return true;
 		}*/
-		
+
 		return false;
 	}
-	
+
 	//Actions
 	private void goToWork() {
-		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 
 		//HACK
 		if(myJob.placeOfWork==null){
@@ -397,8 +433,8 @@ public class PersonAgent extends Agent implements Person {
 			myJob.shiftEnd+=1;
 			return;
 		}
-		
-		
+
+
 		doGoToWork();
 		Do("Got to work");
 		Role tempJobRole = myJob.placeOfWork.canIStartWorking(this, myJob.jobType, myJob.jobRole);
@@ -411,14 +447,14 @@ public class PersonAgent extends Agent implements Person {
 			Do("Didn't get to start working");
 			return;
 		}
-		
+
 		Do("Starting to work");
 		myJob.jobRole = tempJobRole;
 		activeRole = tempJobRole;
 		//Do(""+ activeRole);
 		//System.out.flush();
 	}
-	
+
 	private void goToBank() {
 
 		if(city.map.get("Bank").isEmpty()){
@@ -431,89 +467,108 @@ public class PersonAgent extends Agent implements Person {
 		}
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(MY_BANK)).bank;
 		Loc loc = city.map.get("Bank").get(MY_BANK).loc;
-		
-		
+
+
 		activeRole = bankRole;
-		
+
 		//open account
 		if(belongings.myAccounts.isEmpty()){
 			Do("Going to bank to open new account");
 			bankRole.Tasks.add(new openAccount((int) Math.floor(purse.wallet*.5),name));
-			doGoToBuilding(loc);
+			//Do("Before");
+
+			tempDoGoToCityLoc(loc);
+			//doGoToBuilding(loc);
+
+
+			//Do("After");
 			bankRole.msgYouAreAtBank(b);
 			activeRole = bankRole;
 			return;
 		}
-		
+
 		//deposit
 		if (purse.wallet >= 100) {
 			Do("I am going to the bank to deposit $" + (purse.wallet-50));
 			bankRole.Tasks.add(new deposit((purse.wallet-50),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
-		
+
 		//withdrawal
 		if (purse.wallet <= 10 && getMoneyInBank() >= 50)  {
 			Do("I am going to the bank to withdraw $" + (60 - purse.wallet));
 			bankRole.Tasks.add(new withdrawal((70 - purse.wallet),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
-		
+
 		//loan
 		if (purse.wallet <= 10 && getMoneyInBank() < 50) {
 			Do("I am going to the bank to withdraw $" + (getMoneyInBank()) + " and to loan $" + (50 - getMoneyInBank()));
 			bankRole.Tasks.add(new withdrawal(getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 			bankRole.Tasks.add(new takeLoan(50 - getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
-		
+
 		doGoToBuilding(loc);
 		bankRole.msgYouAreAtBank(b);
 		activeRole = bankRole;
-		
+
 	}
-	
+
 	private void goToMarket() {
-		
-		try {
+
+		/*try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}*/
+
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
 		int marketChoice = (int) Math.floor(city.map.get("Market").size()*Math.random());
 		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
 		Loc loc = city.map.get("Market").get(marketChoice).loc;
-		
-		doGoToBuilding(loc);
-		
+
+
+		tempDoGoToCityLoc(loc);
+
+
+		//TODO UNCOMMENT THIS
+		//doGoToBuilding(loc);
+
+
+
 		//ShoppingList shoppingList = makeShoppingList();
-		
-		
+
+
 		for(Food f:this.belongings.myFoods){
 			if(f.quantity<=10){
 				marketRole.addToShoppingList(f.type, 10);
+				//Do("f.type");
 			}
 		}
-		
+
 		//marketRole.setMarket(m);
-		
+
 		//HACK--------if no host or cashier in restaurant then give yourself some food and leave!
-		if (!m.host.isPresent() || !m.cashier.isPresent()){
+		/*if (!m.host.isPresent() || !m.cashier.isPresent()){
+			Do("NO ONE AT THE MARKET");
 			for(Food f:this.belongings.myFoods){
 					f.quantity+=5;
 					return;
 			}
-		}
-		
-		
-		
+		}*/
+
+
+
 		marketRole.msgYouAreAtMarket(m);
 		m.newCustomer(marketRole);
 		activeRole = marketRole;
 	}
-	
+
+
+
+
+
 	private void getFood() {
 		if (!belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at home");
@@ -527,18 +582,20 @@ public class PersonAgent extends Agent implements Person {
 		}
 	}
 	private void getSleep() {
-		
-		
-		Do("I am going home to sleep ");
+
+
+		//Do("I am going home to sleep ");
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
 		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
 		doGoHome();
 		inhabitantRole.msgTired();
 		activeRole = inhabitantRole;
 	}
-	
+
 	private void goToRestaurant() {
 		if(city.map.get("Restaurant").isEmpty()){
+			hungerLevel = 0;
+			return;
 			/*try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
@@ -553,14 +610,14 @@ public class PersonAgent extends Agent implements Person {
 		restaurantRole.atRestaurant(b);
 		activeRole = restaurantRole;
 	}
-	
+
 	private void buyCar() {
 		//MarketCustomerRole marketRole = null;
 		if (purse.wallet < 500) {
 			Do("I am going to get money from the bank and then I'm going to buy a car");
-			
+
 			wantsToBuyCar = true;
-			
+
 			doGoToBuilding(city.map.get("Bank").get(MY_BANK).loc);
 			bankRole.Tasks.add(new withdrawal(500, belongings.myAccounts.get(0).accountNumber, belongings.myAccounts.get(0).password));
 			bankRole.msgYouAreAtBank(((BankMapLoc) city.map.get("Bank").get(MY_BANK)).bank);
@@ -569,51 +626,64 @@ public class PersonAgent extends Agent implements Person {
 		else {
 			Market m = ((MarketMapLoc) city.map.get("Market").get(0)).market;
 			Do("I am going to buy a car from the market");
-			
-			
+
+
 			marketRole.msgYouAreAtMarket(m);
 			activeRole = marketRole;
 		}
 	}
-	
+
 	private void goDoMaintenance(Property p) {
 		doGoHome();
 		activeRole = inhabitantRole;
 		p.maintenanceLevel = 0;
 	}
-	
+
 	private void rideBus(){
 		doRideBus();
 		//this.wantsToRideBus = false;
 	}
-	
+
 	//ANIMATION
-	
-	public void doGoHome(){
-		//Do("My address: "+belongings.myHouse.address.x+" "+belongings.myHouse.address.y);
-		doGoToBuilding(belongings.myHouse.address);
+
+	private void tempDoGoToCityLoc(Loc loc) {
+		// TODO Auto-generated method stub
+		//System.out.println("CALLING THE TEMP MARKET MOVE");
+
+
+		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
+
+		guiMoveFromCurrentPostionTo(new Position(gridLoc.x,gridLoc.y));
+
+		this.gui.doGoToBuilding(loc);
+
 	}
 
-	
+	public void doGoHome(){
+		//Do("My address: "+belongings.myHouse.address.x+" "+belongings.myHouse.address.y);
+		tempDoGoToCityLoc(belongings.myHouse.address);
+	}
+
+
 	private void doGoToBuilding(Loc loc){
-		
-		
+
+
 		if(this.gui!=null){
 			gui.doGoToBuilding(loc);
 		}
 		else{
 			atDestination.release();
 		}
-		
+
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void doRideBus(){
 		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
 		try {
@@ -630,21 +700,21 @@ public class PersonAgent extends Agent implements Person {
 			e.printStackTrace();
 		}
 		onBus = true;
-		
+
 	}
-	
+
 	private void doGoToWork(){
 		Loc location = findPlaceOfWork(myJob.placeOfWork);
-		doGoToBuilding(location);
+		tempDoGoToCityLoc(location);
 	}
-	
+
 	public Loc findPlaceOfWork(PlaceOfWork workPlace){
-		
+
 		if(workPlace == null){
 			System.err.println("Someone's trying to go to a null work location");
 			return null;
 		}
-		
+
 		if(workPlace instanceof Bank){
 			for(Place bMap:city.map.get("Bank")){
 				if(((BankMapLoc) bMap).bank==workPlace){
@@ -667,20 +737,20 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 		return null;
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	//Utilities
-	
+
 	//I'm thinking this should include the actual Role rather than having the person make it....
 	public void setJob(PlaceOfWork placeOfWork,JobType jobType,int start,int end){
-		
+
 		Role jobRole = null;
-		if(jobType==JobType.MarketHost || jobType==JobType.MarketCashier 
+		if(jobType==JobType.MarketHost || jobType==JobType.MarketCashier
 				|| jobType==jobType.RestaurantHost || jobType==jobType.RestaurantCashier || jobType == jobType.RestaurantCook){
 			jobRole = null;
 			//myJob = new Job(null,start,end,placeOfWork,this,jobType);
@@ -696,48 +766,49 @@ public class PersonAgent extends Agent implements Person {
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 		}
 		else if (jobType==JobType.RestaurantWaiter1){
-			jobRole = new OriginalWaiterRole(name+"normalWaiter",this);					
+			jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
 		}
 		else if (jobType==JobType.RestaurantWaiter2){
 			jobRole = new ProducerConsumerWaiterRole(name+"pcWaiter", this);
 		}
 		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
-		
+
 	}
-	
+
 	public void msgStateChanged() {
 		//this.pickAndExecuteAnAction();
+		//Do("Got the stateChanged message");
 		this.stateChanged();
 	}
-	
+
 	public void putInBag(String item,int amount){
 		this.purse.bag.put(item,amount);
 		addFoodToInventory(item,amount);
 	}
-	
+
 	public void addToWallet(int amount) {
 		this.purse.wallet += amount;
 	}
-	
+
 	public void takeFromWallet(int amount) {
 		this.purse.wallet -= amount;
 	}
-	
+
 	public int getWalletAmount(){
 		return purse.wallet;
 	}
-	
+
 	public void addFoodToBag(String type, int quantity){
 		if (purse.bag.containsKey(type))
 			purse.bag.put(type, purse.bag.get(type)+quantity);
 		else
 			purse.bag.put(type, purse.bag.get(type));
-		
+
 		//temporarily make it so that bagged food goes strait into inventory
 		addFoodToInventory(type,quantity);
-		
+
 	}
-	
+
 	public void addFoodToInventory(String type, int quantity){
 		Do("Adding "+quantity+" "+type+"s to inventory.");
 		for(Food f:this.belongings.myFoods){
@@ -746,7 +817,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 	}
-	
+
 	public int getMoneyInBank() {
 		int totalMoney = 0;
 		for (BankAccount account: belongings.myAccounts) {
@@ -754,7 +825,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		return totalMoney;
 	}
-	
+
 	public int getNetWorth() {
 		int totalMoney = 0;
 		for (BankAccount account: belongings.myAccounts) {
@@ -766,15 +837,15 @@ public class PersonAgent extends Agent implements Person {
 		totalMoney += purse.wallet;
 		return totalMoney;
 	}
-	
+
 	public void msgThisRoleDone() {
 		activeRole = null;
 	}
-	
-	
-	
+
+
+
 	//Bank Utilities
-	
+
 	public void addToAccount(int accNum,int amount){
 		for (BankAccount account: belongings.myAccounts) {
 			if (account.accountNumber == accNum) {
@@ -782,7 +853,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 	}
-	
+
 	public void takeFromAccount(int accNum,int amount){
 		for (BankAccount account: belongings.myAccounts) {
 			if (account.accountNumber == accNum) {
@@ -790,12 +861,12 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 	}
-	
+
 	public void createAccount(int accountNumber,int amount,String name,String passWord){
 		BankAccount account = new BankAccount(accountNumber,amount,name,passWord);
 		belongings.myAccounts.add(account);
 	}
-	
+
 	public void addLoan(int accountNumber,int cash, int loanNumber){
 		Loan loan = new Loan();
 		loan.amountLeft = cash;
@@ -813,19 +884,38 @@ public class PersonAgent extends Agent implements Person {
 		// TODO Auto-generated method stub
 		this.activeRole = null;
 	}
-	
+
 	public boolean foodsLow(){
-		
+
 		for(Food f:this.belongings.myFoods){
 			if(f.quantity>10){
 				return false;
 			}
 		}
 		return true;
-		
+
 	}
-	
+
 	public boolean timeInJobShift(){
+
+		return timeInJobShift(time);
+
+		/*if(myJob.shiftEnd>=myJob.shiftStart){
+			if(time>=myJob.shiftStart && time<=myJob.shiftEnd){
+				return true;
+			}
+			return false;
+		}
+		if(myJob.shiftEnd<myJob.shiftStart){
+			if(time<myJob.shiftStart && time>myJob.shiftEnd){
+				return false;
+			}
+			return true;
+		}
+		return false;*/
+	}
+
+	public boolean timeInJobShift(int time){
 		if(myJob.shiftEnd>=myJob.shiftStart){
 			if(time>=myJob.shiftStart && time<=myJob.shiftEnd){
 				return true;
@@ -840,15 +930,125 @@ public class PersonAgent extends Agent implements Person {
 		}
 		return false;
 	}
-	
-	
+
+
 	//hack for restaurant stuff?
 	public void setActiveRole(String role){
 		if (role.equals("RestaurantCustomer"))
 			activeRole = restaurantRole;
 	}
-	
-	
-	
-	
+
+
+
+	 //this is just a subroutine for waiter moves. It's not an "Action"
+    //itself, it is called by Actions.
+    void guiMoveFromCurrentPostionTo(Position to){
+        //System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
+
+    	//to = new Position(2,5);
+    	Loc l = CityComponent.findNearestGridLoc(new Point(gui.rectangle.x,gui.rectangle.y));
+    	currentPosition = new Position(l.x,l.y);
+    	//System.out.println("("+currentPosition.getX()+","+currentPosition.getY()+")");
+    	//System.out.println("("+to.getX()+","+to.getY()+")");
+
+
+
+    	//Do("CALLING PERSON MOVE");
+
+        AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+        List<Position> path = aStarNode.getPath();
+       // Do("Got here, path calculated");
+        Boolean firstStep   = true;
+        Boolean gotPermit   = true;
+
+        for (Position tmpPath: path) {
+            //The first node in the path is the current node. So skip it.
+            if (firstStep) {
+                firstStep   = false;
+                continue;
+            }
+
+            //Try and get lock for the next step.
+            int attempts    = 1;
+            gotPermit       = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
+
+            //Did not get lock. Lets make n attempts.
+            while (!gotPermit && attempts < 3) {
+                //System.out.println("[Gaut] " + guiWaiter.getName() + " got NO permit for " + tmpPath.toString() + " on attempt " + attempts);
+
+                //Wait for 1sec and try again to get lock.
+                try { Thread.sleep(1000); }
+                catch (Exception e){}
+
+                gotPermit   = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
+                attempts ++;
+            }
+
+            //Did not get lock after trying n attempts. So recalculating path.
+            if (!gotPermit) {
+                //System.out.println("[Gaut] " + guiWaiter.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
+                guiMoveFromCurrentPostionTo(to);
+                break;
+            }
+
+            //Got the required lock. Lets move.
+            //System.out.println("[Gaut] " + guiWaiter.getName() + " got permit for " + tmpPath.toString());
+            currentPosition.release(aStar.getGrid());
+            currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
+            //System.out.println(gui==null);
+            gui.move(currentPosition.getX(), currentPosition.getY());
+        }
+        /*
+        boolean pathTaken = false;
+        while (!pathTaken) {
+            pathTaken = true;
+            //print("A* search from " + currentPosition + "to "+to);
+            AStarNode a = (AStarNode)aStar.generalSearch(currentPosition,to);
+            if (a == null) {//generally won't happen. A* will run out of space first.
+                System.out.println("no path found. What should we do?");
+                break; //dw for now
+            }
+            //dw coming. Get the table position for table 4 from the gui
+            //now we have a path. We should try to move there
+            List<Position> ps = a.getPath();
+            Do("Moving to position " + to + " via " + ps);
+            for (int i=1; i<ps.size();i++){//i=0 is where we are
+                //we will try to move to each position from where we are.
+                //this should work unless someone has moved into our way
+                //during our calculation. This could easily happen. If it
+                //does we need to recompute another A* on the fly.
+                Position next = ps.get(i);
+                if (next.moveInto(aStar.getGrid())){
+                    //tell the layout gui
+                    guiWaiter.move(next.getX(),next.getY());
+                    currentPosition.release(aStar.getGrid());
+                    currentPosition = next;
+                }
+                else {
+                    System.out.println("going to break out path-moving");
+                    pathTaken = false;
+                    break;
+                }
+            }
+        }
+        */
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

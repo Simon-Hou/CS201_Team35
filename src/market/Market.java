@@ -49,6 +49,25 @@ public class Market implements PlaceOfWork{
 		inventory.put("Car", 15);
 	}
 	
+	public boolean employeeLeaving(MarketEmployee m){
+		
+		
+		if(((MarketHostRole) host).employeeLeaving(m)){
+			return true;
+		}
+		
+		System.err.println("For some reason the employee wasn't removed, or wasn't in the list");
+		return false;
+		
+		
+	}
+	
+	public boolean employeeLeft(MarketEmployee m){
+		panel.animation.removeGui(((MarketEmployeeRole) m).getGui());
+		this.employees.remove(m);
+		return true;
+	}
+	
 	
 	public boolean CanIStartWorking(MarketEmployee m){
 		System.out.println("Deciding whether to let employee work");
@@ -86,9 +105,11 @@ public class Market implements PlaceOfWork{
 	public Role canIStartWorking(Person p,JobType jobType,Role m) {
 		// TODO Auto-generated method stub
 		if(jobType == JobType.MarketEmployee){
-
+			
 			if(host.NewEmployee((MarketEmployee) m)){
+				System.out.println("Adding a new employee "+p.getName());
 				employees.add((MarketEmployee) m);
+				((MarketEmployeeRole) m).inEmployeeList = true;
 				panel.addEmployee((MarketEmployeeRole) m);
 				return m;
 			}

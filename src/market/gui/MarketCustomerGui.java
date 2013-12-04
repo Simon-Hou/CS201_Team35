@@ -95,7 +95,7 @@ public class MarketCustomerGui implements Gui{
 	}
 
 	public void DoGoToHost(){
-	
+		
 		gotToDestination = false;
 		xDestination = panelX -82;
 		yDestination = 90;
@@ -113,6 +113,8 @@ public class MarketCustomerGui implements Gui{
 	}
 
 	public void DoGoToExit(){
+		System.out.println(role.name+" moving me to host");
+		System.out.flush();
 		gotToDestination = false;
 		xDestination = exitX;
 		yDestination = exitY;

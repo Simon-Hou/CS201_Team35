@@ -78,6 +78,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	Task pendingTask = null;
 	
+	public boolean noTellers = false;
+	
 	public BankCustomerGui bankCustomerGui;
 	
 	public int tellerWindowX = 0;
@@ -86,6 +88,16 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	
 	//MSG
+
+	public void msgNoTellers() {
+		
+		if(state!=CustState.inLine && state!=CustState.inBank){
+			System.err.println("Cust has a teller when there are no tellers");
+		}
+		
+		noTellers = true;
+		
+	}
 	
 	public void msgYouAreAtBank(Bank b){
 		//System.out.println("YOU ARE AT BANK");
@@ -176,6 +188,12 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public boolean pickAndExecuteAnAction(){
 		//Do("My state is: "+ state);
 		//if you're inBank, get in line
+		
+		if(noTellers){
+			System.out.println("In here");
+			leaveBank();
+		}
+		
 		if(state == CustState.inBank){
 			System.out.flush();
 			getInLine();
@@ -201,12 +219,25 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	private void getInLine(){
 		Do("Getting in line!");
-		bank.addMeToQueue(this);
+		if(bank.addMeToQueue(this)){
+			//Do("BEFORE");
 			doGetInLine();
 			state = CustState.inLine;
-		
-		//Thread.dumpStack();
-		System.out.flush();
+			//Do("After");
+			//Thread.dumpStack();
+			System.out.flush();
+		}
+		else{
+			Do("Not allowed in line, no tellers working");
+			Tasks.clear();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			leaveBank();
+		}
 		
 		//Do(""+state);
 	}
@@ -230,7 +261,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void NextTask(){
-		
+		System.out.println(Tasks.size());
 		//Do("Telling teller the next task");
 		
 		//Task t = Tasks.get(0);
@@ -276,6 +307,30 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 	}
 	
+	protected void leaveBank(){
+		state = CustState.leaving;
+		
+		if(bankCustomerGui!=null){
+			bankCustomerGui.DoExitBank();
+		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		((Bank)bank).exitBank(this);
+		event = CustEvent.left;
+		person.msgThisRoleDone(this);
+		System.err.println("I should be out of the bank");
+		return;
+	}
+	
+	
+	
 	
 	//GUI
 	
@@ -286,6 +341,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	private void doGoToWindow() {
 		
 	}
+
+
+
 	
 	
 	
