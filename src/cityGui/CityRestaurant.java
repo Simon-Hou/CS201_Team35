@@ -17,16 +17,8 @@ import java.util.concurrent.Semaphore;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
-import restaurant.restaurantLinda.CashierRole;
-import restaurant.restaurantLinda.CookRole;
-import restaurant.restaurantLinda.CustomerRole;
-import restaurant.restaurantLinda.HostRole;
-import restaurant.restaurantLinda.RestaurantLinda;
-import restaurant.restaurantLinda.RestaurantOrder;
-import restaurant.restaurantLinda.WaiterRole;
-import restaurant.restaurantLinda.gui.CookGui;
+
 import util.Loc;
 import util.RestaurantMapLoc;
 
@@ -44,7 +36,6 @@ public abstract class CityRestaurant extends CityComponent implements ImageObser
 	Restaurant restaurant;
 	protected int buildingSize = 35;
     
-	//without inheritance, you'll just have to make sure to include your own card inside your restaurant
     public CityRestaurantCard animationPanel;
 	
 	
@@ -62,8 +53,7 @@ public abstract class CityRestaurant extends CityComponent implements ImageObser
 
 	}
 
-	public abstract void initializeRestaurant();
-    
+	public abstract void initializeRestaurant(); 
 	
 	public void updatePosition() {
 		

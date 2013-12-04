@@ -32,11 +32,11 @@ public class RestaurantLinda extends Restaurant{
 		
 	ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
 	
-	CityRestaurantLinda cityRestaurant;
-	HostRole host;
-	CashierRole cashier;
-	CookRole cook;
-	List<BaseRestaurantWaiter> waiters;
+	public CityRestaurantLinda cityRestaurant;
+	public HostRole host;
+	public CashierRole cashier;
+	public CookRole cook;
+	public List<BaseRestaurantWaiter> waiters;
 	
 	public RestaurantLinda(CityRestaurantLinda cr){
 		this.cityRestaurant = cr;

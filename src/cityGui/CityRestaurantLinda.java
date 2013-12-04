@@ -49,13 +49,13 @@ public class CityRestaurantLinda extends CityRestaurant {
 	
 	public CityRestaurantLinda(int x, int y) {
 		super(x, y);
-		super.animationPanel = animationPanel;
 		//initializeRestaurant();
 		//System.out.println("First");
 	}
 	
 	public CityRestaurantLinda(int x, int y, String ID) {
 		super(x, y, ID);
+		
 		type="Restaurant";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		//System.out.println("Second");
@@ -196,6 +196,7 @@ public class CityRestaurantLinda extends CityRestaurant {
 	
     public void createAnimationPanel(SimCityGui city){
     	animationPanel = new CityRestaurantLindaCard(city);
+    	//super.animationPanel = animationPanel;
 		
 		initializeRestaurant();
 	}

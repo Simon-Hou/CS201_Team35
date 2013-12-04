@@ -429,12 +429,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 			return;
 		}
 		
-		if(type.equals("RestaurantLinda")){
-			CityRestaurantLinda temp = new CityRestaurantLinda(x, y, "Restaurant " + (city.statics.size()-19));
-			CityRestaurantLindaCard tempAnimation = new CityRestaurantLindaCard(this);
+		if(type.contains("Restaurant")){
+			CityRestaurantLinda temp = null;
+			
+			if (type.contains("Linda"))
+				temp = new CityRestaurantLinda(x, y, "RestaurantLinda " + (city.statics.size()-19));
+			
 			temp.createAnimationPanel(this);
 			city.restaurants.add(temp.restaurant);
-			this.view.addView(tempAnimation, temp.ID);
+			this.view.addView(temp.animationPanel, temp.ID);
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
@@ -633,7 +636,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 //		test.addBuses(test);
 		test.addNewBuilding("Bank", 5, 400);
 		test.addNewBuilding("Market",200,250);
-		test.addNewBuilding("RestaurantLinda", 5, 300);
+		//test.addNewBuilding("RestaurantLinda", 5, 300);
 //		test.addNewBuilding("House", 200, 5);
 		test.fullyManBuilding("Bank",0);
 		test.fullyManBuilding("Market",0);
@@ -770,11 +773,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		fullyManBuilding("Market",1);
 	}
 	
-	public void restaurantScenario(){
+	public void restaurantScenario(String scenarioName){
 		hasBuses = false;
 		MAXTIME = 20;
 		addNewBuilding("House", 200, 5);
-		addNewBuilding("RestaurantLinda",5, 300);
+		addNewBuilding(scenarioName,5, 300);
 		fullyManBuilding("Restaurant",0);
 		
 		int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
