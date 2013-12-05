@@ -3,6 +3,7 @@ package cityGui;
 import interfaces.PlaceOfWork;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
@@ -354,36 +355,57 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		info = new InfoPanel(this);
 
+		///////-----v----v--v-----v-------PREVIOUS LAYOUT------v----v--v-----v-----v---v----////
 		this.setLayout(new GridBagLayout());
 
+		
+		//city animation
 		c.gridx = 0; c.gridy = 0;
 		c.gridwidth = 6; c.gridheight = 6;
 		this.add(city, c);
 
+		//building info (name)
 		c.gridx = 6; c.gridy = 0;
 		c.gridwidth = 5; c.gridheight = 1;
 		this.add(info, c);
 
+		//building animation view
 		c.gridx = 6; c.gridy = 1;
 		c.gridwidth = 5; c.gridheight = 5;
 		this.add(view, c);
 
+		//city control panel
 		c.gridx = 0; c.gridy = 6;
 		c.gridwidth = 11; c.gridheight = 1;
 		this.add(CP, c);
 		
+	/////////--^-----^------^------^----PREVIOUS LAYOUT-----^-----^-----^-----^-----^----////
+
+		
+		
+		
+	///////-----v----v--v-----v-------NEW (PARKER) LAYOUT------v----v--v-----v-----v---v----//// 
+//		this.setLayout(new FlowLayout());
+//		this.add(city);
+//		this.add(info);
+//		Dimension d = new Dimension(500,500);
+//		view.setMinimumSize(d);
+//		view.setMaximumSize(d);
+//		view.setPreferredSize(d);
+//		this.add(view);
+//		this.add(CP);
+		
 		//(-P)
-		/*
-		Dimension bcpDim = new Dimension(100, 800);
-		buildingControlPanel.setPreferredSize(bcpDim);
-		buildingControlPanel.setMaximumSize(bcpDim);
-		buildingControlPanel.setMinimumSize(bcpDim);
-		c.gridx = 11; c.gridy = 0;
-		c.gridwidth = 5; c.gridheight = 6;
-		this.add(buildingControlPanel, c);
-*/
 		
-		
+//		Dimension bcpDim = new Dimension(100, 800);
+//		buildingControlPanel.setPreferredSize(bcpDim);
+//		buildingControlPanel.setMaximumSize(bcpDim);
+//		buildingControlPanel.setMinimumSize(bcpDim);
+//		c.gridx = 11; c.gridy = 0;
+//		c.gridwidth = 5; c.gridheight = 6;
+//		this.add(buildingControlPanel, c);
+
+/////////--^-----^------^------^----NEW (PARKER) LAYOUT-----^-----^-----^-----^-----^----////
 		
 		timer = new Timer(10,  this);
 		timer.start();
