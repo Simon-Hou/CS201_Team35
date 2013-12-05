@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import cityGui.CityRestaurantCard;
+import cityGui.CityRestaurantLindaCard;
 
 public class CustomerGui implements Gui{
 
@@ -97,7 +97,7 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void DoWaitInLine(int position){
-		int limit = (CityRestaurantCard.CARD_WIDTH-150)/(personSize+5);
+		int limit = (CityRestaurantLindaCard.CARD_WIDTH-150)/(personSize+5);
         if (position>=limit){
         	position%=limit;
         }

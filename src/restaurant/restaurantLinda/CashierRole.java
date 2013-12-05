@@ -28,9 +28,9 @@ public class CashierRole extends Role implements Cashier{
 	private List<MyBill> myBills = Collections.synchronizedList(new ArrayList<MyBill>());
 	private Map<Customer, Integer> debtors = new HashMap<Customer, Integer>();
 	private Timer timer = new Timer();
-	Restaurant restaurant;
+	RestaurantLinda restaurant;
 	
-	public CashierRole(String name, Restaurant r) {
+	public CashierRole(String name, RestaurantLinda r) {
 		super();	
 		priceList.put("Steak", 16);
 		priceList.put("Chicken", 11);
@@ -41,7 +41,7 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	//Overloaded function with person
-	public CashierRole(String name, Person p, Restaurant r) {
+	public CashierRole(String name, Person p, RestaurantLinda r) {
 		super();	
 		priceList.put("Steak", 1599);
 		priceList.put("Chicken", 1099);
@@ -312,7 +312,7 @@ public class CashierRole extends Role implements Cashier{
 		return this.p!=null;
 	}
 	
-	public void setRestaurant(Restaurant r){
+	public void setRestaurant(RestaurantLinda r){
 		this.restaurant = r;
 	}
 	

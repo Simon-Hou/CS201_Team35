@@ -40,7 +40,7 @@ public class CustomerRole extends Role implements Customer{
 	AgentEvent event = AgentEvent.none;
 	
 	// agent correspondents
-	private Restaurant r;
+	private RestaurantLinda r;
 	private Waiter waiter;
 	private Cashier cashier;
 	//private Table table=null; //hack(?) for gui
@@ -63,7 +63,7 @@ public class CustomerRole extends Role implements Customer{
 		event = AgentEvent.atRestaurant;
 		print("Arrived at restaurant");
 		
-		this.r = r;
+		this.r = (RestaurantLinda)r;
 		p.msgStateChanged();
 	}
 	

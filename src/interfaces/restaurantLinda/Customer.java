@@ -1,10 +1,11 @@
 package interfaces.restaurantLinda;
 
+import interfaces.BaseRestaurantCustomer;
 import restaurant.restaurantLinda.Check;
 import restaurant.restaurantLinda.Menu;
 import restaurant.restaurantLinda.gui.CustomerGui;
 
-public interface Customer {
+public interface Customer extends BaseRestaurantCustomer{
 	
 	public abstract void msgRestaurantFull();
 
