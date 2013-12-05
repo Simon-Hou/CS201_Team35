@@ -154,8 +154,8 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public void setGui(PersonGui g){
-		this.gui = g;
-		//this.gui = null;
+		//this.gui = g;
+		this.gui = null;
 	}
 	
 	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
@@ -648,9 +648,13 @@ public class PersonAgent extends Agent implements Person {
 		
 		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
 		
-		guiMoveFromCurrentPostionTo(new Position(gridLoc.x,gridLoc.y));
 		
-		this.gui.doGoToBuilding(loc);
+		if(gui!=null){
+			guiMoveFromCurrentPostionTo(new Position(gridLoc.x,gridLoc.y));
+			
+			this.gui.doGoToBuilding(loc);
+		}
+		
 		
 	}
 	
