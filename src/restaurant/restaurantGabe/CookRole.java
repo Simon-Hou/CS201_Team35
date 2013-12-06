@@ -159,6 +159,13 @@ public class CookRole extends Role implements Cook{
 	//MESSAGES
 	
 	public boolean YouAreDoneWithShift(){
+		
+		if(true){
+			Do("Being kicked off the job now");
+			person.msgThisRoleDone(this);
+			this.person = null;
+			//market.DefaultName(this);
+		}
 		return true;
 	}
 	
@@ -396,7 +403,7 @@ public class CookRole extends Role implements Cook{
 	@Override
 	public boolean canLeave() {
 		// TODO Auto-generated method stub
-		return true;
+		return restaurant.numCustomers==0;
 	}
 
 }

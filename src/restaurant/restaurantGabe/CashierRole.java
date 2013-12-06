@@ -83,6 +83,9 @@ public class CashierRole extends Role implements Cashier{
 	//person agent running the role
 	PersonAgent person;
 	
+	//Restaurant
+	RestaurantGabe restaurant;
+	
 	public EventLog log = new EventLog();
 	
 	
@@ -157,6 +160,13 @@ public class CashierRole extends Role implements Cashier{
 	//MESSAGES
 	
 	public boolean YouAreDoneWithShift(){
+		
+		if(true){
+			Do("Being kicked off the job now");
+			person.msgThisRoleDone(this);
+			this.person = null;
+			//market.DefaultName(this);
+		}
 		return true;
 	}
 	
@@ -375,7 +385,7 @@ public class CashierRole extends Role implements Cashier{
 	@Override
 	public boolean canLeave() {
 		// TODO Auto-generated method stub
-		return true;
+		return restaurant.numCustomers == 0;
 	}
 
 }

@@ -17,7 +17,7 @@ public class CustomerGui implements Gui{
 	private boolean isHungry = false;
 	
 	static private int goneX = -10;
-	static private int goneY = 80;
+	static private int goneY = 250;
 
 	//private HostAgent host;
 	CityRestaurantGabe cityRestaurantGabe;

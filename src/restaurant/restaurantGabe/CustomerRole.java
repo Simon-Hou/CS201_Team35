@@ -192,8 +192,8 @@ public class CustomerRole extends Role implements Customer{
 	
 	//newer SimCity message that role is at the restaurant
 	public void msgAtRestaurant(Restaurant rg){
-		System.out.println("Got the message that I'm here");
-		System.out.println(((RestaurantGabe)rg).host == null);
+		//System.out.println("Got the message that I'm here");
+		//System.out.println(((RestaurantGabe)rg).host == null);
 		setRestaurant((RestaurantGabe)rg);
 		event = CustEvent.gotHungry;
 		person.msgStateChanged();

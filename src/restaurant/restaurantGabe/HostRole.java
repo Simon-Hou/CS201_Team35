@@ -120,6 +120,8 @@ public class HostRole extends Role implements Host{
 	//person agent behind this role
 	PersonAgent person;
 	
+	//Restaurant
+	RestaurantGabe restaurant;
 	
 	//Table class that will hold table state and number
 	private enum TableState {free,occupied};
@@ -172,7 +174,14 @@ public class HostRole extends Role implements Host{
 	//MESSAGES
 	
 	public boolean YouAreDoneWithShift(){
+		if(true){
+			Do("Being kicked off the job now");
+			person.msgThisRoleDone(this);
+			this.person = null;
+			//market.DefaultName(this);
+		}
 		return true;
+		
 	}
 	
 	public void msgBreakOver(WaiterRole w){
@@ -371,7 +380,7 @@ public class HostRole extends Role implements Host{
 	@Override
 	public boolean canLeave() {
 		// TODO Auto-generated method stub
-		return true;
+		return restaurant.numCustomers==0;
 	}
 
 }

@@ -56,13 +56,16 @@ public class RestaurantGabe extends Restaurant{
 	    public HostRole host;
 	    public CashierRole cashier;
 	    
+	    
 //	    public CookRole cook = new CookRole("Cook",0);
 //	    public HostRole host = new HostRole("Host");
 //	    public CashierRole cashier = new CashierRole("Cashier");
 
 	    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
 
-
+	    public int numWaiters = 0;
+	    public int numCustomers = 0;
+	    
 	    public CityRestaurantGabe cityRestaurantGabe; //reference to main gui
 	    
 	    public int[] xTables;
@@ -73,9 +76,13 @@ public class RestaurantGabe extends Restaurant{
 	    	System.out.println("Instantiating a Gabe Restaurant");
 	    	
 	    	
-	    	cook = new CookRole("DefaultCook",0);
+	    	cook = new CookRole("DefaultCook");
 		    host = new HostRole("DefaultHost");
 		    cashier = new CashierRole("DefaultCashier");
+		    
+		    cook.restaurant = this;
+		    host.restaurant = this;
+		    cashier.restaurant = this;
 	    	
 	        this.cityRestaurantGabe = cg;
 	        
@@ -153,7 +160,7 @@ public class RestaurantGabe extends Restaurant{
 		
 		
 		
-		
+		numCustomers++;
 		CustomerGui cg = new CustomerGui((CustomerRole)c,cityRestaurantGabe);
 		((CustomerRole)c).setGui(cg);
 		((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).addGui(cg);
@@ -169,7 +176,7 @@ public class RestaurantGabe extends Restaurant{
 	}
 	
 	public Role canIBeHost(Person person){
-		if(((HostRole) host).p==null || ((HostRole)host).YouAreDoneWithShift()){
+		if(((HostRole) host).person==null || ((HostRole)host).YouAreDoneWithShift()){
 			((HostRole) host).name = person.getName()+"RestaurantHost";
 			((HostRole) host).person = (PersonAgent) person;
 			//System.out.println(host==null);
@@ -180,7 +187,7 @@ public class RestaurantGabe extends Restaurant{
 	}
 	
 	public Role canIBeCook(Person person){
-		if(((CookRole) cook).p==null || ((CookRole)cook).YouAreDoneWithShift()){
+		if(((CookRole) cook).person==null || ((CookRole)cook).YouAreDoneWithShift()){
 			((CookRole) cook).name = person.getName()+"RestaurantCook";
 			((CookRole) cook).person = (PersonAgent) person;
 			//System.out.println(host==null);
@@ -198,7 +205,9 @@ public class RestaurantGabe extends Restaurant{
 		
 		r.setRestaurant(this);
 		
-		WaiterGui wGui = new WaiterGui((WaiterRole) r);
+		WaiterGui wGui = new WaiterGui((WaiterRole) r,numWaiters);
+		numWaiters++;
+		
 		((WaiterRole) r).setGui(wGui);
 		wGui.xTables = ((CityRestaurantGabe) cityRestaurantGabe).x_table;
 		wGui.yTables = ((CityRestaurantGabe) cityRestaurantGabe).y_table;
@@ -210,7 +219,7 @@ public class RestaurantGabe extends Restaurant{
 	
 	public Role canIBeCashier(Person person){
 		
-		if(((CashierRole) cashier).p==null || ((CashierRole)cashier).YouAreDoneWithShift()){
+		if(((CashierRole) cashier).person==null || ((CashierRole)cashier).YouAreDoneWithShift()){
 			((CashierRole) cashier).name = person.getName()+"RestaurantCashier";
 			((CashierRole) cashier).person = (PersonAgent) person;
 			//System.out.println(host==null);
@@ -223,6 +232,8 @@ public class RestaurantGabe extends Restaurant{
 
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
+		System.out.println(p.getName()+ " tryint to start work");
+		
 		if (type == JobType.RestaurantHost){
 			return canIBeHost(p);
 		}
@@ -264,6 +275,7 @@ public class RestaurantGabe extends Restaurant{
 	
 	public void leaveRestaurant(CustomerGui cg){
 		cityRestaurantGabe.animationPanel.removeGui(cg);
+		numCustomers--;
 	}
 
 }

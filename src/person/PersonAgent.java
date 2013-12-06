@@ -157,6 +157,7 @@ public class PersonAgent extends Agent implements Person {
 
 	public void setHouse(House h){
 		this.belongings.myHouse = h;
+		//Do("Having address set to "+this.belongings.myHouse.address.x+", "+this.belongings.myHouse.address.y);
 	}
 
 	public void setGui(PersonGui g){
@@ -175,6 +176,7 @@ public class PersonAgent extends Agent implements Person {
 			myFoods = new ArrayList<Food>();
 			myAccounts = new ArrayList<BankAccount>();
 			myHouse = new House(new Loc(5,5));
+			//System.out.println("\tAdress being overwritten");
 		}
 
 		public Property myLiving;
@@ -427,7 +429,6 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
-
 		//HACK
 		if(myJob.placeOfWork==null){
 			myJob.shiftStart+=1;
@@ -595,6 +596,7 @@ public class PersonAgent extends Agent implements Person {
 		//Do("I am going home to sleep ");
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
 		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
+		//Do("Going home to "+this.belongings.myHouse.address.x+", "+this.belongings.myHouse.address.y);
 		doGoHome();
 		inhabitantRole.msgTired();
 		activeRole = inhabitantRole;
@@ -660,7 +662,7 @@ public class PersonAgent extends Agent implements Person {
 
 
 		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
-
+		//Do("Nearest gri loc to "+loc.x+", "+loc.y+" is "+gridLoc.x+", "+gridLoc.y );
 		
 		
 		if(gui!=null){
