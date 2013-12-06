@@ -10,16 +10,18 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import astar.AStarTraversal;
+import astar.Position;
+
 import cityGui.CityRestaurantLindaCard;
 
-public class CustomerGui implements Gui{
+public class CustomerGui extends GuiPerson implements Gui{
 
 	private CustomerRole agent = null;
 	private boolean isHungry = false;
 
-	private int xPos, yPos;
 	private int xDestination, yDestination;
-	private enum Command {noCommand, GoToSeat, GoToCashier, LeaveRestaurant};
+	private enum Command {noCommand, waitInLine, followWaiter, GoToSeat, LeaveSeat, GoToCashier, LeaveRestaurant};
 	private Command command=Command.noCommand;
 
 	private int personSize=AnimationPanel.PERSONSIZE;
@@ -31,46 +33,100 @@ public class CustomerGui implements Gui{
     
     public boolean isPresent = true;
 
-	public CustomerGui(CustomerRole c){ //HostAgent m) {
+	public CustomerGui(CustomerRole c, AStarTraversal aStar){ //HostAgent m) {
 		agent = c;
 		xPos = -2*personSize;
 		yPos = -2*personSize;
-		xDestination = xPos;
-		yDestination = yPos;
+		xfinal = xDestination = xPos;
+		yfinal = yDestination = yPos;
 		//maitreD = m;
+		this.aStar = aStar;
+	}
+	
+	public void followMe(int x, int y){
+		
+		if (previousPosition!=null){
+			previousPosition.release(aStar.getGrid());
+		}
+		
+		previousPosition = currentPosition;
+		xDestination = xPos = x;
+		yDestination = yPos = y;
+		currentPosition = new Position(x/cellSize, y/cellSize);
+		if (!currentPosition.moveInto(aStar.getGrid()))
+			currentPosition = null;
+	}
+	
+	public void goToTable(int x, int y){
+		if (previousPosition!=null)
+			previousPosition.release(aStar.getGrid());
+		previousPosition = currentPosition = null;
+		
+		command = Command.GoToSeat;
+		xfinal = x;
+		yfinal = y;
 	}
 
 	public void updatePosition() {
-		if (xPos < xDestination)
-			xPos++;
-		else if (xPos > xDestination)
-			xPos--;
-
-		if (yPos < yDestination)
-			yPos++;
-		else if (yPos > yDestination)
-			yPos--;
-		
-		for (MyImage icon: carriedItems)
-        	icon.updatePosition(xPos,yPos);
-
-		if (xPos == xDestination && yPos == yDestination) {
-			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
-			else if (command==Command.GoToCashier){
-				agent.msgAnimationFinishedGoToCashier();
-			}
-			else if (command==Command.LeaveRestaurant) {
-				isPresent = false;
-				agent.msgAnimationFinishedLeaveRestaurant();
-				bufferText = null;
-				carriedItems.clear();
-				//System.out.println("about to call gui.setCustomerEnabled(agent);");
-				//isHungry = false;
-				//gui.setCustomerEnabled(agent);
-			}
-			command=Command.noCommand;
+		if (command==Command.waitInLine){
+			if (xDestination>xPos)
+				xPos++;
+			else if (xDestination<xPos)
+				xPos--;
+			
+			if (yDestination>yPos)
+				yPos++;
+			else if (yDestination<yPos)
+				yPos--;
 		}
+		else if (command==Command.GoToSeat) {
+			if (yfinal>yPos)
+				yPos++;
+			
+			if (xPos==xfinal && yfinal==yPos){
+				command = Command.noCommand;
+				agent.msgAnimationFinishedGoToSeat();
+			}
+		}
+		else if (command==Command.LeaveSeat && currentPosition==null){
+				DoLeaveTable();
+		}
+		else if (command!=Command.noCommand){
+			if (moveAndCheckDestination()){
+				if (xPos!=xfinal || yPos!=yfinal){
+					System.err.println("Position: " + xPos + " " + yPos + ", destination: " + xDestination+" "+yDestination+", final:"+xfinal+" "+yfinal);
+					return;
+				}
+				if (command==Command.LeaveSeat){				
+					command=Command.noCommand;
+					agent.msgAnimationFinishedLeavingSeat();
+				}
+				if (command==Command.GoToCashier){
+					command=Command.noCommand;
+					agent.msgAnimationFinishedGoToCashier();
+				}
+				else if (command==Command.LeaveRestaurant) {
+					if (previousPosition!=null)
+						previousPosition.release(aStar.getGrid());
+					if (currentPosition!=null && currentPosition!=previousPosition)
+						currentPosition.release(aStar.getGrid());
+					
+					isPresent = false;
+					command=Command.noCommand;
+					agent.msgAnimationFinishedLeaveRestaurant();
+					bufferText = null;
+					carriedItems.clear();
+					//System.out.println("about to call gui.setCustomerEnabled(agent);");
+					isHungry = false;
+				}
+				command=Command.noCommand;
+			}
+		}
+		
+		//if (command==Command.LeaveSeat)
+			//System.out.println(currentPosition);
 	}
+
 
 	public void draw(Graphics g) {
 		g.setColor(Color.GREEN);
@@ -97,39 +153,55 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void DoWaitInLine(int position){
-		int limit = (CityRestaurantLindaCard.CARD_WIDTH-150)/(personSize+5);
+		command = Command.waitInLine;
+		int limit = (AnimationPanel.WINDOWX-300)/cellSize;
         if (position>=limit){
         	position%=limit;
         }
         
-        xDestination = 50+(personSize+5)*position;
-        yDestination = 0;
+        xPos = xDestination = xfinal = cellSize*(position+1);
+        yPos = yDestination = yfinal = 0;
 	}
 	
 	public void DoMoveInLine(){
-		xDestination -=personSize+5;
+		xDestination = xfinal -=personSize+cellSize;
 	}
 	
 	public void DoWaitForWaiter(){
-		yDestination+=personSize+10;
+		yDestination = yfinal+=personSize+cellSize;
 	}
 
 	public void DoGoToSeat(int xLoc, int yLoc) {
-		xDestination = xLoc;
-		yDestination = yLoc;
+		xfinal = xLoc;
+		yfinal = yLoc;
 		command = Command.GoToSeat;
 	}
 	
+	public void DoLeaveTable(){
+		xfinal = xDestination = xPos-personSize;
+		yfinal = yDestination = yPos;
+		
+		command = Command.LeaveSeat;
+		previousPosition = new Position(xfinal/cellSize, yfinal/cellSize);
+		
+		if (previousPosition.open(aStar.getGrid())){
+			currentPosition = previousPosition;
+			CalculatePath(previousPosition);
+		}
+	}
+	
 	public void DoGoToCashier(){
-		xDestination = 0;
-		yDestination = 100+personSize;
+		xDestination = xfinal = AnimationPanel.CASHIER.x+AnimationPanel.CASHIER.width;
+		yDestination = yfinal = AnimationPanel.CASHIER.y;
 		command = Command.GoToCashier;
+		CalculatePath(new Position(xfinal/cellSize, yfinal/cellSize));
 	}
 
 	public void DoExitRestaurant() {
-		xDestination = -2*personSize;
-		yDestination = -2*personSize;
+		xfinal = -2*personSize;
+		yfinal = -2*personSize;
 		command = Command.LeaveRestaurant;
+		CalculatePath(new Position(0, 0));
 	}
 	
 	public void DoTalk(String text){
