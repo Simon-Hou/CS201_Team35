@@ -191,8 +191,8 @@ public class CustomerGui extends GuiPerson implements Gui{
 	}
 	
 	public void DoGoToCashier(){
-		xDestination = xfinal = AnimationPanel.CASHIER.x+AnimationPanel.CASHIER.width;
-		yDestination = yfinal = AnimationPanel.CASHIER.y;
+		xDestination = xfinal = CityRestaurantLindaCard.CASHIER.x+CityRestaurantLindaCard.CASHIER.width;
+		yDestination = yfinal = CityRestaurantLindaCard.CASHIER.y;
 		command = Command.GoToCashier;
 		CalculatePath(new Position(xfinal/cellSize, yfinal/cellSize));
 	}
