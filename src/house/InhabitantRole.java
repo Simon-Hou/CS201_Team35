@@ -39,7 +39,8 @@ public class InhabitantRole extends Role implements Inhabitant {
 	InhabitantGui gui;
 
 	String foodEating=null;
-	Timer timer;
+	Timer timer=new Timer();
+	int sleepTime=5000;
 	
 	//msg
 	
@@ -87,7 +88,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 			ExitHouse();
 			return true;
 		}
-		
+		ExitHouse();//hack!!! should receive message from person to exit
 		//gui.DoIdle();		
 		return false;
 	}
@@ -105,10 +106,15 @@ public class InhabitantRole extends Role implements Inhabitant {
 			e.printStackTrace();
 		}
 		
-		self.msgThisRoleDone(this);
-		//gui.DoSleep();
-		//Do("I HAVE AWAKENED");
-		return;
+		//self.msgThisRoleDone(this);
+		gui.DoSleep();
+		try {
+		    Thread.sleep(sleepTime);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
+		self.msgDoneSleeping();
+		Do("I HAVE AWAKENED");
 	}
 	
 	private void GetAndCook(){

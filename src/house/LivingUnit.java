@@ -1,4 +1,5 @@
 package house;
+import house.gui.InhabitantGui;
 import interfaces.Person;
 
 import java.util.*;
@@ -7,11 +8,11 @@ import public_Object.Food;
 
 public class LivingUnit {
 	//data
-	InhabitantRole inhabitant;
+	InhabitantRole inhabitant=null;
 	List<Food> inventory=new ArrayList<Food>(); //should we have many kinds of food or only one at the very beginning?
 	
 	public LivingUnit(){
-		inhabitant=new InhabitantRole();
+		
 		
 	}
 	
@@ -20,12 +21,9 @@ public class LivingUnit {
 	//msg
 	
 	
-	public void msgImHome(Person p){ //called by Person
-		inhabitant.self=p;
-		
-	}
+	
 	public void msgLeaveHome(){ //called by Person
-		inhabitant.self=null;
+		inhabitant=null;
 	}
 	public void msgFoodIn(List<Food> foods){
 		for(Food bought : foods){

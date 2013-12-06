@@ -159,8 +159,8 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void setGui(PersonGui g){
-		//this.gui = g;
-		this.gui = null;
+		this.gui = g;
+		//this.gui = null;
 	}
 
 	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
@@ -283,7 +283,10 @@ public class PersonAgent extends Agent implements Person {
 		hungerLevel=0;
 		stateChanged();
 	}
-
+	public void msgDoneSleeping(){
+		tiredLevel=0;
+		stateChanged();
+	}
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
 		//Do("Deciding what to do - "+ time);
@@ -334,7 +337,6 @@ public class PersonAgent extends Agent implements Person {
 					return true;
 				}
 			}
-
 			return activeRole.pickAndExecuteAnAction();
 		}
 		//Do("ALIVE");
@@ -584,12 +586,14 @@ public class PersonAgent extends Agent implements Person {
 	private void getSleep() {
 
 
-		//Do("I am going home to sleep ");
+		Do("I am going home to sleep ");
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
 		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
 		doGoHome();
-		inhabitantRole.msgTired();
 		activeRole = inhabitantRole;
+		belongings.myHouse.msgImHome(inhabitantRole);
+		inhabitantRole.msgTired();
+		
 	}
 
 	private void goToRestaurant() {
