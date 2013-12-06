@@ -64,7 +64,7 @@ public class CustomerRole extends Role implements Customer{
 	
 	//TODO FIX THIS - this is dangerous
 	public void setRestaurant(Restaurant rg){
-		this.host = ((HostRole) ((RestaurantGabe) rg).host2);
+		this.host = ((HostRole) rg.host);
 		this.cashier = ((CashierRole) rg.cashier);
 	}
 	
@@ -316,6 +316,7 @@ public class CustomerRole extends Role implements Customer{
 	private void goToRestaurant(){
 		Do("Entering restaurant");
 		DoGoToRestaurant();
+		Do("GOt here!");
 		host.msgIWantToEat(this);
 		state = CustState.asking;
 		//System.out.println("I came to the Restaurant");

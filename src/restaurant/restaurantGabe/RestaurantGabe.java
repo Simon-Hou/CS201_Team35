@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 
 import astar.AStarTraversal;
 import cityGui.CityRestaurant;
+import cityGui.CityRestaurantCardGabe;
 import cityGui.CityRestaurantGabe;
 import cityGui.CityRestaurantLinda;
 //import cityGui.MarketRole;
@@ -47,9 +48,9 @@ public class RestaurantGabe extends Restaurant{
 	
 	
 	//Host, cook, waiters, customers, markets, cashier that must be hacked in
-		public CookRole cook = new CookRole("Cook",0);
-	    public HostRole host2 = new HostRole("Host");
-	    public CashierRole cashier = new CashierRole("Cashier");
+		public CookRole cook;
+	    public HostRole host2;
+	    public CashierRole cashier;
 	    
 //	    public CookRole cook = new CookRole("Cook",0);
 //	    public HostRole host = new HostRole("Host");
@@ -66,6 +67,11 @@ public class RestaurantGabe extends Restaurant{
 	    public RestaurantGabe(CityRestaurantGabe cg) {
 	    	
 	    	System.out.println("Instantiating a Gabe Restaurant");
+	    	
+	    	
+	    	cook = new CookRole("Cook",0);
+		    host = new HostRole("Host");
+		    cashier = new CashierRole("Cashier");
 	    	
 	        this.cityRestaurantGabe = cg;
 	        
@@ -136,8 +142,8 @@ public class RestaurantGabe extends Restaurant{
 		
 		CustomerGui cg = new CustomerGui((CustomerRole)c,cityRestaurantGabe);
 		((CustomerRole)c).setGui(cg);
-		cityRestaurantGabe.animationPanel.addGui(cg);
-		((CustomerRole)c).msgAtRestaurant(this);
+		((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).addGui(cg);
+		//((CustomerRole)c).msgAtRestaurant(this);
 		
 		
 		

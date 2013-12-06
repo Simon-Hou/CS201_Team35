@@ -192,6 +192,7 @@ public class HostRole extends Role implements Host{
 		//System.out.println("Here in the host method");
 		MyCust mc = findCust(MyCustomers,c);
 		if(mc==null){
+			
 			//System.out.println("Added new Customer " + c.getName());
 			MyCustomers.add(new MyCust(c,null,CustState.waiting));
 		}

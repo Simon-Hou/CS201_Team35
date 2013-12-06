@@ -13,7 +13,7 @@ import cityGui.Gui;
 public class CustomerGui implements Gui{
 
 	private CustomerRole agent = null;
-	private boolean isPresent = false;
+	private boolean isPresent =true;
 	private boolean isHungry = false;
 	
 	static private int goneX = -40;
@@ -47,7 +47,9 @@ public class CustomerGui implements Gui{
 		this.cityRestaurantGabe = cityRestaurantGabe;
 	}
 
+	@Override
 	public void updatePosition() {
+		//System.out.println("Updating position");
 		if (xPos < xDestination)
 			xPos++;
 		else if (xPos > xDestination)
@@ -86,7 +88,7 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void DoGoToRestaurant(){
-		
+		System.out.println("Going to the waiting area");
 		for(int i = 0;i<cityRestaurantGabe.numWaitingSpots;++i){
 			if(cityRestaurantGabe.waitingSpots[i]){
 				this.xDestination = 20;

@@ -108,6 +108,7 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
     }
 
     public void addGui(CustomerGui gui) {
+    	System.out.println("Adding a new customer");
         guis.add(gui);
     }
 
