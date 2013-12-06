@@ -209,7 +209,7 @@ public class CookRole extends Role implements Cook{
 	
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		
 		//if there are any low foods, order them
 		//Change this to just numbers

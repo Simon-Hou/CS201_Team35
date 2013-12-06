@@ -234,7 +234,7 @@ public class HostRole extends Role implements Host{
 	}
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		//System.out.println("In the scheduler");
 		//System.out.println(MyWaiters.get(0).numTables);
 		/*for(MyWait mw:MyWaiters){

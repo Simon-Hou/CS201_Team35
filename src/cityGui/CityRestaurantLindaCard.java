@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import restaurant.restaurantLinda.gui.Gui;
+//import restaurant.restaurantLinda.gui.Gui;
 import restaurant.restaurantLinda.gui.MyImage;
 import restaurant.restaurantLinda.gui.RestaurantPanel;
 
@@ -80,7 +80,7 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
-                gui.draw(g);
+                gui.draw((Graphics2D)g);
             }
         }
         

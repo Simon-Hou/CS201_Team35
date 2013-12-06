@@ -3,7 +3,10 @@ package restaurant.restaurantGabe.gui;
 import restaurant.restaurantGabe.CustomerRole;
 //import restaurant.restaurantGabe.OldHostAgent;
 
+
 import java.awt.*;
+
+import cityGui.CityRestaurantGabe;
 
 public class CustomerGui implements Gui{
 
@@ -15,7 +18,8 @@ public class CustomerGui implements Gui{
 	static private int goneY = -40;
 
 	//private HostAgent host;
-	RestaurantGui gui;
+	CityRestaurantGabe cityRestaurantGabe;
+	//CityRestaurantGabe cityRestaurantGabe;
 	
 	String food = null;
 	
@@ -31,14 +35,14 @@ public class CustomerGui implements Gui{
 	public static final int[] xTables = {200,300,400};
 	public static final int[] yTables = {250,250,250};
 
-	public CustomerGui(CustomerRole c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(CustomerRole c, CityRestaurantGabe cityRestaurantGabe){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;
 		xDestination = -40;
 		yDestination = -40;
 		//maitreD = m;
-		this.gui = gui;
+		this.cityRestaurantGabe = cityRestaurantGabe;
 	}
 
 	public void updatePosition() {
@@ -59,7 +63,7 @@ public class CustomerGui implements Gui{
 			}
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
-				gui.updateList(agent);
+				//cityRestaurantGabe.updateList(agent);
 				//System.out.println("about to call gui.setCustomerEnabled(agent);");
 				isHungry = false;
 				//gui.setCustomerEnabled(agent);
@@ -81,11 +85,11 @@ public class CustomerGui implements Gui{
 	
 	public void DoGoToRestaurant(){
 		
-		for(int i = 0;i<gui.numWaitingSpots;++i){
-			if(gui.waitingSpots[i]){
+		for(int i = 0;i<cityRestaurantGabe.numWaitingSpots;++i){
+			if(cityRestaurantGabe.waitingSpots[i]){
 				this.xDestination = 20;
 				this.yDestination = 70 + 30*i;
-				gui.waitingSpots[i] = false;
+				cityRestaurantGabe.waitingSpots[i] = false;
 				this.waitingSpot = i;
 				return;
 			}
@@ -116,9 +120,9 @@ public class CustomerGui implements Gui{
 	}
 
 	public void DoGoToSeat(int seatnumber) {//later you will map seatnumber to table coordinates.
-		gui.numWaitingCusts--;
+		cityRestaurantGabe.numWaitingCusts--;
 		if(this.waitingSpot!=-1){
-			gui.waitingSpots[this.waitingSpot] = true;
+			cityRestaurantGabe.waitingSpots[this.waitingSpot] = true;
 		}
 		
 		xDestination = xTables[seatnumber];
@@ -130,7 +134,7 @@ public class CustomerGui implements Gui{
 	
 	public void DoGoToSeatDirected(WaiterGui wGui,int xDest, int yDest) {
 		if(this.waitingSpot!=-1){
-			gui.waitingSpots[this.waitingSpot] = true;
+			cityRestaurantGabe.waitingSpots[this.waitingSpot] = true;
 		}
 		
 		xDestination = xDest;

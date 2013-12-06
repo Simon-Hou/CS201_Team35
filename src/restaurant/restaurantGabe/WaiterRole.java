@@ -271,7 +271,7 @@ public class WaiterRole extends Role implements Waiter{
 	
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		//System.out.println(name+ " the waiter deciding what to do");
 		/*for(MyCust mc:MyCustomers){
 			Do(mc.c.getName() + mc.s);
