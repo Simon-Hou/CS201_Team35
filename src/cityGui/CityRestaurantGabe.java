@@ -26,6 +26,7 @@ import restaurant.restaurantGabe.CashierRole;
 import restaurant.restaurantGabe.CookRole;
 import restaurant.restaurantGabe.CustomerRole;
 import restaurant.restaurantGabe.HostRole;
+import restaurant.restaurantGabe.RestaurantGabe;
 import restaurant.restaurantGabe.gui.CookGui;
 import restaurant.restaurantGabe.gui.CustomerGui;
 import restaurant.restaurantGabe.gui.ListPanel;
@@ -33,11 +34,13 @@ import restaurant.restaurantGabe.gui.ListPanel;
 import restaurant.restaurantGabe.gui.RestaurantGui;
 import restaurant.restaurantGabe.gui.WaiterPanel;
 import restaurant.restaurantGabe.util.RevolvingStand;
+import util.Loc;
+import util.RestaurantMapLoc;
 
 public class CityRestaurantGabe extends CityRestaurant{
 
 
-	public CityRestaurantCardGabe animationPanel;
+	//public CityRestaurantCardGabe animationPanel;
 	public RevolvingStand stand  = new RevolvingStand();
 	
 	public int numWaitingCusts;
@@ -45,7 +48,7 @@ public class CityRestaurantGabe extends CityRestaurant{
     public int numWaitingSpots = 10;
     public boolean[] waitingSpots = new boolean[numWaitingSpots];
     
-    int[] x_table = {120,195,270};
+    int[] x_table = {100,175,250};
     int[] y_table = {275,215,155};
 	
     
@@ -67,6 +70,7 @@ public class CityRestaurantGabe extends CityRestaurant{
     public void initializeRestaurant() {
     	
     	//super(x, y);
+    	restaurant = new RestaurantGabe(this);
     	
     	numWaitingCusts = 0;
     	
@@ -83,12 +87,19 @@ public class CityRestaurantGabe extends CityRestaurant{
         //x_table  = {200,300,400};
         //y_table = {250,250,250};
         
-        animationPanel.x_table = x_table;
-        animationPanel.y_table = y_table;
+        ((CityRestaurantCardGabe)animationPanel).x_table = x_table;
+        ((CityRestaurantCardGabe)animationPanel).y_table = y_table;
         
 
     }
 
+    
+    public JPanel addAgentObjectToMap(){
+    	RestaurantMapLoc rMap = new RestaurantMapLoc(restaurant);
+		rMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
+		this.cityObject.cityMap.map.get("Restaurant").add(rMap);
+		return null;
+    }
     
     public void actionPerformed(ActionEvent e){
     	/*if(e.getSource() == pauseButton){
@@ -121,6 +132,8 @@ public class CityRestaurantGabe extends CityRestaurant{
 	@Override
 	public void createAnimationPanel(SimCityGui city) {
 		// TODO Auto-generated method stub
+		//
+		//System.out.println("\tIN HERE!!!!!!");
 		animationPanel = new CityRestaurantCardGabe(city);
 		
 		initializeRestaurant();

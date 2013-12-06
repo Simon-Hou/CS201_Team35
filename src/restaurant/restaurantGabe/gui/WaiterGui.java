@@ -7,6 +7,8 @@ import restaurant.restaurantGabe.WaiterRole;
 
 import java.awt.*;
 
+import cityGui.Gui;
+
 public class WaiterGui implements Gui {
 
     private WaiterRole agent = null;

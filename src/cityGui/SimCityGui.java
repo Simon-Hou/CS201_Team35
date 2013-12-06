@@ -867,7 +867,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		try{
 			for(int i = (int) Math.ceil(200/cityScale);i<(int) Math.floor(400/cityScale);++i){
 				for(int j = (int) Math.ceil(200/cityScale);j<(int) Math.floor(400/cityScale);++j){
-					System.out.println("("+i+","+j+")");
+					//System.out.println("("+i+","+j+")");
 					grid[i][j].acquire();
 				}
 			}

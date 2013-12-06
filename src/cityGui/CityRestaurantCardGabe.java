@@ -13,7 +13,7 @@ import javax.swing.Timer;
 
 import restaurant.restaurantGabe.gui.CookGui;
 import restaurant.restaurantGabe.gui.CustomerGui;
-import restaurant.restaurantGabe.gui.Gui;
+//import restaurant.restaurantGabe.gui.Gui;
 import restaurant.restaurantGabe.gui.WaiterGui;
 
 public class CityRestaurantCardGabe extends CityRestaurantCard{
@@ -21,12 +21,12 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
 	public CityRestaurantCardGabe(SimCityGui city) {
 		super(city);
 		
-		setSize(WINDOWX, WINDOWY);
-        setVisible(true);
-        
-        bufferSize = this.getSize();
-    	Timer timer = new Timer(TIMER_DELAY, this );
-    	timer.start();
+//		setSize(WINDOWX, WINDOWY);
+//        setVisible(true);
+//        
+//        bufferSize = this.getSize();
+//    	Timer timer = new Timer(TIMER_DELAY, this );
+//    	timer.start();
 	}
 	
 
@@ -53,21 +53,24 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
     int width = 50;
     int height = 50;
     
-    int xGrill = 415;
+    int xGrill = 375;
     int yGrill = 125;
     
-    int xPlate = 415;
+    int xPlate = 375;
     int yPlate = 55;
     
-    int xFridge = 500;
+    int xFridge = 450;
     int yFridge = 85;
     
     int wFridge = 30;
     int hFridge = 30;
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paint(Graphics g) {
+    	//System.out.println("IN HERE");
         Graphics2D g2 = (Graphics2D)g;
+        
+        
         
         //g2.setClip(0,0,WINDOWX,WINDOWY);
         //Clear the screen by painting a rectangle the size of the frame

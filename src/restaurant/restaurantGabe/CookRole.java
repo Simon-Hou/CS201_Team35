@@ -51,9 +51,9 @@ public class CookRole extends Role implements Cook{
 	}
 	
 	//SETTERS
-	public void addMarket(MarketRole m){
+	public void addMarket(Market m){
 		Markets.add(m);
-		m.setCook(this);
+		//m.setCook(this);
 	}
 	
 	public void setGui(CookGui c){
@@ -65,9 +65,13 @@ public class CookRole extends Role implements Cook{
 		this.stand = r;
 	}
 	
+	public void setRestaurant(RestaurantGabe rg){
+		this.restaurant = rg;
+	}
+	
 	
 	//Hack
-	public void setNoFoodsMarketInvSpeed(int inv,int speed){
+	/*public void setNoFoodsMarketInvSpeed(int inv,int speed){
 		Foods.get("Salad").amount = 0;
 		Foods.get("Pizza").amount = 0;
 		Foods.get("Steak").amount = 0;
@@ -92,7 +96,7 @@ public class CookRole extends Role implements Cook{
 	
 		stateChanged();
 	}
-	
+	*/
 	public void setSalad(int amount){
 		Foods.get("Salad").amount = amount;
 	}
@@ -106,9 +110,12 @@ public class CookRole extends Role implements Cook{
 	
 	CookGui gui;
 	
+	//restaurant
+	RestaurantGabe restaurant;
+	
 	//List of markets and variable to keep track of the last market we ordered from
 	int lastMarket = -1;
-	List<MarketRole> Markets = new ArrayList<MarketRole>();
+	List<Market> Markets = new ArrayList<Market>();
 	
 	//will help with iterating
 	private List<String> foods = new ArrayList<String>();
@@ -321,6 +328,7 @@ public class CookRole extends Role implements Cook{
 		
 		List<String> need = new ArrayList<String>();
 		List<Integer> num = new ArrayList<Integer>();
+		Map<String,Integer> order = new HashMap<String,Integer>();
 		synchronized(Foods){
 			for(String f:foods){
 				FoodItem currentFood = Foods.get(f);
@@ -334,6 +342,7 @@ public class CookRole extends Role implements Cook{
 					
 					need.add(f);
 					num.add(currentFood.stockSize - currentFood.amount);
+					order.put(f, currentFood.stockSize - currentFood.amount);
 					currentFood.s = FoodState.requested;
 					currentFood.timesOrdered++;
 					Do("Ordering more " + f);
@@ -342,8 +351,11 @@ public class CookRole extends Role implements Cook{
 		}
 		//
 		lastMarket = (1+lastMarket)%Markets.size();
-		Markets.get(lastMarket).msgHereIsMyOrder(need,num);
+		//Markets.get(lastMarket).msgHereIsMyOrder(need,num);
 		
+		
+		
+		Markets.get(lastMarket).host.msgBusinessWantsThis(restaurant, order);
 		
 	}
 	

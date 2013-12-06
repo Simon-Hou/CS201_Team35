@@ -17,6 +17,7 @@ import interfaces.MarketDeliveryMan;
 import java.util.*;
 
 import person.PersonAgent;
+import market.Market;
 import market.MarketInvoice;
 
 public class CashierRole extends Role implements Cashier{
@@ -156,7 +157,7 @@ public class CashierRole extends Role implements Cashier{
 	//MESSAGES
 	
 	public void msgDeliveryBill(Market m,int amount){
-		Do("Got a new bill from "+ m.getName()+" for $" + amount);
+		Do("Got a new bill from the market for $" + amount);
 		marketBills.add(new MarketBill(m,amount));
 		stateChanged();
 	}
@@ -275,17 +276,19 @@ public class CashierRole extends Role implements Cashier{
 	private void PayFirstBill(){
 		
 		MarketBill pay = marketBills.get(0);
-		log.add(new LoggedEvent("Attempting to pay "+pay.m.getName()+" a bill of $"+pay.amount));
+		log.add(new LoggedEvent("Attempting to pay the market a bill of $"+pay.amount));
 		
 		if(pay.amount<=this.RestaurantMoney){
-			pay.m.msgHereIsPayment(pay.amount);
+			pay.m.cashier.msgHereIsBusinessPayment(pay.amount);
 			this.RestaurantMoney -= pay.amount;
 			marketBills.remove(0);
 			return;
 		}
 		
 		Do("Can't pay for the Market Order.");
-		pay.m.msgCantPay();
+		
+		pay.m.cashier.msgHereIsBusinessPayment(0);
+		//pay.m.msgCantPay();
 		
 		marketBills.remove(0);
 		

@@ -35,7 +35,7 @@ import restaurant.restaurantGabe.gui.RestaurantGui;
 import restaurant.restaurantGabe.gui.WaiterPanel;
 import restaurant.restaurantGabe.gui.CookGui;
 import restaurant.restaurantGabe.gui.CustomerGui;
-import restaurant.restaurantGabe.gui.Gui;
+//import restaurant.restaurantGabe.gui.Gui;
 import restaurant.restaurantGabe.gui.WaiterGui;
 import role.Role;
 import util.JobType;
@@ -66,15 +66,15 @@ public class RestaurantGabe extends Restaurant{
 	        cityRestaurantGabe.stand.setCook(cook);
 	        cook.setRevolvingStand(cityRestaurantGabe.stand);
 	        
-	        host.startThread();
+	        //host.startThread();
 	        
-	        cashier.startThread();
+	        //cashier.startThread();
 	        
 	        CookGui cGui = new CookGui(cook);
 	        cityRestaurantGabe.animationPanel.addGui(cGui);
 	        cook.setGui(cGui);
 	        
-	        cook.startThread();
+	        //cook.startThread();
 	        
 	   
 	    }

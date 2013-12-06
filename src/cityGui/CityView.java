@@ -50,17 +50,20 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		if(currentCard!=null){
 			cards.get(currentCard).time=city.time;
 		}
+		//System.out.println(panel==null);
 		this.add(cards.get(key), key);
 		currentCard=key;
 		return true;
 	}
 
 	public void setView(String key) {
+		//System.out.println("In set view");
 		if (cards.containsKey(key)) {
 			if(currentCard!=null){
 				cards.get(currentCard).time=city.time;
 			}
-			
+			//System.out.println("In the condition");
+			//System.out.println(cards.get(key) instanceof CityRestaurantCardGabe);
 			cards.get(key).run(city.time);
 			layout.show(this, key);
 			currentCard=key;
