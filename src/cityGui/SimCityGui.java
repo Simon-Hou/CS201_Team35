@@ -447,10 +447,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 		}
 		
 		if(type.contains("Restaurant")){
-			CityRestaurantLinda temp = null;
+			CityRestaurant temp = null;
 			
 			if (type.contains("Linda"))
 				temp = new CityRestaurantLinda(x, y, "RestaurantLinda " + (city.statics.size()-19));
+			else if(type.contains("Gabe")){
+				temp = new CityRestaurantGabe(x,y, "RestaurantGabe " + (city.statics.size()-19));
+			}
 			
 			temp.createAnimationPanel(this);
 			city.restaurants.add(temp.restaurant);
@@ -641,6 +644,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int xStartTest = 0;
 		int yStartTest = 0;
 		
+		test.gabeRestaurant();
+		
 		
 		
 		//THIS SHOWS THE MARKET TESTS I'VE (GABE) BEEN WORKING ON
@@ -822,6 +827,19 @@ public class SimCityGui extends JFrame implements ActionListener {
 		fullyManBuilding("Bank",0);
 		fullyManBuilding("Market",0);
 		fullyManBuilding("Market",1);
+	}
+	
+	public void gabeRestaurant(){
+		addNewBuilding("RestaurantGabe",200,250);
+		
+		addNewPersonHard("p0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,100, 0,0);
+		addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,0,100, 0,0);
+		addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,100, 0,0);
+		addNewPersonHard("p3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
+
+		
+	
+	
 	}
 	
 	public void restaurantScenario(String scenarioName){

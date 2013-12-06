@@ -15,7 +15,7 @@ public class WaiterGui implements Gui {
 
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
-    public int xCook = 385;
+    public int xCook = 350;
     public int yCook = 90;
 
     private static int N_TABLES = 3;

@@ -36,6 +36,14 @@ public class WaiterRole extends Role implements Waiter{
 	
 	//SETTERS
 	
+	//hack, gives the waiter the restaurant pointer
+	public void setRestaurant(RestaurantGabe r){
+		this.restaurant = r;
+		this.Cook = r.cook;
+		this.Cashier = r.cashier;
+		this.Host = r.host;
+	}
+	
 	//hack, puts cashier in
 	public void setCashier(CashierRole c){
 		this.Cashier = c;
@@ -156,6 +164,8 @@ public class WaiterRole extends Role implements Waiter{
 	protected CookRole Cook;
 	protected HostRole Host;
 	protected CashierRole Cashier;
+	
+	RestaurantGabe restaurant;
 	
 	
 	//MESSAGES

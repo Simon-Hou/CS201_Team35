@@ -63,7 +63,7 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	//TODO FIX THIS - this is dangerous
-	public void setRestaurant(Restaurant rg){
+	public void setRestaurant(RestaurantGabe rg){
 		this.host = ((HostRole) rg.host);
 		this.cashier = ((CashierRole) rg.cashier);
 	}
@@ -189,7 +189,9 @@ public class CustomerRole extends Role implements Customer{
 	
 	//newer SimCity message that role is at the restaurant
 	public void msgAtRestaurant(Restaurant rg){
-		setRestaurant(rg);
+		System.out.println("Got the message that I'm here");
+		System.out.println(((RestaurantGabe)rg).host == null);
+		setRestaurant((RestaurantGabe)rg);
 		event = CustEvent.gotHungry;
 		person.msgStateChanged();
 	}
@@ -316,7 +318,7 @@ public class CustomerRole extends Role implements Customer{
 	private void goToRestaurant(){
 		Do("Entering restaurant");
 		DoGoToRestaurant();
-		Do("GOt here!");
+		//Do("GOt here!");
 		host.msgIWantToEat(this);
 		state = CustState.asking;
 		//System.out.println("I came to the Restaurant");

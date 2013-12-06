@@ -134,7 +134,7 @@ public class CashierRole extends Role implements Cashier{
 	//will help with iterating
 	private List<String> foods = new ArrayList<String>();
 	
-	private String name;
+	String name;
 	
 	//stores all of the cashier's bills
 	public List<Debt> debts = Collections.synchronizedList(new ArrayList<Debt>());
@@ -155,6 +155,10 @@ public class CashierRole extends Role implements Cashier{
 	
 	
 	//MESSAGES
+	
+	public boolean YouAreDoneWithShift(){
+		return true;
+	}
 	
 	public void msgDeliveryBill(Market m,int amount){
 		Do("Got a new bill from the market for $" + amount);

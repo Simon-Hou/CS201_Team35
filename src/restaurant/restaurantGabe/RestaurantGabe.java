@@ -53,7 +53,7 @@ public class RestaurantGabe extends Restaurant{
 	
 	//Host, cook, waiters, customers, markets, cashier that must be hacked in
 		public CookRole cook;
-	    public HostRole host2;
+	    public HostRole host;
 	    public CashierRole cashier;
 	    
 //	    public CookRole cook = new CookRole("Cook",0);
@@ -73,9 +73,9 @@ public class RestaurantGabe extends Restaurant{
 	    	System.out.println("Instantiating a Gabe Restaurant");
 	    	
 	    	
-	    	cook = new CookRole("Cook",0);
-		    host = new HostRole("Host");
-		    cashier = new CashierRole("Cashier");
+	    	cook = new CookRole("DefaultCook",0);
+		    host = new HostRole("DefaultHost");
+		    cashier = new CashierRole("DefaultCashier");
 	    	
 	        this.cityRestaurantGabe = cg;
 	        
@@ -88,11 +88,21 @@ public class RestaurantGabe extends Restaurant{
 	        
 	        CookGui cGui = new CookGui(cook);
 	        cityRestaurantGabe.animationPanel.addGui(cGui);
+	        ((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).setCookNumbers(cGui);
 	        cook.setGui(cGui);
 	        
 	        //cook.startThread();
 	        
 	   
+	    }
+	    
+	    
+	    public HostRole getHost(){
+	    	return host;
+	    }
+	    
+	    public CashierRole getCashier(){
+	    	return cashier;
 	    }
 	    
 	    public void setCustHungry(String name){
@@ -162,10 +172,53 @@ public class RestaurantGabe extends Restaurant{
 		if(((HostRole) host).p==null || ((HostRole)host).YouAreDoneWithShift()){
 			((HostRole) host).name = person.getName()+"RestaurantHost";
 			((HostRole) host).person = (PersonAgent) person;
+			//System.out.println(host==null);
 			return (Role) host;
 		}
 		System.err.println("New host wasn't allowded to take over");
 		return null;
+	}
+	
+	public Role canIBeCook(Person person){
+		if(((CookRole) cook).p==null || ((CookRole)cook).YouAreDoneWithShift()){
+			((CookRole) cook).name = person.getName()+"RestaurantCook";
+			((CookRole) cook).person = (PersonAgent) person;
+			//System.out.println(host==null);
+			
+			
+			//CookGui cGui = new CookGui((CookRole) r);
+			
+			return (Role) cook;
+		}
+		System.err.println("New cook wasn't allowded to take over");
+		return null;
+	}
+	
+	public void setUpWaiter(WaiterRole r){
+		
+		r.setRestaurant(this);
+		
+		WaiterGui wGui = new WaiterGui((WaiterRole) r);
+		((WaiterRole) r).setGui(wGui);
+		wGui.xTables = ((CityRestaurantGabe) cityRestaurantGabe).x_table;
+		wGui.yTables = ((CityRestaurantGabe) cityRestaurantGabe).y_table;
+		((HostRole) host).addWaiter((WaiterRole)r);
+		
+		
+		((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).addGui(wGui);
+	}
+	
+	public Role canIBeCashier(Person person){
+		
+		if(((CashierRole) cashier).p==null || ((CashierRole)cashier).YouAreDoneWithShift()){
+			((CashierRole) cashier).name = person.getName()+"RestaurantCashier";
+			((CashierRole) cashier).person = (PersonAgent) person;
+			//System.out.println(host==null);
+			return (Role) cashier;
+		}
+		System.err.println("New cashier wasn't allowded to take over");
+		return null;
+		
 	}
 
 	@Override
@@ -182,33 +235,28 @@ public class RestaurantGabe extends Restaurant{
 			//((MarketEmployeeRole) m).inEmployeeList = true;
 			//panel.addEmployee((MarketEmployeeRole) r);
 			
-			WaiterGui wGui = new WaiterGui((WaiterRole) r);
-			((WaiterRole) r).setGui(wGui);
-			wGui.xTables = ((CityRestaurantGabe) cityRestaurantGabe).x_table;
-			wGui.yTables = ((CityRestaurantGabe) cityRestaurantGabe).y_table;
-			((HostRole) host).addWaiter((WaiterRole)r);
-			
-			
-			((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).addGui(wGui);
+			setUpWaiter((WaiterRole) r);
 			
 			return r;
 			
-			
 		}
+		else if (type == JobType.RestaurantCook){
+			return canIBeCook(p);
+		}
+		
+		else if (type == JobType.RestaurantCashier){
+			return canIBeCashier(p);
+		}
+		
 		/*else if (type == JobType.RestaurantWaiter2){
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
-		else if (type == JobType.RestaurantCook){
-			cook.changeShifts(p);
-			return (Role)cook;
-		}
-		else if (type == JobType.RestaurantCashier){
-			cashier.changeShifts(p);
-			return (Role) cashier;
-		}*/
+		
+		
+		*/
 		
 		System.out.println("Unrecognized job type: " + type);
 		return null;

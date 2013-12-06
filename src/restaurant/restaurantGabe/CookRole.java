@@ -81,7 +81,7 @@ public class CookRole extends Role implements Cook{
 		}
 		
 	
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void setNoFoodsSpeed(int speed){
@@ -94,7 +94,7 @@ public class CookRole extends Role implements Cook{
 		}
 		
 	
-		stateChanged();
+		person.msgStateChanged();
 	}
 	*/
 	public void setSalad(int amount){
@@ -120,7 +120,7 @@ public class CookRole extends Role implements Cook{
 	//will help with iterating
 	private List<String> foods = new ArrayList<String>();
 	
-	private String name;
+	String name;
 	
 	//stores all of the cooks orders
 	private List<Order> Orders = Collections.synchronizedList(new ArrayList<Order>());
@@ -158,8 +158,12 @@ public class CookRole extends Role implements Cook{
 	
 	//MESSAGES
 	
+	public boolean YouAreDoneWithShift(){
+		return true;
+	}
+	
 	public void msgStateChanged(){
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgGotFood(String choice){
@@ -181,7 +185,7 @@ public class CookRole extends Role implements Cook{
 			}
 			
 			//Do("but now I have " +foodInQuestion.amount);
-			stateChanged();
+			person.msgStateChanged();
 		}
 	}
 	
@@ -204,21 +208,21 @@ public class CookRole extends Role implements Cook{
 				Do("Going to rerequest "+Foods.get(f).name);
 			}
 		}
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//cook is given a new order
 	public void msgHereIsAnOrder(WaiterRole w,Order o){
-		//Do("Got the order");
+		Do("Got the order");
 		o.s = OrderState.requested;
 		Orders.add(o);
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//food has finished cooking
 	public void msgFoodIsDone(Order o){
 		o.s = OrderState.cooked;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	

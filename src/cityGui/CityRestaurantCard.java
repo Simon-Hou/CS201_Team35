@@ -15,6 +15,7 @@ public class CityRestaurantCard extends CityCard{
 	}
 
     public void addGui(Gui gui) {
+    	//System.out.println("Adding cook gui");
         guis.add(gui);
     }
     

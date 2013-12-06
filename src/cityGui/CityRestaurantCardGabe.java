@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.Timer;
 
+import restaurant.restaurantGabe.CookRole;
 import restaurant.restaurantGabe.gui.CookGui;
 import restaurant.restaurantGabe.gui.CustomerGui;
 //import restaurant.restaurantGabe.gui.Gui;
@@ -40,7 +41,7 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
     
     private static int N_TABLES = 3;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    //private List<Gui> guis = new ArrayList<Gui>();
 
     
 
@@ -53,17 +54,17 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
     int width = 50;
     int height = 50;
     
-    int xGrill = 375;
-    int yGrill = 125;
+    static int xGrill = 375;
+    static int yGrill = 125;
     
-    int xPlate = 375;
-    int yPlate = 55;
+    static int xPlate = 375;
+    static int yPlate = 55;
     
-    int xFridge = 450;
-    int yFridge = 85;
+    static int xFridge = 450;
+    static int yFridge = 85;
     
-    int wFridge = 30;
-    int hFridge = 30;
+    static int wFridge = 30;
+    static int hFridge = 30;
 
     @Override
     public void paint(Graphics g) {
@@ -117,7 +118,20 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
     }
     
     public void addGui(CookGui gui){
+    	System.out.println("Adding cook gui");
     	guis.add(gui);
+    }
+    
+    public static void setCookNumbers(CookGui c){
+    	c.xGrill = xGrill;
+    	c.yGrill = yGrill-20;
+    	
+    	c.xPlate = xPlate;
+    	c.yPlate = yPlate;
+    	
+    	c.xFridge = xFridge - 20;
+    	c.yFridge = yFridge + 5;
+    	
     }
 
 

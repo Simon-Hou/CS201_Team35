@@ -33,17 +33,17 @@ public class CookGui implements Gui {
     public int[] yTables;
     
     public int homePos;
-    int xHome = 415;
-    int yHome = 90;
+    public int xHome = 375;
+    public int yHome = 90;
     
-    int xGrill = 415;
-    int yGrill = 105;
+    public int xGrill = 415;
+    public int yGrill = 105;
     
-    int xPlate = 415;
-    int yPlate = 55;
+    public int xPlate = 415;
+    public int yPlate = 55;
     
-    int xFridge = 480;
-    int yFridge = 90;
+    public int xFridge = 480;
+    public int yFridge = 90;
     
     private Semaphore atGrill = new Semaphore(0,true);
     private Semaphore atPlate = new Semaphore(0,true);
