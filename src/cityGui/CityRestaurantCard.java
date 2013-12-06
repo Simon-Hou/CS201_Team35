@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import restaurant.restaurantLinda.gui.CookGui;
-import restaurant.restaurantLinda.gui.Gui;
+import public_Gui.Gui;
 
 public class CityRestaurantCard extends CityCard{
 
