@@ -33,6 +33,7 @@ public class HostRole extends Role implements Host{
 	
 	//SETTERS
 	public void addWaiter(WaiterRole w){
+		Do("Adding a waiter "+w.getName());
 		MyWait newWaiter = new MyWait();
 		newWaiter.w = w;
 		newWaiter.s = WaitState.available;
@@ -40,6 +41,20 @@ public class HostRole extends Role implements Host{
 		MyWaiters.add(newWaiter);
 		if(person!=null){
 			person.msgStateChanged();
+		}
+	}
+	
+	public boolean removeWaiter(WaiterRole w){
+		try{	
+			Do("Getting rid of waiter");
+			MyWait leavingWaiter = findWait(MyWaiters,w);
+			MyWaiters.remove(leavingWaiter);
+			return true;
+		}
+		catch(Exception e){
+			Do("\t BIG PROBLEM: WAITER NOT LEAVING LIST");
+			return false;
+			//throw e;
 		}
 	}
 	
@@ -208,7 +223,7 @@ public class HostRole extends Role implements Host{
 		MyCust mc = findCust(MyCustomers,c);
 		if(mc==null){
 			
-			//System.out.println("Added new Customer " + c.getName());
+			Do("Added new Customer " + c.getName());
 			MyCustomers.add(new MyCust(c,null,CustState.waiting));
 		}
 		else if(mc.s== CustState.left){
@@ -234,7 +249,9 @@ public class HostRole extends Role implements Host{
 	//waiter tells host that table is free
 	public void msgTableIsFree(WaiterRole w,int table){
 		MyWait mw = findWait(MyWaiters,w);
-		mw.numTables -=1;
+		if(mw!=null){
+			mw.numTables -=1;
+		}
 		
 		//find the table, free it
 		for(Table t:Tables){
@@ -266,6 +283,7 @@ public class HostRole extends Role implements Host{
 		}*/
 		//System.out.println(MyWaiters);
 		
+		//Do("I have "+MyWaiters.size()+" waiters");
 		
 		
 		boolean full = true;

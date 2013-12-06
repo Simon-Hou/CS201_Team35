@@ -212,6 +212,7 @@ public class RestaurantGabe extends Restaurant{
 		wGui.xTables = ((CityRestaurantGabe) cityRestaurantGabe).x_table;
 		wGui.yTables = ((CityRestaurantGabe) cityRestaurantGabe).y_table;
 		((HostRole) host).addWaiter((WaiterRole)r);
+		r.inWaiterList = true;
 		
 		
 		((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).addGui(wGui);
@@ -276,6 +277,16 @@ public class RestaurantGabe extends Restaurant{
 	public void leaveRestaurant(CustomerGui cg){
 		cityRestaurantGabe.animationPanel.removeGui(cg);
 		numCustomers--;
+	}
+	
+	public void leaveRestaurant(WaiterRole wr){
+		cityRestaurantGabe.animationPanel.removeGui(wr.waiterGui);
+		numWaiters--;
+	}
+	
+	public boolean leaveWaiterList(WaiterRole r){
+		return host.removeWaiter(r);
+		
 	}
 
 }

@@ -34,6 +34,7 @@ public class WaiterGui implements Gui {
     
     boolean waitingForCust = true;
     boolean waitingToGetToCook = false;
+    boolean waitingForHome = false;
 
     public WaiterGui(WaiterRole agent) {
         this.agent = agent;
@@ -73,6 +74,11 @@ public class WaiterGui implements Gui {
         	waitingToGetToCook = false;
      	   	agent.msgAtCook();
         }
+        if(xPos == xDestination && yPos == yDestination && waitingForHome){
+        	waitingForHome = false;
+        	agent.msgAtHomePosition();
+        }
+        
     }
     static int host_width = 20;
     static int host_height = 20;
@@ -116,6 +122,13 @@ public class WaiterGui implements Gui {
     public void DoGoToHome(){
     	xDestination = xHome;
         yDestination = yHome;
+        //System.out.println("Going to (" +xHome+","+yHome+")");
+    }
+    
+    public void DoGoToHome(boolean waitingForHome){
+    	xDestination = xHome;
+        yDestination = yHome;
+        this.waitingForHome = waitingForHome;
         //System.out.println("Going to (" +xHome+","+yHome+")");
     }
     

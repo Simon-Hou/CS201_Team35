@@ -422,7 +422,7 @@ public class PersonAgent extends Agent implements Person {
 	//Actions
 	private void goToWork() {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep((int)(1000+ 1000*Math.random()));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

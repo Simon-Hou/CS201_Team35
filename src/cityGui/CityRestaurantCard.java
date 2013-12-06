@@ -21,7 +21,7 @@ public class CityRestaurantCard extends CityCard{
     
 	
 	public void removeGui(Gui gui) {
-		guis.remove(g);		
+		guis.remove(gui);		
 	}
 
 }

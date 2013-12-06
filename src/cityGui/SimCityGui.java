@@ -837,16 +837,19 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("House", 500, 5);
 		
 		
-		addNewPersonHard("p0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,12, 0,0);
-		addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,0,12, 0,0);
-		addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,0,12, 0,0);
-		addNewPersonHard("p3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,12, 0,0);
-		addNewPersonHard("p4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,12, 0,0);
+		addNewPersonHard("p0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,15, 0,0);
+		addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,0,15, 0,0);
+		addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,0,15, 0,0);
+		addNewPersonHard("p3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,15, 0,0);
+		addNewPersonHard("p4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,15, 0,0);
 
-		addNewPersonHard("replacementHOST",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,10,100, 0,0);
-		addNewPersonHard("replacementCASHIER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,10,100, 0,0);
-		addNewPersonHard("replacementCOOK",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,10,100, 0,0);
+		addNewPersonHard("replacementHOST",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,11,100, 0,0);
+		addNewPersonHard("replacementCASHIER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,11,100, 0,0);
+		addNewPersonHard("replacementCOOK",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,11,100, 0,0);
 
+		addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,22,100, 0,0);
+		//addNewPersonHard("replacementCASHIER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,10,100, 0,0);
+		
 		
 		//System.out.println(cityObject.cityMap.map.get("House").get(0).loc.x +", "+cityObject.cityMap.map.get("House").get(0).loc.y);
 		

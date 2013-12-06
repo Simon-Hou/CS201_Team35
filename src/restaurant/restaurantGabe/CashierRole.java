@@ -210,7 +210,9 @@ public class CashierRole extends Role implements Cashier{
 		b.change = cash - b.amount;
 		b.s = DebtState.needsChange;
 		this.RestaurantMoney += cash;
-		stateChanged();
+		if(person!=null){
+			person.msgStateChanged();
+		}
 	}
 	
 	/*public void msgReadyForBanking(BankTellerRole bt){

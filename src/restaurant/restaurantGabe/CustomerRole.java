@@ -327,6 +327,7 @@ public class CustomerRole extends Role implements Customer{
 		Do("Entering restaurant");
 		DoGoToRestaurant();
 		//Do("GOt here!");
+		Do("Asking to be seated");
 		host.msgIWantToEat(this);
 		state = CustState.asking;
 		//System.out.println("I came to the Restaurant");

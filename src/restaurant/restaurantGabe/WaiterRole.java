@@ -111,6 +111,10 @@ public class WaiterRole extends Role implements Waiter{
 		
 	
 	//DATA
+	
+	//tells whether the host will keep assigning customers to this waiter
+	public boolean inWaiterList = true;
+	
 	PersonAgent person;
 	
 	protected String name;
@@ -156,6 +160,7 @@ public class WaiterRole extends Role implements Waiter{
 	
 	//will keep waiter at table while customer is ordering
 	protected Semaphore waitingForOrder = new Semaphore(0,true);
+	protected Semaphore waitingForHomePosition = new Semaphore(0,true);
 	
 	//will hold waiter's list of orders
 	protected List<Order> Orders = new ArrayList<Order>();
@@ -169,6 +174,10 @@ public class WaiterRole extends Role implements Waiter{
 	
 	
 	//MESSAGES
+	
+	public void msgAtHomePosition(){
+		waitingForHomePosition.release();
+	}
 	
 	public void msgHereIsCheck(Check check){
 		//Do("Got "+ check.c.getName()+ "'s check");
@@ -536,6 +545,7 @@ public class WaiterRole extends Role implements Waiter{
 		mc.choice = null;
 		Host.msgTableIsFree(this,mc.loc);
 		mc.loc = -1;
+		MyCustomers.remove(mc);
 	}
 	
 	protected void DoBreak(){
@@ -603,11 +613,39 @@ public class WaiterRole extends Role implements Waiter{
 	protected void DoGoToHome(){
 		waiterGui.DoGoToHome();
 	}
+	
 
 	@Override
 	public boolean canLeave() {
+		//Do("\t TRYING TO GET OFF WORK");
+		if(inWaiterList){
+			if(!restaurant.leaveWaiterList(this)){
+				System.err.println("Waiter wasn't removed");
+			}
+			else{
+				inWaiterList = false;
+			}
+		}
 		
-		return MyCustomers.isEmpty();
+		if(MyCustomers.isEmpty()){
+			
+			
+			waiterGui.DoGoToHome(true);
+			
+			try {
+				waitingForHomePosition.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			restaurant.leaveRestaurant(this);
+			return true;
+		}
+		
+		
+		return false;
 	}
 	
 	
