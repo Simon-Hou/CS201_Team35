@@ -1,5 +1,6 @@
 package restaurant.restaurantGabe;
 
+import person.PersonAgent;
 import restaurant.restaurantGabe.util.Order;
 import restaurant.restaurantGabe.util.OrderState;
 import restaurant.restaurantGabe.util.RevolvingStand;
@@ -9,8 +10,8 @@ public class StandWaiterRole extends WaiterRole {
 	RevolvingStand stand; 
 	
 	
-	public StandWaiterRole(String name) {
-		super(name);
+	public StandWaiterRole(String name,PersonAgent p) {
+		super(name,p);
 		// TODO Auto-generated constructor stub
 	}
 	

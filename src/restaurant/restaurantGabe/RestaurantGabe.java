@@ -5,6 +5,7 @@ import interfaces.BaseRestaurantCook;
 import interfaces.BaseRestaurantCustomer;
 import interfaces.BaseRestaurantHost;
 import interfaces.BaseRestaurantWaiter;
+import interfaces.MarketEmployee;
 import interfaces.Person;
 import restaurant.restaurantGabe.interfaces.Cashier;
 import restaurant.restaurantGabe.interfaces.Cook;
@@ -23,6 +24,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import person.PersonAgent;
+import market.MarketEmployeeRole;
+import market.MarketHostRole;
 import astar.AStarTraversal;
 import cityGui.CityRestaurant;
 import cityGui.CityRestaurantCardGabe;
@@ -107,20 +111,20 @@ public class RestaurantGabe extends Restaurant{
 	     * @param type indicates whether the person is a customer or waiter (later)
 	     * @param name name of person
 	     */
-	    public void addPerson(String type, String name) {
-
-	    	if (type.equals("Customers")) {
-	    		CustomerRole c = new CustomerRole(name);	
-	    		CustomerGui g = new CustomerGui(c, cityRestaurantGabe);
-
-	    		cityRestaurantGabe.animationPanel.addGui(g);// dw
-	    		c.setHost(host);
-	    		c.setGui(g);
-	    		c.setCashier(cashier);
-	    		customers.add(c);
-	    		c.startThread();
-	    	}
-	    }
+//	    public void addPerson(String type, String name) {
+//
+//	    	if (type.equals("Customers")) {
+//	    		CustomerRole c = new CustomerRole(name);	
+//	    		CustomerGui g = new CustomerGui(c, cityRestaurantGabe);
+//
+//	    		cityRestaurantGabe.animationPanel.addGui(g);// dw
+//	    		c.setHost(host);
+//	    		c.setGui(g);
+//	    		c.setCashier(cashier);
+//	    		customers.add(c);
+//	    		c.startThread();
+//	    	}
+//	    }
 	
 	
 	
@@ -153,19 +157,45 @@ public class RestaurantGabe extends Restaurant{
 	public boolean unStaffed(){
 		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
 	}
+	
+	public Role canIBeHost(Person person){
+		if(((HostRole) host).p==null || ((HostRole)host).YouAreDoneWithShift()){
+			((HostRole) host).name = person.getName()+"RestaurantHost";
+			((HostRole) host).person = (PersonAgent) person;
+			return (Role) host;
+		}
+		System.err.println("New host wasn't allowded to take over");
+		return null;
+	}
 
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
 		if (type == JobType.RestaurantHost){
-			host.changeShifts(p);
-			return (Role)host;
+			return canIBeHost(p);
 		}
+		
 		else if (type == JobType.RestaurantWaiter1){
-			((WaiterRole)r).setRestaurant(this);
-			waiterComingToWork((Waiter) r);
+			
+			
+			System.out.println("Adding a new waiter "+p.getName());
+			//waiters.add((Waiter) r);
+			//((MarketEmployeeRole) m).inEmployeeList = true;
+			//panel.addEmployee((MarketEmployeeRole) r);
+			
+			WaiterGui wGui = new WaiterGui((WaiterRole) r);
+			((WaiterRole) r).setGui(wGui);
+			wGui.xTables = ((CityRestaurantGabe) cityRestaurantGabe).x_table;
+			wGui.yTables = ((CityRestaurantGabe) cityRestaurantGabe).y_table;
+			((HostRole) host).addWaiter((WaiterRole)r);
+			
+			
+			((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).addGui(wGui);
+			
 			return r;
+			
+			
 		}
-		else if (type == JobType.RestaurantWaiter2){
+		/*else if (type == JobType.RestaurantWaiter2){
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
@@ -178,7 +208,7 @@ public class RestaurantGabe extends Restaurant{
 		else if (type == JobType.RestaurantCashier){
 			cashier.changeShifts(p);
 			return (Role) cashier;
-		}
+		}*/
 		
 		System.out.println("Unrecognized job type: " + type);
 		return null;

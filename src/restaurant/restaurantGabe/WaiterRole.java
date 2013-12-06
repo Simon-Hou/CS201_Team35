@@ -12,18 +12,20 @@ import role.Role;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import person.PersonAgent;
+
 
 public class WaiterRole extends Role implements Waiter{
 	
 	
 	//INITIALIZATION
-	public WaiterRole(String name){
+	public WaiterRole(String name, PersonAgent person){
 		this.name = name;
 		/*menu.choices.add("Pizza");
 		menu.choices.add("Steak");
 		menu.choices.add("Chicken");
 		menu.choices.add("Salad");*/
-		
+		this.person = person;
 		
 	}
 	
@@ -48,7 +50,7 @@ public class WaiterRole extends Role implements Waiter{
 			state = MyState.wantsBreak;
 		}
 		
-		stateChanged();
+		person.msgStateChanged();
 		
 	}
 	
@@ -101,6 +103,8 @@ public class WaiterRole extends Role implements Waiter{
 		
 	
 	//DATA
+	PersonAgent person;
+	
 	protected String name;
 	
 	protected Menu menu = new Menu();
@@ -161,14 +165,14 @@ public class WaiterRole extends Role implements Waiter{
 		MyCust mc = findCust(MyCustomers,check.c);
 		mc.check = check;
 		mc.s = CustState.needsCheck;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//gui tells waiter that break is over
 	public void msgBreakOver(){
 		event = MyEvent.breakOver;
 		//Do("Gui just told me to get off break");
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//host says waiter can go on break;
@@ -178,7 +182,7 @@ public class WaiterRole extends Role implements Waiter{
 			this.wantsBreak = false;
 			askedForBreak = true;*/
 			state = MyState.canGoOnBreak;
-			stateChanged();
+			person.msgStateChanged();
 			return;
 		}
 		event = MyEvent.deniedBreak;
@@ -186,7 +190,7 @@ public class WaiterRole extends Role implements Waiter{
 		/*this.CanGoOnBreak = false;
 		this.wantsBreak = false;
 		this.askedForBreak = false;*/
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	
@@ -202,21 +206,21 @@ public class WaiterRole extends Role implements Waiter{
 			mc.s = CustState.waiting;
 			mc.loc = table;
 		}
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//GUI message that waiter/cust is at table
 	public void msgAtTable(){
 		atTable.release();
-		//stateChanged();
+		//person.msgStateChanged();
 	};
 	
 	//customer indicates that he's ready to order
 	public void msgImReadyToOrder(CustomerRole c){
-		//print("Got it");
+		print("Got it");
 		MyCust mc = findCust(MyCustomers,c);
 		mc.s = CustState.readyToOrder;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//customer is ordering
@@ -227,7 +231,7 @@ public class WaiterRole extends Role implements Waiter{
 		Orders.add(new Order(mc.c,mc.choice,OrderState.ordered,this));
 		waitingForOrder.release();
 		//Do("Got your order");
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//tells the waiter that he can ask the cook for order now
@@ -247,26 +251,26 @@ public class WaiterRole extends Role implements Waiter{
 		menu.foods.remove(outFood);*/
 		MyCust mc = findCust(MyCustomers,o.c);
 		mc.s = CustState.needsReorder;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//cook tells waiter order is ready - order state is changed by cook
 	public void msgOrderIsReady(Order o){
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//customer is leaving - host will need to know eventually
 	public void msgDoneEatingAndLeaving(CustomerRole c){
 		MyCust mc = findCust(MyCustomers,c);
 		mc.s = CustState.leaving;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//food is to expensive
 	public void msgFoodTooExpensiveLeaving(CustomerRole c){
 		MyCust mc = findCust(MyCustomers,c);
 		mc.s = CustState.leaving;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	
@@ -534,7 +538,7 @@ public class WaiterRole extends Role implements Waiter{
 				print("I'm back");
 				//breakOver = true;
 				event = MyEvent.breakOver;
-				stateChanged();
+				person.msgStateChanged();
 			}
 		},
 		10000);*/

@@ -116,21 +116,21 @@ public class CustomerRole extends Role implements Customer{
 	
 	public void msgPayNextTime(){
 		event = CustEvent.dismissed;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//tells customer that restaurant is full
 	public void msgRestaurantFull(){
 		event = CustEvent.full;
 		//Do("I might need to leave");
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//sets customer state to hungry - comes from gui
 	public void msgGotHungry(){
 		//System.out.println("In the agent Message");
 		event = CustEvent.gotHungry;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//waiter tells customer to go to table
@@ -138,13 +138,13 @@ public class CustomerRole extends Role implements Customer{
 		menu = m;
 		event = CustEvent.followHost;
 		waiter = w;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//GUI message that cust is at table
 	public void msgAnimationFinishedGoToSeat(){
 		event = CustEvent.atTable;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgOutOfChoice(Menu m){
@@ -152,46 +152,46 @@ public class CustomerRole extends Role implements Customer{
 		state = CustState.seated;
 		event = CustEvent.newChoice;
 		outOfFoods.add(choice);
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//waiter asks customer what he wants
 	public void msgWhatWouldYouLike(){
 		//Do("Thanks for asking");
 		event = CustEvent.asked;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//waiter tells customer food is here
 	public void msgHereIsYourFood(){
 		event = CustEvent.served;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgHereIsCheck(Check check){
 		Do("Got my check");
 		this.check = check;
 		haveCheck = true;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	public void msgHereIsChange(int cash){
 		Do("Being given change");
 		event = CustEvent.gotChange;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//GUI message that tells customer he's gone
 	public void msgAnimationFinishedLeaveRestaurant(){
 		state = CustState.out;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//newer SimCity message that role is at the restaurant
 	public void msgAtRestaurant(Restaurant rg){
 		setRestaurant(rg);
 		event = CustEvent.gotHungry;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//SCHEDULER
@@ -397,7 +397,7 @@ public class CustomerRole extends Role implements Customer{
 				//print("Done deciding");
 				event = CustEvent.readyToOrder;
 				//isHungry = false;
-				stateChanged();
+				person.msgStateChanged();
 			}
 		},
 		700);
@@ -451,7 +451,7 @@ public class CustomerRole extends Role implements Customer{
 				event = CustEvent.done;
 				customerGui.setFood(null);
 				//isHungry = false;
-				stateChanged();
+				person.msgStateChanged();
 			}
 		},
 		1000);

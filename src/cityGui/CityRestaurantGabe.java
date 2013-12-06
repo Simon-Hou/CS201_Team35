@@ -48,8 +48,8 @@ public class CityRestaurantGabe extends CityRestaurant{
     public int numWaitingSpots = 10;
     public boolean[] waitingSpots = new boolean[numWaitingSpots];
     
-    int[] x_table = {100,175,250};
-    int[] y_table = {275,215,155};
+    public int[] x_table = {100,175,250};
+    public int[] y_table = {275,215,155};
 	
     
     public CityRestaurantGabe(int x, int y, String ID) {

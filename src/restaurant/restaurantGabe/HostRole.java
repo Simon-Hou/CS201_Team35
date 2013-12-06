@@ -38,7 +38,9 @@ public class HostRole extends Role implements Host{
 		newWaiter.s = WaitState.available;
 		newWaiter.numTables = 0;
 		MyWaiters.add(newWaiter);
-		stateChanged();
+		if(person!=null){
+			person.msgStateChanged();
+		}
 	}
 	
 	//USEFUL METHODS
@@ -113,7 +115,7 @@ public class HostRole extends Role implements Host{
 	}
 	
 	//DATA
-	private String name;
+	String name;
 	
 	//person agent behind this role
 	PersonAgent person;
@@ -169,6 +171,10 @@ public class HostRole extends Role implements Host{
 	
 	//MESSAGES
 	
+	public boolean YouAreDoneWithShift(){
+		return true;
+	}
+	
 	public void msgBreakOver(WaiterRole w){
 		MyWait mw = findWait(MyWaiters, w);
 		mw.s = WaitState.available;
@@ -184,7 +190,7 @@ public class HostRole extends Role implements Host{
 	public void msgIWantABreak(WaiterRole w){
 		MyWait mw = findWait(MyWaiters,w);
 		mw.s = WaitState.wantsBreak;
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//Customer sends message that he wants a table
@@ -200,7 +206,9 @@ public class HostRole extends Role implements Host{
 			mc.s = CustState.waiting;
 			mc.t = null;
 		}
-		stateChanged();
+		if(person!=null){
+			person.msgStateChanged();
+		}
 	}
 	
 	public void msgStayOrNot(CustomerRole c,boolean stay){
@@ -208,7 +216,7 @@ public class HostRole extends Role implements Host{
 		MyCust mc = findCust(MyCustomers,c);
 		if(stay){
 			mc.s = CustState.stillWantsTable;
-			stateChanged();
+			person.msgStateChanged();
 			return;
 		}
 		mc.s = CustState.left;
@@ -236,7 +244,7 @@ public class HostRole extends Role implements Host{
 			}
 		}
 		
-		stateChanged();
+		person.msgStateChanged();
 	}
 	
 	//SCHEDULER

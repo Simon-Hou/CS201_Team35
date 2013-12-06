@@ -779,7 +779,8 @@ public class PersonAgent extends Agent implements Person {
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 		}
 		else if (jobType==JobType.RestaurantWaiter1){
-			jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
+			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
+			jobRole = new restaurant.restaurantGabe.WaiterRole(name+"RestaurantWaiter",this);
 		}
 		else if (jobType==JobType.RestaurantWaiter2){
 			jobRole = new ProducerConsumerWaiterRole(name+"pcWaiter", this);
