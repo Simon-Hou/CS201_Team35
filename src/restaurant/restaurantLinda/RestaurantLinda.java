@@ -121,7 +121,7 @@ public class RestaurantLinda extends Restaurant{
 	
 	//Override this to get your restaurant started
 	public void customerEntering(BaseRestaurantCustomer c){
-		CustomerGui cg = new CustomerGui((CustomerRole)c);
+		CustomerGui cg = new CustomerGui((CustomerRole)c, new AStarTraversal(cityRestaurant.grid));
 		((CustomerRole)c).setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
 		((CustomerRole)c).msgAtRestaurant(this);

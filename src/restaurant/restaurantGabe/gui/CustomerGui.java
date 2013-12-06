@@ -8,7 +8,7 @@ import restaurant.restaurantGabe.CustomerRole;
 import java.awt.*;
 
 import cityGui.CityRestaurantGabe;
-import cityGui.Gui;
+import public_Gui.Gui;
 
 public class CustomerGui implements Gui{
 

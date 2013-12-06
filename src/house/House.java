@@ -14,12 +14,10 @@ public class House {
 	CityHouseCard animation;
 	public CityHouse houseGui;
 	
-	LivingUnit room;
+	public LivingUnit room;
 	public Loc address;
 	public House(){
 		room=new LivingUnit();
-		InhabitantGui tempGui=new InhabitantGui(room.inhabitant);
-		room.inhabitant.setGui(tempGui ); 
 		
 	}
 	
@@ -29,9 +27,21 @@ public class House {
 	}
 	
 	
+	public void msgImHome(InhabitantRole i){ //called by Person
+		room.inhabitant=i;
+		InhabitantGui tempGui=new InhabitantGui(room.inhabitant);
+		room.inhabitant.setGui(tempGui ); 
+		animation.addGui(room.inhabitant.gui);
+
+
+
+		
+	}
+	
+	
+	
 	public void setAnimationPanel(CityHouseCard chc){
 		animation=chc;
-		animation.addGui(room.inhabitant.gui);
 		
 	}
 	

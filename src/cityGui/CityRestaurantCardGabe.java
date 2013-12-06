@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import public_Gui.Gui;
 
 import javax.swing.Timer;
 

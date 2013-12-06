@@ -10,18 +10,21 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-//import restaurant.restaurantLinda.gui.Gui;
+
+import public_Gui.Gui;
 import restaurant.restaurantLinda.gui.MyImage;
 import restaurant.restaurantLinda.gui.RestaurantPanel;
 
 
 public class CityRestaurantLindaCard extends CityRestaurantCard{
 	//initial values
+	public static final int PERSONSIZE=25;
 	public static final int CARD_WIDTH = 500, CARD_HEIGHT = 500;
 	public static final Rectangle REFRIGERATOR = new Rectangle(CARD_WIDTH-100, 0, 79, 30);
     public static final Rectangle STOVE = new Rectangle(CARD_WIDTH-100, CARD_HEIGHT-50, 80, 50);
+    public static final Rectangle CASHIER = new Rectangle(0, 100, PERSONSIZE, PERSONSIZE);
     public static final int TABLESIZE=50;
-    public static final int PERSONSIZE=25;
+    
     
     private Collection<Point> tableMap = new ArrayList<Point>();
     public List<MyImage> platedFoods = Collections.synchronizedList(new ArrayList<MyImage>());
@@ -33,7 +36,8 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 	}
 
 
-	public void paint(Graphics g) {
+	public void paint(Graphics g2) {
+		Graphics2D g = (Graphics2D)g2;
 
 		 //Clear the screen by painting a rectangle the size of the frame
         g.setColor(getBackground());
@@ -93,7 +97,7 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
         
         //The cashier
         g.setColor(Color.BLUE);
-        g.fillRect(0, 100, PERSONSIZE, PERSONSIZE);
+        g.fillRect(CASHIER.x, CASHIER.y, CASHIER.width, CASHIER.height);
     }
 
     

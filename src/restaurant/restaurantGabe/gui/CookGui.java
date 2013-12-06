@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import cityGui.Gui;
+import public_Gui.Gui;
 
 public class CookGui implements Gui {
 

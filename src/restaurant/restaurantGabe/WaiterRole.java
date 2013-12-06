@@ -3,7 +3,7 @@ package restaurant.restaurantGabe;
 import agent.Agent;
 //import restaurant.CustomerAgent.CustEvent;
 import restaurant.restaurantGabe.gui.WaiterGui;
-import restaurant.restaurantGabe.gui.WaiterPanel;
+//import restaurant.restaurantGabe.gui.WaiterPanel;
 import restaurant.restaurantGabe.interfaces.Customer;
 import restaurant.restaurantGabe.interfaces.Waiter;
 import restaurant.restaurantGabe.util.*;
@@ -62,10 +62,10 @@ public class WaiterRole extends Role implements Waiter{
 		
 	}
 	
-	//set waiterPanel
-	public void setWaiterPanel(WaiterPanel wp){
-		this.waiterPanel = wp;
-	}
+//	//set waiterPanel
+//	public void setWaiterPanel(WaiterPanel wp){
+//		this.waiterPanel = wp;
+//	}
 	
 	//set waiter gui
 	public void setGui(WaiterGui wGui){
@@ -124,7 +124,7 @@ public class WaiterRole extends Role implements Waiter{
 	protected Semaphore atCook = new Semaphore(0,true);
 	
 	public WaiterGui waiterGui = null;
-	protected WaiterPanel waiterPanel = null;
+//	protected WaiterPanel waiterPanel = null;
 	
 	//really should be called AskToGoOnBreak, but will keep it this way for consistency with class
 	/*private boolean CanGoOnBreak = false;
@@ -310,7 +310,7 @@ public class WaiterRole extends Role implements Waiter{
 				//Do("Darn");
 				state = MyState.working;
 				event = MyEvent.none;
-				waiterPanel.resetWaiter(this);
+				//waiterPanel.resetWaiter(this);
 				return true;
 			}
 			
@@ -551,7 +551,7 @@ public class WaiterRole extends Role implements Waiter{
 	protected void DoBreak(){
 		Do("finally I get a break");
 		Host.msgIAmOnBreak(this);
-		waiterPanel.enableWaiter(this);
+		//waiterPanel.enableWaiter(this);
 		/*Timer breakTimer = new Timer();
 		breakTimer.schedule(new TimerTask() {
 			public void run() {

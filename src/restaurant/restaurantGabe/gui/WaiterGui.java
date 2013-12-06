@@ -7,7 +7,7 @@ import restaurant.restaurantGabe.WaiterRole;
 
 import java.awt.*;
 
-import cityGui.Gui;
+import public_Gui.Gui;
 
 public class WaiterGui implements Gui {
 

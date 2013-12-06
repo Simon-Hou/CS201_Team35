@@ -17,11 +17,11 @@ import astar.*;
 public class WaiterGui extends GuiPerson {	
 	private WaiterRole agent = null;
 
-    private int personSize=30;
+    private int personSize=25;
     private Map<Integer,Point> tableMap;
     private List<MyImage> platedFoods;
     private goal destination=goal.none;
-    private enum goal{none,customer,table,cook,plating,leaving};
+    private enum goal{none,customer,customerTable, table,cook,plating, leaving};
     private CustomerGui customer;
     
     Position homePosition;
@@ -54,8 +54,8 @@ public class WaiterGui extends GuiPerson {
         yPos = yDestination = yfinal = homePosition.getY()*cellSize;
         System.out.println("homePosition = " + homePosition);
         previousPosition = currentPosition = new Position(xPos/cellSize, yPos/cellSize);
-        //currentPosition.moveInto(aStar.getGrid());
-        CalculatePath(homePosition);
+        currentPosition.moveInto(aStar.getGrid());
+        //CalculatePath(homePosition);
         
     }
     
@@ -70,11 +70,12 @@ public class WaiterGui extends GuiPerson {
 
     public void DoSeatCustomer(CustomerGui customer, int table) {
     	bufferText = "Follow Me";
-        destination=goal.table;
+        destination=goal.customerTable;
+        this.customer = customer;
         xfinal = tableMap.get(table).x + personSize;
         yfinal = tableMap.get(table).y - personSize;
         CalculatePath(new Position(xfinal/cellSize, yfinal/cellSize));
-        customer.DoGoToSeat(tableMap.get(table).x,tableMap.get(table).y);
+        //customer.DoGoToSeat(tableMap.get(table).x,tableMap.get(table).y);
     }
     
     public void DoGoToTable(int table){
@@ -173,15 +174,24 @@ public class WaiterGui extends GuiPerson {
     	
     	if (moveAndCheckDestination())		//Gui has an actual destination that agent wants to be notified about
         {        	
-    		if (destination!=goal.none){
-	    		if (destination == goal.leaving)
-	    			isPresent = false;
-    			
-    			path = null;
+    		if (destination == goal.customerTable){
+    			customer.followMe(xPos-personSize, yPos-personSize);
+    			customer.goToTable(xPos-personSize, yPos+personSize);
+    			destination = goal.none;
+    			agent.msgAtDestination();
+    		}
+    		else if (destination!=goal.none){
+	    		path = null;
+	    		xDestination = xfinal;
+	    		yDestination = yfinal;
 	    		destination=goal.none;
 	            agent.msgAtDestination();
     		}
         }
+    	
+    	if (destination == goal.customerTable){
+    		customer.followMe(xPos-personSize, yPos-personSize);
+		}
     	
     	synchronized(carriedItems){
 	    	for (MyImage icon: carriedItems)
@@ -189,7 +199,7 @@ public class WaiterGui extends GuiPerson {
     	}
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(Color.MAGENTA);
         g.fillRect(xPos, yPos, personSize, personSize);
         

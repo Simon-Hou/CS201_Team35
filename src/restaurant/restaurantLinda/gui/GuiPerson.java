@@ -1,18 +1,13 @@
 package restaurant.restaurantLinda.gui;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
+import cityGui.CityRestaurantLinda;
 import cityGui.CityRestaurantLindaCard;
 
-import restaurant.restaurantLinda.gui.AnimationPanel;
 import restaurant.restaurantLinda.gui.MyImage;
-import restaurant.restaurantLinda.gui.RestaurantGui;
-import restaurant.restaurantLinda.gui.RestaurantPanel;
 import astar.AStarNode;
 import astar.AStarTraversal;
 import astar.Position;
@@ -21,7 +16,7 @@ public abstract class GuiPerson implements Gui{
 	
 	public static final int WINDOWX = CityRestaurantLindaCard.CARD_WIDTH;		//Same as animation panel
     public static final int WINDOWY = CityRestaurantLindaCard.CARD_HEIGHT;
-    public final int cellSize = RestaurantPanel.cellSize;
+    public final int cellSize = CityRestaurantLinda.cellSize;
 	
     protected int personSize=25;
     protected int xPos, yPos;
@@ -60,56 +55,27 @@ public abstract class GuiPerson implements Gui{
     	//	CalculatePath(new Position(customer.getPosition().x/personSize+1,customer.getPosition().y/personSize+1)); 
     	//}
     	
-    	movementType type = movementType.undefined;
-    	
-    	if (xPos < xDestination && yPos==yDestination)
-            xPos++;
-        else if (xPos > xDestination && yPos==yDestination)
-            xPos--;
-        else if (yPos < yDestination && xPos==xDestination)
-            yPos++;
-        else if (yPos > yDestination && xPos==xDestination)
-            yPos--;
-        else if (xPos <xDestination && yPos < yDestination)
-        	type = movementType.downright;
-        else if (xPos <xDestination && yPos > yDestination)
-        	type = movementType.upright;
-        else if (xPos >xDestination && yPos < yDestination)
-        	type = movementType.downleft;
-        else if (xPos >xDestination && yPos > yDestination)
-        	type = movementType.upleft;
-    	
-    	switch(type){
-	    	case downright:
-	    		xPos++;
-	    		yPos++;
-	    		break;
-	    	case upright:
-	    		xPos++;
-	    		yPos--;
-	    		break;
-	    	case downleft:
-	    		xPos--;
-	    		yPos++;
-	    		break;
-	    	case upleft:
-	    		xPos--;
-	    		yPos--;
-	    		break;
-	    	default:
-	    		break;
-    	}
+    	if (xDestination>xPos)
+			xPos++;
+		else if (xDestination<xPos)
+			xPos--;
+		
+		if (yDestination>yPos)
+			yPos++;
+		else if (yDestination<yPos)
+			yPos--;
         
         
                 
         if (xfinal==xPos && yfinal ==yPos)
-        {        	
-    		xDestination = xfinal;
+        {  
+        	xDestination = xfinal;
     		yDestination = yfinal;
     		return true;
         }
         else if (xPos == xDestination && yPos == yDestination){
-        	if (previousPosition!=currentPosition){
+        	//System.out.println("finished2");
+        	if (previousPosition!=currentPosition && previousPosition!=null){
         		previousPosition.release(aStar.getGrid());
         		previousPosition = currentPosition;
         	}
@@ -130,18 +96,33 @@ public abstract class GuiPerson implements Gui{
     }
     
     void CalculatePath(Position to){
+    	//No point in wasting resources recalculating a path if the destination is the same
+    	if (path!=null)
+    		if (path.get(path.size()-1).equals(to))
+    			return;
+    	
     	path = null;
-    	currentPosition.release(aStar.getGrid());
+    	
+    	if (currentPosition!=null)
+    		currentPosition.release(aStar.getGrid());
     	
     	boolean wasOpen = to.open(aStar.getGrid());
     	if(!wasOpen)
     		to.release(aStar.getGrid());
     	
     	//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
+    	
     	System.gc();
     	
-    	AStarNode aStarNode = (AStarNode)aStar.generalSearch(previousPosition, to);
+    	AStarNode aStarNode;
+    	
+    	if (previousPosition==null)
+    		aStarNode = (AStarNode)aStar.generalSearch(new Position(xPos/cellSize, yPos/cellSize), to);		
+    	else
+    		aStarNode = (AStarNode)aStar.generalSearch(previousPosition, to);
     	path = aStarNode.getPath();
+    	
+    	//System.out.println("path = " + path);
     	
     	if(!wasOpen)
     		to.moveInto(aStar.getGrid());
@@ -151,20 +132,18 @@ public abstract class GuiPerson implements Gui{
 
     	if (xPos/cellSize < currentPosition.getX())
 	    	xDestination = currentPosition.getX()*cellSize;
-    	else if (xPos/cellSize == currentPosition.getX())
+    	else if (xPos/cellSize == currentPosition.getX() && (xPos+personSize)/cellSize == currentPosition.getX())
     		xDestination = xPos;
     	else
-    		xDestination = (currentPosition.getX()+1)*cellSize - personSize;   
+    		xDestination = (currentPosition.getX()+1)*cellSize - personSize;
     		
     	
     	if (yPos/cellSize < currentPosition.getY())
     		yDestination = currentPosition.getY()*cellSize;
-    	else if (yPos/cellSize == currentPosition.getY())
+    	else if (yPos/cellSize == currentPosition.getY() && (yPos+personSize)/cellSize == currentPosition.getY())
     		yDestination = yPos;
     	else
     		yDestination = (currentPosition.getY()+1)*cellSize - personSize;
-    	
-    	System.out.println("new path: " + path + ", finalDestination: " + xfinal + " " + yfinal);
     	
     	
     }
@@ -188,7 +167,10 @@ public abstract class GuiPerson implements Gui{
 	    
 	    if (!gotPermit && attempts<3){
 	    	//System.out.println(agent.getName() + "got NO permit for " + path.get(1).toString() + " on attempt " + attempts);
-	    	wait=20;
+	    	Random rand = new Random();
+	    	
+	    	wait=rand.nextInt(10) + 10;
+	    	attempts++;
 	    	return;
 	    }
 
@@ -211,15 +193,15 @@ public abstract class GuiPerson implements Gui{
 	    
 	    if (xPos/cellSize < currentPosition.getX())
 	    	xDestination = currentPosition.getX()*cellSize;
-    	else if (xPos/cellSize == currentPosition.getX())
+    	else if (xPos/cellSize == currentPosition.getX() && (xPos+personSize)/cellSize == currentPosition.getX())
     		xDestination = xPos;
     	else
-    		xDestination = (currentPosition.getX()+1)*cellSize - personSize;   
+    		xDestination = (currentPosition.getX()+1)*cellSize - personSize;
     		
     	
     	if (yPos/cellSize < currentPosition.getY())
     		yDestination = currentPosition.getY()*cellSize;
-    	else if (yPos/cellSize == currentPosition.getY())
+    	else if (yPos/cellSize == currentPosition.getY() && (yPos+personSize)/cellSize == currentPosition.getY())
     		yDestination = yPos;
     	else
     		yDestination = (currentPosition.getY()+1)*cellSize - personSize;
