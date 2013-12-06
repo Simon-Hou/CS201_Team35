@@ -46,6 +46,12 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
     
 
 	public void actionPerformed(ActionEvent e) {
+		
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 		repaint();  //Will have paintComponent called
 	}
 	
@@ -95,11 +101,7 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
         	g2.fillRect(x_table[i],y_table[i],width, height);//200 and 250 need to be table params
         }
 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
