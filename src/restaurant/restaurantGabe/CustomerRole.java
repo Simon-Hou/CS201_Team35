@@ -7,17 +7,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import person.PersonAgent;
 import agent.Agent;
+import restaurant.Restaurant;
 //import restaurant.OldCustomerAgent.AgentEvent;
 import restaurant.restaurantGabe.gui.CustomerGui;
 import restaurant.restaurantGabe.interfaces.Customer;
 import restaurant.restaurantGabe.util.Check;
 import restaurant.restaurantGabe.util.Menu;
+import role.Role;
 
-public class CustomerRole extends Agent implements Customer{
+public class CustomerRole extends Role implements Customer{
 	
 	//INITIALIZATION
-	public CustomerRole(String name){
+	public CustomerRole(String name, PersonAgent p){
 		this.name = name;
 		if(name.equals("Poor")){
 			money = 0;
@@ -28,6 +31,7 @@ public class CustomerRole extends Agent implements Customer{
 		if(name.equals("Flake")){
 			money = 0;
 		}
+		this.person = p;
 	}
 	
 	
@@ -58,15 +62,18 @@ public class CustomerRole extends Agent implements Customer{
 		return "customer " + getName();
 	}
 	
-	public void setRestaurant(RestaurantGabe rg){
-		this.host = rg.host;
-		this.cashier = rg.cashier;
+	//TODO FIX THIS - this is dangerous
+	public void setRestaurant(Restaurant rg){
+		this.host = ((HostRole) ((RestaurantGabe) rg).host2);
+		this.cashier = ((CashierRole) rg.cashier);
 	}
 	
 	
 	
 	
 	//DATA
+	//person running the role
+	PersonAgent person;
 	private String name;
 	//Cust's menu
 	private Menu menu;
@@ -181,14 +188,14 @@ public class CustomerRole extends Agent implements Customer{
 	}
 	
 	//newer SimCity message that role is at the restaurant
-	public void msgAtRestaurant(RestaurantGabe rg){
+	public void msgAtRestaurant(Restaurant rg){
 		setRestaurant(rg);
 		event = CustEvent.gotHungry;
 		stateChanged();
 	}
 	
 	//SCHEDULER
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		
 		if(state == CustState.delinquent && event == CustEvent.dismissed){
 			Do("Sorry");
@@ -483,6 +490,8 @@ public class CustomerRole extends Agent implements Customer{
 	private void DoLeaveRestaurant(){
 		customerGui.DoExitRestaurant();
 	}
+
+
 	
 
 }

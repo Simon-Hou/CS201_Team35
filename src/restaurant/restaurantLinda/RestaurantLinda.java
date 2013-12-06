@@ -124,7 +124,7 @@ public class RestaurantLinda extends Restaurant{
 		CustomerGui cg = new CustomerGui((CustomerRole)c);
 		((CustomerRole)c).setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
-		((CustomerRole)c).atRestaurant(this);
+		((CustomerRole)c).msgAtRestaurant(this);
 	}
 	
 	public boolean unStaffed(){

@@ -48,8 +48,12 @@ public class RestaurantGabe extends Restaurant{
 	
 	//Host, cook, waiters, customers, markets, cashier that must be hacked in
 		public CookRole cook = new CookRole("Cook",0);
-	    public HostRole host = new HostRole("Host");
+	    public HostRole host2 = new HostRole("Host");
 	    public CashierRole cashier = new CashierRole("Cashier");
+	    
+//	    public CookRole cook = new CookRole("Cook",0);
+//	    public HostRole host = new HostRole("Host");
+//	    public CashierRole cashier = new CashierRole("Cashier");
 
 	    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
 
@@ -60,6 +64,8 @@ public class RestaurantGabe extends Restaurant{
 	    public int[] yTables;
 
 	    public RestaurantGabe(CityRestaurantGabe cg) {
+	    	
+	    	System.out.println("Instantiating a Gabe Restaurant");
 	    	
 	        this.cityRestaurantGabe = cg;
 	        
@@ -116,6 +122,7 @@ public class RestaurantGabe extends Restaurant{
 
 	
 	//Override this to get your restaurant started
+	@Override
 	public void customerEntering(BaseRestaurantCustomer c){
 		
 //		cityRestaurantGabe.animationPanel.addGui(g);// dw

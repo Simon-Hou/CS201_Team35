@@ -23,6 +23,7 @@ import restaurant.Restaurant;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
 import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
+
 import role.Role;
 import util.Bank;
 import util.Bus;
@@ -69,10 +70,10 @@ public class PersonAgent extends Agent implements Person {
 		inhabitantRole = new InhabitantRole(name + "Home",this);
 
 		//will be changed later to request the correct role from the restaurant diretly
-		restaurantRole = new CustomerRole(name+"Restaurant", this);
+		restaurantRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
 		
 		Random random = new Random();
-		hungerLevel = random.nextInt(10);
+		//hungerLevel = random.nextInt(10);
 		
 		if (random.nextBoolean()){
 			this.belongings.myFoods.add(new Food("Steak",10));
@@ -111,7 +112,7 @@ public class PersonAgent extends Agent implements Person {
 	public CityMap city;
 	public int activeRoleCalls = 0;
 	//Time time;
-	public int hungerLevel = 0;
+	public int hungerLevel = 100;
 	public int tiredLevel = 100;
 	public int personalAddress;
 	public Purse purse;
@@ -124,7 +125,7 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
-	public CustomerRole restaurantRole ;
+	public restaurant.restaurantGabe.CustomerRole restaurantRole ;
 
 	public AStarTraversalPerson aStar;
     Position currentPosition = new Position(2,2);
@@ -159,8 +160,8 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void setGui(PersonGui g){
-		//this.gui = g;
-		this.gui = null;
+		this.gui = g;
+		//this.gui = null;
 	}
 
 	//I JUST MOVED THE JOB CLASS TO A PUBLIC UTIL CLASS SO THE CITY CAN ACCESS IT
@@ -570,6 +571,13 @@ public class PersonAgent extends Agent implements Person {
 
 
 	private void getFood() {
+		
+		if(true){
+			goToRestaurant();
+			return;
+		}
+		
+		
 		if (!belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at home");
 			//goHome();
@@ -605,9 +613,9 @@ public class PersonAgent extends Agent implements Person {
 		}
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(0)).restaurant;
 		Loc loc = city.map.get("Restaurant").get(0).loc;
-		doGoToBuilding(loc);
+		tempDoGoToCityLoc(loc);
 		b.customerEntering(restaurantRole);
-		restaurantRole.atRestaurant(b);
+		restaurantRole.msgAtRestaurant(b);
 		activeRole = restaurantRole;
 	}
 
