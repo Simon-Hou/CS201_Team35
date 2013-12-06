@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import person.PersonAgent;
 import restaurant.restaurantGabe.interfaces.Host;
 import role.Role;
 import agent.Agent;
@@ -41,6 +42,7 @@ public class HostRole extends Role implements Host{
 	}
 	
 	//USEFUL METHODS
+	
 	
 	private WaiterRole nextAvailableWaiter(){
 		int i = 0;
@@ -112,6 +114,9 @@ public class HostRole extends Role implements Host{
 	
 	//DATA
 	private String name;
+	
+	//person agent behind this role
+	PersonAgent person;
 	
 	
 	//Table class that will hold table state and number
@@ -346,6 +351,18 @@ public class HostRole extends Role implements Host{
 		t.s = TableState.occupied;
 		mc.s = CustState.seated;
 		mc.t = t;
+	}
+
+	@Override
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return person!=null;
+	}
+
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

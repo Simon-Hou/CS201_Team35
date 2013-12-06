@@ -101,7 +101,7 @@ public class RestaurantGabe extends Restaurant{
 	    		CustomerRole c = new CustomerRole(name);	
 	    		CustomerGui g = new CustomerGui(c, cityRestaurantGabe);
 
-	    		cityRestaurant.animationPanel.addGui(g);// dw
+	    		cityRestaurantGabe.animationPanel.addGui(g);// dw
 	    		c.setHost(host);
 	    		c.setGui(g);
 	    		c.setCashier(cashier);
@@ -117,10 +117,24 @@ public class RestaurantGabe extends Restaurant{
 	
 	//Override this to get your restaurant started
 	public void customerEntering(BaseRestaurantCustomer c){
-		CustomerGui cg = new CustomerGui((CustomerRole)c);
+		
+//		cityRestaurantGabe.animationPanel.addGui(g);// dw
+//		((Customer Role)c).setHost(host);
+//		c.setGui(g);
+//		c.setCashier(cashier);
+//		customers.add(c);
+		
+		
+		
+		
+		CustomerGui cg = new CustomerGui((CustomerRole)c,cityRestaurantGabe);
 		((CustomerRole)c).setGui(cg);
-		cityRestaurant.animationPanel.addGui(cg);
-		((CustomerRole)c).atRestaurant(this);
+		cityRestaurantGabe.animationPanel.addGui(cg);
+		((CustomerRole)c).msgAtRestaurant(this);
+		
+		
+		
+		
 	}
 	
 	public boolean unStaffed(){

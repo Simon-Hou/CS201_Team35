@@ -589,6 +589,12 @@ public class WaiterRole extends Role implements Waiter{
 	protected void DoGoToHome(){
 		waiterGui.DoGoToHome();
 	}
+
+	@Override
+	public boolean canLeave() {
+		
+		return MyCustomers.isEmpty();
+	}
 	
 	
 	

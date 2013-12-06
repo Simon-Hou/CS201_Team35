@@ -12,6 +12,10 @@ import interfaces.BaseRestaurantCook;
 
 import java.util.*;
 
+import person.PersonAgent;
+import market.Market;
+import market.MarketInvoice;
+
 public class CookRole extends Role implements Cook{
 	
 	//INITIALIZATION
@@ -96,6 +100,9 @@ public class CookRole extends Role implements Cook{
 
 	
 	//DATA
+	
+	//Person agent behind the role
+	PersonAgent person;
 	
 	CookGui gui;
 	
@@ -349,6 +356,31 @@ public class CookRole extends Role implements Cook{
 	private void DoGiveOrder(Order o){
 		//Do("Here's that order of "+o.choice+ " for "+o.c.getName());
 		gui.DoPlateOrder(o.choice);
+	}
+
+	@Override
+	public void msgHereIsDelivery(MarketInvoice order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCannotFulfillOrder(Market m,
+			Map<String, Integer> unfulfillable) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return person!=null;
+	}
+
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

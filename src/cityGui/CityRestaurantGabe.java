@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +49,24 @@ public class CityRestaurantGabe extends CityRestaurant{
     int[] y_table = {275,215,155};
 	
     
+    public CityRestaurantGabe(int x, int y, String ID) {
+		super(x, y, ID);
+		
+		type="Restaurant";
+		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
+		//System.out.println("Second");
+
+	}
+    
+    
     /**
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public CityRestaurantGabe(int x, int y) {
+    @Override
+    public void initializeRestaurant() {
     	
-    	super(x, y);
+    	//super(x, y);
     	
     	numWaitingCusts = 0;
     	
@@ -104,15 +116,14 @@ public class CityRestaurantGabe extends CityRestaurant{
     
     
 	
-	@Override
-	public void initializeRestaurant() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void createAnimationPanel(SimCityGui city) {
 		// TODO Auto-generated method stub
+		animationPanel = new CityRestaurantCardGabe(city);
+		
+		initializeRestaurant();
 		
 	}
 	

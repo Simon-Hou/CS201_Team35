@@ -58,6 +58,11 @@ public class CustomerRole extends Agent implements Customer{
 		return "customer " + getName();
 	}
 	
+	public void setRestaurant(RestaurantGabe rg){
+		this.host = rg.host;
+		this.cashier = rg.cashier;
+	}
+	
 	
 	
 	
@@ -172,6 +177,13 @@ public class CustomerRole extends Agent implements Customer{
 	//GUI message that tells customer he's gone
 	public void msgAnimationFinishedLeaveRestaurant(){
 		state = CustState.out;
+		stateChanged();
+	}
+	
+	//newer SimCity message that role is at the restaurant
+	public void msgAtRestaurant(RestaurantGabe rg){
+		setRestaurant(rg);
+		event = CustEvent.gotHungry;
 		stateChanged();
 	}
 	

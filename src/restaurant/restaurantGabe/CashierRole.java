@@ -12,8 +12,12 @@ import restaurant.restaurantGabe.test.mock.LoggedEvent;
 import restaurant.restaurantGabe.util.*;
 import role.Role;
 import agent.Agent;
+import interfaces.MarketDeliveryMan;
 
 import java.util.*;
+
+import person.PersonAgent;
+import market.MarketInvoice;
 
 public class CashierRole extends Role implements Cashier{
 	
@@ -74,6 +78,9 @@ public class CashierRole extends Role implements Cashier{
 	}*/
 	
 	//DATA
+	
+	//person agent running the role
+	PersonAgent person;
 	
 	public EventLog log = new EventLog();
 	
@@ -343,6 +350,25 @@ public class CashierRole extends Role implements Cashier{
 	
 	private void DoGiveOrder(Order o){
 		//Do("Here's that order of "+o.choice+ " for "+o.c.getName());
+	}
+
+	@Override
+	public void msgHereIsInvoice(MarketDeliveryMan deliveryMan,
+			MarketInvoice order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return person!=null;
+	}
+
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }
