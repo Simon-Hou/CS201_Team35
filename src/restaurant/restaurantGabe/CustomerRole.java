@@ -64,6 +64,7 @@ public class CustomerRole extends Role implements Customer{
 	
 	//TODO FIX THIS - this is dangerous
 	public void setRestaurant(RestaurantGabe rg){
+		this.restaurant = rg;
 		this.host = ((HostRole) rg.host);
 		this.cashier = ((CashierRole) rg.cashier);
 	}
@@ -80,7 +81,8 @@ public class CustomerRole extends Role implements Customer{
 	//Timer that will be used for deciding order and eating
 	Timer timer = new Timer();
 	
-	
+	//The Restaurant holding the data
+	RestaurantGabe restaurant;
 	
 	//Will keep the Customer from saying he's left until his gui is offscreen
 	//private Semaphore outOfRestaurant = new Semaphore(0,true);
@@ -183,7 +185,8 @@ public class CustomerRole extends Role implements Customer{
 	
 	//GUI message that tells customer he's gone
 	public void msgAnimationFinishedLeaveRestaurant(){
-		state = CustState.out;
+		//state = CustState.out;
+		event = CustEvent.left;
 		person.msgStateChanged();
 	}
 	
@@ -270,6 +273,11 @@ public class CustomerRole extends Role implements Customer{
 		}
 		if(state==CustState.thinking && event == CustEvent.tooExpensive){
 			LeaveRestaurant();
+		}
+		
+		if(state==CustState.leaving && event == CustEvent.left){
+			finish();
+			return true;
 		}
 		
 		
@@ -452,6 +460,7 @@ public class CustomerRole extends Role implements Customer{
 				//print("Done eating");
 				event = CustEvent.done;
 				customerGui.setFood(null);
+				person.hungerLevel = 0;
 				//isHungry = false;
 				person.msgStateChanged();
 			}
@@ -467,6 +476,17 @@ public class CustomerRole extends Role implements Customer{
 			waiter.msgDoneEatingAndLeaving(this);
 		}
 		DoLeaveRestaurant();
+	}
+	
+	private void finish(){
+		state = CustState.out;
+		
+		customerGui.isPresent=false;
+		restaurant.leaveRestaurant(customerGui);
+		restaurant=null;
+		
+		person.msgThisRoleDone(this);
+		
 	}
 	
 	//GUI

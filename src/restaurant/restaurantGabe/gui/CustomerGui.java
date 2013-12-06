@@ -13,11 +13,11 @@ import cityGui.Gui;
 public class CustomerGui implements Gui{
 
 	private CustomerRole agent = null;
-	private boolean isPresent =true;
+	public boolean isPresent =true;
 	private boolean isHungry = false;
 	
-	static private int goneX = -40;
-	static private int goneY = -40;
+	static private int goneX = -10;
+	static private int goneY = 80;
 
 	//private HostAgent host;
 	CityRestaurantGabe cityRestaurantGabe;

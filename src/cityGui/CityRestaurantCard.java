@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CityRestaurantCard extends CityCard{
 
-	protected List<Gui> guis = new ArrayList<Gui>();
+	public List<Gui> guis = new ArrayList<Gui>();
 	
 	public CityRestaurantCard(SimCityGui city) {
 		super(city);

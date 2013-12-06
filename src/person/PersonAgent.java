@@ -295,17 +295,17 @@ public class PersonAgent extends Agent implements Person {
 				setJob(((BankMapLoc) city.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100);
 			}
 		}*/
-		if(name.equals("p1")&&time==6){
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(name.equals("p3")&&time<6){
-			return false;
-		}
+//		if(name.equals("p1")&&time==6){
+//			try {
+//				Thread.sleep(300);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		if(name.equals("p3")&&time<6){
+//			return false;
+//		}
 
 		//Do("Deciding what to do ");
 		if(onBus){

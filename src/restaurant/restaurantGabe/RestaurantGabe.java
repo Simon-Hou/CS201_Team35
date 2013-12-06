@@ -261,5 +261,9 @@ public class RestaurantGabe extends Restaurant{
 		System.out.println("Unrecognized job type: " + type);
 		return null;
 	}
+	
+	public void leaveRestaurant(CustomerGui cg){
+		cityRestaurantGabe.animationPanel.removeGui(cg);
+	}
 
 }
