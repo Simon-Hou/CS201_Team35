@@ -1,28 +1,22 @@
 package restaurant.restaurantLinda.gui;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
+import cityGui.CityRestaurantLinda;
 import cityGui.CityRestaurantLindaCard;
 
-import restaurant.restaurantLinda.gui.AnimationPanel;
 import restaurant.restaurantLinda.gui.MyImage;
-import restaurant.restaurantLinda.gui.RestaurantGui;
-import restaurant.restaurantLinda.gui.RestaurantPanel;
 import astar.AStarNode;
 import astar.AStarTraversal;
 import astar.Position;
 
 public abstract class GuiPerson implements Gui{
 	
-	public static final int WINDOWX = AnimationPanel.WINDOWX;		//Same as animation panel
-    public static final int WINDOWY = AnimationPanel.WINDOWY;
-    public final int cellSize = RestaurantPanel.cellSize;
+	public static final int WINDOWX = CityRestaurantLindaCard.CARD_WIDTH;		//Same as animation panel
+    public static final int WINDOWY = CityRestaurantLindaCard.CARD_HEIGHT;
+    public final int cellSize = CityRestaurantLinda.cellSize;
 	
     protected int personSize=25;
     protected int xPos, yPos;

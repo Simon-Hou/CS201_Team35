@@ -17,7 +17,7 @@ import astar.*;
 public class WaiterGui extends GuiPerson {	
 	private WaiterRole agent = null;
 
-    private int personSize=30;
+    private int personSize=25;
     private Map<Integer,Point> tableMap;
     private List<MyImage> platedFoods;
     private goal destination=goal.none;
@@ -54,8 +54,8 @@ public class WaiterGui extends GuiPerson {
         yPos = yDestination = yfinal = homePosition.getY()*cellSize;
         System.out.println("homePosition = " + homePosition);
         previousPosition = currentPosition = new Position(xPos/cellSize, yPos/cellSize);
-        //currentPosition.moveInto(aStar.getGrid());
-        CalculatePath(homePosition);
+        currentPosition.moveInto(aStar.getGrid());
+        //CalculatePath(homePosition);
         
     }
     
