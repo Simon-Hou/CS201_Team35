@@ -17,7 +17,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	SimCityGui city;
 	public static final int CP_WIDTH = 1100, CP_HEIGHT = 100;
-	JButton addRestaurant, addBank, addHouse, addMarket, addPerson;
+	JButton addRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
 	//For managing traces
 	JButton enableInfoButton;		//You could (and probably should) substitute a JToggleButton to replace both
@@ -58,6 +58,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		addPerson.addActionListener(this);
 		c.gridx = 2; c.gridy = 0;
 		add(addPerson, c);
+		newScenario = new JButton("Select Scenario");
+		c.gridx = 2; c.gridy = 1;
+		add(newScenario,c);
+		
 
 		//Trace panel buttons
 //		enableInfoButton = new JButton("Show Level: INFO");
