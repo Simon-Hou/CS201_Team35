@@ -612,11 +612,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		cityObject.fBus = b;
 		cityObject.bBus = b2;
 		
-		cityObject.cityMap.fStops.add(new BusStop(new Loc(380,450)));
 		cityObject.cityMap.fStops.add(new BusStop(new Loc(170,130)));
+		cityObject.cityMap.fStops.add(new BusStop(new Loc(380,450)));
 		
-		cityObject.cityMap.fStops.get(0).sidewalkLoc = new Loc(410,430);
-		cityObject.cityMap.fStops.get(1).sidewalkLoc = new Loc(180,160);
+		cityObject.cityMap.fStops.get(0).sidewalkLoc = new Loc(180,160);
+		cityObject.cityMap.fStops.get(1).sidewalkLoc = new Loc(410,430);
 		
 		cityObject.cityMap.bStops.add(new BusStop(new Loc(460,90)));
 		cityObject.cityMap.bStops.add(new BusStop(new Loc(100,490)));
@@ -647,7 +647,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int xStartTest = 0;
 		int yStartTest = 0;
 		
-		test.gabeRestaurant();
+		//test.gabeRestaurant();
 		
 		
 		

@@ -269,8 +269,10 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else{
 			Do("Getting OFF bus");
-			waitForBusToArrive.release();
 			onBus = false;
+			waitForBusToArrive.release();
+			wantsToRideBus = false;
+			
 
 			//Do("SHIT I JUST WOKE UP");
 			gui.setLoc(stop.sidewalkLoc);
@@ -311,6 +313,8 @@ public class PersonAgent extends Agent implements Person {
 //		if(name.equals("p3")&&time<6){
 //			return false;
 //		}
+		
+		Do("\tDECIDING WHAT TO DO");
 
 		//Do("Deciding what to do ");
 		if(onBus){
@@ -704,22 +708,35 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void doRideBus(){
-		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
-		try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		city.fStops.get(0).waitForBus(this);
-		try {
+		Do("\tGoing to bus Stop");
+//		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
+//		try {
+//			atDestination.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		city.fStops.get(0).waitForBus(this);
+//		try {
+//			waitForBusToArrive.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		Do("\t\t\t\tNow");
+//		//onBus = true;
+		
+	    gui.onTheMove = true;
+	    gui.waitingForBus = true;
+	    tempDoGoToCityLoc(city.fStops.get(0).sidewalkLoc);
+	    city.fStops.get(0).waitForBus(this);
+	    try {
 			waitForBusToArrive.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		onBus = true;
-
+	    
 	}
 
 	private void doGoToWork(){
