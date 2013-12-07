@@ -39,11 +39,11 @@ public class AStarTraversalVehicle extends AStarTraversal{
 			
 			
 			
-			if(!inSameLane(30*x,30*y,30*nextX,30*nextY)){
+			if(!inSameLane(scale*x,scale*y,scale*nextX,scale*nextY)){
 				continue;
 			}
 			
-			if(!acceptableAngleChange(30*x,30*y,30*nextX,30*nextY)){
+			if(!acceptableAngleChange(scale*x,scale*y,scale*nextX,scale*nextY)){
 				continue;
 			}
 			
@@ -188,29 +188,53 @@ public class AStarTraversalVehicle extends AStarTraversal{
 		
 	}
 	
-	//calculates the angle change between two points in the (x,y) plane...
-	//will make expandFund much easier to write
-	public static double deltaTheta(int startX,int startY,int endX,int endY){
+//	//calculates the angle change between two points in the (x,y) plane...
+//	//will make expandFund much easier to write
+//	public static double deltaTheta(int startX,int startY,int endX,int endY){
+//		
+//		int x1 = startX - 300;
+//		int x2 = endX - 300;
+//		int y1 = startY - 300;
+//		int y2 = endY - 300;
+//		
+//		double a = Math.pow(Math.pow(x1-x2,2)+Math.pow(y1-y2, 2), .5);
+//		double b = Math.pow(Math.pow(x1,2)+Math.pow(y1, 2), .5);
+//		double c = Math.pow(Math.pow(x2,2)+Math.pow(y2, 2), .5);
+//		
+//		
+//		return Math.acos((b*b + c*c - a*a)/(2*b*c));
+//		
+//		
+//		
+//	}
+	
+	public static boolean acceptableAngleChange(int startX,int startY,int endX,int endY){
 		
 		int x1 = startX - 300;
 		int x2 = endX - 300;
 		int y1 = startY - 300;
 		int y2 = endY - 300;
 		
-		double a = Math.pow(Math.pow(x1-x2,2)+Math.pow(y1-y2, 2), .5);
-		double b = Math.pow(Math.pow(x1,2)+Math.pow(y1, 2), .5);
-		double c = Math.pow(Math.pow(x2,2)+Math.pow(y2, 2), .5);
+		if(inClockwiseLane(startX,startY)){
+			if(x2*y1 - y2*x1>0){
+				return true;
+			}
+			else{	
+				return false;
+			}
+		}
 		
+		else if(inCounterClockwiseLane(startX,startY)){
+			if(x2*y1 - y2*x1<0){
+				return true;
+			}
+			else{	
+				return false;
+			}
+		}
 		
-		return Math.acos((b*b + c*c - a*a)/(2*b*c));
-		
-		
-		
-	}
-	
-	public static boolean acceptableAngleChange(int startX,int startY,int endX,int endY){
-		
-		
+		System.err.println("Car is neither in clockwise nor counterclockwise lane - PROBLEM");
+		return false;
 		
 		
 	}
