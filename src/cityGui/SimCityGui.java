@@ -33,6 +33,7 @@ import util.MarketMapLoc;
 import util.RestaurantMapLoc;
 import city.CityObject;
 import cityGui.test.AStarTraversalPerson;
+import cityGui.test.AStarTraversalVehicle;
 import cityGui.test.BusGui;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
@@ -265,7 +266,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 	int gridX = 600;
 	int gridY = 600;
-	double cityScale = 30;
+	public static int cityScale = 30;
 	
 	public Semaphore[][] grid = new Semaphore[(int) ((int) gridX/cityScale)][(int) ((int) gridY/cityScale)];
 
@@ -335,6 +336,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		
 		
 		//Makes the A* grid for the city
+		setScale(30);
 		initializeGrid();
 
 		//THIS IS THE AGENT CITY
@@ -375,6 +377,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 		this.add(tracePanel, c);*/
 	}
 
+	
+	public void setScale(int scale){
+		AStarTraversalPerson.scale = scale;
+		AStarTraversalVehicle.scale = scale;
+		CityComponent.scale = scale;
+		this.cityScale = scale;
+	}
+	
 	public void NewPersonCreationPanel(){
 		PersonCreationPanel pCreate = new PersonCreationPanel(this);
 	}
