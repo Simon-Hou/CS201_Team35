@@ -59,6 +59,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		c.gridx = 2; c.gridy = 0;
 		add(addPerson, c);
 		newScenario = new JButton("Select Scenario");
+		newScenario.addActionListener(this);
 		c.gridx = 2; c.gridy = 1;
 		add(newScenario,c);
 		
@@ -107,6 +108,11 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		else if (e.getSource().equals(addMarket)) {
 			AlertLog.getInstance().logInfo(AlertTag.MARKET, this.name, "Adding New Market");
 			city.city.addObject(CityComponents.MARKET);
+		}
+		else if (e.getSource().equals(newScenario)){
+			//AlertLog.getInstance().logInfo(AlertTag., this.name, "Adding New Restaurant");
+			//System.out.println("HEREERERERRE");
+			ScenarioPanel scenarioPanel = new ScenarioPanel(this.city);
 		}
 		else if(e.getSource().equals(addPerson)) {
 			city.NewPersonCreationPanel();
