@@ -11,6 +11,7 @@ import interfaces.BankInterface;
 import interfaces.BankTeller;
 import interfaces.Person;
 import role.Role;
+import UnitTests.mock.bankMock.MockBankPerson;
 import agent.Agent;
 import testAgents.testPerson;
 import util.*;
@@ -269,7 +270,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			Do("Finished what I needed done. I'm leaving");
 			state = CustState.leaving;
 			
-			if(bankCustomerGui!=null){
+			if(bankCustomerGui!=null && !(person instanceof MockBankPerson)){
 				bankCustomerGui.DoExitBank();
 			}
 			else{
