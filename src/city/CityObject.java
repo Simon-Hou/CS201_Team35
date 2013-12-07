@@ -6,8 +6,10 @@ import java.util.*;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import cityGui.CityRestaurantSimon;
 import cityGui.SimCityGui;
 import person.PersonAgent;
+import restaurant.Restaurant;
 import role.Role;
 import market.Market;
 import market.MarketCashierRole;
@@ -25,6 +27,7 @@ import util.Job;
 import util.JobType;
 import util.MarketMapLoc;
 import util.Place;
+import util.RestaurantMapLoc;
 
 public class CityObject implements ActionListener{
 
@@ -45,11 +48,12 @@ public class CityObject implements ActionListener{
 	
 	public final int numBanks = 0;
 	public final int numMarkets = 0;
-	public final int numRestaurants = 1;
+	public final int numRestaurants = 0;
 	public int MAXTIME = 100;
 	
 	List<BankMapLoc> banks = new ArrayList<BankMapLoc>();
 	List<MarketMapLoc> markets = new ArrayList<MarketMapLoc>();
+	List<RestaurantMapLoc> restaurants = new ArrayList<RestaurantMapLoc>();
 	
 	//public List<BusStop> fStops = new ArrayList<BusStop>();
 	//public List<BusStop> bStops = new ArrayList<BusStop>();
@@ -99,6 +103,13 @@ public class CityObject implements ActionListener{
 		
 		
 		//==Restaurants==
+		
+//		for(int i = 0;i<numRestaurants;++i){
+//			Restaurant r = new Restaurant();
+//			RestaurantMapLoc rMap = new RestaurantMapLoc(r);
+//			cityMap.map.get("Restaurant").add(rMap);
+//			restaurants.add(rMap);
+//		}
 		
 		//==Markets==
 		

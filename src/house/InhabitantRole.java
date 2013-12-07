@@ -2,7 +2,6 @@ package house;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
 import public_Object.Food;
 import house.gui.InhabitantGui;
 import interfaces.Inhabitant;
