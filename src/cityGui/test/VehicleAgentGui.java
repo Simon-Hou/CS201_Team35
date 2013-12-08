@@ -13,7 +13,11 @@ public class VehicleAgentGui extends CityComponent implements Gui{
 	
 	public Rectangle frontBumper;
 	public Rectangle backBumper;
+	
+	
+	
 	public Rectangle safeRegion;
+	public int safeBorder = 4;
 	
 	
 	
@@ -47,6 +51,10 @@ public class VehicleAgentGui extends CityComponent implements Gui{
 		// TODO Auto-generated method stub
 		
 	}
+	
+    public Rectangle setSafeRegion(Rectangle rectangle){
+    	return new Rectangle(rectangle.x-safeBorder,rectangle.y-safeBorder,rectangle.width+2*safeBorder,rectangle.height+2*safeBorder);
+    }
 	
 	
 	

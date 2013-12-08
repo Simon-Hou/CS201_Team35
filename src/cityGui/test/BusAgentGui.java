@@ -52,6 +52,7 @@ public class BusAgentGui extends VehicleAgentGui {
     	this.clockwise = clockwise;
     	rectangle = new Rectangle(x, y, 50, 20);
     	//setBumpers();
+    	safeRegion  = setSafeRegion(rectangle);
     }
 	
 	
@@ -61,6 +62,8 @@ public class BusAgentGui extends VehicleAgentGui {
 	public void updatePosition() {
 		// TODO Auto-generated method stub
 		//setBumpers();
+		
+		safeRegion = setSafeRegion(rectangle);
 		
 		if(!moving){
 			return;
@@ -177,15 +180,25 @@ public class BusAgentGui extends VehicleAgentGui {
 	
 	public void tryToMoveTo(int x, int y,int width,int height){
 		Rectangle testRect = rectangle;
+		
 		for(CityComponent block:gui.city.movings){
 			if(!this.equals(block) && block instanceof VehicleAgentGui){
 				testRect = new Rectangle(x,y,width,height);
-				if(testRect.intersects(((VehicleAgentGui) block).rectangle)){
+				if(setSafeRegion(testRect).intersects(((VehicleAgentGui) block).safeRegion)){
 					testRect = rectangle;
 					return;
 				}
 			}
 		}
+//		for(CityComponent block:gui.city.movings){
+//			if(!this.equals(block) && block instanceof VehicleAgentGui){
+//				testRect = new Rectangle(x,y,width,height);
+//				if(testRect.intersects(((VehicleAgentGui) block).rectangle)){
+//					testRect = rectangle;
+//					return;
+//				}
+//			}
+//		}
 		
 		rectangle  = testRect;
 		//rectangle = new Rectangle(x,y,width,height);
@@ -271,6 +284,9 @@ public class BusAgentGui extends VehicleAgentGui {
 		//System.out.println("BEING CALLED");
 		Graphics2D g = (Graphics2D) g1;
         
+//		g.setColor(Color.GREEN);
+//		g.fillRect(safeRegion.x, safeRegion.y, safeRegion.width, safeRegion.height);
+		
 //		if(clockwise){
 //			g.setColor(Color.BLUE);
 //			

@@ -42,7 +42,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	super(225,130,Color.RED,"Bus");
     	
     	if(!clockwise){
-    		this.x = 390;
+    		this.x = 140;
     		this.y = 90;
     	}
     	this.car = car;
@@ -52,6 +52,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	this.clockwise = clockwise;
     	rectangle = new Rectangle(x, y, 25, 15);
     	//setBumpers();
+    	safeRegion = setSafeRegion(rectangle);
     }
 	
 	
@@ -61,6 +62,8 @@ public class CarAgentGui extends VehicleAgentGui {
 	public void updatePosition() {
 		// TODO Auto-generated method stub
 		//setBumpers();
+		
+		safeRegion = setSafeRegion(rectangle);
 		
 		if(!moving){
 			return;
@@ -169,15 +172,25 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	public void tryToMoveTo(int x, int y,int width,int height){
 		Rectangle testRect = rectangle;
+		
 		for(CityComponent block:gui.city.movings){
 			if(!this.equals(block) && block instanceof VehicleAgentGui){
 				testRect = new Rectangle(x,y,width,height);
-				if(testRect.intersects(((VehicleAgentGui) block).rectangle)){
+				if(setSafeRegion(testRect).intersects(((VehicleAgentGui) block).safeRegion)){
 					testRect = rectangle;
 					return;
 				}
 			}
 		}
+//		for(CityComponent block:gui.city.movings){
+//			if(!this.equals(block) && block instanceof VehicleAgentGui){
+//				testRect = new Rectangle(x,y,width,height);
+//				if(testRect.intersects(((VehicleAgentGui) block).rectangle)){
+//					testRect = rectangle;
+//					return;
+//				}
+//			}
+//		}
 		
 		rectangle  = testRect;
 		//rectangle = new Rectangle(x,y,width,height);
@@ -214,8 +227,14 @@ public class CarAgentGui extends VehicleAgentGui {
 		//System.out.println("BEING CALLED");
 		Graphics2D g = (Graphics2D) g1;
 		
+//		g.setColor(Color.GREEN);
+//		g.fillRect(safeRegion.x, safeRegion.y, safeRegion.width, safeRegion.height);
+		
 		g.setColor(Color.RED);
 		g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+		
+		
+		
 		
 //        g.setColor(Color.BLUE);
 //        //g.fillRect(rectangle.x, rectangle.y, 50, 20);
@@ -371,6 +390,8 @@ public class CarAgentGui extends VehicleAgentGui {
 	    	}
 	    	
 	    }
+	    
+
 	
 
 }
