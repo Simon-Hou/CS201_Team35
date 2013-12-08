@@ -51,12 +51,12 @@ public class MarketCashierTest extends TestCase{
 		//Step 1 : send msgServiceCustomer
 		Map<String, Integer> groceries = new HashMap<String, Integer>();
 		cashier.msgServiceCustomer(customer,  groceries);
-		assertTrue("Cashier's log should have received the message", cashier.log.containsString("got msgServiceCustomer"));
+		assertTrue("Cashier's log should have received the message" + cashier.log.toString(), cashier.log.containsString("got msgServiceCustomer"));
 		assertEquals("Cashier's customer list should be 1", 1, cashier.customers.size());
 		
 		//Step 2 : call scheduler
 		assertTrue("Scheduler should return true", cashier.pickAndExecuteAnAction());
-		assertTrue("Cashier's log should have record of action", cashier.log.containsString("action ComputeTotal"));
+		assertTrue("Cashier's log should have record of action but has: " + cashier.log.getLastLoggedEvent(), cashier.log.containsString("action ComputeTotal"));
 		
 		
 
