@@ -301,8 +301,16 @@ public class HostRole extends Role {
 	public HostGui getGui() {
 		return hostGui;
 	}
+	
+	public void changeShifts(Person p){
+		if (this.self!=null)
+			this.self.msgThisRoleDone(this);
+		
+		this.self = p;
+		this.name = p.getName()+" Host";
+	}
 
-	protected class Table {//hack!!!! was private
+	protected class Table {
 		CustomerRole occupiedBy;
 		int tableNumber;
 		int tableY;

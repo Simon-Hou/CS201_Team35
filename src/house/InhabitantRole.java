@@ -87,8 +87,8 @@ public class InhabitantRole extends Role implements Inhabitant {
 			ExitHouse();
 			return true;
 		}
-		ExitHouse();//hack!!! should receive message from person to exit
-		//gui.DoIdle();		
+		//ExitHouse();//hack!!! should receive message from person to exit
+		gui.DoIdle();		
 		return false;
 	}
 	

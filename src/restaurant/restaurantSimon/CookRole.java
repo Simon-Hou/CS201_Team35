@@ -1,4 +1,6 @@
 package restaurant.restaurantSimon;
+import interfaces.Person;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -70,6 +72,7 @@ public class CookRole extends Role{
 	}
 
 	//data
+	Person self;
 	private String name="cook";
 	private CookGui cookGui=null;
 	private boolean openOrder=true;
@@ -287,7 +290,18 @@ public class CookRole extends Role{
 
 	}
 
-
+	public void changeShifts(Person p){
+		if (this.self!=null){
+			cookGui.DoExit();
+			this.self.msgThisRoleDone(this);
+		}
+		
+		
+		this.self = p;
+		this.name = p.getName()+" Cook";
+	}
+	
+	
 	//utilities
 	public CookGui getGui(){
 		return cookGui;

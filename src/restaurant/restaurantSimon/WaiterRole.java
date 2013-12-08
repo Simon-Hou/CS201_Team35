@@ -65,9 +65,13 @@ public class WaiterRole extends Role implements Waiter {
 
 	private int waiterNum=0;
 
-	public WaiterRole(String n){
+	public WaiterRole(Person p,String n, HostRole h, CookRole co, CashierRole ca){
 
-		this.name=n;
+		self=p;
+		this.name=n+" Waiter";
+		host=h;
+		cook=co;
+		cashier=ca;
 		Do(n);
 
 

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
+import cityGui.CityRestaurantSimonCard;
+
 public class CustomerGui implements Gui{
 
 	private CustomerRole agent = null;
@@ -20,7 +22,7 @@ public class CustomerGui implements Gui{
 	private int cashierY=-20;
 	private Semaphore atCashier = new Semaphore(0,true);
 	//private HostAgent host;
-	RestaurantGui gui;
+	CityRestaurantSimonCard animation;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -51,7 +53,7 @@ public class CustomerGui implements Gui{
 		}
 
 	}
-	public CustomerGui(CustomerRole c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(CustomerRole c, CityRestaurantSimonCard gui){ //HostAgent m) {
 		agent = c;
 		tablePos = new HashMap<>();
 		Pos pos1  = new Pos(xTableUnit, yTableUnit) ;
@@ -65,7 +67,7 @@ public class CustomerGui implements Gui{
 		xDestination = xResting;
 		yDestination = yResting-agent.waitingNum*20;
 		//maitreD = m;
-		this.gui = gui;//hack!!!! gui in waiter just implemented till here
+		this.animation = gui;//hack!!!! gui in waiter just implemented till here
 
 	}
 

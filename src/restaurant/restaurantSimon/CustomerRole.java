@@ -58,9 +58,11 @@ public class CustomerRole extends Role  implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerRole(String name){
+	public CustomerRole(String name, HostRole h, CashierRole ca){
 		super();
 		this.name = name;
+		host=h;
+		cashier=ca;
 	}
 
 	/**

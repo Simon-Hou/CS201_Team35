@@ -447,10 +447,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 		}
 		
 		if(type.contains("Restaurant")){
-			CityRestaurantLinda temp = null;
+			CityRestaurant temp = null;
 			
 			if (type.contains("Linda"))
+				{
 				temp = new CityRestaurantLinda(x, y, "RestaurantLinda " + (city.statics.size()-19));
+				}
+			else{
+				temp = new CityRestaurantSimon(x, y, "RestaurantLinda " + (city.statics.size()-19));
+			}
 			
 			temp.createAnimationPanel(this);
 			city.restaurants.add(temp.restaurant);
@@ -845,6 +850,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 		if(Math.random()>.75 && hasBuses){
 			wantsToRideBus = true;
 		}
+	}
+	
+	public void restaurantSimonScenario(){
+		hasBuses = false;
+		setMAXTIME(50);
+		addNewBuilding("House", 200, 5);
+		addNewBuilding("Resataurant",200,250);
+		fullyManBuilding("Restaurant",1);
+		
 	}
 	
 	public void setMAXTIME(int m){

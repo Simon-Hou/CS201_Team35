@@ -112,7 +112,7 @@ public class PersonAgent extends Agent implements Person {
 	public int activeRoleCalls = 0;
 	//Time time;
 	public int hungerLevel = 0;
-	public int tiredLevel = 100;
+	public int tiredLevel = 10;
 	public int personalAddress;
 	public Purse purse;
 	public Belongings belongings;
@@ -610,9 +610,9 @@ public class PersonAgent extends Agent implements Person {
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(0)).restaurant;
 		Loc loc = city.map.get("Restaurant").get(0).loc;
 		doGoToBuilding(loc);
-		b.customerEntering(restaurantRole);
-		restaurantRole.atRestaurant(b);
-		activeRole = restaurantRole;
+		
+		//restaurantRole.atRestaurant(b);
+		activeRole = b.customerEntering(restaurantRole,this);;
 	}
 
 	private void buyCar() {

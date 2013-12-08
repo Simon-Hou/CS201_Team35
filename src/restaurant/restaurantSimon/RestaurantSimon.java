@@ -1,5 +1,6 @@
 package restaurant.restaurantSimon;
 
+import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
 import restaurant.restaurantSimon.CashierRole;
 import restaurant.restaurantSimon.CustomerRole;
 import restaurant.restaurantSimon.CookRole;
@@ -21,6 +22,7 @@ import role.Role;
 import util.JobType;
 import interfaces.BaseRestaurantCustomer;
 import interfaces.Person;
+import interfaces.restaurantLinda.Waiter;
 
 import javax.swing.*;
 
@@ -37,9 +39,9 @@ import java.util.Vector;
  */
 public class RestaurantSimon extends Restaurant {
 	//Host, cook, waiters and customers
-	private HostRole host = new HostRole("Sarah");
+	private HostRole host = new HostRole("No Host");
 	private CookRole cook = new CookRole(this);
-	private CashierRole cashier=new CashierRole("cashier");
+	private CashierRole cashier=new CashierRole("No Cashier");
 
 	public CityRestaurantSimon cityRestaurant;
 	CityRestaurantSimonCard animation=null;
@@ -137,14 +139,58 @@ public class RestaurantSimon extends Restaurant {
 
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
-		// TODO Auto-generated method stub
+
+		if (type == JobType.RestaurantHost){
+			host.changeShifts(p);
+			return (Role)host;
+		}
+		else if (type == JobType.RestaurantWaiter){
+			for(WaiterRole w: waiters){
+				if(w.self==p){
+					w.goToHost(host);
+					return w;
+				}
+			}
+			WaiterRole tw=new WaiterRole(p, p.getName(), host, cook, cashier);
+			waiters.add(tw);
+			waiterComingtoWork(tw);
+			return tw;
+		}
+		//		else if (type == JobType.RestaurantWaiter2){
+		//			((WaiterRole)r).setRestaurant(this);
+		//			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
+		//			waiterComingToWork((Waiter) r);
+		//			return r;
+		//		}
+		else if (type == JobType.RestaurantCook){
+			cook.changeShifts(p);
+			return cook;
+		}
+		else if (type == JobType.RestaurantCashier){
+			cashier.changeShifts(p);
+			return cashier;
+		}
+
+		System.out.println("Unrecognized job type: " + type);
 		return null;
 	}
 
+	public void waiterComingtoWork(WaiterRole w){
+		WaiterGui wg=new WaiterGui(w,animation);
+		animation.addGui(wg);
+		w.setGui(wg);
+		w.goToHost(host);		
+	}
 	@Override
-	public void customerEntering(BaseRestaurantCustomer c) {
+	public Role customerEntering(BaseRestaurantCustomer c,Person p) {
 		// TODO Auto-generated method stub
-
+		CustomerRole cus = new CustomerRole(p.getName(),host,cashier);	
+		CustomerGui cg = new CustomerGui(cus, animation);
+		cus.setGui(cg);
+		cg.setHungry();
+		animation.addGui(cg);
+		customers.add(cus);
+		return cus;
 	}
 	public void setAnimationPanel(CityRestaurantSimonCard crc){
 		animation=crc;

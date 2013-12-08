@@ -7,10 +7,12 @@ import restaurant.restaurantSimon.WaiterRole;
 import java.awt.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.CityRestaurantSimonCard;
+
 public class WaiterGui implements Gui {
 
 	private WaiterRole agent = null;
-	RestaurantGui gui;
+	CityRestaurantSimonCard animation;
 	private boolean pause=false;
 	private boolean withFood=false;
 	private String foodText=null;
@@ -32,9 +34,9 @@ public class WaiterGui implements Gui {
 	private Semaphore atTable = new Semaphore(0,true);
 
 
-	public WaiterGui(WaiterRole agent, RestaurantGui gui) {
+	public WaiterGui(WaiterRole agent, CityRestaurantSimonCard gui) {
 		this.agent = agent;
-		this.gui = gui;
+		this.animation = gui;
 	}
 
 	public void updatePosition() {

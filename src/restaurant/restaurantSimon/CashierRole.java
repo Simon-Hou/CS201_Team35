@@ -237,7 +237,13 @@ public class CashierRole extends Role implements Cashier{
 
 
 
-
+	public void changeShifts(Person p){
+		if (this.self!=null)
+			this.self.msgThisRoleDone(this);
+		
+		this.self = p;
+		this.name = p.getName()+" Cashier";
+	}
 	//utilities
 
 	public String getName(){

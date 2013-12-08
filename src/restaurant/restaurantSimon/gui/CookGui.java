@@ -31,8 +31,8 @@ public class CookGui implements Gui{
 	private String plate3Text=null;
 
 
-	private int xInitial=330;
-	private int yInitial=80;
+	private int xInitial=280;
+	private int yInitial=-20;
 	private  int xPos = xInitial;//default waiter position
 	private  int yPos = yInitial;
 //	private int xResting=40;
@@ -41,7 +41,7 @@ public class CookGui implements Gui{
 
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atGrill = new Semaphore(0,true);
-	//private Semaphore atDesk = new Semaphore(0,true);
+	private Semaphore atExit = new Semaphore(0,true);
 	private Semaphore atPlate = new Semaphore(0,true);
 
 
@@ -104,6 +104,12 @@ public class CookGui implements Gui{
 			if(xPos==CityRestaurantSimonCard.deskXPos+32 && yPos==CityRestaurantSimonCard.deskYPos+66){
 				if(atPlate.availablePermits()==0){
 					atPlate.release();
+				}
+			}
+			//Exit position
+			if(xPos==xInitial && yPos==yInitial){
+				if(atExit.availablePermits()==0){
+					atExit.release();
 				}
 			}
 
@@ -240,6 +246,16 @@ public class CookGui implements Gui{
 			plate3=true;
 		}
 
+	}
+	public void DoExit(){
+		xDestination=xInitial;
+		yDestination=yInitial;
+		try {
+			atExit.acquire();
+		} catch (InterruptedException e) {
+
+			e.printStackTrace();
+		}
 	}
 	
 	public void pause(){
