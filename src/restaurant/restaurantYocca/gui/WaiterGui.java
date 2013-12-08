@@ -1,5 +1,6 @@
 package restaurant.restaurantYocca.gui;
 
+import person.PersonAgent;
 import public_Gui.Gui;
 import restaurant.restaurantYocca.CookRole;
 import restaurant.restaurantYocca.CustomerRole;
@@ -16,184 +17,213 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.table.TableStringConverter;
 
 public class WaiterGui implements Gui {
 
-    private WaiterRole agent;;
-    private HostRole host;
+	private WaiterRole agent;;
+	private HostRole host;
 
-//    RestaurantGui gui;
-    
-    private int xPos = 0, yPos = 300;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
-    private int homeX = 0;
-    private int homeY = 5;
-    private boolean startPosition = true;
-    private boolean hasArrived = false;
-    private boolean onBreak = false;
-    private String statusString = "";
-   
-    public WaiterGui(WaiterRole agent, RestaurantYocca rYocca) {
-    	System.out.println("WaiterGui being called");
-    	this.agent = agent;
+	//    RestaurantGui gui;
+
+	private int xPos = 0, yPos = 300;//default waiter position
+	private int xDestination = -20, yDestination = -20;//default start position
+	private int homeX = 0;
+	private int homeY = 5;
+	private boolean startPosition = true;
+	private boolean hasArrived = false;
+	private boolean onBreak = false;
+	private String statusString = "";
+
+	ImageIcon currentImage;
+	public int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
+
+	public WaiterGui(WaiterRole agent, RestaurantYocca rYocca) {
+		System.out.println("WaiterGui being called");
+		this.agent = agent;
 		try {
-		xPos = 15 + rYocca.waiters.size() * 25;
+			yPos = 75 + rYocca.waiters.size() * 25;
 		} catch (NullPointerException e) {
-			xPos = 20;
-			System.out.println(xPos);
+			yPos = 50;
+			System.out.println(yPos);
 		}
-		yPos = 5;
-		homeX = xPos;
-		
+		xPos = 450;
+		homeY = yPos;
+
 		try {
-		xDestination = 15 + rYocca.waiters.size() * 25;
+			yDestination = 75 + rYocca.waiters.size() * 25;
 		} catch (NullPointerException e) {
-			xDestination = 20;
-			System.out.println(xDestination);
+			yDestination = 20;
+			System.out.println(yDestination);
 		}
-		yDestination = 5;
-		homeY = yDestination;
-    }
-    
-//    public WaiterGui(WaiterRole w, RestaurantGui gui, HostRole h){ //HostAgent m) {
-//		host = h;
-//    	agent = w;
-//		try {
-//		xPos = 15 + host.waiterList.size() * 25;
-//		} catch (NullPointerException e) {
-//			xPos = 20;
-//			System.out.println(xPos);
-//		}
-//		homeX = xPos;
-//		yPos = 5;
-//		try {
-//		xDestination = 15 + host.waiterList.size() * 25;
-//		} catch (NullPointerException e) {
-//			xDestination = 20;
-//			System.out.println(xDestination);
-//		}
-//		yDestination = 5;
-//		this.gui = gui;
-//	}
-    
-    public int xTable = 0;
-    public int yTable = 0;
-    private int cookX = 375;
-    private int cookY = 100;
-    private int cashierX = 230;
-    private int cashierY = 40;
+		xDestination = 450;
+		homeX = xDestination;
+		currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
+	}
+
+	//    public WaiterGui(WaiterRole w, RestaurantGui gui, HostRole h){ //HostAgent m) {
+	//		host = h;
+	//    	agent = w;
+	//		try {
+	//		xPos = 15 + host.waiterList.size() * 25;
+	//		} catch (NullPointerException e) {
+	//			xPos = 20;
+	//			System.out.println(xPos);
+	//		}
+	//		homeX = xPos;
+	//		yPos = 5;
+	//		try {
+	//		xDestination = 15 + host.waiterList.size() * 25;
+	//		} catch (NullPointerException e) {
+	//			xDestination = 20;
+	//			System.out.println(xDestination);
+	//		}
+	//		yDestination = 5;
+	//		this.gui = gui;
+	//	}
+
+	public int xTable = 0;
+	public int yTable = 0;
+	private int cookX = 375;
+	private int cookY = 100;
+	private int cashierX = 230;
+	private int cashierY = 40;
 
 	public void updatePosition() {
-    	if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;
+		if (xPos < xDestination) {
+			xPos++;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.agent.p).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).rightSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (xPos > xDestination) {
+			xPos--;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.agent.p).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).leftSprites.size());
+				changeSpriteCounter++;
+			}			
+		}
+		if (yPos < yDestination) {
+			yPos++;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.agent.p).downSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).downSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (yPos > yDestination) {
+			yPos--;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.agent.p).upSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).upSprites.size());
+				changeSpriteCounter++;
+			}
+		}
 
-        if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
-
-        if ((xPos == xDestination) && (yPos == yDestination) && (hasArrived == false) && (!isAtTheOrderStand()) && (!isAtWaitingArea()) && (!isAtCook()) && (!isAtStart()) && (!isAtCashier())) {
-        	agent.msgAtTable();        
-        }
-        if (xPos == xDestination && yPos == yDestination && isAtCook() && (hasArrived == false) && (!isAtWaitingArea()) && (!isAtTable()) && (!isAtStart()) && (!isAtCashier())) {
-        	agent.msgAtCook();
-        }
-        if (xPos == xDestination && yPos == yDestination && isAtTheOrderStand() && !isAtCook() && (hasArrived == false) && (!isAtWaitingArea()) && (!isAtTable()) && (!isAtStart()) && (!isAtCashier())) {
-        	agent.msgAtOrderStand();
-        }
-        if (xPos == xDestination && yPos == yDestination && isAtStart() &&  (hasArrived == false) && (!isAtWaitingArea()) && (!isAtTable()) && (!isAtCook()) && (!isAtCashier())) {
-        	agent.msgAtStart();   	
-        }
-        if (xPos == xDestination && yPos == yDestination && isAtCashier() && (hasArrived == false) && (!isAtTable()) && (!isAtCook()) && (!isAtStart())) {
-        	agent.msgAtCashier();   	
-        } 
-        if (xPos == xDestination && yPos == yDestination && isAtWaitingArea() && (hasArrived == false) && (!isAtTable()) && (!isAtCook())) {
-        	agent.msgAtWaitingArea();   	
-        } 
-//        if (xPos == xDestination && yPos == yDestination && isAtTheOrderStand()) {
-//        	System.out.println("At Destination");
-//        }
-    	//System.out.println(getArrived());
+		if ((xPos == xDestination) && (yPos == yDestination) && (hasArrived == false) && (!isAtTheOrderStand()) && (!isAtWaitingArea()) && (!isAtCook()) && (!isAtStart()) && (!isAtCashier())) {
+			agent.msgAtTable();        
+		}
+		if (xPos == xDestination && yPos == yDestination && isAtCook() && (hasArrived == false) && (!isAtWaitingArea()) && (!isAtTable()) && (!isAtStart()) && (!isAtCashier())) {
+			agent.msgAtCook();
+		}
+		if (xPos == xDestination && yPos == yDestination && isAtTheOrderStand() && !isAtCook() && (hasArrived == false) && (!isAtWaitingArea()) && (!isAtTable()) && (!isAtStart()) && (!isAtCashier())) {
+			agent.msgAtOrderStand();
+		}
+		if (xPos == xDestination && yPos == yDestination && isAtStart() &&  (hasArrived == false) && (!isAtWaitingArea()) && (!isAtTable()) && (!isAtCook()) && (!isAtCashier())) {
+			agent.msgAtStart();   	
+		}
+		if (xPos == xDestination && yPos == yDestination && isAtCashier() && (hasArrived == false) && (!isAtTable()) && (!isAtCook()) && (!isAtStart())) {
+			agent.msgAtCashier();   	
+		} 
+		if (xPos == xDestination && yPos == yDestination && isAtWaitingArea() && (hasArrived == false) && (!isAtTable()) && (!isAtCook())) {
+			agent.msgAtWaitingArea();   	
+		} 
+		//        if (xPos == xDestination && yPos == yDestination && isAtTheOrderStand()) {
+			//        	System.out.println("At Destination");
+		//        }
+		//System.out.println(getArrived());
 
 
-    }
-	
+	}
+
 	public boolean isOnBreak() {
 		return onBreak;
 	}
-	
+
 	public void setOnBreak() {
 		onBreak = true;
 		agent.TryGoOnBreak();
 	}
-	
-//	public void cantGoOnBreak() {
-//		onBreak = false;
-//		gui.setWaiterBreakEnabled(agent);
-//	}
-	
+
+	//	public void cantGoOnBreak() {
+	//		onBreak = false;
+	//		gui.setWaiterBreakEnabled(agent);
+	//	}
+
 	public boolean isAtStart() {
 		if (xPos == homeX && yPos == homeY) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isAtCook() {
 		if ((xPos == cookX) && (yPos == cookY - 20)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isAtTheOrderStand() {
 		if ((getXPos() == cookX + 20) && (getYPos() == cookY - 20)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isAtTable() {
 		if (((xPos == 100) || (xPos == 200) || (xPos == 300) || (xPos == 400)) && (yPos == 300)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isAtCashier() {
 		if ((xPos == cashierX + 10) && (yPos == cashierY - 10)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isAtWaitingArea() {
 		if (xPos == 30 && yPos == 30) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean getArrived() {
 		return hasArrived;
 	}
-	
+
 	public void setArrived(boolean arrived) {
 		hasArrived = arrived;
 	}
-	
+
 	public boolean getStartPosition() {
 		return startPosition;
 	}
-	
+
 	public void setTableLocation(int xLoc, int yLoc) {
 		xTable = xLoc;
 		yTable = yLoc;
 	}
-	
+
 	public int getTableXLocation(int tableNum) {
 		int xLoc = 0;
 		if (tableNum == 1) {
@@ -210,7 +240,7 @@ public class WaiterGui implements Gui {
 		}
 		return xLoc;
 	}
-	
+
 	public int getTableYLocation(int tableNum) {
 		int yLoc = 0;
 		if (tableNum == 1) {
@@ -227,77 +257,78 @@ public class WaiterGui implements Gui {
 		}
 		return yLoc;
 	}
-	
+
 	public void setStatusString(String s) {
 		statusString = s;
 	}
-	
+
 	public String getStatusString() {
 		return statusString;
 	}
-	
-    public void draw(Graphics2D g) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(xPos, yPos, 20, 20);
-        g.setColor(Color.BLACK);
-        g.drawString(statusString, xPos+5, yPos+15);
-        
-    }    	
+
+	public void draw(Graphics2D g) {
+		//g.setColor(Color.MAGENTA);
+		//g.fillRect(xPos, yPos, 20, 20);
+		g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
+		g.setColor(Color.BLACK);
+		g.drawString(statusString, xPos+5, yPos+15);
+
+	}    	
 
 
-    public boolean isPresent() {
-        return true;
-    }
-    
-    public void DoGoToTable(int tableNum) {
-    	xDestination = getTableXLocation(tableNum) + 20;
-    	yDestination = getTableYLocation(tableNum) - 20;
-    }
-    
-    public void DoGoToCook() {
-    	xDestination = cookX;
-    	yDestination = cookY - 20;
-    }
-    
+	public boolean isPresent() {
+		return true;
+	}
+
+	public void DoGoToTable(int tableNum) {
+		xDestination = getTableXLocation(tableNum) + 20;
+		yDestination = getTableYLocation(tableNum) - 20;
+	}
+
+	public void DoGoToCook() {
+		xDestination = cookX;
+		yDestination = cookY - 20;
+	}
+
 	public void DoGoToTheOrderStand() {
 		xDestination = cookX + 20;
-    	yDestination = cookY - 20;
+		yDestination = cookY - 20;
 	}
-    
+
 	public void DoGoToCashier() {
 		xDestination = cashierX + 10;
-    	yDestination = cashierY - 10;
+		yDestination = cashierY - 10;
 	}
 
-    public void DoBringToTable(Customer customer) {
-        xDestination = xTable + 20;
-        yDestination = yTable - 20;
-    }
+	public void DoBringToTable(Customer customer) {
+		xDestination = xTable + 20;
+		yDestination = yTable - 20;
+	}
 
-    public void DoLeaveCustomer() {
-        xDestination = homeX;
-        yDestination = homeY;
-    }
-    
-    public void DoGetCustomer() {
-    	xDestination = 30;
-        yDestination = 30;
-    }
+	public void DoLeaveCustomer() {
+		xDestination = homeX;
+		yDestination = homeY;
+	}
 
-    public int getXPos() {
-        return xPos;
-    }
+	public void DoGetCustomer() {
+		xDestination = 30;
+		yDestination = 30;
+	}
 
-    public int getYPos() {
-        return yPos;
-    }
+	public int getXPos() {
+		return xPos;
+	}
 
-    public void setWaiter(WaiterRole w) {
-    	agent = w;
-    }
-    
-    public void setHost(HostRole h) {
-    	host = h;
-    }
+	public int getYPos() {
+		return yPos;
+	}
+
+	public void setWaiter(WaiterRole w) {
+		agent = w;
+	}
+
+	public void setHost(HostRole h) {
+		host = h;
+	}
 
 }

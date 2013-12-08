@@ -256,6 +256,19 @@ public class RestaurantGabe extends Restaurant{
 			return r;
 			
 		}
+        else if (type == JobType.RestaurantGabeWaiter2){
+			
+			
+			System.out.println("Adding a new waiter "+p.getName());
+			//waiters.add((Waiter) r);
+			//((MarketEmployeeRole) m).inEmployeeList = true;
+			//panel.addEmployee((MarketEmployeeRole) r);
+			
+			setUpWaiter((WaiterRole) r);
+			
+			return r;
+			
+		}
 		else if (type == JobType.RestaurantCook){
 			return canIBeCook(p);
 		}

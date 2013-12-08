@@ -1,6 +1,7 @@
 package restaurant.restaurantYocca.gui;
 
 
+import person.PersonAgent;
 import public_Gui.Gui;
 import restaurant.restaurantYocca.CookRole;
 import restaurant.restaurantYocca.CustomerRole;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.table.TableStringConverter;
 
 public class CookGui implements Gui {
@@ -34,9 +36,13 @@ public class CookGui implements Gui {
     private String cString = "";
     private String dString = "";
 
+    ImageIcon currentImage;
+	public int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
     
     public CookGui(CookRole agent) {
         this.agent = agent;
+		currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
 		xPos = 345;
 		yPos = 29;
 		xDestination = 345;
@@ -54,24 +60,50 @@ public class CookGui implements Gui {
 //	}
     
 	public void updatePosition() {
-    	if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;
-
-        if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
+		if (xPos < xDestination) {
+			xPos++;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.agent.p).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).rightSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (xPos > xDestination) {
+			xPos--;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.agent.p).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).leftSprites.size());
+				changeSpriteCounter++;
+			}			
+		}
+		if (yPos < yDestination) {
+			yPos++;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.agent.p).downSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).downSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (yPos > yDestination) {
+			yPos--;
+			spriteCounter++;
+			if (spriteCounter % 6 == 0) {
+				currentImage = ((PersonAgent)this.agent.p).upSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).upSprites.size());
+				changeSpriteCounter++;
+			}
+		}
 
         if ((xPos == xDestination) && (yPos == yDestination) && (hasArrived == false) && isAtCookingStation() && !isAtPlateStation() && !isOutOfRestaurant()) {
-        	agent.msgAtCookingStation();        
+        	agent.msgAtCookingStation(); 
+			currentImage = ((PersonAgent)this.agent.p).leftSprites.get(0);
         }
         if (xPos == xDestination && yPos == yDestination && (hasArrived == false) && isAtPlateStation() && !isAtCookingStation() && !isOutOfRestaurant()) {
         	agent.msgAtPlateStation();
+        	currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
         }
         if (xPos == xDestination && yPos == yDestination && (hasArrived == false) && isAtOrderStand() && !isAtCookingStation() && !isOutOfRestaurant()) {
         	agent.msgAtOrderStand();
+        	currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
         }
         if (xPos == xDestination && yPos == yDestination && (hasArrived == false) && isOutOfRestaurant() && !isAtCookingStation() && !isAtPlateStation()) {
         	agent.msgOutOfRetaurant();
@@ -166,8 +198,10 @@ public class CookGui implements Gui {
 	}
 	
     public void draw(Graphics2D g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(xPos, yPos, 20, 20);
+		g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
+//
+//        g.setColor(Color.BLUE);
+//        g.fillRect(xPos, yPos, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString(aString, 315, 20);
         g.setColor(Color.WHITE);
