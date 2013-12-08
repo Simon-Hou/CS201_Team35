@@ -162,6 +162,9 @@ public class CarAgentGui extends VehicleAgentGui {
 		}
 		if(moving && rectangle.x==this.xDestination && rectangle.y ==this.yDestination){
 			moving = false;
+			
+			
+			gui.city.movings.remove(this);
 			//bus.msgAtStop();
 //			this.bus.atStopFreeze.release();
 //			this.bus.updateBus();

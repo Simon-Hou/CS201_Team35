@@ -809,7 +809,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		b.gui.stopLights = lights;
 		b2.gui.stopLights = lights;
 		c.gui.stopLights = lights;
-		c.gui.goTo(410,430);
+		c.gui.goTo(410,490);
 		
 		
 		b.startThread();
