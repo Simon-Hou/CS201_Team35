@@ -23,10 +23,10 @@ import restaurant.Restaurant;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
 import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
-
 import role.Role;
 import util.Bank;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
 import util.CityMap;
 import util.Job;
@@ -252,6 +252,36 @@ public class PersonAgent extends Agent implements Person {
 	public void msgCarArrivedAtLoc(Loc destination){
 		//blah
 		//stateChanged();
+	}
+	
+	
+	public void msgBusAtStop(BusAgent b,BusStop stop){
+		//blah
+		//stateChanged();
+		//Do("IN THIS MESSAGE "+gui.x+" "+gui.y+" "+stop.sidewalkLoc.x+" "+stop.sidewalkLoc.y);
+		if(stop.sidewalkLoc.x == gui.xDestination && stop.sidewalkLoc.y==gui.yDestination){
+
+
+			gui.onBus();
+			onBus = true;
+			Do("Getting on bus");
+
+			//b.getOnBus(this);
+		}
+		else{
+			Do("Getting OFF bus");
+			onBus = false;
+			waitForBusToArrive.release();
+			wantsToRideBus = false;
+			
+
+			//Do("SHIT I JUST WOKE UP");
+			gui.setLoc(stop.sidewalkLoc);
+			gui.offBus();
+			//waitForBusToArrive.release();
+			//b.getOffBuss(this);
+		}
+
 	}
 
 	public void msgBusAtStop(Bus b,BusStop stop){

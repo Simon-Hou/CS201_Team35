@@ -34,6 +34,7 @@ import util.RestaurantMapLoc;
 import city.CityObject;
 import cityGui.test.AStarTraversalPerson;
 import cityGui.test.AStarTraversalVehicle;
+import cityGui.test.BusAgentGui;
 import cityGui.test.BusGui;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
@@ -382,7 +383,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		AStarTraversalPerson.scale = scale;
 		AStarTraversalVehicle.scale = scale;
 		CityComponent.scale = scale;
+		PersonGui.gridScale = scale;
+		BusAgentGui.gridScale = scale;
 		this.cityScale = scale;
+		
 	}
 	
 	public void NewPersonCreationPanel(){

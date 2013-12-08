@@ -38,7 +38,7 @@ public class PersonGui extends CityComponent implements Gui {
     private int xRand;
     private int yRand;
     
-    int gridScale = 30;
+    public static int gridScale = 30;
     boolean doingMove = false;
     
     private boolean startPosition = true;

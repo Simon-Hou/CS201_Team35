@@ -47,17 +47,21 @@ public class AStarTraversalVehicle extends AStarTraversal{
 				continue;
 			}
 			
-//			//get rid of diagonal moves
-//			if(i*j!=0){
-//				continue;
-//			}
+			//get rid of diagonal moves
+			if(i*j!=0){
+				continue;
+			}
 			
 			//make sure next point is on the grid
 			if ((nextX+1>grid.length || nextY+1>grid[0].length) ||
 			      (nextX<0 || nextY<0)) continue;
 			Position next = new Position(nextX,nextY);
 			//System.out.println("considering"+next);
-			if (inPath(next,path) || (!next.open(grid) && !CityComponent.onSidewalk(nextX, nextY)) ) continue;
+			
+			//COMMENTING OUT THIS LINE
+			//if (inPath(next,path) || (!next.open(grid) && !CityComponent.onSidewalk(nextX, nextY)) ) continue;
+			
+			if (inPath(next,path)) continue;
 			//printCurrentList();
 			//System.out.println("available"+next);
 			AStarNode nodeTemp = new AStarNode(next);
