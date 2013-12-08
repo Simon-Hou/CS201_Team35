@@ -442,29 +442,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		this.add(trace, c);
 		trace.setBackground(Color.BLUE);
 		
-		
-//------------------^^previous^^----------------
-		
-		
-//		this.setLayout(new FlowLayout());
-//		this.add(city);
-//		this.add(info);
-//		Dimension d = new Dimension(500,500);
-//		view.setMinimumSize(d);
-//		view.setMaximumSize(d);
-//		view.setPreferredSize(d);
-//		this.add(view);
-//		this.add(CP);
-		
-		//(-P)
-		
-//		Dimension bcpDim = new Dimension(100, 800);
-//		buildingControlPanel.setPreferredSize(bcpDim);
-//		buildingControlPanel.setMaximumSize(bcpDim);
-//		buildingControlPanel.setMinimumSize(bcpDim);
-//		c.gridx = 11; c.gridy = 0;
-//		c.gridwidth = 5; c.gridheight = 6;
-//		this.add(buildingControlPanel, c);
 
 /////////--^-----^------^------^----NEW (PARKER) LAYOUT-----^-----^-----^-----^-----^----////
 		
@@ -539,12 +516,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			
 			MarketPanel panel = new MarketPanel(tempAnimation, ((CityMarket)temp).market);
 			buildingCP.addPanelCard(panel, temp.ID);
-		
-//			//testing - create frame
-//			JFrame frame = new JFrame();
-//			frame.setBounds(50,50, 200, 600);
-//	        frame.setTitle("Market Panel");
-//	        frame.setVisible(true);
 			
 			((CityMarket)temp).market.setMarketPanel(panel);
 			tempAnimation.setPanel(panel);
