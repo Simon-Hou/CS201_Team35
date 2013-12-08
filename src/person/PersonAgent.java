@@ -23,6 +23,7 @@ import restaurant.Restaurant;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
 import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
+
 import role.Role;
 import util.Bank;
 import util.Bus;
@@ -69,10 +70,10 @@ public class PersonAgent extends Agent implements Person {
 		inhabitantRole = new InhabitantRole(name + "Home",this);
 
 		//will be changed later to request the correct role from the restaurant diretly
-		restaurantRole = new CustomerRole(name+"Restaurant", this);
+		restaurantRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
 		
 		Random random = new Random();
-		hungerLevel = random.nextInt(10);
+		//hungerLevel = random.nextInt(10);
 		
 		if (random.nextBoolean()){
 			this.belongings.myFoods.add(new Food("Steak",10));
@@ -111,8 +112,9 @@ public class PersonAgent extends Agent implements Person {
 	public CityMap city;
 	public int activeRoleCalls = 0;
 	//Time time;
-	public int hungerLevel = 0;
-	public int tiredLevel = 10;
+
+	public int hungerLevel = 100;
+	public int tiredLevel = 100;
 	public int personalAddress;
 	public Purse purse;
 	public Belongings belongings;
@@ -124,7 +126,7 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
-	public CustomerRole restaurantRole ;
+	public restaurant.restaurantGabe.CustomerRole restaurantRole ;
 
 	public AStarTraversalPerson aStar;
     Position currentPosition = new Position(2,2);
@@ -156,6 +158,7 @@ public class PersonAgent extends Agent implements Person {
 
 	public void setHouse(House h){
 		this.belongings.myHouse = h;
+		//Do("Having address set to "+this.belongings.myHouse.address.x+", "+this.belongings.myHouse.address.y);
 	}
 
 	public void setGui(PersonGui g){
@@ -174,6 +177,7 @@ public class PersonAgent extends Agent implements Person {
 			myFoods = new ArrayList<Food>();
 			myAccounts = new ArrayList<BankAccount>();
 			myHouse = new House(new Loc(5,5));
+			//System.out.println("\tAdress being overwritten");
 		}
 
 		public Property myLiving;
@@ -266,8 +270,10 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else{
 			Do("Getting OFF bus");
-			waitForBusToArrive.release();
 			onBus = false;
+			waitForBusToArrive.release();
+			wantsToRideBus = false;
+			
 
 			//Do("SHIT I JUST WOKE UP");
 			gui.setLoc(stop.sidewalkLoc);
@@ -297,17 +303,19 @@ public class PersonAgent extends Agent implements Person {
 				setJob(((BankMapLoc) city.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100);
 			}
 		}*/
-		if(name.equals("p1")&&time==6){
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(name.equals("p3")&&time<6){
-			return false;
-		}
+//		if(name.equals("p1")&&time==6){
+//			try {
+//				Thread.sleep(300);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		if(name.equals("p3")&&time<6){
+//			return false;
+//		}
+		
+		Do("\tDECIDING WHAT TO DO");
 
 		//Do("Deciding what to do ");
 		if(onBus){
@@ -421,14 +429,13 @@ public class PersonAgent extends Agent implements Person {
 	//Actions
 	private void goToWork() {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep((int)(1000+ 1000*Math.random()));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
-
 		//HACK
 		if(myJob.placeOfWork==null){
 			myJob.shiftStart+=1;
@@ -572,6 +579,13 @@ public class PersonAgent extends Agent implements Person {
 
 
 	private void getFood() {
+		
+		if(true){
+			goToRestaurant();
+			return;
+		}
+		
+		
 		if (!belongings.myFoods.isEmpty()) {
 			Do("I am going to eat at home");
 			//goHome();
@@ -589,6 +603,7 @@ public class PersonAgent extends Agent implements Person {
 		Do("I am going home to sleep ");
 		//Do("I am going home to sleep "+ "Dest: "+belongings.myHouse.address.x+belongings.myHouse.address.y);
 		//Do(this.gui.rectangle.x + " "+this.gui.rectangle.y + " and "+this.gui.xDestination+ " "+gui.yDestination);
+		//Do("Going home to "+this.belongings.myHouse.address.x+", "+this.belongings.myHouse.address.y);
 		doGoHome();
 		activeRole = inhabitantRole;
 		belongings.myHouse.msgImHome(inhabitantRole);
@@ -609,10 +624,12 @@ public class PersonAgent extends Agent implements Person {
 		}
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(0)).restaurant;
 		Loc loc = city.map.get("Restaurant").get(0).loc;
-		doGoToBuilding(loc);
-		
-		//restaurantRole.atRestaurant(b);
-		activeRole = b.customerEntering(restaurantRole,this);;
+
+		tempDoGoToCityLoc(loc);
+		b.customerEntering(restaurantRole);
+		restaurantRole.msgAtRestaurant(b);
+		activeRole = restaurantRole;
+
 	}
 
 	private void buyCar() {
@@ -656,7 +673,7 @@ public class PersonAgent extends Agent implements Person {
 
 
 		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
-
+		//Do("Nearest gri loc to "+loc.x+", "+loc.y+" is "+gridLoc.x+", "+gridLoc.y );
 		
 		
 		if(gui!=null){
@@ -694,22 +711,35 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void doRideBus(){
-		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
-		try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		city.fStops.get(0).waitForBus(this);
-		try {
+		Do("\tGoing to bus Stop");
+//		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
+//		try {
+//			atDestination.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		city.fStops.get(0).waitForBus(this);
+//		try {
+//			waitForBusToArrive.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		Do("\t\t\t\tNow");
+//		//onBus = true;
+		
+	    gui.onTheMove = true;
+	    gui.waitingForBus = true;
+	    tempDoGoToCityLoc(city.fStops.get(0).sidewalkLoc);
+	    city.fStops.get(0).waitForBus(this);
+	    try {
 			waitForBusToArrive.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		onBus = true;
-
+	    
 	}
 
 	private void doGoToWork(){
@@ -775,7 +805,8 @@ public class PersonAgent extends Agent implements Person {
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 		}
 		else if (jobType==JobType.RestaurantWaiter1){
-			jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
+			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
+			jobRole = new restaurant.restaurantGabe.WaiterRole(name+"RestaurantWaiter",this);
 		}
 		else if (jobType==JobType.RestaurantWaiter2){
 			jobRole = new ProducerConsumerWaiterRole(name+"pcWaiter", this);

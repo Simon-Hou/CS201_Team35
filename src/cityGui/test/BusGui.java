@@ -45,7 +45,7 @@ public class BusGui extends CityComponent implements Gui {
     private boolean transitionDone = true;
     private boolean choseRand = false;
     private boolean clockwise = true;
-    private boolean moving = true;
+    private boolean moving = false;
     
     public boolean onTheMove = false;
     

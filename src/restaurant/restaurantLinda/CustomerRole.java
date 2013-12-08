@@ -62,7 +62,7 @@ public class CustomerRole extends Role implements Customer{
 
 
 	// Messages
-	public void atRestaurant(Restaurant r) {
+	public void msgAtRestaurant(Restaurant r) {
 		event = AgentEvent.atRestaurant;
 		print("Arrived at restaurant");
 		

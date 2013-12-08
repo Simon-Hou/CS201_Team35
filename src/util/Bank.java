@@ -14,6 +14,7 @@ import cityGui.CityBank;
 import cityGui.CityBankCard;
 import cityGui.CityHouseCard;
 import role.Role;
+import UnitTests.mock.bankMock.MockBankPerson;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
 import bank.gui.BankCustomerGui;
@@ -163,11 +164,15 @@ public class Bank implements BankInterface, PlaceOfWork{
 		System.err.println("Requested to be put in line now.");
 		bankCustomers.add(c);
 		if (c instanceof BankCustomerRole) {
+			if ( !(((BankCustomerRole) c).p instanceof MockBankPerson) ) {
 			BankCustomerGui g = new BankCustomerGui(((BankCustomerRole)c));
 			((BankCustomerRole)c).setGui(g);
 			bankGui.bankPanel.customerPanel.addListButton(((BankCustomerRole)c).getName());
 			//bankGui.bankAnimationPanel.addGui(g);
-			animation.addGui(g);
+			if (animation!=null) {
+				animation.addGui(g);
+			}
+			}
 		}
 		//System.out.println("Size of the queue is "+bankCustomers.size());
 		for(BankTeller t:currentTellers){

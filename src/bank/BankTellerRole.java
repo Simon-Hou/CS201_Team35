@@ -28,7 +28,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	//quick and dirty
 	public BankTellerRole(String name,Person p){
 		this.name = name;
-		this.person = person;
+		this.person = p;
 		//startedWorking = true;
 	}
 	

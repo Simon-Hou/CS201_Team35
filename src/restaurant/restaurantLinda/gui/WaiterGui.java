@@ -170,7 +170,7 @@ public class WaiterGui extends GuiPerson {
     	//gui.updateWaiter(agent);
     }
 
-public void updatePosition() {
+    public void updatePosition() {
     	
     	if (moveAndCheckDestination())		//Gui has an actual destination that agent wants to be notified about
         {        	
@@ -199,7 +199,7 @@ public void updatePosition() {
     	}
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(Color.MAGENTA);
         g.fillRect(xPos, yPos, personSize, personSize);
         

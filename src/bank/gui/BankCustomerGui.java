@@ -41,7 +41,8 @@ public class BankCustomerGui implements Gui{
 		xDestination = xDoor;
 		yDestination = yDoor;
 		//this.gui = gui;//TODO figure out the Gui!
-		currentImage = ((PersonAgent)this.role.person).downSprites.get(0);
+		if (this.role.person instanceof PersonAgent)
+			currentImage = ((PersonAgent)this.role.person).downSprites.get(0);
 	}
 
 	public void updatePosition(int x, int y) {

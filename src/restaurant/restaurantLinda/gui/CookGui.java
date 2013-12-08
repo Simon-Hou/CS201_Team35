@@ -117,7 +117,7 @@ public class CookGui implements Gui {
         }  
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(Color.CYAN);
         g.fillRect(xPos, yPos, personSize, personSize);
         

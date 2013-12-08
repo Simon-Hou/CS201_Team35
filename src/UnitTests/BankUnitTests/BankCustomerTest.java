@@ -26,8 +26,10 @@ public class BankCustomerTest extends TestCase{
 		
 		person = new MockBankPerson("p0");
 		customer = new BankCustomerRole("c0",person);
+		customer.setPerson(person);
 		teller = new MockBankTeller("t0");
 		bank = new Bank();
+		bank.startTellerShift(teller);
 		
 		
 		
@@ -44,44 +46,56 @@ public class BankCustomerTest extends TestCase{
 		
 		//step 1 - put the customer in the bank
 		customer.msgYouAreAtBank(bank);
+		System.err.println("1");
 		
 		//check post of 1 and pre of 2
 		assertTrue("Customer should be in bank.",customer.state == BankCustomerRole.CustState.inBank);
 		assertTrue("Customer should have bank pointer", customer.bank != null);
 		assertTrue("Person should still have an empty event log",person.log.isEmpty());
+		System.err.println("2");
 		
 		//step 2 - call the customer scheduler
+		System.err.println("Pick and execute(not in line yet");
 		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
+		System.out.println("3");
 		
 		//check post of 2 and pre of 3
 		assertTrue("Bank should have customer in line.",bank.bankCustomers.get(0) == customer);
 		assertTrue("Customer should know he's waiting in line",customer.state==BankCustomerRole.CustState.inLine);
+		System.out.println("4");
 		
 		
 		//step 3 - send him the message that he's being helped
 		customer.msgHowCanIHelpYou(teller);	
+		System.out.println("5");
 		
 		//check post of 3 and pre of 4
 		assertTrue("Customer event should know he's being waited on",customer.event == BankCustomerRole.CustEvent.tellerReady);
 		assertTrue("Cusomter should know who the teller who's helping him",customer.teller != null);
 		System.out.println(person.log.getLastLoggedEvent());
 		assertTrue("Person that holds customer should have a new permit",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
+		System.out.println("6");
 		
 		//step 4 - call the person scheduler
 		customer.atDestination.release();
 		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
+		System.out.println("7");
 		
 		//check post of 4 and pre of 5
 		assertTrue("Customer should know he's being helped",customer.state == BankCustomerRole.CustState.beingServed);
 		assertTrue("Teller should not have been asked for anything yet.",teller.log.isEmpty());
+		System.out.println("8");
 		
 		//step 5 - call the scheduler
+		System.err.println("about to enter pick and execute to and the customer should know that they are done.");
 		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
+		System.err.println("9");
 		
 		//check post of 5 and pre of 6
 		assertTrue("Customer should have told teller he's leaving",teller.log.getLastLoggedEvent().getMessage().equals("My customer just left"));
 		assertTrue("Customer should know he's leaving",customer.state == BankCustomerRole.CustState.leaving);
 		assertTrue("Person should have been told that the role finished",person.log.getLastLoggedEvent().getMessage().equals("My BankCustomerRole just finished"));
+		System.err.println("10");
 
 		
 		

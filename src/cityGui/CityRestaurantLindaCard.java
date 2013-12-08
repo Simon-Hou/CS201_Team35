@@ -10,7 +10,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import restaurant.restaurantLinda.gui.Gui;
+
+import public_Gui.Gui;
 import restaurant.restaurantLinda.gui.MyImage;
 import restaurant.restaurantLinda.gui.RestaurantPanel;
 
@@ -35,7 +36,8 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 	}
 
 
-	public void paint(Graphics g) {
+	public void paint(Graphics g2) {
+		Graphics2D g = (Graphics2D)g2;
 
 		 //Clear the screen by painting a rectangle the size of the frame
         g.setColor(getBackground());
@@ -82,7 +84,7 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
-                gui.draw(g);
+                gui.draw((Graphics2D)g);
             }
         }
         

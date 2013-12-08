@@ -404,7 +404,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		PersonAgent person = new PersonAgent(name,cityObject.cityMap);
 		person.setJob(placeOfWork, jobType, start, end);
 		person.setBank(bankNum);
+		//System.out.println(cityObject.cityMap.map.get("House").isEmpty());
 		if(!cityObject.cityMap.map.get("House").isEmpty()){
+			//System.out.println("Setting person's house to "+((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house.address.x + ", "+
+			//		((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house.address.y);
 			person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
 		}
 		//person.setHouse(((HouseMapLoc) cityObject.cityMap.map.get("House").get(houseNum)).house);
@@ -452,9 +455,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 			if (type.contains("Linda"))
 				{
 				temp = new CityRestaurantLinda(x, y, "RestaurantLinda " + (city.statics.size()-19));
+
 				}
-			else{
-				temp = new CityRestaurantSimon(x, y, "RestaurantLinda " + (city.statics.size()-19));
+			
+
+			else if(type.contains("Gabe")){
+				temp = new CityRestaurantGabe(x,y, "RestaurantGabe " + (city.statics.size()-19));
+				else if(type.contains("Simon")) {
+					temp = new CityRestaurantSimon(x, y, "RestaurantLinda " + (city.statics.size()-19));
 			}
 			
 			temp.createAnimationPanel(this);
@@ -611,11 +619,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		cityObject.fBus = b;
 		cityObject.bBus = b2;
 		
-		cityObject.cityMap.fStops.add(new BusStop(new Loc(380,450)));
 		cityObject.cityMap.fStops.add(new BusStop(new Loc(170,130)));
+		cityObject.cityMap.fStops.add(new BusStop(new Loc(380,450)));
 		
-		cityObject.cityMap.fStops.get(0).sidewalkLoc = new Loc(410,430);
-		cityObject.cityMap.fStops.get(1).sidewalkLoc = new Loc(180,160);
+		cityObject.cityMap.fStops.get(0).sidewalkLoc = new Loc(180,160);
+		cityObject.cityMap.fStops.get(1).sidewalkLoc = new Loc(410,430);
 		
 		cityObject.cityMap.bStops.add(new BusStop(new Loc(460,90)));
 		cityObject.cityMap.bStops.add(new BusStop(new Loc(100,490)));
@@ -645,6 +653,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		int xStartTest = 0;
 		int yStartTest = 0;
+		
+		//test.gabeRestaurant();
 		
 		
 		
@@ -829,6 +839,30 @@ public class SimCityGui extends JFrame implements ActionListener {
 		fullyManBuilding("Market",1);
 	}
 	
+	public void gabeRestaurant(){
+		addNewBuilding("RestaurantGabe",200,250);
+		addNewBuilding("House", 500, 5);
+		
+		
+		addNewPersonHard("p0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,15, 0,0);
+		addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,0,15, 0,0);
+		addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,0,15, 0,0);
+		addNewPersonHard("p3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,15, 0,0);
+		addNewPersonHard("p4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,15, 0,0);
+
+		addNewPersonHard("replacementHOST",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,11,100, 0,0);
+		addNewPersonHard("replacementCASHIER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,11,100, 0,0);
+		addNewPersonHard("replacementCOOK",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,11,100, 0,0);
+
+		addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantWaiter1,22,100, 0,0);
+		//addNewPersonHard("replacementCASHIER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,10,100, 0,0);
+		
+		
+		//System.out.println(cityObject.cityMap.map.get("House").get(0).loc.x +", "+cityObject.cityMap.map.get("House").get(0).loc.y);
+		
+	
+	}
+	
 	public void restaurantScenario(String scenarioName){
 		hasBuses = false;
 		setMAXTIME(20);
@@ -881,7 +915,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		try{
 			for(int i = (int) Math.ceil(200/cityScale);i<(int) Math.floor(400/cityScale);++i){
 				for(int j = (int) Math.ceil(200/cityScale);j<(int) Math.floor(400/cityScale);++j){
-					System.out.println("("+i+","+j+")");
+					//System.out.println("("+i+","+j+")");
 					grid[i][j].acquire();
 				}
 			}
