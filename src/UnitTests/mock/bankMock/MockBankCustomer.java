@@ -60,5 +60,10 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 		
 		
 	}
+	
+	@Override
+	public void msgNoTellers() {
+		
+	}
 
 }
