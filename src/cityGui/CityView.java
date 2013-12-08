@@ -50,6 +50,10 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		if(currentCard!=null){
 			cards.get(currentCard).time=city.time;
 		}
+		if (cards.get(key) == null) {
+			System.out.println("Card is null");
+		}
+		else System.out.println("Card is not null");
 		//System.out.println(panel==null);
 		this.add(cards.get(key), key);
 		currentCard=key;

@@ -259,6 +259,10 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			c.restaurantScenario(name);
 			return true;
 		}
+		if(name.contains("JScenario")){
+			c.jScenario();
+			return true;
+		}
 		if(placeOptions.getSelectedValue()==null){
 			errorField.setText("Please select an employer");
 			return false;

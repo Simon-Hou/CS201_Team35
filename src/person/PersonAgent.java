@@ -71,9 +71,10 @@ public class PersonAgent extends Agent implements Person {
 
 		//will be changed later to request the correct role from the restaurant diretly
 		restaurantRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
+		restaurantRoleYocca = new restaurant.restaurantYocca.CustomerRole(name +"Restaurant", this);
 		
 		Random random = new Random();
-		//hungerLevel = random.nextInt(10);
+		hungerLevel = random.nextInt(10);
 		
 		if (random.nextBoolean()){
 			this.belongings.myFoods.add(new Food("Steak",10));
@@ -126,6 +127,7 @@ public class PersonAgent extends Agent implements Person {
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
 	public restaurant.restaurantGabe.CustomerRole restaurantRole ;
+	public restaurant.restaurantYocca.CustomerRole restaurantRoleYocca ;
 
 	public AStarTraversalPerson aStar;
     Position currentPosition = new Position(2,2);
@@ -314,7 +316,7 @@ public class PersonAgent extends Agent implements Person {
 //			return false;
 //		}
 		
-		Do("\tDECIDING WHAT TO DO");
+//		Do("\tDECIDING WHAT TO DO");
 
 		//Do("Deciding what to do ");
 		if(onBus){
@@ -624,9 +626,14 @@ public class PersonAgent extends Agent implements Person {
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(0)).restaurant;
 		Loc loc = city.map.get("Restaurant").get(0).loc;
 		tempDoGoToCityLoc(loc);
-		b.customerEntering(restaurantRole);
-		restaurantRole.msgAtRestaurant(b);
-		activeRole = restaurantRole;
+		
+//		b.customerEntering(restaurantRole);
+//		restaurantRole.msgAtRestaurant(b);
+//		activeRole = restaurantRole;
+
+		b.customerEntering(restaurantRoleYocca);
+		restaurantRoleYocca.msgAtRestaurant(b);
+		activeRole = restaurantRoleYocca;
 	}
 
 	private void buyCar() {
@@ -777,9 +784,6 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 
-
-
-
 	//Utilities
 
 	//I'm thinking this should include the actual Role rather than having the person make it....
@@ -803,11 +807,18 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else if (jobType==JobType.RestaurantWaiter1){
 			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
-			jobRole = new restaurant.restaurantGabe.WaiterRole(name+"RestaurantWaiter",this);
+			jobRole = new restaurant.restaurantYocca.ProducerConsumerWaiterRole(name+"pcWaiter", this);
 		}
 		else if (jobType==JobType.RestaurantWaiter2){
-			jobRole = new ProducerConsumerWaiterRole(name+"pcWaiter", this);
+			jobRole = new restaurant.restaurantYocca.OriginalWaiterRole(name+"RestaurantWaiter",this);
 		}
+//		else if (jobType==JobType.RestaurantWaiter1){
+//			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
+//			jobRole = new restaurant.restaurantGabe.StandWaiterRole(name+"pcWaiter", this);
+//		}
+//		else if (jobType==JobType.RestaurantWaiter2){
+//			jobRole = new restaurant.restaurantGabe.TalkingWaiterRole(name+"RestaurantWaiter",this);
+//		}
 		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 
 	}
@@ -1070,6 +1081,13 @@ public class PersonAgent extends Agent implements Person {
         }
         */
     }
+
+
+
+	@Override
+	public void setTiredLevel(int i) {
+		this.tiredLevel = i;
+	}
 
 
 

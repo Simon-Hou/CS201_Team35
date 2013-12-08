@@ -19,6 +19,8 @@ import java.util.Map;
 
 import javax.swing.*;
 
+import cityGui.CityComponent;
+import cityGui.CityMarket;
 import cityGui.CityMarketCard;
 import interfaces.MarketCustomer;
 import interfaces.MarketEmployee;
@@ -56,7 +58,6 @@ public class MarketPanel extends JFrame implements ActionListener{
 	public MarketPanel(CityMarketCard anim, Market market){
 		animation = anim;
 		this.market = market;
-		
 		//FRAME SETUP
 	    int WINDOWX = 300;
 	    int WINDOWY = 500;	
