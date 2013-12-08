@@ -13,6 +13,7 @@ public class VehicleAgentGui extends CityComponent implements Gui{
 	
 	public Rectangle frontBumper;
 	public Rectangle backBumper;
+	public Rectangle safeRegion;
 	
 	
 	
@@ -46,6 +47,10 @@ public class VehicleAgentGui extends CityComponent implements Gui{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+	
 
 	
 	

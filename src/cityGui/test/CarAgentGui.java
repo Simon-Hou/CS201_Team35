@@ -39,7 +39,8 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	
 	public CarAgentGui(CarAgent car,SimCityGui gui,boolean clockwise){
-    	super(165,130,Color.RED,"Bus");
+    	super(225,130,Color.RED,"Bus");
+    	
     	if(!clockwise){
     		this.x = 460;
     		this.y = 90;
@@ -50,6 +51,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	this.yDestination = this.y;
     	this.clockwise = clockwise;
     	rectangle = new Rectangle(x, y, 25, 15);
+    	//setBumpers();
     }
 	
 	
@@ -58,6 +60,8 @@ public class CarAgentGui extends VehicleAgentGui {
 	@Override
 	public void updatePosition() {
 		// TODO Auto-generated method stub
+		//setBumpers();
+		
 		if(!moving){
 			return;
 		}
@@ -80,28 +84,36 @@ public class CarAgentGui extends VehicleAgentGui {
 		
 		if(clockwise){
         	if(topLaneF()){
-        		rectangle.x++;
+        		tryToMoveTo(rectangle.x+1,rectangle.y,rectangle.width,rectangle.height);
+        		//rectangle.x++;
         	}
         	if(topRightCornerF()){
-        		rectangle = new Rectangle(450,130,15,25);
+        		tryToMoveTo(450,130,15,25);
+        		//rectangle = new Rectangle(450,130,15,25);
         	}
         	if(rightLaneF()){
-        		rectangle.y++;
+        		tryToMoveTo(rectangle.x,rectangle.y+1,rectangle.width,rectangle.height);
+        		//rectangle.y++;
         	}
         	if(bottomRightCornerF()){
-        		rectangle = new Rectangle(445,450,25,15);
+        		tryToMoveTo(445,450,25,15);
+        		//rectangle = new Rectangle(445,450,25,15);
         	}
         	if(bottomLaneF()){
-        		rectangle.x--;
+        		tryToMoveTo(rectangle.x-1,rectangle.y,rectangle.width,rectangle.height);
+        		//rectangle.x--;
         	}
         	if(bottomLeftCornerF()){
-        		rectangle = new Rectangle(130,420,15,25);
+        		tryToMoveTo(130,420,15,25);
+        		//rectangle = new Rectangle(130,420,15,25);
         	}
         	if(leftLaneF()){
-        		rectangle.y--;
+        		tryToMoveTo(rectangle.x,rectangle.y-1,rectangle.width,rectangle.height);
+        		//rectangle.y--;
         	}
         	if(topLeftCornerF()){
-        		rectangle = new Rectangle(130,130,25,15);
+        		tryToMoveTo(130,130,25,15);
+        		//rectangle = new Rectangle(130,130,25,15);
         	}
         }
 		else{
@@ -145,6 +157,23 @@ public class CarAgentGui extends VehicleAgentGui {
 //			this.bus.updateBus();
 		}
 		
+		
+	}
+	
+	public void tryToMoveTo(int x, int y,int width,int height){
+		Rectangle testRect = rectangle;
+		for(CityComponent block:gui.city.movings){
+			if(!this.equals(block) && block instanceof VehicleAgentGui){
+				testRect = new Rectangle(x,y,width,height);
+				if(testRect.intersects(((VehicleAgentGui) block).rectangle)){
+					testRect = rectangle;
+					return;
+				}
+			}
+		}
+		
+		rectangle  = testRect;
+		//rectangle = new Rectangle(x,y,width,height);
 		
 	}
 	
@@ -222,10 +251,19 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	
 
-
-	public void paint(Graphics2D g) {
-        g.setColor(Color.RED);
-        g.fillRect(rectangle.x, rectangle.y, 50, 20);
+	
+	public void paint(Graphics g1) {
+		//System.out.println("BEING CALLED");
+		Graphics2D g = (Graphics2D) g1;
+		
+		g.setColor(Color.RED);
+		g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+		
+//        g.setColor(Color.BLUE);
+//        //g.fillRect(rectangle.x, rectangle.y, 50, 20);
+//        
+//        g.fillRect(frontBumper.x, frontBumper.y, frontBumper.width, frontBumper.height);
+//        g.fillRect(backBumper.x, backBumper.y, backBumper.width, backBumper.height);
     }  
 	
 	@Override
@@ -353,6 +391,27 @@ public class CarAgentGui extends VehicleAgentGui {
 	    		return true;
 	    	}
 	    	return false;
+	    }
+	    
+	    public void setBumpers(){
+	    	
+	    	if(topLaneF()){
+	    		this.frontBumper = new Rectangle(rectangle.x+1+25,rectangle.y,1,rectangle.height);
+	    		this.backBumper = new Rectangle(rectangle.x-2,rectangle.y,1,rectangle.height);
+	    	}
+	    	if(rightLaneF()){
+	    		this.frontBumper = new Rectangle(rectangle.x,rectangle.y+1+25,rectangle.width,1);
+	    		this.backBumper = new Rectangle(rectangle.x,rectangle.y-2,rectangle.width,1);
+	    	}
+	    	if(bottomLaneF()){
+	    		this.frontBumper = new Rectangle(rectangle.x-2,rectangle.y,1,rectangle.height);
+	    		this.backBumper = new Rectangle(rectangle.x+1+25,rectangle.y,1,rectangle.height);
+	    	}
+	    	if(leftLaneF()){
+	    		this.frontBumper = new Rectangle(rectangle.x,rectangle.y-2,rectangle.width,1);
+	    		this.backBumper = new Rectangle(rectangle.x,rectangle.y+1+25,rectangle.width,1);
+	    	}
+	    	
 	    }
 	
 
