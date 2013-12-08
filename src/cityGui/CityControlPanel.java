@@ -16,7 +16,7 @@ import cityGui.trace.AlertTag;
 public class CityControlPanel extends JPanel implements ActionListener{
 
 	SimCityGui city;
-	public static final int CP_WIDTH = 1100, CP_HEIGHT = 100;
+	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addRestaurant, addBank, addHouse, addMarket, addPerson;
 
 	//For managing traces

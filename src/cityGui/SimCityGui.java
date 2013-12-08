@@ -2,6 +2,7 @@ package cityGui;
 
 import interfaces.PlaceOfWork;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -251,9 +252,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 //	ImageIcon pr3 = new ImageIcon(pright3);
 
 	
-	//(-P)
-	JPanel buildingControlPanel = new JPanel();
-	
+	//(-Parker's layout)
+	public BuildingControlPanel buildingCP;
 	
 	
 	public CityPanel city;
@@ -356,35 +356,95 @@ public class SimCityGui extends JFrame implements ActionListener {
 		info = new InfoPanel(this);
 
 		///////-----v----v--v-----v-------PREVIOUS LAYOUT------v----v--v-----v-----v---v----////
-		this.setLayout(new GridBagLayout());
+//		this.setLayout(new GridBagLayout());
 
+//		
+//		//city animation
+//		c.gridx = 0; c.gridy = 0;
+//		c.gridwidth = 6; c.gridheight = 6;
+//		this.add(city, c);
+//
+//		//building info (name)
+//		c.gridx = 6; c.gridy = 0;
+//		c.gridwidth = 5; c.gridheight = 1;
+//		this.add(info, c);
+//
+//		//building animation view
+//		c.gridx = 6; c.gridy = 1;
+//		c.gridwidth = 5; c.gridheight = 5;
+//		this.add(view, c);
+//
+//		//city control panel
+//		c.gridx = 0; c.gridy = 6;
+//		c.gridwidth = 11; c.gridheight = 1;
+//		this.add(CP, c);
 		
+	/////////--^-----^------^------^----PREVIOUS LAYOUT-----^-----^-----^-----^-----^----////
+	//			|	|		|		|						|		|	|		|	|
+	///////-----v----v------v------v-NEW (PARKER) LAYOUT----v------v-----v-----v-----v----//// 
+		this.setLayout(new GridBagLayout());
+		//setBounds(0,0,1300,700);
+		
+		Dimension dim = new Dimension(180, 500); //x value can't be over 180
+	
+		buildingCP = new BuildingControlPanel();
+		
+	
+	
+		
+		JPanel trace = new JPanel();
+		dim = new Dimension(500, 100);
+		trace.setMaximumSize(dim);
+		trace.setMinimumSize(dim);
+		trace.setPreferredSize(dim);
+		//trace.setBackground(Color.BLUE);
+		
+		JPanel cityCP = new JPanel();
+		dim = new Dimension(600, 100); //y value can't be over 178
+		cityCP.setMaximumSize(dim);
+		cityCP.setMinimumSize(dim);
+		cityCP.setPreferredSize(dim);
+		//buildingCP.setBackground(Color.WHITE);
+		
+		
+	
 		//city animation
 		c.gridx = 0; c.gridy = 0;
 		c.gridwidth = 6; c.gridheight = 6;
+		c.fill = GridBagConstraints.BOTH;
 		this.add(city, c);
 
-		//building info (name)
-		c.gridx = 6; c.gridy = 0;
-		c.gridwidth = 5; c.gridheight = 1;
-		this.add(info, c);
-
 		//building animation view
-		c.gridx = 6; c.gridy = 1;
+		c.gridx = 6; c.gridy = 0;
 		c.gridwidth = 5; c.gridheight = 5;
+		c.fill = GridBagConstraints.BOTH;
 		this.add(view, c);
 
+		//building control panel
+		c.gridx = 11; c.gridy = 0;
+		c.gridwidth = 2; c.gridheight = 5;
+		c.fill = GridBagConstraints.BOTH;
+		this.add(buildingCP, c);
+		//buildingCP.setBackground(Color.BLACK);
+		
 		//city control panel
 		c.gridx = 0; c.gridy = 6;
-		c.gridwidth = 11; c.gridheight = 1;
+		c.gridwidth = 6; c.gridheight = 1;
+		c.fill = GridBagConstraints.BOTH;
 		this.add(CP, c);
+		//CP.setBackground(Color.WHITE);
 		
-	/////////--^-----^------^------^----PREVIOUS LAYOUT-----^-----^-----^-----^-----^----////
-
+		//trace log
+		c.gridx = 6; c.gridy = 5;
+		c.gridwidth =7; c.gridheight = 2; 
+		c.fill = GridBagConstraints.BOTH;
+		this.add(trace, c);
+		trace.setBackground(Color.BLUE);
 		
 		
+//------------------^^previous^^----------------
 		
-	///////-----v----v--v-----v-------NEW (PARKER) LAYOUT------v----v--v-----v-----v---v----//// 
+		
 //		this.setLayout(new FlowLayout());
 //		this.add(city);
 //		this.add(info);
