@@ -2,6 +2,7 @@ package house;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import public_Object.Food;
 import house.gui.InhabitantGui;
 import interfaces.Inhabitant;
@@ -12,7 +13,6 @@ public class InhabitantRole extends Role implements Inhabitant {
 
 	//Constructor
 	public InhabitantRole(){
-		
 	}
 	
 	public InhabitantRole(String name,Person p){
@@ -27,7 +27,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	
 	//data
 	String name;
-	LivingUnit myRoom;
+	LivingUnit myRoom=new LivingUnit();
 	Person self;
 	//enum InhabitantState {IDLE,HUNGRY,FOODREADY, TIRED,EXIT};
 	//public InhabitantState s=InhabitantState.IDLE;
@@ -39,7 +39,8 @@ public class InhabitantRole extends Role implements Inhabitant {
 
 	String foodEating=null;
 	Timer timer=new Timer();
-	int sleepTime=5000;
+	int sleepTime=1000;
+	int cookingTime=1000;
 	
 	//msg
 	
@@ -87,8 +88,8 @@ public class InhabitantRole extends Role implements Inhabitant {
 			ExitHouse();
 			return true;
 		}
-		//ExitHouse();//hack!!! should receive message from person to exit
-		gui.DoIdle();		
+		ExitHouse();//hack!!! should receive message from person to exit
+		//gui.DoIdle();		
 		return false;
 	}
 	
@@ -119,19 +120,20 @@ public class InhabitantRole extends Role implements Inhabitant {
 	private void GetAndCook(){
 		wantEat=false;
 		gui.DoGoToFridge();
+		System.err.println("Picking");
 		PickFood();
 		gui.DoGoToGrill();
 		gui.DoIdle();
-		timer.schedule(new TimerTask() {
-			
-			public void run() {
-				print("Cooking");
-				foodReady=true;
-				//isHungry = false;
-				stateChanged();
-			}
-		},
-		500);
+		try {
+		   
+			Thread.sleep(cookingTime);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
+		foodReady=true;
+		self.msgStateChanged();
+
+		
 		
 	}
 	private void PlateAndEat(){
