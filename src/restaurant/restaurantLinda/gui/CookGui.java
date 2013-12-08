@@ -11,17 +11,17 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import cityGui.CityRestaurantCard;
+import cityGui.CityRestaurantLindaCard;
 
 public class CookGui implements Gui {
 
-	public static final int WINDOWX = CityRestaurantCard.CARD_WIDTH;		//Same as animation panel
-    public static final int WINDOWY = CityRestaurantCard.CARD_WIDTH;
+	public static final int WINDOWX = CityRestaurantLindaCard.CARD_WIDTH;		//Same as animation panel
+    public static final int WINDOWY = CityRestaurantLindaCard.CARD_WIDTH;
 	
 	CookRole agent;
 	
 
-	private int personSize=CityRestaurantCard.PERSONSIZE;
+	private int personSize=CityRestaurantLindaCard.PERSONSIZE;
     private int xPos, yPos;//default waiter position
     private int xDestination, yDestination;//default start position
     private goal destination=goal.none;
@@ -63,14 +63,14 @@ public class CookGui implements Gui {
         {
         	if (xPos == xDestination && yPos == yDestination && destination==goal.refrigerator){
             	destination=goal.stoveCooking;
-        		xDestination = CityRestaurantCard.STOVE.x;
-        		yDestination = CityRestaurantCard.STOVE.y-personSize;
+        		xDestination = CityRestaurantLindaCard.STOVE.x;
+        		yDestination = CityRestaurantLindaCard.STOVE.y-personSize;
         		currentItem = new MyImage("RawFood",xPos,yPos);
         		carriedItems.add(currentItem);
             }
         	else if(xPos == xDestination && yPos == yDestination && destination==goal.stoveCooking){
-        		currentItem.x=CityRestaurantCard.STOVE.x;
-        		currentItem.y = CityRestaurantCard.STOVE.y;
+        		currentItem.x=CityRestaurantLindaCard.STOVE.x;
+        		currentItem.y = CityRestaurantLindaCard.STOVE.y;
         		carriedItems.remove(currentItem);
         		cookingFoods.add(currentItem);
         		currentItem=null;
@@ -84,9 +84,9 @@ public class CookGui implements Gui {
 	        		
 	        		destination=goal.platingWindow;
 	            	xDestination = WINDOWX-100;
-	        		yDestination = CityRestaurantCard.REFRIGERATOR.height+(40*plateNum++);
+	        		yDestination = CityRestaurantLindaCard.REFRIGERATOR.height+(40*plateNum++);
 	        		
-	        		plateNum %= (WINDOWY-CityRestaurantCard.REFRIGERATOR.height-CityRestaurantCard.STOVE.height)/40;
+	        		plateNum %= (WINDOWY-CityRestaurantLindaCard.REFRIGERATOR.height-CityRestaurantLindaCard.STOVE.height)/40;
       		
 	        		for (MyImage i: cookingFoods){
 	        			if (i.type.equals("RawFood")){
@@ -117,7 +117,7 @@ public class CookGui implements Gui {
         }  
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(Color.CYAN);
         g.fillRect(xPos, yPos, personSize, personSize);
         
@@ -141,15 +141,15 @@ public class CookGui implements Gui {
     public void DoCooking(){
     	destination = goal.refrigerator;
 
-    	xDestination = CityRestaurantCard.REFRIGERATOR.x;
-    	yDestination = CityRestaurantCard.REFRIGERATOR.y+CityRestaurantCard.REFRIGERATOR.height;
+    	xDestination = CityRestaurantLindaCard.REFRIGERATOR.x;
+    	yDestination = CityRestaurantLindaCard.REFRIGERATOR.y+CityRestaurantLindaCard.REFRIGERATOR.height;
     }
     
     public void DoPlating(String food){
     	destination = goal.stovePlating;
     	
-    	xDestination = CityRestaurantCard.STOVE.x;
-		yDestination = CityRestaurantCard.STOVE.y-personSize;
+    	xDestination = CityRestaurantLindaCard.STOVE.x;
+		yDestination = CityRestaurantLindaCard.STOVE.y-personSize;
 		
 		currentItem = new MyImage(food);
     }

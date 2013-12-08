@@ -18,6 +18,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 
 /**
  * Restaurant customer agent.
@@ -39,8 +40,10 @@ public class CustomerRole extends Role implements Customer{
 	{none, atRestaurant, impatient, followWaiter, seated, askedToOrder, redoChoice, noFood, foodHere, doneEating, atCashier, paymentReceived, doneLeaving};
 	AgentEvent event = AgentEvent.none;
 	
+	private Semaphore atDestination = new Semaphore(0,true);
+	
 	// agent correspondents
-	private Restaurant r;
+	private RestaurantLinda r;
 	private Waiter waiter;
 	private Cashier cashier;
 	//private Table table=null; //hack(?) for gui
@@ -59,11 +62,11 @@ public class CustomerRole extends Role implements Customer{
 
 
 	// Messages
-	public void atRestaurant(Restaurant r) {
+	public void msgAtRestaurant(Restaurant r) {
 		event = AgentEvent.atRestaurant;
 		print("Arrived at restaurant");
 		
-		this.r = r;
+		this.r = (RestaurantLinda)r;
 		p.msgStateChanged();
 	}
 	
@@ -92,6 +95,12 @@ public class CustomerRole extends Role implements Customer{
 		//from animation
 		event = AgentEvent.seated;
 		p.msgStateChanged();
+	}
+	
+	public void msgAnimationFinishedLeavingSeat(){
+		Do("Left seat");
+		atDestination.release();
+		stateChanged();
 	}
 	
 	public void msgWhatDoYouWant(){
@@ -196,7 +205,7 @@ public class CustomerRole extends Role implements Customer{
 		}
 		if (state == AgentState.Eating && event == AgentEvent.doneEating && check!=null){
 			state = AgentState.GoingToPay;
-			LeaveTable();
+			GoToCashier();
 			return true;
 		}
 		if (state == AgentState.GoingToPay && event == AgentEvent.atCashier){
@@ -272,14 +281,29 @@ public class CustomerRole extends Role implements Customer{
 
 	private void LeaveWithoutEating(){
 		waiter.msgLeaving(this);
+		customerGui.DoLeaveTable();
+		try{
+			atDestination.acquire();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		
 		LeaveRestaurant();
 	}
 	
-	private void LeaveTable() {
+	private void GoToCashier(){
+		customerGui.DoLeaveTable();		
+		try{
+			atDestination.acquire();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		
 		waiter.msgDoneAndPaying(this);
 		customerGui.DoGoToCashier();
 	}
-	
 	
 	private void MakePayment(){
 		int payment;

@@ -49,6 +49,10 @@ public class AStarTraversal extends GraphTraversal
 		//from pos.
 		for(int i = -1; i <= 1; i++) {//increment for x direction
 		    for (int j = -1; j <= 1; j++) {//increment for y direction
+		    	 //Kill the diagonals:
+		    	if (i!=0 && j!=0)
+		    		continue;
+		    	
 			//create the potential next position
 			int nextX=x+i;
 			int nextY=y+j;

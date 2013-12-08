@@ -39,6 +39,7 @@ public interface Person {
 	public abstract void msgThisRoleDone(Role role);
 
 	public abstract void msgDoneEating();
+	public abstract void msgDoneSleeping();
 	
 	public abstract String getName();
 	
