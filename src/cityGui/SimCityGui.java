@@ -538,7 +538,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			CityMarketCard tempAnimation = new CityMarketCard(this);
 			
 			MarketPanel panel = new MarketPanel(tempAnimation, ((CityMarket)temp).market);
-			buildingCP.addPanelCard(panel);
+			buildingCP.addPanelCard(panel, temp.ID);
 		
 //			//testing - create frame
 //			JFrame frame = new JFrame();

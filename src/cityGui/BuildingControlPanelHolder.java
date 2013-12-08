@@ -2,9 +2,13 @@ package cityGui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
+
 
 
 
@@ -14,6 +18,7 @@ public class BuildingControlPanelHolder extends JPanel{
 	
 	JPanel cards;
 	CardLayout layout;
+	List<String> ids = new ArrayList<String>();
 	
 	//private BuildingControlPanel panel = new BuildingControlPanel();
 	
@@ -29,13 +34,35 @@ public class BuildingControlPanelHolder extends JPanel{
 		cards = new JPanel(layout);
 		add(cards);
 		
+		BuildingControlPanel p = new BuildingControlPanel(24);
+		cards.add(p, "default");
+		layout.show(cards, "default");
+		
 	
 	}
 	
-	public void addPanelCard(BuildingControlPanel p){
-		cards.add(p, "hi");
-		layout.show(cards , "hi");
+	public void addPanelCard(BuildingControlPanel p, String id){
+		cards.add(p, id);
+		layout.show(cards , id);
+		ids.add(id);
 		
+	}
+	
+	public void showCard(String id){
+		layout.show(cards, id);
+		
+		boolean found = false;
+		for (String s : ids){
+			if (s == id){
+				found = true;
+			}
+		}
+		
+		if (!found){
+			layout.show(cards,"default");
+		}
+				
+	
 	}
 	
 	
