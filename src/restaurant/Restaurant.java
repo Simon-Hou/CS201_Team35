@@ -22,7 +22,7 @@ public abstract class Restaurant implements PlaceOfWork{
 	public CityRestaurant cityRestaurant;
 	public int cash;
 	
-	public abstract Role customerEntering(BaseRestaurantCustomer c,Person p);
+	public abstract void customerEntering(BaseRestaurantCustomer c);
 	
 	public boolean unStaffed(){
 		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
