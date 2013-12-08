@@ -3,6 +3,7 @@ package person;
 
 import house.House;
 import house.InhabitantRole;
+import interfaces.BaseRestaurantCustomer;
 import interfaces.Occupation;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
@@ -53,6 +54,8 @@ import cityGui.CityComponent;
 import cityGui.test.AStarTraversalPerson;
 import astar.*;
 import cityGui.test.PersonGui;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import public_Object.Food;
 import role.Role;
 import agent.Agent;
@@ -70,7 +73,10 @@ public class PersonAgent extends Agent implements Person {
 		inhabitantRole = new InhabitantRole(name + "Home",this);
 
 		//will be changed later to request the correct role from the restaurant diretly
-		restaurantRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
+
+		restaurantLindaRole = new restaurant.restaurantLinda.CustomerRole(name+"Restaurant", this);
+		restaurantGabeRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
+		
 
 		Random random = new Random();
 		//hungerLevel = random.nextInt(10);
@@ -126,7 +132,8 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
-	public restaurant.restaurantGabe.CustomerRole restaurantRole ;
+	public restaurant.restaurantLinda.CustomerRole restaurantLindaRole;
+	public restaurant.restaurantGabe.CustomerRole restaurantGabeRole;
 
 	public AStarTraversalPerson aStar;
 	Position currentPosition = new Position(2,2);
@@ -624,9 +631,24 @@ public class PersonAgent extends Agent implements Person {
 		Loc loc = city.map.get("Restaurant").get(0).loc;
 
 		tempDoGoToCityLoc(loc);
-		b.customerEntering(restaurantRole);
-		restaurantRole.msgAtRestaurant(b);
-		activeRole = restaurantRole;
+
+		if (b instanceof restaurant.restaurantGabe.RestaurantGabe){
+			b.customerEntering(restaurantGabeRole);
+			restaurantGabeRole.msgAtRestaurant(b);
+			activeRole = restaurantGabeRole;
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Gabe Restaurant");
+		}
+		else if (b instanceof restaurant.restaurantLinda.RestaurantLinda){
+			b.customerEntering(restaurantLindaRole);
+			restaurantLindaRole.msgAtRestaurant(b);
+			activeRole = restaurantLindaRole;
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant");
+		}
+		else{
+			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role");
+		}
+		
+		
 
 	}
 
@@ -977,8 +999,8 @@ public class PersonAgent extends Agent implements Person {
 
 	//hack for restaurant stuff?
 	public void setActiveRole(String role){
-		if (role.equals("RestaurantCustomer"))
-			activeRole = restaurantRole;
+		/*if (role.equals("RestaurantCustomer"))
+			activeRole = restaurantRole;*/
 	}
 
 

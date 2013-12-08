@@ -152,6 +152,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			else if (temp.type.equals("Market")){
 				CityMarketCard tempAnimation = new CityMarketCard(city);
 				MarketPanel panel = new MarketPanel(tempAnimation, ((CityMarket)temp).market);
+				city.buildingCP.addPanelCard(panel, temp.ID);
 				((CityMarket)temp).market.setMarketPanel(panel);
 				tempAnimation.setPanel(panel);
 				markets.add(((CityMarket)temp).market);
@@ -172,6 +173,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			if (c.contains(arg0.getX(), arg0.getY())) {
 				//city.info.setText(c.ID);
 				city.view.setView(c.ID);
+				city.buildingCP.showCard(c.ID);
 				AlertLog.getInstance().logMessage(AlertTag.GENERAL_CITY, this.name, "Building Selected: " + c.ID);
 			}
 		}
