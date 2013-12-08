@@ -64,17 +64,16 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		
 
 		//Trace panel buttons
-//		enableInfoButton = new JButton("Show Level: INFO");
-//		enableInfoButton.addActionListener(this);
 		InfoButton = new JToggleButton("Hide Level: INFO");
+		InfoButton.setSelected(true);
 		InfoButton.addActionListener(this);
-//		enableRestaurantTagButton = new JButton("Show Tag: RESTAURANT");
-//		enableRestaurantTagButton.addActionListener(this);
+
 		RestaurantTagButton = new JToggleButton("Hide Tag: RESTAURANT");
+		RestaurantTagButton.setSelected(true);
 		RestaurantTagButton.addActionListener(this);
-//		enableBankTagButton = new JButton("Show Tag: BANK");
-//		enableBankTagButton.addActionListener(this);
+
 		BankTagButton = new JToggleButton("Hide Tag: BANK");
+		BankTagButton.setSelected(true);
 		BankTagButton.addActionListener(this);
 		
 
