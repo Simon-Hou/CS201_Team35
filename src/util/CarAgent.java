@@ -61,7 +61,7 @@ public class CarAgent extends VehicleAgent{
 		
 		
 		while(!gui.putCarOnRoad(currentLocation)){};
-		
+		passenger.msgCarOnRoad();
 		//cityGui.city.movings.add(gui);
 		
 		doDriveToDestination();

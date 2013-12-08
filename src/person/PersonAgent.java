@@ -29,6 +29,7 @@ import util.Bank;
 import util.Bus;
 import util.BusAgent;
 import util.BusStop;
+import util.CarAgent;
 import util.CityMap;
 import util.Job;
 import util.JobType;
@@ -89,6 +90,9 @@ public class PersonAgent extends Agent implements Person {
 		}
 		purse.wallet = 50;
 
+		
+		//myCar.gui = new CarAgentGui();
+		
 		//hungerLevel = 0;
 
 	}
@@ -150,6 +154,9 @@ public class PersonAgent extends Agent implements Person {
 	public boolean wantsToRideBus = false;
 	public Semaphore waitForBusToArrive = new Semaphore(0,true);
 	private boolean onBus = false;
+	
+	public Semaphore driveOver = new Semaphore(0,true);
+	
 
 	public int spriteChoice;
 	public List<ImageIcon> upSprites = new ArrayList<ImageIcon>();
@@ -247,6 +254,8 @@ public class PersonAgent extends Agent implements Person {
 	public class Car {
 		public int licensePlateNumber;
 	}
+	
+	public CarAgent myCar = new CarAgent();
 
 
 	//msg
@@ -258,11 +267,17 @@ public class PersonAgent extends Agent implements Person {
 	public void msgAtDestination(){
 		atDestination.release();
 	}
+	
+	public void msgCarOnRoad(){
+		gui.waitingForCarToGetOnRoad = false;
+	}
 
 	public void msgCarArrivedAtRamp(OnRamp destination){
 		//blah
 		//stateChanged();
-		
+		Do("Getting out of car");
+		driveOver.release();
+		gui.setLoc(destination.sidewalkLoc);
 		
 	}
 	
@@ -812,6 +827,26 @@ public class PersonAgent extends Agent implements Person {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void doDrive(OnRamp from,OnRamp to){
+		
+		Do("Taking a drive");
+		
+		gui.waitingForCarToGetOnRoad = true;
+		
+		tempDoGoToCityLoc(from.sidewalkLoc);
+		
+		myCar.msgTakeMeTo(from, to);
+		
+		try {
+			driveOver.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	private void doGoToWork(){

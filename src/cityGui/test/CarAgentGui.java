@@ -58,7 +58,7 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	
 	public boolean putCarOnRoad(OnRamp ramp){
-		
+		System.out.println("Trying "+ramp.loc.x+", "+ramp.loc.y);
 		Rectangle potentialLocation;
 		Rectangle potentialSafety;
 		
@@ -75,6 +75,7 @@ public class CarAgentGui extends VehicleAgentGui {
 		for(CityComponent block:gui.city.movings){
 			if(block instanceof VehicleAgentGui){
 				if(potentialSafety.intersects(((VehicleAgentGui)block).safeRegion)){
+					//System.out.println("Something's int he way");
 					return false;
 				}
 			}
@@ -84,7 +85,7 @@ public class CarAgentGui extends VehicleAgentGui {
 		rectangle = potentialLocation;
 		safeRegion = potentialSafety;
 		gui.city.movings.add(this);
-		
+		System.out.println("Returning true");
 		
 		return true;
 		
@@ -218,7 +219,7 @@ public class CarAgentGui extends VehicleAgentGui {
 			if(!this.equals(block) && block instanceof VehicleAgentGui){
 				testRect = new Rectangle(x,y,width,height);
 				if(setSafeRegion(testRect).intersects(((VehicleAgentGui) block).safeRegion)){
-					System.out.println("Condition Tripped");
+					//System.out.println("Condition Tripped");
 					testRect = rectangle;
 					return;
 				}

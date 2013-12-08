@@ -823,6 +823,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		PersonAgent person = new PersonAgent("CarTestPerson",cityObject.cityMap);
 		CarAgent car = new CarAgent();
 		CarAgentGui carGui = new CarAgentGui(car,this,false);
+		CarAgentGui carGui2 = new CarAgentGui(car,this,false);
 		
 		car.gui = carGui;
 		car.passenger = person;
@@ -864,7 +865,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 		city.addStatic(light);
 		lights.add(light);
 		
+		
 		carGui.stopLights = lights;
+//		carGui2.stopLights = lights;
+//		
+//		carGui2.rectangle.x = 90;
+//		carGui2.rectangle.y = 120;
+//		carGui2.rectangle = new Rectangle(90,120,15,25);
+//		carGui2.goTo(0, 0);
+//		city.addMoving(carGui2);
 		
 		car.startThread();
 		car.msgTakeMeTo(ramp0, ramp1);
