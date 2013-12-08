@@ -35,6 +35,7 @@ import util.JobType;
 import util.Loc;
 import util.MarketMapLoc;
 import util.BankMapLoc;
+import util.OnRamp;
 import util.Place;
 import util.RestaurantMapLoc;
 import util.Task;
@@ -258,9 +259,11 @@ public class PersonAgent extends Agent implements Person {
 		atDestination.release();
 	}
 
-	public void msgCarArrivedAtLoc(Loc destination){
+	public void msgCarArrivedAtRamp(OnRamp destination){
 		//blah
 		//stateChanged();
+		
+		
 	}
 	
 	

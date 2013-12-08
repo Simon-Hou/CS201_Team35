@@ -16,8 +16,8 @@ public class CarAgent extends VehicleAgent{
 	public CarAgentGui gui;
 	public PersonAgent passenger;
 	
-	public Loc currentLocation;
-	public Loc destination;
+	public OnRamp currentLocation;
+	public OnRamp destination;
 	
 	public boolean inUse = false;
 	
@@ -26,15 +26,16 @@ public class CarAgent extends VehicleAgent{
 	
 	//Messages
 	
-	public void msgTakeMeTo(Loc from, Loc to){
+	public void msgTakeMeTo(OnRamp from, OnRamp to){
 		inUse = true;
 		this.currentLocation = from;
 		this.destination = to;
+		//startThread();
 	}
 	
 	
 	public void msgCarArrived(Loc loc){
-		
+		atDestination.release();
 	}
 	
 	
@@ -55,15 +56,19 @@ public class CarAgent extends VehicleAgent{
 	
 	public void DriveToDestination(){
 		
-		cityGui.city.movings.add(gui);
+		while(!gui.putCarOnRoad(currentLocation)){};
+		
+		//cityGui.city.movings.add(gui);
 		
 		doDriveToDestination();
 		
-		passenger.msgCarArrivedAtLoc(destination);
+		passenger.msgCarArrivedAtRamp(destination);
 		
 		cityGui.city.movings.remove(gui);
 		
 		inUse = false;
+		
+		//this.stopThread();
 		
 	}
 	
@@ -72,7 +77,7 @@ public class CarAgent extends VehicleAgent{
 	
 	public void doDriveToDestination(){
 		
-		gui.goTo(destination.x, destination.y);
+		gui.goTo(destination.loc.x, destination.loc.y);
 		
 		try {
 			atDestination.acquire();

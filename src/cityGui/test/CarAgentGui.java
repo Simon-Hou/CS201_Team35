@@ -19,6 +19,7 @@ import util.BusAgent;
 import util.CarAgent;
 import util.CrosswalkStatus;
 import util.Loc;
+import util.OnRamp;
 import util.StopLight;
 
 public class CarAgentGui extends VehicleAgentGui {
@@ -54,6 +55,40 @@ public class CarAgentGui extends VehicleAgentGui {
     	//setBumpers();
     	safeRegion = setSafeRegion(rectangle);
     }
+	
+	
+	public boolean putCarOnRoad(OnRamp ramp){
+		
+		Rectangle potentialLocation;
+		Rectangle potentialSafety;
+		
+		if(ramp.vertical){
+			potentialLocation = new Rectangle(ramp.loc.x,ramp.loc.y,15,25);
+		}
+		else{
+			potentialLocation = new Rectangle(ramp.loc.x,ramp.loc.y,25,15);
+		}
+		
+		potentialSafety = setSafeRegion(potentialLocation);
+		
+		
+		for(CityComponent block:gui.city.movings){
+			if(block instanceof VehicleAgentGui){
+				if(potentialSafety.intersects(((VehicleAgentGui)block).safeRegion)){
+					return false;
+				}
+			}
+		}
+		
+		moving = false;
+		rectangle = potentialLocation;
+		safeRegion = potentialSafety;
+		gui.city.movings.add(this);
+		
+		
+		return true;
+		
+	}
 	
 	
 	
@@ -165,6 +200,7 @@ public class CarAgentGui extends VehicleAgentGui {
 			
 			
 			gui.city.movings.remove(this);
+			car.msgCarArrived(new Loc(rectangle.x,rectangle.y));
 			//bus.msgAtStop();
 //			this.bus.atStopFreeze.release();
 //			this.bus.updateBus();

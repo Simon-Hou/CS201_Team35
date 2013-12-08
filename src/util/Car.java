@@ -34,7 +34,7 @@ public class Car extends VehicleAgent{
 		driveState = DriveState.inTransit;
 		carGui.doDriveFromLocToLoc(current,dest);
 		driveState = DriveState.arrived;
-		passenger.msgCarArrivedAtLoc(dest);
+		//passenger.msgCarArrivedAtLoc(dest);
 		driveState = DriveState.notInUse;
 	}
 	
