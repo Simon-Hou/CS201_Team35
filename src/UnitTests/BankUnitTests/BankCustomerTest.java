@@ -3,6 +3,8 @@ package UnitTests.BankUnitTests;
 import util.Bank;
 import util.deposit;
 import util.openAccount;
+import util.rob;
+import util.takeLoan;
 import util.withdrawal;
 import UnitTests.mock.bankMock.MockBankPerson;
 import UnitTests.mock.bankMock.MockBankTeller;
@@ -116,12 +118,14 @@ public class BankCustomerTest extends TestCase{
 		customer.addTask(new deposit(100,0,"passWord"));
 		customer.addTask(new openAccount(150,"c0"));
 		customer.addTask(new withdrawal(100,0,"passWord"));
+		customer.addTask(new rob(500));
+		customer.addTask(new takeLoan(100, 0, "passWord"));
 		
 		//step 1 - put the customer in the bank
 		customer.msgYouAreAtBank(bank);
 		
 		//check post of 1 and pre of 2
-		assertTrue("Customer should have 3 tasks to do",customer.Tasks.size()==3);
+		assertTrue("Customer should have 3 tasks to do",customer.Tasks.size()==5);
 		assertTrue("Customer should be in bank.",customer.state == BankCustomerRole.CustState.inBank);
 		assertTrue("Customer should have bank pointer", customer.bank != null);
 		assertTrue("Person should still have an empty event log",person.log.isEmpty());
@@ -157,12 +161,12 @@ public class BankCustomerTest extends TestCase{
 		//check post of 5 and pre of 6
 		assertTrue("Teller should have a new task",teller.log.getLastLoggedEvent().getMessage().equals("Just got a new task: deposit"));
 		assertTrue("Customer should know that his task is pending",customer.event == BankCustomerRole.CustEvent.taskPending);
-		assertTrue("Customer should have taken the task off of his tasks list",customer.Tasks.size()==2);
+		assertTrue("Customer should have taken the task off of his tasks list",customer.Tasks.size()==4);
 		
 		//step 6 - tell the customer the first task is done, do another
 		customer.msgDepositCompletedAnythingElse(100);
 		
-		//check post of and pre of 7
+		//check post of 6 and pre of 7
 		assertTrue("Customer should know that the teller is ready for th next task",customer.event == BankCustomerRole.CustEvent.tellerReady);
 		assertTrue("Person should have taken from their wallet after deposit",person.log.getLastLoggedEvent(3).getMessage().equals("Took from wallet"));
 		assertTrue("Person should've added to their account",person.log.getLastLoggedEvent(2).getMessage().equals("Added to account"));
@@ -174,57 +178,78 @@ public class BankCustomerTest extends TestCase{
 		//check post of 7 and pre of 8
 		assertTrue("Teller should have a new task",teller.log.getLastLoggedEvent().getMessage().equals("Just got a new task: openAccount"));
 		assertTrue("Customer should know that his task is pending",customer.event == BankCustomerRole.CustEvent.taskPending);
-		assertTrue("Customer should have taken the task off of his tasks list",customer.Tasks.size()==1);
+		assertTrue("Customer should have taken the task off of his tasks list",customer.Tasks.size()==3);
 		
-		//step 6 - tell the customer the first task is done, do another
+		//step 8 - tell the customer the first task is done, do another
 		customer.msgAccountOpenedAnythingElse(100,0,"passWord");
 		
-		//check post of and pre of 7
+		//check post of 8 and pre of 9
 		assertTrue("Customer should know that the teller is ready for th next task",customer.event == BankCustomerRole.CustEvent.tellerReady);
 		assertTrue("Person should have taken from their wallet after deposit",person.log.getLastLoggedEvent(3).getMessage().equals("Took from wallet"));
 		assertTrue("Person should've created an account",person.log.getLastLoggedEvent(2).getMessage().equals("Created a new account"));
 		assertTrue("Person should have a new permit",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
 
-		//step 8 - call the person scheduler to do the net task
+		//step 9 - call the person scheduler to do the net task
 		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
 		
-		//check post of 8 and pre of 9
+		//check post of 9 and pre of 10
 		assertTrue("Teller should have a new task",teller.log.getLastLoggedEvent().getMessage().equals("Just got a new task: withdrawal"));
+		assertTrue("Customer should know that his task is pending",customer.event == BankCustomerRole.CustEvent.taskPending);
+		assertTrue("Customer should have taken the task off of his tasks list",customer.Tasks.size()==2);
+
+		//step 10 - tell the customer the first task is done, do another
+		customer.msgHereIsWithdrawalAnythingElse(100);
+		
+		//check post of 10 and pre of 11
+		assertTrue("Customer should know that the teller is ready for th next task",customer.event == BankCustomerRole.CustEvent.tellerReady);
+		assertTrue("Person should have taken from their wallet after deposit",person.log.getLastLoggedEvent(3).getMessage().equals("Added to wallet"));
+		assertTrue("Person should've added to their account",person.log.getLastLoggedEvent(2).getMessage().equals("Took from account"));
+		assertTrue("Person should have a new permit",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
+
+		//step 11 - call the person scheduler to do the net task
+		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
+
+		//check post of 11 and pre of 12
+		assertTrue("Teller should have a new task",teller.log.getLastLoggedEvent().getMessage().equals("Just got a new task: rob"));
+		assertTrue("Customer should know that his task is pending",customer.event == BankCustomerRole.CustEvent.taskPending);
+		assertTrue("Customer should have taken the task off of his tasks list",customer.Tasks.size()==1);
+
+		//step 12 - tell the customer the first task is done, do another
+		customer.msgHereIsMoneyAnythingElse(500);
+
+		//check post of 12 and pre of 13
+		assertTrue("Customer should know that the teller is ready for th next task",customer.event == BankCustomerRole.CustEvent.tellerReady);
+		assertTrue("Person should have taken from their wallet after deposit",person.log.getLastLoggedEvent(2).getMessage().equals("Added to wallet"));
+		//assertTrue("Person should've added to their account",person.log.getLastLoggedEvent(2).getMessage().equals("Took from account"));
+		assertTrue("Person should have a new permit",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
+
+		//step 13 - call the person scheduler to do the net task
+		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
+
+		//check post of 13 and pre of 14
+		assertTrue("Teller should have a new task",teller.log.getLastLoggedEvent().getMessage().equals("Just got a new task: takeLoan"));
 		assertTrue("Customer should know that his task is pending",customer.event == BankCustomerRole.CustEvent.taskPending);
 		assertTrue("Customer should have taken the task off of his tasks list",customer.Tasks.size()==0);
 
-		//step 9 - tell the customer the first task is done, do another
-		customer.msgHereIsWithdrawalAnythingElse(100);
+		//step 14 - tell the customer the first task is done, do another
+		customer.msgLoanApprovedAnythingElse(100, 0, 0);
 		
-		//check post 9 of and pre of 10
+		//check post 14 of and pre of 15
 		assertTrue("Customer should know that the teller is ready for th next task",customer.event == BankCustomerRole.CustEvent.tellerReady);
 		assertTrue("Person should have added to their wallet after withdrawal",person.log.getLastLoggedEvent(3).getMessage().equals("Added to wallet"));
-		assertTrue("Person should've subtracted from their account",person.log.getLastLoggedEvent(2).getMessage().equals("Took from account"));
+		assertTrue("Person should've subtracted from their account",person.log.getLastLoggedEvent(2).getMessage().equals("I have a new loan for $100"));
 		assertTrue("Person should have a new permit",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
 		
-		//step 10 - call the scheduler
+		//step 15 - call the scheduler
 		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
 		
 		
-		//check post of 10
+		//check post of 15
 		assertTrue("Customer should have told teller he's leaving",teller.log.getLastLoggedEvent().getMessage().equals("My customer just left"));
 		assertTrue("Customer should know he's leaving",customer.state == BankCustomerRole.CustState.leaving);
 		assertTrue("Person should have been told that the role finished",person.log.getLastLoggedEvent().getMessage().equals("My BankCustomerRole just finished"));
 
-		
-
-
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 }
