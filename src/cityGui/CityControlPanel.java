@@ -155,4 +155,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			}
 		}
 	}
+	
+	private class CityListPanel{
+		
+	}
+	
 }
