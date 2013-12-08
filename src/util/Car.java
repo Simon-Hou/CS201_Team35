@@ -2,7 +2,7 @@ package util;
 
 import interfaces.Person;
 
-public class Car extends Vehicle{
+public class Car extends VehicleAgent{
 
 	Person passenger;
 	Loc currentLocation;

@@ -19,7 +19,7 @@ import agent.Agent;
 import astar.AStarNode;
 import astar.Position;
 
-public class BusAgent extends Agent implements ActionListener{
+public class BusAgent extends VehicleAgent implements ActionListener{
 
 	
 	//Data
