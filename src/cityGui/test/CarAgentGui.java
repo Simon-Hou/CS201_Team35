@@ -16,17 +16,18 @@ import person.PersonAgent;
 import public_Gui.Gui;
 import util.Bus;
 import util.BusAgent;
+import util.CarAgent;
 import util.CrosswalkStatus;
 import util.Loc;
 import util.StopLight;
 
-public class BusAgentGui extends VehicleAgentGui {
+public class CarAgentGui extends VehicleAgentGui {
 
 	
 	public int xDestination,yDestination;
 	public boolean doingMove;
 	public Semaphore atMove = new Semaphore(1,true);
-	public BusAgent bus;
+	public CarAgent car;
 	
 	public SimCityGui gui;
 	public boolean clockwise;
@@ -37,13 +38,13 @@ public class BusAgentGui extends VehicleAgentGui {
 	public List<StopLight> stopLights = new ArrayList<StopLight>();
 	
 	
-	public BusAgentGui(BusAgent bus,SimCityGui gui,boolean clockwise){
+	public CarAgentGui(CarAgent car,SimCityGui gui,boolean clockwise){
     	super(165,130,Color.YELLOW,"Bus");
     	if(!clockwise){
     		this.x = 460;
     		this.y = 90;
     	}
-    	this.bus = bus;
+    	this.car = car;
     	this.gui = gui;
     	this.xDestination = this.x;
     	this.yDestination = this.y;
@@ -139,7 +140,7 @@ public class BusAgentGui extends VehicleAgentGui {
 		}
 		if(moving && rectangle.x==this.xDestination && rectangle.y ==this.yDestination){
 			moving = false;
-			bus.msgAtStop();
+			//bus.msgAtStop();
 //			this.bus.atStopFreeze.release();
 //			this.bus.updateBus();
 		}

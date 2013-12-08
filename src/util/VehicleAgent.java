@@ -14,7 +14,7 @@ public class VehicleAgent extends Agent {
 	//Data
 	
 	public List<Person> passengers  = Collections.synchronizedList(new ArrayList<Person>());
-	public Rectangle safeRegion;
+	//public Rectangle safeRegion;
 	
 	
 	
