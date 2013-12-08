@@ -12,7 +12,7 @@ public class House {
 	
 	
 	CityHouseCard animation;
-	public CityHouse houseGui;
+	
 	
 	public LivingUnit room;
 	public Loc address;

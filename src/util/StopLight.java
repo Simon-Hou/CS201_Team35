@@ -74,7 +74,7 @@ public class StopLight extends CityComponent implements Gui,ActionListener{
 		// TODO Auto-generated method stub
 		
 		if(e.getSource().equals(lightTimer)){
-			System.out.println("\t\tHere");
+			//System.out.println("\t\tHere");
 			toggleLight();
 		}
 		

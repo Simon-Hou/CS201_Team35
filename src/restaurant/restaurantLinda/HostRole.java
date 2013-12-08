@@ -19,7 +19,7 @@ import role.Role;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class HostRole extends Role implements Host{
-	
+
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
 	private List<Customer> uninformedCustomers = Collections.synchronizedList(new ArrayList<Customer>());
@@ -27,7 +27,7 @@ public class HostRole extends Role implements Host{
 	private Collection<Table> tables = Collections.synchronizedList(new ArrayList<Table>()); 
 	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	private String name;
-	
+
 	Person backupWorker;
 
 	public HostRole(String name) {
@@ -35,11 +35,11 @@ public class HostRole extends Role implements Host{
 		this.name = name;
 	}
 
-	
+
 	// Messages
 	public void msgIWantFood(Customer cust) {
 		boolean full=true;
-		
+
 		synchronized(tables){
 			for (Table table : tables) {
 				if (table.occupiedBy.size()<table.tableMax) {
@@ -48,24 +48,24 @@ public class HostRole extends Role implements Host{
 				}
 			}
 		}
-		
+
 		if (full)
 			uninformedCustomers.add(cust);
 		else{
 			//hack for the customerGui to know its line position
 			cust.getGui().DoWaitInLine(waitingCustomers.size());
-			
+
 			waitingCustomers.add(cust);
 		}
-		
+
 		stateChanged();
 	}
-	
+
 	public void msgIWillWait(Customer cust, boolean wait){
 		if (wait){		
 			//hack for the customerGui to know its line position
 			cust.getGui().DoWaitInLine(waitingCustomers.size());
-			
+
 			waitingCustomers.add(cust);
 		}
 		stateChanged();
@@ -91,7 +91,7 @@ public class HostRole extends Role implements Host{
 			}
 		}
 	}
-	
+
 	public void msgIWantBreak(Waiter waiter){
 		synchronized(waiters){
 			for (MyWaiter mw: waiters){
@@ -102,7 +102,7 @@ public class HostRole extends Role implements Host{
 			}
 		}
 	}
-	
+
 	public void msgOffBreak(Waiter waiter){
 		synchronized(waiters){
 			for (MyWaiter mw: waiters){
@@ -133,17 +133,20 @@ public class HostRole extends Role implements Host{
 				}
 			}
 		}
-		
+
 		if (!uninformedCustomers.isEmpty()){
 			NotifyCustomer(uninformedCustomers.get(0));
 			return true;
 		}
-		
-		for (MyWaiter mw: waiters){
-			if (mw.state==WaiterState.askedBreak){
-				GiveBreakStatus(mw);
-				return true;
+		try {
+			for (MyWaiter mw: waiters){
+				if (mw.state==WaiterState.askedBreak){
+					GiveBreakStatus(mw);
+					return true;
+				}
 			}
+		}
+		catch (ConcurrentModificationException e) {
 		}
 
 		return false;
@@ -158,10 +161,10 @@ public class HostRole extends Role implements Host{
 		customer.msgRestaurantFull();
 		uninformedCustomers.remove(customer);
 	}
-	
+
 	private void seatCustomer(Customer customer, Table table) {
 		customer.getGui().DoWaitForWaiter();
-		
+
 		//Find the first waiter not on break
 		int i=0;
 		try{
@@ -172,8 +175,8 @@ public class HostRole extends Role implements Host{
 		catch(IndexOutOfBoundsException e){
 			i=0;	//If, for some reason all waiters on break, we'll grab the first waiter
 		}
-			
-		
+
+
 		//Loops through the waiter list to find the one with the lowest number of customers assigned
 		MyWaiter waiter=waiters.get(i);
 		if (waiter.state==WaiterState.onBreak){
@@ -188,10 +191,10 @@ public class HostRole extends Role implements Host{
 		waitingCustomers.remove(customer);
 		waiter.customers++;
 		waiter.w.msgPleaseServeCustomer(customer, table.tableNumber);	
-		
+
 		updateCustomerLine();
 	}
-	
+
 	private void GiveBreakStatus(MyWaiter waiter){
 		for (MyWaiter mw: waiters){
 			if (mw.state!=WaiterState.onBreak && mw!=waiter){
@@ -206,13 +209,13 @@ public class HostRole extends Role implements Host{
 		Do(waiter.w.getName() + " cannot go on break");
 		waiter.w.msgBreakStatus(false);				
 	}	
-	
+
 	//private classes
 	class Table {
 		private List<Customer> occupiedBy= new ArrayList<Customer>();
 		private int tableNumber;
 		private int tableMax;
-		
+
 		Table(int t, int max)
 		{
 			occupiedBy= new ArrayList<Customer>();
@@ -220,12 +223,12 @@ public class HostRole extends Role implements Host{
 			tableMax=max;
 		}
 	}
-	
+
 	class MyWaiter{
 		Waiter w;
 		int customers;
 		WaiterState state;
-		
+
 		MyWaiter(Waiter w){
 			this.w = w;
 			customers=0;
@@ -233,28 +236,28 @@ public class HostRole extends Role implements Host{
 		}
 	}
 	enum WaiterState {ready, askedBreak, onBreak};
-	
-	
-	
+
+
+
 	//utilities
-	
+
 	//Gui hack
 	private void updateCustomerLine(){
 		for (Customer c: waitingCustomers){
 			c.getGui().DoMoveInLine();
 		}
 	}
-	
+
 	public void addTable(int tableSize){
 		tables.add(new Table(tables.size()+1,tableSize));
 		stateChanged();
 	}
-	
+
 	public void addWaiter(Waiter w){
 		waiters.add(new MyWaiter(w));
 		stateChanged();
 	}
-	
+
 	public String getMaitreDName() {
 		return name;
 	}
@@ -266,7 +269,7 @@ public class HostRole extends Role implements Host{
 
 	public void setPerson(Person person) {
 		p = person;
-		
+
 	}
 
 
@@ -274,18 +277,18 @@ public class HostRole extends Role implements Host{
 	public boolean canLeave() {
 		return false;
 	}
-	
+
 	public void changeShifts(Person p){
 		if (this.p!=null)
 			this.p.msgThisRoleDone(this);
-		
+
 		this.p = p;
 		this.name = p.getName();
 	}
-	
+
 	public boolean isPresent(){
 		return this.p!=null;
 	}
-	
+
 }
 

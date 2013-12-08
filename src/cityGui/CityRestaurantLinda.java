@@ -44,14 +44,14 @@ public class CityRestaurantLinda extends CityRestaurant {
     //private TablePanel tablePanel = new TablePanel(this);
     private Map<Integer,Point> tableMap=new HashMap<Integer,Point>();
     
-    public CityRestaurantLindaCard animationPanel;
+    //public CityRestaurantLindaCard animationPanel;
 	
 	
-	public CityRestaurantLinda(int x, int y) {
-		super(x, y);
-		//initializeRestaurant();
-		//System.out.println("First");
-	}
+//	public CityRestaurantLinda(int x, int y) {
+//		super(x, y);
+//		//initializeRestaurant();
+//		//System.out.println("First");
+//	}
 	
 	public CityRestaurantLinda(int x, int y, String ID) {
 		super(x, y, ID);
@@ -154,7 +154,7 @@ public class CityRestaurantLinda extends CityRestaurant {
     	yLoc = yLoc/cellSize;
 		if(tryAddTable(CityRestaurantLindaCard.TABLESIZE/cellSize, xLoc, yLoc)) {
 			tableMap.put(tableMap.size()+1, new Point(xLoc*cellSize,yLoc*cellSize));
-			animationPanel.addTable(new Point(xLoc*cellSize,yLoc*cellSize));
+			((CityRestaurantLindaCard)animationPanel).addTable(new Point(xLoc*cellSize,yLoc*cellSize));
 			((HostRole)(restaurant.host)).addTable(size);
 			System.out.println("Added table " + (tableMap.size()+1));
 			return true;
@@ -196,7 +196,7 @@ public class CityRestaurantLinda extends CityRestaurant {
 	
     public void createAnimationPanel(SimCityGui city){
     	animationPanel = new CityRestaurantLindaCard(city);
-    	//super.animationPanel = animationPanel;
+    	super.animationPanel = animationPanel;
 		
 		initializeRestaurant();
 	}

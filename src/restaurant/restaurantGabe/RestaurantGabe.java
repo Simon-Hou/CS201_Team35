@@ -93,10 +93,10 @@ public class RestaurantGabe extends Restaurant{
 	        
 	        //cashier.startThread();
 	        
-	        CookGui cGui = new CookGui(cook);
-	        cityRestaurantGabe.animationPanel.addGui(cGui);
-	        ((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).setCookNumbers(cGui);
-	        cook.setGui(cGui);
+//	        CookGui cGui = new CookGui(cook);
+//	        cityRestaurantGabe.animationPanel.addGui(cGui);
+//	        ((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).setCookNumbers(cGui);
+//	        cook.setGui(cGui);
 	        
 	        //cook.startThread();
 	        
@@ -188,9 +188,15 @@ public class RestaurantGabe extends Restaurant{
 	
 	public Role canIBeCook(Person person){
 		if(((CookRole) cook).person==null || ((CookRole)cook).YouAreDoneWithShift()){
+			
 			((CookRole) cook).name = person.getName()+"RestaurantCook";
 			((CookRole) cook).person = (PersonAgent) person;
 			//System.out.println(host==null);
+			
+			CookGui cGui = new CookGui(cook);
+	        cook.setGui(cGui);
+	        cityRestaurantGabe.animationPanel.addGui(cGui);
+	        ((CityRestaurantCardGabe) cityRestaurantGabe.animationPanel).setCookNumbers(cGui);
 			
 			
 			//CookGui cGui = new CookGui((CookRole) r);
@@ -204,6 +210,10 @@ public class RestaurantGabe extends Restaurant{
 	public void setUpWaiter(WaiterRole r){
 		
 		r.setRestaurant(this);
+		
+		if (r instanceof StandWaiterRole) {
+			((StandWaiterRole)r).setStand(cityRestaurantGabe.stand);
+		}
 		
 		WaiterGui wGui = new WaiterGui((WaiterRole) r,numWaiters);
 		numWaiters++;
@@ -239,7 +249,20 @@ public class RestaurantGabe extends Restaurant{
 			return canIBeHost(p);
 		}
 		
-		else if (type == JobType.RestaurantWaiter1){
+		else if (type == JobType.RestaurantGabeWaiter1){
+			
+			
+			System.out.println("Adding a new waiter "+p.getName());
+			//waiters.add((Waiter) r);
+			//((MarketEmployeeRole) m).inEmployeeList = true;
+			//panel.addEmployee((MarketEmployeeRole) r);
+			
+			setUpWaiter((WaiterRole) r);
+			
+			return r;
+			
+		}
+        else if (type == JobType.RestaurantGabeWaiter2){
 			
 			
 			System.out.println("Adding a new waiter "+p.getName());
@@ -282,6 +305,10 @@ public class RestaurantGabe extends Restaurant{
 	public void leaveRestaurant(WaiterRole wr){
 		cityRestaurantGabe.animationPanel.removeGui(wr.waiterGui);
 		numWaiters--;
+	}
+	
+	public void leaveRestaurant(CookRole cr){
+		cityRestaurantGabe.animationPanel.removeGui(cr.gui);
 	}
 	
 	public boolean leaveWaiterList(WaiterRole r){

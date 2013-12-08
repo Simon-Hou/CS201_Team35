@@ -121,9 +121,14 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 			if(temp.type.equals("Restaurant")){
 				((CityRestaurant)temp).createAnimationPanel(city);
+				restaurants.add(((CityRestaurant)temp).restaurant);
 				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
+				//				((CityRestaurant)temp).createAnimationPanel(city);
+//				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
+//				temp.cityObject = this.cityObject;
+//				temp.addAgentObjectToMap();
 			}
 			else if(temp.type.equals("House")){
 				CityHouseCard tempAnimation= new CityHouseCard(city);
@@ -147,6 +152,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			else if (temp.type.equals("Market")){
 				CityMarketCard tempAnimation = new CityMarketCard(city);
 				MarketPanel panel = new MarketPanel(tempAnimation, ((CityMarket)temp).market);
+				city.buildingCP.addPanelCard(panel, temp.ID);
 				((CityMarket)temp).market.setMarketPanel(panel);
 				tempAnimation.setPanel(panel);
 				markets.add(((CityMarket)temp).market);
@@ -167,6 +173,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			if (c.contains(arg0.getX(), arg0.getY())) {
 				//city.info.setText(c.ID);
 				city.view.setView(c.ID);
+				city.buildingCP.showCard(c.ID);
 				AlertLog.getInstance().logMessage(AlertTag.GENERAL_CITY, this.name, "Building Selected: " + c.ID);
 			}
 		}
@@ -182,7 +189,11 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		addingObject = true;
 		switch (c) {
 		//Need to make multiple restaurant enums, probably
+
+		//case RESTAURANT: temp = new CityRestaurantSimon(-100, -100, "Restaurant " + (statics.size()-19)); break;
+
 		case RESTAURANT: temp = new CityRestaurantGabe(-100, -100, "Restaurant " + (statics.size()-19)); break;
+
 		case ROAD: temp = new CityRoad(-100, RoadDirection.HORIZONTAL); break; //NOTE: DON'T MAKE NEW ROADS
 		case BANK: temp = new CityBank(-100, -100, "Bank " + (statics.size()-19)); break;
 		case HOUSE: temp = new CityHouse(-100, -100, "House " + (statics.size()-19)); break;

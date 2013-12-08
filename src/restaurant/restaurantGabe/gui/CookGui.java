@@ -12,6 +12,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.ImageIcon;
+
+import person.PersonAgent;
 import public_Gui.Gui;
 
 public class CookGui implements Gui {
@@ -58,9 +61,15 @@ public class CookGui implements Gui {
     
     boolean waitingForCust = true;
     boolean waitingToGetToCook = false;
+    
+    ImageIcon currentImage;
+	private int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 12;
 
     public CookGui(CookRole agent) {
         this.cook = agent;
+        currentImage = ((PersonAgent)this.cook.person).downSprites.get(0);
     }
     
     
@@ -68,15 +77,38 @@ public class CookGui implements Gui {
 
     public void updatePosition() {
     	//System.out.println("Going home!");
-        if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;
-
-        if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
+    	if (xPos < xDestination) {
+			xPos++;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.cook.person).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.cook.person).rightSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (xPos > xDestination) {
+			xPos--;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.cook.person).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.cook.person).leftSprites.size());
+				changeSpriteCounter++;
+			}			
+		}
+		if (yPos < yDestination) {
+			yPos++;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.cook.person).downSprites.get(changeSpriteCounter % ((PersonAgent)this.cook.person).downSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (yPos > yDestination) {
+			yPos--;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.cook.person).upSprites.get(changeSpriteCounter % ((PersonAgent)this.cook.person).upSprites.size());
+				changeSpriteCounter++;
+			}
+		}
 
         /*for(int i = 0;i<N_TABLES;++i){
 	        if (xPos == xDestination && yPos == yDestination
@@ -116,8 +148,10 @@ public class CookGui implements Gui {
     }
     
     public void draw(Graphics2D g) {
-        g.setColor(Color.YELLOW);
-        g.fillRect(xPos, yPos, host_width, host_height);
+//        g.setColor(Color.YELLOW);
+//        g.fillRect(xPos, yPos, host_width, host_height);
+	    g.drawImage(currentImage.getImage(),xPos, yPos, host_width, host_height,null);
+
         
         int i = 0;
         synchronized(cooking){
@@ -137,9 +171,7 @@ public class CookGui implements Gui {
 	        	g.drawString(show, xPlate + i*20, yPlate + 15);
 	        	++i;
 	        }
-        }
-        
-        
+        }   
     }
 
     public boolean isPresent() {

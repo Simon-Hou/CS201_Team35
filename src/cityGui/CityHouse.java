@@ -42,14 +42,19 @@ public class CityHouse extends CityComponent implements ImageObserver {
 		type="House";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		initializeHouse();
-		//house.houseGui = this;
+		
 	}
 	
 	public void initializeHouse(){
 		//System.out.println("House address is: "+sidewalkX(x,y)+" "+sidewalkY(x,y));
 		house = new House();
-		//house.address = new Loc(sidewalkX(x,y),sidewalkY(x,y));
-		house.houseGui = this;
+//TODO
+		//<<<<<<< HEAD
+//		
+//=======
+//		//house.address = new Loc(sidewalkX(x,y),sidewalkY(x,y));
+//		house.houseGui = this;
+//>>>>>>> master
 	}
 	
 	@Override
