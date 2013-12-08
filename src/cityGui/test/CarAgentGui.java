@@ -185,55 +185,6 @@ public class CarAgentGui extends VehicleAgentGui {
 	}
 	
 	
-	
-	/*@Override
-	public void updatePosition() {
-		if(topLaneF() && rectangle.x>=380){
-			rectangle = new Rectangle(450,122,20,50);
-		}
-		if(rightLaneF() && rectangle.y>=420){
-			rectangle = new Rectangle(420,450,50,20);
-		}
-		if(bottomLaneF() && rectangle.x<=150){
-			rectangle = new Rectangle(120,420,20,50);
-		}
-		if(leftLaneF() && rectangle.y<=150){
-			rectangle = new Rectangle(rectangle.x,130,50,20);
-		}
-		
-		if(topLaneB() && rectangle.x<=90){
-			rectangle = new Rectangle(90,90,20,50);
-		}
-		if(rightLaneB() && rectangle.y>=420){
-			rectangle = new Rectangle(420,450,50,20);
-		}
-		if(bottomLaneB() && rectangle.x<=150){
-			rectangle = new Rectangle(120,420,20,50);
-		}
-		if(leftLaneB() && rectangle.y<=90){
-			rectangle = new Rectangle(90,90,50,20);
-		}
-		
-    	if(rectangle.x<xDestination){
-    		rectangle.x++;
-    	}
-    	else if(rectangle.x>xDestination){
-    		rectangle.x--;
-    	}
-    	
-    	if(rectangle.y<yDestination){
-    		rectangle.y++;
-    	}
-    	else if(rectangle.y>yDestination){
-    		rectangle.y--;
-    	}
-    	if(doingMove && rectangle.x == xDestination && rectangle.y == yDestination){
-    		atMove.release();
-    		doingMove = false;
-    	}
-    	
-    }*/
-	
 	public void goTo(int x, int y){
 		moving = true;
 		this.xDestination = x;
@@ -298,7 +249,7 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	
 	public boolean topLaneF(){
-    	if(rectangle.y==130 && (rectangle.x>=120 && rectangle.x<=430)){
+    	if(rectangle.y==130 && (rectangle.x>=120 && rectangle.x<=430 && rectangle.width == 25)){
     		return true;
     	}
     	return false;
@@ -312,7 +263,7 @@ public class CarAgentGui extends VehicleAgentGui {
     public boolean topLaneB(){
     	//System.out.println("YEAAAAAAAA");
     	//System.out.println(rectangle.x+" "+rectangle.y);
-    	if(rectangle.y==90 && (rectangle.x>=90 && rectangle.x<=460)){
+    	if(rectangle.y==90 && (rectangle.x>=90 && rectangle.x<=460 && rectangle.width == 25 )){
     		//System.out.println("NOOOOOO");
     		return true;
     	}
@@ -325,7 +276,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean rightLaneF(){
-    	if(rectangle.x==450 && rectangle.y>=130 && rectangle.y<=445){
+    	if(rectangle.x==450 && rectangle.y>=130 && rectangle.y<=445  && rectangle.width == 15){
     		return true;
     	}
     	return false;
@@ -337,7 +288,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean rightLaneB(){
-    	if(rectangle.x==490 && rectangle.y>=90 && rectangle.y<=480){
+    	if(rectangle.x==490 && rectangle.y>=90 && rectangle.y<=480  && rectangle.width == 15){
     		return true;
     	}
     	return false;	
@@ -349,7 +300,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean bottomLaneF(){
-    	if(rectangle.y == 450 && rectangle.x>=130 && rectangle.x<=450){
+    	if(rectangle.y == 450 && rectangle.x>=130 && rectangle.x<=450 && rectangle.width == 25){
     		return true;
     	}
     	return false;
@@ -363,7 +314,7 @@ public class CarAgentGui extends VehicleAgentGui {
     
 	
 	 public boolean bottomLaneB(){
-	    	if(rectangle.y == 490 && rectangle.x>=90 && rectangle.x<=460){
+	    	if(rectangle.y == 490 && rectangle.x>=90 && rectangle.x<=460 && rectangle.width == 25){
 	    		return true;
 	    	}
 	    	return false;
@@ -375,7 +326,7 @@ public class CarAgentGui extends VehicleAgentGui {
 	    	return false;
 	    }
 	    public boolean leftLaneF(){
-	    	if(rectangle.x == 130 && rectangle.y<=450 && rectangle.y>=130){
+	    	if(rectangle.x == 130 && rectangle.y<=450 && rectangle.y>=130 && rectangle.width == 15){
 	    		return true;
 	    	}
 	    	return false;
@@ -388,7 +339,7 @@ public class CarAgentGui extends VehicleAgentGui {
 	    	return false;
 	    }
 	    public boolean leftLaneB(){
-	    	if(rectangle.x == 90 && rectangle.y<=460 && rectangle.y>=90){
+	    	if(rectangle.x == 90 && rectangle.y<=460 && rectangle.y>=90 && rectangle.width == 15){
 	    		return true;
 	    	}
 	    	return false;

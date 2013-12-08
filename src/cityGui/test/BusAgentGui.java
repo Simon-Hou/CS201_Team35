@@ -324,7 +324,7 @@ public class BusAgentGui extends VehicleAgentGui {
     public boolean topLaneB(){
     	//System.out.println("YEAAAAAAAA");
     	//System.out.println(rectangle.x+" "+rectangle.y);
-    	if(rectangle.y==90 && (rectangle.x>=90 && rectangle.x<=460)){
+    	if(rectangle.y==90 && (rectangle.x>=90 && rectangle.x<=460 && rectangle.width == 50)){
     		//System.out.println("NOOOOOO");
     		return true;
     	}
@@ -337,7 +337,7 @@ public class BusAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean rightLaneF(){
-    	if(rectangle.x==450 && rectangle.y>=130 && rectangle.y<=420){
+    	if(rectangle.x==450 && rectangle.y>=130 && rectangle.y<=420 && rectangle.width == 20){
     		return true;
     	}
     	return false;
@@ -349,7 +349,7 @@ public class BusAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean rightLaneB(){
-    	if(rectangle.x==490 && rectangle.y>=90 && rectangle.y<=460){
+    	if(rectangle.x==490 && rectangle.y>=90 && rectangle.y<=460 && rectangle.width == 20 ){
     		return true;
     	}
     	return false;	
@@ -361,7 +361,7 @@ public class BusAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean bottomLaneF(){
-    	if(rectangle.y == 450 && rectangle.x>=130 && rectangle.x<=420){
+    	if(rectangle.y == 450 && rectangle.x>=130 && rectangle.x<=420 && rectangle.width == 50){
     		return true;
     	}
     	return false;
@@ -375,7 +375,7 @@ public class BusAgentGui extends VehicleAgentGui {
     
 	
 	 public boolean bottomLaneB(){
-	    	if(rectangle.y == 490 && rectangle.x>=90 && rectangle.x<=460){
+	    	if(rectangle.y == 490 && rectangle.x>=90 && rectangle.x<=460 && rectangle.width == 50){
 	    		return true;
 	    	}
 	    	return false;
@@ -387,7 +387,7 @@ public class BusAgentGui extends VehicleAgentGui {
 	    	return false;
 	    }
 	    public boolean leftLaneF(){
-	    	if(rectangle.x == 130 && rectangle.y<=450 && rectangle.y>=130){
+	    	if(rectangle.x == 130 && rectangle.y<=450 && rectangle.y>=130 && rectangle.width == 20 ){
 	    		return true;
 	    	}
 	    	return false;
@@ -400,7 +400,7 @@ public class BusAgentGui extends VehicleAgentGui {
 	    	return false;
 	    }
 	    public boolean leftLaneB(){
-	    	if(rectangle.x == 90 && rectangle.y<=460 && rectangle.y>=90){
+	    	if(rectangle.x == 90 && rectangle.y<=460 && rectangle.y>=90 && rectangle.width == 20 ){
 	    		return true;
 	    	}
 	    	return false;
