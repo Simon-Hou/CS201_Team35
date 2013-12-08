@@ -39,7 +39,7 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	
 	public CarAgentGui(CarAgent car,SimCityGui gui,boolean clockwise){
-    	super(165,130,Color.YELLOW,"Bus");
+    	super(165,130,Color.RED,"Bus");
     	if(!clockwise){
     		this.x = 460;
     		this.y = 90;
@@ -49,7 +49,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	this.xDestination = this.x;
     	this.yDestination = this.y;
     	this.clockwise = clockwise;
-    	rectangle = new Rectangle(x, y, 50, 20);
+    	rectangle = new Rectangle(x, y, 25, 15);
     }
 	
 	
@@ -83,25 +83,25 @@ public class CarAgentGui extends VehicleAgentGui {
         		rectangle.x++;
         	}
         	if(topRightCornerF()){
-        		rectangle = new Rectangle(450,130,20,50);
+        		rectangle = new Rectangle(450,130,15,25);
         	}
         	if(rightLaneF()){
         		rectangle.y++;
         	}
         	if(bottomRightCornerF()){
-        		rectangle = new Rectangle(420,450,50,20);
+        		rectangle = new Rectangle(445,450,25,15);
         	}
         	if(bottomLaneF()){
         		rectangle.x--;
         	}
         	if(bottomLeftCornerF()){
-        		rectangle = new Rectangle(130,420,20,50);
+        		rectangle = new Rectangle(130,420,15,25);
         	}
         	if(leftLaneF()){
         		rectangle.y--;
         	}
         	if(topLeftCornerF()){
-        		rectangle = new Rectangle(130,130,50,20);
+        		rectangle = new Rectangle(130,130,25,15);
         	}
         }
 		else{
@@ -224,7 +224,7 @@ public class CarAgentGui extends VehicleAgentGui {
 
 
 	public void paint(Graphics2D g) {
-        g.setColor(Color.YELLOW);
+        g.setColor(Color.RED);
         g.fillRect(rectangle.x, rectangle.y, 50, 20);
     }  
 	
@@ -280,7 +280,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean rightLaneF(){
-    	if(rectangle.x==450 && rectangle.y>=130 && rectangle.y<=420){
+    	if(rectangle.x==450 && rectangle.y>=130 && rectangle.y<=445){
     		return true;
     	}
     	return false;
@@ -304,7 +304,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean bottomLaneF(){
-    	if(rectangle.y == 450 && rectangle.x>=130 && rectangle.x<=420){
+    	if(rectangle.y == 450 && rectangle.x>=130 && rectangle.x<=450){
     		return true;
     	}
     	return false;

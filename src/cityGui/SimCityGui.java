@@ -29,6 +29,7 @@ import util.BankMapLoc;
 import util.Bus;
 import util.BusAgent;
 import util.BusStop;
+import util.CarAgent;
 import util.CityMap;
 import util.CrosswalkStatus;
 import util.HouseMapLoc;
@@ -43,6 +44,7 @@ import cityGui.test.AStarTraversalPerson;
 import cityGui.test.AStarTraversalVehicle;
 import cityGui.test.BusAgentGui;
 import cityGui.test.BusGui;
+import cityGui.test.CarAgentGui;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
 import cityGui.trace.TracePanel;
@@ -732,6 +734,91 @@ public class SimCityGui extends JFrame implements ActionListener {
 		b2.startThread();
 	}
 
+	
+	public void addVehicles(SimCityGui simCityGui){
+		BusAgent b = new BusAgent();
+		BusAgent b2 = new BusAgent();
+		CarAgent c = new CarAgent();
+		//b.gui = new BusGui(b,test,110,110,30,50);
+
+		b.gui = new BusAgentGui(b,simCityGui,true);
+		b2.gui = new BusAgentGui(b2,simCityGui,false);
+		c.gui = new CarAgentGui(c,simCityGui,true);
+		
+		cityObject.fBus = b;
+		cityObject.bBus = b2;
+
+		cityObject.cityMap.fStops.add(new BusStop(new Loc(170,130)));
+		cityObject.cityMap.fStops.add(new BusStop(new Loc(380,450)));
+
+		cityObject.cityMap.fStops.get(0).sidewalkLoc = new Loc(180,160);
+		cityObject.cityMap.fStops.get(1).sidewalkLoc = new Loc(410,430);
+
+		cityObject.cityMap.bStops.add(new BusStop(new Loc(460,90)));
+		cityObject.cityMap.bStops.add(new BusStop(new Loc(100,490)));
+
+		cityObject.cityMap.bStops.get(0).sidewalkLoc = new Loc(490,70);
+		cityObject.cityMap.bStops.get(1).sidewalkLoc = new Loc(120,520);
+
+		b.stops = cityObject.cityMap.fStops;
+		b2.stops = cityObject.cityMap.bStops;
+
+		city.addMoving(b.gui);
+		city.addMoving(b2.gui);
+		city.addMoving(c.gui);
+		
+		List<StopLight> lights = new ArrayList<StopLight>();
+		
+		StopLight light = new StopLight();
+		light.loc = new Loc(285,80);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(270,80,60,80);
+		light.letGoRegion = new Rectangle(290,80,20,80);
+		city.addStatic(light);
+		lights.add(light);
+		
+		light = new StopLight();
+		light.loc = new Loc(285,440);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(270,440,60,80);
+		light.letGoRegion = new Rectangle(290,440,20,80);
+		city.addStatic(light);
+		lights.add(light);
+		
+		light = new StopLight();
+		light.loc = new Loc(80,285);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(80,270,80,60);
+		light.letGoRegion = new Rectangle(80,290,80,20);
+		city.addStatic(light);
+		lights.add(light);
+		
+		light = new StopLight();
+		light.loc = new Loc(440,285);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(440,270,80,60);
+		light.letGoRegion = new Rectangle(440,290,80,20);
+		city.addStatic(light);
+		lights.add(light);
+		
+		
+		
+		//b.setAStar(new AStarTraversalVehicle(grid));
+		//b2.setAStar(new AStarTraversalVehicle(grid));
+		
+		b.gui.stopLights = lights;
+		b2.gui.stopLights = lights;
+		c.gui.stopLights = lights;
+		c.gui.goTo(410,430);
+		
+		
+		b.startThread();
+		b2.startThread();
+		
+	}
+	
+	
+	
 	/**
 	 * @param args
 	 */
@@ -748,6 +835,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int xStartTest = 0;
 		int yStartTest = 0;
 
+		test.addVehicles(test);
 		//test.gabeRestaurant();
 		//test.addBuses(test);
 		

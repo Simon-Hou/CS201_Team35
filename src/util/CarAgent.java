@@ -1,8 +1,12 @@
 package util;
 
+import cityGui.test.CarAgentGui;
+
 public class CarAgent extends VehicleAgent{
 	
 	
+	
+	public CarAgentGui gui;
 	
 	
 	
