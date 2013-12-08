@@ -39,6 +39,8 @@ public class CookGui implements Gui {
     ImageIcon currentImage;
 	public int spriteCounter = 6;
 	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 12;
+
     
     public CookGui(CookRole agent) {
         this.agent = agent;
@@ -63,7 +65,7 @@ public class CookGui implements Gui {
 		if (xPos < xDestination) {
 			xPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).rightSprites.size());
 				changeSpriteCounter++;
 			}
@@ -71,7 +73,7 @@ public class CookGui implements Gui {
 		else if (xPos > xDestination) {
 			xPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).leftSprites.size());
 				changeSpriteCounter++;
 			}			
@@ -79,7 +81,7 @@ public class CookGui implements Gui {
 		if (yPos < yDestination) {
 			yPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).downSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).downSprites.size());
 				changeSpriteCounter++;
 			}
@@ -87,7 +89,7 @@ public class CookGui implements Gui {
 		else if (yPos > yDestination) {
 			yPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).upSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).upSprites.size());
 				changeSpriteCounter++;
 			}

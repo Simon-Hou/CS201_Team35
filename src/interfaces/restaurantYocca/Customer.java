@@ -88,6 +88,7 @@ public interface Customer extends BaseRestaurantCustomer {
 
 
 
+
 	//public abstract void setAmountOwed(int temp);
 
 

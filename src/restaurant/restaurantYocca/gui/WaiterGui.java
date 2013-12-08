@@ -39,6 +39,7 @@ public class WaiterGui implements Gui {
 	ImageIcon currentImage;
 	public int spriteCounter = 6;
 	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 12;
 
 	public WaiterGui(WaiterRole agent, RestaurantYocca rYocca) {
 		System.out.println("WaiterGui being called");
@@ -90,12 +91,13 @@ public class WaiterGui implements Gui {
 	private int cookY = 100;
 	private int cashierX = 230;
 	private int cashierY = 40;
+	private int yWaitingLocation = 0;
 
 	public void updatePosition() {
 		if (xPos < xDestination) {
 			xPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).rightSprites.size());
 				changeSpriteCounter++;
 			}
@@ -103,7 +105,7 @@ public class WaiterGui implements Gui {
 		else if (xPos > xDestination) {
 			xPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).leftSprites.size());
 				changeSpriteCounter++;
 			}			
@@ -111,7 +113,7 @@ public class WaiterGui implements Gui {
 		if (yPos < yDestination) {
 			yPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).downSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).downSprites.size());
 				changeSpriteCounter++;
 			}
@@ -119,7 +121,7 @@ public class WaiterGui implements Gui {
 		else if (yPos > yDestination) {
 			yPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).upSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).upSprites.size());
 				changeSpriteCounter++;
 			}
@@ -201,7 +203,7 @@ public class WaiterGui implements Gui {
 	}
 
 	public boolean isAtWaitingArea() {
-		if (xPos == 30 && yPos == 30) {
+		if (xPos == 30 && yPos == yWaitingLocation) {
 			return true;
 		}
 		return false;
@@ -310,9 +312,10 @@ public class WaiterGui implements Gui {
 		yDestination = homeY;
 	}
 
-	public void DoGetCustomer() {
+	public void DoGetCustomer(int yPosition) {
 		xDestination = 30;
-		yDestination = 30;
+		yWaitingLocation = yPosition;
+		yDestination = yPosition;
 	}
 
 	public int getXPos() {

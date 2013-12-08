@@ -36,8 +36,9 @@ public class CustomerGui implements Gui {
 	private Command command=Command.noCommand;
 
 	ImageIcon currentImage;
-	public int spriteCounter = 6;
+	private int spriteCounter = 6;
 	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 12;
 	
 	public CustomerGui(CustomerRole agent) {
         this.agent = agent;
@@ -72,7 +73,7 @@ public class CustomerGui implements Gui {
 		if (xPos < xDestination) {
 			xPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).rightSprites.size());
 				changeSpriteCounter++;
 			}
@@ -80,7 +81,7 @@ public class CustomerGui implements Gui {
 		else if (xPos > xDestination) {
 			xPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).leftSprites.size());
 				changeSpriteCounter++;
 			}			
@@ -88,7 +89,7 @@ public class CustomerGui implements Gui {
 		if (yPos < yDestination) {
 			yPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).downSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).downSprites.size());
 				changeSpriteCounter++;
 			}
@@ -96,7 +97,7 @@ public class CustomerGui implements Gui {
 		else if (yPos > yDestination) {
 			yPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.agent.p).upSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).upSprites.size());
 				changeSpriteCounter++;
 			}
@@ -127,7 +128,7 @@ public class CustomerGui implements Gui {
 //		g.fillRect(xPos, yPos, 20, 20);
 	     g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
 		g.setColor(Color.BLACK);
-        g.drawString(foodString, xPos+5, yPos+15);
+        g.drawString(foodString, xPos+15, yPos+15);
 	}
     
 	public boolean isPresent() {
@@ -226,10 +227,10 @@ public class CustomerGui implements Gui {
 		yDestination = cashierY - 10;
 	}
 	
-	public void DoGoToWaitingArea() {
+	public void DoGoToWaitingArea(int waitingSpot) {
 		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.agent.getName(),"Amount of customers in restaurant: " + this.restaurant.customers.size());
 		try {
-			yDestination = 75 + this.restaurant.customers.size() * 25;
+			yDestination = 75 + waitingSpot * 25;
 		} catch (NullPointerException e) {
 			yDestination = 75;
 			System.out.println(yDestination);
@@ -251,6 +252,10 @@ public class CustomerGui implements Gui {
 	
 	public int getY() {
 		return yPos;
+	}
+	
+	public int getWaitingYLocation() {
+		return homeY;
 	}
 
 }
