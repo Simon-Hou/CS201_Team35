@@ -58,7 +58,7 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	
 	public boolean putCarOnRoad(OnRamp ramp){
-		System.out.println("Trying "+ramp.loc.x+", "+ramp.loc.y);
+		//System.out.println("Trying "+ramp.loc.x+", "+ramp.loc.y);
 		Rectangle potentialLocation;
 		Rectangle potentialSafety;
 		
@@ -85,7 +85,7 @@ public class CarAgentGui extends VehicleAgentGui {
 		rectangle = potentialLocation;
 		safeRegion = potentialSafety;
 		gui.city.movings.add(this);
-		System.out.println("Returning true");
+		//System.out.println("Returning true");
 		
 		return true;
 		
@@ -243,8 +243,8 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	public void goTo(int x, int y){
 		moving = true;
-		System.out.println("Current Position "+rectangle.x+", "+rectangle.y);
-		System.out.println("goTo being called with "+x+", "+y);
+		//System.out.println("Current Position "+rectangle.x+", "+rectangle.y);
+		//System.out.println("goTo being called with "+x+", "+y);
 		this.xDestination = x;
 		this.yDestination = y;
 	}

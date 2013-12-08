@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -56,10 +57,15 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	}
 	
 	public void moveComponents() {
-		synchronized(movings){
-			for (CityComponent c:movings) {
-				c.updatePosition();
+		try{
+			synchronized(movings){
+				for (CityComponent c:movings) {
+					c.updatePosition();
+				}
 			}
+		}
+		catch(ConcurrentModificationException e){
+			//e.printStackTrace();
 		}
 	}
 	
