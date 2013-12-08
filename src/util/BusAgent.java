@@ -13,6 +13,7 @@ import javax.swing.Timer;
 
 import cityGui.CityComponent;
 import cityGui.test.AStarTraversalVehicle;
+import cityGui.test.BusAgentGui;
 import cityGui.test.BusGui;
 import agent.Agent;
 import astar.AStarNode;
@@ -43,6 +44,13 @@ public class BusAgent extends Agent implements ActionListener{
 	public boolean arrivedAtStop = true;
 	
 	
+	//Setters
+	
+	public void setGui(BusAgentGui bGui){
+		this.gui = bGui;
+	}
+	
+	
 	//Constructor 
 	
 	public BusAgent(){
@@ -58,10 +66,6 @@ public class BusAgent extends Agent implements ActionListener{
 		timeToGo = true;
 		timer.stop();
 		stateChanged();
-	}
-	
-	public void msgAtStop(){
-		waitingForStop.release();
 	}
 	
 	
@@ -104,6 +108,12 @@ public class BusAgent extends Agent implements ActionListener{
 	//GUI
 	
 	private void doGoToNextStop(){
+		
+		Loc nextStop = stops.get((currentStop+1)%stops.size()).location;
+		
+		Loc nextStopGrid = CityComponent.findNearestGridLoc(new Point(nextStop.x,nextStop.y));
+		
+		guiMoveFromCurrentPostionTo(new Position(nextStopGrid.x,nextStopGrid.y));
 		
 		
 		

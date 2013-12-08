@@ -23,10 +23,28 @@ public class BusAgentGui extends CityComponent implements Gui {
 	
 	public int xDestination,yDestination;
 	public boolean doingMove;
+	public Semaphore atMove = new Semaphore(1,true);
 	public BusAgent bus;
+	
+	public SimCityGui gui;
+	public boolean clockwise;
 	
 	public static int gridScale = 30;
 	
+	
+	public BusAgentGui(BusAgent bus,SimCityGui gui,boolean clockwise){
+    	super(165,130,Color.YELLOW,"Bus");
+    	if(!clockwise){
+    		this.x = 460;
+    		this.y = 90;
+    	}
+    	this.bus = bus;
+    	this.gui = gui;
+    	this.xDestination = this.x;
+    	this.yDestination = this.y;
+    	this.clockwise = clockwise;
+    	rectangle = new Rectangle(x, y, 50, 20);
+    }
 	
 	
 	
@@ -48,7 +66,7 @@ public class BusAgentGui extends CityComponent implements Gui {
     		rectangle.y--;
     	}
     	if(doingMove && rectangle.x == xDestination && rectangle.y == yDestination){
-    		bus.waitingForStop.release();
+    		atMove.release();
     		doingMove = false;
     	}
     	
@@ -67,8 +85,6 @@ public class BusAgentGui extends CityComponent implements Gui {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    	
     	
     }
 	
