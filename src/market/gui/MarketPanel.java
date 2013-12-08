@@ -19,6 +19,8 @@ import java.util.Map;
 
 import javax.swing.*;
 
+import cityGui.CityComponent;
+import cityGui.CityMarket;
 import cityGui.BuildingControlPanel;
 import cityGui.CityMarketCard;
 import interfaces.MarketCustomer;
@@ -57,7 +59,6 @@ public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements Actio
 	public MarketPanel(CityMarketCard anim, Market market){
 		animation = anim;
 		this.market = market;
-		
 		//FRAME SETUP
 	    int WINDOWX = 180;//300;
 	    int WINDOWY = 500; //500;	

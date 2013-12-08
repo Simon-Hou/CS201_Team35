@@ -336,8 +336,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		host = host2;
 		
 	}public void setGui(MarketCustomerGui g){
-		//gui = g;
-		this.gui = null;
+		gui = g;
+		//this.gui = null;
 	}
 	public String getName(){
 		return name;

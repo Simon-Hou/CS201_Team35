@@ -2,12 +2,14 @@ package restaurant;
 
 import java.util.List;
 
+import role.Role;
 import cityGui.CityRestaurant;
 import interfaces.BaseRestaurantCashier;
 import interfaces.BaseRestaurantCook;
 import interfaces.BaseRestaurantCustomer;
 import interfaces.BaseRestaurantHost;
 import interfaces.BaseRestaurantWaiter;
+import interfaces.Person;
 import interfaces.PlaceOfWork;
 
 

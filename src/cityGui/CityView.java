@@ -28,10 +28,10 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		this.city = city;
 
 		cards = new HashMap<String, CityCard>();
-		cards.put("null", new CityCard(city, Color.DARK_GRAY));
-		cards.put("Road", new CityCard(city));
-		cards.put("Restaurant 1", new CityCard(city, Color.blue));
-		cards.put("Restaurant 2", new CityCard(city, Color.red));
+		cards.put("Welcome to CITY!!!", new CityCard(city, Color.DARK_GRAY));
+		//cards.put("Road", new CityCard(city));
+		//cards.put("Restaurant 1", new CityCard(city, Color.blue));
+		//cards.put("Restaurant 2", new CityCard(city, Color.red));
 
 		layout = new CardLayout();
 		this.setLayout(layout);
@@ -50,6 +50,10 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		if(currentCard!=null){
 			cards.get(currentCard).time=city.time;
 		}
+		if (cards.get(key) == null) {
+			System.out.println("Card is null");
+		}
+		else System.out.println("Card is not null");
 		//System.out.println(panel==null);
 		this.add(cards.get(key), key);
 		currentCard=key;
@@ -63,7 +67,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 				cards.get(currentCard).time=city.time;
 			}
 			//System.out.println("In the condition");
-			//System.out.println(cards.get(key) instanceof CityRestaurantCardGabe);
+			System.out.println(cards.get(key) instanceof CityRestaurantSimonCard);
 			cards.get(key).run(city.time);
 			layout.show(this, key);
 			currentCard=key;

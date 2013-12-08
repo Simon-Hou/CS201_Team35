@@ -31,7 +31,7 @@ public class InhabitantGui implements Gui {
         public static final int xSize=20;
         public static final int ySize=20;
 
-        Timer timer;
+        public static final int eatingTime=1000;
 
 
         private Semaphore atBed = new Semaphore(0,true);
@@ -70,21 +70,21 @@ public class InhabitantGui implements Gui {
                                 if(atBed.availablePermits()==0){
                                         atBed.release();                                }
                         }
-                        if(xPos==CityHouseCard.grillX && yPos==CityHouseCard.grillY)
+                        if(xPos==CityHouseCard.grillX-xSize && yPos==CityHouseCard.grillY)
                         {
 
                                 if(atGrill.availablePermits()==0){
                                         atGrill.release();
                                 }
                         }
-                        if(xPos==CityHouseCard.refrigeratorX && yPos==CityHouseCard.refrigeratorY)
+                        if(xPos==CityHouseCard.refrigeratorX-xSize && yPos==CityHouseCard.refrigeratorY)
                         {
 
                                 if(atFridge.availablePermits()==0){
                                         atFridge.release();
                                 }
                         }
-                        if(xPos==CityHouseCard.tableX && yPos==CityHouseCard.tableY)
+                        if(xPos==CityHouseCard.tableX-xSize && yPos==CityHouseCard.tableY)
                         {
 
                                 if(atTable.availablePermits()==0){
@@ -193,12 +193,12 @@ public class InhabitantGui implements Gui {
         public void DoPlateAndEat() {
                 DoGoToGrill();
                 DoGoToTable();
-                timer.schedule(new TimerTask() {        
-                        public void run() {
-                                System.out.println("Eating");
-                        }
-                },
-                500);
+                try {
+         		   
+        			Thread.sleep(eatingTime);
+        		} catch(InterruptedException ex) {
+        		    Thread.currentThread().interrupt();
+        		}
 
         }
 
