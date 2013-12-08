@@ -16,7 +16,9 @@ import person.PersonAgent;
 import public_Gui.Gui;
 import util.Bus;
 import util.BusAgent;
+import util.CrosswalkStatus;
 import util.Loc;
+import util.StopLight;
 
 public class BusAgentGui extends CityComponent implements Gui {
 
@@ -31,6 +33,8 @@ public class BusAgentGui extends CityComponent implements Gui {
 	
 	public static int gridScale = 30;
 	public boolean moving = false;
+	
+	public List<StopLight> stopLights = new ArrayList<StopLight>();
 	
 	
 	public BusAgentGui(BusAgent bus,SimCityGui gui,boolean clockwise){
@@ -55,6 +59,13 @@ public class BusAgentGui extends CityComponent implements Gui {
 		// TODO Auto-generated method stub
 		if(!moving){
 			return;
+		}
+		
+		for(StopLight s:stopLights){
+			if(s.status==CrosswalkStatus.Pedestrian && this.rectangle.intersects(s.safeRegion)){
+				//System.out.println("Waiting at the red light");
+				return;
+			}
 		}
 		
 		if(clockwise){

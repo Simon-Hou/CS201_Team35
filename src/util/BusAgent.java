@@ -67,8 +67,8 @@ public class BusAgent extends Agent implements ActionListener{
 	//Messages
 	
 	public void msgTimeToGo(){
-		Do("Got the message that it's time to go");
-		Do("Current Stop: "+currentStop);
+		//Do("Got the message that it's time to go");
+		//Do("Current Stop: "+currentStop);
 		
 		timeToGo = true;
 		timer.stop();
@@ -103,7 +103,7 @@ public class BusAgent extends Agent implements ActionListener{
 		
 		doGoToNextStop();
 		
-		Do("Updating bus stuff");
+		//Do("Updating bus stuff");
 		currentStop = (currentStop+1)%stops.size();
 		
 		List<Person> passengersCopy = new ArrayList<Person>(passengers);

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -26,12 +27,14 @@ import util.Bus;
 import util.BusAgent;
 import util.BusStop;
 import util.CityMap;
+import util.CrosswalkStatus;
 import util.HouseMapLoc;
 import util.Job;
 import util.JobType;
 import util.Loc;
 import util.MarketMapLoc;
 import util.RestaurantMapLoc;
+import util.StopLight;
 import city.CityObject;
 import cityGui.test.AStarTraversalPerson;
 import cityGui.test.AStarTraversalVehicle;
@@ -645,8 +648,22 @@ public class SimCityGui extends JFrame implements ActionListener {
 		city.addMoving(b.gui);
 		city.addMoving(b2.gui);
 		
+		List<StopLight> lights = new ArrayList<StopLight>();
+		StopLight light = new StopLight();
+		light.loc = new Loc(285,80);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(270,80,60,80);
+		city.addStatic(light);
+		
+		lights.add(light);
+		
+		
 		//b.setAStar(new AStarTraversalVehicle(grid));
 		//b2.setAStar(new AStarTraversalVehicle(grid));
+		
+		b.gui.stopLights = lights;
+		b2.gui.stopLights = lights;
+		
 		
 		b.startThread();
 		b2.startThread();
