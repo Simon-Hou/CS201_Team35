@@ -34,9 +34,12 @@ public class AStarTraversalPerson extends AStarTraversal{
 			int nextX=x+i;
 			int nextY=y+j;
 			
+			//System.out.println("TRY: "+nextX+", "+nextY+" is "+walkable(nextX,nextY));
+			
 			if(!walkable(nextX,nextY)){
 				continue;
 			}
+			
 			
 			//get rid of diagonal moves
 			if(i*j!=0){
@@ -48,7 +51,7 @@ public class AStarTraversalPerson extends AStarTraversal{
 			      (nextX<0 || nextY<0)) continue;
 			Position next = new Position(nextX,nextY);
 			//System.out.println("considering"+next);
-			if (inPath(next,path) || (!next.open(grid) && !CityComponent.onSidewalk(nextX, nextY)) ) continue;
+			if (inPath(next,path) /*|| (!next.open(grid) && !CityComponent.onSidewalk(nextX, nextY))*/ ) continue;
 			//printCurrentList();
 			//System.out.println("available"+next);
 			AStarNode nodeTemp = new AStarNode(next);
@@ -74,6 +77,7 @@ public class AStarTraversalPerson extends AStarTraversal{
 	public static boolean walkable(int xChunk,int yChunk){
 		int x = scale*xChunk;
 		int y = scale*yChunk;
+		
 		
 		if(CityComponent.onSidewalk(x, y)){
 			return true;

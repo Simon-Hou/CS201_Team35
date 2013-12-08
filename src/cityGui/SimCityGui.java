@@ -645,8 +645,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		city.addMoving(b.gui);
 		city.addMoving(b2.gui);
 		
-		b.setAStar(new AStarTraversalVehicle(grid));
-		b2.setAStar(new AStarTraversalVehicle(grid));
+		//b.setAStar(new AStarTraversalVehicle(grid));
+		//b2.setAStar(new AStarTraversalVehicle(grid));
 		
 		b.startThread();
 		b2.startThread();
@@ -669,7 +669,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int yStartTest = 0;
 		
 		//test.gabeRestaurant();
-		test.addBuses(test);
+		//test.addBuses(test);
 		
 		
 		//THIS SHOWS THE MARKET TESTS I'VE (GABE) BEEN WORKING ON
