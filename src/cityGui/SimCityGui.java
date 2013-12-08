@@ -262,6 +262,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public long time=0;
 	boolean hasBuses = false;
 	
+	JFrame traceFrame = new JFrame();
 
 	int gridX = 600;
 	int gridY = 600;
@@ -369,10 +370,17 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		timer = new Timer(10,  this);
 		timer.start();
-		/*c.gridx = 0; c.gridy = 7;
+		/*
+		c.gridx = 0; c.gridy = 7;
 		c.gridwidth = 11; c.gridheight = 3;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(tracePanel, c);*/
+		//this.add(tracePanel, c)
+		
+		traceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		traceFrame.setBounds(50, 50 , 600, 300);
+		traceFrame.setVisible(true);
+		traceFrame.add(tracePanel);
 	}
 
 	public void NewPersonCreationPanel(){

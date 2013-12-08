@@ -19,6 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 /**
  * A quick demo of some squares moving around and logging when they change color zones.  You can also
@@ -227,8 +228,7 @@ public class DemoLauncher extends JFrame {
 	private class ControlPanel extends JPanel {
 		TracePanel tp;	//Hack so I can easily call showAlertsWithLevel for this demo.
 		
-		JButton enableMessagesButton;		//You could (and probably should) substitute a JToggleButton to replace both
-		JButton disableMessagesButton;		//of these, but I split it into enable and disable for clarity in the demo.
+		JToggleButton MessagesButton;		//You could (and probably should) substitute a JToggleButton to replace both	//of these, but I split it into enable and disable for clarity in the demo.
 		JButton enableErrorButton;		
 		JButton disableErrorButton;		
 		JButton enableBankCustTagButton;		//You could (and probably should) substitute a JToggleButton to replace both
@@ -236,32 +236,32 @@ public class DemoLauncher extends JFrame {
 		
 		public ControlPanel(final TracePanel tracePanel) {
 			this.tp = tracePanel;
-			enableMessagesButton = new JButton("Show Level: MESSAGE");
-			disableMessagesButton = new JButton("Hide Level: MESSAGE");
+			MessagesButton = new JToggleButton("Hide Level: MESSAGE");
+			MessagesButton.setSelected(true);
 			enableErrorButton = new JButton("Show Level: ERROR");
 			disableErrorButton = new JButton("Hide Level: ERROR");
 			enableBankCustTagButton = new JButton("Show Tag: BANK_CUSTOMER");
 			disableBankCustTagButton = new JButton("Hide Tag: BANK_CUSTOMER");
 			
 			
-			enableMessagesButton.addActionListener(new ActionListener() {
+			MessagesButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					//============================ TUTORIAL ==========================================
 					//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
-					tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+					if (MessagesButton.isSelected()){
+						MessagesButton.setText("Hide level: MESSAGE");
+						tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+					}
+					else{
+						MessagesButton.setText("Show level: MESSAGE");
+						tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
+					}
 					//================================================================================
+					
+					
 				}
-			});
-			disableMessagesButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					//============================ TUTORIAL ==========================================
-					//This is how you make messages with a certain Level not show up in the trace panel.
-					tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
-					//================================================================================
-				}
-			});
+			});;
 			enableErrorButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -301,8 +301,7 @@ public class DemoLauncher extends JFrame {
 				}
 			});
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			this.add(enableMessagesButton);
-			this.add(disableMessagesButton);
+			this.add(MessagesButton);
 			this.add(enableErrorButton);
 			this.add(disableErrorButton);
 			this.add(enableBankCustTagButton);
