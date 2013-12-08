@@ -47,7 +47,7 @@ public class AStarTraversalVehicle extends AStarTraversal{
 				continue;
 			}
 			
-			//get rid of diagonal moves
+//			//get rid of diagonal moves
 			if(i*j!=0){
 				continue;
 			}
@@ -155,7 +155,7 @@ public class AStarTraversalVehicle extends AStarTraversal{
 			return false;
 		}
 		
-		if((x>=200 && x<=400)&&(y>=200 && y<=400)){
+		if((x>120 && x<=440)&&(y>=140 && y<=440)){
 			return false;
 		}
 		
@@ -220,7 +220,9 @@ public class AStarTraversalVehicle extends AStarTraversal{
 		int y2 = endY - 300;
 		
 		if(inClockwiseLane(startX,startY)){
-			if(x2*y1 - y2*x1>0){
+			//System.out.println("CLockwise");
+			if(x2*y1 - y2*x1<0){
+				//System.out.println("HERE: ("+ x1+", "+y1+")"+" ("+x2+", "+y2+")");
 				return true;
 			}
 			else{	
@@ -229,7 +231,7 @@ public class AStarTraversalVehicle extends AStarTraversal{
 		}
 		
 		else if(inCounterClockwiseLane(startX,startY)){
-			if(x2*y1 - y2*x1<0){
+			if(x2*y1 - y2*x1>0){
 				return true;
 			}
 			else{	

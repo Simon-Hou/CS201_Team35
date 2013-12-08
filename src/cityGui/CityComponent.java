@@ -178,6 +178,27 @@ public abstract class CityComponent implements ImageObserver {
 		return new Loc(minI,minJ);
 	}
 	
+	public static Loc findNearestRoadGridLoc(Point p){
+		double minDistance = 10000;
+		int minI = -1;
+		int minJ = -1;
+		for(int i = 0;i<600/scale;++i){
+			for(int j = 0;j<600/scale;++j){
+				double tempDistance = Math.pow(scale*i-p.x,2) + Math.pow(scale*j - p.y,2);
+				if(tempDistance<minDistance){
+					boolean use = onSidewalk(scale*i,scale*j);
+					//System.out.println("On sidewalk: "+use+", "+i+", "+j+", "+tempDistance);
+					if(!onSidewalk(scale*i,scale*j)){
+						minDistance = tempDistance;
+						minI = i;
+						minJ  = j;
+					}
+				}
+			}
+		}
+		return new Loc(minI,minJ);
+	}
+	
 	public static boolean onSidewalk(int x,int y){
 		//System.out.println("Sidewalk: "+x+", "+y);
 		if((x>=40 && x<=560)&&(y>=40 && y<=560)){

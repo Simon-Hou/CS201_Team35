@@ -50,6 +50,10 @@ public class BusAgent extends Agent implements ActionListener{
 		this.gui = bGui;
 	}
 	
+	public void setAStar(AStarTraversalVehicle a){
+		this.aStar = a;
+	}
+	
 	
 	//Constructor 
 	
@@ -63,9 +67,18 @@ public class BusAgent extends Agent implements ActionListener{
 	//Messages
 	
 	public void msgTimeToGo(){
+		Do("Got the message that it's time to go");
+		Do("Current Stop: "+currentStop);
+		
 		timeToGo = true;
 		timer.stop();
+		System.out.println(timer.isRunning());
 		stateChanged();
+	}
+	
+	public void msgAtStop(){
+		Do("Got the message at Stop");
+		waitingForStop.release();
 	}
 	
 	
@@ -90,6 +103,7 @@ public class BusAgent extends Agent implements ActionListener{
 		
 		doGoToNextStop();
 		
+		Do("Updating bus stuff");
 		currentStop = (currentStop+1)%stops.size();
 		
 		for(Person p:passengers){
@@ -111,11 +125,19 @@ public class BusAgent extends Agent implements ActionListener{
 		
 		Loc nextStop = stops.get((currentStop+1)%stops.size()).location;
 		
-		Loc nextStopGrid = CityComponent.findNearestGridLoc(new Point(nextStop.x,nextStop.y));
+		/*Loc nextStopGrid = CityComponent.findNearestRoadGridLoc(new Point(nextStop.x,nextStop.y));
 		
-		guiMoveFromCurrentPostionTo(new Position(nextStopGrid.x,nextStopGrid.y));
+		guiMoveFromCurrentPostionTo(new Position(nextStopGrid.x,nextStopGrid.y));*/
 		
+		gui.goTo(nextStop.x,nextStop.y);
 		
+		waitingForStop = new Semaphore(0,true);
+		try {
+			waitingForStop.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -125,7 +147,10 @@ public class BusAgent extends Agent implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		msgTimeToGo();
+		if(e.getSource().equals(timer) && timer.isRunning()){
+			
+			msgTimeToGo();
+		}
 		
 	}
 	
@@ -138,7 +163,7 @@ public class BusAgent extends Agent implements ActionListener{
         //System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
 
     	//to = new Position(2,5);
-    	Loc l = CityComponent.findNearestGridLoc(new Point(gui.rectangle.x,gui.rectangle.y));
+    	Loc l = CityComponent.findNearestRoadGridLoc(new Point(gui.rectangle.x,gui.rectangle.y));
     	currentPosition = new Position(l.x,l.y);
     	//System.out.println("("+currentPosition.getX()+","+currentPosition.getY()+")");
     	//System.out.println("("+to.getX()+","+to.getY()+")");

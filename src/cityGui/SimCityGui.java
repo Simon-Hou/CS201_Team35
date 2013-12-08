@@ -23,6 +23,7 @@ import person.PersonAgent;
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
 import util.CityMap;
 import util.HouseMapLoc;
@@ -617,11 +618,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 
 	public void addBuses(SimCityGui simCityGui){
-		Bus b = new Bus();
-		Bus b2 = new Bus();
+		BusAgent b = new BusAgent();
+		BusAgent b2 = new BusAgent();
 		//b.gui = new BusGui(b,test,110,110,30,50);
-		b.gui = new BusGui(b,simCityGui,true);
-		b2.gui = new BusGui(b2,simCityGui,false);
+		b.gui = new BusAgentGui(b,simCityGui,true);
+		b2.gui = new BusAgentGui(b2,simCityGui,false);
 		
 		cityObject.fBus = b;
 		cityObject.bBus = b2;
@@ -643,6 +644,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 		
 		city.addMoving(b.gui);
 		city.addMoving(b2.gui);
+		
+		b.setAStar(new AStarTraversalVehicle(grid));
+		b2.setAStar(new AStarTraversalVehicle(grid));
+		
+		b.startThread();
+		b2.startThread();
 	}
 
 	/**
@@ -662,7 +669,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int yStartTest = 0;
 		
 		//test.gabeRestaurant();
-		
+		test.addBuses(test);
 		
 		
 		//THIS SHOWS THE MARKET TESTS I'VE (GABE) BEEN WORKING ON
