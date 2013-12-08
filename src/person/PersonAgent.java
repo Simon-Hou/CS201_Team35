@@ -319,7 +319,7 @@ public class PersonAgent extends Agent implements Person {
 //			return false;
 //		}
 		
-		Do("\tDECIDING WHAT TO DO");
+		//Do("\tDECIDING WHAT TO DO");
 
 		//Do("Deciding what to do ");
 		if(onBus){
@@ -805,8 +805,8 @@ public class PersonAgent extends Agent implements Person {
 	public void setJob(PlaceOfWork placeOfWork,JobType jobType,int start,int end){
 
 		Role jobRole = null;
-		if(jobType==JobType.MarketHost || jobType==JobType.MarketCashier
-				|| jobType==jobType.RestaurantHost || jobType==jobType.RestaurantCashier || jobType == jobType.RestaurantCook){
+		if(jobType.equals(JobType.MarketHost) || jobType.equals(JobType.MarketCashier)
+				|| jobType.equals(JobType.RestaurantHost) || jobType.equals(JobType.RestaurantCashier) || jobType.equals(JobType.RestaurantCook)){
 			jobRole = null;
 			//myJob = new Job(null,start,end,placeOfWork,this,jobType);
 			//return;
@@ -821,11 +821,20 @@ public class PersonAgent extends Agent implements Person {
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 		}
 		else if (jobType==JobType.RestaurantWaiter1){
-			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
-			jobRole = new restaurant.restaurantGabe.WaiterRole(name+"RestaurantWaiter",this);
+			if (placeOfWork instanceof restaurant.restaurantGabe.RestaurantGabe)
+				jobRole = new restaurant.restaurantGabe.WaiterRole(name+"RestaurantWaiter",this);
+			else if (placeOfWork instanceof restaurant.restaurantLinda.RestaurantLinda)
+				jobRole = new restaurant.restaurantLinda.OriginalWaiterRole(name+"RestaurantWaiter",this);
+			else
+				AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find correct waiter type");
 		}
 		else if (jobType==JobType.RestaurantWaiter2){
-			jobRole = new ProducerConsumerWaiterRole(name+"pcWaiter", this);
+			if (placeOfWork instanceof restaurant.restaurantGabe.RestaurantGabe)
+				jobRole = new restaurant.restaurantGabe.WaiterRole(name+"RestaurantWaiter",this);
+			else if (placeOfWork instanceof restaurant.restaurantLinda.RestaurantLinda)
+				jobRole = new restaurant.restaurantLinda.ProducerConsumerWaiterRole(name+"RestaurantWaiter",this);
+			else
+				AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find correct waiter type");
 		}
 		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 
