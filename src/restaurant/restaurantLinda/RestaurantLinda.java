@@ -19,6 +19,7 @@ import java.util.List;
 import astar.AStarTraversal;
 import cityGui.CityRestaurant;
 import cityGui.CityRestaurantLinda;
+import cityGui.CityRestaurantYoccaCard;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CookGui;
@@ -55,7 +56,7 @@ public class RestaurantLinda extends Restaurant{
 		super.waiters = this.waiters;
 		
 		CookGui cg = new CookGui(cook);
-		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
+		//cg.setPlates(cityRestaurant.animationPanel.platedFoods);
 		cook.setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
 	}
@@ -71,14 +72,15 @@ public class RestaurantLinda extends Restaurant{
 			host.changeShifts(p);
 			return (Role)host;
 		}
-		else if (type == JobType.RestaurantWaiter1){
+		else if (type == JobType.RestaurantLindaWaiter1){
 			((WaiterRole)r).setRestaurant(this);
+			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
-		else if (type == JobType.RestaurantWaiter2){
+		else if (type == JobType.RestaurantLindaWaiter2){
 			((WaiterRole)r).setRestaurant(this);
-			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
+
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
@@ -100,7 +102,7 @@ public class RestaurantLinda extends Restaurant{
 		waiters.add((WaiterRole)r);
 		((WaiterRole)r).setGui(wg);
 		wg.setTables(((CityRestaurantLinda)cityRestaurant).getTables());
-		wg.setPlates(cityRestaurant.animationPanel.platedFoods);
+		//wg.setPlates(cityRestaurant.animationPanel.platedFoods);
 		((HostRole)host).addWaiter(r);
 		cityRestaurant.animationPanel.addGui(wg);
 	}
@@ -120,11 +122,11 @@ public class RestaurantLinda extends Restaurant{
 	}
 	
 	//Override this to get your restaurant started
+	@Override
 	public void customerEntering(BaseRestaurantCustomer c){
 		CustomerGui cg = new CustomerGui((CustomerRole)c, new AStarTraversal(cityRestaurant.grid));
 		((CustomerRole)c).setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
-		((CustomerRole)c).msgAtRestaurant(this);
 	}
 	
 	public boolean unStaffed(){

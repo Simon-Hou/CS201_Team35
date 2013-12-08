@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import UnitTests.mock.LoggedEvent;
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
 import interfaces.MarketEmployee;
@@ -19,8 +20,8 @@ import interfaces.Person;
 
 public class MarketCashierRole extends Role implements MarketCashier{
 
-	List<MyCustomer> customers = new ArrayList<MyCustomer>();
-	List<MyBusinessOrder> orders = new ArrayList<MyBusinessOrder>();
+	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
+	public List<MyBusinessOrder> orders = new ArrayList<MyBusinessOrder>();
 	Map<String, Integer> priceList = new HashMap<String,Integer>();
 	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
@@ -85,6 +86,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		//Do("GOT THE SERVICE MESSAGE");
 		customers.add(new MyCustomer(c, groceries));
+		log.add(new LoggedEvent("got msgServiceCustomer"));
 		p.msgStateChanged();
 	}
 	
@@ -154,6 +156,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	//Actions
 	private void ComputeTotal(MyCustomer mc){
 		//Do("computing total");
+		log.add(new LoggedEvent("action ComputeTotal"));
 	    int total=0;
 	    if (debtorsList.containsKey(mc.c.getPerson())){
 	    	total+= debtorsList.get(mc.c.getPerson());

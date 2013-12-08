@@ -205,6 +205,10 @@ public class RestaurantGabe extends Restaurant{
 		
 		r.setRestaurant(this);
 		
+		if (r instanceof StandWaiterRole) {
+			((StandWaiterRole)r).setStand(cityRestaurantGabe.stand);
+		}
+		
 		WaiterGui wGui = new WaiterGui((WaiterRole) r,numWaiters);
 		numWaiters++;
 		
@@ -239,7 +243,7 @@ public class RestaurantGabe extends Restaurant{
 			return canIBeHost(p);
 		}
 		
-		else if (type == JobType.RestaurantWaiter1){
+		else if (type == JobType.RestaurantGabeWaiter1){
 			
 			
 			System.out.println("Adding a new waiter "+p.getName());

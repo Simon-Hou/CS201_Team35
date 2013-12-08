@@ -8,6 +8,7 @@ import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
 import market.Market;
 import util.Bank;
 import util.BankMapLoc;
@@ -29,6 +30,7 @@ public class CityMarket extends CityComponent implements ImageObserver{
 	java.net.URL imgURL5 = getClass().getResource("cityImages/market5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
 	public Market market;
+	public CityMarketCard animationPanel;
 	private int buildingSize = 35;
 	public CityMarket(int x, int y) {
 		super(x, y, Color.magenta, "Bank 1");
