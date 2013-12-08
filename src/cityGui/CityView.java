@@ -63,7 +63,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 				cards.get(currentCard).time=city.time;
 			}
 			//System.out.println("In the condition");
-			//System.out.println(cards.get(key) instanceof CityRestaurantCardGabe);
+			System.out.println(cards.get(key) instanceof CityRestaurantSimonCard);
 			cards.get(key).run(city.time);
 			layout.show(this, key);
 			currentCard=key;

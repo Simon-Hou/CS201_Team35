@@ -18,18 +18,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import restaurant.restaurantSimon.RestaurantSimon;
+import util.Loc;
+import util.RestaurantMapLoc;
 
 
 public class CityRestaurantSimon extends CityRestaurant {
 
-	public CityRestaurantSimonCard animationPanel;
+	//public CityRestaurantSimonCard animationPanel;
 	
-	public CityRestaurantSimon(){
-		super(0,0);
-	}
-	public CityRestaurantSimon(int x, int y) {
-		super(x, y);
-	}
+	
+	
 	public CityRestaurantSimon(int x, int y, String ID){
 		super(x, y, ID);
 		
@@ -47,8 +45,15 @@ public class CityRestaurantSimon extends CityRestaurant {
 	@Override
 	public void createAnimationPanel(SimCityGui city) {
 		animationPanel=new CityRestaurantSimonCard(city);
-		
+		initializeRestaurant();
 	}
+	 public JPanel addAgentObjectToMap(){
+	    	RestaurantMapLoc rMap = new RestaurantMapLoc(restaurant);
+			rMap.loc = new Loc(sidewalkX(x,y),sidewalkY(x,y));
+			this.cityObject.cityMap.map.get("Restaurant").add(rMap);
+			return null;
+	    }
+	    
 public void updatePosition() {
 		
 	}

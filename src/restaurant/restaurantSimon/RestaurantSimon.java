@@ -182,15 +182,15 @@ public class RestaurantSimon extends Restaurant {
 		w.goToHost(host);		
 	}
 	@Override
-	public Role customerEntering(BaseRestaurantCustomer c,Person p) {
+	public void customerEntering(BaseRestaurantCustomer c) {
 		// TODO Auto-generated method stub
-		CustomerRole cus = new CustomerRole(p.getName(),host,cashier);	
+		CustomerRole cus = new CustomerRole("Customer",host,cashier);	
 		CustomerGui cg = new CustomerGui(cus, animation);
 		cus.setGui(cg);
 		cg.setHungry();
 		animation.addGui(cg);
 		customers.add(cus);
-		return cus;
+		//return cus;
 	}
 	public void setAnimationPanel(CityRestaurantSimonCard crc){
 		animation=crc;
