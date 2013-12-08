@@ -95,13 +95,13 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 			System.err.println("New host wasn't allowded to take over");
 			return null;
 		}
-		else if (type == JobType.RestaurantWaiter1){
+		else if (type == JobType.RestaurantYoccaWaiter1){
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
-		else if (type == JobType.RestaurantWaiter2){
+		else if (type == JobType.RestaurantYoccaWaiter2){
 			((WaiterRole)r).setRestaurant(this);
 			waiterComingToWork((Waiter) r);
 			return r;

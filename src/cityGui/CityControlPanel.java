@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 import cityGui.trace.AlertLevel;
 import cityGui.trace.AlertLog;
@@ -16,16 +17,16 @@ import cityGui.trace.AlertTag;
 public class CityControlPanel extends JPanel implements ActionListener{
 
 	SimCityGui city;
-	public static final int CP_WIDTH = 1100, CP_HEIGHT = 100;
+
+	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
+
 	//For managing traces
-	JButton enableInfoButton;		//You could (and probably should) substitute a JToggleButton to replace both
-	JButton disableInfoButton;		//of these, but I split it into enable and disable for clarity in the demo.
-	JButton enableRestaurantTagButton;		
-	JButton disableRestaurantTagButton;		
-	JButton enableBankTagButton;
-	JButton disableBankTagButton;
+	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
+	JToggleButton RestaurantTagButton;			
+	JToggleButton BankTagButton;
+	JToggleButton MarketTagButton;
 	
 	String name = "Control Panel";
 
@@ -65,31 +66,27 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		
 
 		//Trace panel buttons
-//		enableInfoButton = new JButton("Show Level: INFO");
-//		enableInfoButton.addActionListener(this);
-//		disableInfoButton = new JButton("Hide Level: INFO");
-//		disableInfoButton.addActionListener(this);
-//		enableRestaurantTagButton = new JButton("Show Tag: RESTAURANT");
-//		enableRestaurantTagButton.addActionListener(this);
-//		disableRestaurantTagButton = new JButton("Hide Tag: RESTAURANT");
-//		disableRestaurantTagButton.addActionListener(this);
-//		enableBankTagButton = new JButton("Show Tag: BANK");
-//		enableBankTagButton.addActionListener(this);
-//		disableBankTagButton = new JButton("Hide Tag: BANK");
-//		disableBankTagButton.addActionListener(this);
+		InfoButton = new JToggleButton("Hide Level: INFO");
+		InfoButton.setSelected(true);
+		InfoButton.addActionListener(this);
+
+		RestaurantTagButton = new JToggleButton("Hide Tag: RESTAURANT");
+		RestaurantTagButton.setSelected(true);
+		RestaurantTagButton.addActionListener(this);
+
+		BankTagButton = new JToggleButton("Hide Tag: BANK");
+		BankTagButton.setSelected(true);
+		BankTagButton.addActionListener(this);
 		
-//		c.gridx = 1; c.gridy = 0;
-//		this.add(enableInfoButton, c);
-//		c.gridx = 1; c.gridy = 1;
-//		this.add(disableInfoButton, c);
-//		c.gridx = 2; c.gridy = 0;
-//		this.add(enableRestaurantTagButton, c);
-//		c.gridx = 2; c.gridy = 1;
-//		this.add(disableRestaurantTagButton, c);
-//		c.gridx = 3; c.gridy = 0;
-//		this.add(enableBankTagButton, c);
-//		c.gridx = 3; c.gridy = 1;
-//		this.add(disableBankTagButton, c);
+
+		c.gridx = 3; c.gridy = 1;
+		this.add(InfoButton, c);
+
+		c.gridx = 4; c.gridy = 1;
+		this.add(RestaurantTagButton, c);
+
+		c.gridx = 6; c.gridy = 1;
+		this.add(BankTagButton, c);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -117,23 +114,45 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		else if(e.getSource().equals(addPerson)) {
 			city.NewPersonCreationPanel();
 		}
-		else if(e.getSource().equals(enableInfoButton)) {
-			city.tracePanel.showAlertsWithLevel(AlertLevel.INFO);
+		else if(e.getSource().equals(InfoButton)) {
+			if (InfoButton.isSelected()){
+				InfoButton.setText("Hide Level: INFO");
+				city.tracePanel.showAlertsWithLevel(AlertLevel.INFO);
+			}
+			else{
+				InfoButton.setText("Show Level: INFO");
+				city.tracePanel.hideAlertsWithLevel(AlertLevel.INFO);
+			}
 		}
-		else if(e.getSource().equals(disableInfoButton)) {
-			city.tracePanel.hideAlertsWithLevel(AlertLevel.INFO);
+		else if(e.getSource().equals(RestaurantTagButton)) {
+			if (RestaurantTagButton.isSelected()){
+				RestaurantTagButton.setText("Hide Tag: RESTAURANT");
+				city.tracePanel.showAlertsWithTag(AlertTag.RESTAURANT);
+			}
+			else{
+				RestaurantTagButton.setText("Show Tag: RESTAURANT");
+				city.tracePanel.hideAlertsWithTag(AlertTag.RESTAURANT);
+			}
 		}
-		else if(e.getSource().equals(enableRestaurantTagButton)) {
-			city.tracePanel.showAlertsWithTag(AlertTag.RESTAURANT);
+		else if(e.getSource().equals(BankTagButton)) {
+			if (BankTagButton.isSelected()){
+				BankTagButton.setText("Hide Tag: BANK");
+				city.tracePanel.showAlertsWithTag(AlertTag.BANK);
+			}
+			else{
+				BankTagButton.setText("Show Tag: BANK");
+				city.tracePanel.hideAlertsWithTag(AlertTag.BANK);
+			}
 		}
-		else if(e.getSource().equals(disableRestaurantTagButton)) {
-			city.tracePanel.hideAlertsWithTag(AlertTag.RESTAURANT);
-		}
-		else if(e.getSource().equals(enableBankTagButton)) {
-			city.tracePanel.showAlertsWithTag(AlertTag.BANK);
-		}
-		else if(e.getSource().equals(disableBankTagButton)) {
-			city.tracePanel.hideAlertsWithTag(AlertTag.BANK);
+		else if(e.getSource().equals(MarketTagButton)) {
+			if (MarketTagButton.isSelected()){
+				MarketTagButton.setText("Hide Tag: MARKET");
+				city.tracePanel.showAlertsWithTag(AlertTag.MARKET);
+			}
+			else{
+				MarketTagButton.setText("Show Tag: MARKET");
+				city.tracePanel.hideAlertsWithTag(AlertTag.MARKET);
+			}
 		}
 	}
 }

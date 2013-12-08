@@ -45,6 +45,8 @@ public class MockBankPerson extends Mock implements Person {
 
 	public void addLoan(int accountNumber, int cash, int loanNumber) {
 		
+		log.add(new LoggedEvent("I have a new loan for $" + cash));
+		
 	}
 
 	public void msgThisRoleDone(Role role) {

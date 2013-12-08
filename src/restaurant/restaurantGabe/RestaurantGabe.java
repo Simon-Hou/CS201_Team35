@@ -243,7 +243,7 @@ public class RestaurantGabe extends Restaurant{
 			return canIBeHost(p);
 		}
 		
-		else if (type == JobType.RestaurantWaiter1){
+		else if (type == JobType.RestaurantGabeWaiter1){
 			
 			
 			System.out.println("Adding a new waiter "+p.getName());

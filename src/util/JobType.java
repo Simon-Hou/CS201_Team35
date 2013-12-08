@@ -1,5 +1,5 @@
 package util;
 
 public enum JobType {BankTeller,MarketHost,MarketEmployee,MarketCashier,
-	MarketDeliveryMan,RestaurantHost,RestaurantWaiter1, RestaurantWaiter2, RestaurantCook,
+	MarketDeliveryMan,RestaurantHost,RestaurantYoccaWaiter1, RestaurantYoccaWaiter2, RestaurantGabeWaiter1, RestaurantGabeWaiter2,RestaurantLindaWaiter1, RestaurantLindaWaiter2,RestaurantCook,
 	RestaurantCashier,NOTSELECTED};

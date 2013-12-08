@@ -71,12 +71,12 @@ public class RestaurantLinda extends Restaurant{
 			host.changeShifts(p);
 			return (Role)host;
 		}
-		else if (type == JobType.RestaurantWaiter1){
+		else if (type == JobType.RestaurantLindaWaiter1){
 			((WaiterRole)r).setRestaurant(this);
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
-		else if (type == JobType.RestaurantWaiter2){
+		else if (type == JobType.RestaurantLindaWaiter2){
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);

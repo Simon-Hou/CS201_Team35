@@ -3,6 +3,7 @@ package person;
 
 import house.House;
 import house.InhabitantRole;
+import interfaces.BaseRestaurantCustomer;
 import interfaces.Occupation;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
@@ -53,6 +54,8 @@ import cityGui.CityComponent;
 import cityGui.test.AStarTraversalPerson;
 import astar.*;
 import cityGui.test.PersonGui;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import public_Object.Food;
 import role.Role;
 import agent.Agent;
@@ -70,8 +73,9 @@ public class PersonAgent extends Agent implements Person {
 		inhabitantRole = new InhabitantRole(name + "Home",this);
 
 		//will be changed later to request the correct role from the restaurant diretly
-		restaurantRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
-		restaurantRoleYocca = new restaurant.restaurantYocca.CustomerRole(name +"Restaurant", this);
+		restaurantYoccaRole = new restaurant.restaurantYocca.CustomerRole(name +"Restaurant", this);
+		restaurantLindaRole = new restaurant.restaurantLinda.CustomerRole(name+"Restaurant", this);
+		restaurantGabeRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
 		
 		Random random = new Random();
 		hungerLevel = random.nextInt(10);
@@ -126,8 +130,10 @@ public class PersonAgent extends Agent implements Person {
 	public BankCustomerRole bankRole;
 	public MarketCustomerRole marketRole;
 	public InhabitantRole inhabitantRole;
-	public restaurant.restaurantGabe.CustomerRole restaurantRole ;
-	public restaurant.restaurantYocca.CustomerRole restaurantRoleYocca ;
+
+	public restaurant.restaurantYocca.CustomerRole restaurantYoccaRole;
+	public restaurant.restaurantLinda.CustomerRole restaurantLindaRole;
+	public restaurant.restaurantGabe.CustomerRole restaurantGabeRole;
 
 	public AStarTraversalPerson aStar;
     Position currentPosition = new Position(2,2);
@@ -623,17 +629,32 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}*/
 		}
-		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(0)).restaurant;
+		Random random = new Random();
+		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(random.nextInt(city.map.get("Restaurant").size()))).restaurant;
 		Loc loc = city.map.get("Restaurant").get(0).loc;
 		tempDoGoToCityLoc(loc);
 		
-//		b.customerEntering(restaurantRole);
-//		restaurantRole.msgAtRestaurant(b);
-//		activeRole = restaurantRole;
-
-		b.customerEntering(restaurantRoleYocca);
-		restaurantRoleYocca.msgAtRestaurant(b);
-		activeRole = restaurantRoleYocca;
+		if (b instanceof restaurant.restaurantGabe.RestaurantGabe){
+			b.customerEntering(restaurantGabeRole);
+			restaurantGabeRole.msgAtRestaurant(b);
+			activeRole = restaurantGabeRole;
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Gabe Restaurant");
+		}
+		else if (b instanceof restaurant.restaurantLinda.RestaurantLinda){
+			b.customerEntering(restaurantLindaRole);
+			restaurantLindaRole.msgAtRestaurant(b);
+			activeRole = restaurantLindaRole;
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant");
+		}
+		else if (b instanceof restaurant.restaurantYocca.RestaurantYocca){
+			b.customerEntering(restaurantYoccaRole);
+			restaurantYoccaRole.msgAtRestaurant(b);
+			activeRole = restaurantYoccaRole;
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant");
+		}
+		else{
+			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role");
+		}
 	}
 
 	private void buyCar() {
@@ -805,20 +826,27 @@ public class PersonAgent extends Agent implements Person {
 			jobRole = new MarketEmployeeRole(name+"MarketEmployee",this);
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 		}
-		else if (jobType==JobType.RestaurantWaiter1){
+		else if (jobType==JobType.RestaurantYoccaWaiter1){
 			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
 			jobRole = new restaurant.restaurantYocca.ProducerConsumerWaiterRole(name+"pcWaiter", this);
 		}
-		else if (jobType==JobType.RestaurantWaiter2){
+		else if (jobType==JobType.RestaurantYoccaWaiter2){
 			jobRole = new restaurant.restaurantYocca.OriginalWaiterRole(name+"RestaurantWaiter",this);
 		}
-//		else if (jobType==JobType.RestaurantWaiter1){
-//			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
-//			jobRole = new restaurant.restaurantGabe.StandWaiterRole(name+"pcWaiter", this);
-//		}
-//		else if (jobType==JobType.RestaurantWaiter2){
-//			jobRole = new restaurant.restaurantGabe.TalkingWaiterRole(name+"RestaurantWaiter",this);
-//		}
+		else if (jobType==JobType.RestaurantGabeWaiter1){
+			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
+			jobRole = new restaurant.restaurantGabe.StandWaiterRole(name+"pcWaiter", this);
+		}
+		else if (jobType==JobType.RestaurantGabeWaiter2){
+			jobRole = new restaurant.restaurantGabe.TalkingWaiterRole(name+"RestaurantWaiter",this);
+		}
+		else if (jobType==JobType.RestaurantLindaWaiter1){
+			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
+			jobRole = new restaurant.restaurantLinda.ProducerConsumerWaiterRole(name+"pcWaiter", this);
+		}
+		else if (jobType==JobType.RestaurantLindaWaiter2){
+			jobRole = new restaurant.restaurantLinda.OriginalWaiterRole(name+"RestaurantWaiter",this);
+		}
 		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 
 	}
@@ -982,8 +1010,8 @@ public class PersonAgent extends Agent implements Person {
 
 	//hack for restaurant stuff?
 	public void setActiveRole(String role){
-		if (role.equals("RestaurantCustomer"))
-			activeRole = restaurantRole;
+		/*if (role.equals("RestaurantCustomer"))
+			activeRole = restaurantRole;*/
 	}
 
 

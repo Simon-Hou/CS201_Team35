@@ -21,6 +21,7 @@ import javax.swing.*;
 
 import cityGui.CityComponent;
 import cityGui.CityMarket;
+import cityGui.BuildingControlPanel;
 import cityGui.CityMarketCard;
 import interfaces.MarketCustomer;
 import interfaces.MarketEmployee;
@@ -29,7 +30,7 @@ import interfaces.Person;
 
 
 
-public class MarketPanel extends JFrame implements ActionListener{
+public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements ActionListener{
 
 	public CityMarketCard animation; 
 	public Market market;
@@ -59,13 +60,13 @@ public class MarketPanel extends JFrame implements ActionListener{
 		animation = anim;
 		this.market = market;
 		//FRAME SETUP
-	    int WINDOWX = 300;
-	    int WINDOWY = 500;	
-		setBounds(100, 50, WINDOWX,WINDOWY);
+	    int WINDOWX = 180;//300;
+	    int WINDOWY = 500; //500;	
+	//	setBounds(100, 50, WINDOWX,WINDOWY);
 		
-		setTitle("Market Panel");
+	//	setTitle("Market Panel");
 	    setVisible(true);
-	    setResizable(true);
+	//    setResizable(true);
 		
 		//-----------------------CONTROLS---------------------------
         setLayout(new FlowLayout());
