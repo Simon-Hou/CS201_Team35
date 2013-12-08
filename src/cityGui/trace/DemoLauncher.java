@@ -79,7 +79,6 @@ public class DemoLauncher extends JFrame {
 		tracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
 		
 		tracePanel.showAlertsWithTag(AlertTag.PERSON);
-		tracePanel.showAlertsWithTag(AlertTag.BANK_CUSTOMER);
 		
 		tracePanel.hideAlertsWithTag(AlertTag.BUS_STOP);
 		//
@@ -198,7 +197,7 @@ public class DemoLauncher extends JFrame {
 				//Note that we are using the logMessage() method to specify that this is an INFO message,
 				//as opposed to a normal message, or an ERROR/WARNING.  Here we are telling it to log with the 
 				//tag: BANK_CUSTOMER from a sender called "Mouse".
-				AlertLog.getInstance().logInfo(AlertTag.BANK_CUSTOMER, "Mouse", "You clicked the RED ZONE!");
+				AlertLog.getInstance().logInfo(AlertTag.PERSON, "Mouse", "You clicked the RED ZONE!");
 				//================================================================================
 			}
 			if(blueArea.contains(e.getPoint())) {
@@ -208,7 +207,7 @@ public class DemoLauncher extends JFrame {
 				//tag: BANK_CUSTOMER from a sender called "Mouse".
 				//Notice the different methods to log different Levels of messages.  There are methods to 
 				//logError, logWarning, logInfo, logMessage, and logDebug that you should use. 
-				AlertLog.getInstance().logError(AlertTag.BANK_CUSTOMER, "Mouse", "You clicked the blue zone");
+				AlertLog.getInstance().logError(AlertTag.PERSON, "Mouse", "You clicked the blue zone");
 				//================================================================================
 			}
 		}
@@ -287,7 +286,7 @@ public class DemoLauncher extends JFrame {
 					//This works the same way as AlertLevels, only you're using tags instead.
 					//In this demo, I generate message with tag BANK_CUSTOMER when you click in the 
 					//AnimationPanel somewhere.
-					tracePanel.showAlertsWithTag(AlertTag.BANK_CUSTOMER);
+					tracePanel.showAlertsWithTag(AlertTag.PERSON);
 					//================================================================================
 				}
 			});
@@ -296,7 +295,7 @@ public class DemoLauncher extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					//============================ TUTORIAL ==========================================
 					//This works the same way as AlertLevels, only you're using tags instead.
-					tracePanel.hideAlertsWithTag(AlertTag.BANK_CUSTOMER);
+					tracePanel.hideAlertsWithTag(AlertTag.PERSON);
 					//================================================================================
 				}
 			});

@@ -377,10 +377,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		this.add(tracePanel, c);*/
 		//this.add(tracePanel, c)
 		
-		traceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		traceFrame.setBounds(50, 50 , 600, 300);
-		traceFrame.setVisible(true);
-		traceFrame.add(tracePanel);
+		//traceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//traceFrame.setBounds(1000, 50 , 400, 300);
+		//traceFrame.setVisible(true);
+		//traceFrame.add(tracePanel);
 	}
 
 	public void NewPersonCreationPanel(){
