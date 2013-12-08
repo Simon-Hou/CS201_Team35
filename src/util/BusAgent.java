@@ -112,8 +112,10 @@ public class BusAgent extends Agent implements ActionListener{
 			p.msgBusAtStop(this, stops.get(currentStop));
 		}
 		
-		for(Person p:stops.get(currentStop).peopleWaiting){
+		List<Person> peopleWaitingCopy = new ArrayList<Person>(stops.get(currentStop).peopleWaiting);
+		for(Person p:peopleWaitingCopy){
 			passengers.add(p);
+			stops.get(currentStop).peopleWaiting.remove(p);
 			p.msgBusAtStop(this, stops.get(currentStop));
 		}
 		

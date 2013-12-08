@@ -62,7 +62,8 @@ public class BusAgentGui extends CityComponent implements Gui {
 		}
 		
 		for(StopLight s:stopLights){
-			if(s.status==CrosswalkStatus.Pedestrian && this.rectangle.intersects(s.safeRegion)){
+			if(s.status==CrosswalkStatus.Pedestrian && this.rectangle.intersects(s.safeRegion)
+					&& !this.rectangle.intersects(s.letGoRegion)){
 				//System.out.println("Waiting at the red light");
 				return;
 			}

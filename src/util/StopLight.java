@@ -21,6 +21,7 @@ public class StopLight extends CityComponent implements Gui,ActionListener{
 	public CrosswalkStatus status;
 	
 	public Rectangle safeRegion;
+	public Rectangle letGoRegion;
 	
 	public int LIGHT_TIME = 3000;
 	

@@ -344,7 +344,7 @@ public class PersonAgent extends Agent implements Person {
 //			return false;
 //		}
 		
-		Do("\tDECIDING WHAT TO DO");
+		//Do("\tDECIDING WHAT TO DO");
 
 		//Do("Deciding what to do ");
 		if(onBus){

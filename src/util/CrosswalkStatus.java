@@ -2,5 +2,6 @@ package util;
 
 public enum CrosswalkStatus {
 	Pedestrian,
-	Vehicle
+	Vehicle,
+	Yellow
 }
