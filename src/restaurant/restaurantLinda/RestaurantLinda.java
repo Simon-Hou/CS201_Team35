@@ -19,6 +19,7 @@ import java.util.List;
 import astar.AStarTraversal;
 import cityGui.CityRestaurant;
 import cityGui.CityRestaurantLinda;
+import cityGui.CityRestaurantYoccaCard;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CookGui;
@@ -73,12 +74,13 @@ public class RestaurantLinda extends Restaurant{
 		}
 		else if (type == JobType.RestaurantLindaWaiter1){
 			((WaiterRole)r).setRestaurant(this);
+			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantLindaWaiter2){
 			((WaiterRole)r).setRestaurant(this);
-			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
+
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
@@ -120,11 +122,11 @@ public class RestaurantLinda extends Restaurant{
 	}
 	
 	//Override this to get your restaurant started
+	@Override
 	public void customerEntering(BaseRestaurantCustomer c){
 		CustomerGui cg = new CustomerGui((CustomerRole)c, new AStarTraversal(cityRestaurant.grid));
 		((CustomerRole)c).setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
-		((CustomerRole)c).msgAtRestaurant(this);
 	}
 	
 	public boolean unStaffed(){

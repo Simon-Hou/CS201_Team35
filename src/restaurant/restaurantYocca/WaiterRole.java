@@ -242,6 +242,7 @@ public class WaiterRole extends Role implements Waiter {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		try {
 		for (MyCustomer mc : waiterCustomers) {
 			try {
 			if (mc.state.equals(CustomerState.Waiting)) {	
@@ -251,6 +252,9 @@ public class WaiterRole extends Role implements Waiter {
 			} catch (ConcurrentModificationException e) {
 				return false;
 			}
+		}
+		}
+		catch (ConcurrentModificationException e) {
 		}
 		try {
 		for (MyCustomer mc : waiterCustomers) {
@@ -281,6 +285,7 @@ public class WaiterRole extends Role implements Waiter {
 		} catch (ConcurrentModificationException e) {
 			return false;
 		}
+		try {
 		for (MyCustomer mc : waiterCustomers) {
 			try {
 				if (mc.state.equals(CustomerState.ReOrder)) {
@@ -289,7 +294,11 @@ public class WaiterRole extends Role implements Waiter {
 			} catch (ConcurrentModificationException e) {
 				return false;
 			}
-		} 		
+		} 	
+		}
+		catch (ConcurrentModificationException e) {
+		}
+		try {
 		for (MyCustomer mc : waiterCustomers) {
 			try {
 			if (mc.state.equals(CustomerState.WaitingForFood)) {
@@ -301,6 +310,11 @@ public class WaiterRole extends Role implements Waiter {
 		    	return false;
 		    }	
 		}
+		}
+		catch (ConcurrentModificationException e) {
+			
+		}
+		try {
 		for (MyCustomer mc : waiterCustomers) {
 			try{
 			if (mc.state.equals(CustomerState.FinishedEating)) {
@@ -311,6 +325,10 @@ public class WaiterRole extends Role implements Waiter {
 			} catch (ConcurrentModificationException e) {
 				return false;
 			}
+		}
+		}
+		catch (ConcurrentModificationException e) {
+			
 		}
 		for (MyCustomer mc : waiterCustomers) {
 			try {

@@ -71,19 +71,29 @@ public class CityHouseCard extends CityCard{
                 }
 
         }
-        public void run(long t){
-                for(long i=0; i<t-time;i++){
-                        for(Gui gui : guis) {
-                                //if (gui.isPresent()) {
-                                        gui.updatePosition();
-                                //}
-                        }
-                }
-        }
+//        public void run(long t){
+//                for(long i=0; i<t-time;i++){
+//                        for(Gui gui : guis) {
+//                                //if (gui.isPresent()) {
+//                                        gui.updatePosition();
+//                                //}
+//                        }
+//                }
+//        }
         public void addGui(InhabitantGui gui) {
                 guis.add(gui);
         }
-        
+        public void actionPerformed(ActionEvent e) {
+    		if(!guis.isEmpty()){
+    			for(Gui gui : guis) {
+        			if (gui.isPresent()) {
+        				gui.updatePosition();
+        			}
+        		}
+    		}
+    		
+    		repaint();
+    	}
 
 
 
