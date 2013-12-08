@@ -118,30 +118,37 @@ public class CarAgentGui extends VehicleAgentGui {
         }
 		else{
 			if(topLaneB()){
-        		rectangle.x--;
-
+				tryToMoveTo(rectangle.x-1,rectangle.y,rectangle.width,rectangle.height);
+        		//rectangle.x--;
         	}
         	if(topLeftCornerB()){
-        		rectangle = new Rectangle(90,90,15,25);
+        		tryToMoveTo(90,90,15,25);
+        		//rectangle = new Rectangle(90,90,15,25);
         	}
         	if(leftLaneB()){
-        		rectangle.y++;
+        		tryToMoveTo(rectangle.x,rectangle.y+1,rectangle.width,rectangle.height);
+        		//rectangle.y++;
         	}
         	if(bottomLeftCornerB()){
-        		rectangle = new Rectangle(90,490,25,15);
+        		tryToMoveTo(90,490,25,15);
+        		//rectangle = new Rectangle(90,490,25,15);
         	}
         	if(bottomLaneB()){
-        		rectangle.x++;
+        		tryToMoveTo(rectangle.x+1,rectangle.y,rectangle.width,rectangle.height);
+        		//rectangle.x++;
         	}
         	if(bottomRightCornerB()){
-        		rectangle = new Rectangle(490,480,15,25);
+        		tryToMoveTo(490,480,15,25);
+        		//rectangle = new Rectangle(490,480,15,25);
         	}
         	if(rightLaneB()){
-        		rectangle.y--;
+        		tryToMoveTo(rectangle.x,rectangle.y-1,rectangle.width,rectangle.height);
+        		//rectangle.y--;
         	}
 
         	if(topRightCornerB()){
-        		rectangle = new Rectangle(460,90,25,15);
+        		tryToMoveTo(460,90,25,15);
+        		//rectangle = new Rectangle(460,90,25,15);
         		
         	}
 
