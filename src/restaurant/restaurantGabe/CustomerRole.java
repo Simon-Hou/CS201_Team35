@@ -74,7 +74,7 @@ public class CustomerRole extends Role implements Customer{
 	
 	//DATA
 	//person running the role
-	PersonAgent person;
+	public PersonAgent person;
 	private String name;
 	//Cust's menu
 	private Menu menu;
