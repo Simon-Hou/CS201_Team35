@@ -303,7 +303,7 @@ public class BusAgentGui extends VehicleAgentGui {
 	
 	
 	public boolean topLaneF(){
-    	if(rectangle.y==130 && (rectangle.x>=120 && rectangle.x<=430)){
+    	if(rectangle.y==130 && (rectangle.x>=120 && rectangle.x<=430) && rectangle.width == 50){
     		return true;
     	}
     	return false;
