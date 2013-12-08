@@ -27,6 +27,7 @@ public class CarAgent extends VehicleAgent{
 	//Messages
 	
 	public void msgTakeMeTo(OnRamp from, OnRamp to){
+		Do("Got the message to start moving");
 		inUse = true;
 		this.currentLocation = from;
 		this.destination = to;
@@ -43,9 +44,10 @@ public class CarAgent extends VehicleAgent{
 	
 	@Override
 	public boolean pickAndExecuteAnAction(){
-		
+		Do("Scheduler being called");
 		if(inUse){
 			DriveToDestination();
+			return true;
 		}
 		
 		return false;
@@ -55,6 +57,8 @@ public class CarAgent extends VehicleAgent{
 	//Actions
 	
 	public void DriveToDestination(){
+		Do("Driving action");
+		
 		
 		while(!gui.putCarOnRoad(currentLocation)){};
 		

@@ -103,6 +103,7 @@ public class CarAgentGui extends VehicleAgentGui {
 		if(!moving){
 			return;
 		}
+		//System.out.println("UPDATING POSITION");
 		
 		for(StopLight s:stopLights){
 			if(s.status==CrosswalkStatus.Pedestrian && this.rectangle.intersects(s.safeRegion)
@@ -153,8 +154,8 @@ public class CarAgentGui extends VehicleAgentGui {
         		tryToMoveTo(130,130,25,15);
         		//rectangle = new Rectangle(130,130,25,15);
         	}
-        }
-		else{
+		}
+    	else{
 			if(topLaneB()){
 				tryToMoveTo(rectangle.x-1,rectangle.y,rectangle.width,rectangle.height);
         		//rectangle.x--;
@@ -164,6 +165,7 @@ public class CarAgentGui extends VehicleAgentGui {
         		//rectangle = new Rectangle(90,90,15,25);
         	}
         	if(leftLaneB()){
+        		//System.out.println("IN LEFT LANE B");
         		tryToMoveTo(rectangle.x,rectangle.y+1,rectangle.width,rectangle.height);
         		//rectangle.y++;
         	}
@@ -211,11 +213,12 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	public void tryToMoveTo(int x, int y,int width,int height){
 		Rectangle testRect = rectangle;
-		
+		//System.out.println("Trying to move");
 		for(CityComponent block:gui.city.movings){
 			if(!this.equals(block) && block instanceof VehicleAgentGui){
 				testRect = new Rectangle(x,y,width,height);
 				if(setSafeRegion(testRect).intersects(((VehicleAgentGui) block).safeRegion)){
+					System.out.println("Condition Tripped");
 					testRect = rectangle;
 					return;
 				}
@@ -231,14 +234,16 @@ public class CarAgentGui extends VehicleAgentGui {
 //			}
 //		}
 		
-		rectangle  = testRect;
-		//rectangle = new Rectangle(x,y,width,height);
+		//rectangle  = testRect;
+		rectangle = new Rectangle(x,y,width,height);
 		
 	}
 	
 	
 	public void goTo(int x, int y){
 		moving = true;
+		System.out.println("Current Position "+rectangle.x+", "+rectangle.y);
+		System.out.println("goTo being called with "+x+", "+y);
 		this.xDestination = x;
 		this.yDestination = y;
 	}
