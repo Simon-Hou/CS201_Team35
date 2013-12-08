@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import market.Market;
+import market.gui.MarketMain;
 import market.gui.MarketPanel;
 import person.PersonAgent;
 import util.Bank;
@@ -253,7 +254,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 	
 	//(-Parker's layout)
-	public BuildingControlPanel buildingCP;
+	public BuildingControlPanelHolder buildingCP;
 	
 	
 	public CityPanel city;
@@ -387,7 +388,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		
 		Dimension dim = new Dimension(180, 500); //x value can't be over 180
 	
-		buildingCP = new BuildingControlPanel();
+		buildingCP = new BuildingControlPanelHolder();
 		
 	
 	
@@ -535,7 +536,16 @@ public class SimCityGui extends JFrame implements ActionListener {
 		if(type.equals("Market")){
 			CityComponent temp = new CityMarket(x, y, "Market " + (city.statics.size()-19));
 			CityMarketCard tempAnimation = new CityMarketCard(this);
+			
 			MarketPanel panel = new MarketPanel(tempAnimation, ((CityMarket)temp).market);
+			buildingCP.addPanelCard(panel);
+		
+//			//testing - create frame
+//			JFrame frame = new JFrame();
+//			frame.setBounds(50,50, 200, 600);
+//	        frame.setTitle("Market Panel");
+//	        frame.setVisible(true);
+			
 			((CityMarket)temp).market.setMarketPanel(panel);
 			tempAnimation.setPanel(panel);
 			city.markets.add(((CityMarket)temp).market);

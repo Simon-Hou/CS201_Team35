@@ -28,7 +28,7 @@ import interfaces.Person;
 
 
 
-public class MarketPanel extends BuildingControlPanel implements ActionListener{
+public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements ActionListener{
 
 	public CityMarketCard animation; 
 	public Market market;
@@ -59,13 +59,13 @@ public class MarketPanel extends BuildingControlPanel implements ActionListener{
 		this.market = market;
 		
 		//FRAME SETUP
-	    int WINDOWX = 180;
-	    int WINDOWY = 500;	
+	    int WINDOWX = 180;//300;
+	    int WINDOWY = 500; //500;	
+	//	setBounds(100, 50, WINDOWX,WINDOWY);
 		
-		
-		
+	//	setTitle("Market Panel");
 	    setVisible(true);
-
+	//    setResizable(true);
 		
 		//-----------------------CONTROLS---------------------------
         setLayout(new FlowLayout());
