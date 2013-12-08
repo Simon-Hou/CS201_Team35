@@ -156,6 +156,7 @@ public class PersonAgent extends Agent implements Person {
 	private boolean onBus = false;
 	
 	public Semaphore driveOver = new Semaphore(0,true);
+	public List<OnRamp> onRamps = new ArrayList<OnRamp>();
 	
 
 	public int spriteChoice;
@@ -351,6 +352,10 @@ public class PersonAgent extends Agent implements Person {
 	}
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
+		if(onRamps.size()>=2){
+			doDrive(onRamps.get(0),onRamps.get(1));
+			return true;
+		}
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
 

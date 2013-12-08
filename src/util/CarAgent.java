@@ -31,6 +31,8 @@ public class CarAgent extends VehicleAgent{
 		inUse = true;
 		this.currentLocation = from;
 		this.destination = to;
+		stateChanged();
+		//System.out.println("Num permits "+stateChange.availablePermits());
 		//startThread();
 	}
 	
@@ -42,7 +44,7 @@ public class CarAgent extends VehicleAgent{
 	
 	//Scheduler
 	
-	@Override
+	//@Override
 	public boolean pickAndExecuteAnAction(){
 		Do("Scheduler being called");
 		if(inUse){
