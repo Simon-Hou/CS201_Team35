@@ -743,7 +743,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		b.gui = new BusAgentGui(b,simCityGui,true);
 		b2.gui = new BusAgentGui(b2,simCityGui,false);
-		c.gui = new CarAgentGui(c,simCityGui,true);
+		c.gui = new CarAgentGui(c,simCityGui,false);
 		
 		cityObject.fBus = b;
 		cityObject.bBus = b2;

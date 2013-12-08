@@ -42,7 +42,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	super(225,130,Color.RED,"Bus");
     	
     	if(!clockwise){
-    		this.x = 460;
+    		this.x = 390;
     		this.y = 90;
     	}
     	this.car = car;
@@ -122,26 +122,26 @@ public class CarAgentGui extends VehicleAgentGui {
 
         	}
         	if(topLeftCornerB()){
-        		rectangle = new Rectangle(90,90,20,50);
+        		rectangle = new Rectangle(90,90,15,25);
         	}
         	if(leftLaneB()){
         		rectangle.y++;
         	}
         	if(bottomLeftCornerB()){
-        		rectangle = new Rectangle(90,490,50,20);
+        		rectangle = new Rectangle(90,490,25,15);
         	}
         	if(bottomLaneB()){
         		rectangle.x++;
         	}
         	if(bottomRightCornerB()){
-        		rectangle = new Rectangle(490,460,20,50);
+        		rectangle = new Rectangle(490,480,15,25);
         	}
         	if(rightLaneB()){
         		rectangle.y--;
         	}
 
         	if(topRightCornerB()){
-        		rectangle = new Rectangle(460,90,50,20);
+        		rectangle = new Rectangle(460,90,25,15);
         		
         	}
 
@@ -324,13 +324,13 @@ public class CarAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean bottomRightCornerF(){
-    	if(rectangle.x==450 && rectangle.y>=130 && rectangle.y>=420){
+    	if(rectangle.x==480 && rectangle.y>=130 && rectangle.y>=420){
     		return true;
     	}
     	return false;
     }
     public boolean rightLaneB(){
-    	if(rectangle.x==490 && rectangle.y>=90 && rectangle.y<=460){
+    	if(rectangle.x==490 && rectangle.y>=90 && rectangle.y<=480){
     		return true;
     	}
     	return false;	
