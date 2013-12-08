@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 
 import public_Gui.Gui;
@@ -29,6 +30,7 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
     private Collection<Point> tableMap = new ArrayList<Point>();
     public List<MyImage> platedFoods = Collections.synchronizedList(new ArrayList<MyImage>());
 
+    Semaphore[][] grid;
 
 	public CityRestaurantLindaCard(SimCityGui city) {
 		super(city);
@@ -98,6 +100,15 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
         //The cashier
         g.setColor(Color.BLUE);
         g.fillRect(CASHIER.x, CASHIER.y, CASHIER.width, CASHIER.height);
+        
+        //blocked grids
+        if (grid!=null){
+	        g2.setColor(Color.RED);
+	        for (int i=0; i<gridX ; i++)
+	    	    for (int j = 0; j<gridY; j++)
+	    	    	if (grid[i][j].availablePermits()<=0)
+	    	    		g2.drawRect(i*cellSize, j*cellSize, cellSize, cellSize);
+        }
     }
 
     
