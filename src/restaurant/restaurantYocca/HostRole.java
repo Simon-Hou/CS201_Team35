@@ -15,12 +15,15 @@ import role.Role;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 /**
  * Restaurant Host Agent
  */
 public class HostRole extends Role implements Host {
 	static final int NTABLES = 4;//a global for the number of tables.
-	public static List<Customer> waitingCustomers
+	public List<Customer> waitingCustomers
 	= Collections.synchronizedList(new ArrayList<Customer>());
 	public List<MyWaiter> waiterList = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	public ArrayList<Table> tables;
@@ -39,11 +42,11 @@ public class HostRole extends Role implements Host {
 
 		restaurant = rest;
 		
-		if (restaurant.customers != null) {
-			for (int i=0; i< restaurant.customers.size();i++) {
-				waitingCustomers.add((Customer) restaurant.customers.get(i));
-			}
-		}
+//		if (restaurant.customers != null) {
+//			for (int i=0; i< restaurant.customers.size();i++) {
+//				waitingCustomers.add((Customer) restaurant.customers.get(i));
+//			}
+//		}
 		
 		this.name = name;
 		int xLoc = 0;
@@ -123,9 +126,9 @@ public class HostRole extends Role implements Host {
 	}
 	
 	public void msgIWantToEat(Customer cust) {
-		System.out.println("Received customer message that he wants to eat");
-		waitingCustomers.add(cust);
-		Do("Size of cust: " + waitingCustomers.size());
+//		System.out.println("Received customer message that he wants to eat");
+//		waitingCustomers.add(cust);
+//		Do("Size of cust: " + waitingCustomers.size());
 		stateChanged();
 	}
 
@@ -138,7 +141,7 @@ public class HostRole extends Role implements Host {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		System.out.println("WaiterList size: " + waiterList.size());
+//		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.getName(), waitingCustomers.size() + " customers to seat");
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				for (Customer c: waitingCustomers) {	

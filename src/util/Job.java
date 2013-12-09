@@ -22,9 +22,6 @@ public class Job {
 		this.shiftStart = shiftStart;
 		this.shiftEnd = shiftEnd;
 		this.placeOfWork = placeOfWork;
-		if (this.placeOfWork == null) {
-			AlertLog.getInstance().logError(AlertTag.PERSON, person.getName(), "Place of work is null");
-		}
 		this.jobType = jt;
 		if(jobType == JobType.BankTeller){
 			((BankTellerRole) jobRole).setPerson(person);

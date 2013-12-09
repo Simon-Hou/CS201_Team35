@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import person.PersonAgent;
-import restaurant.restaurantLinda.gui.AnimationPanel;
 import util.CityMap;
 import cityGui.test.PersonGui;
 

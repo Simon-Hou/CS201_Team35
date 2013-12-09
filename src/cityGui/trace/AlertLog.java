@@ -63,8 +63,8 @@ public class AlertLog {
 	 * @param name The name of the thing sending this alert.
 	 * @param message The message of this alert.
 	 */
-	public void logError(AlertTag tag, String name, String message) {
-		this.sendAlert(AlertLevel.ERROR, tag, name, message);
+	public void logError(AlertTag tag, String name, String message, String ID) {
+		this.sendAlert(AlertLevel.ERROR, tag, name, message, ID);
 	}
 	
 	/**
@@ -73,8 +73,8 @@ public class AlertLog {
 	 * @param name The name of the thing sending this alert.
 	 * @param message The message of this alert.
 	 */
-	public void logWarning(AlertTag tag, String name, String message) {
-		this.sendAlert(AlertLevel.WARNING, tag, name, message);
+	public void logWarning(AlertTag tag, String name, String message, String ID) {
+		this.sendAlert(AlertLevel.WARNING, tag, name, message, ID);
 	}
 	
 	/**
@@ -83,8 +83,8 @@ public class AlertLog {
 	 * @param name The name of the thing sending this alert.
 	 * @param message The message of this alert.
 	 */
-	public void logInfo(AlertTag tag, String name, String message) {
-		this.sendAlert(AlertLevel.INFO, tag, name, message);
+	public void logInfo(AlertTag tag, String name, String message, String ID) {
+		this.sendAlert(AlertLevel.INFO, tag, name, message, ID);
 	}
 	
 	/**
@@ -93,8 +93,8 @@ public class AlertLog {
 	 * @param name The name of the thing sending this alert.
 	 * @param message The message of this alert.
 	 */
-	public void logMessage(AlertTag tag, String name, String message) {
-		this.sendAlert(AlertLevel.MESSAGE, tag, name, message);
+	public void logMessage(AlertTag tag, String name, String message, String ID) {
+		this.sendAlert(AlertLevel.MESSAGE, tag, name, message, ID);
 	}
 	
 	/**
@@ -103,8 +103,8 @@ public class AlertLog {
 	 * @param name The name of the thing sending this alert.
 	 * @param message The message of this alert.
 	 */
-	public void logDebug(AlertTag tag, String name, String message) {
-		this.sendAlert(AlertLevel.DEBUG, tag, name, message);
+	public void logDebug(AlertTag tag, String name, String message, String ID) {
+		this.sendAlert(AlertLevel.DEBUG, tag, name, message, ID);
 	}
 	
 	
@@ -116,7 +116,7 @@ public class AlertLog {
 	 * @param name The name of the thing sending this alert 
 	 * @param message The message to be logged.
 	 */
-	public void sendAlert(AlertLevel level, AlertTag tag, String name, String message) {		
+	public void sendAlert(AlertLevel level, AlertTag tag, String name, String message, String ID) {		
 //		StackTraceElement[] s = new RuntimeException().getStackTrace();
 //		String className = s[1].getClassName();
 
@@ -125,7 +125,7 @@ public class AlertLog {
 		Date date = new Date();	//Timestamp
 
 		//Make the alert.  Also prints to std out/err.
-		Alert alert = new Alert(level, tag, name, message, date);
+		Alert alert = new Alert(level, tag, name, message, date, ID);
 		if (this.printedAlertLevels.contains(level)) {
 			if (level == AlertLevel.ERROR) {
 				System.err.println(alert);
