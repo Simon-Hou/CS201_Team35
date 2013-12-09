@@ -198,20 +198,20 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		//^^add new checks for each person's restaurant!
 	if(e.getSource().equals(addLindaRestaurant)){
 		 city.city.addObject(CityComponents.RESTAURANTLINDA);
-         AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.name, "Adding New Linda's Restaurant");
+         AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, this.name, "Adding New Linda's Restaurant");
 	}
 		else if(e.getSource().equals(addGabeRestaurant)){
 			 city.city.addObject(CityComponents.RESTAURANTGABE);
-             AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.name, "Adding New Gabe's Restaurant");
+             AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.name, "Adding New Gabe's Restaurant");
 		}
 		else if (e.getSource().equals(addSimonRestaurant)){
 			 city.city.addObject(CityComponents.RESTAURANTSIMON);
-             AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.name, "Adding New Simon's Restaurant");
+             AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_SIMON, this.name, "Adding New Simon's Restaurant");
 		
 		}
 		else if (e.getSource().equals(addYoccaRestaurant)){
 			 city.city.addObject(CityComponents.RESTAURANTYOCCA);
-            AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.name, "Adding Captain Yocca's Restaurant");
+            AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Adding Captain Yocca's Restaurant");
 		
 		}
 	else if (e.getSource().equals(addBank)) {
