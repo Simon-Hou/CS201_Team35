@@ -46,6 +46,8 @@ public class RestaurantSimon extends Restaurant {
 	public CityRestaurantSimon cityRestaurant;
 	CityRestaurantSimonCard animation=null;
 	boolean p=false;
+	
+	public boolean isOpen = true;
 
 
 	private Vector<CustomerRole> customers = new Vector<CustomerRole>();
@@ -194,5 +196,11 @@ public class RestaurantSimon extends Restaurant {
 	}
 	public void setAnimationPanel(CityRestaurantSimonCard crc){
 		animation=crc;
+	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return isOpen;
 	}
 }
