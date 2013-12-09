@@ -2,8 +2,10 @@ package UnitTests.mock.MarketMock;
 
 import role.Role;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
 import util.Loc;
+import util.OnRamp;
 import interfaces.Person;
 import UnitTests.mock.EventLog;
 import UnitTests.mock.LoggedEvent;
@@ -28,12 +30,6 @@ public class MockMarketPerson extends Mock implements Person {
 		
 	}
 
-
-	@Override
-	public void msgCarArrivedAtLoc(Loc destination) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void addToWallet(int amount) {
@@ -119,6 +115,18 @@ public class MockMarketPerson extends Mock implements Person {
 
 	@Override
 	public void setTiredLevel(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgBusAtStop(BusAgent b, BusStop stop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCarArrivedAtRamp(OnRamp destination) {
 		// TODO Auto-generated method stub
 		
 	}
