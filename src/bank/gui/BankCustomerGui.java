@@ -93,6 +93,11 @@ public class BankCustomerGui implements Gui{
 			command=Command.noCommand;
 		}
 	}
+	
+	public void setLoc(int xPos,int yPos){
+		this.xPos = xPos;
+		this.yPos =yPos;
+	}
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);

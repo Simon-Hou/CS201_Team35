@@ -31,7 +31,7 @@ public class CityBankCard extends CityCard{
 
 	private static final Color BankDivider = new Color(84, 54, 23);
 
-	private List<Gui> guis = new ArrayList<Gui>();
+	public List<Gui> guis = new ArrayList<Gui>();
 
 
 	public CityBankCard(SimCityGui city) {

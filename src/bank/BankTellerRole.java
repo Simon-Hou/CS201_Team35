@@ -304,6 +304,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		System.out.println("Fire fight ensuing...");
 		
 		double results = Math.random();
+		results = 0;
 		
 		if(results>.5){
 			Do("BankRobber won. Handing over the money");
@@ -314,6 +315,15 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		}
 		else{
 			Do("BankRobber lost and is dead.");
+			
+			if(currentCustomer instanceof BankCustomerRole &&
+					((BankCustomerRole)currentCustomer).person instanceof PersonAgent){
+				Do("In here");
+				((PersonAgent) ((BankCustomerRole) currentCustomer).person).stopThread();
+				((Bank) bank).animation.guis.remove(((BankCustomerRole)currentCustomer).bankCustomerGui);
+				//((BankCustomerRole)currentCustomer).bankCustomerGui.setLoc(-40, -40);
+				//((BankCustomerRole)currentCustomer).bankCustomerGui.setDest(-40, -40);
+			}
 			
 			//THIS DEAD THING IS NOT IMPLEMENTED YET
 			int a = bank.rob(currentTask.amount);
