@@ -72,6 +72,8 @@ public class BusGui extends CityComponent implements Gui {
     	rectangle = new Rectangle(x, y, 50, 20);
     }
     
+    
+    
     public BusGui(Bus b, SimCityGui gui, int xPos, int yPos, int xDest, int yDest){ //HostAgent m) {
         super(xPos, yPos, Color.YELLOW, "Bus");
         bus = b;

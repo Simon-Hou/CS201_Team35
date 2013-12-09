@@ -27,6 +27,7 @@ public abstract class CityComponent implements ImageObserver {
 	String ID;
 	boolean isActive;
 	public boolean invalidPlacement = false;
+	public static int scale = 30;
 
 	public CityComponent() {
 		x = 0;
@@ -160,13 +161,34 @@ public abstract class CityComponent implements ImageObserver {
 		double minDistance = 10000;
 		int minI = -1;
 		int minJ = -1;
-		for(int i = 0;i<20;++i){
-			for(int j = 0;j<20;++j){
-				double tempDistance = Math.pow(30*i-p.x,2) + Math.pow(30*j - p.y,2);
+		for(int i = 0;i<600/scale;++i){
+			for(int j = 0;j<600/scale;++j){
+				double tempDistance = Math.pow(scale*i-p.x,2) + Math.pow(scale*j - p.y,2);
 				if(tempDistance<minDistance){
-					boolean use = onSidewalk(30*i,30*j);
+					boolean use = onSidewalk(scale*i,scale*j);
 					//System.out.println("On sidewalk: "+use+", "+i+", "+j+", "+tempDistance);
-					if(onSidewalk(30*i,30*j)){
+					if(onSidewalk(scale*i,scale*j)){
+						minDistance = tempDistance;
+						minI = i;
+						minJ  = j;
+					}
+				}
+			}
+		}
+		return new Loc(minI,minJ);
+	}
+	
+	public static Loc findNearestRoadGridLoc(Point p){
+		double minDistance = 10000;
+		int minI = -1;
+		int minJ = -1;
+		for(int i = 0;i<600/scale;++i){
+			for(int j = 0;j<600/scale;++j){
+				double tempDistance = Math.pow(scale*i-p.x,2) + Math.pow(scale*j - p.y,2);
+				if(tempDistance<minDistance){
+					boolean use = onSidewalk(scale*i,scale*j);
+					//System.out.println("On sidewalk: "+use+", "+i+", "+j+", "+tempDistance);
+					if(!onSidewalk(scale*i,scale*j)){
 						minDistance = tempDistance;
 						minI = i;
 						minJ  = j;
