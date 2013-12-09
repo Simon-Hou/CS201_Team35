@@ -192,7 +192,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 		//case RESTAURANT: temp = new CityRestaurantSimon(-100, -100, "Restaurant " + (statics.size()-19)); break;
 
-		case RESTAURANT: temp = new CityRestaurantGabe(-100, -100, "Restaurant " + (statics.size()-19)); break;
+		case RESTAURANT: temp = new CityRestaurantSimon(-100, -100, "Restaurant " + (statics.size()-19)); break;
 
 		case ROAD: temp = new CityRoad(-100, RoadDirection.HORIZONTAL); break; //NOTE: DON'T MAKE NEW ROADS
 		case BANK: temp = new CityBank(-100, -100, "Bank " + (statics.size()-19)); break;
