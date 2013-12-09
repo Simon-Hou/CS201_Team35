@@ -458,6 +458,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		p.startThread();*/
 		p.setAStar(new AStarTraversalPerson(grid));
 		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
+		personGui.stopLights = stopLights;
 		p.setGui(personGui);
 		cityObject.people.add(p);
 		city.addMoving(personGui);
