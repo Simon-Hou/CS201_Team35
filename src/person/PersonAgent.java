@@ -80,15 +80,20 @@ public class PersonAgent extends Agent implements Person {
 		Random random = new Random();
 		hungerLevel = random.nextInt(10);
 
-		if (random.nextBoolean()){
+		//parker market testing changes
+//		if (random.nextBoolean()){
 			this.belongings.myFoods.add(new Food("Steak",5));
 			this.belongings.myFoods.add(new Food("Chicken",15));
 			this.belongings.myFoods.add(new Food("Pizza",15));
 			this.belongings.myFoods.add(new Food("Salad",15));
-		}
+//		}
 		purse.wallet = 50;
 
-		//hungerLevel = 0;
+		
+		//parker market testing changes
+		hungerLevel = 0;
+		tiredLevel = 15;
+		//parker market testing changes
 
 	}
 
@@ -430,12 +435,13 @@ public class PersonAgent extends Agent implements Person {
 
 	//Actions
 	private void goToWork() {
-		try {
-			Thread.sleep((int)(1000+ 1000*Math.random()));
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//parker market testing changes
+//		try {
+//			Thread.sleep((int)(1000+ 1000*Math.random()));
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
@@ -541,7 +547,7 @@ public class PersonAgent extends Agent implements Person {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-
+		AlertLog.getInstance().logInfo(AlertTag.MARKET, this.getName(), "I am going to the market to buy food for home");
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;

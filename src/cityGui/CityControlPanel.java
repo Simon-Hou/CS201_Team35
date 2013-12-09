@@ -291,7 +291,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		 
 		 //SCENARIOS
 		else if (e.getSource().equals(MarketSimple)){
-			//city.
+			city.marketSimpleScenario();
 		}
 	}
 	

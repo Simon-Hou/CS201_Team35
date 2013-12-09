@@ -425,7 +425,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 			JobType jobType,int start,int end,int bankNum,int houseNum){
 
 		PersonAgent person = new PersonAgent(name,cityObject.cityMap);
-		person.setJob(placeOfWork, jobType, start, end);
+		if (placeOfWork != null && jobType != null){
+			person.setJob(placeOfWork, jobType, start, end);
+		}
 		person.setBank(bankNum);
 		//System.out.println(cityObject.cityMap.map.get("House").isEmpty());
 		if(!cityObject.cityMap.map.get("House").isEmpty()){
@@ -1017,7 +1019,31 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 	
 	public void marketSimpleScenario(){
+		System.out.println("Beginning Simple Market Scenario");
 		
+		hasBuses = false;
+		setMAXTIME(50);
+		addNewBuilding("House", 200, 560);
+		addNewBuilding("Market",250,200);
+		
+		//employees
+		addNewPersonHard("p"+0,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketHost,0,100,0,0);
+
+		addNewPersonHard("p"+1,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,100,0,0);
+
+		addNewPersonHard("p"+2,
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketCashier,0,100,0,0);
+		
+
+		
+		
+		//customers
+		addNewPersonHard("p"+4,null,null,0,0,0,0);
 	}
 
 	public void gabeRestaurant(){
