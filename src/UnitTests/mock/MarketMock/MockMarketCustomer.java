@@ -45,7 +45,7 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 
 	@Override
 	public void msgYouOweMoney(Receipt receipt, int debt) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("I still owe this market $" + debt));
 		
 	}
 
