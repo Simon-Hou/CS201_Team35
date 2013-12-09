@@ -30,7 +30,7 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
     private Collection<Point> tableMap = new ArrayList<Point>();
     public List<MyImage> platedFoods = Collections.synchronizedList(new ArrayList<MyImage>());
 
-    Semaphore[][] grid;
+    public Semaphore[][] grid;
 
 	public CityRestaurantLindaCard(SimCityGui city) {
 		super(city);
