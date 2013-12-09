@@ -201,6 +201,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	ImageIcon hr3 = new ImageIcon(hright3);
 	java.net.URL hright4 = getClass().getResource("personImages/hright4.png");
 	ImageIcon hr4 = new ImageIcon(hright4);
+	
+
 
 	//(-Parker's layout)
 	public BuildingControlPanelHolder buildingCP;

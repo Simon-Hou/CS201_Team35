@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import bank.gui.BankCustomerGui;
 import bank.gui.BankTellerGui;
 import bank.gui.Gui;
@@ -30,12 +32,20 @@ public class CityBankCard extends CityCard{
 	private static final Color BankCounter = new Color(169, 109, 55);
 
 	private static final Color BankDivider = new Color(84, 54, 23);
-
+	
+	java.net.URL gun1 = getClass().getResource("cityImages/gunUp.png");
+	ImageIcon gunUp = new ImageIcon(gun1);
+	java.net.URL gun2 = getClass().getResource("cityImages/gunDown.png");
+	ImageIcon gunDown = new ImageIcon(gun2);
+	
+	public boolean drawGuns = false;
+	
 	public List<Gui> guis = new ArrayList<Gui>();
 
 
 	public CityBankCard(SimCityGui city) {
 		super(city);
+		//System.out.println();
 	}
 
 	public void paint(Graphics g) {
@@ -69,6 +79,10 @@ public class CityBankCard extends CityCard{
 					gui.draw(g2);
 				}
 			}
+		}
+		if(drawGuns){
+			g2.drawImage(gunUp.getImage(),50,150,10,20,null);
+			g2.drawImage(gunDown.getImage(),50,110,10,20,null);
 		}
 	}
 
@@ -118,6 +132,11 @@ public class CityBankCard extends CityCard{
 		}
 
 		repaint();
+	}
+	
+	
+	public void addGuns(){
+		drawGuns = true;
 	}
 
 }

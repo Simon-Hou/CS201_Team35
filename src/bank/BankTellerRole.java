@@ -303,6 +303,9 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		Do("AHH!! Getting robbed");
 		System.out.println("Fire fight ensuing...");
 		
+		((Bank) bank).animation.addGuns();
+		
+		
 		double results = Math.random();
 		results = 0;
 		
