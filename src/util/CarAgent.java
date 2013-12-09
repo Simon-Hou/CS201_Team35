@@ -86,6 +86,7 @@ public class CarAgent extends VehicleAgent{
 	
 	public void doDriveToDestination(){
 		
+		
 		gui.goTo(destination.loc.x, destination.loc.y);
 		
 		try {

@@ -708,47 +708,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 		city.addMoving(b.gui);
 		city.addMoving(b2.gui);
 		
-		List<StopLight> lights = new ArrayList<StopLight>();
-		
-		StopLight light = new StopLight();
-		light.loc = new Loc(285,80);
-		light.status = CrosswalkStatus.Pedestrian;
-		light.safeRegion = new Rectangle(270,80,60,80);
-		light.letGoRegion = new Rectangle(290,80,20,80);
-		city.addStatic(light);
-		lights.add(light);
-		
-		light = new StopLight();
-		light.loc = new Loc(285,440);
-		light.status = CrosswalkStatus.Pedestrian;
-		light.safeRegion = new Rectangle(270,440,60,80);
-		light.letGoRegion = new Rectangle(290,440,20,80);
-		city.addStatic(light);
-		lights.add(light);
-		
-		light = new StopLight();
-		light.loc = new Loc(80,285);
-		light.status = CrosswalkStatus.Pedestrian;
-		light.safeRegion = new Rectangle(80,270,80,60);
-		light.letGoRegion = new Rectangle(80,290,80,20);
-		city.addStatic(light);
-		lights.add(light);
-		
-		light = new StopLight();
-		light.loc = new Loc(440,285);
-		light.status = CrosswalkStatus.Pedestrian;
-		light.safeRegion = new Rectangle(440,270,80,60);
-		light.letGoRegion = new Rectangle(440,290,80,20);
-		city.addStatic(light);
-		lights.add(light);
-		
 		
 		
 		//b.setAStar(new AStarTraversalVehicle(grid));
 		//b2.setAStar(new AStarTraversalVehicle(grid));
 		
-		b.gui.stopLights = lights;
-		b2.gui.stopLights = lights;
+		b.gui.stopLights = stopLights;
+		b2.gui.stopLights = stopLights;
 		
 		
 		b.startThread();
@@ -887,6 +853,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int xStartTest = 0;
 		int yStartTest = 0;
 
+		
+		test.addBuses(test);
+		test.simpleCarScenario();
+		
+		
 		//test.simpleCarScenario();
 		//test.addVehicles(test);
 		//test.gabeRestaurant();
@@ -1323,7 +1294,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		
 		//counterclockwise
 		onRamps.add(new OnRamp(new Loc(90,120),new Loc(70,120),true,false));
-		onRamps.add(new OnRamp(new Loc(490,120),new Loc(520,120),true,false));
+		onRamps.add(new OnRamp(new Loc(490,120),new Loc(530,120),true,false));
 	}
 	
 	public void setStopLights(){

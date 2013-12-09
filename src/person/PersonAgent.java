@@ -158,6 +158,8 @@ public class PersonAgent extends Agent implements Person {
 	public Semaphore driveOver = new Semaphore(0,true);
 	public List<OnRamp> onRamps = new ArrayList<OnRamp>();
 	
+	boolean waited = false;
+	
 
 	public int spriteChoice;
 	public List<ImageIcon> upSprites = new ArrayList<ImageIcon>();
@@ -280,7 +282,10 @@ public class PersonAgent extends Agent implements Person {
 		Do("Getting out of car");
 		driveOver.release();
 		gui.setLoc(destination.sidewalkLoc);
-		
+		gui.xDestination = gui.rectangle.x;
+		gui.yDestination = gui.rectangle.y;
+		Do("My Loc: "+destination.sidewalkLoc.x+", "+destination.sidewalkLoc.y);
+		stateChanged();
 	}
 	
 	
@@ -353,10 +358,10 @@ public class PersonAgent extends Agent implements Person {
 	}
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
-//		if(onRamps.size()>=2){
-//			doDrive(onRamps.get(0),onRamps.get(1));
-//			return true;
-//		}
+		if(onRamps.size()>=2){
+			doDrive(onRamps.get(2),onRamps.get(3));
+			return true;
+		}
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
 
@@ -838,6 +843,15 @@ public class PersonAgent extends Agent implements Person {
 	private void doDrive(OnRamp from,OnRamp to){
 		
 		Do("Taking a drive");
+		if(!waited){
+		try {
+			Thread.sleep(9000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		waited = true;
+		}
 		
 		gui.waitingForCarToGetOnRoad = true;
 		
@@ -851,6 +865,8 @@ public class PersonAgent extends Agent implements Person {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Do("I HAVE AWOKEN");
+		
 		
 		
 	}

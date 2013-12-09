@@ -30,6 +30,10 @@ public class StopLight extends CityComponent implements Gui,ActionListener{
 	public StopLight(){
 		lightTimer.start();
 	}
+	
+	public CrosswalkStatus getStatus(){
+		return status;
+	}
 
 	
 	public void paint(Graphics g1){
@@ -74,14 +78,16 @@ public class StopLight extends CityComponent implements Gui,ActionListener{
 		// TODO Auto-generated method stub
 		
 		if(e.getSource().equals(lightTimer)){
-			//System.out.println("\t\tHere");
+			//System.out.println("\t\tswitching: "+status);
 			toggleLight();
+			//repaint();
 		}
 		
 	}
 	
 	
 	public void toggleLight(){
+		//System.out.println("\t\tTOGGLE BEING CALLED");
 		if(status == CrosswalkStatus.Pedestrian){
 			status = CrosswalkStatus.Vehicle;
 			return;
