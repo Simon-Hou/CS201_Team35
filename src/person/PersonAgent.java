@@ -359,6 +359,8 @@ public class PersonAgent extends Agent implements Person {
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
 		if(onRamps.size()>=2){
+			
+				
 			doDrive(onRamps.get(2),onRamps.get(3));
 			return true;
 		}
@@ -844,13 +846,13 @@ public class PersonAgent extends Agent implements Person {
 		
 		Do("Taking a drive");
 		if(!waited){
-		try {
-			Thread.sleep(9000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		waited = true;
+			try {
+				Thread.sleep(9000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			waited = true;
 		}
 		
 		gui.waitingForCarToGetOnRoad = true;
