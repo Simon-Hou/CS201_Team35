@@ -29,7 +29,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
-	JButton dummyScenarioA, simpleBusRide, jScenario;
+	JButton dummyScenarioA, simpleBusRide, jScenario,bankRobbery;
 
 	//For managing traces
 	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
@@ -127,6 +127,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		jScenario = new JButton("J. Big City");
 		jScenario.addActionListener(this);
 		panel2.addButton(jScenario);
+		
+		bankRobbery = new JButton("O. Bank Robbery");
+		bankRobbery.addActionListener(this);
+		panel2.addButton(bankRobbery);
 
 
 		//Trace panel buttons
@@ -228,6 +232,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		}
 		if(e.getSource().equals(jScenario)){
 			city.jScenario();
+		}
+		if(e.getSource().equals(bankRobbery)){
+			city.bankRobbery();
 		}
 
 

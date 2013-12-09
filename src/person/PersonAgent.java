@@ -571,7 +571,7 @@ public class PersonAgent extends Agent implements Person {
 			
 			bankRole.msgYouAreAtBank(b);
 			activeRole = bankRole;
-			robbedBank = true;
+			//robbedBank = true;
 			return;
 			
 		}

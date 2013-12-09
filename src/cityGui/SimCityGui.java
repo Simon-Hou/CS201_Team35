@@ -1159,6 +1159,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewPersonHard("YoccaRestaurantCook3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCook,thirdShiftStart,thirdShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantCashier3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCashier,thirdShiftStart,thirdShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 	}
+	
+	public void bankRobbery(){
+		hasBuses = false;
+		setMAXTIME(50);
+		addNewBuilding("House",400,5);
+		addNewBuilding("Bank",365,250);
+		addNewPersonHard("p0",((BankMapLoc)cityObject.cityMap.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100,0,0);
+		addNewPersonHard("BankRobber", null,JobType.NOTSELECTED,0,0,0,0);
+	}
 
 
 	public void bankScenario(){

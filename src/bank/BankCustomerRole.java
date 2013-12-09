@@ -174,6 +174,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		person.addToWallet(cash);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
+		((PersonAgent) person).robbedBank = true;
 		person.msgStateChanged();
 	}
 	

@@ -307,14 +307,22 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		
 		if(results>.5){
 			Do("BankRobber won. Handing over the money");
+			int a = bank.rob(currentTask.amount);
+			currentCustomer.msgHereIsMoneyAnythingElse(a);
+			currentTask = null;
+			return;
 		}
 		else{
 			Do("BankRobber lost and is dead.");
+			
+			//THIS DEAD THING IS NOT IMPLEMENTED YET
+			int a = bank.rob(currentTask.amount);
+			currentCustomer.msgHereIsMoneyAnythingElse(a);
+			currentTask = null;
+			return;
 		}
 		
-		int a = bank.rob(currentTask.amount);
-		currentCustomer.msgHereIsMoneyAnythingElse(a);
-		currentTask = null;
+		
 	}
 	
 	private void LeaveBank() {
