@@ -115,7 +115,7 @@ public class WaiterRole extends Role implements Waiter{
 	//tells whether the host will keep assigning customers to this waiter
 	public boolean inWaiterList = true;
 	
-	PersonAgent person;
+	public PersonAgent person;
 	
 	protected String name;
 	

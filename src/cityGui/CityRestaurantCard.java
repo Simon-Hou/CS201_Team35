@@ -3,6 +3,7 @@ package cityGui;
 import java.awt.event.ActionEvent;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import restaurant.restaurantLinda.gui.CookGui;
@@ -11,7 +12,7 @@ import public_Gui.Gui;
 
 public class CityRestaurantCard extends CityCard{
 
-	public List<Gui> guis = new ArrayList<Gui>();
+	public List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	
 	public CityRestaurantCard(SimCityGui city) {
 		super(city);
@@ -34,11 +35,13 @@ public class CityRestaurantCard extends CityCard{
 		//moveComponents();
 		
 		if(!guis.isEmpty()){
-			for(Gui gui : guis) {
-    			if (gui.isPresent()) {
-    				gui.updatePosition();//the number here doesn't actually matter.
-    			}
-    		}
+			synchronized(guis){
+				for(Gui gui : guis) {
+	    			if (gui.isPresent()) {
+	    				gui.updatePosition();//the number here doesn't actually matter.
+	    			}
+	    		}
+			}
 		}
 		
 		repaint();

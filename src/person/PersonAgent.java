@@ -438,7 +438,17 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
+		//AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//HACK
+		if (myJob == null) {
+			AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "My Job is null!");
+		}
+		
+		if (myJob.placeOfWork == null) {
+			AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "My place of work is null!");
+
+		}
+		
 		if(myJob.placeOfWork==null){
 			myJob.shiftStart+=1;
 			myJob.shiftEnd+=1;
@@ -627,8 +637,9 @@ public class PersonAgent extends Agent implements Person {
 			}*/
 		}
 		Random random = new Random();
-		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(random.nextInt(city.map.get("Restaurant").size()))).restaurant;
-		Loc loc = city.map.get("Restaurant").get(0).loc;
+		int rand = random.nextInt(city.map.get("Restaurant").size());
+		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(rand)).restaurant;
+		Loc loc = city.map.get("Restaurant").get(rand).loc;
 
 		tempDoGoToCityLoc(loc);
 
@@ -648,7 +659,7 @@ public class PersonAgent extends Agent implements Person {
 			b.customerEntering(restaurantYoccaRole);
 			restaurantYoccaRole.msgAtRestaurant(b);
 			activeRole = restaurantYoccaRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant");
 		}
 		else{
 			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role");
