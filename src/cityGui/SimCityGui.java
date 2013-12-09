@@ -483,12 +483,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 			if (type.contains("Linda"))
 			{
 				temp = new CityRestaurantLinda(x, y, "RestaurantLinda " + (city.statics.size()-19));
-
 			}
 
 
 			else if(type.contains("Gabe")){
 				temp = new CityRestaurantGabe(x,y, "RestaurantGabe " + (city.statics.size()-19));
+				
 			}
 			else if(type.contains("Simon")) {
 				temp = new CityRestaurantSimon(x, y, "RestaurantLinda " + (city.statics.size()-19));
@@ -504,7 +504,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, "SimCityGui", "Added new restaurant: " + temp.ID);
+			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, "SimCityGui", "Added new restaurant: " + temp.ID);
 			return;
 
 		}
