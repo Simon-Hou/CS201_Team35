@@ -1,5 +1,6 @@
 package restaurant.restaurantSimon;
 
+import interfaces.MarketDeliveryMan;
 import interfaces.Person;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ import java.util.concurrent.Semaphore;
 
 
 
+
+import market.MarketInvoice;
 import restaurant.restaurantSimon.interfaces.Cashier;
 import restaurant.restaurantSimon.interfaces.Customer;
 import restaurant.restaurantSimon.interfaces.Market;
@@ -73,13 +76,14 @@ public class CashierRole extends Role implements Cashier{
 
 
 	}
-	public CashierRole(String n){
+	public CashierRole(String n, RestaurantSimon r){
 		name=n;
 		menu=new HashMap<>();
 		menu.put("Steak",15.99);
 		menu.put("Salad",5.99);
 		menu.put("Chicken", 10.99);
 		menu.put("Pizza", 8.99);
+		restaurant=r;
 
 
 	}
@@ -94,6 +98,7 @@ public class CashierRole extends Role implements Cashier{
 	private Map <String , Double> menu;
 	int marketCounter=0;
 	Semaphore cooking= new Semaphore(1,true);
+	RestaurantSimon restaurant=null;
 
 
 
@@ -251,5 +256,21 @@ public class CashierRole extends Role implements Cashier{
 	}
 	public String toString() {
 		return "waiter " + getName();
+	}
+	@Override
+	public void msgHereIsInvoice(MarketDeliveryMan deliveryMan,
+			MarketInvoice order) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return self!=null;
+	}
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return restaurant.customers.size()==0;
 	}
 }

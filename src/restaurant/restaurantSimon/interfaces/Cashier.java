@@ -1,5 +1,7 @@
-package restaurant.interfaces;
+package restaurant.restaurantSimon.interfaces;
 
-public interface Cashier {
+import interfaces.BaseRestaurantCashier;
+
+public interface Cashier  extends BaseRestaurantCashier{
 	public abstract void msgHereIsMoney(Customer cus, double amount);
 }

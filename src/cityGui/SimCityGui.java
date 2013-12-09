@@ -458,6 +458,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		p.startThread();*/
 		p.setAStar(new AStarTraversalPerson(grid));
 		PersonGui personGui = new PersonGui(p,this,0,0,0,0);
+		personGui.stopLights = stopLights;
 		p.setGui(personGui);
 		cityObject.people.add(p);
 		city.addMoving(personGui);
@@ -1264,7 +1265,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setMAXTIME(50);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Resataurant",200,250);
-		fullyManBuilding("Restaurant",1);
+		//fullyManBuilding("Restaurant",0);
 
 	}
 

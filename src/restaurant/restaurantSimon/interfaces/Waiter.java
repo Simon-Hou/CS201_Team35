@@ -1,6 +1,8 @@
-package restaurant.interfaces;
+package restaurant.restaurantSimon.interfaces;
 
-public interface Waiter {
+import interfaces.BaseRestaurantWaiter;
+
+public interface Waiter extends BaseRestaurantWaiter {
 
 	public abstract void msgCheckIsReady(Customer cus, double amount);
 }
