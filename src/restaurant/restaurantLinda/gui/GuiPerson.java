@@ -107,8 +107,14 @@ public abstract class GuiPerson implements Gui{
     	
     	if (currentPosition!=null)
     		currentPosition.release(aStar.getGrid());
-    	
-    	boolean wasOpen = to.open(aStar.getGrid());
+    	boolean wasOpen=true;
+    	try{
+    		wasOpen = to.open(aStar.getGrid());
+    	}
+    	catch (ArrayIndexOutOfBoundsException e){
+    		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Array Out of Bounds Exception when trying check position" + to);
+    		e.printStackTrace();
+    	}
     	if(!wasOpen)
     		to.release(aStar.getGrid());
     	
@@ -169,7 +175,7 @@ public abstract class GuiPerson implements Gui{
 	    
 	    if (!gotPermit && attempts<3){
 	    	//System.err.println("got NO permit for " + path.get(1).toString() + " on attempt " + attempts);
-	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT, "GuiPerson", "Got no permit for " + path.get(1).toString() + " on attempt " + attempts);
+	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Got no permit for " + path.get(1).toString() + " on attempt " + attempts);
 	    	Random rand = new Random();
 	    	
 	    	wait=rand.nextInt(10) + 10;
@@ -180,7 +186,7 @@ public abstract class GuiPerson implements Gui{
 	    //Did not get lock after trying n attempts. So recalculating path.            
 	    if (!gotPermit) {
 			//System.out.println("[Gaut] " + agent.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
-	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT, "GuiPerson", "Recalculating path");
+	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Recalculating path");
 			attempts=1;
 			CalculatePath(path.get(path.size()-1));
 			return;
