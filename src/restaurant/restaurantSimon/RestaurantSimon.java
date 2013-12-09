@@ -48,6 +48,8 @@ public class RestaurantSimon extends Restaurant {
 	private CookGui cookGui=new CookGui(cook,animation);
 
 	boolean p=false;
+	
+	public boolean isOpen = true;
 
 
 	public Vector<CustomerRole> customers = new Vector<CustomerRole>();
@@ -199,5 +201,11 @@ public class RestaurantSimon extends Restaurant {
 	public void setAnimationPanel(CityRestaurantSimonCard crc){
 		animation=crc;
 		
+	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return isOpen;
 	}
 }

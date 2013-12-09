@@ -53,6 +53,8 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	public List<BaseRestaurantWaiter> waiters;
 	public List<BaseRestaurantCustomer> customers;
 	
+	public boolean isOpen = true;
+	
 	public RestaurantYocca(CityRestaurantYocca cr){
 		this.cityRestaurant = cr;
 		
@@ -207,5 +209,11 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //	public boolean unStaffed(){
 //		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
 //	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return isOpen;
+	}
 
 }

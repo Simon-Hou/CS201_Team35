@@ -23,6 +23,8 @@ import bank.gui.BankTellerGui;
 
 public class Bank implements BankInterface, PlaceOfWork{
 	
+
+	
 	//stores all the people in the queue
 	CityBankCard animation;
 	
@@ -257,6 +259,10 @@ public class Bank implements BankInterface, PlaceOfWork{
 	public void setAnimationPanel(CityBankCard chc){
 		animation=chc;
 		
+	}
+	
+	public boolean isOpen(){
+		return true;
 	}
 	
 	

@@ -6,7 +6,7 @@ import role.Role;
 import interfaces.Person;
 import interfaces.PlaceOfWork;
 
-public class RestaurantMapLoc extends Place implements PlaceOfWork{
+public class RestaurantMapLoc extends Place/* implements PlaceOfWork*/{
 
 	public Restaurant restaurant;
 	public int restaurantTopLeftX;
@@ -16,10 +16,10 @@ public class RestaurantMapLoc extends Place implements PlaceOfWork{
 		this.restaurant = r;
 	}
 
-	@Override
-	public Role canIStartWorking(Person p, JobType type, Role r) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Role canIStartWorking(Person p, JobType type, Role r) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }
