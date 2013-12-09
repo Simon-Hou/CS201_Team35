@@ -23,7 +23,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	public List<MyBusinessOrder> orders = new ArrayList<MyBusinessOrder>();
 	Map<String, Integer> priceList = new HashMap<String,Integer>();
-	Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
+	public Map<Person, Integer> debtorsList = new HashMap<Person,Integer>();
 	Market market;
 	Person p;
 	public String name;
@@ -78,7 +78,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	Timer timer = new Timer();
 	List<Timer> timers = new ArrayList<Timer>();
 	
-	List<BusinessPayment> businessPayments = new ArrayList<BusinessPayment>();
+	public List<BusinessPayment> businessPayments = new ArrayList<BusinessPayment>();
 	
 	
 	
@@ -212,14 +212,15 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		Do("Accepting Payment");
 		log.add(new LoggedEvent("action AcceptPayment"));
 	    int change = mc.payment-mc.total;
-		log.add(new LoggedEvent("I owe the customer change: $" + change));
 	    if (change>=0){
 	    	Do("Here is your change.");
+	    	log.add(new LoggedEvent("I owe the customer change: $" + change));
 	        mc.c.msgHereIsYourChange(new Receipt(mc.order, mc.total, mc.payment, this), change);
 	        customers.remove(mc);
 
 	    }
 	    else{
+	    	log.add(new LoggedEvent("The customer still owes me $" + -change + " and is now on my debtors list"));
 	        mc.c.msgYouOweMoney(new Receipt(mc.order, mc.total, mc.payment, this), -1*change);
 	        debtorsList.put(mc.c.getPerson(), -1*change);
 	        customers.remove(mc);
@@ -228,6 +229,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	private void ProcessBusinessPayment(BusinessPayment payment){
 		Do("Processing the business payment in the amount of $" + payment.amount);
+		log.add(new LoggedEvent("action ProcessBusinessPayment"));
+		log.add(new LoggedEvent("Received payment for total of $" + payment));
 	    market.cash+= payment.amount;
 	    businessPayments.remove(payment);
 	}
