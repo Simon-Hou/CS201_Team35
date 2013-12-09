@@ -72,13 +72,13 @@ public class RestaurantLinda extends Restaurant{
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
 		if (type == JobType.RestaurantHost){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as host");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as host",this.cityRestaurant.animationPanel.getName());
 
 			host.changeShifts(p);
 			return (Role)host;
 		}
 		else if (type == JobType.RestaurantLindaWaiter1){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as waiter");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as waiter",this.cityRestaurant.animationPanel.getName());
 
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
@@ -86,14 +86,14 @@ public class RestaurantLinda extends Restaurant{
 			return r;
 		}
 		else if (type == JobType.RestaurantLindaWaiter2){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as waiter");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as waiter",this.cityRestaurant.animationPanel.getName());
 			((WaiterRole)r).setRestaurant(this);
 
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantCook){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cook");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cook",this.cityRestaurant.animationPanel.getName());
 			//cityRestaurant.animationPanel.removeGui(cook.getGui());
 			this.cook.changeShifts(p);
 			if (cook.getGui() == null) {
@@ -105,7 +105,7 @@ public class RestaurantLinda extends Restaurant{
 			return (Role)cook;
 		}
 		else if (type == JobType.RestaurantCashier){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cashier");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cashier",this.cityRestaurant.animationPanel.getName());
 
 			cashier.changeShifts(p);
 			return (Role) cashier;

@@ -463,9 +463,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		cityObject.people.add(p);
 		city.addMoving(personGui);
 		p.startThread();
-
-		AlertLog.getInstance().logInfo(AlertTag.PERSON, "SimCityGui", "Added new person: " + p.name);  
-
 	}
 
 	public void addNewPersonHard(String name, PlaceOfWork placeOfWork,
@@ -503,7 +500,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.BANK, "SimCityGui", "Added new bank: " + temp.ID);
 			return;
 		}
 		if(type.equals("Market")){
@@ -520,7 +516,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.MARKET, "SimCityGui", "Added new market: " + temp.ID);
 			return;
 		}
 
@@ -550,7 +545,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, "SimCityGui", "Added new restaurant: " + temp.ID);
 			return;
 
 		}
@@ -576,7 +570,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.HOUSE, "SimCityGui", "Added new house: " + temp.ID);
 			return;
 		}
 
@@ -885,7 +878,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int yStartTest = 0;
 
 		
-		test.addBuses(test);
+		//test.addBuses(test);
 		//test.simpleCarScenario();
 		
 		
@@ -1016,19 +1009,19 @@ public class SimCityGui extends JFrame implements ActionListener {
 		}
 
 		//Creates bank 1
-		addNewBuilding("Bank",200,250);	
+		addNewBuilding("Bank",560,283);	
 
 		//Creates bank 2
-		addNewBuilding("Bank",5,250);
+		addNewBuilding("Bank",5,283);
 
 		//Creates Gabe's restaurant
-		addNewBuilding("RestaurantGabe", 5,300);
+		addNewBuilding("RestaurantGabe", 200,283);
 
 		//Creates Linda's restaurant
-		addNewBuilding("RestaurantLinda", 200,300);
+		addNewBuilding("RestaurantLinda", 283,200);
 
 		//Creates Yocca's restaurant
-		addNewBuilding("RestaurantYocca", 200 ,200);	
+		addNewBuilding("RestaurantYocca", 365 ,283);	
 
 		//Shifts for bank 1
 		//Early Shift
@@ -1085,7 +1078,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//Early Shift
 		addNewPersonHard("GabeRestaurantHost1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("GabeRestaurantWaiter1a",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("GabeRestaurantWaiter1b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("GabeRestaurantWaiter1b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter2,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("GabeRestaurantCook1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("GabeRestaurantCashier1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 
@@ -1107,7 +1100,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//Early Shift
 		addNewPersonHard("LindaRestaurantHost1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantHost,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("LindaRestaurantWaiter1a",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantLindaWaiter1,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("LindaRestaurantWaiter1b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantLindaWaiter1,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("LindaRestaurantWaiter1b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantLindaWaiter2,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("LindaRestaurantCook1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantCook,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("LindaRestaurantCashier1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantCashier,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 
@@ -1130,14 +1123,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//Early Shift
 		addNewPersonHard("YoccaRestaurantHost1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantHost,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantWaiter1a",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantYoccaWaiter1,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("YoccaRestaurantWaiter1b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantYoccaWaiter1,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("YoccaRestaurantWaiter1b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantYoccaWaiter2,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantCook1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCook,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantCashier1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCashier,firstShiftStart,firstShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 
 		//MiddleShift
 		addNewPersonHard("YoccaRestaurantHost2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantHost,secondShiftStart,secondShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));			
 		addNewPersonHard("YoccaRestaurantWaiter2a",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantYoccaWaiter1,secondShiftStart,secondShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("YoccaRestaurantWaiter2b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantYoccaWaiter1,secondShiftStart,secondShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("YoccaRestaurantWaiter2b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantYoccaWaiter2,secondShiftStart,secondShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantCook2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCook,secondShiftStart,secondShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantCashier2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCashier,secondShiftStart,secondShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 

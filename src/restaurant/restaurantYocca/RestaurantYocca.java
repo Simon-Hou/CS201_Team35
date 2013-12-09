@@ -85,12 +85,12 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
 		if (type == JobType.RestaurantHost){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as host");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as host",this.cityRestaurant.animationPanel.getName());
 			host.changeShifts(p);
 			return (Role)host;
 		}
 		else if (type == JobType.RestaurantYoccaWaiter1){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter",this.cityRestaurant.animationPanel.getName());
 
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
@@ -98,14 +98,14 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 			return r;
 		}
 		else if (type == JobType.RestaurantYoccaWaiter2){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter",this.cityRestaurant.animationPanel.getName());
 			((WaiterRole)r).setRestaurant(this);
 
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantCook){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cook");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cook",this.cityRestaurant.animationPanel.getName());
 			this.cook.changeShifts(p);
 			if (cook.getGui() == null) {
 				CookGui cg = new CookGui(this.cook);
@@ -115,12 +115,13 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 			return (Role)cook;
 		}
 		else if (type == JobType.RestaurantCashier){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cashier");
+
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cashier",this.cityRestaurant.animationPanel.getName());
 
 			cashier.changeShifts(p);
 			return (Role) cashier;
 		}
-		
+
 		System.out.println("Unrecognized job type: " + type);
 		return null;
 	}
@@ -260,7 +261,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //	
 	public void customerEntering(BaseRestaurantCustomer c){
 		//System.out.println("Customer is entering!");
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, this.host.getName(), "Customer is entering the restaurant");
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, this.host.getName(), "Customer is entering the restaurant",this.cityRestaurant.animationPanel.getName());
 		CustomerGui cg = new CustomerGui((CustomerRole)c,this);
 		((CustomerRole)c).setGui(cg);
 		customers.add(c);

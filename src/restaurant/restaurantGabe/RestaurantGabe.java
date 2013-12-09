@@ -179,7 +179,7 @@ public class RestaurantGabe extends Restaurant{
 	
 	public Role canIBeHost(Person person){
 		if(((HostRole) host).person==null || ((HostRole)host).YouAreDoneWithShift()){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.host.getName(), "I'm taking over as host");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.host.getName(), "I'm taking over as host",this.cityRestaurantGabe.animationPanel.getName());
 			((HostRole) host).name = person.getName()+"RestaurantHost";
 			((HostRole) host).person = (PersonAgent) person;
 			//System.out.println(host==null);
@@ -191,7 +191,7 @@ public class RestaurantGabe extends Restaurant{
 	
 	public Role canIBeCook(Person person){
 		if(((CookRole) cook).person==null || ((CookRole)cook).YouAreDoneWithShift()){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.host.getName(), "I'm taking over as cook");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.host.getName(), "I'm taking over as cook",this.cityRestaurantGabe.animationPanel.getName());
 			((CookRole) cook).name = person.getName()+"RestaurantCook";
 			((CookRole) cook).person = (PersonAgent) person;
 			//System.out.println(host==null);
@@ -234,7 +234,7 @@ public class RestaurantGabe extends Restaurant{
 	public Role canIBeCashier(Person person){
 		
 		if(((CashierRole) cashier).person==null || ((CashierRole)cashier).YouAreDoneWithShift()){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.cashier.getName(), "I'm taking over as waiter");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.cashier.getName(), "I'm taking over as waiter",this.cityRestaurantGabe.animationPanel.getName());
 
 			((CashierRole) cashier).name = person.getName()+"RestaurantCashier";
 			((CashierRole) cashier).person = (PersonAgent) person;

@@ -54,6 +54,8 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	Style warningStyle;
 	Style infoStyle;
 	Style defaultStyle;
+	
+	String componentID;
 
 	public TracePanel() {
 		super();
@@ -219,6 +221,10 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	public void hideAlertsWithTag(AlertTag tag) {
 		this.visibleTags.remove(tag);
 		filterTracePanel();
+	}
+	
+	public void showCurrentCard(){
+		//componentID = city.view.currentCard;
 	}
 	
 	/**

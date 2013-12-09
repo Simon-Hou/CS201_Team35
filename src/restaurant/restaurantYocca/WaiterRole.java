@@ -568,15 +568,15 @@ public class WaiterRole extends Role implements Waiter {
 	public boolean canLeave() {
 		//Do("\t TRYING TO GET OFF WORK");
 
-		if(waiterCustomers.isEmpty() && !restaurant.host.waiterList.contains(this)){			
+		if(waiterCustomers.isEmpty() && !restaurant.host.inWaiterList(this)){			
 			restaurant.leaveRestaurant(this);
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Leaving Restaurant as Waiter");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Leaving Restaurant as Waiter",this.restaurant.cityRestaurant.animationPanel.getName());
 			return true;
 		}
-		else if (restaurant.host.waiterList.size() > 1) {
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters before I remove myself");
-			restaurant.host.waiterList.remove(this);
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters after I remove myself");
+		else if (restaurant.host.waiterList.size() > 1 && restaurant.host.inWaiterList(this)) {
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters before I remove myself",this.restaurant.cityRestaurant.animationPanel.getName());
+			restaurant.host.removeWaiter(this);
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters after I remove myself",this.restaurant.cityRestaurant.animationPanel.getName());
 
 		}
 			

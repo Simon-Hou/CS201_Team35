@@ -103,6 +103,25 @@ public class HostRole extends Role implements Host {
 		Do("Adding Waiter");
 	}
 
+	public void removeWaiter(WaiterRole waiterRole) {
+		for (MyWaiter mw: waiterList) {
+			if (waiterRole.getName() == ((WaiterRole)mw.waiter).getName()) {
+				waiterList.remove(mw);
+				return;
+			}
+		}
+	}
+	
+	public boolean inWaiterList(WaiterRole waiterRole) {
+		for (MyWaiter mw: waiterList) {
+			if (waiterRole.getName() == ((WaiterRole)mw.waiter).getName()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 	public String getName() {
 		return name;
 	}
@@ -227,6 +246,5 @@ public class HostRole extends Role implements Host {
 		}
 		return true;
 	}
-
 }
 

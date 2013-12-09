@@ -29,7 +29,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
-	JButton dummyScenarioA;
+	JButton dummyScenarioA, simpleBusRide, jScenario;
 
 	//For managing traces
 	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
@@ -45,9 +45,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	JToggleButton PersonTagButton;
 	JToggleButton BusStopTagButton;
 	JToggleButton GeneralCityTagButton;
-	
+
 	String name = "Control Panel";
-	
+
 	CityListPanel panel1 = new CityListPanel();
 	CityListPanel panel2 = new CityListPanel();
 	CityListPanel panel3 = new CityListPanel("trace");
@@ -58,80 +58,88 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		this.setVisible(true);
 
 		this.setLayout(new GridLayout(1,3,5,0));
-	
-		
+
+
 		add(panel1);
 		add(panel2);
 		//add(panel3);
 		//city.trace.add(panel3);
-		
+
 		//AddBuilding/People Buttons
-		
-		
-		
+
+
+
 		addBank = new JButton("Add Bank");
 		addBank.addActionListener(this);
 		panel1.addButton(addBank);
-		
-		
+
+
 		addHouse = new JButton("Add House");
 		addHouse.addActionListener(this);
 		panel1.addButton(addHouse);
-		
+
 		addMarket = new JButton("Add Market");
 		addMarket.addActionListener(this);
 		panel1.addButton(addMarket);
-		
+
 		addParkerRestaurant = new JButton("Add Parker's Restaurant");
 		addParkerRestaurant.addActionListener(this);
 		panel1.addButton(addParkerRestaurant);
-		
+
 		addLindaRestaurant = new JButton("Add Linda's Restaurant");
 		addLindaRestaurant.addActionListener(this);
 		panel1.addButton(addLindaRestaurant);
-		
+
 		addGabeRestaurant = new JButton("Add Gabe's Restaurant");
 		addGabeRestaurant.addActionListener(this);
 		panel1.addButton(addGabeRestaurant);
-		
+
 		addYoccaRestaurant = new JButton("Add Andrew's Restaurant");
 		addYoccaRestaurant.addActionListener(this);
 		panel1.addButton(addYoccaRestaurant);
-		
+
 		addBobbyRestaurant = new JButton("Add Bobby's Restaurant");
 		addBobbyRestaurant.addActionListener(this);
 		panel1.addButton(addBobbyRestaurant);
-		
+
 		addSimonRestaurant = new JButton("Add Simon's Restaurant");
 		addSimonRestaurant.addActionListener(this);
 		panel1.addButton(addSimonRestaurant);
-		
+
 		addPerson = new JButton("Add Person");
 		addPerson.addActionListener(this);
 		panel1.addButton(addPerson);
-		
-//		newScenario = new JButton("Select Scenario");
-//		newScenario.addActionListener(this);
-//		panel1.addButton(newScenario);
-		
+
+		//		newScenario = new JButton("Select Scenario");
+		//		newScenario.addActionListener(this);
+		//		panel1.addButton(newScenario);
+
 
 		//Scenario Buttons
 		dummyScenarioA = new JButton("DummyScenarioA");
 		dummyScenarioA.addActionListener(this);
 		panel2.addButton(dummyScenarioA);
-		
-		
+
+		simpleBusRide = new JButton("E. Simple Bus Ride");
+		simpleBusRide.addActionListener(this);
+		panel2.addButton(simpleBusRide);
+
+		jScenario = new JButton("J. Big City");
+		jScenario.addActionListener(this);
+		panel2.addButton(jScenario);
+
+
 		//Trace panel buttons
 		InfoButton = new JToggleButton("Hide Level: INFO");
 		InfoButton.setSelected(true);
 		InfoButton.addActionListener(this);
 		panel3.addToggleButton(InfoButton);
-		
+
 		DebugButton = new JToggleButton("Hide Level: DEBUG");
 		DebugButton.setSelected(true);
 		DebugButton.addActionListener(this);
 		panel3.addToggleButton(DebugButton);
-		
+
 		ErrorButton = new JToggleButton("Hide Level: ERROR");
 		ErrorButton.setSelected(true);
 		ErrorButton.addActionListener(this);
@@ -141,17 +149,17 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		RestaurantGabeTagButton.setSelected(true);
 		RestaurantGabeTagButton.addActionListener(this);
 		panel3.addToggleButton(RestaurantGabeTagButton);
-		
+
 		RestaurantYoccaTagButton = new JToggleButton("Hide Tag: RESTAURANT_YOCCA");
 		RestaurantYoccaTagButton.setSelected(true);
 		RestaurantYoccaTagButton.addActionListener(this);
 		panel3.addToggleButton(RestaurantYoccaTagButton);
-		
+
 		RestaurantLindaTagButton = new JToggleButton("Hide Tag: RESTAURANT_LINDA");
 		RestaurantLindaTagButton.setSelected(true);
 		RestaurantLindaTagButton.addActionListener(this);
 		panel3.addToggleButton(RestaurantLindaTagButton);
-		
+
 		RestaurantSimonTagButton = new JToggleButton("Hide Tag: RESTAURANT_SIMON");
 		RestaurantSimonTagButton.setSelected(true);
 		RestaurantSimonTagButton.addActionListener(this);
@@ -161,76 +169,70 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		BankTagButton.setSelected(true);
 		BankTagButton.addActionListener(this);
 		panel3.addToggleButton(BankTagButton);
-		
+
 		MarketTagButton = new JToggleButton("Hide Tag: MARKET");
 		MarketTagButton.setSelected(true);
 		MarketTagButton.addActionListener(this);
 		panel3.addToggleButton(MarketTagButton);
-		
+
 		HouseTagButton = new JToggleButton("Hide Tag: HOUSE");
 		HouseTagButton.setSelected(true);
 		HouseTagButton.addActionListener(this);
 		panel3.addToggleButton(HouseTagButton);
-		
+
 		PersonTagButton = new JToggleButton("Hide Tag: PERSON");
 		PersonTagButton.setSelected(true);
 		PersonTagButton.addActionListener(this);
 		panel3.addToggleButton(PersonTagButton);
-		
+
 		BusStopTagButton = new JToggleButton("Hide Tag: BUS_STOP");
 		BusStopTagButton.setSelected(true);
 		BusStopTagButton.addActionListener(this);
 		panel3.addToggleButton(BusStopTagButton);
-		
+
 		GeneralCityTagButton = new JToggleButton("Hide Tag: GENERAL_CITY");
 		GeneralCityTagButton.setSelected(true);
 		GeneralCityTagButton.addActionListener(this);
 		panel3.addToggleButton(BusStopTagButton);
-		
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
-//		if (e.getSource().equals(addRestaurant)) {
-//			city.city.addObject(CityComponents.RESTAURANT);
-//			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.name, "Adding New Restaurant");
-//		}
-		
+		//		if (e.getSource().equals(addRestaurant)) {
+		//			city.city.addObject(CityComponents.RESTAURANT);
+		//			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.name, "Adding New Restaurant");
+		//		}
+
 		//^^add new checks for each person's restaurant!
+
 	if(e.getSource().equals(addLindaRestaurant)){
 		 city.city.addObject(CityComponents.RESTAURANTLINDA);
-         AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, this.name, "Adding New Linda's Restaurant");
 	}
 		else if(e.getSource().equals(addGabeRestaurant)){
 			 city.city.addObject(CityComponents.RESTAURANTGABE);
-             AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.name, "Adding New Gabe's Restaurant");
 		}
 		else if (e.getSource().equals(addSimonRestaurant)){
 			 city.city.addObject(CityComponents.RESTAURANTSIMON);
-             AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_SIMON, this.name, "Adding New Simon's Restaurant");
 		
 		}
 		else if (e.getSource().equals(addYoccaRestaurant)){
 			 city.city.addObject(CityComponents.RESTAURANTYOCCA);
-            AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Adding Captain Yocca's Restaurant");
 		
 		}
 	else if (e.getSource().equals(addBank)) {
-			AlertLog.getInstance().logInfo(AlertTag.BANK, this.name, "Adding New Bank");
 			city.city.addObject(CityComponents.BANK);
 		}
 		else if (e.getSource().equals(addHouse)) {
 			city.city.addObject(CityComponents.HOUSE);
-			AlertLog.getInstance().logInfo(AlertTag.HOUSE, this.name, "Adding New House");
 		}
 		else if (e.getSource().equals(addMarket)) {
-			AlertLog.getInstance().logInfo(AlertTag.MARKET, this.name, "Adding New Market");
 			city.city.addObject(CityComponents.MARKET);
 		}
-//		else if (e.getSource().equals(newScenario)){
-//			//AlertLog.getInstance().logInfo(AlertTag., this.name, "Adding New Restaurant");
-//			//System.out.println("HEREERERERRE");
-//			ScenarioPanel scenarioPanel = new ScenarioPanel(this.city);
-//		}
+		//		else if (e.getSource().equals(newScenario)){
+		//			//AlertLog.getInstance().logInfo(AlertTag., this.name, "Adding New Restaurant");
+		//			//System.out.println("HEREERERERRE");
+		//			ScenarioPanel scenarioPanel = new ScenarioPanel(this.city);
+		//		}
 		else if(e.getSource().equals(addPerson)) {
 			city.NewPersonCreationPanel();
 		}
@@ -364,78 +366,80 @@ public class CityControlPanel extends JPanel implements ActionListener{
 				city.tracePanel.hideAlertsWithTag(AlertTag.GENERAL_CITY);
 			}
 		}
+
+
 	}
-	
+
 	public void addTraceControls(){
 		city.trace.add(panel3);
 	}
-	
+
 	private class CityListPanel extends JPanel{
-		 private JPanel view = new JPanel();
-		 private List<JButton> inventoryList = new ArrayList<JButton>();
-			public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-										JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			 Dimension paneSize = new Dimension (150, 90);	
+		private JPanel view = new JPanel();
+		private List<JButton> inventoryList = new ArrayList<JButton>();
+		public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		Dimension paneSize = new Dimension (150, 90);	
 		CityListPanel(){
 			Dimension size = new Dimension (150, 90);
-	        setPreferredSize(size);
-	        setMinimumSize(size);
-	        setMaximumSize(size);
-	        
+			setPreferredSize(size);
+			setMinimumSize(size);
+			setMaximumSize(size);
+
 			setLayout(new FlowLayout());
 			view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
 			pane.setViewportView(view);
-	        add(pane);
-	        
-	        
-	        //new
-	        
-	       
-	        pane.setPreferredSize(paneSize);
-	        pane.setMinimumSize(paneSize);
-	        pane.setMaximumSize(paneSize);
+			add(pane);
+
+
+			//new
+
+
+			pane.setPreferredSize(paneSize);
+			pane.setMinimumSize(paneSize);
+			pane.setMaximumSize(paneSize);
 
 
 
 
 		}
-		
-		
+
+
 		CityListPanel(String trace){
 			Dimension size = new Dimension (150, 185);
-	        setPreferredSize(size);
-	        setMinimumSize(size);
-	        setMaximumSize(size);
-	        
+			setPreferredSize(size);
+			setMinimumSize(size);
+			setMaximumSize(size);
+
 			setLayout(new FlowLayout());
 			view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
 			pane.setViewportView(view);
-	        add(pane);
+			add(pane);
 
-	        pane.setPreferredSize(size);
-	        pane.setMinimumSize(size);
-	        pane.setMaximumSize(size);
+			pane.setPreferredSize(size);
+			pane.setMinimumSize(size);
+			pane.setMaximumSize(size);
 
 		}
-		
-		
+
+
 		public void addButton(JButton item){
 
-	        Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 5));
-	        item.setPreferredSize(buttonSize);
-	        item.setMinimumSize(buttonSize);
-	        item.setMaximumSize(buttonSize);
-	        view.add(item);
+			Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 5));
+			item.setPreferredSize(buttonSize);
+			item.setMinimumSize(buttonSize);
+			item.setMaximumSize(buttonSize);
+			view.add(item);
 		}
-		
+
 		public void addToggleButton(JToggleButton item){
 
-	        Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 5));
-	        item.setPreferredSize(buttonSize);
-	        item.setMinimumSize(buttonSize);
-	        item.setMaximumSize(buttonSize);
-	        view.add(item);
+			Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 5));
+			item.setPreferredSize(buttonSize);
+			item.setMinimumSize(buttonSize);
+			item.setMaximumSize(buttonSize);
+			view.add(item);
 		}
 	}
-	
+
 }
