@@ -10,8 +10,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import person.PersonAgent;
 import cityGui.CityRestaurantLindaCard;
-
 import astar.*;
 
 public class WaiterGui extends GuiPerson {	
@@ -41,6 +41,9 @@ public class WaiterGui extends GuiPerson {
         this.agent = agent;
         this.aStar = aStar;
         
+        this.pSprites = agent.p;
+		currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
+		
         int limit = (WINDOWX-300)/cellSize;
         if (position>=limit){
         	position%=limit;
@@ -200,8 +203,11 @@ public class WaiterGui extends GuiPerson {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(xPos, yPos, personSize, personSize);
+//        g.setColor(Color.MAGENTA);
+//        g.fillRect(xPos, yPos, personSize, personSize);
+    	g.setColor(Color.BLACK);
+		g.drawImage(currentImage.getImage(),xPos,yPos,personSize,personSize,null);
+		g.drawString("W", xPos+4, yPos-5);
         
         synchronized(carriedItems){
 	        for (MyImage icon: carriedItems)

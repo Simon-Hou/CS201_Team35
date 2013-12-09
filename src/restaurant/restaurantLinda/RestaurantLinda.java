@@ -19,7 +19,6 @@ import java.util.List;
 import astar.AStarTraversal;
 import cityGui.CityRestaurant;
 import cityGui.CityRestaurantLinda;
-import cityGui.CityRestaurantYoccaCard;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CookGui;
@@ -56,7 +55,7 @@ public class RestaurantLinda extends Restaurant{
 		super.waiters = this.waiters;
 		
 		CookGui cg = new CookGui(cook);
-		//cg.setPlates(cityRestaurant.animationPanel.platedFoods);
+		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
 		cook.setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
 	}

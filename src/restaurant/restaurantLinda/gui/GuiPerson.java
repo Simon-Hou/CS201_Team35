@@ -1,12 +1,16 @@
 package restaurant.restaurantLinda.gui;
 
+import interfaces.Person;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+
+import person.PersonAgent;
 import cityGui.CityRestaurantLinda;
 import cityGui.CityRestaurantLindaCard;
-
 import restaurant.restaurantLinda.gui.MyImage;
 import astar.AStarNode;
 import astar.AStarTraversal;
@@ -27,7 +31,14 @@ public abstract class GuiPerson implements Gui{
     Position previousPosition;
     Position currentPosition;
     Position diagonalPosition;
-    List<Position> path;
+    List<Position> path;   
+    
+    Person pSprites;
+
+	ImageIcon currentImage;
+	protected int spriteCounter = 6;
+	protected int changeSpriteCounter = 0;
+	protected int spriteChangeSpeed = 12;
     
     enum movementType {undefined, upleft, upright, downleft, downright};
     
@@ -55,15 +66,38 @@ public abstract class GuiPerson implements Gui{
     	//	CalculatePath(new Position(customer.getPosition().x/personSize+1,customer.getPosition().y/personSize+1)); 
     	//}
     	
-    	if (xDestination>xPos)
+    	if (xPos < xDestination) {
 			xPos++;
-		else if (xDestination<xPos)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.pSprites).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.pSprites).rightSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (xPos > xDestination) {
 			xPos--;
-		
-		if (yDestination>yPos)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.pSprites).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.pSprites).leftSprites.size());
+				changeSpriteCounter++;
+			}			
+		}
+		if (yPos < yDestination) {
 			yPos++;
-		else if (yDestination<yPos)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.pSprites).downSprites.get(changeSpriteCounter % ((PersonAgent)this.pSprites).downSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (yPos > yDestination) {
 			yPos--;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.pSprites).upSprites.get(changeSpriteCounter % ((PersonAgent)this.pSprites).upSprites.size());
+				changeSpriteCounter++;
+			}
+		}
         
         
                 

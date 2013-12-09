@@ -2,15 +2,20 @@ package cityGui;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import restaurant.restaurantLinda.gui.CookGui;
+import restaurant.restaurantLinda.gui.MyImage;
 import public_Gui.Gui;
 
 
 public class CityRestaurantCard extends CityCard{
 
 	public List<Gui> guis = new ArrayList<Gui>();
+	
+	//For Linda
+	public List<MyImage> platedFoods = Collections.synchronizedList(new ArrayList<MyImage>());
 	
 	public CityRestaurantCard(SimCityGui city) {
 		super(city);
