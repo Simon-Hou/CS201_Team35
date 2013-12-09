@@ -508,14 +508,6 @@ public class PersonAgent extends Agent implements Person {
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//HACK
-		if (myJob == null) {
-			AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "My Job is null!");
-		}
-		
-		if (myJob.placeOfWork == null) {
-			AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "My place of work is null!");
-
-		}
 		
 		if(myJob.placeOfWork==null){
 			myJob.shiftStart+=1;
@@ -718,22 +710,22 @@ public class PersonAgent extends Agent implements Person {
 			b.customerEntering(restaurantGabeRole);
 			restaurantGabeRole.msgAtRestaurant(b);
 			activeRole = restaurantGabeRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Gabe Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Gabe Restaurant", name);
 		}
 		else if (b instanceof restaurant.restaurantLinda.RestaurantLinda){
 			b.customerEntering(restaurantLindaRole);
 			restaurantLindaRole.msgAtRestaurant(b);
 			activeRole = restaurantLindaRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant, name", name);
 		}
 		else if (b instanceof restaurant.restaurantYocca.RestaurantYocca){
 			b.customerEntering(restaurantYoccaRole);
 			restaurantYoccaRole.msgAtRestaurant(b);
 			activeRole = restaurantYoccaRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant", name);
 		}
 		else{
-			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role");
+			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role", name);
 		}
 	}
 
