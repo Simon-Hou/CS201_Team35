@@ -24,17 +24,19 @@ import restaurant.Restaurant;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
 import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
-
 import role.Role;
 import util.Bank;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
+import util.CarAgent;
 import util.CityMap;
 import util.Job;
 import util.JobType;
 import util.Loc;
 import util.MarketMapLoc;
 import util.BankMapLoc;
+import util.OnRamp;
 import util.Place;
 import util.RestaurantMapLoc;
 import util.Task;
@@ -88,6 +90,9 @@ public class PersonAgent extends Agent implements Person {
 		}
 		purse.wallet = 50;
 
+		
+		//myCar.gui = new CarAgentGui();
+		
 		//hungerLevel = 0;
 
 	}
@@ -149,6 +154,12 @@ public class PersonAgent extends Agent implements Person {
 	public boolean wantsToRideBus = false;
 	public Semaphore waitForBusToArrive = new Semaphore(0,true);
 	private boolean onBus = false;
+	
+	public Semaphore driveOver = new Semaphore(0,true);
+	public List<OnRamp> onRamps = new ArrayList<OnRamp>();
+	
+	boolean waited = false;
+	
 
 	public int spriteChoice;
 	public List<ImageIcon> upSprites = new ArrayList<ImageIcon>();
@@ -246,6 +257,8 @@ public class PersonAgent extends Agent implements Person {
 	public class Car {
 		public int licensePlateNumber;
 	}
+	
+	public CarAgent myCar = new CarAgent();
 
 
 	//msg
@@ -257,10 +270,52 @@ public class PersonAgent extends Agent implements Person {
 	public void msgAtDestination(){
 		atDestination.release();
 	}
+	
+	public void msgCarOnRoad(){
+		gui.waitingForCarToGetOnRoad = false;
+		myCar.gui.moving = false;
+	}
 
-	public void msgCarArrivedAtLoc(Loc destination){
+	public void msgCarArrivedAtRamp(OnRamp destination){
 		//blah
 		//stateChanged();
+		Do("Getting out of car");
+		driveOver.release();
+		gui.setLoc(destination.sidewalkLoc);
+		gui.xDestination = gui.rectangle.x;
+		gui.yDestination = gui.rectangle.y;
+		Do("My Loc: "+destination.sidewalkLoc.x+", "+destination.sidewalkLoc.y);
+		stateChanged();
+	}
+	
+	
+	public void msgBusAtStop(BusAgent b,BusStop stop){
+		//blah
+		//stateChanged();
+		//Do("IN THIS MESSAGE "+gui.x+" "+gui.y+" "+stop.sidewalkLoc.x+" "+stop.sidewalkLoc.y);
+		if(stop.sidewalkLoc.x == gui.xDestination && stop.sidewalkLoc.y==gui.yDestination){
+
+
+			gui.onBus();
+			onBus = true;
+			Do("Getting on bus");
+
+			//b.getOnBus(this);
+		}
+		else{
+			Do("Getting OFF bus");
+			onBus = false;
+			waitForBusToArrive.release();
+			wantsToRideBus = false;
+			
+
+			//Do("SHIT I JUST WOKE UP");
+			gui.setLoc(stop.sidewalkLoc);
+			gui.offBus();
+			//waitForBusToArrive.release();
+			//b.getOffBuss(this);
+		}
+
 	}
 
 	public void msgBusAtStop(Bus b,BusStop stop){
@@ -303,6 +358,19 @@ public class PersonAgent extends Agent implements Person {
 	}
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
+		
+//		//DON'T DELETE THIS. IF YOU'RE TRYING TO FIX A MERGE CONFLICT,
+//		//JUST COMMENT THIS OUT
+//		if(onRamps.size()>=2){
+//			
+//				
+//			doDrive(onRamps.get(2),onRamps.get(3));
+//			return true;
+//		}
+		
+		
+		
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
 
@@ -779,6 +847,38 @@ public class PersonAgent extends Agent implements Person {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void doDrive(OnRamp from,OnRamp to){
+		
+		Do("Taking a drive");
+//		if(!waited){
+//			try {
+//				Thread.sleep(9000);
+//			} catch (InterruptedException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			waited = true;
+//		}
+		//stopThread();
+		
+		gui.waitingForCarToGetOnRoad = true;
+		
+		tempDoGoToCityLoc(from.sidewalkLoc);
+		
+		myCar.msgTakeMeTo(from, to);
+		
+		try {
+			driveOver.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Do("I HAVE AWOKEN");
+		
+		
+		
 	}
 
 	private void doGoToWork(){

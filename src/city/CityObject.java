@@ -21,6 +21,7 @@ import testAgents.testPerson;
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
 import util.CityMap;
 import util.Job;
@@ -57,8 +58,8 @@ public class CityObject implements ActionListener{
 	
 	//public List<BusStop> fStops = new ArrayList<BusStop>();
 	//public List<BusStop> bStops = new ArrayList<BusStop>();
-	public Bus fBus;
-	public Bus bBus;
+	public BusAgent fBus;
+	public BusAgent bBus;
 	
 	int currentTime = 0;
 	static int TIMER_DELAY = 3000;
@@ -201,10 +202,10 @@ public class CityObject implements ActionListener{
 			p.msgStateChanged();
 		}
 		if(fBus!=null){
-			fBus.updateTime(currentTime);
+			//fBus.updateTime(currentTime);
 		}
 		if(bBus!=null){
-			bBus.updateTime(currentTime);
+		//	bBus.updateTime(currentTime);
 		}
 		//System.out.println(cityMap.map.get("Bank").size());
 		

@@ -2,7 +2,7 @@ package util;
 
 import interfaces.Person;
 
-public class Car extends Vehicle{
+public class Car extends VehicleAgent{
 
 	Person passenger;
 	Loc currentLocation;
@@ -34,7 +34,7 @@ public class Car extends Vehicle{
 		driveState = DriveState.inTransit;
 		carGui.doDriveFromLocToLoc(current,dest);
 		driveState = DriveState.arrived;
-		passenger.msgCarArrivedAtLoc(dest);
+		//passenger.msgCarArrivedAtLoc(dest);
 		driveState = DriveState.notInUse;
 	}
 	
