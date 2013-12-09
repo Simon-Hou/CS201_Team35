@@ -44,8 +44,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public void setGui(MarketEmployeeGui g){
-		//gui = g;
-		this.gui = null;
+		gui = g;
+		//this.gui = null;
 	}
 	public void setCashier(MarketCashier cash){
 		cashier = cash;
