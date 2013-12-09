@@ -217,6 +217,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	protected Timer timer;
 	public long time=0;
 	boolean hasBuses = false;
+	
+	//public List<BusStop> busStops = new ArrayList<BusStop>();
+	public List<OnRamp> onRamps = new ArrayList<OnRamp>();
+	public List<StopLight> stopLights = new ArrayList<StopLight>();
 
 
 	JFrame traceFrame = new JFrame();
@@ -286,6 +290,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//Makes the A* grid for the city
 		setScale(30);
 		initializeGrid();
+		
+		
 
 		//THIS IS THE AGENT CITY
 		cityObject = new CityObject(this);
@@ -403,6 +409,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//traceFrame.setBounds(1000, 50 , 400, 300);
 		//traceFrame.setVisible(true);
 		//traceFrame.add(tracePanel);
+		
+		//Sets the stoplights and onramps
+		setStopLights();
+		setOnRamps();
+		
 	}
 
 	
@@ -422,6 +433,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 	public void addNewPerson(PersonAgent p){
 
+		CarAgent car = new CarAgent();
+		car.gui = new CarAgentGui(car,this,true);
+		car.cityGui = this;
+		car.passenger = p;
+		car.startThread();
+		car.gui.stopLights = stopLights;
+		
+		p.myCar = car;
+		p.onRamps = onRamps;
 
 		/*String name = "p0";
 		PersonAgent p = new PersonAgent(name,cityObject.cityMap);
@@ -832,47 +852,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		car.passenger = person;
 		person.myCar = car;
 		
-		OnRamp ramp0 = new OnRamp(new Loc(90,120),new Loc(70,120),true,false);
-		OnRamp ramp1 = new OnRamp(new Loc(490,120),new Loc(520,120),true,false);
-		
-		List<StopLight> lights = new ArrayList<StopLight>();
-		
-		StopLight light = new StopLight();
-		light.loc = new Loc(285,80);
-		light.status = CrosswalkStatus.Pedestrian;
-		light.safeRegion = new Rectangle(270,80,60,80);
-		light.letGoRegion = new Rectangle(290,80,20,80);
-		city.addStatic(light);
-		lights.add(light);
-		
-		light = new StopLight();
-		light.loc = new Loc(285,440);
-		light.status = CrosswalkStatus.Pedestrian;
-		light.safeRegion = new Rectangle(270,440,60,80);
-		light.letGoRegion = new Rectangle(290,440,20,80);
-		city.addStatic(light);
-		lights.add(light);
-		
-		light = new StopLight();
-		light.loc = new Loc(80,285);
-		light.status = CrosswalkStatus.Pedestrian;
-		light.safeRegion = new Rectangle(80,270,80,60);
-		light.letGoRegion = new Rectangle(80,290,80,20);
-		city.addStatic(light);
-		lights.add(light);
-		
-		light = new StopLight();
-		light.loc = new Loc(440,285);
-		light.status = CrosswalkStatus.Pedestrian;
-		light.safeRegion = new Rectangle(440,270,80,60);
-		light.letGoRegion = new Rectangle(440,290,80,20);
-		city.addStatic(light);
-		lights.add(light);
-		
-		
-		carGui.stopLights = lights;
-		person.onRamps.add(ramp0);
-		person.onRamps.add(ramp1);
+		carGui.stopLights = stopLights;
+		person.onRamps = onRamps;
 		person.startThread();
 //		carGui2.stopLights = lights;
 //		
@@ -906,7 +887,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int xStartTest = 0;
 		int yStartTest = 0;
 
-		test.simpleCarScenario();
+		//test.simpleCarScenario();
 		//test.addVehicles(test);
 		//test.gabeRestaurant();
 		//test.addBuses(test);
@@ -1333,5 +1314,44 @@ public class SimCityGui extends JFrame implements ActionListener {
 		catch(InterruptedException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public void setOnRamps(){
+		onRamps.add(new OnRamp(new Loc(90,120),new Loc(70,120),true,false));
+		onRamps.add(new OnRamp(new Loc(490,120),new Loc(520,120),true,false));
+	}
+	
+	public void setStopLights(){
+		StopLight light = new StopLight();
+		light.loc = new Loc(285,80);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(270,80,60,80);
+		light.letGoRegion = new Rectangle(290,80,20,80);
+		city.addStatic(light);
+		stopLights.add(light);
+		
+		light = new StopLight();
+		light.loc = new Loc(285,440);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(270,440,60,80);
+		light.letGoRegion = new Rectangle(290,440,20,80);
+		city.addStatic(light);
+		stopLights.add(light);
+		
+		light = new StopLight();
+		light.loc = new Loc(80,285);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(80,270,80,60);
+		light.letGoRegion = new Rectangle(80,290,80,20);
+		city.addStatic(light);
+		stopLights.add(light);
+		
+		light = new StopLight();
+		light.loc = new Loc(440,285);
+		light.status = CrosswalkStatus.Pedestrian;
+		light.safeRegion = new Rectangle(440,270,80,60);
+		light.letGoRegion = new Rectangle(440,290,80,20);
+		city.addStatic(light);
+		stopLights.add(light);
 	}
 }

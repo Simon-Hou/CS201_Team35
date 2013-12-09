@@ -271,6 +271,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void msgCarOnRoad(){
 		gui.waitingForCarToGetOnRoad = false;
+		myCar.gui.moving = false;
 	}
 
 	public void msgCarArrivedAtRamp(OnRamp destination){

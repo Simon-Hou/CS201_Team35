@@ -29,6 +29,7 @@ public class CarAgent extends VehicleAgent{
 	public void msgTakeMeTo(OnRamp from, OnRamp to){
 		Do("Got the message to start moving");
 		inUse = true;
+		gui.clockwise = from.innerLane;
 		this.currentLocation = from;
 		this.destination = to;
 		stateChanged();
@@ -70,7 +71,9 @@ public class CarAgent extends VehicleAgent{
 		
 		passenger.msgCarArrivedAtRamp(destination);
 		
+		//synchronized(cityGui.city.movings){
 		cityGui.city.movings.remove(gui);
+		//}
 		
 		inUse = false;
 		
