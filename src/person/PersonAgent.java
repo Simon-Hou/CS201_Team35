@@ -42,6 +42,7 @@ import util.RestaurantMapLoc;
 import util.Task;
 import util.deposit;
 import util.openAccount;
+import util.rob;
 import util.takeLoan;
 import util.withdrawal;
 import interfaces.Person;
@@ -147,6 +148,7 @@ public class PersonAgent extends Agent implements Person {
 	private PersonGui gui;
 	int scale = 30;
 
+	public boolean robbedBank = false;
 
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
@@ -449,15 +451,16 @@ public class PersonAgent extends Agent implements Person {
 			getFood();
 			return true;
 		}
-
-		if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
-			goToBank();
-			return true;
-		}
-
-		if(!city.map.get("Bank").isEmpty() && ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar)) {
-			goToBank();
-			return true;
+		if(!robbedBank){
+			if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
+				goToBank();
+				return true;
+			}
+	
+			if(!city.map.get("Bank").isEmpty() && ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar)) {
+				goToBank();
+				return true;
+			}
 		}
 
 
@@ -554,11 +557,24 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}*/
 		}
+
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(MY_BANK)).bank;
 		Loc loc = city.map.get("Bank").get(MY_BANK).loc;
 
 
 		activeRole = bankRole;
+		
+		if(name.equals("BankRobber") && !robbedBank){
+			Do("Going to go rob the bank");
+			bankRole.Tasks.add(new rob(1000));
+			tempDoGoToCityLoc(loc);
+			
+			bankRole.msgYouAreAtBank(b);
+			activeRole = bankRole;
+			robbedBank = true;
+			return;
+			
+		}
 
 		//open account
 		if(belongings.myAccounts.isEmpty()){

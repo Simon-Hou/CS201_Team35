@@ -299,7 +299,8 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	}
 	
 	private void Rob(){
-		Do("Getting robbed int the amount of $"+ currentTask.amount);
+		//Do("Getting robbed int the amount of $"+ currentTask.amount);
+		Do("AHH!! Getting robbed");
 		int a = bank.rob(currentTask.amount);
 		currentCustomer.msgHereIsMoneyAnythingElse(a);
 		currentTask = null;

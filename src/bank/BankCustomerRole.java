@@ -219,7 +219,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//ACT
 	
 	private void getInLine(){
-		Do("Getting in line!");
+		if(!person.getName().equals("BankRobber")){
+			Do("Getting in line!");
+		}
 		if(bank.addMeToQueue(this)){
 			//Do("BEFORE");
 			doGetInLine();

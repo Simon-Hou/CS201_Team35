@@ -222,7 +222,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 					System.out.println(c);
 				}
 				
-				System.out.println("AHHH: "+temp==null);
+				//System.out.println("AHHH: "+temp==null);
 				if (c.rectangle.intersects(temp.rectangle)) {
 					temp.invalidPlacement = true;
 					return;
