@@ -92,6 +92,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public void msgFinishedComputing(MyCustomer mc){
 	    mc.status = CustomerState.hasTotal;
+	    log.add(new LoggedEvent("done computing bill"));
 	    p.msgStateChanged();
 	}
 
@@ -100,6 +101,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	if (mc.c == c){
 	    		mc.payment = payment;
 	    	    mc.status = CustomerState.paid;
+	    	    log.add(new LoggedEvent("got msgCustomerPayment for: $" + payment));
 	    	    break;
 	    	}
 	    		
@@ -108,6 +110,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public void msgCalculateInvoice(MarketEmployee employee, List<OrderItem> order, Restaurant r){
+		log.add(new LoggedEvent("got msgCalculateInvoice"));
 		orders.add(new MyBusinessOrder(order, employee, r));
 		p.msgStateChanged();
 	}
@@ -183,13 +186,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	private void ComputeBusinessPayment(MyBusinessOrder order){
 		Do("Calculating a business order");
-		
+		log.add(new LoggedEvent("action ComputeBusinessPayment"));
 		int total = 0;
 		 for (OrderItem item: order.order){
 		        total+= item.quantityReceived * priceList.get(item.choice);
 		    }
 		 
 		 Do("This order will cost $" + total + ". Here is the invoice.");
+		 log.add(new LoggedEvent("The order will cost $" + total));
 		 order.employee.msgGiveInvoice(order.order, order.restaurant, total);
 		
 		orders.remove(order);
@@ -199,13 +203,16 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	private void AskCustomerToPay(MyCustomer mc){
 		Do(mc.c.getName() + ", you owe $" + mc.total);
+		log.add(new LoggedEvent("action AskCustomerToPay"));
 	    mc.status = CustomerState.askedToPay;
 	    mc.c.msgHereIsTotal(mc.total);
 	}
 
 	private void AcceptPayment(MyCustomer mc){
 		Do("Accepting Payment");
+		log.add(new LoggedEvent("action AcceptPayment"));
 	    int change = mc.payment-mc.total;
+		log.add(new LoggedEvent("I owe the customer change: $" + change));
 	    if (change>=0){
 	    	Do("Here is your change.");
 	        mc.c.msgHereIsYourChange(new Receipt(mc.order, mc.total, mc.payment, this), change);
