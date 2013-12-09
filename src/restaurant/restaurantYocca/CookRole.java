@@ -15,6 +15,8 @@ import restaurant.Restaurant;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import market.Market;
 import market.MarketInvoice;
 import market.OrderItem;
@@ -368,8 +370,9 @@ public class CookRole extends Role implements Cook {
 
 	@Override
 	public boolean canLeave() {
-		// TODO Auto-generated method stub
-		return false;
+		((RestaurantYocca)restaurant).leaveRestaurant(this);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "New cook is taking over for my Cook Role");
+		return true;
 	}
 
 	@Override

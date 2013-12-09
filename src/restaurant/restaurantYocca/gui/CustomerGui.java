@@ -126,9 +126,10 @@ public class CustomerGui implements Gui {
 	public void draw(Graphics2D g) {
 //		g.setColor(Color.GREEN);
 //		g.fillRect(xPos, yPos, 20, 20);
-	     g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
+	    g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
 		g.setColor(Color.BLACK);
-        g.drawString(foodString, xPos+15, yPos+15);
+        g.drawString(foodString, xPos+20, yPos+15);
+        g.drawString("Cust", xPos, yPos-5);
 	}
     
 	public boolean isPresent() {

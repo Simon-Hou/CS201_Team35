@@ -274,7 +274,7 @@ public class WaiterGui implements Gui {
 		g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
 		g.setColor(Color.BLACK);
 		g.drawString(statusString, xPos+5, yPos+15);
-
+		g.drawString("W", xPos+3, yPos-5);
 	}    	
 
 
