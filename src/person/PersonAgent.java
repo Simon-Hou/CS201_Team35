@@ -845,15 +845,16 @@ public class PersonAgent extends Agent implements Person {
 	private void doDrive(OnRamp from,OnRamp to){
 		
 		Do("Taking a drive");
-		if(!waited){
-			try {
-				Thread.sleep(9000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			waited = true;
-		}
+//		if(!waited){
+//			try {
+//				Thread.sleep(9000);
+//			} catch (InterruptedException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			waited = true;
+//		}
+		//stopThread();
 		
 		gui.waitingForCarToGetOnRoad = true;
 		

@@ -540,6 +540,7 @@ public class PersonGui extends CityComponent implements Gui {
     	
     	if(doingMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
     		doingMove = false;
+    		//System.out.println("RELEASING THREAD");
     		atMove.release();
     	}
     	
