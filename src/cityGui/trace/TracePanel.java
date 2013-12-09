@@ -125,9 +125,11 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	 * @see {@link #hideAlertsWithTag(AlertTag)}
 	 */
 	private boolean isAlertVisible(Alert alert) {
-		if (filterCurrentCard)
+		if (filterCurrentCard && city.view.getCurrentCard()!=null){
+			System.err.println("Filtering" + city.view.getCurrentCard() + " " + alert.ID);
 			return visibleLevels.contains(alert.level) && city.view.getCurrentCard().equals(alert.ID);
-		
+		}
+		System.err.println("Apparently not filtering");
 		if(visibleLevels.contains(alert.level) && visibleTags.contains(alert.tag)) {
 			return true;
 		} else {
@@ -189,13 +191,17 @@ public class TracePanel extends JScrollPane implements AlertListener {
 		Collections.sort(alerts);									//Sort them (they end up sorted by timestamp)
 		for(Alert alert:alerts) {
 			if (filterCurrentCard){
+				System.err.println(city.view.getCurrentCard());
 				if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level) && city.view.getCurrentCard().equals(alert.ID)) {
 					newAlerts.add(alert);
 				}
 			}
-			else if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level)) {
+			else {
+				System.err.println("Apparently not filtering");
+				if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level)) {
 				newAlerts.add(alert);
 				//System.out.println("Adding Alert: " + alert.name + alert.level + alert.tag);
+			}
 			}
 		}
 
