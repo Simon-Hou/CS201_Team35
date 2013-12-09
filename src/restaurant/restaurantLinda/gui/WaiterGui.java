@@ -207,7 +207,8 @@ public class WaiterGui extends GuiPerson {
 //        g.fillRect(xPos, yPos, personSize, personSize);
     	g.setColor(Color.BLACK);
 		g.drawImage(currentImage.getImage(),xPos,yPos,personSize,personSize,null);
-		g.drawString("W", xPos+4, yPos-5);
+		g.setFont(stringFont);
+		g.drawString(((PersonAgent)agent.p).personID + ":Waiter", xPos-6, yPos-5);
         
         synchronized(carriedItems){
 	        for (MyImage icon: carriedItems)

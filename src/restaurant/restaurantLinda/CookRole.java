@@ -313,6 +313,10 @@ public class CookRole extends Role implements Cook{
 		cookGui = cg;
 	}
 	
+	public CookGui getGui(){
+		return cookGui;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -334,7 +338,7 @@ public class CookRole extends Role implements Cook{
 		this.p = p;
 		this.name = p.getName();
 	}
-	
+
 	public void LeaveRestaurant(){
 		cookGui.DoLeaveRestaurant();
 		try {

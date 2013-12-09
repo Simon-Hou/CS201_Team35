@@ -37,6 +37,7 @@ public class BankTellerGui implements Gui{
 	
 	private int spriteCounter = 6;
 	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 12;
 	
 	public BankTellerGui(BankTellerRole btr) {
 		role = btr;
@@ -55,7 +56,7 @@ public class BankTellerGui implements Gui{
 		if (xPos < xDestination) {
 			xPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.role.person).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).rightSprites.size());
 				changeSpriteCounter++;
 			}
@@ -63,7 +64,7 @@ public class BankTellerGui implements Gui{
 		else if (xPos > xDestination) {
 			xPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.role.person).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).leftSprites.size());
 				changeSpriteCounter++;
 			}			
@@ -71,7 +72,7 @@ public class BankTellerGui implements Gui{
 		if (yPos < yDestination) {
 			yPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.role.person).downSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).downSprites.size());
 				changeSpriteCounter++;
 			}
@@ -79,7 +80,7 @@ public class BankTellerGui implements Gui{
 		else if (yPos > yDestination) {
 			yPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.role.person).upSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).upSprites.size());
 				changeSpriteCounter++;
 			}
@@ -107,10 +108,10 @@ public class BankTellerGui implements Gui{
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setColor(Color.CYAN);
-		//g.fillRect(xPos, yPos, BankTellerWidth, BankTellerHeight);
-	    g.drawImage(currentImage.getImage(),xPos,yPos,BankTellerWidth,BankTellerWidth,null);
 		g.setColor(Color.BLACK);
+		g.setFont(stringFont);
+		g.drawString(((PersonAgent)role.person).personID + ":Teller", xPos-6, yPos-5);
+	    g.drawImage(currentImage.getImage(),xPos,yPos,BankTellerWidth,BankTellerWidth,null);
 		//g.drawString(dialogue, xPos, yPos);
 	}
 	

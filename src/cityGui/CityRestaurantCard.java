@@ -1,5 +1,6 @@
 package cityGui;
 
+import java.awt.event.ActionEvent;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import public_Gui.Gui;
 
 public class CityRestaurantCard extends CityCard{
 
-	public List<Gui> guis = new ArrayList<Gui>();
+	public List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	
 	//For Linda
 	public List<MyImage> platedFoods = Collections.synchronizedList(new ArrayList<MyImage>());
@@ -29,6 +30,25 @@ public class CityRestaurantCard extends CityCard{
 	
 	public void removeGui(Gui gui) {
 		guis.remove(gui);		
+	}
+	
+	//Override this if you don't use this super gui list
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//System.out.println("repaint being called!");
+		//moveComponents();
+		
+		if(!guis.isEmpty()){
+			synchronized(guis){
+				for(Gui gui : guis) {
+	    			if (gui.isPresent()) {
+	    				gui.updatePosition();//the number here doesn't actually matter.
+	    			}
+	    		}
+			}
+		}
+		
+		repaint();
 	}
 
 }

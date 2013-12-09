@@ -19,6 +19,8 @@ import java.util.List;
 import astar.AStarTraversal;
 import cityGui.CityRestaurant;
 import cityGui.CityRestaurantLinda;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CookGui;
@@ -53,11 +55,11 @@ public class RestaurantLinda extends Restaurant{
 		super.cashier = this.cashier;
 		super.cook = this.cook;
 		super.waiters = this.waiters;
-		
-		CookGui cg = new CookGui(cook);
-		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
-		cook.setGui(cg);
-		cityRestaurant.animationPanel.addGui(cg);
+//		
+//		CookGui cg = new CookGui(cook);
+//		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
+//		cook.setGui(cg);
+//		cityRestaurant.animationPanel.addGui(cg);
 	}
 	
 	//dummy constructor for agent-only unit tests
@@ -84,7 +86,13 @@ public class RestaurantLinda extends Restaurant{
 			return r;
 		}
 		else if (type == JobType.RestaurantCook){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "I'm taking over as cook");
+			cityRestaurant.animationPanel.removeGui(cook.getGui());
 			cook.changeShifts(p);
+			CookGui cg = new CookGui(cook);
+			cg.setPlates(cityRestaurant.animationPanel.platedFoods);
+			cook.setGui(cg);
+			cityRestaurant.animationPanel.addGui(cg);
 			return (Role)cook;
 		}
 		else if (type == JobType.RestaurantCashier){
@@ -101,7 +109,7 @@ public class RestaurantLinda extends Restaurant{
 		waiters.add((WaiterRole)r);
 		((WaiterRole)r).setGui(wg);
 		wg.setTables(((CityRestaurantLinda)cityRestaurant).getTables());
-		//wg.setPlates(cityRestaurant.animationPanel.platedFoods);
+		wg.setPlates(cityRestaurant.animationPanel.platedFoods);
 		((HostRole)host).addWaiter(r);
 		cityRestaurant.animationPanel.addGui(wg);
 	}

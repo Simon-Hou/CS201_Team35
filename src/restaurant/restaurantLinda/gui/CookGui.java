@@ -10,7 +10,9 @@ import java.util.*;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
+import person.PersonAgent;
 import cityGui.CityRestaurantLindaCard;
 
 public class CookGui implements Gui {
@@ -35,26 +37,54 @@ public class CookGui implements Gui {
     private MyImage currentItem;
 	private String bufferText;
 	public final String path="../../images/";
+	
+	ImageIcon currentImage;
+	protected int spriteCounter = 6;
+	protected int changeSpriteCounter = 0;
+	protected int spriteChangeSpeed = 12;
 
     public CookGui(CookRole agent) {
     	this.agent = agent;
+		currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
     	
     	xPos = xDestination = home.x;
-        yPos = yDestination = home.y;
-        
+        yPos = yDestination = home.y;        
     }
 
     public void updatePosition() {    	
     	
-        if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;
-
-        if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
+    	if (xPos < xDestination) {
+			xPos++;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.p).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).rightSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (xPos > xDestination) {
+			xPos--;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.p).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).leftSprites.size());
+				changeSpriteCounter++;
+			}			
+		}
+		if (yPos < yDestination) {
+			yPos++;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.p).downSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).downSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (yPos > yDestination) {
+			yPos--;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.p).upSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).upSprites.size());
+				changeSpriteCounter++;
+			}
+		}
         
         for (MyImage icon: carriedItems)
         	icon.updatePosition(xPos,yPos);
@@ -118,10 +148,12 @@ public class CookGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.CYAN);
-        g.fillRect(xPos, yPos, personSize, personSize);
-        g.setColor(Color.BLACK);
-        g.drawString("Cook", xPos, yPos-5);
+//        g.setColor(Color.CYAN);
+//        g.fillRect(xPos, yPos, personSize, personSize);
+    	g.setColor(Color.BLACK);
+		g.drawImage(currentImage.getImage(),xPos,yPos,personSize,personSize,null);
+		g.setFont(stringFont);
+		g.drawString(((PersonAgent)agent.p).personID + ":Cook", xPos-6, yPos-5);
         
         for (MyImage icon: cookingFoods)
         	icon.draw(g);

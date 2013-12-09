@@ -207,7 +207,7 @@ public class CookGui implements Gui {
         g.drawString(cString, 305, 20);
         g.drawString(dString, 305, 10);
         g.setColor(Color.BLACK);
-        g.drawString("Cook", xPos, yPos-5);
+        g.drawString(((PersonAgent)agent.p).personID + ":Cook", xPos-4, yPos-5);
     }    	
 
     public boolean isPresent() {

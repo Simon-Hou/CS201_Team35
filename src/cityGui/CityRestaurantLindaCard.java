@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import public_Gui.Gui;
 import restaurant.restaurantLinda.gui.MyImage;
@@ -25,9 +26,9 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 	public static final Rectangle CASHIER = new Rectangle(0, 100, PERSONSIZE, PERSONSIZE);
 	public static final int TABLESIZE=50;
 
+	private Collection<Point> tableMap = Collections.synchronizedList(new ArrayList<Point>());
 
-	private Collection<Point> tableMap = new ArrayList<Point>();
-
+    public Semaphore[][] grid;
 
 	public CityRestaurantLindaCard(SimCityGui city) {
 		super(city);
@@ -69,47 +70,56 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
     	    }*/
 
 		//Here are the tables
+		synchronized(tableMap){
 		for (Point table: tableMap)
-		{
-			g.setColor(Color.ORANGE);
-			g.fillRect(table.x, table.y, TABLESIZE, TABLESIZE);
+			{
+	        	g.setColor(Color.ORANGE);
+	        	g.fillRect(table.x, table.y, TABLESIZE, TABLESIZE);
+	        }
 		}
 
-		try {
-			for(Gui gui : guis) {
-				if (gui.isPresent()) {
-					gui.updatePosition();
-				}
-			}
-		}
-		catch (ConcurrentModificationException e) {
+		synchronized(guis){
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
 		}
 
-		try {
-			for(Gui gui : guis) {
-				if (gui.isPresent()) {
-					gui.draw((Graphics2D)g);
-				}
-			}
-		} catch (ConcurrentModificationException e) {
+		synchronized(guis){
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw((Graphics2D)g);
+	            }
+	        }
 		}
+        
+        //The plated foods
+        synchronized(platedFoods){
+        	for (MyImage plate: platedFoods){
+        		plate.draw(g);
+        	}
+        }
+        
+        //The cashier
+        g.setColor(Color.BLUE);
+        g.fillRect(CASHIER.x, CASHIER.y, CASHIER.width, CASHIER.height);
+        
+        //blocked grids
+        if (grid!=null){
+	        g2.setColor(Color.RED);
+	        for (int i=0; i<gridX ; i++)
+	    	    for (int j = 0; j<gridY; j++)
+	    	    	if (grid[i][j].availablePermits()<=0)
+	    	    		g2.drawRect(i*cellSize, j*cellSize, cellSize, cellSize);
+        }
+    }
 
-		//The plated foods
-		synchronized(platedFoods){
-			for (MyImage plate: platedFoods){
-				plate.draw(g);
-			}
-		}
+    
+    public void addTable(Point p){
+    	tableMap.add(p);
+    }
 
-		//The cashier
-		g.setColor(Color.BLUE);
-		g.fillRect(CASHIER.x, CASHIER.y, CASHIER.width, CASHIER.height);
-	}
-
-
-	public void addTable(Point p){
-		tableMap.add(p);
-	}
 
 }
 

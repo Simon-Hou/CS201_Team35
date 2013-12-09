@@ -164,10 +164,12 @@ public class CustomerGui extends GuiPerson implements Gui{
 		//		g.setColor(Color.GREEN);
 		//		g.fillRect(xPos, yPos, personSize, personSize);
 		g.drawImage(currentImage.getImage(),xPos,yPos,personSize,personSize,null);
+		g.setFont(stringFont);
+		g.drawString(((PersonAgent)agent.p).personID + ":Cust", xPos-4, yPos-5);
 
 		if (bufferText!=null){
 			g.setColor(Color.BLACK);
-			g.drawString(bufferText, xPos, yPos+15);
+			g.drawString(bufferText, xPos, yPos+25);
 		}
 
 		for (MyImage icon: carriedItems)

@@ -1,6 +1,7 @@
 package bank.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 
 import javax.swing.ImageIcon;
@@ -32,6 +33,7 @@ public class BankCustomerGui implements Gui{
 	
 	private int spriteCounter = 6;
 	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 12;
 	
 	public BankCustomerGui(BankCustomerRole bcr/*, RestaurantGui gui*/){ 
 		isPresent = true;
@@ -49,8 +51,7 @@ public class BankCustomerGui implements Gui{
 		if (xPos < xDestination) {
 			xPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
-				//System.out.println()
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.role.person).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).rightSprites.size());
 				changeSpriteCounter++;
 			}
@@ -58,7 +59,7 @@ public class BankCustomerGui implements Gui{
 		else if (xPos > xDestination) {
 			xPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.role.person).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).leftSprites.size());
 				changeSpriteCounter++;
 			}			
@@ -66,7 +67,7 @@ public class BankCustomerGui implements Gui{
 		if (yPos < yDestination) {
 			yPos++;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.role.person).downSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).downSprites.size());
 				changeSpriteCounter++;
 			}
@@ -74,7 +75,7 @@ public class BankCustomerGui implements Gui{
 		else if (yPos > yDestination) {
 			yPos--;
 			spriteCounter++;
-			if (spriteCounter % 6 == 0) {
+			if (spriteCounter % spriteChangeSpeed == 0) {
 				currentImage = ((PersonAgent)this.role.person).upSprites.get(changeSpriteCounter % ((PersonAgent)this.role.person).upSprites.size());
 				changeSpriteCounter++;
 			}
@@ -95,11 +96,11 @@ public class BankCustomerGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		//g.fillRect(xPos, yPos, BankCustomerWidth, BankCustomerWidth);
 		g.drawImage(currentImage.getImage(),xPos,yPos,BankCustomerWidth,BankCustomerWidth,null);
 		g.setColor(Color.BLACK);
+		g.setFont(stringFont);
 		g.drawString(dialogue, xPos, yPos);
+		g.drawString(((PersonAgent)role.person).personID + ":Cust", xPos-6, yPos-5);
 	}
 
 	public boolean isPresent() {

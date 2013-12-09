@@ -65,6 +65,8 @@ public class PersonAgent extends Agent implements Person {
 	public PersonAgent(String name, CityMap city) {
 		this.name = name;
 		this.city = city;
+		this.personID = city.peopleCount;
+		city.peopleCount++;
 		belongings = new Belongings();
 		myJob = new Job();
 		purse = new Purse();
@@ -89,7 +91,6 @@ public class PersonAgent extends Agent implements Person {
 		purse.wallet = 50;
 
 		//hungerLevel = 0;
-
 	}
 
 
@@ -141,7 +142,8 @@ public class PersonAgent extends Agent implements Person {
 	Position originalPosition = new Position(2,2);
 	private PersonGui gui;
 	int scale = 30;
-
+	
+	public int personID;
 
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
@@ -825,8 +827,8 @@ public class PersonAgent extends Agent implements Person {
 	public void setJob(PlaceOfWork placeOfWork,JobType jobType,int start,int end){
 
 		Role jobRole = null;
-		if(jobType==JobType.MarketHost || jobType==JobType.MarketCashier
-				|| jobType==jobType.RestaurantHost || jobType==jobType.RestaurantCashier || jobType == jobType.RestaurantCook){
+		if(jobType.equals(JobType.MarketHost) || jobType.equals(JobType.MarketCashier)
+				|| jobType.equals(JobType.RestaurantHost) || jobType.equals(JobType.RestaurantCashier) || jobType.equals(JobType.RestaurantCook)){
 			jobRole = null;
 			//myJob = new Job(null,start,end,placeOfWork,this,jobType);
 			//return;

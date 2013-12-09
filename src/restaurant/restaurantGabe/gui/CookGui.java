@@ -150,7 +150,8 @@ public class CookGui implements Gui {
     public void draw(Graphics2D g) {
     	g.setColor(Color.black);
 	    g.drawImage(currentImage.getImage(),xPos, yPos, host_width, host_height,null);
-        g.drawString("Cook", xPos, yPos-5);
+	    g.setFont(stringFont);
+	    g.drawString(((PersonAgent)cook.person).personID + ":Cook", xPos-6, yPos-5);
         
         int i = 0;
         synchronized(cooking){

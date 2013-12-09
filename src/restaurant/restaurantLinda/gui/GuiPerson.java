@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import person.PersonAgent;
 import cityGui.CityRestaurantLinda;
 import cityGui.CityRestaurantLindaCard;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import restaurant.restaurantLinda.gui.MyImage;
 import astar.AStarNode;
 import astar.AStarTraversal;
@@ -200,7 +202,8 @@ public abstract class GuiPerson implements Gui{
 	    }*/
 	    
 	    if (!gotPermit && attempts<3){
-	    	//System.out.println(agent.getName() + "got NO permit for " + path.get(1).toString() + " on attempt " + attempts);
+	    	//System.err.println("got NO permit for " + path.get(1).toString() + " on attempt " + attempts);
+	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT, "GuiPerson", "Got no permit for " + path.get(1).toString() + " on attempt " + attempts);
 	    	Random rand = new Random();
 	    	
 	    	wait=rand.nextInt(10) + 10;
@@ -211,6 +214,7 @@ public abstract class GuiPerson implements Gui{
 	    //Did not get lock after trying n attempts. So recalculating path.            
 	    if (!gotPermit) {
 			//System.out.println("[Gaut] " + agent.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
+	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT, "GuiPerson", "Recalculating path");
 			attempts=1;
 			CalculatePath(path.get(path.size()-1));
 			return;
