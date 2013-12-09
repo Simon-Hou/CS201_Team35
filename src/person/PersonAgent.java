@@ -710,6 +710,7 @@ public class PersonAgent extends Agent implements Person {
 		Loc loc = city.map.get("Restaurant").get(rand).loc;
 
 		tempDoGoToCityLoc(loc);
+		
 
 		if (b instanceof restaurant.restaurantGabe.RestaurantGabe){
 			b.customerEntering(restaurantGabeRole);

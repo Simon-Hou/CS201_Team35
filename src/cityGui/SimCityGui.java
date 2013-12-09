@@ -866,7 +866,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int yStartTest = 0;
 
 		
-		test.addBuses(test);
+		//test.addBuses(test);
 		//test.simpleCarScenario();
 		
 		

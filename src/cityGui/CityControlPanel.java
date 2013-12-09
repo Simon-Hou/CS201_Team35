@@ -29,7 +29,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
-	JButton dummyScenarioA;
+	JButton dummyScenarioA, simpleBusRide, jScenario;
 
 	//For managing traces
 	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
@@ -120,6 +120,14 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		dummyScenarioA.addActionListener(this);
 		panel2.addButton(dummyScenarioA);
 		
+		simpleBusRide = new JButton("E. Simple Bus Ride");
+		simpleBusRide.addActionListener(this);
+		panel2.addButton(simpleBusRide);
+		
+		jScenario = new JButton("J. Big City");
+		jScenario.addActionListener(this);
+		panel2.addButton(jScenario);
+		
 		
 		//Trace panel buttons
 		InfoButton = new JToggleButton("Hide Level: INFO");
@@ -198,7 +206,17 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		//^^add new checks for each person's restaurant!
 		
 		
-		 if (e.getSource().equals(addBank)) {
+		//SCENARIO BUTTONS
+		if(e.getSource().equals(simpleBusRide)){
+			city.busRideScenario();
+		}
+		if(e.getSource().equals(jScenario)){
+			city.jScenario();
+		}
+		
+		
+		
+		else if (e.getSource().equals(addBank)) {
 			AlertLog.getInstance().logInfo(AlertTag.BANK, this.name, "Adding New Bank");
 			city.city.addObject(CityComponents.BANK);
 		}
