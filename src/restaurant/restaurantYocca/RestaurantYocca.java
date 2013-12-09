@@ -53,6 +53,8 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	public List<BaseRestaurantWaiter> waiters;
 	public List<BaseRestaurantCustomer> customers;
 	
+	public boolean isOpen = true;
+	
 	public RestaurantYocca(CityRestaurantYocca cr){
 		this.cityRestaurant = cr;
 		
@@ -89,6 +91,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 		}
 		else if (type == JobType.RestaurantYoccaWaiter1){
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter");
+
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
@@ -97,6 +100,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 		else if (type == JobType.RestaurantYoccaWaiter2){
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter");
 			((WaiterRole)r).setRestaurant(this);
+
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
@@ -112,6 +116,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 		}
 		else if (type == JobType.RestaurantCashier){
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cashier");
+
 			cashier.changeShifts(p);
 			return (Role) cashier;
 		}
@@ -266,5 +271,11 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //	public boolean unStaffed(){
 //		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
 //	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return isOpen;
+	}
 
 }

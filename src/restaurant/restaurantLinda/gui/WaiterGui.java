@@ -56,8 +56,8 @@ public class WaiterGui extends GuiPerson {
         xPos = xDestination = xfinal = homePosition.getX()*cellSize;
         yPos = yDestination = yfinal = homePosition.getY()*cellSize;
         System.out.println("homePosition = " + homePosition);
-        previousPosition = currentPosition = new Position(xPos/cellSize, yPos/cellSize);
-        currentPosition.moveInto(aStar.getGrid());
+        //previousPosition = currentPosition = new Position(xPos/cellSize, yPos/cellSize);
+        //currentPosition.moveInto(aStar.getGrid());
         //CalculatePath(homePosition);
         
     }

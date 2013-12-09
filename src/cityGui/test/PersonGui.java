@@ -15,7 +15,9 @@ import cityGui.CityPanel;
 import cityGui.SimCityGui;
 import person.PersonAgent;
 import public_Gui.Gui;
+import util.CrosswalkStatus;
 import util.Loc;
+import util.StopLight;
 
 public class PersonGui extends CityComponent implements Gui {
 
@@ -50,6 +52,7 @@ public class PersonGui extends CityComponent implements Gui {
     public boolean onTheMove = false;
     public boolean waitingForBus = false;
     public boolean waitingForCarToGetOnRoad = false;
+    public List<StopLight> stopLights = new ArrayList<StopLight>();
     
     ImageIcon currentImage;
 	public int spriteCounter = 6;
@@ -527,6 +530,14 @@ public class PersonGui extends CityComponent implements Gui {
     }*/
     
     public void updatePosition() {
+    	for(StopLight s:stopLights){
+    		if(s.getStatus()==CrosswalkStatus.Vehicle && 
+    				rectangle.intersects(s.safeRegion) &&
+    				!s.safeRegion.contains(rectangle)){
+    			return;
+    		}
+    	}
+    	
     	if(rectangle.x<xDestination){
     		rectangle.x++;
 			spriteCounter++;
@@ -560,6 +571,8 @@ public class PersonGui extends CityComponent implements Gui {
 				changeSpriteCounter++;
 			}
     	}
+    	
+    	
     	
     	if(doingMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
     		doingMove = false;

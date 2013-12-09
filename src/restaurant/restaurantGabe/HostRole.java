@@ -356,7 +356,7 @@ public class HostRole extends Role implements Host{
 	
 	//tell customers that restaurant it totally full
 	private void tellCustomersFull(){
-		synchronized(MyWaiters){
+		synchronized(MyCustomers){
 			for(MyCust mc:MyCustomers){
 				if(mc!=null && mc.s == CustState.waiting){
 					mc.c.msgRestaurantFull();

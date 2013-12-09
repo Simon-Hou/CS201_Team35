@@ -1,4 +1,6 @@
-package restaurant.interfaces;
+package restaurant.restaurantSimon.interfaces;
+
+import interfaces.BaseRestaurantCustomer;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.
@@ -6,7 +8,7 @@ package restaurant.interfaces;
  * @author Monroe Ekilah
  *
  */
-public interface Customer {
+public interface Customer extends BaseRestaurantCustomer {
 	/**
 	 * @param total The cost according to the cashier
 	 *

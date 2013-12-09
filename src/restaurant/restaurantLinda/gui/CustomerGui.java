@@ -15,6 +15,8 @@ import person.PersonAgent;
 import astar.AStarTraversal;
 import astar.Position;
 import cityGui.CityRestaurantLindaCard;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 
 public class CustomerGui extends GuiPerson implements Gui{
 
@@ -25,21 +27,20 @@ public class CustomerGui extends GuiPerson implements Gui{
 	private enum Command {noCommand, waitInLine, followWaiter, GoToSeat, LeaveSeat, GoToCashier, LeaveRestaurant};
 	private Command command=Command.noCommand;
 
-	private int personSize=AnimationPanel.PERSONSIZE;
-
+	private int personSize=CityRestaurantLindaCard.PERSONSIZE;
+	
 	private List<MyImage> carriedItems = new ArrayList<MyImage>();
 	private String bufferText;
-	private Dimension bufferSize;
-	public final String path="../../images/";
-
-	public boolean isPresent = true;
+    private Dimension bufferSize;
+    
+    public boolean isPresent = true;
 
 	public CustomerGui(CustomerRole c, AStarTraversal aStar){ //HostAgent m) {
 		agent = c;
 		pSprites = c.p;
 		currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
-		xPos = -2*personSize;
-		yPos = -2*personSize;
+		xPos = 0;
+		yPos = 0;
 		xfinal = xDestination = xPos;
 		yfinal = yDestination = yPos;
 		//maitreD = m;
@@ -48,23 +49,25 @@ public class CustomerGui extends GuiPerson implements Gui{
 
 	public void followMe(int x, int y){
 
-		if (previousPosition!=null){
+		
+		/*if (previousPosition!=null){
 			previousPosition.release(aStar.getGrid());
 		}
-
-		previousPosition = currentPosition;
+		
+		previousPosition = currentPosition;*/
 		xDestination = xPos = x;
 		yDestination = yPos = y;
-		currentPosition = new Position(x/cellSize, y/cellSize);
+		/*currentPosition = new Position(x/cellSize, y/cellSize);
 		if (!currentPosition.moveInto(aStar.getGrid()))
-			currentPosition = null;
+			currentPosition = null;*/
 	}
 
 	public void goToTable(int x, int y){
-		if (previousPosition!=null)
+		/*if (previousPosition!=null)
 			previousPosition.release(aStar.getGrid());
-		previousPosition = currentPosition = null;
 
+		previousPosition = currentPosition = null;*/
+		
 		command = Command.GoToSeat;
 		xfinal = x;
 		yfinal = y;
@@ -120,16 +123,18 @@ public class CustomerGui extends GuiPerson implements Gui{
 				agent.msgAnimationFinishedGoToSeat();
 			}
 		}
-		else if (command==Command.LeaveSeat && currentPosition==null){
-			DoLeaveTable();
-		}
+
+		/*else if (command==Command.LeaveSeat ){//&& currentPosition==null){
+				DoLeaveTable();
+		}*/
+
 		else if (command!=Command.noCommand){
 			if (moveAndCheckDestination()){
 				if (xPos!=xfinal || yPos!=yfinal){
 					System.err.println("Position: " + xPos + " " + yPos + ", destination: " + xDestination+" "+yDestination+", final:"+xfinal+" "+yfinal);
 					return;
 				}
-				if (command==Command.LeaveSeat){				
+				if (command==Command.LeaveSeat){
 					command=Command.noCommand;
 					agent.msgAnimationFinishedLeavingSeat();
 				}
@@ -138,10 +143,12 @@ public class CustomerGui extends GuiPerson implements Gui{
 					agent.msgAnimationFinishedGoToCashier();
 				}
 				else if (command==Command.LeaveRestaurant) {
-					if (previousPosition!=null)
+					/*if (previousPosition!=null)
 						previousPosition.release(aStar.getGrid());
 					if (currentPosition!=null && currentPosition!=previousPosition)
-						currentPosition.release(aStar.getGrid());
+
+						currentPosition.release(aStar.getGrid());*/
+					
 
 					isPresent = false;
 					command=Command.noCommand;
@@ -149,6 +156,8 @@ public class CustomerGui extends GuiPerson implements Gui{
 					bufferText = null;
 					carriedItems.clear();
 					//System.out.println("about to call gui.setCustomerEnabled(agent);");
+					
+					AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, agent.p.getName(), "Managed to finish leaving restaurant animation");
 					isHungry = false;
 				}
 				command=Command.noCommand;
@@ -189,13 +198,14 @@ public class CustomerGui extends GuiPerson implements Gui{
 
 	public void DoWaitInLine(int position){
 		command = Command.waitInLine;
-		int limit = (AnimationPanel.WINDOWX-300)/cellSize;
-		if (position>=limit){
-			position%=limit;
-		}
 
-		xPos = xDestination = xfinal = cellSize*(position+1);
-		yPos = yDestination = yfinal = 0;
+		int limit = (CityRestaurantLindaCard.CARD_WIDTH-300)/cellSize;
+        if (position>=limit){
+        	position%=limit;
+        }
+        
+        xPos = xDestination = xfinal = cellSize*(position+1);
+        yPos = yDestination = yfinal = 0;
 	}
 
 	public void DoMoveInLine(){
@@ -203,7 +213,8 @@ public class CustomerGui extends GuiPerson implements Gui{
 	}
 
 	public void DoWaitForWaiter(){
-		yDestination = yfinal+=personSize+cellSize;
+		xDestination = cellSize;
+		yDestination = cellSize;
 	}
 
 	public void DoGoToSeat(int xLoc, int yLoc) {
@@ -217,12 +228,14 @@ public class CustomerGui extends GuiPerson implements Gui{
 		yfinal = yDestination = yPos;
 
 		command = Command.LeaveSeat;
-		previousPosition = new Position(xfinal/cellSize, yfinal/cellSize);
 
+		//CalculatePath(new Position(xfinal/cellSize, yfinal/cellSize));
+		/*previousPosition = new Position(xfinal/cellSize, yfinal/cellSize);
+		
 		if (previousPosition.open(aStar.getGrid())){
 			currentPosition = previousPosition;
 			CalculatePath(previousPosition);
-		}
+		}*/
 	}
 
 	public void DoGoToCashier(){

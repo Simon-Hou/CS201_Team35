@@ -142,8 +142,10 @@ public class InhabitantRole extends Role implements Inhabitant {
 		self.msgDoneEating();
 	}
 	private void ExitHouse(){
+		if(gui!=null)//hack!!! change later
 		gui.DoExit();
-		if(myRoom!=null){
+		if(myRoom!=null && myRoom.inhabitant!=null){
+			
 			myRoom.inhabitant=null;
 		}
 		self.msgThisRoleDone(this);

@@ -14,7 +14,6 @@ import java.util.concurrent.Semaphore;
 
 import public_Gui.Gui;
 import restaurant.restaurantLinda.gui.MyImage;
-import restaurant.restaurantLinda.gui.RestaurantPanel;
 
 
 public class CityRestaurantLindaCard extends CityRestaurantCard{
@@ -59,7 +58,7 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 		g.drawOval(CARD_WIDTH-61, CARD_HEIGHT-26, 24, 24);
 		g.drawOval(CARD_WIDTH-30, CARD_HEIGHT-26, 24, 24);
 
-		int cellSize = RestaurantPanel.cellSize;
+		int cellSize = CityRestaurantLinda.cellSize;
 		int gridX = CARD_WIDTH/cellSize;
 		int gridY = CARD_HEIGHT/cellSize;
 

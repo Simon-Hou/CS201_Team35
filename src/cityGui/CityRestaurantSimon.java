@@ -39,6 +39,7 @@ public class CityRestaurantSimon extends CityRestaurant {
 	@Override
 	public void initializeRestaurant() {
 		restaurant = new RestaurantSimon(this);
+		((RestaurantSimon)restaurant).animation=(CityRestaurantSimonCard) animationPanel;
 		
 	}
 

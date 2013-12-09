@@ -6,6 +6,7 @@ import restaurant.restaurantYocca.CustomerRole.AgentState;
 import restaurant.restaurantYocca.gui.CustomerGui;
 //import restaurant.restaurantYocca.gui.RestaurantGui;
 import restaurant.restaurantYocca.gui.WaiterGui;
+import interfaces.Person;
 import interfaces.restaurantYocca.Cashier;
 import interfaces.restaurantYocca.Cook;
 import interfaces.restaurantYocca.Customer;
@@ -572,7 +573,7 @@ public class WaiterRole extends Role implements Waiter {
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Leaving Restaurant as Waiter");
 			return true;
 		}
-		else {
+		else if (restaurant.host.waiterList.size() > 1) {
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters before I remove myself");
 			restaurant.host.waiterList.remove(this);
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters after I remove myself");

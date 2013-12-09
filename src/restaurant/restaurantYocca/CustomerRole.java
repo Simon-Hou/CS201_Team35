@@ -13,6 +13,7 @@ import role.Role;
 import agent.Agent;
 
 import java.math.BigDecimal;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
@@ -32,25 +33,25 @@ public class CustomerRole extends Role implements Customer {
 	private int outOfChoice;
 	private double amountOwed = 0;
 	private boolean hasGoneToRestaurant = false;
-	
+
 	private RestaurantYocca restaurant = null;
 	// agent correspondents
 	private Waiter waiter;
 	private Host host;
 	private Cashier cashier = null;
 	private double money;
-	
+
 	public boolean isAtWArea = false;
-	
+
 	private Bill customerCheck;
-	
+
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore atWaitingArea = new Semaphore(0,true);
-	
+
 	//Table the Customer is occupying
 	public Table t;
 	private int cTableNum = 0;
-	
+
 	//Food choice
 	private String choice;
 	Menu menu = null;
@@ -68,7 +69,7 @@ public class CustomerRole extends Role implements Customer {
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
+	 * @param animation  reference to the customergui so the customer can send it messages
 	 */
 	public CustomerRole(String name, Person person){
 		super();
@@ -99,38 +100,38 @@ public class CustomerRole extends Role implements Customer {
 	public String getCustomerName() {
 		return name;
 	}
-	
+
 	public double getMoney() {
 		return money;
 	}
-	
+
 	public void setAmountOwed(double amount) {
 		amountOwed = amount;
 	}
-	
-	
+
+
 	public void addAmountOwed(double amount) {
 		amountOwed += amount;
 	}
-	
+
 	public double getAmountOwed() {
 		return amountOwed;
 	}
-	
+
 	public void setTableLocation(int tableNum) {
 		setCustomerTableNum(tableNum);
 		xTableLoc = customerGui.getTableXLocation(cTableNum);
 		yTableLoc = customerGui.getTableYLocation(cTableNum);
 	}
-	
+
 	public int getCustomerTableNum() {
 		return cTableNum;
 	}
-	
+
 	private void setCustomerTableNum(int tableNum) {
 		cTableNum = tableNum;
 	}
-	
+
 	// Messages
 
 	public void gotHungry() {//from animation
@@ -141,30 +142,30 @@ public class CustomerRole extends Role implements Customer {
 			BigDecimal bd = new BigDecimal(temp);
 			bd = bd.setScale(2,BigDecimal.ROUND_HALF_UP);
 			this.money += bd.doubleValue();
-//			customerGui.getGui().infoLabel.setText(
-//                "<html><pre> C: " + this.getName() + " ($" + this.getMoney() + ") </pre></html>");
+			//			customerGui.getGui().infoLabel.setText(
+			//                "<html><pre> C: " + this.getName() + " ($" + this.getMoney() + ") </pre></html>");
 		}
 		hasGoneToRestaurant = true;
 		p.msgStateChanged();
 	}
-	
+
 	//newer SimCity message that role is at the restaurant
 	public void msgAtRestaurant(Restaurant restaurantYocca){
-			//System.out.println("Got the message that I'm here");
-			//System.out.println(((RestaurantGabe)rg).host == null);
-		   this.restaurant = (RestaurantYocca) restaurantYocca;
-			state = AgentState.DoingNothing;
-			event = AgentEvent.gotHungry;
-			p.msgStateChanged();
+		//System.out.println("Got the message that I'm here");
+		//System.out.println(((RestaurantGabe)rg).host == null);
+		this.restaurant = (RestaurantYocca) restaurantYocca;
+		state = AgentState.DoingNothing;
+		event = AgentEvent.gotHungry;
+		p.msgStateChanged();
 	}
-	
+
 
 	public void msgAtCashier() {
 		customerGui.setArrived(true);
 		atCashier.release();// = true;
 		p.msgStateChanged();
 	}
-	
+
 	public void msgFollowMeToTable(Menu m) {
 		menu = m;
 		print("Received msgSitAtTable");
@@ -172,24 +173,24 @@ public class CustomerRole extends Role implements Customer {
 		p.msgStateChanged();
 	}
 
-	
+
 	public void msgWhatWouldYouLike() {
 		event = AgentEvent.orderingFood;
 		p.msgStateChanged();
 	}
-	
+
 	public void msgWhatWouldYouLikeInstead() {
 		event = AgentEvent.reOrderingFood;
 		state = AgentState.ReadyToOrderAgain;
 		p.msgStateChanged();
 	}
-	
+
 	public void msgHereIsYourFood(String choice) {
 		event = AgentEvent.receivedFood;
 		customerGui.setFoodString(choice);
 		p.msgStateChanged();
 	}
-	
+
 	public void msgHereIsYourCheck(Bill c) {
 		amountOwed += c.getPrice();
 		customerCheck = new Bill(c);
@@ -207,11 +208,11 @@ public class CustomerRole extends Role implements Customer {
 		event = AgentEvent.donePaying;
 		Do("My money after transaction: " + money);
 		Do("My amount owed after transaction: " + amountOwed);
-//		customerGui.getGui().infoLabel.setText(
-//                "<html><pre> C: " + this.getName() + " ($" + this.getMoney() + ") </pre></html>");
+		//		customerGui.getGui().infoLabel.setText(
+		//                "<html><pre> C: " + this.getName() + " ($" + this.getMoney() + ") </pre></html>");
 		p.msgStateChanged();
 	}
-	
+
 	public void msgAnimationFinishedGoToSeat() {
 		event = AgentEvent.seated;
 		p.msgStateChanged();
@@ -220,7 +221,7 @@ public class CustomerRole extends Role implements Customer {
 		event = AgentEvent.doneLeaving;
 		p.msgStateChanged();
 	}
-	
+
 	public void msgAtWaitingArea() {//from animation
 		customerGui.setArrived(true);
 		atWaitingArea.release();// = true;
@@ -244,31 +245,31 @@ public class CustomerRole extends Role implements Customer {
 			SitDown();
 			return true;
 		}
-		
+
 		if (customerGui.getX() == xTableLoc && customerGui.getY() == yTableLoc && state == AgentState.BeingSeated) {
 			state = AgentState.ReadyToOrder;
 			ReadyToOrder();
 			return true;
 		}
-		
+
 		if (state == AgentState.ReadyToOrder && event == AgentEvent.orderingFood) {
 			state = AgentState.Ordered;
 			Order();
 			return true;
 		} 
-		
+
 		if (state == AgentState.ReadyToOrderAgain && event == AgentEvent.reOrderingFood){
 			state = AgentState.Ordered;
 			ReOrder();
 			return true;
 		}
-		
+
 		if (state == AgentState.Ordered && event == AgentEvent.receivedFood){
 			state = AgentState.WaitingForCheck;
 			EatFood();
 			return true;
 		}
-		
+
 		if (state == AgentState.WaitingForCheck && event == AgentEvent.receivedCheck){
 			state = AgentState.Paying;
 			payCheck();
@@ -280,8 +281,8 @@ public class CustomerRole extends Role implements Customer {
 			leaveTable();
 			return true;
 		}
-				
-		
+
+
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
 			return true;
@@ -304,27 +305,31 @@ public class CustomerRole extends Role implements Customer {
 		int randNum = (int)(Math.random() * 2);
 		if (randNum == 0 && restaurant.host.allTablesOccupied()) {
 			Do("Will Leave");
-			for (Customer c: restaurant.host.waitingCustomers) {
-				Do("In for loop for waiting customers");
-				Do("Getting Customer Name: " + c.getCustomerName());
-				Do("Getting Name: " + this.name);
-				if (c.getCustomerName() == this.name) {
-					Do("Restaurant is full, I am going to leave.");
-					restaurant.host.waitingCustomers.remove(c);
-					state = AgentState.DoingNothing;
-					event = AgentEvent.doneLeaving;
-					customerGui.DoExitRestaurant();
+			try {
+				for (Customer c: restaurant.host.waitingCustomers) {
+					Do("In for loop for waiting customers");
+					Do("Getting Customer Name: " + c.getCustomerName());
+					Do("Getting Name: " + this.name);
+					if (c.getCustomerName() == this.name) {
+						Do("Restaurant is full, I am going to leave.");
+						restaurant.host.waitingCustomers.remove(c);
+						state = AgentState.DoingNothing;
+						event = AgentEvent.doneLeaving;
+						customerGui.DoExitRestaurant();
+					}
 				}
 			}
+			catch (ConcurrentModificationException e) {
+			}
 		}
-		
+
 	}
 
 	private void SitDown() {
 		Do("Being seated. Going to table");
 		customerGui.DoGoToSeat(1,xTableLoc,yTableLoc);//hack; only one table
 	}
-	
+
 	private void ReadyToOrder() {
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -390,7 +395,7 @@ public class CustomerRole extends Role implements Customer {
 		},
 		2000);
 	}
-	
+
 	private void ReOrder() {
 		int randNumChoice = (int)(Math.random() * menu.menuList.size());
 		if (money > menu.getCheapestPriceOnMenu() && money < 8.99 && choice == menu.getCheapestItemOnMenu()) {
@@ -427,7 +432,7 @@ public class CustomerRole extends Role implements Customer {
 			event = AgentEvent.doneLeaving;
 		}
 	}
-	
+
 	private void Order() {
 		Do("Here is my order");
 		customerGui.setFoodString(choice + "?");
@@ -450,7 +455,7 @@ public class CustomerRole extends Role implements Customer {
 		},
 		2000);//getHungerLevel() * 1000);//how long to wait before running task
 	}
-	
+
 	private void payCheck() {
 		customerGui.setFoodString("B");
 		customerGui.DoGoToCashier();
@@ -489,13 +494,13 @@ public class CustomerRole extends Role implements Customer {
 		Do("Leaving.");
 		waiter.msgDoneAndPaid(cTableNum);
 		customerGui.DoExitRestaurant();
-		
+
 	}
-	
+
 	public void leaveRestaurant() {
 		restaurant.leaveRestaurant(customerGui);
 		restaurant = null;
-		
+
 		p.msgThisRoleDone(this);
 		p.msgStateChanged();
 	}
@@ -505,7 +510,7 @@ public class CustomerRole extends Role implements Customer {
 	public String getName() {
 		return name;
 	}
-	
+
 	public int getHungerLevel() {
 		return hungerLevel;
 	}
@@ -527,11 +532,11 @@ public class CustomerRole extends Role implements Customer {
 	public CustomerGui getGui() {
 		return customerGui;
 	}
-	
+
 	public void setHost(Host h) {
 		host = h;
 	}
-	
+
 	public void setCashier(Cashier c) {
 		cashier = c;
 	}
