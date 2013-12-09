@@ -40,7 +40,7 @@ public class MarketCustomerTest extends TestCase{
 		cashier = new MockMarketCashier("Cashier");
 		market = new Market();
 		
-
+		customer.host = host;
 		host.customer = customer;
 		employee.customer = customer;
 		cashier.customer = customer;
@@ -70,7 +70,7 @@ public class MarketCustomerTest extends TestCase{
 		
 		//Step 2:  call scheduler
 		assertTrue("Scheduler should return true", customer.pickAndExecuteAnAction());
-		assertEquals("Customers state should be RoleState.Ordered",  RoleState.Ordered, customer.state);
+		assertEquals("Customers state should be RoleState.Ordered, but it is in " + customer.state,  RoleState.Ordered, customer.state);
 		assertTrue("Customer's log should say its implementing MakeOrder action, but it doesnt.", customer.log.containsString("MakeOrder action"));
 		assertTrue("Hosts log should say it received a message", host.log.containsString("got msgCustomerWantsThis"));
 		assertFalse("Scheduler should return false", customer.pickAndExecuteAnAction());
@@ -102,7 +102,7 @@ public class MarketCustomerTest extends TestCase{
 		assertTrue("Cashier's log should have recorded msgCustomerPayment ", cashier.log.containsString("got msgCustomerPayment"));
 		
 		//Step 7:  Send msgHereIsYourChange
-		Receipt r = new Receipt();
+		Receipt r = new Receipt(null, 0, 0, null);//TODO change if needed.
 		customer.msgHereIsYourChange(r, 10);
 		assertTrue("Customers log should have recorded getting message", customer.log.containsString("got msgHereIsYourChange"));
 		assertEquals("Customer should have gotten his receipt", r, customer.receipt);
@@ -180,7 +180,7 @@ public class MarketCustomerTest extends TestCase{
 		assertTrue("Cashier's log should have recorded msgCustomerPayment ", cashier.log.containsString("got msgCustomerPayment"));
 		
 		//Step 7:  Send msgHereIsYourChange
-		Receipt r = new Receipt();
+		Receipt r = new Receipt(null, 0, 0, null);//TODO change if needed.
 		customer.msgYouOweMoney(r, 10);
 		assertTrue("Customers log should have recorded getting message", customer.log.containsString("got msgYouOweMoney"));
 		assertEquals("Customer should have gotten his receipt", r, customer.receipt);
