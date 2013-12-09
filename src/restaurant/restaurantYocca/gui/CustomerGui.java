@@ -106,7 +106,7 @@ public class CustomerGui implements Gui {
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
-				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.agent.getName(), "Successfully leaving RestaurantYocca");
+				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.agent.getName(), "Successfully leaving RestaurantYocca",this.agent.restaurant.cityRestaurant.animationPanel.getName());
 				agent.msgAnimationFinishedLeaveRestaurant();
 				agent.p.setTiredLevel(20);
 				agent.leaveRestaurant();
@@ -126,9 +126,10 @@ public class CustomerGui implements Gui {
 	public void draw(Graphics2D g) {
 //		g.setColor(Color.GREEN);
 //		g.fillRect(xPos, yPos, 20, 20);
-	     g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
+	    g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
 		g.setColor(Color.BLACK);
-        g.drawString(foodString, xPos+15, yPos+15);
+        g.drawString(foodString, xPos+20, yPos+15);
+        g.drawString("Cust", xPos, yPos-5);
 	}
     
 	public boolean isPresent() {
@@ -228,7 +229,7 @@ public class CustomerGui implements Gui {
 	}
 	
 	public void DoGoToWaitingArea(int waitingSpot) {
-		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.agent.getName(),"Amount of customers in restaurant: " + this.restaurant.customers.size());
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.agent.getName(),"Amount of customers in restaurant: " + this.restaurant.customers.size(),this.agent.restaurant.cityRestaurant.animationPanel.getName());
 		try {
 			yDestination = 75 + waitingSpot * 25;
 		} catch (NullPointerException e) {

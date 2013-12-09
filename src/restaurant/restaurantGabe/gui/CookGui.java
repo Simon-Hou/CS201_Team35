@@ -148,16 +148,14 @@ public class CookGui implements Gui {
     }
     
     public void draw(Graphics2D g) {
-//        g.setColor(Color.YELLOW);
-//        g.fillRect(xPos, yPos, host_width, host_height);
+    	g.setColor(Color.black);
 	    g.drawImage(currentImage.getImage(),xPos, yPos, host_width, host_height,null);
-
+        g.drawString("Cook", xPos, yPos-5);
         
         int i = 0;
         synchronized(cooking){
 	        for(String food:cooking){
 	        	String show = food.substring(0, 2);
-	        	g.setColor(Color.black);
 	        	g.drawString(show, xGrill + i*20, yGrill + 35);
 	        	++i;
 	        }
@@ -167,7 +165,6 @@ public class CookGui implements Gui {
         synchronized(plated){
 	        for(String food:plated){
 	        	String show = food.substring(0, 2);
-	        	g.setColor(Color.black);
 	        	g.drawString(show, xPlate + i*20, yPlate + 15);
 	        	++i;
 	        }

@@ -155,7 +155,7 @@ public class DemoLauncher extends JFrame {
 					//Note that we are using the logInfo() method to specify that this is a normal MESSAGE,
 					//as opposed to an INFO message, or an ERROR/WARNING.  We send the name of the "person"
 					//as well, and that will be printed out automatically.
-					AlertLog.getInstance().logMessage(AlertTag.PERSON, t.name, "I am in the RED ZONE!");
+					AlertLog.getInstance().logMessage(AlertTag.PERSON, t.name, "I am in the RED ZONE!",null);
 					//================================================================================
 				}
 				if(blueArea.contains(t) && t.inRed) {
@@ -166,7 +166,7 @@ public class DemoLauncher extends JFrame {
 					//Note that we are using the logInfo() method to specify that this is a normal MESSAGE,
 					//as opposed to an INFO message, or an ERROR/WARNING.  We send the name of the "person"
 					//as well, and that will be printed out automatically.
-					AlertLog.getInstance().logMessage(AlertTag.PERSON, t.name, "I am in the blue zone...");					
+					AlertLog.getInstance().logMessage(AlertTag.PERSON, t.name, "I am in the blue zone...",null);					
 					//================================================================================
 				}
 			}
@@ -197,7 +197,7 @@ public class DemoLauncher extends JFrame {
 				//Note that we are using the logMessage() method to specify that this is an INFO message,
 				//as opposed to a normal message, or an ERROR/WARNING.  Here we are telling it to log with the 
 				//tag: BANK_CUSTOMER from a sender called "Mouse".
-				AlertLog.getInstance().logInfo(AlertTag.PERSON, "Mouse", "You clicked the RED ZONE!");
+				AlertLog.getInstance().logInfo(AlertTag.PERSON, "Mouse", "You clicked the RED ZONE!",null);
 				//================================================================================
 			}
 			if(blueArea.contains(e.getPoint())) {
@@ -207,7 +207,7 @@ public class DemoLauncher extends JFrame {
 				//tag: BANK_CUSTOMER from a sender called "Mouse".
 				//Notice the different methods to log different Levels of messages.  There are methods to 
 				//logError, logWarning, logInfo, logMessage, and logDebug that you should use. 
-				AlertLog.getInstance().logError(AlertTag.PERSON, "Mouse", "You clicked the blue zone");
+				AlertLog.getInstance().logError(AlertTag.PERSON, "Mouse", "You clicked the blue zone",null);
 				//================================================================================
 			}
 		}

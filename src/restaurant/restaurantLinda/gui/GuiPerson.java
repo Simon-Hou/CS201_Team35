@@ -176,7 +176,7 @@ public abstract class GuiPerson implements Gui{
 	    
 	    if (!gotPermit && attempts<3){
 	    	//System.err.println("got NO permit for " + path.get(1).toString() + " on attempt " + attempts);
-	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Got no permit for " + path.get(1).toString() + " on attempt " + attempts);
+	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Got no permit for " + path.get(1).toString() + " on attempt " + attempts, null);
 	    	Random rand = new Random();
 	    	
 	    	wait=rand.nextInt(10) + 10;
@@ -187,7 +187,7 @@ public abstract class GuiPerson implements Gui{
 	    //Did not get lock after trying n attempts. So recalculating path.            
 	    if (!gotPermit) {
 			//System.out.println("[Gaut] " + agent.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
-	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Recalculating path");
+	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Recalculating path", null);
 			attempts=1;
 			CalculatePath(path.get(path.size()-1));
 			return;
