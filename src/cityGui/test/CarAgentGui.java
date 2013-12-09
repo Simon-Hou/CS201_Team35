@@ -71,12 +71,13 @@ public class CarAgentGui extends VehicleAgentGui {
 		
 		potentialSafety = setSafeRegion(potentialLocation);
 		
-		
-		for(CityComponent block:gui.city.movings){
-			if(block instanceof VehicleAgentGui){
-				if(potentialSafety.intersects(((VehicleAgentGui)block).safeRegion)){
-					//System.out.println("Something's int he way");
-					return false;
+		synchronized(gui.city.movings){
+			for(CityComponent block:gui.city.movings){
+				if(block instanceof VehicleAgentGui){
+					if(potentialSafety.intersects(((VehicleAgentGui)block).safeRegion)){
+						//System.out.println("Something's int he way");
+						return false;
+					}
 				}
 			}
 		}
@@ -113,12 +114,13 @@ public class CarAgentGui extends VehicleAgentGui {
 				return;
 			}
 		}
-		
-		for(CityComponent block : gui.city.movings){
-			//System.out.println("Checking to see if I'm intersecting anything");
-			if(block instanceof VehicleAgentGui){
-				//System.out.println("Found a vehicle");
-				
+		synchronized(gui.city.movings){
+			for(CityComponent block : gui.city.movings){
+				//System.out.println("Checking to see if I'm intersecting anything");
+				if(block instanceof VehicleAgentGui){
+					//System.out.println("Found a vehicle");
+					
+				}
 			}
 		}
 		
@@ -202,7 +204,7 @@ public class CarAgentGui extends VehicleAgentGui {
 			moving = false;
 			
 			
-			gui.city.movings.remove(this);
+			//gui.city.movings.remove(this);
 			car.msgCarArrived(new Loc(rectangle.x,rectangle.y));
 			//bus.msgAtStop();
 //			this.bus.atStopFreeze.release();

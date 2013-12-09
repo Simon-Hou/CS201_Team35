@@ -29,6 +29,7 @@ public class StopLight extends CityComponent implements Gui,ActionListener{
 	
 	public StopLight(){
 		lightTimer.start();
+		rectangle = new Rectangle(0,0,0,0);
 	}
 	
 	public CrosswalkStatus getStatus(){

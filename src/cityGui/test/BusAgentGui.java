@@ -76,20 +76,21 @@ public class BusAgentGui extends VehicleAgentGui {
 				return;
 			}
 		}
-		
-		for(CityComponent block : gui.city.movings){
-			//System.out.println("Checking to see if I'm intersecting anything");
-			if(block instanceof VehicleAgentGui){
-				//System.out.println("Found a vehicle");
-				
-//				if(block instanceof BusAgentGui && !((BusAgentGui)block).clockwise){
-//					continue;
-//				}
-//				
-//				if(clockwise && this.frontBumper.intersects(((VehicleAgentGui)block).backBumper)){
-//					return;
-//				}
-				
+		synchronized(gui.city.movings){
+			for(CityComponent block : gui.city.movings){
+				//System.out.println("Checking to see if I'm intersecting anything");
+				if(block instanceof VehicleAgentGui){
+					//System.out.println("Found a vehicle");
+					
+	//				if(block instanceof BusAgentGui && !((BusAgentGui)block).clockwise){
+	//					continue;
+	//				}
+	//				
+	//				if(clockwise && this.frontBumper.intersects(((VehicleAgentGui)block).backBumper)){
+	//					return;
+	//				}
+					
+				}
 			}
 		}
 		
