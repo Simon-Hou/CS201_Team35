@@ -288,6 +288,11 @@ public class CityControlPanel extends JPanel implements ActionListener{
 				city.tracePanel.hideAlertsWithTag(AlertTag.BUS_STOP);
 			}
 		}
+		 
+		 //SCENARIOS
+		else if (e.getSource().equals(MarketSimple)){
+			//city.
+		}
 	}
 	
 	public void addTraceControls(){

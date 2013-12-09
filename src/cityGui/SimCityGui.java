@@ -1015,6 +1015,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		//fullyManBuilding("Market",0);
 	}
+	
+	public void marketSimpleScenario(){
+		
+	}
 
 	public void gabeRestaurant(){
 		addNewBuilding("RestaurantGabe",200,250);
