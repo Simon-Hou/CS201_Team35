@@ -212,6 +212,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 	JFrame traceFrame = new JFrame();
 
+	public JPanel trace = new JPanel();
 
 	int gridX = 600;
 	int gridY = 600;
@@ -324,12 +325,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 
 
-		JPanel trace = new JPanel();
+		//trace = new JPanel();
 		dim = new Dimension(500, 100);
 		trace.setMaximumSize(dim);
 		trace.setMinimumSize(dim);
 		trace.setPreferredSize(dim);
 		//trace.setBackground(Color.BLUE);
+		trace.setLayout(new FlowLayout());
+		
 
 		JPanel cityCP = new JPanel();
 		dim = new Dimension(600, 100); //y value can't be over 178
@@ -386,8 +389,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 		c.fill = GridBagConstraints.BOTH;
 		this.add(tracePanel, c);*/
 		//this.add(tracePanel, c)
-
+		Dimension d = new Dimension(500,185);
+		tracePanel.setPreferredSize(d);
+		tracePanel.setMaximumSize(d);
+		tracePanel.setMinimumSize(d);
+		
 		trace.add(tracePanel);
+		CP.addTraceControls();
 		//traceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//traceFrame.setBounds(1000, 50 , 400, 300);
 		//traceFrame.setVisible(true);

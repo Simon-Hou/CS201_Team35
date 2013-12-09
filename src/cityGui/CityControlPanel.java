@@ -41,7 +41,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	
 	CityListPanel panel1 = new CityListPanel();
 	CityListPanel panel2 = new CityListPanel();
-	CityListPanel panel3 = new CityListPanel();
+	CityListPanel panel3 = new CityListPanel("trace");
 
 	public CityControlPanel(SimCityGui city) {
 		this.city = city;
@@ -53,9 +53,26 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		
 		add(panel1);
 		add(panel2);
-		add(panel3);
+		//add(panel3);
+		//city.trace.add(panel3);
 		
 		//AddBuilding/People Buttons
+		
+		
+		
+		addBank = new JButton("Add Bank");
+		addBank.addActionListener(this);
+		panel1.addButton(addBank);
+		
+		
+		addHouse = new JButton("Add House");
+		addHouse.addActionListener(this);
+		panel1.addButton(addHouse);
+		
+		addMarket = new JButton("Add Market");
+		addMarket.addActionListener(this);
+		panel1.addButton(addMarket);
+		
 		addParkerRestaurant = new JButton("Add Parker's Restaurant");
 		addParkerRestaurant.addActionListener(this);
 		panel1.addButton(addParkerRestaurant);
@@ -79,20 +96,6 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		addSimonRestaurant = new JButton("Add Simon's Restaurant");
 		addSimonRestaurant.addActionListener(this);
 		panel1.addButton(addSimonRestaurant);
-		
-		
-		addBank = new JButton("Add Bank");
-		addBank.addActionListener(this);
-		panel1.addButton(addBank);
-		
-		
-		addHouse = new JButton("Add House");
-		addHouse.addActionListener(this);
-		panel1.addButton(addHouse);
-		
-		addMarket = new JButton("Add Market");
-		addMarket.addActionListener(this);
-		panel1.addButton(addMarket);
 		
 		addPerson = new JButton("Add Person");
 		addPerson.addActionListener(this);
@@ -198,14 +201,18 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		}
 	}
 	
+	public void addTraceControls(){
+		city.trace.add(panel3);
+	}
+	
 	private class CityListPanel extends JPanel{
 		 private JPanel view = new JPanel();
 		 private List<JButton> inventoryList = new ArrayList<JButton>();
 			public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 										JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			 Dimension paneSize = new Dimension (150, 100);	
+			 Dimension paneSize = new Dimension (150, 90);	
 		CityListPanel(){
-			Dimension size = new Dimension (150, 100);
+			Dimension size = new Dimension (150, 90);
 	        setPreferredSize(size);
 	        setMinimumSize(size);
 	        setMaximumSize(size);
@@ -227,6 +234,25 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 
 		}
+		
+		
+		CityListPanel(String trace){
+			Dimension size = new Dimension (150, 185);
+	        setPreferredSize(size);
+	        setMinimumSize(size);
+	        setMaximumSize(size);
+	        
+			setLayout(new FlowLayout());
+			view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
+			pane.setViewportView(view);
+	        add(pane);
+
+	        pane.setPreferredSize(size);
+	        pane.setMinimumSize(size);
+	        pane.setMaximumSize(size);
+
+		}
+		
 		
 		public void addButton(JButton item){
 
