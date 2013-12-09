@@ -16,7 +16,7 @@ import cityGui.test.BusGui;
 import cityGui.test.PersonGui;
 
 
-public class Bus extends Vehicle implements ActionListener{
+public class Bus extends VehicleAgent implements ActionListener{
 	
 	
 	//When this bus was designed, it was imagined to work (with the Person scheduler)
@@ -197,6 +197,8 @@ public class Bus extends Vehicle implements ActionListener{
 			//atStop = true;
 		}
 	}
+	
+	
 	
 	
 	

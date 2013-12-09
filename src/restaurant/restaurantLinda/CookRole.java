@@ -32,7 +32,7 @@ public class CookRole extends Role implements Cook{
 	ProducerConsumerMonitor<RestaurantOrder> orderMonitor;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
-	private CookGui cookGui;
+	private CookGui cookGui = null;
 	
 	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor, Restaurant restaurant) {
 		super();

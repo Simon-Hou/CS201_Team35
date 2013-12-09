@@ -17,6 +17,8 @@ import java.awt.Graphics2D;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 
 /**
@@ -567,11 +569,14 @@ public class WaiterRole extends Role implements Waiter {
 
 		if(waiterCustomers.isEmpty() && !restaurant.host.waiterList.contains(this)){			
 			restaurant.leaveRestaurant(this);
-			System.out.println("LEAVING THE RESTAURANT YO");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Leaving Restaurant as Waiter");
 			return true;
 		}
 		else {
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters before I remove myself");
 			restaurant.host.waiterList.remove(this);
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters after I remove myself");
+
 		}
 			
 		return false;

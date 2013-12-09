@@ -229,7 +229,7 @@ public class CustomerGui extends GuiPerson implements Gui{
 		xDestination = xfinal = CityRestaurantLindaCard.CASHIER.x+CityRestaurantLindaCard.CASHIER.width;
 		yDestination = yfinal = CityRestaurantLindaCard.CASHIER.y;
 		command = Command.GoToCashier;
-		CalculatePath(new Position(xfinal/cellSize, yfinal/cellSize));
+		CalculatePath(new Position(xfinal/cellSize+1, yfinal/cellSize));
 	}
 
 	public void DoExitRestaurant() {

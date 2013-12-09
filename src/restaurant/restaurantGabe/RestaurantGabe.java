@@ -32,6 +32,8 @@ import cityGui.CityRestaurant;
 import cityGui.CityRestaurantCardGabe;
 import cityGui.CityRestaurantGabe;
 import cityGui.CityRestaurantLinda;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 //import cityGui.MarketRole;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
@@ -177,6 +179,7 @@ public class RestaurantGabe extends Restaurant{
 	
 	public Role canIBeHost(Person person){
 		if(((HostRole) host).person==null || ((HostRole)host).YouAreDoneWithShift()){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.host.getName(), "I'm taking over as host");
 			((HostRole) host).name = person.getName()+"RestaurantHost";
 			((HostRole) host).person = (PersonAgent) person;
 			//System.out.println(host==null);
@@ -188,7 +191,7 @@ public class RestaurantGabe extends Restaurant{
 	
 	public Role canIBeCook(Person person){
 		if(((CookRole) cook).person==null || ((CookRole)cook).YouAreDoneWithShift()){
-			
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.host.getName(), "I'm taking over as cook");
 			((CookRole) cook).name = person.getName()+"RestaurantCook";
 			((CookRole) cook).person = (PersonAgent) person;
 			//System.out.println(host==null);
@@ -231,6 +234,8 @@ public class RestaurantGabe extends Restaurant{
 	public Role canIBeCashier(Person person){
 		
 		if(((CashierRole) cashier).person==null || ((CashierRole)cashier).YouAreDoneWithShift()){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, this.cashier.getName(), "I'm taking over as waiter");
+
 			((CashierRole) cashier).name = person.getName()+"RestaurantCashier";
 			((CashierRole) cashier).person = (PersonAgent) person;
 			//System.out.println(host==null);

@@ -9,6 +9,7 @@ import restaurant.restaurantGabe.util.*;
 import role.Role;
 import agent.Agent;
 import interfaces.BaseRestaurantCook;
+import interfaces.Person;
 
 import java.util.*;
 
@@ -408,6 +409,15 @@ public class CookRole extends Role implements Cook{
 			return true;
 	//	}
 	//	return false;
+	}
+	
+	public void changeShifts(Person p){
+		if (this.p!=null){
+			restaurant.leaveRestaurant(this);
+		}
+		
+		this.p = p;
+		this.name = p.getName();
 	}
 
 }

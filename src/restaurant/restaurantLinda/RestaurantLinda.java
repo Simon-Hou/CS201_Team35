@@ -70,32 +70,41 @@ public class RestaurantLinda extends Restaurant{
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
 		if (type == JobType.RestaurantHost){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as host");
+
 			host.changeShifts(p);
 			return (Role)host;
 		}
 		else if (type == JobType.RestaurantLindaWaiter1){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as waiter");
+
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantLindaWaiter2){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as waiter");
 			((WaiterRole)r).setRestaurant(this);
 
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantCook){
-			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "I'm taking over as cook");
-			cityRestaurant.animationPanel.removeGui(cook.getGui());
-			cook.changeShifts(p);
-			CookGui cg = new CookGui(cook);
-			cg.setPlates(cityRestaurant.animationPanel.platedFoods);
-			cook.setGui(cg);
-			cityRestaurant.animationPanel.addGui(cg);
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cook");
+			//cityRestaurant.animationPanel.removeGui(cook.getGui());
+			this.cook.changeShifts(p);
+			if (cook.getGui() == null) {
+				CookGui cg = new CookGui(this.cook);
+				cg.setPlates(cityRestaurant.animationPanel.platedFoods);
+				this.cook.setGui(cg);
+				cityRestaurant.animationPanel.addGui(cg);
+			}
 			return (Role)cook;
 		}
 		else if (type == JobType.RestaurantCashier){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cashier");
+
 			cashier.changeShifts(p);
 			return (Role) cashier;
 		}

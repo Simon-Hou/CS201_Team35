@@ -351,7 +351,7 @@ public class CookRole extends Role implements Cook {
 
 	public void changeShifts(Person p) {
 		if (this.p!=null){
-			LeaveRestaurant();
+			this.p.msgThisRoleDone(this);
 		}	
 		this.p = p;
 		this.name = p.getName();
@@ -367,12 +367,10 @@ public class CookRole extends Role implements Cook {
 		}
 		this.p.msgThisRoleDone(this);
 	}
-
+	
 	@Override
 	public boolean canLeave() {
-		((RestaurantYocca)restaurant).leaveRestaurant(this);
-		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "New cook is taking over for my Cook Role");
-		return true;
+		return false;
 	}
 
 	@Override

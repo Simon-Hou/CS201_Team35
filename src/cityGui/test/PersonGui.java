@@ -36,7 +36,7 @@ public class PersonGui extends CityComponent implements Gui {
     private int xRand;
     private int yRand;
     
-    int gridScale = 30;
+    public static int gridScale = 30;
     boolean doingMove = false;
     
     private boolean startPosition = true;
@@ -49,6 +49,7 @@ public class PersonGui extends CityComponent implements Gui {
     
     public boolean onTheMove = false;
     public boolean waitingForBus = false;
+    public boolean waitingForCarToGetOnRoad = false;
     
     ImageIcon currentImage;
 	public int spriteCounter = 6;
@@ -562,6 +563,7 @@ public class PersonGui extends CityComponent implements Gui {
     	
     	if(doingMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
     		doingMove = false;
+    		//System.out.println("RELEASING THREAD");
     		atMove.release();
     	}
     	
@@ -594,7 +596,8 @@ public class PersonGui extends CityComponent implements Gui {
     	if(!visible){
     		return;
     	}
-    	if (!atDestination() || waitingForBus) {
+
+    	if (!atDestination() || waitingForBus || waitingForCarToGetOnRoad) {
     		g.setColor(Color.BLACK);
     		g.setFont(mapStringFont);
     		g.drawString(String.valueOf(((PersonAgent)this.person).personID), getXPos(), getYPos());

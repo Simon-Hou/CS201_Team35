@@ -46,7 +46,7 @@ public class CookGui implements Gui {
     public CookGui(CookRole agent) {
     	this.agent = agent;
 		currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
-    	
+		
     	xPos = xDestination = home.x;
         yPos = yDestination = home.y;        
     }
