@@ -8,7 +8,7 @@ import UnitTests.mock.EventLog;
  * Base class for simple agents
  */
 public abstract class Agent {
-    Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
+    private Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
     Semaphore pause = new Semaphore(0,true);
     boolean paused;
     private AgentThread agentThread;
