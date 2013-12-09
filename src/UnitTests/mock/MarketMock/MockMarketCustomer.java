@@ -33,14 +33,14 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 
 	@Override
 	public void msgHereIsTotal(int total) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Got total for: $" + total));
 		
 	}
 
 	@Override
 	public void msgHereIsYourChange(Receipt receipt, int change) {
 		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Got chage of: $" + change));
 	}
 
 	@Override
@@ -73,6 +73,12 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 	public Person getPerson() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	
+	public void msgNoEmployees() {
+		
 	}
 
 

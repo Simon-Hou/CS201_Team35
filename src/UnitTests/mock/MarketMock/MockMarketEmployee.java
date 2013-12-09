@@ -52,7 +52,7 @@ public class MockMarketEmployee extends Mock implements MarketEmployee{
 
 	@Override
 	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("got msgGiveInvoice for $" + total));
 		
 	}
 
