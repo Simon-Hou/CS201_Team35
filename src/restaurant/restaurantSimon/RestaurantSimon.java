@@ -14,10 +14,10 @@ import restaurant.restaurantSimon.WaiterRole;
 import restaurant.restaurantSimon.gui.CookGui;
 import restaurant.restaurantSimon.gui.CustomerGui;
 import restaurant.restaurantSimon.gui.HostGui;
-import restaurant.restaurantSimon.gui.ListPanel;
-import restaurant.restaurantSimon.gui.RestaurantGui;
+//import restaurant.restaurantSimon.gui.ListPanel;
+//import restaurant.restaurantSimon.gui.RestaurantGui;
 import restaurant.restaurantSimon.gui.WaiterGui;
-import restaurant.restaurantSimon.gui.WaiterListPanel;
+//import restaurant.restaurantSimon.gui.WaiterListPanel;
 import role.Role;
 import util.JobType;
 import interfaces.BaseRestaurantCustomer;
@@ -41,26 +41,28 @@ public class RestaurantSimon extends Restaurant {
 	//Host, cook, waiters and customers
 	private HostRole host = new HostRole("No Host");
 	private CookRole cook = new CookRole(this);
-	private CashierRole cashier=new CashierRole("No Cashier");
+	private CashierRole cashier=new CashierRole("No Cashier",this);
 
 	public CityRestaurantSimon cityRestaurant;
-	CityRestaurantSimonCard animation=null;
+	public CityRestaurantSimonCard animation=null;
+	private CookGui cookGui=new CookGui(cook,animation);
+
 	boolean p=false;
 	
 	public boolean isOpen = true;
 
 
-	private Vector<CustomerRole> customers = new Vector<CustomerRole>();
+	public Vector<CustomerRole> customers = new Vector<CustomerRole>();
 	private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
 
 
 	public RestaurantSimon(){
-
+		cook.setGui(cookGui);
 	}
 
 	public RestaurantSimon(CityRestaurantSimon cr) {
 		this.cityRestaurant=cr;
-
+		cook.setGui(cookGui);
 	}
 
 	/**
@@ -166,7 +168,9 @@ public class RestaurantSimon extends Restaurant {
 		//		}
 		else if (type == JobType.RestaurantCook){
 			cook.changeShifts(p);
-			return cook;
+			//System.err.println(animation==null);
+			animation.addGui(cookGui);
+			return  (Role)cook;
 		}
 		else if (type == JobType.RestaurantCashier){
 			cashier.changeShifts(p);
@@ -196,6 +200,7 @@ public class RestaurantSimon extends Restaurant {
 	}
 	public void setAnimationPanel(CityRestaurantSimonCard crc){
 		animation=crc;
+		
 	}
 
 	@Override

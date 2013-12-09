@@ -1,6 +1,7 @@
 package restaurant.restaurantSimon;
 
 import agent.Agent;
+import restaurant.restaurantGabe.interfaces.Host;
 import restaurant.restaurantSimon.gui.HostGui;
 import restaurant.restaurantSimon.gui.CustomerGui;
 
@@ -19,7 +20,7 @@ import java.util.*;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostRole extends Role {
+public class HostRole extends Role  implements Host{
 
 	public enum MyWaiterState{available,notAvailable,wantBreak,onBreak};
 	class MyWaiter{
@@ -345,6 +346,18 @@ public class HostRole extends Role {
 		{
 			return tableNumber;
 		}
+	}
+
+	@Override
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return self!=null;
+	}
+
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return waitingCustomers.size()==0;
 	}
 }
 
