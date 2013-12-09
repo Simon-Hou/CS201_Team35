@@ -77,7 +77,7 @@ public class MarketCustomerGui implements Gui{
 			}
 		}
 	    if (!gotToDestination){
-	       	if (xPos == xDestination && yPos == yDestination && !(xDestination == itemDropX && yDestination == itemDropY) && !(xDestination == xInitial && yDestination == yInitial))
+	       	if (xPos == xDestination && yPos == yDestination && !(xDestination == itemDropX && yDestination == itemDropY) )
 	       	{
 	       		role.msgAtDestination();
 	       		gotToDestination = true;
@@ -122,6 +122,7 @@ public class MarketCustomerGui implements Gui{
 	
 	public void DoExitRestaurant(){
 
+		gotToDestination = false;
 		xDestination = xInitial;
 		yDestination = yInitial-30;
 	}
