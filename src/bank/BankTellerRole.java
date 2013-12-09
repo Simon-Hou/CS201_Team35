@@ -336,6 +336,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 				((PersonAgent) ((BankCustomerRole) currentCustomer).person).stopThread();
 				((Bank) bank).animation.guis.remove(((BankCustomerRole)currentCustomer).bankCustomerGui);
 				currentCustomer = null;
+				currentTask = null;
 				//((BankCustomerRole)currentCustomer).bankCustomerGui.setLoc(-40, -40);
 				//((BankCustomerRole)currentCustomer).bankCustomerGui.setDest(-40, -40);
 			}
