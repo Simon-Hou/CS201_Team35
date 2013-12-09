@@ -17,8 +17,18 @@ public class MarketDeliveryManTest extends TestCase{
 	
 	
 	@Test
-	public void test() {
-		
+	public void testOne_NormalDeliveryManInteraction() {
+
 	}
+
+	public void testTwo() {
+
+	}
+
+	public void testThree() {
+
+	}
+
+
 
 }

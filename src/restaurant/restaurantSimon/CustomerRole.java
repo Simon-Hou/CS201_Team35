@@ -1,6 +1,7 @@
 package restaurant.restaurantSimon;
 
 
+import restaurant.Restaurant;
 import restaurant.restaurantSimon.WaiterRole.Dish;
 import restaurant.restaurantSimon.gui.CustomerGui;
 
@@ -42,6 +43,7 @@ public class CustomerRole extends Role  implements Customer {
 	private HostRole host;
 	private WaiterRole waiter;
 	private CashierRole cashier;
+	RestaurantSimon restaurant=null;
 
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
@@ -56,7 +58,7 @@ public class CustomerRole extends Role  implements Customer {
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
+	 * @param animation  reference to the customergui so the customer can send it messages
 	 */
 	public CustomerRole(String name, HostRole h, CashierRole ca){
 		super();
@@ -470,6 +472,13 @@ public class CustomerRole extends Role  implements Customer {
 
 	public CustomerGui getGui() {
 		return customerGui;
+	}
+
+	@Override
+	public void msgAtRestaurant(Restaurant r) {
+		restaurant=(RestaurantSimon)r;
+		event = AgentEvent.gotHungry;
+		self.msgStateChanged();
 	}
 
 	

@@ -20,6 +20,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 /**
  * Restaurant customer agent.
  */
@@ -52,7 +55,7 @@ public class CustomerRole extends Role implements Customer{
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
+	 * @param animation  reference to the customergui so the customer can send it messages
 	 */
 	public CustomerRole(String name, Person p){
 		super();
@@ -335,6 +338,7 @@ public class CustomerRole extends Role implements Customer{
 		r=null;
 		
 		p.msgThisRoleDone(this);
+		
 	}
 	
 	private String pickFood(){

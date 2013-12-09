@@ -370,9 +370,10 @@ public class CookRole extends Role implements Cook {
 
 	@Override
 	public boolean canLeave() {
-		((RestaurantYocca)restaurant).leaveRestaurant(this);
-		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "New cook is taking over for my Cook Role");
-		return true;
+//		((RestaurantYocca)restaurant).leaveRestaurant(this);
+//		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "New cook is taking over for my Cook Role");
+//		return true;
+		return false;
 	}
 
 	@Override

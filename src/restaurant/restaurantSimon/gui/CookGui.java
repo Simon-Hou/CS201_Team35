@@ -2,6 +2,7 @@ package restaurant.restaurantSimon.gui;
 
 import java.awt.Color;
 
+
 import java.awt.Graphics2D;
 import java.util.concurrent.Semaphore;
 
@@ -13,7 +14,7 @@ public class CookGui implements Gui{
 
 
 	private CookRole role = null;
-	RestaurantGui gui;
+	CityRestaurantSimonCard animation;
 	private boolean pause=false;
 	private boolean withFood=false;
 	private String foodText=null;
@@ -33,8 +34,10 @@ public class CookGui implements Gui{
 
 	private int xInitial=280;
 	private int yInitial=-20;
-	private  int xPos = xInitial;//default waiter position
+	private  int xPos = xInitial;//default cook position
 	private  int yPos = yInitial;
+	private int xResting=330;
+	private int yResting=80;
 //	private int xResting=40;
 //	private int yResting=100;		
 	private int xDestination = xInitial, 		yDestination = yInitial;//default start position
@@ -46,9 +49,9 @@ public class CookGui implements Gui{
 
 
 
-	public CookGui(CookRole agent, RestaurantGui gui) {
+	public CookGui(CookRole agent, CityRestaurantSimonCard gui) {
 		this.role = agent;
-		this.gui = gui;
+		this.animation = gui;
 	}
 
 	@Override
@@ -174,8 +177,8 @@ public class CookGui implements Gui{
 
 	}
 	public void DoGoToDesk(){
-		xDestination=xInitial;
-		yDestination=yInitial;
+		xDestination=xResting;
+		yDestination=yResting;
 		/*try {
 			atDesk.acquire();
 		} catch (InterruptedException e) {

@@ -53,6 +53,8 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	public List<BaseRestaurantWaiter> waiters;
 	public List<BaseRestaurantCustomer> customers;
 	
+	public boolean isOpen = true;
+	
 	public RestaurantYocca(CityRestaurantYocca cr){
 		this.cityRestaurant = cr;
 		
@@ -88,7 +90,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //		}
 		if (type == JobType.RestaurantHost){
 			if(((HostRole) host).p==null || ((HostRole)host).YouAreDoneWithShift()){
-				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "I'm taking over as host");
+				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as host");
 				((HostRole) host).name = p.getName()+"RestaurantHost";
 				((HostRole) host).p = (PersonAgent) p;
 				System.out.println("Changing HOST");
@@ -96,7 +98,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 				return (Role) host;
 			}
 			System.err.println("New host wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT, p.getName(), "New host wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New host wasn't allowded to take over");
 
 			return null;
 		}
@@ -117,7 +119,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //		}
 		else if (type == JobType.RestaurantCook){
 			if(((CookRole) cook).p==null || ((CookRole)cook).YouAreDoneWithShift()){
-				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "I'm taking over as cook");
+				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook is taking over");
 				//cook = new CookRole("Cook", orderMonitor, this);
 				((CookRole) cook).name = p.getName()+"RestaurantCook";
 				((CookRole) cook).p = (PersonAgent) p;
@@ -131,7 +133,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 				return (Role) cook;
 			}
 //			System.err.println("New cook wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT, p.getName(), "New cook wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook wasn't allowded to take over");
 
 			return null;
 		}
@@ -148,13 +150,13 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 				return (Role) cashier;
 			}
 			System.err.println("New cashier wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT, p.getName(), "New cashier wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cashier wasn't allowded to take over");
 
 			return null;
 		}
 		
 //		System.out.println("Unrecognized job type: " + type);
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT, p.getName(), "Unrecognized job type: " + type);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "Unrecognized job type: " + type);
 		return null;
 	}
 		
@@ -204,7 +206,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //	
 	public void customerEntering(BaseRestaurantCustomer c){
 		//System.out.println("Customer is entering!");
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT, this.host.getName(), "Customer is entering the restaurant");
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, this.host.getName(), "Customer is entering the restaurant");
 		CustomerGui cg = new CustomerGui((CustomerRole)c,this);
 		((CustomerRole)c).setGui(cg);
 		customers.add(c);
@@ -215,5 +217,11 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //	public boolean unStaffed(){
 //		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
 //	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return isOpen;
+	}
 
 }

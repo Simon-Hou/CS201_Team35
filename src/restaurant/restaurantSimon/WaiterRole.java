@@ -435,4 +435,13 @@ public class WaiterRole extends Role implements Waiter {
 		return "waiter " + getName();
 	}
 
+
+
+
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return onBreak;
+	}
+
 }

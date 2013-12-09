@@ -1,4 +1,4 @@
-package restaurant.interfaces;
+package restaurant.restaurantSimon.interfaces;
 
 public interface Market {
 
