@@ -44,7 +44,7 @@ public class CityRestaurantLinda extends CityRestaurant {
     //private TablePanel tablePanel = new TablePanel(this);
     private Map<Integer,Point> tableMap=new HashMap<Integer,Point>();
     
-    //public CityRestaurantLindaCard animationPanel;
+    public CityRestaurantLindaCard animationPanel;
 	
 	
 //	public CityRestaurantLinda(int x, int y) {
@@ -196,6 +196,7 @@ public class CityRestaurantLinda extends CityRestaurant {
 	
     public void createAnimationPanel(SimCityGui city){
     	animationPanel = new CityRestaurantLindaCard(city);
+    	animationPanel.grid = grid;
     	super.animationPanel = animationPanel;
 		
 		initializeRestaurant();

@@ -362,7 +362,7 @@ public class WaiterRole extends Role implements Waiter {
 	// Actions
 
 	private void seatCustomer(Customer customer, Table table) {	
-			waiterGui.DoGetCustomer();
+			waiterGui.DoGetCustomer(((CustomerRole)customer).getGui().getWaitingYLocation());
 			waiterGui.setArrived(false);
 			Do("Going through waiting area");
 			try {

@@ -294,7 +294,7 @@ public class CustomerRole extends Role implements Customer {
 	private void goToRestaurant() {
 		Do("Customer: Going to Waiting Area");
 		restaurant.host.msgIWantToEat(this);
-		customerGui.DoGoToWaitingArea();
+		customerGui.DoGoToWaitingArea(restaurant.host.waitingCustomers.indexOf(this));
 		customerGui.setArrived(false);
 		try {
 			atWaitingArea.acquire();

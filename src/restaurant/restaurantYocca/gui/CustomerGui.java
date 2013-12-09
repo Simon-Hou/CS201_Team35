@@ -1,5 +1,6 @@
 package restaurant.restaurantYocca.gui;
 
+import person.PersonAgent;
 import public_Gui.Gui;
 import restaurant.restaurantYocca.CustomerRole;
 import restaurant.restaurantYocca.HostRole;
@@ -7,6 +8,11 @@ import restaurant.restaurantYocca.RestaurantYocca;
 import interfaces.restaurantYocca.Customer;
 
 import java.awt.*;
+
+import javax.swing.ImageIcon;
+
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 
 public class CustomerGui implements Gui {
     
@@ -29,9 +35,14 @@ public class CustomerGui implements Gui {
 	private enum Command {noCommand, GoToSeat, LeaveRestaurant};
 	private Command command=Command.noCommand;
 
+	ImageIcon currentImage;
+	private int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 12;
 	
 	public CustomerGui(CustomerRole agent) {
         this.agent = agent;
+        currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
     }    
     
 	public int xTable;
@@ -39,16 +50,19 @@ public class CustomerGui implements Gui {
 	
 	public CustomerGui(CustomerRole c, RestaurantYocca rYocca){ //HostAgent m) {
 		agent = c;
+        currentImage = ((PersonAgent)this.agent.p).downSprites.get(0);
 		xPos = 0;
 		yPos = 300;
 		restaurant = rYocca;
 		try {
-			yDestination = 30 + rYocca.host.waitingCustomers.size() * 25;
+			yDestination = 75 + rYocca.customers.size() * 25;
 		} catch (NullPointerException e) {
-			yDestination = 20;
+			yDestination = 75;
 			System.out.println(yDestination);
 		}
+		homeY = yDestination;
 		xDestination = 5;
+		homeX = xDestination;
 	}
   
 //	public RestaurantGui getGui() {
@@ -56,23 +70,46 @@ public class CustomerGui implements Gui {
 //	}
 
 	public void updatePosition() {
-		if (xPos < xDestination)
+		if (xPos < xDestination) {
 			xPos++;
-		else if (xPos > xDestination)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.p).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).rightSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (xPos > xDestination) {
 			xPos--;
-        
-		if (yPos < yDestination)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.p).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).leftSprites.size());
+				changeSpriteCounter++;
+			}			
+		}
+		if (yPos < yDestination) {
 			yPos++;
-		else if (yPos > yDestination)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.p).downSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).downSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (yPos > yDestination) {
 			yPos--;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.p).upSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.p).upSprites.size());
+				changeSpriteCounter++;
+			}
+		}
         
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
+				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.agent.getName(), "Successfully leaving RestaurantYocca");
 				agent.msgAnimationFinishedLeaveRestaurant();
 				agent.p.setTiredLevel(20);
 				agent.leaveRestaurant();
-				System.out.println("about to call gui.setCustomerEnabled(agent);");
 				isHungry = false;
 				//gui.setCustomerEnabled(agent);
 			}
@@ -87,10 +124,11 @@ public class CustomerGui implements Gui {
 	}
     
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(xPos, yPos, 20, 20);
+//		g.setColor(Color.GREEN);
+//		g.fillRect(xPos, yPos, 20, 20);
+	     g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
 		g.setColor(Color.BLACK);
-        g.drawString(foodString, xPos+5, yPos+15);
+        g.drawString(foodString, xPos+15, yPos+15);
 	}
     
 	public boolean isPresent() {
@@ -189,18 +227,22 @@ public class CustomerGui implements Gui {
 		yDestination = cashierY - 10;
 	}
 	
-	public void DoGoToWaitingArea() {
-		yDestination = 30;
+	public void DoGoToWaitingArea(int waitingSpot) {
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.agent.getName(),"Amount of customers in restaurant: " + this.restaurant.customers.size());
+		try {
+			yDestination = 75 + waitingSpot * 25;
+		} catch (NullPointerException e) {
+			yDestination = 75;
+			System.out.println(yDestination);
+		}
+		homeY = yDestination;
 		xDestination = 5;
-		homeX = 5;
-		homeY = 30;
-		System.out.println("YDestination: " + yDestination);
-		System.out.println("Waiting Customer Size: " + restaurant.host.waitingCustomers.size() * 25);
+		homeX = xDestination;
 	}
     
 	public void DoExitRestaurant() {
-		xDestination = -40;
-		yDestination = -40;
+		xDestination = -5;
+		yDestination = 300;
 		command = Command.LeaveRestaurant;
 	}
 	
@@ -210,6 +252,10 @@ public class CustomerGui implements Gui {
 	
 	public int getY() {
 		return yPos;
+	}
+	
+	public int getWaitingYLocation() {
+		return homeY;
 	}
 
 }

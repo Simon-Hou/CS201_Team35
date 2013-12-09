@@ -5,9 +5,14 @@ import restaurant.restaurantGabe.CustomerRole;
 
 
 
+
+
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
 import cityGui.CityRestaurantGabe;
+import person.PersonAgent;
 import public_Gui.Gui;
 
 public class CustomerGui implements Gui{
@@ -34,11 +39,17 @@ public class CustomerGui implements Gui{
 	private enum Command {noCommand, GoToSeat, LeaveRestaurant};
 	private Command command=Command.noCommand;
 
+	ImageIcon currentImage;
+	private int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 12;
+	
 	public static final int[] xTables = {200,300,400};
 	public static final int[] yTables = {250,250,250};
 
 	public CustomerGui(CustomerRole c, CityRestaurantGabe cityRestaurantGabe){ //HostAgent m) {
 		agent = c;
+        currentImage = ((PersonAgent)this.agent.person).downSprites.get(0);
 		xPos = -40;
 		yPos = -40;
 		xDestination = -40;
@@ -50,15 +61,38 @@ public class CustomerGui implements Gui{
 	@Override
 	public void updatePosition() {
 		//System.out.println("Updating position");
-		if (xPos < xDestination)
+		if (xPos < xDestination) {
 			xPos++;
-		else if (xPos > xDestination)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.person).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.person).rightSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (xPos > xDestination) {
 			xPos--;
-
-		if (yPos < yDestination)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.person).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.person).leftSprites.size());
+				changeSpriteCounter++;
+			}			
+		}
+		if (yPos < yDestination) {
 			yPos++;
-		else if (yPos > yDestination)
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.person).downSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.person).downSprites.size());
+				changeSpriteCounter++;
+			}
+		}
+		else if (yPos > yDestination) {
 			yPos--;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.agent.person).upSprites.get(changeSpriteCounter % ((PersonAgent)this.agent.person).upSprites.size());
+				changeSpriteCounter++;
+			}
+		}
 
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToSeat){
@@ -79,8 +113,10 @@ public class CustomerGui implements Gui{
 	static int customer_width = 20;
 	static int customer_height = 20;
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(xPos, yPos, customer_width, customer_height);
+//		g.setColor(Color.GREEN);
+//		g.fillRect(xPos, yPos, customer_width, customer_height);
+	    g.drawImage(currentImage.getImage(),xPos, yPos, customer_width, customer_height,null);
+	     
 		if(food!=null){
 			g.setColor(Color.black);
 			g.drawString(food, xPos, yPos+customer_height/2);

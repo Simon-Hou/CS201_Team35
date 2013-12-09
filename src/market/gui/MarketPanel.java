@@ -83,9 +83,6 @@ public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements Actio
         pane.setMaximumSize(paneSize);
         
         
-      
-
-        
          Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
          
          for(Map.Entry<String, Integer> entry : market.inventory.entrySet()){
