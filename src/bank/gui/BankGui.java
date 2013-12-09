@@ -148,7 +148,7 @@ public class BankGui  extends JPanel implements ActionListener {
         Dimension controlDim = new Dimension(controlPanelWidth, (int) (controlPanelHeight));
         controlPanel.setPreferredSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
-        controlPanel.setVisible(false);
+       // controlPanel.setVisible(false);
         //add(controlPanel, BorderLayout.WEST);
         add(bankAnimationPanel, BorderLayout.CENTER);
     }

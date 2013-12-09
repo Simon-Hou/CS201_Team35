@@ -106,7 +106,7 @@ public class CookRole extends Role implements Cook{
 	//DATA
 	
 	//Person agent behind the role
-	PersonAgent person;
+	public PersonAgent person;
 	
 	CookGui gui;
 	
@@ -403,7 +403,11 @@ public class CookRole extends Role implements Cook{
 	@Override
 	public boolean canLeave() {
 		// TODO Auto-generated method stub
-		return restaurant.numCustomers==0;
+		//if (restaurant.numCustomers==0) {
+			restaurant.leaveRestaurant(this);
+			return true;
+	//	}
+	//	return false;
 	}
 
 }

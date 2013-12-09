@@ -27,6 +27,8 @@ import cityGui.CityRestaurant;
 import cityGui.CityRestaurantCardGabe;
 import cityGui.CityRestaurantYocca;
 import cityGui.CityRestaurantYoccaCard;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import interfaces.BaseRestaurantCashier;
 import interfaces.BaseRestaurantCook;
 import interfaces.BaseRestaurantCustomer;
@@ -68,9 +70,9 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 		super.cook = this.cook;
 		super.waiters = this.waiters;
 		
-		CookGui cg = new CookGui(cook);
-		cook.setGui(cg);
-		cityRestaurant.animationPanel.addGui(cg);
+//		CookGui cg = new CookGui(cook);
+//		cook.setGui(cg);
+//		cityRestaurant.animationPanel.addGui(cg);
 	}
 	
 	//dummy constructor for agent-only unit tests
@@ -93,6 +95,8 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 				return (Role) host;
 			}
 			System.err.println("New host wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT, p.getName(), "New host wasn't allowded to take over");
+
 			return null;
 		}
 		else if (type == JobType.RestaurantYoccaWaiter1){
@@ -112,14 +116,21 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //		}
 		else if (type == JobType.RestaurantCook){
 			if(((CookRole) cook).p==null || ((CookRole)cook).YouAreDoneWithShift()){
+				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, p.getName(), "New cook is taking over");
+				//cook = new CookRole("Cook", orderMonitor, this);
 				((CookRole) cook).name = p.getName()+"RestaurantCook";
 				((CookRole) cook).p = (PersonAgent) p;
+				CookGui cg = new CookGui(cook);
+				cook.setGui(cg);
+				cityRestaurant.animationPanel.addGui(cg);
 				System.out.println("Changing COOK");
 				//System.out.println(host==null);			
 				//CookGui cGui = new CookGui((CookRole) r);
 				return (Role) cook;
 			}
-			System.err.println("New cook wasn't allowded to take over");
+//			System.err.println("New cook wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT, p.getName(), "New cook wasn't allowded to take over");
+
 			return null;
 		}
 //		else if (type == JobType.RestaurantCashier){
@@ -135,10 +146,13 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 				return (Role) cashier;
 			}
 			System.err.println("New cashier wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT, p.getName(), "New cashier wasn't allowded to take over");
+
 			return null;
 		}
 		
-		System.out.println("Unrecognized job type: " + type);
+//		System.out.println("Unrecognized job type: " + type);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT, p.getName(), "Unrecognized job type: " + type);
 		return null;
 	}
 		
@@ -173,7 +187,6 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	}
 	
 	public void leaveRestaurant(WaiterRole wr){
-		System.out.println("Leaving THE RESTAURANT!!!");
 		cityRestaurant.animationPanel.removeGui(wr.waiterGui);
 		waiters.remove(wr);
 	}
