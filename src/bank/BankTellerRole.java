@@ -318,7 +318,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		}
 		
 		double results = Math.random();
-		results = 1;
+		//results = 1;
 		
 		if(results>.5){
 			Do("BankRobber won. Handing over the money");
