@@ -106,7 +106,7 @@ public class CustomerGui implements Gui {
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
-				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.agent.getName(), "Successfully leaving RestaurantYocca");
+				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.agent.getName(), "Successfully leaving RestaurantYocca");
 				agent.msgAnimationFinishedLeaveRestaurant();
 				agent.p.setTiredLevel(20);
 				agent.leaveRestaurant();
@@ -228,7 +228,7 @@ public class CustomerGui implements Gui {
 	}
 	
 	public void DoGoToWaitingArea(int waitingSpot) {
-		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.agent.getName(),"Amount of customers in restaurant: " + this.restaurant.customers.size());
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.agent.getName(),"Amount of customers in restaurant: " + this.restaurant.customers.size());
 		try {
 			yDestination = 75 + waitingSpot * 25;
 		} catch (NullPointerException e) {

@@ -1265,7 +1265,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setMAXTIME(50);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Resataurant",200,250);
-		fullyManBuilding("Restaurant",1);
+		//fullyManBuilding("Restaurant",0);
 
 	}
 

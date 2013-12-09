@@ -39,6 +39,8 @@ public class RestaurantLinda extends Restaurant{
 	public CookRole cook;
 	public List<BaseRestaurantWaiter> waiters;
 	
+	public boolean isOpen = true;
+	
 	public RestaurantLinda(CityRestaurantLinda cr){
 		this.cityRestaurant = cr;
 		
@@ -131,6 +133,12 @@ public class RestaurantLinda extends Restaurant{
 	
 	public boolean unStaffed(){
 		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
+	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return !unStaffed() && isOpen;
 	}
 
 }
