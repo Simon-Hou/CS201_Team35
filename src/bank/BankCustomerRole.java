@@ -175,6 +175,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		event = CustEvent.tellerReady;
 		pendingTask = null;
 		((PersonAgent) person).robbedBank = true;
+		//Do("I have " +Tasks.size() + " tasks");
+		Tasks.clear();
 		person.msgStateChanged();
 	}
 	

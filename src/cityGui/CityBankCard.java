@@ -7,9 +7,12 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
+import bank.BankTellerRole;
 import bank.gui.BankCustomerGui;
 import bank.gui.BankTellerGui;
 import bank.gui.Gui;
@@ -33,10 +36,19 @@ public class CityBankCard extends CityCard{
 
 	private static final Color BankDivider = new Color(84, 54, 23);
 	
-	java.net.URL gun1 = getClass().getResource("cityImages/gunUp.png");
+	java.net.URL gun1 = getClass().getResource("cityImages/Gun/gunUp.png");
 	ImageIcon gunUp = new ImageIcon(gun1);
-	java.net.URL gun2 = getClass().getResource("cityImages/gunDown.png");
-	ImageIcon gunDown = new ImageIcon(gun2);
+	java.net.URL gun2 = getClass().getResource("cityImages/Gun/gunUpFire.png");
+	ImageIcon gunUpFire = new ImageIcon(gun2);
+	java.net.URL gun3 = getClass().getResource("cityImages/Gun/gunDown.png");
+	ImageIcon gunDown = new ImageIcon(gun3);
+	java.net.URL gun4 = getClass().getResource("cityImages/Gun/gunDownFire.png");
+	ImageIcon gunDownFire = new ImageIcon(gun4);
+	
+	public Timer gunTimer;
+	BankTellerRole notifyLater;
+	
+	public int time = 0;
 	
 	public boolean drawGuns = false;
 	
@@ -49,11 +61,13 @@ public class CityBankCard extends CityCard{
 	}
 
 	public void paint(Graphics g) {
+		time++;
 		//System.out.println("PAINT IS BEING CALLED");
 		Graphics2D g2 = (Graphics2D)g;
 
 		//Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(getBackground());
+		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, WINDOWX, WINDOWY );
 		g2.setColor(BankCounter);
 		g2.fillRect(100, 100, counterWidth, counterHeight);//200 and 250 need to be table params
@@ -81,8 +95,14 @@ public class CityBankCard extends CityCard{
 			}
 		}
 		if(drawGuns){
-			g2.drawImage(gunUp.getImage(),50,150,10,20,null);
-			g2.drawImage(gunDown.getImage(),50,110,10,20,null);
+			if(time%12 <6){
+				g2.drawImage(gunUp.getImage(),215,160,20,40,null);
+				g2.drawImage(gunDown.getImage(),260,45,20,40,null);
+			}
+			else{
+				g2.drawImage(gunUpFire.getImage(),215,150,20,57,null);
+				g2.drawImage(gunDownFire.getImage(),260,40,20,57,null);
+			}
 		}
 	}
 
@@ -134,9 +154,30 @@ public class CityBankCard extends CityCard{
 		repaint();
 	}
 	
+	public void stopGuns(){
+		drawGuns = false;
+	}
 	
-	public void addGuns(){
+	public void fireFightOver(){
+		this.notifyLater.msgFireFightOver();
+	}
+	
+	
+	public void addGuns(BankTellerRole notifyOver){
 		drawGuns = true;
+		gunTimer = new Timer();
+		this.notifyLater = notifyOver;
+		
+		
+		gunTimer.schedule(new TimerTask() {
+			public void run() {
+				stopGuns();
+				fireFightOver();
+			}
+		},
+		2000);
+		
+		
 	}
 
 }

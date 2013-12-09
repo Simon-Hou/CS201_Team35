@@ -29,10 +29,7 @@ public class CityBank extends CityComponent implements ImageObserver {
 	java.net.URL imgURL5 = getClass().getResource("cityImages/bank5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
 	
-	java.net.URL gun1 = getClass().getResource("cityImages/gunUp.png");
-	ImageIcon gunUp = new ImageIcon(gun1);
-	java.net.URL gun2 = getClass().getResource("cityImages/gunDown.png");
-	ImageIcon gunDown = new ImageIcon(gun2);
+	
 	
 	BankMapLoc bMap;
 	public Bank bank;

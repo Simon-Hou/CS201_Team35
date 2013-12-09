@@ -373,6 +373,8 @@ public class PersonAgent extends Agent implements Person {
 		
 		
 		
+		
+		
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
 
@@ -428,6 +430,11 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 
+		if(name.equals("BankRobber") && !robbedBank){
+			goToBank();
+		}
+		
+		
 		//Do("Deciding what to do");
 		//TODO FIX THIS MAXTIME ISSUE
 		if(myJob.placeOfWork!=null && timeInJobShift() && timeInJobShift((time+1)%50) && timeInJobShift((time+2)%50)

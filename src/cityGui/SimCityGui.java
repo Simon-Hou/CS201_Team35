@@ -1169,6 +1169,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("Bank",365,250);
 		addNewPersonHard("p0",((BankMapLoc)cityObject.cityMap.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100,0,0);
 		addNewPersonHard("BankRobber", null,JobType.NOTSELECTED,0,0,0,0);
+		for(PersonAgent p:cityObject.people){
+			p.hungerLevel = 0;
+		}
 	}
 
 
