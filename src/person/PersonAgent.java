@@ -915,8 +915,8 @@ public class PersonAgent extends Agent implements Person {
 	public void setJob(PlaceOfWork placeOfWork,JobType jobType,int start,int end){
 
 		Role jobRole = null;
-		if(jobType==JobType.MarketHost || jobType==JobType.MarketCashier
-				|| jobType==jobType.RestaurantHost || jobType==jobType.RestaurantCashier || jobType == jobType.RestaurantCook){
+		if(jobType.equals(JobType.MarketHost) || jobType.equals(JobType.MarketCashier)
+				|| jobType.equals(JobType.RestaurantHost) || jobType.equals(JobType.RestaurantCashier) || jobType.equals(JobType.RestaurantCook)){
 			jobRole = null;
 			//myJob = new Job(null,start,end,placeOfWork,this,jobType);
 			//return;
