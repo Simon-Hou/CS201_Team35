@@ -35,6 +35,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
 	JToggleButton DebugButton;
 	JToggleButton ErrorButton;
+	JToggleButton MessageButton;
 	JToggleButton RestaurantGabeTagButton;	
 	JToggleButton RestaurantYoccaTagButton;
 	JToggleButton RestaurantLindaTagButton;
@@ -135,6 +136,11 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		InfoButton.setSelected(true);
 		InfoButton.addActionListener(this);
 		panel3.addToggleButton(InfoButton);
+		
+		MessageButton = new JToggleButton("Hide Level: MESSAGE");
+		MessageButton.setSelected(true);
+		MessageButton.addActionListener(this);
+		panel3.addToggleButton(MessageButton);
 
 		DebugButton = new JToggleButton("Hide Level: DEBUG");
 		DebugButton.setSelected(true);
@@ -250,6 +256,16 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			else{
 				InfoButton.setText("Show Level: INFO");
 				city.tracePanel.hideAlertsWithLevel(AlertLevel.INFO);
+			}
+		}
+		else if(e.getSource().equals(MessageButton)) {
+			if (MessageButton.isSelected()){
+				MessageButton.setText("Hide Level: MESSAGE");
+				city.tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+			}
+			else{
+				InfoButton.setText("Show Level: MESSAGE");
+				city.tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
 			}
 		}
 		else if(e.getSource().equals(DebugButton)) {

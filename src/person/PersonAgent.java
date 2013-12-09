@@ -656,7 +656,7 @@ public class PersonAgent extends Agent implements Person {
 
 
 				if (belongings.myHouse!=null && !belongings.myFoods.isEmpty()) {
-					Do("I am going to eat at home");
+					//Do("I am going to eat at home");
 					doGoHome();
 					activeRole = inhabitantRole;
 					belongings.myHouse.msgImHome(inhabitantRole);
@@ -667,7 +667,7 @@ public class PersonAgent extends Agent implements Person {
 					return;
 				}
 				else {
-					Do("I am going to eat at a restaurant");
+					//Do("I am going to eat at a restaurant");
 					goToRestaurant();
 				}
 	}

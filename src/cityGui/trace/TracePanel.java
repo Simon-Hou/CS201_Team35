@@ -126,10 +126,8 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	 */
 	private boolean isAlertVisible(Alert alert) {
 		if (filterCurrentCard && city.view.getCurrentCard()!=null){
-			System.err.println("Filtering" + city.view.getCurrentCard() + " " + alert.ID);
 			return visibleLevels.contains(alert.level) && city.view.getCurrentCard().equals(alert.ID);
 		}
-		System.err.println("Apparently not filtering");
 		if(visibleLevels.contains(alert.level) && visibleTags.contains(alert.tag)) {
 			return true;
 		} else {
@@ -180,7 +178,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	/**
 	 * Filters the trace panel according to Level and Tag and only displays those which have been enabled.
 	 */
-	private void filterTracePanel() {
+	public void filterTracePanel() {
 		try {
 			traceTextPane.getStyledDocument().remove(0, traceTextPane.getStyledDocument().getLength());	//Removes the whole document
 		} catch (BadLocationException e) {
@@ -191,13 +189,11 @@ public class TracePanel extends JScrollPane implements AlertListener {
 		Collections.sort(alerts);									//Sort them (they end up sorted by timestamp)
 		for(Alert alert:alerts) {
 			if (filterCurrentCard){
-				System.err.println(city.view.getCurrentCard());
 				if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level) && city.view.getCurrentCard().equals(alert.ID)) {
 					newAlerts.add(alert);
 				}
 			}
 			else {
-				System.err.println("Apparently not filtering");
 				if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level)) {
 				newAlerts.add(alert);
 				//System.out.println("Adding Alert: " + alert.name + alert.level + alert.tag);
@@ -245,10 +241,12 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	
 	public void showOnlyCurrentCard(){
 		filterCurrentCard = true;
+		filterTracePanel();
 	}
 	
 	public void stopShowingOnlyCurrentCard(){
 		filterCurrentCard = false;
+		filterTracePanel();
 	}
 	
 	/**
