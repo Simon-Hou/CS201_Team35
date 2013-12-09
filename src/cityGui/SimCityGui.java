@@ -1317,6 +1317,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 	
 	public void setOnRamps(){
+		//clockwise
+		onRamps.add(new OnRamp(new Loc(410,130),new Loc(410,160),false,true));
+		onRamps.add(new OnRamp(new Loc(130,180),new Loc(160,180),true,true));
+		
+		//counterclockwise
 		onRamps.add(new OnRamp(new Loc(90,120),new Loc(70,120),true,false));
 		onRamps.add(new OnRamp(new Loc(490,120),new Loc(520,120),true,false));
 	}

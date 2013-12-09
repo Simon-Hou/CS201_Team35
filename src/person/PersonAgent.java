@@ -353,10 +353,10 @@ public class PersonAgent extends Agent implements Person {
 	}
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
-		if(onRamps.size()>=2){
-			doDrive(onRamps.get(0),onRamps.get(1));
-			return true;
-		}
+//		if(onRamps.size()>=2){
+//			doDrive(onRamps.get(0),onRamps.get(1));
+//			return true;
+//		}
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
 

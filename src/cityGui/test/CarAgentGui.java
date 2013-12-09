@@ -346,7 +346,7 @@ public class CarAgentGui extends VehicleAgentGui {
     	return false;
     }
     public boolean bottomRightCornerF(){
-    	if(rectangle.x==480 && rectangle.y>=130 && rectangle.y>=420){
+    	if(rectangle.x==450 && rectangle.y>=130 && rectangle.y>=420){
     		return true;
     	}
     	return false;
