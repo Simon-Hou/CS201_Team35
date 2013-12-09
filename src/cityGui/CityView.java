@@ -104,5 +104,9 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 	public void mouseReleased(MouseEvent e) {
 
 	}
+	
+	public String getCurrentCard(){
+		return currentCard;
+	}
 
 }

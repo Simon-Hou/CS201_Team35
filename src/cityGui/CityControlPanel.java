@@ -45,6 +45,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	JToggleButton PersonTagButton;
 	JToggleButton BusStopTagButton;
 	JToggleButton GeneralCityTagButton;
+	JToggleButton CurrentCardButton;
 
 	String name = "Control Panel";
 
@@ -145,6 +146,41 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		ErrorButton.addActionListener(this);
 		panel3.addToggleButton(ErrorButton);
 
+		CurrentCardButton = new JToggleButton("Current Building");
+		CurrentCardButton.setSelected(false);
+		CurrentCardButton.addActionListener(this);
+		panel3.addToggleButton(CurrentCardButton);
+
+		PersonTagButton = new JToggleButton("Hide Tag: PERSON");
+		PersonTagButton.setSelected(true);
+		PersonTagButton.addActionListener(this);
+		panel3.addToggleButton(PersonTagButton);
+
+		BusStopTagButton = new JToggleButton("Hide Tag: BUS_STOP");
+		BusStopTagButton.setSelected(true);
+		BusStopTagButton.addActionListener(this);
+		panel3.addToggleButton(BusStopTagButton);
+
+		GeneralCityTagButton = new JToggleButton("Hide Tag: GENERAL_CITY");
+		GeneralCityTagButton.setSelected(true);
+		GeneralCityTagButton.addActionListener(this);
+		panel3.addToggleButton(BusStopTagButton);
+
+		BankTagButton = new JToggleButton("Hide Tag: BANK");
+		BankTagButton.setSelected(true);
+		BankTagButton.addActionListener(this);
+		panel3.addToggleButton(BankTagButton);
+		
+		HouseTagButton = new JToggleButton("Hide Tag: HOUSE");
+		HouseTagButton.setSelected(true);
+		HouseTagButton.addActionListener(this);
+		panel3.addToggleButton(HouseTagButton);
+
+		MarketTagButton = new JToggleButton("Hide Tag: MARKET");
+		MarketTagButton.setSelected(true);
+		MarketTagButton.addActionListener(this);
+		panel3.addToggleButton(MarketTagButton);
+		
 		RestaurantGabeTagButton = new JToggleButton("Hide Tag: RESTAURANT_GABE");
 		RestaurantGabeTagButton.setSelected(true);
 		RestaurantGabeTagButton.addActionListener(this);
@@ -164,36 +200,6 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		RestaurantSimonTagButton.setSelected(true);
 		RestaurantSimonTagButton.addActionListener(this);
 		panel3.addToggleButton(RestaurantSimonTagButton);
-
-		BankTagButton = new JToggleButton("Hide Tag: BANK");
-		BankTagButton.setSelected(true);
-		BankTagButton.addActionListener(this);
-		panel3.addToggleButton(BankTagButton);
-
-		MarketTagButton = new JToggleButton("Hide Tag: MARKET");
-		MarketTagButton.setSelected(true);
-		MarketTagButton.addActionListener(this);
-		panel3.addToggleButton(MarketTagButton);
-
-		HouseTagButton = new JToggleButton("Hide Tag: HOUSE");
-		HouseTagButton.setSelected(true);
-		HouseTagButton.addActionListener(this);
-		panel3.addToggleButton(HouseTagButton);
-
-		PersonTagButton = new JToggleButton("Hide Tag: PERSON");
-		PersonTagButton.setSelected(true);
-		PersonTagButton.addActionListener(this);
-		panel3.addToggleButton(PersonTagButton);
-
-		BusStopTagButton = new JToggleButton("Hide Tag: BUS_STOP");
-		BusStopTagButton.setSelected(true);
-		BusStopTagButton.addActionListener(this);
-		panel3.addToggleButton(BusStopTagButton);
-
-		GeneralCityTagButton = new JToggleButton("Hide Tag: GENERAL_CITY");
-		GeneralCityTagButton.setSelected(true);
-		GeneralCityTagButton.addActionListener(this);
-		panel3.addToggleButton(BusStopTagButton);
 
 	}
 
@@ -364,6 +370,16 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			else{
 				GeneralCityTagButton.setText("Show Tag: GENERAL_CITY");
 				city.tracePanel.hideAlertsWithTag(AlertTag.GENERAL_CITY);
+			}
+		}
+		else if(e.getSource().equals(CurrentCardButton)) {
+			if (CurrentCardButton.isSelected()){
+				CurrentCardButton.setText("Stop Filtering Current Card");
+				city.tracePanel.showOnlyCurrentCard();
+			}
+			else{
+				CurrentCardButton.setText("CurrentBuilding");
+				city.tracePanel.stopShowingOnlyCurrentCard();
 			}
 		}
 

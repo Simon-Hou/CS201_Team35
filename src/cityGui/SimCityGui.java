@@ -209,7 +209,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public CityPanel city;
 	public CityObject cityObject;
 	InfoPanel info;
-	CityView view;
+	public CityView view;
 	CityControlPanel CP;
 	TracePanel tracePanel;
 	GridBagConstraints c = new GridBagConstraints();
@@ -280,12 +280,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		CP = new CityControlPanel(this);
 
-		tracePanel = new TracePanel();
-		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
-		tracePanel.showAlertsForAllLevels();
-		tracePanel.showAlertsForAllTags();
-
-
 		//Makes the A* grid for the city
 		setScale(30);
 		initializeGrid();
@@ -302,6 +296,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		view = new CityView(this);
 
 		info = new InfoPanel(this);
+		
+		tracePanel = new TracePanel(this);
+		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
+		tracePanel.showAlertsForAllLevels();
+		tracePanel.showAlertsForAllTags();
 
 		///////-----v----v--v-----v-------PREVIOUS LAYOUT------v----v--v-----v-----v---v----////
 		//		this.setLayout(new GridBagLayout());
