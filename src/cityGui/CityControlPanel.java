@@ -33,9 +33,14 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	//For managing traces
 	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
+	JToggleButton DebugButton;
+	JToggleButton ErrorButton;
 	JToggleButton RestaurantTagButton;			
 	JToggleButton BankTagButton;
 	JToggleButton MarketTagButton;
+	JToggleButton HouseTagButton;
+	JToggleButton PersonTagButton;
+	JToggleButton BusStopTagButton;
 	
 	String name = "Control Panel";
 	
@@ -117,6 +122,16 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		InfoButton.setSelected(true);
 		InfoButton.addActionListener(this);
 		panel3.addToggleButton(InfoButton);
+		
+		DebugButton = new JToggleButton("Hide Level: DEBUG");
+		DebugButton.setSelected(true);
+		DebugButton.addActionListener(this);
+		panel3.addToggleButton(DebugButton);
+		
+		ErrorButton = new JToggleButton("Hide Level: ERROR");
+		ErrorButton.setSelected(true);
+		ErrorButton.addActionListener(this);
+		panel3.addToggleButton(ErrorButton);
 
 		RestaurantTagButton = new JToggleButton("Hide Tag: RESTAURANT");
 		RestaurantTagButton.setSelected(true);
@@ -127,6 +142,26 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		BankTagButton.setSelected(true);
 		BankTagButton.addActionListener(this);
 		panel3.addToggleButton(BankTagButton);
+		
+		MarketTagButton = new JToggleButton("Hide Tag: MARKET");
+		MarketTagButton.setSelected(true);
+		MarketTagButton.addActionListener(this);
+		panel3.addToggleButton(MarketTagButton);
+		
+		HouseTagButton = new JToggleButton("Hide Tag: HOUSE");
+		HouseTagButton.setSelected(true);
+		HouseTagButton.addActionListener(this);
+		panel3.addToggleButton(HouseTagButton);
+		
+		PersonTagButton = new JToggleButton("Hide Tag: PERSON");
+		PersonTagButton.setSelected(true);
+		PersonTagButton.addActionListener(this);
+		panel3.addToggleButton(PersonTagButton);
+		
+		BusStopTagButton = new JToggleButton("Hide Tag: BUS_STOP");
+		BusStopTagButton.setSelected(true);
+		BusStopTagButton.addActionListener(this);
+		panel3.addToggleButton(BusStopTagButton);
 		
 	}
 
@@ -169,6 +204,26 @@ public class CityControlPanel extends JPanel implements ActionListener{
 				city.tracePanel.hideAlertsWithLevel(AlertLevel.INFO);
 			}
 		}
+		else if(e.getSource().equals(DebugButton)) {
+			if (DebugButton.isSelected()){
+				DebugButton.setText("Hide Level: DEBUG");
+				city.tracePanel.showAlertsWithLevel(AlertLevel.DEBUG);
+			}
+			else{
+				DebugButton.setText("Show Level: DEBUG");
+				city.tracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
+			}
+		}
+		else if(e.getSource().equals(ErrorButton)) {
+			if (ErrorButton.isSelected()){
+				ErrorButton.setText("Hide Level: ERROR");
+				city.tracePanel.showAlertsWithLevel(AlertLevel.ERROR);
+			}
+			else{
+				ErrorButton.setText("Show Level: ERROR");
+				city.tracePanel.hideAlertsWithLevel(AlertLevel.ERROR);
+			}
+		}
 		else if(e.getSource().equals(RestaurantTagButton)) {
 			if (RestaurantTagButton.isSelected()){
 				RestaurantTagButton.setText("Hide Tag: RESTAURANT");
@@ -197,6 +252,36 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			else{
 				MarketTagButton.setText("Show Tag: MARKET");
 				city.tracePanel.hideAlertsWithTag(AlertTag.MARKET);
+			}
+		}
+		else if(e.getSource().equals(HouseTagButton)) {
+			if (HouseTagButton.isSelected()){
+				HouseTagButton.setText("Hide Tag: HOUSE");
+				city.tracePanel.showAlertsWithTag(AlertTag.HOUSE);
+			}
+			else{
+				HouseTagButton.setText("Show Tag: HOUSE");
+				city.tracePanel.hideAlertsWithTag(AlertTag.HOUSE);
+			}
+		}
+		else if(e.getSource().equals(PersonTagButton)) {
+			if (PersonTagButton.isSelected()){
+				PersonTagButton.setText("Hide Tag: PERSON");
+				city.tracePanel.showAlertsWithTag(AlertTag.PERSON);
+			}
+			else{
+				PersonTagButton.setText("Show Tag: PERSON");
+				city.tracePanel.hideAlertsWithTag(AlertTag.PERSON);
+			}
+		}
+		else if(e.getSource().equals(BusStopTagButton)) {
+			if (BusStopTagButton.isSelected()){
+				BusStopTagButton.setText("Hide Tag: BUS_STOP");
+				city.tracePanel.showAlertsWithTag(AlertTag.BUS_STOP);
+			}
+			else{
+				BusStopTagButton.setText("Show Tag: BUS_STOP");
+				city.tracePanel.hideAlertsWithTag(AlertTag.BUS_STOP);
 			}
 		}
 	}

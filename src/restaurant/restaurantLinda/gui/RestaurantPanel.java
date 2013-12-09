@@ -8,6 +8,7 @@ import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.HostRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
 import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
+import restaurant.restaurantLinda.RestaurantLinda;
 import restaurant.restaurantLinda.RestaurantOrder;
 import restaurant.restaurantLinda.WaiterRole;
 
@@ -54,7 +55,7 @@ public class RestaurantPanel extends JPanel {
     
     private RestaurantGui gui; //reference to main gui
 
-    Restaurant r;
+    RestaurantLinda r;
     
     public RestaurantPanel(RestaurantGui gui) {
     	

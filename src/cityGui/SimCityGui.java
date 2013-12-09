@@ -39,6 +39,7 @@ import cityGui.test.AStarTraversalPerson;
 import cityGui.test.BusGui;
 import cityGui.test.PersonGui;
 import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import cityGui.trace.TracePanel;
 
 public class SimCityGui extends JFrame implements ActionListener {
@@ -208,9 +209,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 	protected Timer timer;
 	public long time=0;
 	boolean hasBuses = false;
-
-
-	JFrame traceFrame = new JFrame();
 
 	public JPanel trace = new JPanel();
 
@@ -396,10 +394,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		
 		trace.add(tracePanel);
 		CP.addTraceControls();
-		//traceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//traceFrame.setBounds(1000, 50 , 400, 300);
-		//traceFrame.setVisible(true);
-		//traceFrame.add(tracePanel);
 	}
 
 	public void NewPersonCreationPanel(){
@@ -422,6 +416,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		cityObject.people.add(p);
 		city.addMoving(personGui);
 		p.startThread();
+		
+		AlertLog.getInstance().logInfo(AlertTag.PERSON, "SimCityGui", "Added new person: " + p.name);  
 
 	}
 
@@ -460,6 +456,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
+			AlertLog.getInstance().logInfo(AlertTag.BANK, "SimCityGui", "Added new bank: " + temp.ID);
 			return;
 		}
 		if(type.equals("Market")){
@@ -476,6 +473,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
+			AlertLog.getInstance().logInfo(AlertTag.MARKET, "SimCityGui", "Added new market: " + temp.ID);
 			return;
 		}
 
@@ -506,6 +504,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, "SimCityGui", "Added new restaurant: " + temp.ID);
 			return;
 
 		}
@@ -531,6 +530,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
+			AlertLog.getInstance().logInfo(AlertTag.HOUSE, "SimCityGui", "Added new house: " + temp.ID);
 			return;
 		}
 
@@ -547,7 +547,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 	//HACK
 	public void fullyManBuilding(String type,int num){
-
 
 		if(type.equals("Bank")){
 			int j = 0;
