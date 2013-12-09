@@ -15,7 +15,9 @@ import cityGui.CityPanel;
 import cityGui.SimCityGui;
 import person.PersonAgent;
 import public_Gui.Gui;
+import util.CrosswalkStatus;
 import util.Loc;
+import util.StopLight;
 
 public class PersonGui extends CityComponent implements Gui {
 
@@ -38,7 +40,7 @@ public class PersonGui extends CityComponent implements Gui {
     private int xRand;
     private int yRand;
     
-    int gridScale = 30;
+    public static int gridScale = 30;
     boolean doingMove = false;
     
     private boolean startPosition = true;
@@ -51,6 +53,8 @@ public class PersonGui extends CityComponent implements Gui {
     
     public boolean onTheMove = false;
     public boolean waitingForBus = false;
+    public boolean waitingForCarToGetOnRoad = false;
+    public List<StopLight> stopLights = new ArrayList<StopLight>();
     
     private Semaphore crossingStreet = new Semaphore(0,true);
     private Semaphore atMove = new Semaphore(0,true);
@@ -523,6 +527,14 @@ public class PersonGui extends CityComponent implements Gui {
     }*/
     
     public void updatePosition() {
+    	for(StopLight s:stopLights){
+    		if(s.getStatus()==CrosswalkStatus.Vehicle && 
+    				rectangle.intersects(s.safeRegion) &&
+    				!s.safeRegion.contains(rectangle)){
+    			return;
+    		}
+    	}
+    	
     	if(rectangle.x<xDestination){
     		rectangle.x++;
     	}
@@ -537,8 +549,11 @@ public class PersonGui extends CityComponent implements Gui {
     		rectangle.y--;
     	}
     	
+    	
+    	
     	if(doingMove && rectangle.x==this.xDestination && rectangle.y==this.yDestination){
     		doingMove = false;
+    		//System.out.println("RELEASING THREAD");
     		atMove.release();
     	}
     	
@@ -571,7 +586,7 @@ public class PersonGui extends CityComponent implements Gui {
     	if(!visible){
     		return;
     	}
-    	if (!atDestination() || waitingForBus) {
+    	if (!atDestination() || waitingForBus || waitingForCarToGetOnRoad) {
     		g.drawImage(currentImage.getImage(),getXPos(),getYPos(),10,10,null);
     	}
     }    	

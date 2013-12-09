@@ -112,7 +112,13 @@ public class MockMarketPerson extends Mock implements Person {
 	}
 
 	@Override
-	public void msgSetTiredLevel(int level) {
+	public void msgDoneSleeping() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTiredLevel(int i) {
 		// TODO Auto-generated method stub
 		
 	}

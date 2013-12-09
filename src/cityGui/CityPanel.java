@@ -5,6 +5,7 @@ import house.House;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
@@ -214,8 +215,14 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		if (addingObject) {
 			temp.setPosition(arg0.getPoint());
 			for (CityComponent c: statics) {
-				if (c.equals(temp))
+				if (c.equals(temp)){
 					continue;
+				}
+				if(c.rectangle==null){
+					System.out.println(c);
+				}
+				
+				System.out.println("AHHH: "+temp==null);
 				if (c.rectangle.intersects(temp.rectangle)) {
 					temp.invalidPlacement = true;
 					return;
