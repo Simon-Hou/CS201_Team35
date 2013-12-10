@@ -31,10 +31,10 @@ public class InhabitantRole extends Role implements Inhabitant {
 	public Person self;
 	//enum InhabitantState {IDLE,HUNGRY,FOODREADY, TIRED,EXIT};
 	//public InhabitantState s=InhabitantState.IDLE;
-	boolean wantEat=false;
-	boolean wantSleep=false;
-	boolean wantLeave=false;
-	boolean foodReady=false;
+	public boolean wantEat=false;
+	public boolean wantSleep=false;
+	public boolean wantLeave=false;
+	public boolean foodReady=false;
 	InhabitantGui gui;
 
 	String foodEating=null;
@@ -88,7 +88,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 			ExitHouse();
 			return true;
 		}
-		ExitHouse();//hack!!! should receive message from person to exit
+		//ExitHouse();//hack!!! should receive message from person to exit
 		//gui.DoIdle();		
 		return false;
 	}

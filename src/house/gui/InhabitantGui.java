@@ -50,7 +50,9 @@ public class InhabitantGui implements Gui {
 
         public InhabitantGui(InhabitantRole role){
                 this.role = role;
-                currentImage = ((PersonAgent)this.role.self).downSprites.get(0);
+                //Hack to make unit tests work
+                if (this.role.self instanceof PersonAgent)
+                	currentImage = ((PersonAgent)this.role.self).downSprites.get(0);
 
         }
 

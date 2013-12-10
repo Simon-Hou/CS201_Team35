@@ -1,5 +1,6 @@
 package UnitTests.HouseTests;
 
+import UnitTests.mock.MockPerson;
 import person.PersonAgent;
 import house.InhabitantRole;
 import house.gui.InhabitantGui;
@@ -8,13 +9,13 @@ import junit.framework.TestCase;
 public class HouseInhabitantTest extends TestCase {
 	InhabitantRole i;
 	InhabitantGui g;
-	PersonAgent p;
+	MockPerson p;
 	
 	public void setUp() throws Exception{
 		i=new InhabitantRole();
 		g=new InhabitantGui(i);
 		i.setGui(g);
-		p=new PersonAgent("MockPerson", null);
+		p=new MockPerson();
 		i.self=p;
 	}
 	
@@ -24,7 +25,7 @@ public class HouseInhabitantTest extends TestCase {
 		assertEquals("wantEat should be false, it is not",i.wantEat,false);
 		assertEquals("wantLeave should be false, it is not",i.wantLeave,false);
 		assertEquals("wantSleep should be false it is not",i.wantSleep,false);
-		assertTrue("scheduler should return false, it is not",i.pickAndExecuteAnAction()==false);
+		assertFalse("scheduler should return false, it is not",i.pickAndExecuteAnAction());
 
 		//send messages
 		i.msgFoodReady();

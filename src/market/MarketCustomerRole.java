@@ -16,7 +16,6 @@ import UnitTests.mock.MarketMock.MockMarketHost;
 import person.PersonAgent;
 import public_Object.Food;
 import role.Role;
-import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
 	public Person p;

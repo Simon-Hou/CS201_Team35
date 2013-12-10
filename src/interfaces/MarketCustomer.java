@@ -3,7 +3,6 @@ package interfaces;
 import java.util.Map;
 
 import person.PersonAgent;
-import testAgents.testPerson;
 import market.Receipt;
 
 public interface MarketCustomer {

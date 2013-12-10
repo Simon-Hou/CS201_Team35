@@ -13,7 +13,6 @@ import interfaces.Person;
 import role.Role;
 import UnitTests.mock.bankMock.MockBankPerson;
 import agent.Agent;
-import testAgents.testPerson;
 import util.*;
 
 public class BankCustomerRole extends Role implements BankCustomer {
