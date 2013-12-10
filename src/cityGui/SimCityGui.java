@@ -201,6 +201,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	ImageIcon hr3 = new ImageIcon(hright3);
 	java.net.URL hright4 = getClass().getResource("personImages/hright4.png");
 	ImageIcon hr4 = new ImageIcon(hright4);
+	
+
 
 	//(-Parker's layout)
 	public BuildingControlPanelHolder buildingCP;
@@ -209,7 +211,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public CityPanel city;
 	public CityObject cityObject;
 	InfoPanel info;
-	CityView view;
+	public CityView view;
 	CityControlPanel CP;
 	TracePanel tracePanel;
 	GridBagConstraints c = new GridBagConstraints();
@@ -280,12 +282,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		CP = new CityControlPanel(this);
 
-		tracePanel = new TracePanel();
-		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
-		tracePanel.showAlertsForAllLevels();
-		tracePanel.showAlertsForAllTags();
-
-
 		//Makes the A* grid for the city
 		setScale(30);
 		initializeGrid();
@@ -302,6 +298,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		view = new CityView(this);
 
 		info = new InfoPanel(this);
+		
+		tracePanel = new TracePanel(this);
+		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
+		tracePanel.showAlertsForAllLevels();
+		tracePanel.showAlertsForAllTags();
 
 		///////-----v----v--v-----v-------PREVIOUS LAYOUT------v----v--v-----v-----v---v----////
 		//		this.setLayout(new GridBagLayout());
@@ -1140,6 +1141,18 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewPersonHard("YoccaRestaurantWaiter3b",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantYoccaWaiter2,thirdShiftStart,thirdShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantCook3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCook,thirdShiftStart,thirdShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantCashier3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCashier,thirdShiftStart,thirdShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+	}
+	
+	public void bankRobbery(){
+		hasBuses = false;
+		setMAXTIME(50);
+		addNewBuilding("House",400,5);
+		addNewBuilding("Bank",365,250);
+		addNewPersonHard("p0",((BankMapLoc)cityObject.cityMap.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100,0,0);
+		addNewPersonHard("BankRobber", null,JobType.NOTSELECTED,0,0,0,0);
+		for(PersonAgent p:cityObject.people){
+			p.hungerLevel = 0;
+		}
 	}
 
 

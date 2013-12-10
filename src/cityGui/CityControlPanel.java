@@ -29,12 +29,13 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
-	JButton dummyScenarioA, simpleBusRide, jScenario;
+	JButton dummyScenarioA, simpleBusRide, jScenario,bankRobbery;
 
 	//For managing traces
 	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
 	JToggleButton DebugButton;
 	JToggleButton ErrorButton;
+	JToggleButton MessageButton;
 	JToggleButton RestaurantGabeTagButton;	
 	JToggleButton RestaurantYoccaTagButton;
 	JToggleButton RestaurantLindaTagButton;
@@ -45,6 +46,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	JToggleButton PersonTagButton;
 	JToggleButton BusStopTagButton;
 	JToggleButton GeneralCityTagButton;
+	JToggleButton CurrentCardButton;
 
 	String name = "Control Panel";
 
@@ -127,6 +129,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		jScenario = new JButton("J. Big City");
 		jScenario.addActionListener(this);
 		panel2.addButton(jScenario);
+		
+		bankRobbery = new JButton("O. Bank Robbery");
+		bankRobbery.addActionListener(this);
+		panel2.addButton(bankRobbery);
 
 
 		//Trace panel buttons
@@ -134,6 +140,11 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		InfoButton.setSelected(true);
 		InfoButton.addActionListener(this);
 		panel3.addToggleButton(InfoButton);
+		
+		MessageButton = new JToggleButton("Hide Level: MESSAGE");
+		MessageButton.setSelected(true);
+		MessageButton.addActionListener(this);
+		panel3.addToggleButton(MessageButton);
 
 		DebugButton = new JToggleButton("Hide Level: DEBUG");
 		DebugButton.setSelected(true);
@@ -145,6 +156,41 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		ErrorButton.addActionListener(this);
 		panel3.addToggleButton(ErrorButton);
 
+		CurrentCardButton = new JToggleButton("Current Building");
+		CurrentCardButton.setSelected(false);
+		CurrentCardButton.addActionListener(this);
+		panel3.addToggleButton(CurrentCardButton);
+
+		PersonTagButton = new JToggleButton("Hide Tag: PERSON");
+		PersonTagButton.setSelected(true);
+		PersonTagButton.addActionListener(this);
+		panel3.addToggleButton(PersonTagButton);
+
+		BusStopTagButton = new JToggleButton("Hide Tag: BUS_STOP");
+		BusStopTagButton.setSelected(true);
+		BusStopTagButton.addActionListener(this);
+		panel3.addToggleButton(BusStopTagButton);
+
+		GeneralCityTagButton = new JToggleButton("Hide Tag: GENERAL_CITY");
+		GeneralCityTagButton.setSelected(true);
+		GeneralCityTagButton.addActionListener(this);
+		panel3.addToggleButton(BusStopTagButton);
+
+		BankTagButton = new JToggleButton("Hide Tag: BANK");
+		BankTagButton.setSelected(true);
+		BankTagButton.addActionListener(this);
+		panel3.addToggleButton(BankTagButton);
+		
+		HouseTagButton = new JToggleButton("Hide Tag: HOUSE");
+		HouseTagButton.setSelected(true);
+		HouseTagButton.addActionListener(this);
+		panel3.addToggleButton(HouseTagButton);
+
+		MarketTagButton = new JToggleButton("Hide Tag: MARKET");
+		MarketTagButton.setSelected(true);
+		MarketTagButton.addActionListener(this);
+		panel3.addToggleButton(MarketTagButton);
+		
 		RestaurantGabeTagButton = new JToggleButton("Hide Tag: RESTAURANT_GABE");
 		RestaurantGabeTagButton.setSelected(true);
 		RestaurantGabeTagButton.addActionListener(this);
@@ -164,36 +210,6 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		RestaurantSimonTagButton.setSelected(true);
 		RestaurantSimonTagButton.addActionListener(this);
 		panel3.addToggleButton(RestaurantSimonTagButton);
-
-		BankTagButton = new JToggleButton("Hide Tag: BANK");
-		BankTagButton.setSelected(true);
-		BankTagButton.addActionListener(this);
-		panel3.addToggleButton(BankTagButton);
-
-		MarketTagButton = new JToggleButton("Hide Tag: MARKET");
-		MarketTagButton.setSelected(true);
-		MarketTagButton.addActionListener(this);
-		panel3.addToggleButton(MarketTagButton);
-
-		HouseTagButton = new JToggleButton("Hide Tag: HOUSE");
-		HouseTagButton.setSelected(true);
-		HouseTagButton.addActionListener(this);
-		panel3.addToggleButton(HouseTagButton);
-
-		PersonTagButton = new JToggleButton("Hide Tag: PERSON");
-		PersonTagButton.setSelected(true);
-		PersonTagButton.addActionListener(this);
-		panel3.addToggleButton(PersonTagButton);
-
-		BusStopTagButton = new JToggleButton("Hide Tag: BUS_STOP");
-		BusStopTagButton.setSelected(true);
-		BusStopTagButton.addActionListener(this);
-		panel3.addToggleButton(BusStopTagButton);
-
-		GeneralCityTagButton = new JToggleButton("Hide Tag: GENERAL_CITY");
-		GeneralCityTagButton.setSelected(true);
-		GeneralCityTagButton.addActionListener(this);
-		panel3.addToggleButton(BusStopTagButton);
 
 	}
 
@@ -219,7 +235,24 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			 city.city.addObject(CityComponents.RESTAURANTYOCCA);
 		
 		}
-	else if (e.getSource().equals(addBank)) {
+	
+	
+	
+		else if(e.getSource().equals(jScenario)){
+			city.jScenario();
+		}
+		else if(e.getSource().equals(simpleBusRide)){
+			city.busRideScenario();
+		}
+		else if(e.getSource().equals(bankRobbery)){
+			city.bankRobbery();
+		}
+
+
+
+		else if (e.getSource().equals(addBank)) {
+
+			//AlertLog.getInstance().logInfo(AlertTag.BANK, this.name, "Adding New Bank");
 			city.city.addObject(CityComponents.BANK);
 		}
 		else if (e.getSource().equals(addHouse)) {
@@ -244,6 +277,16 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			else{
 				InfoButton.setText("Show Level: INFO");
 				city.tracePanel.hideAlertsWithLevel(AlertLevel.INFO);
+			}
+		}
+		else if(e.getSource().equals(MessageButton)) {
+			if (MessageButton.isSelected()){
+				MessageButton.setText("Hide Level: MESSAGE");
+				city.tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+			}
+			else{
+				InfoButton.setText("Show Level: MESSAGE");
+				city.tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
 			}
 		}
 		else if(e.getSource().equals(DebugButton)) {
@@ -364,6 +407,16 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			else{
 				GeneralCityTagButton.setText("Show Tag: GENERAL_CITY");
 				city.tracePanel.hideAlertsWithTag(AlertTag.GENERAL_CITY);
+			}
+		}
+		else if(e.getSource().equals(CurrentCardButton)) {
+			if (CurrentCardButton.isSelected()){
+				CurrentCardButton.setText("Stop Filtering Current Card");
+				city.tracePanel.showOnlyCurrentCard();
+			}
+			else{
+				CurrentCardButton.setText("CurrentBuilding");
+				city.tracePanel.stopShowingOnlyCurrentCard();
 			}
 		}
 

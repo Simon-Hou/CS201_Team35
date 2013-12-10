@@ -177,6 +177,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				}
 			}
 		}
+		
+		city.tracePanel.filterTracePanel();
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
@@ -218,10 +220,10 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 					continue;
 				}
 				if(c.rectangle==null){
-					System.out.println(c);
+					//System.out.println(c);
 				}
 				
-				System.out.println("AHHH: "+temp==null);
+				//System.out.println("AHHH: "+temp==null);
 				if (c.rectangle.intersects(temp.rectangle)) {
 					temp.invalidPlacement = true;
 					return;

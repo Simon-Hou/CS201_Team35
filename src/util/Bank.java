@@ -26,7 +26,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 
 	
 	//stores all the people in the queue
-	CityBankCard animation;
+	public CityBankCard animation;
 	
 	public List<BankCustomer> bankCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	public List<BankCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<BankCustomer>());

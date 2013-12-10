@@ -31,7 +31,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener{
 	private Image bufferImage;
 	private Dimension bufferSize;
 	//insert a list of tables in here from HostAgent that is updated, so that it can get them all.
-	private List<Gui> guis = new ArrayList<Gui>();
+	public List<Gui> guis = new ArrayList<Gui>();
 	//public Collection<tellerWindow> tellerWindows;? easily take out.
 
 	public BankAnimationPanel() {

@@ -104,12 +104,17 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	public boolean startedWorking = false;
 	BankInterface bank;
 	public Semaphore atDestination = new Semaphore(0, true);
+	public Semaphore fireFightOver = new Semaphore(0,true);
 	
 	public BankTellerGui bankTellerGui;
 	
 	
 	
 	//MSG
+	
+	public void msgFireFightOver(){
+		fireFightOver.release();
+	}
 	
 	public void msgStateChanged(){
 		stateChanged();
@@ -299,10 +304,46 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 	}
 	
 	private void Rob(){
-		Do("Getting robbed int the amount of $"+ currentTask.amount);
-		int a = bank.rob(currentTask.amount);
-		currentCustomer.msgHereIsMoneyAnythingElse(a);
-		currentTask = null;
+		//Do("Getting robbed int the amount of $"+ currentTask.amount);
+		Do("AHH!! Getting robbed");
+		System.out.println("Fire fight ensuing...");
+		
+		((Bank) bank).animation.addGuns(this);
+		
+		try {
+			fireFightOver.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		double results = Math.random();
+		//results = 1;
+		
+		if(results>.5){
+			Do("BankRobber won. Handing over the money");
+			int a = bank.rob(currentTask.amount);
+			currentCustomer.msgHereIsMoneyAnythingElse(a);
+			currentTask = null;
+			return;
+		}
+		else{
+			Do("BankRobber lost and is dead.");
+			
+			if(currentCustomer instanceof BankCustomerRole &&
+					((BankCustomerRole)currentCustomer).person instanceof PersonAgent){
+				//Do("In here");
+				((PersonAgent) ((BankCustomerRole) currentCustomer).person).stopThread();
+				((Bank) bank).animation.guis.remove(((BankCustomerRole)currentCustomer).bankCustomerGui);
+				currentCustomer = null;
+				currentTask = null;
+				//((BankCustomerRole)currentCustomer).bankCustomerGui.setLoc(-40, -40);
+				//((BankCustomerRole)currentCustomer).bankCustomerGui.setDest(-40, -40);
+			}
+			
+		}
+		
+		
 	}
 	
 	private void LeaveBank() {

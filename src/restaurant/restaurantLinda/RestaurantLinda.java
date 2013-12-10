@@ -19,6 +19,7 @@ import java.util.List;
 import astar.AStarTraversal;
 import cityGui.CityRestaurant;
 import cityGui.CityRestaurantLinda;
+import cityGui.CityRestaurantYoccaCard;
 import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
 import restaurant.ProducerConsumerMonitor;
@@ -57,11 +58,17 @@ public class RestaurantLinda extends Restaurant{
 		super.cashier = this.cashier;
 		super.cook = this.cook;
 		super.waiters = this.waiters;
+
 //		
 //		CookGui cg = new CookGui(cook);
 //		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
 //		cook.setGui(cg);
 //		cityRestaurant.animationPanel.addGui(cg);
+
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Debug message", cityRestaurant.ID);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Info message", cityRestaurant.ID);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Message message", cityRestaurant.ID);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Error message", cityRestaurant.ID);
 	}
 	
 	//dummy constructor for agent-only unit tests
