@@ -30,7 +30,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
-	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,bankRobbery, MarketSimple, cMarket;
+	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,bankRobbery, MarketSimple, cMarket, rain;
 
 	
 	//For managing traces
@@ -153,7 +153,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		MarketSimple.addActionListener(this);
 		panel2.addButton(MarketSimple);
 		
-		
+		rain = new JButton("Rain");
+		rain.addActionListener(this);
+		panel2.addButton(rain);
 
 
 
@@ -437,6 +439,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	
 		else if (e.getSource().equals(cMarket)){
 			city.cMarketDeliveryScenario();
+		}
+	
+		else if (e.getSource().equals(rain)){
+			city.rainScenario();
 		}
 
 		else if(e.getSource().equals(GeneralCityTagButton)) {
