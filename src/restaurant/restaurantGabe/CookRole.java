@@ -6,7 +6,7 @@ import restaurant.restaurantGabe.gui.CustomerGui;
 //import restaurant.restaurantGabe.gui.RestaurantGui;
 import restaurant.restaurantGabe.interfaces.Cook;
 import restaurant.restaurantGabe.test.mock.EventLog;
-import restaurant.restaurantGabe.test.mock.LoggedEvent;
+//import restaurant.restaurantGabe.test.mock.LoggedEvent;
 import restaurant.restaurantGabe.util.*;
 import role.Role;
 import agent.Agent;
@@ -14,13 +14,15 @@ import interfaces.BaseRestaurantCook;
 
 import java.util.*;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 import market.Market;
 import market.MarketInvoice;
 
 public class CookRole extends Role implements Cook{
 
-	public EventLog log = new EventLog();
+	public EventLog logTest = new EventLog();
 	
 	//INITIALIZATION
 	public CookRole(String name){
@@ -176,7 +178,7 @@ public class CookRole extends Role implements Cook{
 	public boolean YouAreDoneWithShift(){
 
 		if(true){
-			Do("Being kicked off the job now");
+			DoMessage("Being kicked off the job now");
 			person.msgThisRoleDone(this);
 			this.person = null;
 			//market.DefaultName(this);
@@ -199,7 +201,7 @@ public class CookRole extends Role implements Cook{
 
 		//synchronized(Foods){
 		FoodItem foodInQuestion = Foods.get(order.order.get(0).choice);
-		Do("Order just came in.");
+		DoMessage("Order just came in.");
 
 		synchronized(Foods){
 			for(int i = 0;i<foods.size();++i){
@@ -220,7 +222,7 @@ public class CookRole extends Role implements Cook{
 
 		synchronized(Foods){
 			FoodItem foodInQuestion = Foods.get(foods.get(0));
-			Do("Order just came in.");
+			DoMessage("Order just came in.");
 
 			synchronized(Foods){
 				for(int i = 0;i<foods.size();++i){
@@ -257,7 +259,7 @@ public class CookRole extends Role implements Cook{
 			//Do(f+ " is in state " + Foods.get(f).s);
 			if(Foods.get(f).s == FoodState.requested){
 				Foods.get(f).s = FoodState.low;
-				Do("Going to rerequest "+Foods.get(f).name);
+				DoMessage("Going to rerequest "+Foods.get(f).name);
 			}
 		}
 		person.msgStateChanged();
@@ -281,7 +283,7 @@ public class CookRole extends Role implements Cook{
 			//Do(f+ " is in state " + Foods.get(f).s);
 			if(Foods.get(f).s == FoodState.requested){
 				Foods.get(f).s = FoodState.low;
-				Do("Going to rerequest "+Foods.get(f).name);
+				DoMessage("Going to rerequest "+Foods.get(f).name);
 			}
 		}
 		person.msgStateChanged();
@@ -289,8 +291,8 @@ public class CookRole extends Role implements Cook{
 
 	//cook is given a new order
 	public void msgHereIsAnOrder(WaiterRole w,Order o){
-		Do("Got the order");
-		log.add(new LoggedEvent("Got an order from waiter "+w.getName()+" for "+o.choice));
+		DoMessage("Got the order");
+		logTest.add(new restaurant.restaurantGabe.test.mock.LoggedEvent("Got an order from waiter "+w.getName()+" for "+o.choice));
 		o.s = OrderState.requested;
 		Orders.add(o);
 		person.msgStateChanged();
@@ -317,7 +319,7 @@ public class CookRole extends Role implements Cook{
 
 		Order tryOrder = stand.remove();
 		if(tryOrder!=null){
-			Do("Picking an order off the stand.");
+			DoMessage("Picking an order off the stand.");
 			Orders.add(tryOrder);
 		}
 
@@ -366,7 +368,7 @@ public class CookRole extends Role implements Cook{
 		FoodItem food = Foods.get(o.choice);
 		if(food.amount==0){
 			o.w.msgOutOfFood(o);
-			Do("We're out of "+food.name);
+			DoMessage("We're out of "+food.name);
 			Orders.remove(o);
 			return;
 		}
@@ -377,7 +379,7 @@ public class CookRole extends Role implements Cook{
 			Do("Low on " + food.name);
 		}*/
 
-		Do("Cooking some "+ o.choice);
+		DoMessage("Cooking some "+ o.choice);
 		DoCookOrder(o.choice);
 
 		//change order state
@@ -416,7 +418,7 @@ public class CookRole extends Role implements Cook{
 
 				if(currentFood.amount< currentFood.low && currentFood.s!=FoodState.pending &&  currentFood.s!=FoodState.requested){
 					if(currentFood.timesOrdered==Markets.size()){
-						Do("Tried all markets, none have "+currentFood.name+ " so we're permanantly out.");
+						DoMessage("Tried all markets, none have "+currentFood.name+ " so we're permanantly out.");
 						currentFood.timesOrdered++;
 						continue;
 					}
@@ -426,7 +428,7 @@ public class CookRole extends Role implements Cook{
 					order.put(f, currentFood.stockSize - currentFood.amount);
 					currentFood.s = FoodState.requested;
 					currentFood.timesOrdered++;
-					Do("Ordering more " + f);
+					DoMessage("Ordering more " + f);
 				}
 			}
 		}
@@ -451,6 +453,18 @@ public class CookRole extends Role implements Cook{
 		gui.DoPlateOrder(o.choice);
 	}
 
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));		
+	}
 
 
 

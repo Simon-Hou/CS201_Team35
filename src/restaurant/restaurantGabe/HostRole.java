@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 import restaurant.restaurantGabe.interfaces.Host;
 import role.Role;
@@ -33,7 +35,7 @@ public class HostRole extends Role implements Host{
 	
 	//SETTERS
 	public void addWaiter(WaiterRole w){
-		Do("Adding a waiter "+w.getName());
+		DoMessage("Adding a waiter "+w.getName());
 		MyWait newWaiter = new MyWait();
 		newWaiter.w = w;
 		newWaiter.s = WaitState.available;
@@ -46,13 +48,13 @@ public class HostRole extends Role implements Host{
 	
 	public boolean removeWaiter(WaiterRole w){
 		try{	
-			Do("Getting rid of waiter");
+			DoMessage("Getting rid of waiter");
 			MyWait leavingWaiter = findWait(MyWaiters,w);
 			MyWaiters.remove(leavingWaiter);
 			return true;
 		}
 		catch(Exception e){
-			Do("\t BIG PROBLEM: WAITER NOT LEAVING LIST");
+			DoMessage("\t BIG PROBLEM: WAITER NOT LEAVING LIST");
 			return false;
 			//throw e;
 		}
@@ -190,7 +192,7 @@ public class HostRole extends Role implements Host{
 	
 	public boolean YouAreDoneWithShift(){
 		if(true){
-			Do("Being kicked off the job now");
+			DoMessage("Being kicked off the job now");
 			person.msgThisRoleDone(this);
 			this.person = null;
 			//market.DefaultName(this);
@@ -223,7 +225,7 @@ public class HostRole extends Role implements Host{
 		MyCust mc = findCust(MyCustomers,c);
 		if(mc==null){
 			
-			Do("Added new Customer " + c.getName());
+			DoMessage("Added new Customer " + c.getName());
 			MyCustomers.add(new MyCust(c,null,CustState.waiting));
 		}
 		else if(mc.s== CustState.left){
@@ -371,12 +373,12 @@ public class HostRole extends Role implements Host{
 		if(countAvailable()>1){
 			mw.s = WaitState.canGoOnBreak;
 			mw.w.msgBreakAnswer(true);
-			Do(mw.w.getName()+" can go on break.");
+			DoMessage(mw.w.getName()+" can go on break.");
 			return;
 		}
 		mw.w.msgBreakAnswer(false);
 		mw.s = WaitState.available;
-		Do(mw.w.getName()+", NO BREAKS.");
+		DoMessage(mw.w.getName()+", NO BREAKS.");
 	}
 	
 	//tell a waiter to seat the customer
@@ -387,6 +389,19 @@ public class HostRole extends Role implements Host{
 		t.s = TableState.occupied;
 		mc.s = CustState.seated;
 		mc.t = t;
+	}
+	
+	//LOG FILTERING
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));		
 	}
 
 	@Override
