@@ -30,8 +30,11 @@ public class House {
 	public void msgImHome(InhabitantRole i){ //called by Person
 		room.inhabitant=i;
 		InhabitantGui tempGui=new InhabitantGui(room.inhabitant);
-		room.inhabitant.setGui(tempGui ); 
-		animation.addGui(room.inhabitant.gui);
+		room.inhabitant.setGui(tempGui );
+		
+		//hack for getting the unit test to work
+		if (animation!=null)
+			animation.addGui(room.inhabitant.gui);
 
 
 
