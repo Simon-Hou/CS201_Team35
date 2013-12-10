@@ -1282,7 +1282,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public void cMarketDeliveryScenario(){
 		System.err.println("scenario c");
 		
-		/*
+		
 		//make all restaurants
 		//deplete their inventories
 		//set their markets
@@ -1319,7 +1319,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market);
 		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.depleteInventory();
 		
-		*/
+		
 		
 	}
 
