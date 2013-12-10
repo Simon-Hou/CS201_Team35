@@ -35,7 +35,7 @@ public class CityBankCard extends CityCard{
 	private static final Color BankCounter = new Color(169, 109, 55);
 
 	private static final Color BankDivider = new Color(84, 54, 23);
-	
+
 	java.net.URL gun1 = getClass().getResource("cityImages/Gun/gunUp.png");
 	ImageIcon gunUp = new ImageIcon(gun1);
 	java.net.URL gun2 = getClass().getResource("cityImages/Gun/gunUpFire.png");
@@ -44,14 +44,14 @@ public class CityBankCard extends CityCard{
 	ImageIcon gunDown = new ImageIcon(gun3);
 	java.net.URL gun4 = getClass().getResource("cityImages/Gun/gunDownFire.png");
 	ImageIcon gunDownFire = new ImageIcon(gun4);
-	
+
 	public Timer gunTimer;
 	BankTellerRole notifyLater;
-	
+
 	public int time = 0;
-	
+
 	public boolean drawGuns = false;
-	
+
 	public List<Gui> guis = new ArrayList<Gui>();
 
 	BankControlPanel panel;
@@ -89,9 +89,15 @@ public class CityBankCard extends CityCard{
     			}
     		}*/
 
-			for(Gui gui : guis) {
-				if (gui.isPresent()) {
-					gui.draw(g2);
+			synchronized (guis) {
+				try {
+					for(Gui gui : guis) {
+						if (gui.isPresent()) {
+							gui.draw(g2);
+						}
+					}
+				}
+				catch (ConcurrentModificationException e) {
 				}
 			}
 		}
@@ -154,22 +160,22 @@ public class CityBankCard extends CityCard{
 
 		repaint();
 	}
-	
+
 	public void stopGuns(){
 		drawGuns = false;
 	}
-	
+
 	public void fireFightOver(){
 		this.notifyLater.msgFireFightOver();
 	}
-	
-	
+
+
 	public void addGuns(BankTellerRole notifyOver){
 		drawGuns = true;
 		gunTimer = new Timer();
 		this.notifyLater = notifyOver;
-		
-		
+
+
 		gunTimer.schedule(new TimerTask() {
 			public void run() {
 				stopGuns();
@@ -177,11 +183,11 @@ public class CityBankCard extends CityCard{
 			}
 		},
 		2000);
-		
-		
+
+
 	}
-	  public void setPanel(BankControlPanel p){
-			this.panel = p;
-		}
+	public void setPanel(BankControlPanel p){
+		this.panel = p;
+	}
 
 }

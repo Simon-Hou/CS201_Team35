@@ -13,8 +13,6 @@ public class HouseInhabitantTest extends TestCase {
 	
 	public void setUp() throws Exception{
 		i=new InhabitantRole();
-		g=new InhabitantGui(i);
-		i.setGui(g);
 		p=new MockPerson();
 		i.self=p;
 	}

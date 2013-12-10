@@ -205,7 +205,12 @@ public class PersonAgent extends Agent implements Person {
 		this.belongings.myHouse = h;
 		Random random = new Random();
 
-		if (random.nextInt(4) != 0) {
+		if (random.nextInt(3) == 0) {
+			System.out.println("CONDITION 1 IS BEING CALLED");
+			this.belongings.myHouse.room.inventory.get(0).quantity = 1;
+		}
+		else {
+			System.out.println("CONDITION 2 IS BEING CALLED");
 			this.belongings.myHouse.room.inventory.get(0).quantity = 0;
 		}
 		//Do("Having address set to "+this.belongings.myHouse.address.x+", "+this.belongings.myHouse.address.y);
@@ -455,6 +460,7 @@ public class PersonAgent extends Agent implements Person {
 		stateChanged();
 	}
 	public void msgDoneSleeping(){
+		//AlertLog.getInstance().logInfo(AlertTag.PERSON, getName(), "I AM DONE SLEEPINGGGGG",null);
 		tiredLevel=0;
 		stateChanged();
 	}

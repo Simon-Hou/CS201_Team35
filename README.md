@@ -103,12 +103,20 @@ Displays the simple market behavior - customers come, order items, and leave.
 + Helped the rest of the team to suppress bugs and compiler errors
 
 #### Andrew Yocca
-+ Designed the City Gui with the exception of the bus system
-+ Coded the person movement in the City Gui
++ Designed and coded the City Gui with the exception of the bus system and cars
++ Created the ability to see invalid building placements and to see the correct orientation of buildings based on where its able to be placed
++ Coded the original person movement in the City Gui (replaced with astar by Gabe)
 + Implemented sprites into the city gui, market, bank, restaurant, and house
 + Coded the person agent and designed the person scheduler
-	- ‘meldefon’ made a lot of additions to make it work properly and to test it
+	- Gabe made a lot of additions to make it work properly and to test it
 + Created and wrote unit test for the Person Agent
++ Integrated and updated my own restaurant into the city
++ Designed, coded, and tested Scenario A
++ Designed, coded, and tested Scenario B
++ Designed, coded, and tested Scenario J
++ Designed, coded, and tested Scenario K
+	- gave people ID numbers that float above their sprites in the CityGui
+	- gave people ID numbers and a job string that floats above their sprites in the CityCards
 
 #### Linda Xu
 + Integrated own restaurant into the city, with updates
