@@ -742,7 +742,7 @@ public class PersonAgent extends Agent implements Person {
 		int rand = random.nextInt(city.map.get("Restaurant").size());
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(rand)).restaurant;
 		
-		if (b.unStaffed())
+		if (!b.isOpen())
 			return;
 		Loc loc = city.map.get("Restaurant").get(rand).loc;
 

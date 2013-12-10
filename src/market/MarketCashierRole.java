@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 import UnitTests.mock.LoggedEvent;
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
@@ -62,10 +65,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	
 	public boolean YouAreDoneWithShift(){
-		
-		
+	
 		if(true){
-			Do("Being kicked off the job now");
+			DoMessage("Being kicked off the job now");
 			p.msgThisRoleDone(this);
 			this.p = null;
 			market.DefaultName(this);
@@ -86,12 +88,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
 		//Do("GOT THE SERVICE MESSAGE");
 		customers.add(new MyCustomer(c, groceries));
+		DoInfo("Got message to service customer " + c.getName());
 		log.add(new LoggedEvent("got msgServiceCustomer"));
 		p.msgStateChanged();
 	}
 	
 	public void msgFinishedComputing(MyCustomer mc){
 	    mc.status = CustomerState.hasTotal;
+	    DoInfo("Finished computing bill");
 	    log.add(new LoggedEvent("done computing bill"));
 	    p.msgStateChanged();
 	}
@@ -101,6 +105,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    	if (mc.c == c){
 	    		mc.payment = payment;
 	    	    mc.status = CustomerState.paid;
+	    	    DoInfo("Received payment of $" + payment + " from customer " + c.getName());
 	    	    log.add(new LoggedEvent("got msgCustomerPayment for: $" + payment));
 	    	    break;
 	    	}
@@ -110,12 +115,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public void msgCalculateInvoice(MarketEmployee employee, List<OrderItem> order, Restaurant r){
+		DoInfo("Received request to calculate invoice for restaurant");
 		log.add(new LoggedEvent("got msgCalculateInvoice"));
 		orders.add(new MyBusinessOrder(order, employee, r));
 		p.msgStateChanged();
 	}
 
 	public void msgHereIsBusinessPayment(int pay){
+		DoInfo("Received business payment of $" + pay);
 		BusinessPayment payment = new BusinessPayment(pay);
 	    businessPayments.add(payment);
 	    p.msgStateChanged();
@@ -158,7 +165,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Actions
 	private void ComputeTotal(MyCustomer mc){
-		//Do("computing total");
+		DoInfo("Computing total for customer " + mc.c.getName() + " who ordered " + mc.order.toString());
 		log.add(new LoggedEvent("action ComputeTotal"));
 	    int total=0;
 	    if (debtorsList.containsKey(mc.c.getPerson())){
@@ -185,14 +192,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void ComputeBusinessPayment(MyBusinessOrder order){
-		Do("Calculating a business order");
 		log.add(new LoggedEvent("action ComputeBusinessPayment"));
 		int total = 0;
 		 for (OrderItem item: order.order){
 		        total+= item.quantityReceived * priceList.get(item.choice);
 		    }
 		 
-		 Do("This order will cost $" + total + ". Here is the invoice.");
+		 DoMessage("This order from " + order.restaurant.cityRestaurant.ID + " will cost $" + total + ". Here is the invoice.");
 		 log.add(new LoggedEvent("The order will cost $" + total));
 		 order.employee.msgGiveInvoice(order.order, order.restaurant, total);
 		
@@ -202,25 +208,27 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	private void AskCustomerToPay(MyCustomer mc){
-		Do(mc.c.getName() + ", you owe $" + mc.total);
+		DoMessage(mc.c.getName() + ", you owe $" + mc.total);
 		log.add(new LoggedEvent("action AskCustomerToPay"));
 	    mc.status = CustomerState.askedToPay;
 	    mc.c.msgHereIsTotal(mc.total);
 	}
 
 	private void AcceptPayment(MyCustomer mc){
-		Do("Accepting Payment");
+		DoInfo("Accepting Payment of $" + mc.payment + " from customer " + mc.c.getName());
 		log.add(new LoggedEvent("action AcceptPayment"));
 	    int change = mc.payment-mc.total;
 	    if (change>=0){
-	    	Do("Here is your change.");
+	    	DoMessage(mc.c.getName() + ", here is your change.");
 	    	log.add(new LoggedEvent("I owe the customer change: $" + change));
 	        mc.c.msgHereIsYourChange(new Receipt(mc.order, mc.total, mc.payment, this), change);
 	        customers.remove(mc);
 
 	    }
 	    else{
+	    	DoInfo("The customer still owes me $" + -change + " and is now on my debtors list");
 	    	log.add(new LoggedEvent("The customer still owes me $" + -change + " and is now on my debtors list"));
+	    	DoMessage(mc.c.getName() + ", you owe $" + -change);
 	        mc.c.msgYouOweMoney(new Receipt(mc.order, mc.total, mc.payment, this), -1*change);
 	        debtorsList.put(mc.c.getPerson(), -1*change);
 	        customers.remove(mc);
@@ -228,7 +236,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void ProcessBusinessPayment(BusinessPayment payment){
-		Do("Processing the business payment in the amount of $" + payment.amount);
+		DoInfo("Processing the business payment in the amount of $" + payment.amount);
 		log.add(new LoggedEvent("action ProcessBusinessPayment"));
 		log.add(new LoggedEvent("Received payment for total of $" + payment));
 	    market.cash+= payment.amount;
@@ -237,10 +245,10 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Inner Classes
 	public class MyCustomer{
-	    MarketCustomer c;
-	    Map<String, Integer> order;
-	    int total;
-	    int payment;
+	    public MarketCustomer c;
+	    public Map<String, Integer> order;
+	    public int total;
+	    public int payment;
 	    CustomerState status;
 	    
 	    MyCustomer(MarketCustomer c, Map<String, Integer> order){
@@ -252,8 +260,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	enum CustomerState{needsTotal, computingTotal, hasTotal, askedToPay, paid }
 
 	//Thinking we should pass the entire order over so the cashier knows how much to have expected...
-	private class BusinessPayment{
-		int amount;
+	public class BusinessPayment{
+		public int amount;
 		
 		BusinessPayment(int pay){
 			amount = pay;
@@ -261,12 +269,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		
 	}
 
-	private class MyBusinessOrder{
-		List<OrderItem> order;
-		MarketEmployee employee;
-		Restaurant restaurant;
+	public class MyBusinessOrder{
+		public List<OrderItem> order;
+		public MarketEmployee employee;
+		public Restaurant restaurant;
 		
-		MyBusinessOrder(List<OrderItem> o, MarketEmployee e, Restaurant r){
+		public MyBusinessOrder(List<OrderItem> o, MarketEmployee e, Restaurant r){
 			order = o;
 			employee = e;
 			restaurant = r;
@@ -277,4 +285,16 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		this.market = market;
 	}
 	
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		if (market.gui!=null)
+			AlertLog.getInstance().logInfo(AlertTag.MARKET, name, message, market.gui.ID);
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		if (market.gui!=null)
+			AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
+	}
 }
