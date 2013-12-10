@@ -5,54 +5,6 @@ team35
 
 ### How to Run our SimCity
 Run cityGui.SimCityGui. This is our main application. To run tests, run the tests in UnitTests.BankUnitTests, UnitTests.BusUnitTest, UnitTests.MarketUnitTests, and UnitTests.restaurantLindaUnitTests. There are also gui unit tests in UnitTests.GuiUnitTests.
-
-### Some Basic Scenarios to Demonstrate Functionality for Grading
-NOTES: 
-- These scenarios will all be very simple, since they are meant to demonstrate particular
-functionalities of SimCity - one at a time. It'd be quite difficult to see through the print
-statements what was going on if many scenarios were running at once, so these grading aids
-make it easier by doing one scenario at a time. To see lots of things happening at once (at 
-the cost of clarity) call the last scenario (#5).
-- Most scenarios will end in the person sleeping.
-
-#### 1. Buses
-Start SimCity, and create a new person. Enter the name as "Bus Ride". This will add the
-bus system to the city, and will create a single person name "Rider". Rider will choose to
-Rider will choose to go to the bus stop, ride the bus, and go home. In this particular case,
-riding the bus is out of the way for Rider, but this is just because we are simply trying to
-demonstrate the bus system's functionality.
-
-#### 2. Bank
-Start SimCity and open the Person Creation panel. Enter the name as "Bank". This will create several
-people and will give them all the job of Bank Teller, but with different shifts. It will
-add a bank to the city. When everything is created, all new people will go to the bank,
-one to start his shift, and the others to do business. To see inside the bank, click on the
-bank in the main city view. As you'll see, soon after the scenario starts, the first teller
-will get off work and help the others with their remaining business, and the same will happen
-for up to the last teller as well. The banking can be seen in the animation or more specifically in
-the print statements. Afterwards, they all go home to sleep.
-
-#### 3. Market
-Start SimCity and open the Person Creation panel. Enter the name as "Market". This will create
-a market and people, who will staff and buy from the market. 3 people will 
-work during the shift, and the others will do business with the market staffers. To see
-the animation, click on the market in the city view. Also, see the print statements, which 
-detail the market purchases. The people will go hom after they have finished all business. 
-
-#### 4. Busy 
-Start SimCity, and open the Person Creation panel. Enter the name as "Busy". This will create
-several buildings and enough people to staff them. The buses will also be added. Some people will
-go to work at the buildings, some will go to the bank to do business, others will board the 
-bus. Click on any building to see what's inside. People will go home to sleep as the default
-behavior.
-
-#### 5. House
-Start SimCity(run the SimCityGui.java), and click “Add House” button. Place the image on the green and left click. 
-Each house contains one inhabitant and the inventory.
-Click on the house to view inside: bed (black), table (cyan), refrigerator (white), grill (gray).
-Entering: the building can be entered by call the personIn method in House; and set the active role in person to inhabitant.
-	-I have already modified the method in person, and waiting for the city animation people to make the person walk to the house and call this method.
-
 ### Individual Contributions
 
 ##### Bobby Groom
@@ -120,3 +72,52 @@ Entering: the building can be entered by call the personIn method in House; and 
 employees
 + Some bugs in the zoomed animation of the bank, agent code seems to be working fine
 + 
+
+
+### v1 - Some Basic Scenarios to Demonstrate Functionality for Grading
+NOTES: 
+- These scenarios will all be very simple, since they are meant to demonstrate particular
+functionalities of SimCity - one at a time. It'd be quite difficult to see through the print
+statements what was going on if many scenarios were running at once, so these grading aids
+make it easier by doing one scenario at a time. To see lots of things happening at once (at 
+the cost of clarity) call the last scenario (#5).
+- Most scenarios will end in the person sleeping.
+
+#### 1. Buses
+Start SimCity, and create a new person. Enter the name as "Bus Ride". This will add the
+bus system to the city, and will create a single person name "Rider". Rider will choose to
+Rider will choose to go to the bus stop, ride the bus, and go home. In this particular case,
+riding the bus is out of the way for Rider, but this is just because we are simply trying to
+demonstrate the bus system's functionality.
+
+#### 2. Bank
+Start SimCity and open the Person Creation panel. Enter the name as "Bank". This will create several
+people and will give them all the job of Bank Teller, but with different shifts. It will
+add a bank to the city. When everything is created, all new people will go to the bank,
+one to start his shift, and the others to do business. To see inside the bank, click on the
+bank in the main city view. As you'll see, soon after the scenario starts, the first teller
+will get off work and help the others with their remaining business, and the same will happen
+for up to the last teller as well. The banking can be seen in the animation or more specifically in
+the print statements. Afterwards, they all go home to sleep.
+
+#### 3. Market
+Start SimCity and open the Person Creation panel. Enter the name as "Market". This will create
+a market and people, who will staff and buy from the market. 3 people will 
+work during the shift, and the others will do business with the market staffers. To see
+the animation, click on the market in the city view. Also, see the print statements, which 
+detail the market purchases. The people will go hom after they have finished all business. 
+
+#### 4. Busy 
+Start SimCity, and open the Person Creation panel. Enter the name as "Busy". This will create
+several buildings and enough people to staff them. The buses will also be added. Some people will
+go to work at the buildings, some will go to the bank to do business, others will board the 
+bus. Click on any building to see what's inside. People will go home to sleep as the default
+behavior.
+
+#### 5. House
+Start SimCity(run the SimCityGui.java), and click “Add House” button. Place the image on the green and left click. 
+Each house contains one inhabitant and the inventory.
+Click on the house to view inside: bed (black), table (cyan), refrigerator (white), grill (gray).
+Entering: the building can be entered by call the personIn method in House; and set the active role in person to inhabitant.
+	-I have already modified the method in person, and waiting for the city animation people to make the person walk to the house and call this method.
+
