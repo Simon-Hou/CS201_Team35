@@ -84,19 +84,13 @@ public class PersonAgent extends Agent implements Person {
 		//hungerLevel = random.nextInt(10);
 
 
-//		if (random.nextBoolean()){
-//			this.belongings.myFoods.add(new Food("Steak",10));
-////			this.belongings.myFoods.add(new Food("Chicken",10));
-////			this.belongings.myFoods.add(new Food("Pizza",10));
-////			this.belongings.myFoods.add(new Food("Salad",10));
-//		}
+		if (random.nextBoolean()){
+			this.belongings.myFoods.add(new Food("Steak",10));
+//			this.belongings.myFoods.add(new Food("Chicken",10));
+//			this.belongings.myFoods.add(new Food("Pizza",10));
+//			this.belongings.myFoods.add(new Food("Salad",10));
+		}
 		
-//		if (random.nextBoolean()){
-			this.belongings.myFoods.add(new Food("Steak",5));
-			this.belongings.myFoods.add(new Food("Chicken",15));
-			this.belongings.myFoods.add(new Food("Pizza",15));
-			this.belongings.myFoods.add(new Food("Salad",15));
-//		}
 
 		purse.wallet = 50;
 		
@@ -114,10 +108,7 @@ public class PersonAgent extends Agent implements Person {
 		//myCar.gui = new CarAgentGui();
 		
 		//hungerLevel = 0;
-		
-		//PARKERMARKET
-		hungerLevel = 0;
-		tiredLevel = 15;
+	
 
 	}
 

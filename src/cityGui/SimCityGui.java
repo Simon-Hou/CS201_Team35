@@ -1269,6 +1269,50 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewPersonHard("p"+6,null,null,0,0,0,0);
 		addNewPersonHard("p"+7,null,null,0,0,0,0);
 	}
+	
+	public void cMarketDeliveryScenario(){
+		System.err.println("scenario c");
+		
+		/*
+		//make all restaurants
+		//deplete their inventories
+		//set their markets
+		//make them ask the market for food
+		addNewBuilding("Market",250,200);
+		addNewBuilding("RestaurantGabe",200,250);
+		addNewBuilding("House", 500, 5);
+		
+
+		addNewPersonHard("H1",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketHost,0,100,0,0);
+		
+		addNewPersonHard("E1",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,100,0,0);
+
+		addNewPersonHard("C1",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketCashier,0,100,0,0);
+		
+		addNewPersonHard("D1", 
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketDeliveryMan,0,100,0,0);
+		
+		addNewPersonHard("p0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,100, 0,0);
+		addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
+		addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
+		addNewPersonHard("p3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,100, 0,0);
+		addNewPersonHard("p4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
+		
+		//deplete the inventory
+		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.addMarket(
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market);
+		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.depleteInventory();
+		
+		*/
+		
+	}
 
 	public void gabeRestaurant(){
 		addNewBuilding("RestaurantGabe",200,250);
