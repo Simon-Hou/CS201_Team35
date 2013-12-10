@@ -22,4 +22,10 @@ public class MockWaiter extends Mock implements Waiter{
 		log.add(new LoggedEvent("Recieved a check for customer "+c.c.getName()+" for $"+c.amount));
 		
 	}
+
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
