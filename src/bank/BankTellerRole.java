@@ -307,16 +307,18 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		//Do("Getting robbed int the amount of $"+ currentTask.amount);
 		Do("AHH!! Getting robbed");
 		System.out.println("Fire fight ensuing...");
-		
-		((Bank) bank).animation.addGuns(this);
-		
-		try {
-			fireFightOver.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		if (!(bank instanceof MockBank)) {
+			((Bank) bank).animation.addGuns(this);
+
+			try {
+				fireFightOver.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
+
 		double results = Math.random();
 		//results = 1;
 		
