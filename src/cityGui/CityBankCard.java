@@ -1,6 +1,7 @@
 package cityGui;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -9,10 +10,9 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.ImageIcon;
-
 import bank.BankTellerRole;
+import bank.gui.BankControlPanel;
 import bank.gui.BankCustomerGui;
 import bank.gui.BankTellerGui;
 import bank.gui.Gui;
@@ -54,6 +54,7 @@ public class CityBankCard extends CityCard{
 	
 	public List<Gui> guis = new ArrayList<Gui>();
 
+	BankControlPanel panel;
 
 	public CityBankCard(SimCityGui city) {
 		super(city);
@@ -179,5 +180,8 @@ public class CityBankCard extends CityCard{
 		
 		
 	}
+	  public void setPanel(BankControlPanel p){
+			this.panel = p;
+		}
 
 }
