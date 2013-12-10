@@ -147,13 +147,13 @@ public class CookRole extends Role implements Cook{
 	protected RevolvingStand stand;
 
 	//stores cooktime information for restaurant's dishes
-	private Map<String, FoodItem > Foods = Collections.synchronizedMap(new HashMap<String,FoodItem>());
+	public Map<String, FoodItem > Foods = Collections.synchronizedMap(new HashMap<String,FoodItem>());
 
 	//currently being prepared item
 	Order currentOrder;
 
 	private enum FoodState {normal,low,requested,pending};
-	private class FoodItem{
+	public class FoodItem{
 		public FoodItem(String name,int cooktime,int amount,int low){
 			this.name = name;
 			this.cooktime = cooktime;
@@ -165,7 +165,7 @@ public class CookRole extends Role implements Cook{
 		}
 		String name;
 		int cooktime;
-		int amount;
+		public int amount;
 		int low;
 		public FoodState s;
 		int stockSize;
@@ -466,8 +466,29 @@ public class CookRole extends Role implements Cook{
 		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
 		//log.add(new LoggedEvent(message));		
 	}
+	
+	public void DoDebug(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));		
+	}
 
 
+	public void decreaseInventory(String choice){
+		Foods.get(choice).amount--;
+		DoDebug(choice + " now has " + Foods.get(choice).amount);
+		
+		if (p!=null)
+			p.msgStateChanged();
+	}
+	
+	public void increaseInventory(String choice){
+		Foods.get(choice).amount++;
+		DoDebug(choice + " now has " + Foods.get(choice).amount);
+		
+		if (p!=null)
+			p.msgStateChanged();
+	}
 
 
 	@Override
