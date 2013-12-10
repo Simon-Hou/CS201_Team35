@@ -84,7 +84,9 @@ public class RevolvingStand {
 		
 		insert(o);
 		System.out.println("Added a new order. There are now "+count+" orders on the stand");
-		cook.msgStateChanged();
+		if(cook!=null){
+			cook.msgStateChanged();
+		}
 	}
 	
 	

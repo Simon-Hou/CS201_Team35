@@ -81,15 +81,24 @@ public class PersonAgent extends Agent implements Person {
 		
 
 		Random random = new Random();
-		hungerLevel = random.nextInt(10);
+		//hungerLevel = random.nextInt(10);
 
 		if (random.nextBoolean()){
 			this.belongings.myFoods.add(new Food("Steak",10));
-			this.belongings.myFoods.add(new Food("Chicken",10));
-			this.belongings.myFoods.add(new Food("Pizza",10));
-			this.belongings.myFoods.add(new Food("Salad",10));
+//			this.belongings.myFoods.add(new Food("Chicken",10));
+//			this.belongings.myFoods.add(new Food("Pizza",10));
+//			this.belongings.myFoods.add(new Food("Salad",10));
 		}
 		purse.wallet = 50;
+		
+		
+		if(name.equals("Drive1")){
+			driveHack = DriveHack.drive1;
+		}
+		else if(name.equals("Drive2")){
+			driveHack = DriveHack.drive2;
+		}
+		
 
 		
 		//myCar.gui = new CarAgentGui();
@@ -159,6 +168,8 @@ public class PersonAgent extends Agent implements Person {
 	
 	public Semaphore driveOver = new Semaphore(0,true);
 	public List<OnRamp> onRamps = new ArrayList<OnRamp>();
+	public enum DriveHack {drive1,drive2,NONE};
+	public DriveHack driveHack = DriveHack.NONE;
 	
 	boolean waited = false;
 	
@@ -367,10 +378,20 @@ public class PersonAgent extends Agent implements Person {
 //		if(onRamps.size()>=2){
 //			
 //				
-//			doDrive(onRamps.get(2),onRamps.get(3));
+//			doDrive(onRamps.get(0),onRamps.get(1));
 //			return true;
 //		}
 		
+		if(driveHack == DriveHack.drive1){
+			doDrive(onRamps.get(0),onRamps.get(1));
+			driveHack = DriveHack.NONE;
+			return true;
+		}
+		if(driveHack == DriveHack.drive2){
+			doDrive(onRamps.get(2),onRamps.get(3));
+			driveHack = DriveHack.NONE;
+			return true;
+		}
 		
 		
 		
@@ -388,7 +409,7 @@ public class PersonAgent extends Agent implements Person {
 		//			try {
 		//				Thread.sleep(300);
 		//			} catch (InterruptedException e) {
-		//				// TODO Auto-generated catch block
+		//				
 		//				e.printStackTrace();
 		//			}
 		//		}
@@ -430,7 +451,6 @@ public class PersonAgent extends Agent implements Person {
 				return true;
 			}
 		}
-		//Do("ALIVE");
 		if(time == myJob.shiftStart-1){
 			return false;
 		}
@@ -683,14 +703,13 @@ public class PersonAgent extends Agent implements Person {
 		
 
 
-				if (belongings.myHouse!=null && !belongings.myFoods.isEmpty()) {
-					//Do("I am going to eat at home");
+
+				if (belongings.myHouse!=null && !belongings.myHouse.room.inventory.isEmpty()) {
+					Do("I am going to eat at home");
+
 					doGoHome();
 					activeRole = inhabitantRole;
 					belongings.myHouse.msgImHome(inhabitantRole);
-					inhabitantRole.msgTired();
-					//goToRestaurant();
-					
 					inhabitantRole.msgGotHungry();
 					return;
 				}
@@ -1256,9 +1275,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 
-
-
-
+	
 
 
 
