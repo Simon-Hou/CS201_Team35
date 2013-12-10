@@ -78,6 +78,9 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 			if(e.getSource() ==close){
 				//TODO function call to close restaurant
 			
+				
+				this.bank.isOpen = false;
+				
 			 
 			}
 			// TODO Auto-generated method stub
