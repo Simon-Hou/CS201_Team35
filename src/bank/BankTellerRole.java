@@ -321,7 +321,9 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 
 		double results = Math.random();
 		//results = 1;
-		
+		if (bank instanceof MockBank) {
+			results = .7;
+		}
 		if(results>.5){
 			Do("BankRobber won. Handing over the money");
 			int a = bank.rob(currentTask.amount);
