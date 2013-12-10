@@ -58,7 +58,7 @@ public class MarketEmployeeTest extends TestCase{
 		Map<String, Integer> orderList = new HashMap<String, Integer>();
 		orderList.put("Pizza", new Integer(4));
 		employee.msgGetItemsForCustomer(customer, orderList);
-		assertTrue("Employees log should have recorded getting message", employee.log.containsString("got msgGetItemsForCustomer"));
+		assertTrue("Employees log should have recorded getting message, but has: " + employee.log.getLastLoggedEvent(), employee.log.containsString("got msgGetItemsForCustomer"));
 		assertEquals("Employees customerOrders list should have 1", 1 , employee.customerOrders.size() );
 		
 		//Step 2:  call scheduler

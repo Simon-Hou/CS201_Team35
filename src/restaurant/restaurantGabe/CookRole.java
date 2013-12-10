@@ -5,6 +5,8 @@ import restaurant.restaurantGabe.gui.CookGui;
 import restaurant.restaurantGabe.gui.CustomerGui;
 //import restaurant.restaurantGabe.gui.RestaurantGui;
 import restaurant.restaurantGabe.interfaces.Cook;
+import restaurant.restaurantGabe.test.mock.EventLog;
+import restaurant.restaurantGabe.test.mock.LoggedEvent;
 import restaurant.restaurantGabe.util.*;
 import role.Role;
 import agent.Agent;
@@ -18,6 +20,8 @@ import market.MarketInvoice;
 
 public class CookRole extends Role implements Cook{
 
+	public EventLog log = new EventLog();
+	
 	//INITIALIZATION
 	public CookRole(String name){
 		this.name  = name;
@@ -275,6 +279,7 @@ public class CookRole extends Role implements Cook{
 	//cook is given a new order
 	public void msgHereIsAnOrder(WaiterRole w,Order o){
 		Do("Got the order");
+		log.add(new LoggedEvent("Got an order from waiter "+w.getName()+" for "+o.choice));
 		o.s = OrderState.requested;
 		Orders.add(o);
 		person.msgStateChanged();

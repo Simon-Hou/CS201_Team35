@@ -34,7 +34,17 @@ public class WaiterRole extends Role implements Waiter{
 		return name;
 	}
 	
+	//hack for unit testing
+	public boolean ordered(int index){
+		return MyCustomers.get(index).s==CustState.ordered;
+	}
+	
 	//SETTERS
+	
+	//this is a hack for unit testing
+	public void addNewCustomer(Customer c){
+		MyCustomers.add(new MyCust((CustomerRole)c,0,CustState.readyToOrder));
+	}
 	
 	//hack, gives the waiter the restaurant pointer
 	public void setRestaurant(RestaurantGabe r){
@@ -142,7 +152,7 @@ public class WaiterRole extends Role implements Waiter{
 	
 	//private Customer variable containing all waiter-relevant information
 	private enum CustState {waiting,seated,readyToOrder,needsReorder,ordered,served,needsCheck,fulfilled,leaving,left};
-	private class MyCust{
+	public class MyCust{
 		public MyCust(CustomerRole c,int loc,CustState s){
 			this.c = c;
 			this.loc = loc;
@@ -156,17 +166,17 @@ public class WaiterRole extends Role implements Waiter{
 	}
 	
 	//List of all customers being handled by waiter
-	protected List<MyCust> MyCustomers = new ArrayList<MyCust>();
+	public List<MyCust> MyCustomers = new ArrayList<MyCust>();
 	
 	//will keep waiter at table while customer is ordering
-	protected Semaphore waitingForOrder = new Semaphore(0,true);
+	public Semaphore waitingForOrder = new Semaphore(0,true);
 	protected Semaphore waitingForHomePosition = new Semaphore(0,true);
 	
 	//will hold waiter's list of orders
-	protected List<Order> Orders = new ArrayList<Order>();
+	public List<Order> Orders = new ArrayList<Order>();
 	
 	//hack - will give waiter a pointer to the restaurant's host and cook
-	protected CookRole Cook;
+	public CookRole Cook;
 	protected HostRole Host;
 	protected CashierRole Cashier;
 	
@@ -243,8 +253,8 @@ public class WaiterRole extends Role implements Waiter{
 	}
 	
 	//customer is ordering
-	public void msgHereIsMyChoice(CustomerRole c,String choice){
-		MyCust mc = findCust(MyCustomers, c);
+	public void msgHereIsMyChoice(Customer customer,String choice){
+		MyCust mc = findCust(MyCustomers, customer);
 		mc.choice = choice;
 		mc.s = CustState.ordered;
 		Orders.add(new Order(mc.c,mc.choice,OrderState.ordered,this));
@@ -485,6 +495,11 @@ public class WaiterRole extends Role implements Waiter{
 	
 	//gives the order variable to the cook - contains Customer pointer
 	protected void giveOrderToCook(Order o){
+		if(waiterGui==null){
+			Cook.msgHereIsAnOrder(this, o);
+			return;
+		}
+		
 		DoGiveOrderToCook();
 		
 		//forces waiter to wait until he gets to the cook to ask for food
