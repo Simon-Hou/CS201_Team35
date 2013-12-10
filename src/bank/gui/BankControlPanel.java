@@ -33,12 +33,17 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 	//data
 		Bank bank;
 		CityBankCard animation;
+//		public ListPanel accountPanel = new ListPanel(this, "Accounts");
+		
+		private String currentAccount;
+
 		private JLabel title=new JLabel("Bank");
-		private List<InventoryItem> inventoryList = new ArrayList<InventoryItem>();
-		public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		private List<Account> accountList = new ArrayList<Account>();
+		public JScrollPane accountPanel = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		private JPanel view = new JPanel();
-		private JButton close=new JButton("Close");
+		public Dimension buttonSize;
+		private List<JButton> list = new ArrayList<JButton>();
 
 		public BankControlPanel (CityBankCard anim, Bank b){
 			bank=b;
@@ -49,113 +54,84 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 			setLayout(new FlowLayout());
 			add(title);
 			view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
-			pane.setViewportView(view);
-			add(pane);
+			accountPanel.setViewportView(view);
+			add(accountPanel);
 			Dimension paneSize = new Dimension (WINDOWX,300);
-			pane.setPreferredSize(paneSize);
-			pane.setMinimumSize(paneSize);
-			pane.setMaximumSize(paneSize);
-			Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
-			close.addActionListener(this);
-			add(close);
-			
-//			for(Food food: house.room .inventory){
-//				InventoryItem item = new InventoryItem(food.type, food.quantity, house, this);
-//				item.setPreferredSize(buttonSize);
-//				item.setMinimumSize(buttonSize);
-//				item.setMaximumSize(buttonSize);
-//				inventoryList.add(item);
-//				view.add(item);
-//			}
+			accountPanel.setPreferredSize(paneSize);
+			accountPanel.setMinimumSize(paneSize);
+			accountPanel.setMaximumSize(paneSize);
+			buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
 
-
-
+			addAccountButton(0);
 			validate();
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() ==close){
-				//TODO function call to close restaurant
-			
-				
-				this.bank.isOpen = false;
-				
-			 
+			for (JButton temp:list){
+				if (e.getSource() == temp) {
+					if (!bank.bankGui.controlPanel.isVisible()) {
+						bank.bankGui.controlPanel.setVisible(true);
+						System.err.println("SETTING TO VISIBLE");
+					}
+					else if (bank.bankGui.controlPanel.isVisible()) {
+						bank.bankGui.controlPanel.setVisible(false);
+						System.err.println("SETTING TO NOT VISIBLE");
+					}
+				}
 			}
-			// TODO Auto-generated method stub
-//			for (InventoryItem item : inventoryList){
-//				if (e.getSource() == item.minus && item.inventory >0){
-//					item.inventory--;
-//					for(Food food: house.room.inventory){
-//						if(item.choice.equals(food.type)){
-//							food.quantity--;
-//						}
-//					}
-//					updateInventory();
-//				}
-//				else if (e.getSource() == item.plus){
-//					item.inventory++;
-//					for(Food food: house.room.inventory){
-//						if(item.choice.equals(food.type)){
-//							food.quantity++;
-//						}
-//					}
-//					updateInventory();
-//				}
-//			}
 		}
 		
 		public void updateInventory(){
-//			for (InventoryItem item : inventoryList){
-//				for(Food food: house.room.inventory){
-//					if(item.choice.equals(food.type)){
-//						item.inventory=food.quantity;
-//						item.inventoryLabel.setText(item.inventory.toString());
-//					}
-//				}
-//			}
+
+		}
+
+		public void addAccountButton(int actNm) {
+			accountPanel.setViewportView(view);
+			Account act = new Account(actNm, bank, this);
+			act.setPreferredSize(buttonSize);
+			act.setMinimumSize(buttonSize);
+			act.setMaximumSize(buttonSize);
+			accountList.add(act);
+			view.add(act);
+			accountPanel.validate();
+			repaint();
+			validate();
+			revalidate();
 		}
 		
-		private class InventoryItem extends JPanel{
+		private class Account extends JPanel{
 
 			BankControlPanel bcp;
 			Bank bank;
 
-			String choice;
-			Integer inventory;
+			JButton account = new JButton();
+//			JLabel choiceLabel = new JLabel();
+			JLabel accountLabel = new JLabel();
 
-			JButton minus = new JButton("-");
-			JLabel choiceLabel = new JLabel();
-			JLabel inventoryLabel = new JLabel();
-			JButton plus = new JButton("+");
-
-			InventoryItem(String name, int invent, Bank b, BankControlPanel bcp){
+			Account(int accountNum, Bank b, BankControlPanel bcp){
 				this.bcp = bcp;
-				choice = name;
-				inventory = invent;
 				bank = b;
 
-				setLayout(new GridLayout(1,5,5,5));
+				setLayout(new GridLayout(1,1,5,5));
 				setBorder(BorderFactory.createRaisedBevelBorder());
 
 
-				choiceLabel.setText(choice);
-				inventoryLabel.setText(inventory.toString());
+				//choiceLabel.setText("" + accountNum);//not sure what this is supposed to be
+				account.setText("Show ControlPanel");
 
 				//choiceLabel.setHorizontalTextPosition(JLabel.RIGHT);
 				//inventoryLabel.setVerticalTextPosition(SwingConstants.CENTER);
 
 				// button1.addActionListener(this);
-				minus.addActionListener(bcp);
-				plus.addActionListener(bcp);
+				//minus.addActionListener(bcp);
+				account.addActionListener(bcp);
+				list.add(account);
+				view.add(account);
 
 
-				add(minus);
-				add(choiceLabel);
-				add(inventoryLabel);
-				add(plus);
-
+				add(account);
+				validate();
 			}
 		}
 }
