@@ -46,14 +46,13 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 		add(title);
 		view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
 		pane.setViewportView(view);
-		add(pane);
+		
 		Dimension paneSize = new Dimension (WINDOWX,300);
 		pane.setPreferredSize(paneSize);
 		pane.setMinimumSize(paneSize);
 		pane.setMaximumSize(paneSize);
 		Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
 		close_open.addActionListener(this);
-		add(close_open);
 		
 		inventory = r.cook.foodMap;
 		
@@ -62,10 +61,15 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 		inventoryList.add(new InventoryItem("Chicken", this));
 		inventoryList.add(new InventoryItem("Pizza", this));
 		
-		add(inventoryList.get(0));
-		add(inventoryList.get(1));
-		add(inventoryList.get(2));
-		add(inventoryList.get(3));
+		for(InventoryItem item: inventoryList){
+			item.setPreferredSize(buttonSize);
+			item.setMinimumSize(buttonSize);
+			item.setMaximumSize(buttonSize);
+			view.add(item);
+		}
+		
+		add(pane);
+		add(close_open);
 			
 		validate();
 		
