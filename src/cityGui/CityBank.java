@@ -28,6 +28,9 @@ public class CityBank extends CityComponent implements ImageObserver {
 	ImageIcon img4 = new ImageIcon(imgURL4);
 	java.net.URL imgURL5 = getClass().getResource("cityImages/bank5.png");
 	ImageIcon img5 = new ImageIcon(imgURL5);
+	
+	
+	
 	BankMapLoc bMap;
 	public Bank bank;
 	private int buildingSize = 35;
@@ -38,7 +41,9 @@ public class CityBank extends CityComponent implements ImageObserver {
 	}
 
 	public CityBank(int x, int y, String I) {
+		
 		super(x, y, Color.green, I);
+		//System.out.println(gun1.getPath());
 		type="Bank";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		initializeBank();

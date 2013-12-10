@@ -201,17 +201,13 @@ public class CookGui implements Gui {
 	
     public void draw(Graphics2D g) {
 		g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
-//
-//        g.setColor(Color.BLUE);
-//        g.fillRect(xPos, yPos, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString(aString, 315, 20);
-        g.setColor(Color.WHITE);
         g.drawString(bString, 315, 10);
-        g.setColor(Color.WHITE);
         g.drawString(cString, 305, 20);
-        g.setColor(Color.WHITE);
         g.drawString(dString, 305, 10);
+        g.setColor(Color.BLACK);
+        g.drawString("Cook", xPos, yPos-5);
     }    	
 
     public boolean isPresent() {

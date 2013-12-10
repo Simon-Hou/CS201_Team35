@@ -71,7 +71,7 @@ public class MarketHostTest extends TestCase{
 		assertTrue("Employee should ahve received a message", employee.log.containsString("got msgGetItemsForCustomer"));
 		
 		//Step 3:  msgCustomerLeaving
-		Receipt receipt = new Receipt();
+		Receipt receipt = new Receipt(null, 0, 0, null);
 		Map<String, Integer> groceries = new HashMap<String, Integer>();
 		host.msgCustomerLeaving(customer, receipt, groceries);
 		assertTrue("host log should record getting message", host.log.containsString("got msgCustomerLeaving"));
@@ -162,7 +162,7 @@ public class MarketHostTest extends TestCase{
 		assertTrue("Employee should ahve received a message", employee.log.containsString("got msgGetItemsForCustomer"));
 		
 		//Step 3:  msgCustomerLeaving
-		Receipt receipt = new Receipt();
+		Receipt receipt = new Receipt(null, 0, 0, null);
 		Map<String, Integer> groceries = new HashMap<String, Integer>();
 		groceries.put("Pizza", 5);
 		host.msgCustomerLeaving(customer, receipt, groceries);

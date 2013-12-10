@@ -190,5 +190,53 @@ public class MarketCashierTest extends TestCase{
 		//Step 6
 		assertFalse("Scheduler should return false", cashier.pickAndExecuteAnAction());
 	}
+	
+	public void testFour_CustomerTooMuchMoneyInteraction() {
+		//preconditions
+		assertEquals("Cashier's event log should be empty.", 0, cashier.log.size());
+		assertEquals("Cashier's customer list should be empty.", 0, cashier.customers.size());
+		assertEquals("Cashier's order list should be empty.", 0, cashier.orders.size());
+		
+		//Step 1 : send msgServiceCustomer
+		Map<String, Integer> groceries = new HashMap<String, Integer>();
+		groceries.put("Chicken", 2);
+		cashier.msgServiceCustomer(customer,  groceries);
+		assertTrue("Cashier's log should have received the message" + cashier.log.toString(), cashier.log.containsString("got msgServiceCustomer"));
+		assertEquals("Cashier's customer list should be 1", 1, cashier.customers.size());
+		
+		//Step 2 : call scheduler
+		assertTrue("Scheduler should return true", cashier.pickAndExecuteAnAction());
+		assertTrue("Cashier's log should have record of action but has: " + cashier.log.getLastLoggedEvent(), cashier.log.containsString("action ComputeTotal"));
+		try {
+			Thread.sleep(groceries.size() + 610);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		assertTrue("Cashier's log should have received message 'done computing bill' but reads : " + cashier.log.getLastLoggedEvent(), cashier.log.containsString("done computing bill"));
+
+		//Pre Step 3
+		assertEquals("Customers log should be empty but its actual size is: " + customer.log.size(), customer.log.size(), 0);
+		
+		//Step 3 : call scheduler
+		assertTrue("Scheduler should return true", cashier.pickAndExecuteAnAction());
+		assertTrue("Cashier's log should have record of action AskCustomerToPay but has: " + cashier.log.getLastLoggedEvent(), cashier.log.getLastLoggedEvent().toString().endsWith("action AskCustomerToPay"));
+		assertTrue("Customer's log should have record of 'Got total for $4' but has: " + customer.log.getLastLoggedEvent(), customer.log.getLastLoggedEvent().toString().endsWith("Got total for: $4"));
+
+		//Post Step 3
+		assertEquals("Customers log should be size 1, but its actual size is: " + customer.log.size(), customer.log.size(), 1);
+		
+		//Step 4
+		cashier.msgCustomerPayment(customer, 100);
+		assertTrue("Cashier's log should have received the message 'got msgCustomerPayment for: $100', but got " + cashier.log.getLastLoggedEvent(), cashier.log.getLastLoggedEvent().toString().endsWith("got msgCustomerPayment for: $100"));
+		
+		//Step 5
+		assertTrue("Scheduler should return true", cashier.pickAndExecuteAnAction());
+		assertTrue("Cashier's log should have record of action AcceptPayment but has: " + cashier.log.getLastLoggedEvent(), cashier.log.getLastLoggedEvent(2).toString().endsWith("action AcceptPayment"));
+		assertTrue("Cashier's log should have record of 'I owe the customer change: $' but has: " + cashier.log.getLastLoggedEvent(), cashier.log.getLastLoggedEvent().toString().endsWith("I owe the customer change: $96"));
+		assertTrue("Customer's log should have record of 'Got chage of: $96' but has: " + customer.log.getLastLoggedEvent(), customer.log.getLastLoggedEvent().toString().endsWith("Got chage of: $96"));
+		
+		//Step 6
+		assertFalse("Scheduler should return false", cashier.pickAndExecuteAnAction());
+	}
 
 }

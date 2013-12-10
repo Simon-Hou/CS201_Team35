@@ -201,6 +201,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	ImageIcon hr3 = new ImageIcon(hright3);
 	java.net.URL hright4 = getClass().getResource("personImages/hright4.png");
 	ImageIcon hr4 = new ImageIcon(hright4);
+	
+
 
 	//(-Parker's layout)
 	public BuildingControlPanelHolder buildingCP;
@@ -209,7 +211,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public CityPanel city;
 	public CityObject cityObject;
 	InfoPanel info;
-	CityView view;
+	public CityView view;
 	CityControlPanel CP;
 	TracePanel tracePanel;
 	GridBagConstraints c = new GridBagConstraints();
@@ -280,12 +282,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		CP = new CityControlPanel(this);
 
-		tracePanel = new TracePanel();
-		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
-		tracePanel.showAlertsForAllLevels();
-		tracePanel.showAlertsForAllTags();
-
-
 		//Makes the A* grid for the city
 		setScale(30);
 		initializeGrid();
@@ -302,6 +298,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		view = new CityView(this);
 
 		info = new InfoPanel(this);
+		
+		tracePanel = new TracePanel(this);
+		tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
+		tracePanel.showAlertsForAllLevels();
+		tracePanel.showAlertsForAllTags();
 
 		///////-----v----v--v-----v-------PREVIOUS LAYOUT------v----v--v-----v-----v---v----////
 		//		this.setLayout(new GridBagLayout());
@@ -463,8 +464,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		cityObject.people.add(p);
 		city.addMoving(personGui);
 		p.startThread();
-		
-		AlertLog.getInstance().logInfo(AlertTag.PERSON, "SimCityGui", "Added new person: " + p.name);  
 
 	}
 
@@ -503,7 +502,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.BANK, "SimCityGui", "Added new bank: " + temp.ID);
 			return;
 		}
 		if(type.equals("Market")){
@@ -520,7 +518,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.MARKET, "SimCityGui", "Added new market: " + temp.ID);
 			return;
 		}
 
@@ -551,7 +548,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, "SimCityGui", "Added new restaurant: " + temp.ID);
 			return;
 
 		}
@@ -577,7 +573,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);
-			AlertLog.getInstance().logInfo(AlertTag.HOUSE, "SimCityGui", "Added new house: " + temp.ID);
 			return;
 		}
 
@@ -660,7 +655,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			}
 			//}
 		}
-		if(type.equals("Restaurant")){
+		if(type.contains("Restaurant")){
 			int j = 0;
 			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
 			//System.out.println("Rand offset: "+randOffset);
@@ -676,12 +671,32 @@ public class SimCityGui extends JFrame implements ActionListener {
 				addNewPersonHard("pcook"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantCook,start,end,bankNum,houseNum);
-				addNewPersonHard("pboringwaiter"+j,
+				
+				if (type.contains("Linda")){
+					addNewPersonHard("pboringwaiter"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantLindaWaiter1,start,end,bankNum,houseNum);
-				addNewPersonHard("pnewwaiter"+j,
+					addNewPersonHard("pnewwaiter"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantLindaWaiter2,start,end,bankNum,houseNum);
+				}
+				else if (type.contains("Gabe")){
+					addNewPersonHard("pboringwaiter"+j,
+							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+							JobType.RestaurantGabeWaiter1,start,end,bankNum,houseNum);
+						addNewPersonHard("pnewwaiter"+j,
+							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+							JobType.RestaurantGabeWaiter2,start,end,bankNum,houseNum);
+				}
+				else if (type.contains("Yocca")){
+					addNewPersonHard("pboringwaiter"+j,
+							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+							JobType.RestaurantYoccaWaiter1,start,end,bankNum,houseNum);
+						addNewPersonHard("pnewwaiter"+j,
+							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+							JobType.RestaurantYoccaWaiter2,start,end,bankNum,houseNum);
+				}
+				
 				addNewPersonHard("prcash"+j,
 						((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 						JobType.RestaurantCashier,start,end,bankNum,houseNum);
@@ -866,7 +881,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		int yStartTest = 0;
 
 		
-		test.addBuses(test);
+		//test.addBuses(test);
 		//test.simpleCarScenario();
 		
 		
@@ -981,8 +996,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setMAXTIME(50);
 
 		int firstShiftStart = 0;
-		int firstShiftEnd = 25;
-		int secondShiftStart = 25;
+		int firstShiftEnd = 15;
+		int secondShiftStart = 15;
 		int secondShiftEnd = 50;
 		int thirdShiftStart = 50;
 		int thirdShiftEnd = 100;
@@ -993,10 +1008,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		}
 
 		//Creates bank 1
-		addNewBuilding("Bank",200,250);	
+		//addNewBuilding("Bank",200,250);	
 
 		//Creates bank 2
-		addNewBuilding("Bank",5,250);
+		//addNewBuilding("Bank",5,250);
 
 		//Creates Gabe's restaurant
 		addNewBuilding("RestaurantGabe", 5,300);
@@ -1009,29 +1024,29 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		//Shifts for bank 1
 		//Early Shift
-		addNewPersonHard("BankTeller1a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("BankTeller1b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-
-		//Middle Shift
-		addNewPersonHard("BankTeller2a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("BankTeller2b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-
-		//Late Shift
-		addNewPersonHard("BankTeller3a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("BankTeller3b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-
-		//Shifts for bank 2
-		//Early Shift
-		addNewPersonHard("BankTeller4a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("BankTeller4b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-
-		//Middle Shift
-		addNewPersonHard("BankTeller5a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("BankTeller5b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-
-		//Late Shift
-		addNewPersonHard("BankTeller6a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-		addNewPersonHard("BankTeller6b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//		addNewPersonHard("BankTeller1a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//		addNewPersonHard("BankTeller1b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//
+//		//Middle Shift
+//		addNewPersonHard("BankTeller2a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//		addNewPersonHard("BankTeller2b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//
+//		//Late Shift
+//		addNewPersonHard("BankTeller3a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//		addNewPersonHard("BankTeller3b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//
+//		//Shifts for bank 2
+//		//Early Shift
+//		addNewPersonHard("BankTeller4a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//		addNewPersonHard("BankTeller4b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//
+//		//Middle Shift
+//		addNewPersonHard("BankTeller5a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//		addNewPersonHard("BankTeller5b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//
+//		//Late Shift
+//		addNewPersonHard("BankTeller6a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+//		addNewPersonHard("BankTeller6b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 
 		//Creates market
 		//		addNewBuilding("Market",250,200);
@@ -1139,6 +1154,18 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewPersonHard("YoccaRestaurantCook3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCook,thirdShiftStart,thirdShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("YoccaRestaurantCashier3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(2)).restaurant, JobType.RestaurantCashier,thirdShiftStart,thirdShiftEnd, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 	}
+	
+	public void bankRobbery(){
+		hasBuses = false;
+		setMAXTIME(50);
+		addNewBuilding("House",400,5);
+		addNewBuilding("Bank",365,250);
+		addNewPersonHard("p0",((BankMapLoc)cityObject.cityMap.map.get("Bank").get(0)).bank,JobType.BankTeller,0,100,0,0);
+		addNewPersonHard("BankRobber", null,JobType.NOTSELECTED,0,0,0,0);
+		for(PersonAgent p:cityObject.people){
+			p.hungerLevel = 0;
+		}
+	}
 
 
 	public void bankScenario(){
@@ -1242,7 +1269,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setMAXTIME(20);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding(scenarioName,5, 300);
-		fullyManBuilding("Restaurant",0);
+		fullyManBuilding(scenarioName,0);
 
 		int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 		int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());

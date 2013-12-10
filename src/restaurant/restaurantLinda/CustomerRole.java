@@ -20,6 +20,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 /**
  * Restaurant customer agent.
  */
@@ -43,7 +46,7 @@ public class CustomerRole extends Role implements Customer{
 	private Semaphore atDestination = new Semaphore(0,true);
 	
 	// agent correspondents
-	private RestaurantLinda r;
+	public RestaurantLinda r;
 	private Waiter waiter;
 	private Cashier cashier;
 	//private Table table=null; //hack(?) for gui
@@ -335,6 +338,7 @@ public class CustomerRole extends Role implements Customer{
 		r=null;
 		
 		p.msgThisRoleDone(this);
+		
 	}
 	
 	private String pickFood(){

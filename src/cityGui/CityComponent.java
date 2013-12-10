@@ -24,7 +24,7 @@ public abstract class CityComponent implements ImageObserver {
 	public int x, y;
 	public int gridX,gridY;
 	Color color;
-	String ID;
+	public String ID;
 	boolean isActive;
 	public boolean invalidPlacement = false;
 	public static int scale = 30;

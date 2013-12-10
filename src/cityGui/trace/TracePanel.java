@@ -18,6 +18,8 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import cityGui.SimCityGui;
+
 
 /**
  * The class for managing and displaying the message traces from the factory/simcity. To be used as an 
@@ -54,8 +56,13 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	Style warningStyle;
 	Style infoStyle;
 	Style defaultStyle;
+	
+	boolean filterCurrentCard = false;
+	
+	SimCityGui city;
+	
 
-	public TracePanel() {
+	public TracePanel(SimCityGui city) {
 		super();
 		this.setBorder(new BevelBorder(EtchedBorder.LOWERED));
 		this.size = new Dimension(500, 100);
@@ -67,6 +74,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 
 		this.setPreferredSize(size);
 		this.setEnabled(true);
+		this.city = city;
 
 		//Set up the styled doc and styles to use for printing
 		StyledDocument styledDoc = traceTextPane.getStyledDocument();
@@ -117,6 +125,9 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	 * @see {@link #hideAlertsWithTag(AlertTag)}
 	 */
 	private boolean isAlertVisible(Alert alert) {
+		if (filterCurrentCard && city.view.getCurrentCard()!=null){
+			return visibleLevels.contains(alert.level) && city.view.getCurrentCard().equals(alert.ID);
+		}
 		if(visibleLevels.contains(alert.level) && visibleTags.contains(alert.tag)) {
 			return true;
 		} else {
@@ -167,7 +178,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	/**
 	 * Filters the trace panel according to Level and Tag and only displays those which have been enabled.
 	 */
-	private void filterTracePanel() {
+	public void filterTracePanel() {
 		try {
 			traceTextPane.getStyledDocument().remove(0, traceTextPane.getStyledDocument().getLength());	//Removes the whole document
 		} catch (BadLocationException e) {
@@ -177,9 +188,16 @@ public class TracePanel extends JScrollPane implements AlertListener {
 		List<Alert> alerts = AlertLog.getInstance().getAlerts();	//Get all the alerts from the log
 		Collections.sort(alerts);									//Sort them (they end up sorted by timestamp)
 		for(Alert alert:alerts) {
-			if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level)) {
+			if (filterCurrentCard){
+				if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level) && city.view.getCurrentCard().equals(alert.ID)) {
+					newAlerts.add(alert);
+				}
+			}
+			else {
+				if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level)) {
 				newAlerts.add(alert);
 				//System.out.println("Adding Alert: " + alert.name + alert.level + alert.tag);
+			}
 			}
 		}
 
@@ -218,6 +236,16 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	 */
 	public void hideAlertsWithTag(AlertTag tag) {
 		this.visibleTags.remove(tag);
+		filterTracePanel();
+	}
+	
+	public void showOnlyCurrentCard(){
+		filterCurrentCard = true;
+		filterTracePanel();
+	}
+	
+	public void stopShowingOnlyCurrentCard(){
+		filterCurrentCard = false;
 		filterTracePanel();
 	}
 	

@@ -26,9 +26,8 @@ public abstract class GuiPerson implements Gui{
     protected int xfinal, yfinal;
     
     AStarTraversal aStar;
-    Position previousPosition;
+    //Position previousPosition;
     Position currentPosition;
-    Position diagonalPosition;
     List<Position> path;
     
     enum movementType {undefined, upleft, upright, downleft, downright};
@@ -77,16 +76,17 @@ public abstract class GuiPerson implements Gui{
         }
         else if (xPos == xDestination && yPos == yDestination){
         	//System.out.println("finished2");
-        	if (previousPosition!=currentPosition && previousPosition!=null){
+        	/*if (previousPosition!=currentPosition && previousPosition!=null){
         		previousPosition.release(aStar.getGrid());
         		previousPosition = currentPosition;
-        	}
+        	}*/
 
         	//1 means we reached our destination
         	if (path!=null && path.size()>1)
         		MoveToNextPosition();
         	else if (path!=null){
         		path=null;
+        		//AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GUIPERSON", "Try to change destination");
         		if (xDestination!=xfinal || yDestination!=yfinal){
         			xDestination=xfinal;
         			yDestination=yfinal;
@@ -105,9 +105,9 @@ public abstract class GuiPerson implements Gui{
     	
     	path = null;
     	
-    	if (currentPosition!=null)
-    		currentPosition.release(aStar.getGrid());
-    	boolean wasOpen=true;
+    	/*if (currentPosition!=null)
+    		currentPosition.release(aStar.getGrid());*/
+    	/*boolean wasOpen=true;
     	try{
     		wasOpen = to.open(aStar.getGrid());
     	}
@@ -116,7 +116,7 @@ public abstract class GuiPerson implements Gui{
     		e.printStackTrace();
     	}
     	if(!wasOpen)
-    		to.release(aStar.getGrid());
+    		to.release(aStar.getGrid());*/
     	
     	//System.out.println("[Gaut] " + guiWaiter.getName() + " moving from " + currentPosition.toString() + " to " + to.toString());
     	
@@ -124,15 +124,15 @@ public abstract class GuiPerson implements Gui{
     	
     	AStarNode aStarNode;
     	
-    	if (previousPosition==null)
+    	//if (previousPosition==null)
     		aStarNode = (AStarNode)aStar.generalSearch(new Position(xPos/cellSize, yPos/cellSize), to);		
-    	else
-    		aStarNode = (AStarNode)aStar.generalSearch(previousPosition, to);
+    	/*else
+    		aStarNode = (AStarNode)aStar.generalSearch(previousPosition, to);*/
     	path = aStarNode.getPath();
     	
     	//System.out.println("path = " + path);
     	
-    	if(!wasOpen)
+    	/*if(!wasOpen)
     		to.moveInto(aStar.getGrid());
     	
     	currentPosition = path.get(0);
@@ -152,14 +152,15 @@ public abstract class GuiPerson implements Gui{
     		yDestination = yPos;
     	else
     		yDestination = (currentPosition.getY()+1)*cellSize - personSize;
-    	
+    	*/
     	
     }
     
     void MoveToNextPosition(){
 	    //Try and get lock for the next step.
 	    //int attempts    = 1;
-	    boolean gotPermit   = new Position(path.get(1).getX(), path.get(1).getY()).moveInto(aStar.getGrid());
+	    //boolean gotPermit   = new Position(path.get(1).getX(), path.get(1).getY()).moveInto(aStar.getGrid());
+    	boolean gotPermit= true;
 
 	    //Did not get lock. Lets make n attempts.
 	    /*while (!gotPermit && attempts < 3) {
@@ -175,7 +176,7 @@ public abstract class GuiPerson implements Gui{
 	    
 	    if (!gotPermit && attempts<3){
 	    	//System.err.println("got NO permit for " + path.get(1).toString() + " on attempt " + attempts);
-	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Got no permit for " + path.get(1).toString() + " on attempt " + attempts);
+	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Got no permit for " + path.get(1).toString() + " on attempt " + attempts, null);
 	    	Random rand = new Random();
 	    	
 	    	wait=rand.nextInt(10) + 10;
@@ -186,7 +187,7 @@ public abstract class GuiPerson implements Gui{
 	    //Did not get lock after trying n attempts. So recalculating path.            
 	    if (!gotPermit) {
 			//System.out.println("[Gaut] " + agent.getName() + " No Luck even after " + attempts + " attempts! Lets recalculate");
-	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Recalculating path");
+	    	AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "GuiPerson", "Recalculating path", null);
 			attempts=1;
 			CalculatePath(path.get(path.size()-1));
 			return;
@@ -196,7 +197,7 @@ public abstract class GuiPerson implements Gui{
 	    //System.out.println("[Gaut] " + agent.getName() + " got permit for " + path.get(0).toString());
 	    attempts=1;
 	    currentPosition = path.get(1);
-	    currentPosition.moveInto(aStar.getGrid());
+	    //currentPosition.moveInto(aStar.getGrid());
 
 	    path.remove(0);
 	    

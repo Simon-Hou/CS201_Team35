@@ -120,6 +120,8 @@ public class CookGui implements Gui {
     public void draw(Graphics2D g) {
         g.setColor(Color.CYAN);
         g.fillRect(xPos, yPos, personSize, personSize);
+        g.setColor(Color.BLACK);
+        g.drawString("Cook", xPos, yPos-5);
         
         for (MyImage icon: cookingFoods)
         	icon.draw(g);

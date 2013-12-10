@@ -33,7 +33,7 @@ public class CustomerRole extends Role implements Customer {
 	private double amountOwed = 0;
 	private boolean hasGoneToRestaurant = false;
 	
-	private RestaurantYocca restaurant = null;
+	public RestaurantYocca restaurant = null;
 	// agent correspondents
 	private Waiter waiter;
 	private Host host;

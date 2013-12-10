@@ -42,6 +42,7 @@ import util.RestaurantMapLoc;
 import util.Task;
 import util.deposit;
 import util.openAccount;
+import util.rob;
 import util.takeLoan;
 import util.withdrawal;
 import interfaces.Person;
@@ -147,6 +148,7 @@ public class PersonAgent extends Agent implements Person {
 	private PersonGui gui;
 	int scale = 30;
 
+	public boolean robbedBank = false;
 
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
@@ -371,6 +373,8 @@ public class PersonAgent extends Agent implements Person {
 		
 		
 		
+		
+		
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
 
@@ -419,12 +423,22 @@ public class PersonAgent extends Agent implements Person {
 					return true;
 				}
 			}
-			return activeRole.pickAndExecuteAnAction();
+			try{
+				return activeRole.pickAndExecuteAnAction();
+			}
+			catch(NullPointerException e){
+				return true;
+			}
 		}
 		if(time == myJob.shiftStart-1){
 			return false;
 		}
 
+		if(name.equals("BankRobber") && !robbedBank){
+			goToBank();
+		}
+		
+		
 		//Do("Deciding what to do");
 		//TODO FIX THIS MAXTIME ISSUE
 		if(myJob.placeOfWork!=null && timeInJobShift() && timeInJobShift((time+1)%50) && timeInJobShift((time+2)%50)
@@ -448,15 +462,16 @@ public class PersonAgent extends Agent implements Person {
 			getFood();
 			return true;
 		}
-
-		if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
-			goToBank();
-			return true;
-		}
-
-		if(!city.map.get("Bank").isEmpty() && ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar)) {
-			goToBank();
-			return true;
+		if(!robbedBank){
+			if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
+				goToBank();
+				return true;
+			}
+	
+			if(!city.map.get("Bank").isEmpty() && ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar)) {
+				goToBank();
+				return true;
+			}
 		}
 
 
@@ -507,14 +522,6 @@ public class PersonAgent extends Agent implements Person {
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//HACK
-		if (myJob == null) {
-			AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "My Job is null!");
-		}
-		
-		if (myJob.placeOfWork == null) {
-			AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "My place of work is null!");
-
-		}
 		
 		if(myJob.placeOfWork==null){
 			myJob.shiftStart+=1;
@@ -553,11 +560,24 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}*/
 		}
+
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(MY_BANK)).bank;
 		Loc loc = city.map.get("Bank").get(MY_BANK).loc;
 
 
 		activeRole = bankRole;
+		
+		if(name.equals("BankRobber") && !robbedBank){
+			Do("Going to go rob the bank");
+			bankRole.Tasks.add(new rob(1000));
+			tempDoGoToCityLoc(loc);
+			
+			bankRole.msgYouAreAtBank(b);
+			activeRole = bankRole;
+			//robbedBank = true;
+			return;
+			
+		}
 
 		//open account
 		if(belongings.myAccounts.isEmpty()){
@@ -662,8 +682,10 @@ public class PersonAgent extends Agent implements Person {
 		
 
 
+
 				if (belongings.myHouse!=null && !belongings.myHouse.room.inventory.isEmpty()) {
 					Do("I am going to eat at home");
+
 					doGoHome();
 					activeRole = inhabitantRole;
 					belongings.myHouse.msgImHome(inhabitantRole);
@@ -671,7 +693,7 @@ public class PersonAgent extends Agent implements Person {
 					return;
 				}
 				else {
-					Do("I am going to eat at a restaurant");
+					//Do("I am going to eat at a restaurant");
 					goToRestaurant();
 				}
 	}
@@ -703,30 +725,34 @@ public class PersonAgent extends Agent implements Person {
 		Random random = new Random();
 		int rand = random.nextInt(city.map.get("Restaurant").size());
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(rand)).restaurant;
+		
+		if (b.unStaffed())
+			return;
 		Loc loc = city.map.get("Restaurant").get(rand).loc;
 
 		tempDoGoToCityLoc(loc);
+		
 
 		if (b instanceof restaurant.restaurantGabe.RestaurantGabe){
 			b.customerEntering(restaurantGabeRole);
 			restaurantGabeRole.msgAtRestaurant(b);
 			activeRole = restaurantGabeRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Gabe Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Gabe Restaurant", name);
 		}
 		else if (b instanceof restaurant.restaurantLinda.RestaurantLinda){
 			b.customerEntering(restaurantLindaRole);
 			restaurantLindaRole.msgAtRestaurant(b);
 			activeRole = restaurantLindaRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant, name", name);
 		}
 		else if (b instanceof restaurant.restaurantYocca.RestaurantYocca){
 			b.customerEntering(restaurantYoccaRole);
 			restaurantYoccaRole.msgAtRestaurant(b);
 			activeRole = restaurantYoccaRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant", name);
 		}
 		else{
-			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role");
+			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role", name);
 		}
 	}
 
