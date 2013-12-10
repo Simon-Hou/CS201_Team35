@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.MarketMock.MockMarketPerson;
 import market.gui.MarketEmployeeGui;
@@ -310,6 +313,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	private void PlaceOrderOnDock(MyBusinessOrder order){
 		log.add(new LoggedEvent("action PlaceOrderOnDock"));
+		DoMessage("Placing order on dock");
 		businessOrders.remove(order);
 		
 		 if(gui!=null){
@@ -405,5 +409,15 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		monitor = m;
 	}
 
+	public void DoInfo(String message){
+		//super.Do(message);
+		if (market.gui!=null)
+			AlertLog.getInstance().logInfo(AlertTag.MARKET, name, message, market.gui.ID);
+	}
 	
+	public void DoMessage(String message){
+		//super.Do(message);
+		if (market.gui!=null)
+			AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
+	}
 }

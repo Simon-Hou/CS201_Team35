@@ -1674,7 +1674,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewPersonHard("p4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
 
 		//deplete the inventory
-		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.addMarket(((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market);
+		//((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.addMarket(((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market);
 		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.depleteInventory();
 	}
 
