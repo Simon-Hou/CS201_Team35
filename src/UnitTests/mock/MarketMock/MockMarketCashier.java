@@ -75,10 +75,14 @@ public class MockMarketCashier extends Mock implements MarketCashier{
 	}
 
 	@Override
-	public void msgCalculateInvoice(MarketEmployee employee,
-			List<OrderItem> order, Restaurant r) {
-		// TODO Auto-generated method stub
-		log.add(new LoggedEvent("got msgCalculateInvoice"));
+	public void msgCalculateInvoice(MarketEmployee employee, List<OrderItem> order, Restaurant r) {
+		String list = "{";
+		for(OrderItem o: order){
+			list+=o.quantityReceived + o.choice + ", ";
+		}
+		list+="}";
+		
+		log.add(new LoggedEvent("got msgCalculateInvoice from employee " + employee.getName() + " for order " + list + " for restaurant " + r.toString()));
 		
 	}
 

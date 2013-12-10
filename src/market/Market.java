@@ -9,6 +9,7 @@ import cityGui.CityMarket;
 import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
 import market.gui.MarketPanel;
+import restaurant.ProducerConsumerMonitor;
 import role.Role;
 import util.JobType;
 import interfaces.MarketCashier;
@@ -34,6 +35,8 @@ public class Market implements PlaceOfWork{
 	public MarketPanel panel;
 	
 	public Map<String, Integer> inventory = new HashMap<String, Integer>();
+	
+	ProducerConsumerMonitor<MarketInvoice> deliveryDockMonitor = new ProducerConsumerMonitor<MarketInvoice>();
 	
 	public boolean isOpen = true;
 	
@@ -115,6 +118,7 @@ public class Market implements PlaceOfWork{
 				employees.add((MarketEmployee) m);
 				((MarketEmployeeRole) m).inEmployeeList = true;
 				panel.addEmployee((MarketEmployeeRole) m);
+				((MarketEmployeeRole)m).setMonitor(deliveryDockMonitor);
 				return m;
 			}
 			System.err.println("Market Employee wasn't allowed to work");
@@ -131,9 +135,10 @@ public class Market implements PlaceOfWork{
 		else if(jobType == JobType.MarketDeliveryMan){
 			
 				deliveryMen.add((MarketDeliveryMan) m);
-				for (MarketEmployee e : employees){
+				/*for (MarketEmployee e : employees){
 					e.addDeliveryMan((MarketDeliveryMan)m);
-				}
+				}*/
+				((MarketDeliveryManRole)m).setMonitor(deliveryDockMonitor);
 				return m;
 			
 		}

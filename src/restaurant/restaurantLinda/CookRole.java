@@ -235,7 +235,6 @@ public class CookRole extends Role implements Cook{
 	}
 	
 	public void CheckOrderStand(){
-		DoInfo("Checking order stand");
 		if (!orderMonitor.isEmpty()){
 			DoInfo("Found a new order");
 			RestaurantOrder o = orderMonitor.remove();
@@ -379,9 +378,5 @@ public class CookRole extends Role implements Cook{
 
 	}
 
-	@Override
-	public void addMarket(Market m) {
-		p.msgStateChanged();		
-	}
 }
 

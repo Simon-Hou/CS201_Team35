@@ -46,7 +46,13 @@ public class MockMarketEmployee extends Mock implements MarketEmployee{
 
 	@Override
 	public void msgGetThis(List<OrderItem> order, Restaurant r) {
-		// TODO Auto-generated method stub
+		String list = "{";
+		for(OrderItem o: order){
+			list+=o.quantityReceived + o.choice + ", ";
+		}
+		list+="}";
+		
+		log.add(new LoggedEvent("Got message to gather items for business order: " + list + " for restaurant" + r.toString()));
 		
 	}
 
@@ -56,10 +62,5 @@ public class MockMarketEmployee extends Mock implements MarketEmployee{
 		
 	}
 
-	@Override
-	public void addDeliveryMan(MarketDeliveryMan m) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

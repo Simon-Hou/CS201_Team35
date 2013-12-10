@@ -64,9 +64,6 @@ public class RestaurantLinda extends Restaurant{
 //		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
 //		cook.setGui(cg);
 //		cityRestaurant.animationPanel.addGui(cg);
-
-		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Debug message", cityRestaurant.ID);
-		
 		/*AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Debug message", cityRestaurant.ID);
 		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Info message", cityRestaurant.ID);
 		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Message message", cityRestaurant.ID);
