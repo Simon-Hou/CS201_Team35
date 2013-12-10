@@ -6,6 +6,7 @@ import market.Market;
 
 import role.Role;
 import util.CityMap;
+import cityGui.BuildingControlPanel;
 import cityGui.CityPanel;
 import cityGui.CityRestaurant;
 import interfaces.BaseRestaurantCashier;
@@ -24,6 +25,7 @@ public abstract class Restaurant implements PlaceOfWork{
 	public BaseRestaurantCook cook;
 	protected List<BaseRestaurantWaiter> waiters;
 	public CityRestaurant cityRestaurant;
+	public BuildingControlPanel controlPanel;
 	public List<Market> markets;
 	public int cash;
 	

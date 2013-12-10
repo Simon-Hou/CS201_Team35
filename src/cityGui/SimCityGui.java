@@ -546,8 +546,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 			}
 
 			temp.createAnimationPanel(this);
+			temp.createControlPanel();
 			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
+			if (temp.restaurant.controlPanel!=null)
+				buildingCP.addPanelCard(temp.restaurant.controlPanel, temp.ID);
 			this.view.addView(temp.animationPanel, temp.ID);
 			
 			//HACK FOR CLOSING RESTAURANTS
@@ -1565,10 +1568,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//cityObject.MAXTIME = 50;
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
-		fullyManBuilding("Market",0);
 		
 		addNewBuilding("Bank", 200, 5);
 		fullyManBuilding("Bank",0);
+		fullyManBuilding("Market",0);
 
 		/*addNewPersonHard("p"+0,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
@@ -1738,8 +1741,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setMAXTIME(20);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding(scenarioName,5, 300);
-		fullyManBuilding(scenarioName,0);
 		addNewBuilding("Bank", 200, 5);
+		fullyManBuilding(scenarioName,0);
 		fullyManBuilding("Bank",0);
 
 		int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());

@@ -176,5 +176,8 @@ public class CityRestaurantYocca extends CityRestaurant implements ImageObserver
 		initializeRestaurant();
 	}
 	
+	public void createControlPanel(){
+    	//TODO
+    }
 
 }
