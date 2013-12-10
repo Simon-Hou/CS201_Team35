@@ -1,8 +1,8 @@
 package restaurant.restaurantGabe.test.mock;
 
-import restaurant.restaurantGabe.interfaces.Market;
+//import restaurant.restaurantGabe.interfaces.Market;
 
-public class MockMarket extends Mock implements Market{
+public class MockMarket extends Mock /*implements interfaces.Market*/{
 	
 	public EventLog log = new EventLog();
 	

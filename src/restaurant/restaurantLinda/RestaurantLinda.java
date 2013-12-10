@@ -20,6 +20,8 @@ import astar.AStarTraversal;
 import cityGui.CityRestaurant;
 import cityGui.CityRestaurantLinda;
 import cityGui.CityRestaurantYoccaCard;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CookGui;
@@ -38,6 +40,8 @@ public class RestaurantLinda extends Restaurant{
 	public CashierRole cashier;
 	public CookRole cook;
 	public List<BaseRestaurantWaiter> waiters;
+	
+	public boolean isOpen = true;
 	
 	public RestaurantLinda(CityRestaurantLinda cr){
 		this.cityRestaurant = cr;
@@ -59,6 +63,11 @@ public class RestaurantLinda extends Restaurant{
 		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
 		cook.setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
+		
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Debug message", cityRestaurant.ID);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Info message", cityRestaurant.ID);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Message message", cityRestaurant.ID);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Error message", cityRestaurant.ID);
 	}
 	
 	//dummy constructor for agent-only unit tests
@@ -131,6 +140,12 @@ public class RestaurantLinda extends Restaurant{
 	
 	public boolean unStaffed(){
 		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
+	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return !unStaffed() && isOpen;
 	}
 
 }

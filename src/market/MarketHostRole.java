@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import UnitTests.mock.LoggedEvent;
 import interfaces.*;
 import restaurant.Restaurant;
 import role.Role;
@@ -22,15 +23,15 @@ public class MarketHostRole extends Role implements MarketHost {
 	enum CustomerState {waiting, beingServiced, leaving};
 	
 	public List<MyEmployee> employees = Collections.synchronizedList(new ArrayList<MyEmployee>());
-	private List<MyCustomer> customers= new ArrayList<MyCustomer>();
-	private List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
+	public List<MyCustomer> customers= new ArrayList<MyCustomer>();
+	public List<MyBusinessOrder> businessOrders = new ArrayList<MyBusinessOrder>();
 	
 	public Person p;
 	public String name;
 
 	Market market;
 	
-	public MarketHostRole(String name, PersonAgent p, Market m){		
+	public MarketHostRole(String name, Person p, Market m){		
 		this.name = name;
 		this.p=p;
 		this.market=m;		
@@ -61,6 +62,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		
      	
 	    Do("I received a MARKET order from " + c.getName()+", I have "+customers.size()+" custs");
+	    log.add(new LoggedEvent("got msgCustomerWantsThis"));
 		customers.add(new MyCustomer(c, orderList));
 	    if(p!=null){
 	    	p.msgStateChanged();
@@ -79,6 +81,7 @@ public class MarketHostRole extends Role implements MarketHost {
 			}
 		}
 		p.msgStateChanged();
+		log.add(new LoggedEvent("got msgCustomerLeaving"));
 		
 	}
 
@@ -126,6 +129,8 @@ public class MarketHostRole extends Role implements MarketHost {
 	private void CheckCustomer(MyCustomer mc){
 
 		Do("May I see your receipt please, " + mc.customer.getName() + "?");
+		log.add(new LoggedEvent("action CheckCustomer"));
+		
 		if (mc.groceries.isEmpty()  || (mc.receipt.order == mc.groceries)  ||  (mc.receipt == null && mc.groceries == null) ){
 
 			mc.customer.msgYouCanLeave();
@@ -137,6 +142,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 		
 		else {
+			log.add(new LoggedEvent("bad customer"));
 			 //error handling for robbers/scammers
 		 } 
 		 
@@ -146,6 +152,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 		
 		Do("Serving customer");
+		log.add(new LoggedEvent("action ServeCustomer"));
 		mc.state = CustomerState.beingServiced;
 		
 		Map<String, Integer> inventory = market.inventory;
@@ -168,6 +175,7 @@ public class MarketHostRole extends Role implements MarketHost {
 			inventory.remove(item.choice);
 
 			if (request > stock){
+				log.add(new LoggedEvent("no inventory"));
 				unfulfillable.put(item.choice, request - stock);
 				inventory.put(item.choice, 0);
 				if (stock ==0){
@@ -202,6 +210,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		//choose employee for load balancing
 		if(employees.size()==0 || ((MarketCashierRole)market.cashier).p == null){
 			System.err.println("No Market employees");
+			log.add(new LoggedEvent("no employees"));
 			//mc.customer.msgWeHaveNothing();
 			mc.customer.msgNoEmployees();
 			return;

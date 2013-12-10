@@ -24,22 +24,25 @@ import restaurant.Restaurant;
 import restaurant.restaurantLinda.CustomerRole;
 import restaurant.restaurantLinda.OriginalWaiterRole;
 import restaurant.restaurantLinda.ProducerConsumerWaiterRole;
-
 import role.Role;
 import util.Bank;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
+import util.CarAgent;
 import util.CityMap;
 import util.Job;
 import util.JobType;
 import util.Loc;
 import util.MarketMapLoc;
 import util.BankMapLoc;
+import util.OnRamp;
 import util.Place;
 import util.RestaurantMapLoc;
 import util.Task;
 import util.deposit;
 import util.openAccount;
+import util.rob;
 import util.takeLoan;
 import util.withdrawal;
 import interfaces.Person;
@@ -78,22 +81,43 @@ public class PersonAgent extends Agent implements Person {
 		
 
 		Random random = new Random();
-		hungerLevel = random.nextInt(10);
+		//hungerLevel = random.nextInt(10);
 
-		//parker market testing changes
+
+//		if (random.nextBoolean()){
+//			this.belongings.myFoods.add(new Food("Steak",10));
+////			this.belongings.myFoods.add(new Food("Chicken",10));
+////			this.belongings.myFoods.add(new Food("Pizza",10));
+////			this.belongings.myFoods.add(new Food("Salad",10));
+//		}
+		
 //		if (random.nextBoolean()){
 			this.belongings.myFoods.add(new Food("Steak",5));
 			this.belongings.myFoods.add(new Food("Chicken",15));
 			this.belongings.myFoods.add(new Food("Pizza",15));
 			this.belongings.myFoods.add(new Food("Salad",15));
 //		}
+
 		purse.wallet = 50;
+		
+		
+		if(name.equals("Drive1")){
+			driveHack = DriveHack.drive1;
+		}
+		else if(name.equals("Drive2")){
+			driveHack = DriveHack.drive2;
+		}
+		
 
 		
-		//parker market testing changes
+
+		//myCar.gui = new CarAgentGui();
+		
+		//hungerLevel = 0;
+		
+		//PARKERMARKET
 		hungerLevel = 0;
 		tiredLevel = 15;
-		//parker market testing changes
 
 	}
 
@@ -147,6 +171,7 @@ public class PersonAgent extends Agent implements Person {
 	private PersonGui gui;
 	int scale = 30;
 
+	public boolean robbedBank = false;
 
 	//List<String> foodNames;
 	public Semaphore atDestination = new Semaphore(0,true);
@@ -154,6 +179,14 @@ public class PersonAgent extends Agent implements Person {
 	public boolean wantsToRideBus = false;
 	public Semaphore waitForBusToArrive = new Semaphore(0,true);
 	private boolean onBus = false;
+	
+	public Semaphore driveOver = new Semaphore(0,true);
+	public List<OnRamp> onRamps = new ArrayList<OnRamp>();
+	public enum DriveHack {drive1,drive2,NONE};
+	public DriveHack driveHack = DriveHack.NONE;
+	
+	boolean waited = false;
+	
 
 	public int spriteChoice;
 	public List<ImageIcon> upSprites = new ArrayList<ImageIcon>();
@@ -251,6 +284,8 @@ public class PersonAgent extends Agent implements Person {
 	public class Car {
 		public int licensePlateNumber;
 	}
+	
+	public CarAgent myCar = new CarAgent();
 
 
 	//msg
@@ -262,10 +297,52 @@ public class PersonAgent extends Agent implements Person {
 	public void msgAtDestination(){
 		atDestination.release();
 	}
+	
+	public void msgCarOnRoad(){
+		gui.waitingForCarToGetOnRoad = false;
+		myCar.gui.moving = false;
+	}
 
-	public void msgCarArrivedAtLoc(Loc destination){
+	public void msgCarArrivedAtRamp(OnRamp destination){
 		//blah
 		//stateChanged();
+		Do("Getting out of car");
+		driveOver.release();
+		gui.setLoc(destination.sidewalkLoc);
+		gui.xDestination = gui.rectangle.x;
+		gui.yDestination = gui.rectangle.y;
+		Do("My Loc: "+destination.sidewalkLoc.x+", "+destination.sidewalkLoc.y);
+		stateChanged();
+	}
+	
+	
+	public void msgBusAtStop(BusAgent b,BusStop stop){
+		//blah
+		//stateChanged();
+		//Do("IN THIS MESSAGE "+gui.x+" "+gui.y+" "+stop.sidewalkLoc.x+" "+stop.sidewalkLoc.y);
+		if(stop.sidewalkLoc.x == gui.xDestination && stop.sidewalkLoc.y==gui.yDestination){
+
+
+			gui.onBus();
+			onBus = true;
+			Do("Getting on bus");
+
+			//b.getOnBus(this);
+		}
+		else{
+			Do("Getting OFF bus");
+			onBus = false;
+			waitForBusToArrive.release();
+			wantsToRideBus = false;
+			
+
+			//Do("SHIT I JUST WOKE UP");
+			gui.setLoc(stop.sidewalkLoc);
+			gui.offBus();
+			//waitForBusToArrive.release();
+			//b.getOffBuss(this);
+		}
+
 	}
 
 	public void msgBusAtStop(Bus b,BusStop stop){
@@ -308,6 +385,31 @@ public class PersonAgent extends Agent implements Person {
 	}
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
+		
+		
+//		//DON'T DELETE THIS. IF YOU'RE TRYING TO FIX A MERGE CONFLICT,
+//		//JUST COMMENT THIS OUT
+//		if(onRamps.size()>=2){
+//			
+//				
+//			doDrive(onRamps.get(0),onRamps.get(1));
+//			return true;
+//		}
+		
+		if(driveHack == DriveHack.drive1){
+			doDrive(onRamps.get(0),onRamps.get(1));
+			driveHack = DriveHack.NONE;
+			return true;
+		}
+		if(driveHack == DriveHack.drive2){
+			doDrive(onRamps.get(2),onRamps.get(3));
+			driveHack = DriveHack.NONE;
+			return true;
+		}
+		
+		
+		
+		
 		//Do("Deciding what to do - "+ time);
 		//Do("Role: "+activeRole);
 
@@ -321,7 +423,7 @@ public class PersonAgent extends Agent implements Person {
 		//			try {
 		//				Thread.sleep(300);
 		//			} catch (InterruptedException e) {
-		//				// TODO Auto-generated catch block
+		//				
 		//				e.printStackTrace();
 		//			}
 		//		}
@@ -356,13 +458,22 @@ public class PersonAgent extends Agent implements Person {
 					return true;
 				}
 			}
-			return activeRole.pickAndExecuteAnAction();
+			try{
+				return activeRole.pickAndExecuteAnAction();
+			}
+			catch(NullPointerException e){
+				return true;
+			}
 		}
-		//Do("ALIVE");
 		if(time == myJob.shiftStart-1){
 			return false;
 		}
 
+		if(name.equals("BankRobber") && !robbedBank){
+			goToBank();
+		}
+		
+		
 		//Do("Deciding what to do");
 		//TODO FIX THIS MAXTIME ISSUE
 		if(myJob.placeOfWork!=null && timeInJobShift() && timeInJobShift((time+1)%50) && timeInJobShift((time+2)%50)
@@ -386,15 +497,16 @@ public class PersonAgent extends Agent implements Person {
 			getFood();
 			return true;
 		}
-
-		if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
-			goToBank();
-			return true;
-		}
-
-		if(!city.map.get("Bank").isEmpty() && ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar)) {
-			goToBank();
-			return true;
+		if(!robbedBank){
+			if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
+				goToBank();
+				return true;
+			}
+	
+			if(!city.map.get("Bank").isEmpty() && ((purse.wallet <= 10 || purse.wallet >= 1000) && !wantsToBuyCar)) {
+				goToBank();
+				return true;
+			}
 		}
 
 
@@ -446,14 +558,6 @@ public class PersonAgent extends Agent implements Person {
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//HACK
-		if (myJob == null) {
-			AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "My Job is null!");
-		}
-		
-		if (myJob.placeOfWork == null) {
-			AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "My place of work is null!");
-
-		}
 		
 		if(myJob.placeOfWork==null){
 			myJob.shiftStart+=1;
@@ -492,11 +596,24 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}*/
 		}
+
 		Bank b = ((BankMapLoc) city.map.get("Bank").get(MY_BANK)).bank;
 		Loc loc = city.map.get("Bank").get(MY_BANK).loc;
 
 
 		activeRole = bankRole;
+		
+		if(name.equals("BankRobber") && !robbedBank){
+			Do("Going to go rob the bank");
+			bankRole.Tasks.add(new rob(1000));
+			tempDoGoToCityLoc(loc);
+			
+			bankRole.msgYouAreAtBank(b);
+			activeRole = bankRole;
+			//robbedBank = true;
+			return;
+			
+		}
 
 		//open account
 		if(belongings.myAccounts.isEmpty()){
@@ -547,7 +664,7 @@ public class PersonAgent extends Agent implements Person {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		AlertLog.getInstance().logInfo(AlertTag.MARKET, this.getName(), "I am going to the market to buy food for home");
+		AlertLog.getInstance().logInfo(AlertTag.MARKET, this.getName(), "I am going to the market to buy food for home", "hi!");
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
@@ -601,19 +718,18 @@ public class PersonAgent extends Agent implements Person {
 		
 
 
-				if (belongings.myHouse!=null && !belongings.myFoods.isEmpty()) {
+
+				if (belongings.myHouse!=null && !belongings.myHouse.room.inventory.isEmpty()) {
 					Do("I am going to eat at home");
+
 					doGoHome();
 					activeRole = inhabitantRole;
 					belongings.myHouse.msgImHome(inhabitantRole);
-					inhabitantRole.msgTired();
-					//goToRestaurant();
-					
 					inhabitantRole.msgGotHungry();
 					return;
 				}
 				else {
-					Do("I am going to eat at a restaurant");
+					//Do("I am going to eat at a restaurant");
 					goToRestaurant();
 				}
 	}
@@ -645,30 +761,34 @@ public class PersonAgent extends Agent implements Person {
 		Random random = new Random();
 		int rand = random.nextInt(city.map.get("Restaurant").size());
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(rand)).restaurant;
+		
+		if (b.unStaffed())
+			return;
 		Loc loc = city.map.get("Restaurant").get(rand).loc;
 
 		tempDoGoToCityLoc(loc);
+		
 
 		if (b instanceof restaurant.restaurantGabe.RestaurantGabe){
 			b.customerEntering(restaurantGabeRole);
 			restaurantGabeRole.msgAtRestaurant(b);
 			activeRole = restaurantGabeRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Gabe Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Gabe Restaurant", name);
 		}
 		else if (b instanceof restaurant.restaurantLinda.RestaurantLinda){
 			b.customerEntering(restaurantLindaRole);
 			restaurantLindaRole.msgAtRestaurant(b);
 			activeRole = restaurantLindaRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Linda Restaurant, name", name);
 		}
 		else if (b instanceof restaurant.restaurantYocca.RestaurantYocca){
 			b.customerEntering(restaurantYoccaRole);
 			restaurantYoccaRole.msgAtRestaurant(b);
 			activeRole = restaurantYoccaRole;
-			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant");
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant", name);
 		}
 		else{
-			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role");
+			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role", name);
 		}
 	}
 
@@ -785,6 +905,38 @@ public class PersonAgent extends Agent implements Person {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void doDrive(OnRamp from,OnRamp to){
+		
+		Do("Taking a drive");
+//		if(!waited){
+//			try {
+//				Thread.sleep(9000);
+//			} catch (InterruptedException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			waited = true;
+//		}
+		//stopThread();
+		
+		gui.waitingForCarToGetOnRoad = true;
+		
+		tempDoGoToCityLoc(from.sidewalkLoc);
+		
+		myCar.msgTakeMeTo(from, to);
+		
+		try {
+			driveOver.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Do("I HAVE AWOKEN");
+		
+		
+		
 	}
 
 	private void doGoToWork(){
@@ -1138,9 +1290,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 
-
-
-
+	
 
 
 

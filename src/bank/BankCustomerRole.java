@@ -174,6 +174,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		person.addToWallet(cash);
 		event = CustEvent.tellerReady;
 		pendingTask = null;
+		((PersonAgent) person).robbedBank = true;
+		//Do("I have " +Tasks.size() + " tasks");
+		Tasks.clear();
 		person.msgStateChanged();
 	}
 	
@@ -219,7 +222,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//ACT
 	
 	private void getInLine(){
-		Do("Getting in line!");
+		if(!person.getName().equals("BankRobber")){
+			Do("Getting in line!");
+		}
 		if(bank.addMeToQueue(this)){
 			//Do("BEFORE");
 			doGetInLine();

@@ -5,26 +5,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.MarketMock.MockMarketPerson;
 import person.PersonAgent;
 //import restaurant.Restaurant;
 import role.Role;
 import interfaces.MarketDeliveryMan;
 import interfaces.MarketCashier;
+import interfaces.Person;
 
 public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 
 	
 	//-----------------------------DATA--------------------------------
-	private List<MarketInvoice> orders = new ArrayList<MarketInvoice>();
-	private List<MyPayment> payments = new ArrayList<MyPayment>();
+	public List<MarketInvoice> orders = new ArrayList<MarketInvoice>();
+	public List<MyPayment> payments = new ArrayList<MyPayment>();
 	private Market market;
 	private String name;
-	private PersonAgent p;
+	private Person p;
 	
 	//DeliveryMan is just going to wait for the restaurant cashier
 	private Semaphore receivedPayment = new Semaphore(0,true);
 	
-	public MarketDeliveryManRole(String name, PersonAgent p, Market m){
+	public MarketDeliveryManRole(String name, Person p, Market m){
 		this.name = name;
 		this.p = p;
 		this.market = m;
@@ -39,12 +42,14 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	//-----------------------------MESSAGES--------------------------------
 	public void msgDeliverThisOrder(MarketInvoice order){
+		log.add(new LoggedEvent("got msgDeliverThisOrder"));
 		orders.add(order);
 		p.msgStateChanged();
 		
 	}
 	
 	public void msgHereIsPayment(int payment, MarketInvoice invoice){
+		log.add(new LoggedEvent("got msgHereIsPayment"));
 		MyPayment pay = new MyPayment(payment, invoice);
 		payments.add(pay);
 		receivedPayment.release();
@@ -74,17 +79,19 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	//-----------------------------ACTIONS--------------------------------
 	private void DeliverOrder(MarketInvoice order){
 		Do("Deliverying an order to a restaurant");
+		log.add(new LoggedEvent("action DeliverOrder"));
 		//DoGoToRestaurant(order.restaurant);
-		
+
 		orders.remove(order);
-		
-		order.restaurant.cook.msgHereIsDelivery(order);
-		order.restaurant.cashier.msgHereIsInvoice(this, order);
-		
-		try {
-			receivedPayment.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (order.restaurant != null) {
+			order.restaurant.cook.msgHereIsDelivery(order);
+			order.restaurant.cashier.msgHereIsInvoice(this, order);
+
+			try {
+				receivedPayment.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -94,9 +101,12 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	private void DeliverPayment(MyPayment payment){
 		DoGoToCashier();
 		Do(market.cashier.getName() + ", here is a business payment.");
-		market.cashier.msgHereIsBusinessPayment(payment.amount);
+		log.add(new LoggedEvent("action DeliverPayment"));
+		if (!(p instanceof MockMarketPerson)) {
+			market.cashier.msgHereIsBusinessPayment(payment.amount);
+		}
 		payments.remove(payment);
-	
+
 		
 	}
 	

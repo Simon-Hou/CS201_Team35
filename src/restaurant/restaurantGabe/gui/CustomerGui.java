@@ -7,6 +7,7 @@ import restaurant.restaurantGabe.CustomerRole;
 
 
 
+
 import java.awt.*;
 
 import javax.swing.ImageIcon;
@@ -115,11 +116,12 @@ public class CustomerGui implements Gui{
 	public void draw(Graphics2D g) {
 //		g.setColor(Color.GREEN);
 //		g.fillRect(xPos, yPos, customer_width, customer_height);
+		g.setColor(Color.black);
+        g.drawString("Cust", xPos, yPos-5);
 	    g.drawImage(currentImage.getImage(),xPos, yPos, customer_width, customer_height,null);
 	     
 		if(food!=null){
-			g.setColor(Color.black);
-			g.drawString(food, xPos, yPos+customer_height/2);
+			g.drawString(food, xPos+20, yPos+customer_height/2);
 		}
 	}
 	

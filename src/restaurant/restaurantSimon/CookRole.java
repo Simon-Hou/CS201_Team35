@@ -5,11 +5,13 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import market.Market;
+import market.MarketInvoice;
 import restaurant.Restaurant;
 import restaurant.restaurantSimon.gui.CookGui;
+import restaurant.restaurantSimon.interfaces.Cook;
 import role.Role;
 import agent.Agent;
-public class CookRole extends Role{
+public class CookRole extends Role implements Cook{
 
 	public enum OrderState{Pending,Cooking,Done,DoneAndCalled,Dilivered,canceled};
 	class Order{
@@ -59,7 +61,7 @@ public class CookRole extends Role{
 			notEnough=ne;
 		}
 	}
-	public CookRole(Restaurant r){
+	public CookRole(RestaurantSimon r){
 		inventory=new HashMap<>();
 		inventory.put("Steak", new FoodData("Steak",10));
 		inventory.put("Salad", new FoodData("Salad",4));
@@ -85,7 +87,7 @@ public class CookRole extends Role{
 
 	int marketCounter=0;
 
-	Restaurant restaurant;
+	RestaurantSimon restaurant;
 
 	//hack to establish relationship with market
 	public void msgAddMarket(Market m){
@@ -319,6 +321,35 @@ public class CookRole extends Role{
 	}
 	public String toString() {
 		return "cook " + getName();
+	}
+
+
+	@Override
+	public void msgHereIsDelivery(MarketInvoice order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void msgCannotFulfillOrder(Market m,
+			Map<String, Integer> unfulfillable) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return self!=null;
+	}
+
+
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return restaurant.customers.size()==0;
 	}
 
 }

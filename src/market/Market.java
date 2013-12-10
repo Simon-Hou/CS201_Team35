@@ -33,6 +33,8 @@ public class Market implements PlaceOfWork{
 	
 	public Map<String, Integer> inventory = new HashMap<String, Integer>();
 	
+	public boolean isOpen = true;
+	
 	
 	//CONSTRUCTOR
 	public Market(){
@@ -173,6 +175,12 @@ public class Market implements PlaceOfWork{
 		if(r instanceof MarketCashier){
 			((MarketCashierRole) r).name = "DefaultUnmannedCashier";
 		}
+	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return isOpen;
 	}
 	
 }

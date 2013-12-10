@@ -5,6 +5,7 @@ import house.House;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
@@ -112,11 +113,9 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				if (c.equals(temp))
 					continue;
 				if (c.rectangle.intersects(temp.rectangle)) {
-					AlertLog.getInstance().logError(AlertTag.GENERAL_CITY, this.name, "Can't add building, location obstructed!");
 					return;
 				}
 			}
-			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
 
 			if(temp.type.equals("Restaurant")){
@@ -169,14 +168,17 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			temp = null;
 		}
-		for (CityComponent c: statics) {
-			if (c.contains(arg0.getX(), arg0.getY())) {
-				//city.info.setText(c.ID);
-				city.view.setView(c.ID);
-				city.buildingCP.showCard(c.ID);
-				AlertLog.getInstance().logMessage(AlertTag.GENERAL_CITY, this.name, "Building Selected: " + c.ID);
+		synchronized(statics){
+			for (CityComponent c: statics) {
+				if (c.contains(arg0.getX(), arg0.getY())) {
+					//city.info.setText(c.ID);
+					city.view.setView(c.ID);
+					city.buildingCP.showCard(c.ID);
+				}
 			}
 		}
+		
+		city.tracePanel.filterTracePanel();
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
@@ -192,7 +194,10 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 		//case RESTAURANT: temp = new CityRestaurantSimon(-100, -100, "Restaurant " + (statics.size()-19)); break;
 
-		case RESTAURANT: temp = new CityRestaurantGabe(-100, -100, "Restaurant " + (statics.size()-19)); break;
+		case RESTAURANTSIMON: temp = new CityRestaurantSimon(-100, -100, "Restaurant " + (statics.size()-19)); break;
+		case RESTAURANTGABE: temp = new CityRestaurantGabe(-100, -100, "Restaurant " + (statics.size()-19)); break;
+		case RESTAURANTLINDA: temp = new CityRestaurantLinda(-100, -100, "Restaurant " + (statics.size()-19)); break;
+		case RESTAURANTYOCCA: temp = new CityRestaurantYocca(-100, -100, "Restaurant " + (statics.size()-19)); break;
 
 		case ROAD: temp = new CityRoad(-100, RoadDirection.HORIZONTAL); break; //NOTE: DON'T MAKE NEW ROADS
 		case BANK: temp = new CityBank(-100, -100, "Bank " + (statics.size()-19)); break;
@@ -211,8 +216,14 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 		if (addingObject) {
 			temp.setPosition(arg0.getPoint());
 			for (CityComponent c: statics) {
-				if (c.equals(temp))
+				if (c.equals(temp)){
 					continue;
+				}
+				if(c.rectangle==null){
+					//System.out.println(c);
+				}
+				
+				//System.out.println("AHHH: "+temp==null);
 				if (c.rectangle.intersects(temp.rectangle)) {
 					temp.invalidPlacement = true;
 					return;
@@ -237,11 +248,9 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				if (c.equals(temp))
 					continue;
 				if (c.rectangle.intersects(temp.rectangle)) {
-					AlertLog.getInstance().logError(AlertTag.GENERAL_CITY, this.name, "Can't add building, location obstructed!");
 					return;
 				}
 			}
-			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
 
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);

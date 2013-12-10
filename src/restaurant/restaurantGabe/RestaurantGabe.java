@@ -56,6 +56,8 @@ public class RestaurantGabe extends Restaurant{
 	    public HostRole host;
 	    public CashierRole cashier;
 	    
+	    public boolean isOpen = true;
+	    
 	    
 //	    public CookRole cook = new CookRole("Cook",0);
 //	    public HostRole host = new HostRole("Host");
@@ -171,9 +173,7 @@ public class RestaurantGabe extends Restaurant{
 		
 	}
 	
-	public boolean unStaffed(){
-		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent() || waiters.isEmpty();
-	}
+
 	
 	public Role canIBeHost(Person person){
 		if(((HostRole) host).person==null || ((HostRole)host).YouAreDoneWithShift()){
@@ -314,6 +314,18 @@ public class RestaurantGabe extends Restaurant{
 	public boolean leaveWaiterList(WaiterRole r){
 		return host.removeWaiter(r);
 		
+	}
+	
+	
+	public boolean unStaffed(){
+		return !host.isPresent() || !cook.isPresent() || !cashier.isPresent();
+	}
+
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return isOpen;
 	}
 
 }

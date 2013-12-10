@@ -98,15 +98,6 @@ public class InhabitantRole extends Role implements Inhabitant {
 	private void Sleep(){
 		Do("Going to sleep");
 		wantSleep=false;
-		
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//self.msgThisRoleDone(this);
 		gui.DoSleep();
 		try {
 		    Thread.sleep(sleepTime);
@@ -120,7 +111,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	private void GetAndCook(){
 		wantEat=false;
 		gui.DoGoToFridge();
-		System.err.println("Picking");
+		//System.err.println("Picking");
 		PickFood();
 		gui.DoGoToGrill();
 		gui.DoIdle();
@@ -142,8 +133,10 @@ public class InhabitantRole extends Role implements Inhabitant {
 		self.msgDoneEating();
 	}
 	private void ExitHouse(){
+		if(gui!=null)//hack!!! change later
 		gui.DoExit();
-		if(myRoom!=null){
+		if(myRoom!=null && myRoom.inhabitant!=null){
+			
 			myRoom.inhabitant=null;
 		}
 		self.msgThisRoleDone(this);

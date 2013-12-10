@@ -101,6 +101,12 @@ public class CashierRole extends Role implements Cashier{
 			this.m = m;
 			this.amount = amount;
 		}
+		public MarketBill(MarketDeliveryMan m,MarketInvoice i){
+			this.man = m;
+			this.i = i;
+		}
+		public MarketDeliveryMan man;
+		public MarketInvoice i;
 		public Market m;
 		public int amount;
 	}
@@ -168,6 +174,15 @@ public class CashierRole extends Role implements Cashier{
 			//market.DefaultName(this);
 		}
 		return true;
+	}
+	
+	@Override
+	public void msgHereIsInvoice(MarketDeliveryMan deliveryMan,
+			MarketInvoice order) {
+		// TODO Auto-generated method stub
+		Do("Got a new bill from the market");
+		marketBills.add(new MarketBill(deliveryMan,order));
+		
 	}
 	
 	public void msgDeliveryBill(Market m,int amount){
@@ -293,20 +308,28 @@ public class CashierRole extends Role implements Cashier{
 		
 		MarketBill pay = marketBills.get(0);
 		log.add(new LoggedEvent("Attempting to pay the market a bill of $"+pay.amount));
-		
-		if(pay.amount<=this.RestaurantMoney){
-			pay.m.cashier.msgHereIsBusinessPayment(pay.amount);
-			this.RestaurantMoney -= pay.amount;
+		if(pay.man ==null){
+			if(pay.amount<=this.RestaurantMoney){
+				pay.m.cashier.msgHereIsBusinessPayment(pay.amount);
+				this.RestaurantMoney -= pay.amount;
+				marketBills.remove(0);
+				return;
+			}
+
+			Do("Can't pay for the Market Order.");
+
+			pay.m.cashier.msgHereIsBusinessPayment(0);
+			//pay.m.msgCantPay();
+
 			marketBills.remove(0);
-			return;
 		}
-		
-		Do("Can't pay for the Market Order.");
-		
-		pay.m.cashier.msgHereIsBusinessPayment(0);
-		//pay.m.msgCantPay();
-		
-		marketBills.remove(0);
+		else{
+			//TODO add check
+			int amount = pay.amount;
+			pay.man.msgHereIsPayment(amount, pay.i);
+			marketBills.remove(0);
+			
+		}
 		
 	}
 	
@@ -371,12 +394,7 @@ public class CashierRole extends Role implements Cashier{
 		//Do("Here's that order of "+o.choice+ " for "+o.c.getName());
 	}
 
-	@Override
-	public void msgHereIsInvoice(MarketDeliveryMan deliveryMan,
-			MarketInvoice order) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public boolean isPresent() {

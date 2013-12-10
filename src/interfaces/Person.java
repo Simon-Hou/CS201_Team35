@@ -7,8 +7,10 @@ import javax.swing.ImageIcon;
 
 import role.Role;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
 import util.Loc;
+import util.OnRamp;
 
 public interface Person {
 	
@@ -20,7 +22,8 @@ public interface Person {
 	public abstract void msgStateChanged();
 	
 	public abstract void msgBusAtStop(Bus b,BusStop stop);
-	public abstract void msgCarArrivedAtLoc(Loc destination);
+	public abstract void msgBusAtStop(BusAgent b,BusStop stop);
+	public abstract void msgCarArrivedAtRamp(OnRamp destination);
 	
 	public abstract void addToWallet(int amount);
 	public abstract void takeFromWallet(int amount);
@@ -46,5 +49,8 @@ public interface Person {
 	public abstract void putInBag(String item,int amount);
 
 	public abstract void setTiredLevel(int i);
+	
+
+	
 	
 }
