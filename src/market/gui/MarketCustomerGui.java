@@ -77,8 +77,9 @@ public class MarketCustomerGui implements Gui{
 			}
 		}
 	    if (!gotToDestination){
-	       	if (xPos == xDestination && yPos == yDestination && !(xDestination == itemDropX && yDestination == itemDropY) )
+	       	if (xPos == xDestination && yPos == yDestination  )
 	       	{
+	       		System.err.println("gui update position says:  got to the destination, so now going to call msgAtDestination");
 	       		role.msgAtDestination();
 	       		gotToDestination = true;
 	       	}
@@ -113,7 +114,7 @@ public class MarketCustomerGui implements Gui{
 	}
 
 	public void DoGoToExit(){
-		System.out.println(role.name+" moving me to host");
+		//System.out.println(role.name+" moving me to host");
 		System.out.flush();
 		gotToDestination = false;
 		xDestination = exitX;

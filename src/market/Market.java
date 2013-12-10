@@ -150,6 +150,12 @@ public class Market implements PlaceOfWork{
 		}
 	}
 	
+	public void deleteCustomer(MarketCustomer cust){
+		if (panel!= null){
+			panel.deleteCustomer((MarketCustomerRole)cust);
+		}
+	}
+	
 	public void setMarketPanel(MarketPanel p){
 		panel = p;
 	}

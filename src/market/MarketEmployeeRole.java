@@ -132,6 +132,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	//fromAnimation
 	public void msgAtDestination(){
 		atDestination.release();
+		//p.msgStateChanged();
 	}
 	
 	//Scheduler
@@ -178,6 +179,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	//Actions
 	private void CollectItems(CustomerOrder co){
 		
+		System.err.println("Am collecting items");
 	    co.status = CustomerOrderState.fulfilled;
 	
 		
@@ -231,16 +233,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    if(gui!=null){
 			gui.DoGoHomePosition();
 		}
-	    else{
-	    	atDestination.release();
-	    }
 	    
-	    try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	    
 	    customerOrders.remove(co);
 	

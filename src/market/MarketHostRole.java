@@ -47,6 +47,7 @@ public class MarketHostRole extends Role implements MarketHost {
 
 	public boolean YouAreDoneWithShift(){
 		//TODO make sure people don't leave their shifts early
+		System.err.println("You are done with your shift!");
 		if(true){
 			Do("Being kicked off the job now");
 			p.msgThisRoleDone(this);
@@ -361,6 +362,7 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 
 	public boolean canLeave() {
+		this.p = null;
 		return true;
 	}
 	

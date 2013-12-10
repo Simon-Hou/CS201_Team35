@@ -221,12 +221,19 @@ public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements Actio
 		*/
 	}
 	
-	public void removeCustomer(){
+	public void removeCustomer(){  //basically just opens the door
 		
 		animation.enterCustomer();
+//		customers.remove(cust);
+//		animation.removeGui(cust.gui);
 		//remove from animation gui list
 		//remove role from customers list in here
 		
+	}
+	
+	public void deleteCustomer(MarketCustomerRole cust){
+		customers.remove(cust);
+		animation.removeGui(cust.gui);
 	}
 	
 	public void updateInventory(){

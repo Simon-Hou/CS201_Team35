@@ -45,6 +45,7 @@ public class MarketEmployeeGui implements Gui{
 
 
 	public void updatePosition() {
+		System.err.println("up");
 		if (xPos < xDestination) {
 			xPos++;
 			spriteCounter++;
@@ -78,7 +79,9 @@ public class MarketEmployeeGui implements Gui{
 			}
 		}
 	    if (!gotToDestination){
-	     	if (xPos == xDestination && yPos == yDestination && !(xDestination == xInitial && yDestination == yInitial) )	{
+	    	System.err.println("EMPLOYEE: GoiNG!");
+	     	if (xPos == xDestination && yPos == yDestination  )	{
+	     		System.err.println("EMPLOYEE:  GOT HERE!!!GOT HERE!!!GOT HERE!!!GOT HERE!!!GOT HERE!!!GOT HERE!!!GOT HERE!!!GOT HERE!!!GOT HERE!!!");
 	       		role.msgAtDestination();
 	       		gotToDestination = true;
 	       	}
@@ -140,6 +143,7 @@ public class MarketEmployeeGui implements Gui{
 		xDestination = itemDropX;
 		yDestination = itemDropY;
 		gotToDestination = false;
+		System.err.println("setting gotToDestination false");
 	}
 	
 	public void DoGoHomePosition(){

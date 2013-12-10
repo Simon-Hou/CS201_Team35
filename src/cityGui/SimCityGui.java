@@ -1027,23 +1027,37 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("Market",250,200);
 		
 		//employees
-		addNewPersonHard("p"+0,
+		addNewPersonHard("H1",
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketHost,0,100,0,0);
 
-		addNewPersonHard("p"+1,
+//		addNewPersonHard("H2",
+//				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+//				JobType.MarketHost,10,50,0,0);
+
+		
+		addNewPersonHard("E1",
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketEmployee,0,100,0,0);
+		
+//		addNewPersonHard("E2",
+//				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+//				JobType.MarketEmployee,10,50,0,0);
 
-		addNewPersonHard("p"+2,
+		addNewPersonHard("C1",
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketCashier,0,100,0,0);
 		
-
+//		addNewPersonHard("C2",
+//				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+//				JobType.MarketCashier,10,50,0,0);
 		
 		
 		//customers
-		addNewPersonHard("p"+4,null,null,0,0,0,0);
+		addNewPersonHard("p1",null,null,0,0,0,0);
+		addNewPersonHard("p"+5,null,null,0,0,0,0);
+		addNewPersonHard("p"+6,null,null,0,0,0,0);
+		addNewPersonHard("p"+7,null,null,0,0,0,0);
 	}
 
 	public void gabeRestaurant(){
