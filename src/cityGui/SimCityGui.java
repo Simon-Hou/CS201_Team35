@@ -1,5 +1,6 @@
 package cityGui;
 
+import house.gui.HouseControlPanel;
 import interfaces.PlaceOfWork;
 
 import java.awt.Color;
@@ -19,6 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import bank.gui.BankControlPanel;
 
 import market.Market;
 import market.gui.MarketMain;
@@ -496,9 +499,17 @@ public class SimCityGui extends JFrame implements ActionListener {
 			city.setBuildingDown();*/
 			CityComponent temp = new CityBank(x, y, "Bank " + (city.statics.size()-19));
 			CityBankCard tempAnimation = new CityBankCard(this);
+			BankControlPanel panel= new BankControlPanel(tempAnimation,((CityBank)temp).bank);
+			
+			buildingCP.addPanelCard(panel, temp.ID);
+			
 			((CityBank)temp).bank.setAnimationPanel(tempAnimation);
+			
+			tempAnimation.setPanel(panel);
 			//Just to test the open stuff
 			//((CityBank)temp).bank.isOpen  = false;
+			
+			
 			city.banks.add(((CityBank)temp).bank);
 			this.view.addView(tempAnimation, temp.ID);
 			temp.cityObject = this.cityObject;
@@ -546,8 +557,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 			}
 
 			temp.createAnimationPanel(this);
+			temp.createControlPanel();
 			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
+			if (temp.restaurant.controlPanel!=null)
+				buildingCP.addPanelCard(temp.restaurant.controlPanel, temp.ID);
 			this.view.addView(temp.animationPanel, temp.ID);
 
 			//HACK FOR CLOSING RESTAURANTS
@@ -577,7 +591,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 		if(type.equals("House")){
 			CityComponent temp = new CityHouse(x, y, "House " + (city.statics.size()-19));
 			CityHouseCard tempAnimation = new CityHouseCard(this);
+			HouseControlPanel panel=new HouseControlPanel(tempAnimation,((CityHouse)temp).house);
+			
+			buildingCP.addPanelCard(panel, temp.ID);
+			
 			((CityHouse)temp).house.setAnimationPanel(tempAnimation);
+			
+			tempAnimation.setPanel(panel);
+			
 			city.houses.add(((CityHouse)temp).house);
 			this.view.addView(tempAnimation, temp.ID);
 			temp.cityObject = this.cityObject;
@@ -1646,10 +1667,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//cityObject.MAXTIME = 50;
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
-		fullyManBuilding("Market",0);
 		
 		addNewBuilding("Bank", 200, 5);
 		fullyManBuilding("Bank",0);
+		fullyManBuilding("Market",0);
 
 		/*addNewPersonHard("p"+0,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
@@ -1847,8 +1868,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setMAXTIME(20);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding(scenarioName,5, 300);
-		fullyManBuilding(scenarioName,0);
 		addNewBuilding("Bank", 200, 5);
+		fullyManBuilding(scenarioName,0);
 		fullyManBuilding("Bank",0);
 
 		int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());

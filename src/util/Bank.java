@@ -17,6 +17,7 @@ import role.Role;
 import UnitTests.mock.bankMock.MockBankPerson;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
+import bank.gui.BankControlPanel;
 import bank.gui.BankCustomerGui;
 import bank.gui.BankGui;
 import bank.gui.BankTellerGui;
@@ -44,6 +45,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 	int totalAmount = 1000000000;
 	
 	public Bank() {
+		bankGui.bankControlPanel = new BankControlPanel( animation, this);
 		tellerSpots.add(new TellerSpot(100 + 300/2-12, 75));//x value of the counter + center of counter - half width
 		tellerSpots.add(new TellerSpot(100 + 300/2-12, 445));//x value of the counter + center of counter - half width
 		tellerSpots.add(new TellerSpot(100 + 300, 175));//x value of the counter + counterWidth
