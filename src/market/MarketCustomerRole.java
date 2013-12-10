@@ -48,7 +48,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	public void msgHereAreItems(Map<String, Integer> groceries){
 		Do("Got my MARKET items");
-		log.add(new LoggedEvent("got msgHereAreItems"));
+		log.add(new LoggedEvent("got msgHereAreItems total items: " + groceries.size()));
 		this.event = RoleEvent.itemsArrived;
 	    this.groceries = groceries;
 	    //this.cashier = cashier;
@@ -57,7 +57,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	public void msgHereIsTotal(int total){
 		Do("Got the MARKET bill");
-		log.add(new LoggedEvent("got msgHereIsTotal"));
+		log.add(new LoggedEvent("Got total for: $" + total));
 	    bill = total;
 	    event = RoleEvent.askedToPay;
 	    p.msgStateChanged();
@@ -73,7 +73,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	public void msgYouOweMoney(Receipt receipt, int debt){
-		log.add(new LoggedEvent("got msgYouOweMoney"));
+		log.add(new LoggedEvent("got msgYouOweMoney amount: $" + debt));
 	    this.receipt = receipt;
 	    event = RoleEvent.paymentReceived;
 	    p.msgStateChanged();
