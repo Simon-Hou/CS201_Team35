@@ -5,6 +5,57 @@ team35
 
 ### How to Run our SimCity
 Run cityGui.SimCityGui. This is our main application. To run tests, run the tests in UnitTests.BankUnitTests, UnitTests.BusUnitTest, UnitTests.MarketUnitTests, and UnitTests.restaurantLindaUnitTests. There are also gui unit tests in UnitTests.GuiUnitTests.
+
+
+###v2 - Grading Scenarios and How to Run Them
+
+Overview - for the most part, scenarios are run by starting SimCityGui and selecting a 
+scenario from the scenario selection panel - the list panel on the bottom right. Simply
+click the name of a scenario and it will instantiate the appropriate variables and run the
+scenario. This is where most of the grading will take place, we expect, since the important
+behaviors are isolated in each grading scenario, making it easy to see what's going on. 
+
+####A. Big City
+Creates scenario A as described in the grading rubric - a big city with each type of 
+building included, with people visiting each type of workplace to do business of different
+kinds. To our knowledge, this is running quite smoothly
+
+####B. Big City
+Creates scenario B as described in the grading rubric - same as A, a big city with each
+type of building included, and people displaying different transportation methods (at least 
+one person will show walking, two will take a bus ride, and two will drive cars). The 
+transportation in the demo is meant to display the functionality, so we didn't tell tons 
+of people to take the bus or drive - adding on more people, both functionalities are much 
+the same.
+
+####C. Market Delivery
+Creates scenario C as described in the grading rubric - Restaurant gets low on food, orders 
+from Market, who delivers the food. This is kept simply so you can see what's going on without 
+distracting activity in the rest of the city.
+
+####E. Simple Bus Ride
+Creates scenario E as described in the grading rubric - simple demonstration of the bus
+functionality. Two people will try to get on the buses at different bus stops, and then will
+get off at their end-stops. Afterward, they will go home. 
+
+####J. Big City
+Creates scenario J as described in the grading rubric - Big city demo with everything added.
+There are cars, buses, and buildings, which are fully staffed. You can see people going to 
+work, leaving work, choosing a building to visit, going in, doing business, leaving, and 
+repeating the process. As far as we know, J operates without problems.
+
+####O. Bank Robber
+Creates scenario O as roughly outlined in the grading rubric - Uses a hack to create a bank
+robber, who decides to go to a bank for a robbery. When he gets there, a fire fight will
+start and the winner of the fight will be determined based on the combat levels of the 
+teller and the robber, luck, and their weapon enchants (no, just kidding - randomly). If the
+robber wins, the teller will hand over money and the robber will leave. If the teller wins,
+the robber will be deleted from existence, and the world will carry on as if the robber never
+existed. 
+
+####Simple Market
+Displays the simple market behavior - customers come, order items, and leave. 
+
 ### Individual Contributions
 
 ##### Bobby Groom
@@ -65,6 +116,7 @@ Run cityGui.SimCityGui. This is our main application. To run tests, run the test
 + Co-designed/implemented Market roles with Parker
 + Integrated Restaurant 
 + Helped team integrate stuff and revert back using Github
+
 
 ### Known Bugs/Missing Functionality
 
