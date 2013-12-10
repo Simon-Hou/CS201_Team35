@@ -50,6 +50,18 @@ public class MockCook extends Mock implements restaurant.restaurantGabe.interfac
 		return false;
 	}
 
+	@Override
+	public void depleteInventory() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addMarket(Market m) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

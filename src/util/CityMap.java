@@ -12,4 +12,6 @@ public class CityMap {
 	
 	public List<BusStop> fStops = new ArrayList<BusStop>();
 	public List<BusStop> bStops = new ArrayList<BusStop>();
+	
+	public int peopleCount = 0;
 }

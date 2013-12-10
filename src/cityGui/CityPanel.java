@@ -74,7 +74,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			this.addStatic(new CitySidewalk(i, RoadDirection.VERTICAL,true,false));
 		}
 		//Creates boundaries
-		this.addStatic(new CitySidewalk(100, RoadDirection.VERTICAL,true,true));
+		//this.addStatic(new CitySidewalk(100, RoadDirection.VERTICAL,true,true));
 		this.addStatic(new CitySidewalk(0,0));
 		this.addStatic(new CitySidewalk(560,0));
 		this.addStatic(new CitySidewalk(0,560));

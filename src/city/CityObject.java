@@ -17,7 +17,6 @@ import market.MarketEmployeeRole;
 import market.MarketHostRole;
 import bank.BankCustomerRole;
 import bank.BankTellerRole;
-import testAgents.testPerson;
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;

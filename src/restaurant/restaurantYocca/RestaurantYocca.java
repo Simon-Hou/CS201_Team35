@@ -44,7 +44,7 @@ import interfaces.restaurantYocca.Waiter;
 
 public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	
-	ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
+	protected ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
 	
 	public CityRestaurantYocca cityRestaurant;
 	public HostRole host;
@@ -84,81 +84,136 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
-//		if (type == JobType.RestaurantHost){
-//			((HostRole)host).changeShifts(p);
-//			return (Role)host;
-//		}
 		if (type == JobType.RestaurantHost){
-			if(((HostRole) host).p==null || ((HostRole)host).YouAreDoneWithShift()){
-				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as host",this.cityRestaurant.animationPanel.getName());
-				((HostRole) host).name = p.getName()+"RestaurantHost";
-				((HostRole) host).p = (PersonAgent) p;
-				System.out.println("Changing HOST");
-				//System.out.println(host==null);
-				return (Role) host;
-			}
-			System.err.println("New host wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New host wasn't allowded to take over",this.cityRestaurant.animationPanel.getName());
-
-			return null;
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as host",this.cityRestaurant.animationPanel.getName());
+			host.changeShifts(p);
+			return (Role)host;
 		}
 		else if (type == JobType.RestaurantYoccaWaiter1){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter",this.cityRestaurant.animationPanel.getName());
+
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantYoccaWaiter2){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter",this.cityRestaurant.animationPanel.getName());
 			((WaiterRole)r).setRestaurant(this);
+
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
-//		else if (type == JobType.RestaurantCook){
-//			((CookRole)cook).changeShifts(p);
-//			return (Role)cook;
-//		}
 		else if (type == JobType.RestaurantCook){
-			if(((CookRole) cook).p==null || ((CookRole)cook).YouAreDoneWithShift()){
-				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook is taking over",this.cityRestaurant.animationPanel.getName());
-				//cook = new CookRole("Cook", orderMonitor, this);
-				((CookRole) cook).name = p.getName()+"RestaurantCook";
-				((CookRole) cook).p = (PersonAgent) p;
-				CookGui cg = new CookGui(cook);
-				cook.setGui(cg);
-				cook.orderMonitor = this.orderMonitor;
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cook",this.cityRestaurant.animationPanel.getName());
+			this.cook.changeShifts(p);
+			if (cook.getGui() == null) {
+				CookGui cg = new CookGui(this.cook);
+				this.cook.setGui(cg);
 				cityRestaurant.animationPanel.addGui(cg);
-				System.out.println("Changing COOK");
-				//System.out.println(host==null);			
-				//CookGui cGui = new CookGui((CookRole) r);
-				return (Role) cook;
 			}
-//			System.err.println("New cook wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook wasn't allowded to take over",this.cityRestaurant.animationPanel.getName());
-
-			return null;
+			return (Role)cook;
 		}
-//		else if (type == JobType.RestaurantCashier){
-//			((CashierRole)cashier).changeShifts(p);
-//			return (Role) cashier;
-//		}
 		else if (type == JobType.RestaurantCashier){
-			if(((CashierRole) cashier).p==null || ((CashierRole)cashier).YouAreDoneWithShift()){
-				((CashierRole) cashier).name = p.getName()+"RestaurantCashier";
-				((CashierRole) cashier).p = (PersonAgent) p;
-				System.out.println("Changing CASHIER");
-				//System.out.println(host==null);
-				return (Role) cashier;
-			}
-			System.err.println("New cashier wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cashier wasn't allowded to take over",this.cityRestaurant.animationPanel.getName());
 
-			return null;
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cashier",this.cityRestaurant.animationPanel.getName());
+
+			cashier.changeShifts(p);
+			return (Role) cashier;
 		}
-		
-//		System.out.println("Unrecognized job type: " + type);
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "Unrecognized job type: " + type,this.cityRestaurant.animationPanel.getName());
+
+		System.out.println("Unrecognized job type: " + type);
 		return null;
 	}
+	
+	
+//	@Override
+//	public Role canIStartWorking(Person p, JobType type, Role r) {
+////		if (type == JobType.RestaurantHost){
+////			((HostRole)host).changeShifts(p);
+////			return (Role)host;
+////		}
+//		if (type == JobType.RestaurantHost){
+//			if(((HostRole) host).p==null || ((HostRole)host).YouAreDoneWithShift()){
+//				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as host");
+//				((HostRole) host).name = p.getName()+"RestaurantHost";
+//				((HostRole) host).p = (PersonAgent) p;
+//				System.out.println("Changing HOST");
+//				//System.out.println(host==null);
+//				return (Role) host;
+//			}
+//			System.err.println("New host wasn't allowded to take over");
+//			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New host wasn't allowded to take over");
+//
+//			return null;
+//		}
+//		else if (type == JobType.RestaurantYoccaWaiter1){
+//			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter");
+//
+//			((WaiterRole)r).setRestaurant(this);
+//			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
+//			waiterComingToWork((Waiter) r);
+//			return r;
+//		}
+//		else if (type == JobType.RestaurantYoccaWaiter2){
+//			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as waiter");
+//
+//			((WaiterRole)r).setRestaurant(this);
+//			waiterComingToWork((Waiter) r);
+//			return r;
+//		}
+////		else if (type == JobType.RestaurantCook){
+////			((CookRole)cook).changeShifts(p);
+////			return (Role)cook;
+////		}
+//		else if (type == JobType.RestaurantCook){
+//			if(((CookRole) cook).p==null || ((CookRole)cook).YouAreDoneWithShift()){
+//				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cook");
+////				//cook = new CookRole("Cook", orderMonitor, this);
+////				((CookRole) cook).name = p.getName()+"RestaurantCook";
+////				((CookRole) cook).p = (PersonAgent) p;
+////				CookGui cg = new CookGui(cook);
+////				cook.setGui(cg);
+////				cook.orderMonitor = this.orderMonitor;
+////				cityRestaurant.animationPanel.addGui(cg);
+////				System.out.println("Changing COOK");
+//				this.cook.changeShifts(p);
+//				if (cook.getGui() == null) {
+//					CookGui cg = new CookGui(this.cook);
+//					this.cook.setGui(cg);
+//					cityRestaurant.animationPanel.addGui(cg);
+//				}
+//				return (Role)cook;
+//			}
+////			System.err.println("New cook wasn't allowded to take over");
+//			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook wasn't allowded to take over");
+//
+//			return null;
+//		}
+////		else if (type == JobType.RestaurantCashier){
+////			((CashierRole)cashier).changeShifts(p);
+////			return (Role) cashier;
+////		}
+//		else if (type == JobType.RestaurantCashier){
+//			if(((CashierRole) cashier).p==null || ((CashierRole)cashier).YouAreDoneWithShift()){
+//				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as cashier");
+//
+//				((CashierRole) cashier).name = p.getName()+"RestaurantCashier";
+//				((CashierRole) cashier).p = (PersonAgent) p;
+//				System.out.println("Changing CASHIER");
+//				//System.out.println(host==null);
+//				return (Role) cashier;
+//			}
+//			System.err.println("New cashier wasn't allowded to take over");
+//			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cashier wasn't allowded to take over");
+//
+//			return null;
+//		}
+//		
+////		System.out.println("Unrecognized job type: " + type);
+//		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "Unrecognized job type: " + type);
+//		return null;
+//	}
 		
 	public void waiterComingToWork(Waiter r){
 //		WaiterGui wg = new WaiterGui((WaiterRole)r, waiters.size(), new AStarTraversal(cityRestaurant.grid));

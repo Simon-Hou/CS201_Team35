@@ -22,6 +22,7 @@ public interface Cook extends BaseRestaurantCook {
 
 	void startThread();
 	void msgHereIsAnOrder(Order o);
+	void msgStateChanged();
 
 	/**
 	 * @param total change (if any) due to the customer

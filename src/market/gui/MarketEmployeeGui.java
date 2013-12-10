@@ -90,13 +90,14 @@ public class MarketEmployeeGui implements Gui{
 
 	@Override
 	public void draw(Graphics2D g) {
-		 g.setColor(Color.BLUE);
-	    // g.fillRect(xPos, yPos, 20, 20);
+		 g.setColor(Color.BLACK);
+		 g.setFont(stringFont);
 	     g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);	
+	     g.drawString(((PersonAgent)role.p).personID + ":Worker", xPos-6, yPos-5);	
 	}
 	
 	public void DoGetItem(String i){
-		/* switch this from a switch to a else if b/c of version issues	
+		// switch this from a switch to a else if b/c of version issues	
 		switch(i){
 		case "Steak": xDestination = 245; yDestination = 315; break;
 		case "Chicken":  xDestination = 245; yDestination = 245; break;
@@ -106,7 +107,7 @@ public class MarketEmployeeGui implements Gui{
 		case "Other": xDestination = 245; yDestination = 385; break;
 		default: System.err.println("We don't have that item!"); return;
 		}
-		*/
+		
 		
 		if (i.equals("Steak")){
 			xDestination = 245; 

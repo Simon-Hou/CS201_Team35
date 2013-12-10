@@ -29,7 +29,7 @@ public class HostRole extends Role implements Host {
 	public ArrayList<Table> tables;
 
 	RestaurantYocca restaurant;
-	
+
 	public String name;
 
 	public WaiterGui waiterGui = null;
@@ -41,13 +41,13 @@ public class HostRole extends Role implements Host {
 		super();
 
 		restaurant = rest;
-		
-//		if (restaurant.customers != null) {
-//			for (int i=0; i< restaurant.customers.size();i++) {
-//				waitingCustomers.add((Customer) restaurant.customers.get(i));
-//			}
-//		}
-		
+
+		//		if (restaurant.customers != null) {
+		//			for (int i=0; i< restaurant.customers.size();i++) {
+		//				waitingCustomers.add((Customer) restaurant.customers.get(i));
+		//			}
+		//		}
+
 		this.name = name;
 		int xLoc = 0;
 		int yLoc = 0;
@@ -73,18 +73,18 @@ public class HostRole extends Role implements Host {
 			tables.add(new Table(ix,xLoc,yLoc));//how you add to a collections
 		}
 	}
-	
+
 	public class MyWaiter {
-		
+
 		public Waiter waiter;
 		private int serves;
-		
+
 		public MyWaiter(Waiter w) {
 			waiter = w;
 			serves = 0;
 		}
 	}
-	
+
 	public boolean allTablesOccupied() {
 		int tCount = 0;
 		for (Table t: tables) {
@@ -97,11 +97,30 @@ public class HostRole extends Role implements Host {
 		}
 		return false;
 	}
-	
+
 	public void addWaiter(WaiterRole w) {
 		waiterList.add(new MyWaiter(w));
 		Do("Adding Waiter");
 	}
+
+	public void removeWaiter(WaiterRole waiterRole) {
+		for (MyWaiter mw: waiterList) {
+			if (waiterRole.getName() == ((WaiterRole)mw.waiter).getName()) {
+				waiterList.remove(mw);
+				return;
+			}
+		}
+	}
+	
+	public boolean inWaiterList(WaiterRole waiterRole) {
+		for (MyWaiter mw: waiterList) {
+			if (waiterRole.getName() == ((WaiterRole)mw.waiter).getName()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	public String getName() {
 		return name;
@@ -124,11 +143,11 @@ public class HostRole extends Role implements Host {
 			waiter.msgCantGoOnBreak();
 		}
 	}
-	
+
 	public void msgIWantToEat(Customer cust) {
-//		System.out.println("Received customer message that he wants to eat");
-//		waitingCustomers.add(cust);
-//		Do("Size of cust: " + waitingCustomers.size());
+		//		System.out.println("Received customer message that he wants to eat");
+		//		waitingCustomers.add(cust);
+		//		Do("Size of cust: " + waitingCustomers.size());
 		stateChanged();
 	}
 
@@ -141,14 +160,14 @@ public class HostRole extends Role implements Host {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-//		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.getName(), waitingCustomers.size() + " customers to seat");
+		//		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT, this.getName(), waitingCustomers.size() + " customers to seat");
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				for (Customer c: waitingCustomers) {	
 					if (c.equals(waitingCustomers.get(0)) && waitingCustomers.get(0).isAtWaitingArea() && waiterList.size() > 0) {
-							Do("About to call DoSeatCustomer");
-							DoSeatCustomer(c,table);
-							return true;//return true to the abstract agent to reinvoke the scheduler.
+						Do("About to call DoSeatCustomer");
+						DoSeatCustomer(c,table);
+						return true;//return true to the abstract agent to reinvoke the scheduler.
 					}
 				}
 			}
@@ -157,7 +176,7 @@ public class HostRole extends Role implements Host {
 	}
 
 	//Actions
-	
+
 	private void DoSeatCustomer(Customer c, Table table) {
 		try {
 			int waiterBalance = -1;
@@ -179,13 +198,13 @@ public class HostRole extends Role implements Host {
 		} catch (IndexOutOfBoundsException e) {
 		}
 	}
-	
+
 	//utilities
-	
+
 	public void setWaiter(Waiter waiter) {
 		waiterAgent = waiter;
 	}
-	
+
 	public void setCook(Cook c) {
 		cookAgent = c;
 	}
@@ -197,13 +216,13 @@ public class HostRole extends Role implements Host {
 	@Override
 	public void setPaused(boolean b) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	public void changeShifts(Person p) {
+	public void changeShifts(Person p){
 		if (this.p!=null)
 			this.p.msgThisRoleDone(this);
-		
+
 		this.p = p;
 		this.name = p.getName();
 	}
@@ -215,7 +234,7 @@ public class HostRole extends Role implements Host {
 
 	@Override
 	public boolean canLeave() {
-		return restaurant.customers.size()==0;
+		return false;
 	}
 
 	public boolean YouAreDoneWithShift() {
@@ -227,6 +246,5 @@ public class HostRole extends Role implements Host {
 		}
 		return true;
 	}
-
 }
 

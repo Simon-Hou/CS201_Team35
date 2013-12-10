@@ -3,6 +3,8 @@ package market;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import cityGui.trace.AlertLog;
@@ -10,6 +12,8 @@ import cityGui.trace.AlertTag;
 
 import UnitTests.mock.LoggedEvent;
 //import restaurant.Restaurant;
+import restaurant.ProducerConsumerMonitor;
+import restaurant.restaurantLinda.RestaurantOrder;
 import role.Role;
 import interfaces.MarketDeliveryMan;
 import interfaces.Person;
@@ -23,6 +27,9 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	private Market market;
 	private String name;
 	private Person p;
+	ProducerConsumerMonitor<MarketInvoice> monitor;
+	public boolean checkDock = true;
+	private Timer timer = new Timer();
 	
 	//DeliveryMan is just going to wait for the restaurant cashier
 	private Semaphore receivedPayment = new Semaphore(0,true);
@@ -36,17 +43,29 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	public boolean canLeave() {
 
-		return false;
+		market.deliveryMen.remove(this);
+		if (market.deliveryMen.size()==0){
+			market.deliveryMen.add(this);
+			return false;
+		}
+		
+		DoMessage("Delivery man leaving work");
+		return true;
 	}
 	
 	
 	//-----------------------------MESSAGES--------------------------------
-	public void msgDeliverThisOrder(MarketInvoice order){
+	/*public void msgDeliverThisOrder(MarketInvoice order){
 		log.add(new LoggedEvent("got msgDeliverThisOrder"));
 		DoInfo("Received message to deliver order");
 		orders.add(order);
 		p.msgStateChanged();
 		
+	}*/
+	
+	public void msgDockTimerDone(){
+		checkDock=true;
+		p.msgStateChanged();
 	}
 	
 	public void msgHereIsPayment(int payment, MarketInvoice invoice){
@@ -70,6 +89,10 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		
 		if (!payments.isEmpty()){
 			DeliverPayment(payments.get(0));
+			return true;
+		}
+		if (checkDock){
+			CheckDockStand();
 			return true;
 		}
 		
@@ -111,6 +134,24 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		
 	}
 	
+	private void CheckDockStand(){
+		log.add(new LoggedEvent("Checking dock stand"));
+		if (!monitor.isEmpty()){
+			DoInfo("Found a new order");
+			log.add(new LoggedEvent("Found a new order"));
+			MarketInvoice invoice = monitor.remove();
+			orders.add(invoice);
+		}
+		else{
+			checkDock = false;
+			timer.schedule(new TimerTask(){
+				public void run(){
+					msgDockTimerDone();
+				}
+			}, 5000);
+		}
+	}
+	
 	private void DoGoToCashier(){
 		//go back to the market, go to the cashier
 		
@@ -148,9 +189,16 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		if (market.gui!=null)
 			AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
 	}
+	
+	public void DoDebug(String message){
+		if (market.gui!=null)
+			AlertLog.getInstance().logDebug(AlertTag.MARKET, name, message, market.gui.ID);
+	}
 
 
-
+	public void setMonitor(ProducerConsumerMonitor<MarketInvoice> m){
+		monitor = m;
+	}
 	
 
 }

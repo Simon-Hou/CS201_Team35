@@ -30,9 +30,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
-	JButton dummyScenarioA, simpleBusRide, jScenario,bankRobbery, MarketSimple, cMarket;
+	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,bankRobbery, MarketSimple, cMarket;
 
-
+	
 	//For managing traces
 	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
 	JToggleButton DebugButton;
@@ -120,30 +120,41 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 
 		//Scenario Buttons
-		dummyScenarioA = new JButton("DummyScenarioA");
-		dummyScenarioA.addActionListener(this);
-		panel2.addButton(dummyScenarioA);
+//		dummyScenarioA = new JButton("DummyScenarioA");
+//		dummyScenarioA.addActionListener(this);
+//		panel2.addButton(dummyScenarioA);
 
-		simpleBusRide = new JButton("E. Simple Bus Ride");
-		simpleBusRide.addActionListener(this);
-		panel2.addButton(simpleBusRide);
-
-		jScenario = new JButton("J. Big City");
-		jScenario.addActionListener(this);
-		panel2.addButton(jScenario);
 		
-
-		MarketSimple = new JButton("Simple Market");
-		MarketSimple.addActionListener(this);
-		panel2.addButton(MarketSimple);
+		aScenario = new JButton("A. Big City");
+		aScenario.addActionListener(this);
+		panel2.addButton(aScenario);
+		
+		bScenario = new JButton("B. Big City");
+		bScenario.addActionListener(this);
+		panel2.addButton(bScenario);
 		
 		cMarket = new JButton("C. Market Delivery");
 		cMarket.addActionListener(this);
 		panel2.addButton(cMarket);
-
+		
+		simpleBusRide = new JButton("E. Simple Bus Ride");
+		simpleBusRide.addActionListener(this);
+		panel2.addButton(simpleBusRide);
+		
+		jScenario = new JButton("J. Big City");
+		jScenario.addActionListener(this);
+		panel2.addButton(jScenario);
+		
 		bankRobbery = new JButton("O. Bank Robbery");
 		bankRobbery.addActionListener(this);
 		panel2.addButton(bankRobbery);
+		
+		MarketSimple = new JButton("Simple Market");
+		MarketSimple.addActionListener(this);
+		panel2.addButton(MarketSimple);
+		
+		
+
 
 
 
@@ -252,6 +263,12 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	
 		else if(e.getSource().equals(jScenario)){
 			city.jScenario();
+		}
+		else if(e.getSource().equals(aScenario)){
+			city.aScenario();
+		}
+		else if(e.getSource().equals(bScenario)){
+			city.bScenario();
 		}
 		else if(e.getSource().equals(simpleBusRide)){
 			city.busRideScenario();

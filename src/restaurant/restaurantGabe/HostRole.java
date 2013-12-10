@@ -1,5 +1,7 @@
 package restaurant.restaurantGabe;
 
+import interfaces.Person;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -358,7 +360,7 @@ public class HostRole extends Role implements Host{
 	
 	//tell customers that restaurant it totally full
 	private void tellCustomersFull(){
-		synchronized(MyWaiters){
+		synchronized(MyCustomers){
 			for(MyCust mc:MyCustomers){
 				if(mc!=null && mc.s == CustState.waiting){
 					mc.c.msgRestaurantFull();
@@ -410,10 +412,23 @@ public class HostRole extends Role implements Host{
 		return person!=null;
 	}
 
+//	@Override
+//	public boolean canLeave() {
+//		// TODO Auto-generated method stub
+//		return restaurant.numCustomers==0;
+//	}
+	
 	@Override
 	public boolean canLeave() {
-		// TODO Auto-generated method stub
-		return restaurant.numCustomers==0;
+		return false;
+	}
+
+	public void changeShifts(Person p){
+		if (this.p!=null)
+			this.p.msgThisRoleDone(this);
+
+		this.p = p;
+		this.name = p.getName();
 	}
 
 }

@@ -3,7 +3,6 @@ package market;
 import person.PersonAgent;
 import restaurant.Restaurant;
 import role.Role;
-import testAgents.testPerson;
 
 import java.util.ArrayList;
 import java.util.HashMap;

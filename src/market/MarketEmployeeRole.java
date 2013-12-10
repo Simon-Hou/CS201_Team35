@@ -9,10 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.MarketMock.MockMarketPerson;
 import market.gui.MarketEmployeeGui;
 import person.PersonAgent;
+import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 import role.Role;
 import interfaces.MarketCustomer;
@@ -29,7 +33,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	private Market market;
 	public boolean inEmployeeList;
 	
-	List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
+	//List<MarketDeliveryMan> deliveryMen = new ArrayList<MarketDeliveryMan>();
+	ProducerConsumerMonitor<MarketInvoice> monitor;
 	public MarketCashier cashier; 
 	
 	private MarketEmployeeGui gui;
@@ -53,9 +58,9 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		cashier = cash;
 	}
 	
-	public void addDeliveryMan(MarketDeliveryMan d){
+	/*public void addDeliveryMan(MarketDeliveryMan d){
 		deliveryMen.add(d);
-	}
+	}*/
 	
 	public void setPerson(PersonAgent p){
 		this.p= p;
@@ -299,7 +304,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		//DoMessage(market.cashier.getName() + ", can you please calculate the invoice for this order?");
 		market.cashier.msgCalculateInvoice(this, order.order, order.restaurant);
 
-		gui.DoGoHomePosition();
+		if (gui!=null)
+			gui.DoGoHomePosition();
 
 
 	
@@ -307,6 +313,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	private void PlaceOrderOnDock(MyBusinessOrder order){
 		log.add(new LoggedEvent("action PlaceOrderOnDock"));
+		DoMessage("Placing order on dock");
 		businessOrders.remove(order);
 		
 		 if(gui!=null){
@@ -324,7 +331,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 			}
 		
 			Do("Putting completed order and invoice on dock for delivery man.");
-			if (deliveryMen.isEmpty()){
+			/*if (deliveryMen.isEmpty()){
 				Do("There are no delivery men.");
 				
 				if(gui!=null){
@@ -342,10 +349,12 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 //				}
 				
 				return;
-			}
+			}*/
 			//otherwise...
 			//load balance deliverymen
-			deliveryMen.get(0).msgDeliverThisOrder(order.invoice);
+			//deliveryMen.get(0).msgDeliverThisOrder(order.invoice);
+			monitor.insert(order.invoice);
+			
 			if(gui!=null){
 				gui.DoGoHomePosition();
 			}
@@ -395,6 +404,20 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		this.market = market;
 		
 	}
-
 	
+	public void setMonitor(ProducerConsumerMonitor<MarketInvoice> m){
+		monitor = m;
+	}
+
+	public void DoInfo(String message){
+		//super.Do(message);
+		if (market.gui!=null)
+			AlertLog.getInstance().logInfo(AlertTag.MARKET, name, message, market.gui.ID);
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		if (market.gui!=null)
+			AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
+	}
 }

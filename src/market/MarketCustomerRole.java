@@ -6,6 +6,7 @@ import interfaces.MarketCustomer;
 import interfaces.MarketHost;
 import interfaces.Person;
 
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -15,7 +16,6 @@ import UnitTests.mock.MarketMock.MockMarketHost;
 import person.PersonAgent;
 import public_Object.Food;
 import role.Role;
-import testAgents.testPerson;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
 	public Person p;

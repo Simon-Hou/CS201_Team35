@@ -58,12 +58,12 @@ public class RestaurantLinda extends Restaurant{
 		super.cashier = this.cashier;
 		super.cook = this.cook;
 		super.waiters = this.waiters;
-		
-		CookGui cg = new CookGui(cook);
-		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
-		cook.setGui(cg);
-		cityRestaurant.animationPanel.addGui(cg);
-		
+
+//		
+//		CookGui cg = new CookGui(cook);
+//		cg.setPlates(cityRestaurant.animationPanel.platedFoods);
+//		cook.setGui(cg);
+//		cityRestaurant.animationPanel.addGui(cg);
 		/*AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Debug message", cityRestaurant.ID);
 		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Info message", cityRestaurant.ID);
 		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Message message", cityRestaurant.ID);
@@ -78,26 +78,41 @@ public class RestaurantLinda extends Restaurant{
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
 		if (type == JobType.RestaurantHost){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as host",this.cityRestaurant.animationPanel.getName());
+
 			host.changeShifts(p);
 			return (Role)host;
 		}
 		else if (type == JobType.RestaurantLindaWaiter1){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as waiter",this.cityRestaurant.animationPanel.getName());
+
 			((WaiterRole)r).setRestaurant(this);
 			((ProducerConsumerWaiterRole)r).setMonitor(orderMonitor);
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantLindaWaiter2){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as waiter",this.cityRestaurant.animationPanel.getName());
 			((WaiterRole)r).setRestaurant(this);
 
 			waiterComingToWork((Waiter) r);
 			return r;
 		}
 		else if (type == JobType.RestaurantCook){
-			cook.changeShifts(p);
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cook",this.cityRestaurant.animationPanel.getName());
+			//cityRestaurant.animationPanel.removeGui(cook.getGui());
+			this.cook.changeShifts(p);
+			if (cook.getGui() == null) {
+				CookGui cg = new CookGui(this.cook);
+				cg.setPlates(cityRestaurant.animationPanel.platedFoods);
+				this.cook.setGui(cg);
+				cityRestaurant.animationPanel.addGui(cg);
+			}
 			return (Role)cook;
 		}
 		else if (type == JobType.RestaurantCashier){
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cashier",this.cityRestaurant.animationPanel.getName());
+
 			cashier.changeShifts(p);
 			return (Role) cashier;
 		}
@@ -145,7 +160,6 @@ public class RestaurantLinda extends Restaurant{
 	@Override
 	public boolean isOpen() {
 		// TODO Auto-generated method stub
-		//return !unStaffed() && isOpen;
 		return isOpen;
 	}
 

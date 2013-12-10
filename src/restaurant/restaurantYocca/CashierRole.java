@@ -192,7 +192,6 @@ public class CashierRole extends Role implements Cashier {
 		if (this.p!=null){
 			this.p.msgThisRoleDone(this);
 		}
-		
 		this.p = p;
 		this.name = p.getName();
 	}
