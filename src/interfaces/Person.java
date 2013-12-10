@@ -1,5 +1,7 @@
 package interfaces;
 
+import house.House;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public interface Person {
 //	public List<ImageIcon> rightSprites = null;
 
 	public abstract void msgStateChanged();
-	
+	public abstract House getHouse();
 	public abstract void msgBusAtStop(Bus b,BusStop stop);
 	public abstract void msgBusAtStop(BusAgent b,BusStop stop);
 	public abstract void msgCarArrivedAtRamp(OnRamp destination);

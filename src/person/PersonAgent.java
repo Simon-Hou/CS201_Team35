@@ -1431,6 +1431,13 @@ public class PersonAgent extends Agent implements Person {
 
 
 
+	@Override
+	public House getHouse() {
+		return belongings.myHouse;
+	}
+
+
+
 
 
 
