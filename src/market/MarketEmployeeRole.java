@@ -36,7 +36,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	private Semaphore atDestination = new Semaphore(0,true);
 	
-	private Semaphore receivedInvoice = new Semaphore(0,true);
+	//private Semaphore receivedInvoice = new Semaphore(0,true);
 	
 	boolean startedWorking = false;
 	
@@ -125,13 +125,15 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total){
-		receivedInvoice.release();
+		//receivedInvoice.release();
 		log.add(new LoggedEvent("got msgGiveInvoice"));
 		for(MyBusinessOrder o : businessOrders){
 			if (o.order.equals(order) && o.restaurant==r){
 				o.invoice = new MarketInvoice(o.order, market, o.restaurant, total);
+				o.state = OrderState.gotInvoice;
 			}
 		}
+		p.msgStateChanged();
 		
 	}
 	//fromAnimation
@@ -294,13 +296,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    
 		order.state = OrderState.none;
 
-		if (!(p instanceof MockMarketPerson)) {
-			try {
-				receivedInvoice.acquire();
-			} catch (InterruptedException e){
-				e.printStackTrace();
-			}
-		}
+//this was where i waited for the semaphore
+
 	
 	}
 	
