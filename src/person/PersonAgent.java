@@ -832,7 +832,7 @@ public class PersonAgent extends Agent implements Person {
 		// TODO Auto-generated method stub
 		//System.out.println("CALLING THE TEMP MARKET MOVE");
 
-		System.out.println("\t" + this.personID + "astaasdfasdfasdfasgjkgdfhoagahghiogar");
+		//System.out.println("\t" + this.personID + "astaasdfasdfasdfasgjkgdfhoagahghiogar");
 
 		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
 		//Do("Nearest gri loc to "+loc.x+", "+loc.y+" is "+gridLoc.x+", "+gridLoc.y );
