@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import restaurant.restaurantLinda.RestaurantLinda;
+import restaurant.restaurantLinda.CookRole.Food;
 import cityGui.BuildingControlPanel;
 import cityGui.CityRestaurantLindaCard;
 
@@ -31,7 +33,8 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 	public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	private JPanel view = new JPanel();
-	private JButton close=new JButton("Close");
+	private JButton close_open=new JButton("Close");
+	private Map<String, Food> inventory;
 
 	public RestaurantLindaControlPanel(CityRestaurantLindaCard anim, RestaurantLinda r){
 		restaurant=r;
@@ -49,8 +52,20 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 		pane.setMinimumSize(paneSize);
 		pane.setMaximumSize(paneSize);
 		Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
-		close.addActionListener(this);
-		add(close);
+		close_open.addActionListener(this);
+		add(close_open);
+		
+		inventory = r.cook.foodMap;
+		
+		inventoryList.add(new InventoryItem("Steak", this));
+		inventoryList.add(new InventoryItem("Salad",this));
+		inventoryList.add(new InventoryItem("Chicken", this));
+		inventoryList.add(new InventoryItem("Pizza", this));
+		
+		add(inventoryList.get(0));
+		add(inventoryList.get(1));
+		add(inventoryList.get(2));
+		add(inventoryList.get(3));
 			
 		validate();
 		
@@ -58,68 +73,50 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() ==close){
-			//TODO function call to close restaurant
-			this.restaurant.isOpen = false;
-		 
+		if(e.getSource() ==close_open){
+			if (close_open.getText().equals("Close")){
+				restaurant.isOpen = false;
+				close_open.setText("Open");
+			}
+			else{
+				restaurant.isOpen = true;
+				close_open.setText("Close");
+			} 
 		}
 		// TODO Auto-generated method stub
-//		for (InventoryItem item : inventoryList){
-//			if (e.getSource() == item.minus && item.inventory >0){
-//				item.inventory--;
-//				for(Food food: house.room.inventory){
-//					if(item.choice.equals(food.type)){
-//						food.quantity--;
-//					}
-//				}
-//				updateInventory();
-//			}
-//			else if (e.getSource() == item.plus){
-//				item.inventory++;
-//				for(Food food: house.room.inventory){
-//					if(item.choice.equals(food.type)){
-//						food.quantity++;
-//					}
-//				}
-//				updateInventory();
-//			}
-//		}
+		for (InventoryItem item : inventoryList){
+			if (e.getSource() == item.minus && inventory.get(item.choice).quantity >0){
+					restaurant.cook.decreaseInventory(item.choice);
+					item.inventoryLabel.setText(inventory.get(item.choice).quantity+"");
+			}
+			else if (e.getSource() == item.plus){
+				restaurant.cook.increaseInventory(item.choice);
+				item.inventoryLabel.setText(inventory.get(item.choice).quantity+"");
+			}
+		}
 	}
-	public void updateInventory(){
-//		for (InventoryItem item : inventoryList){
-//			for(Food food: house.room.inventory){
-//				if(item.choice.equals(food.type)){
-//					item.inventory=food.quantity;
-//					item.inventoryLabel.setText(item.inventory.toString());
-//				}
-//			}
-//		}
-	}
+	
 	private class InventoryItem extends JPanel{
 
 		RestaurantLindaControlPanel rcp;
-		RestaurantLinda restaurant;
-
+		Map<String,Food> foodMap;
 		String choice;
-		Integer inventory;
+
 
 		JButton minus = new JButton("-");
 		JLabel choiceLabel = new JLabel();
 		JLabel inventoryLabel = new JLabel();
 		JButton plus = new JButton("+");
 
-		InventoryItem(String name, int invent, RestaurantLinda r, RestaurantLindaControlPanel hrcp){
-			this.rcp = rcp;
+		InventoryItem(String name, RestaurantLindaControlPanel rcp){
 			choice = name;
-			inventory = invent;
-			restaurant = r;
-
+			
 			setLayout(new GridLayout(1,5,5,5));
 			setBorder(BorderFactory.createRaisedBevelBorder());
 
 
 			choiceLabel.setText(choice);
-			inventoryLabel.setText(inventory.toString());
+			inventoryLabel.setText(rcp.inventory.get(name).quantity+"");
 
 			//choiceLabel.setHorizontalTextPosition(JLabel.RIGHT);
 			//inventoryLabel.setVerticalTextPosition(SwingConstants.CENTER);

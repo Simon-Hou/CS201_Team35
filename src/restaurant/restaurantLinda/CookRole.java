@@ -28,7 +28,7 @@ public class CookRole extends Role implements Cook{
 	String name;
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	Timer timer = new Timer();
-	Map<String,Food> foodMap = new HashMap<String,Food>();
+	public Map<String,Food> foodMap = new HashMap<String,Food>();
 	boolean checkInventory=true;
 	boolean checkOrderStand=true;
 	List<Market> marketMap;
@@ -268,10 +268,10 @@ public class CookRole extends Role implements Cook{
 	}
 	enum OrderState{pending,cooking,done,finished}
 	
-	private class Food{
+	public class Food{
 		String type;
 		int cookingTime;
-		int quantity;
+		public int quantity;
 		int capacity;
 		int low;
 		int onOrder=0;
@@ -376,6 +376,24 @@ public class CookRole extends Role implements Cook{
 		foodMap.get("Salad").quantity=0;
 		foodMap.get("Pizza").quantity=0;
 
+	}
+	
+	public void decreaseInventory(String choice){
+		foodMap.get(choice).quantity--;
+		
+		DoMessage(choice + " is now at " + foodMap.get(choice).quantity);
+		
+		if (p!=null)
+			p.msgStateChanged();
+	}
+	
+	public void increaseInventory(String choice){
+		foodMap.get(choice).quantity++;
+		
+		DoMessage(choice + " is now at " + foodMap.get(choice).quantity);
+		
+		if (p!=null)
+			p.msgStateChanged();
 	}
 
 }

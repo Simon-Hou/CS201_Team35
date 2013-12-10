@@ -27,6 +27,7 @@ import restaurant.restaurantLinda.RestaurantLinda;
 import restaurant.restaurantLinda.RestaurantOrder;
 import restaurant.restaurantLinda.WaiterRole;
 import restaurant.restaurantLinda.gui.CookGui;
+import restaurant.restaurantLinda.gui.RestaurantLindaControlPanel;
 import util.Loc;
 import util.RestaurantMapLoc;
 
@@ -202,6 +203,10 @@ public class CityRestaurantLinda extends CityRestaurant {
 		initializeRestaurant();
 	}
 	
+    public void createControlPanel(){
+    	restaurant.controlPanel = new RestaurantLindaControlPanel(animationPanel, (RestaurantLinda) restaurant);
+    }
+    
 	public Map<Integer, Point> getTables(){
 		return tableMap;
 	}
