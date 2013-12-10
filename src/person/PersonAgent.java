@@ -423,7 +423,12 @@ public class PersonAgent extends Agent implements Person {
 					return true;
 				}
 			}
-			return activeRole.pickAndExecuteAnAction();
+			try{
+				return activeRole.pickAndExecuteAnAction();
+			}
+			catch(NullPointerException e){
+				return true;
+			}
 		}
 		//Do("ALIVE");
 		if(time == myJob.shiftStart-1){
