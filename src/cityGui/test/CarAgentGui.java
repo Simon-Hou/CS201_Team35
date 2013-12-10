@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.ImageIcon;
 import javax.swing.table.TableStringConverter;
 
 import cityGui.CityComponent;
@@ -35,6 +36,15 @@ public class CarAgentGui extends VehicleAgentGui {
 	
 	public static int gridScale = 30;
 	public boolean moving = false;
+	
+	java.net.URL car0 = getClass().getResource("../cityImages/Vehicles/carUp.png");
+	ImageIcon carUp = new ImageIcon(car0);
+	java.net.URL car1 = getClass().getResource("../cityImages/Vehicles/carDown.png");
+	ImageIcon carDown = new ImageIcon(car1);
+	java.net.URL car2 = getClass().getResource("../cityImages/Vehicles/carLeft.png");
+	ImageIcon carLeft = new ImageIcon(car2);
+	java.net.URL car3 = getClass().getResource("../cityImages/Vehicles/carRight.png");
+	ImageIcon carRight = new ImageIcon(car3);
 	
 	public List<StopLight> stopLights = new ArrayList<StopLight>();
 	
@@ -277,10 +287,37 @@ public class CarAgentGui extends VehicleAgentGui {
 //		g.setColor(Color.GREEN);
 //		g.fillRect(safeRegion.x, safeRegion.y, safeRegion.width, safeRegion.height);
 		
-		g.setColor(Color.RED);
-		g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+		
+		//THIS USED TO DRAW A RECTANGLE
+		//g.setColor(Color.RED);
+		//g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+		
+		if(topLaneF()){
+			g1.drawImage(carRight.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+		}
+		if(rightLaneF()){
+			g1.drawImage(carDown.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+		}
+		if(bottomLaneF()){
+			g1.drawImage(carLeft.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+		}
+		if(leftLaneF()){
+			g1.drawImage(carUp.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+		}
 		
 		
+		if(topLaneB()){
+			g1.drawImage(carLeft.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+		}
+		if(rightLaneB()){
+			g1.drawImage(carUp.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+		}
+		if(bottomLaneB()){
+			g1.drawImage(carRight.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+		}
+		if(leftLaneB()){
+			g1.drawImage(carDown.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+		}
 		
 		
 //        g.setColor(Color.BLUE);

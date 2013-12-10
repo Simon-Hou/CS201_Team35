@@ -1176,6 +1176,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		fullyManBuilding("Bank",0);
 
 	}
+	
+	public void driveScenario(int which){
+		addNewBuilding("House",200,5);
+		addNewPersonHard("Drive"+which,null,JobType.NOTSELECTED,0,0,0,0);
+	}
 
 	public void marketScenario(){
 		hasBuses = false;
