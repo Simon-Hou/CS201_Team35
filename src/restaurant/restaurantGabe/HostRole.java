@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 import restaurant.restaurantGabe.interfaces.Host;
 import role.Role;
@@ -387,6 +389,19 @@ public class HostRole extends Role implements Host{
 		t.s = TableState.occupied;
 		mc.s = CustState.seated;
 		mc.t = t;
+	}
+	
+	//LOG FILTERING
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurant.ID);
+		//log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurant.ID);
+		//log.add(new LoggedEvent(message));		
 	}
 
 	@Override

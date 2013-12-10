@@ -12,6 +12,8 @@ import role.Role;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 
 
@@ -326,7 +328,7 @@ public class WaiterRole extends Role implements Waiter{
 			
 			//if waiter wants a break, tell host
 			if(state == MyState.wantsBreak){
-				Do("Can I get a break?");
+				DoMessage("Can I get a break?");
 				state = state.askedForBreak;
 				Host.msgIWantABreak(this);
 				return true;
@@ -487,7 +489,7 @@ public class WaiterRole extends Role implements Waiter{
 	
 	protected void reorderCustomer(MyCust mc){
 		DoGoToTableAndWait(mc.loc);
-		Do("So sorry, we're out of "+mc.choice);
+		DoMessage("So sorry, we're out of "+mc.choice);
 		mc.c.msgOutOfChoice(menu);
 		mc.s = CustState.seated;
 		waiterGui.DoLeaveCustomer();
@@ -531,7 +533,7 @@ public class WaiterRole extends Role implements Waiter{
 		}
 		Cook.msgGotFood(o.choice);
 		DoServeOrder(mc);
-		Do("Got "+mc.c.getName()+"'s "+o.choice);
+		DoMessage("Got "+mc.c.getName()+"'s "+o.choice);
 		waiterGui.setFood(o.choice.substring(0,2));
 		//once waiter gets to cook, he can pick up food
 		o.s = OrderState.inTransit;
@@ -564,7 +566,7 @@ public class WaiterRole extends Role implements Waiter{
 	}
 	
 	protected void DoBreak(){
-		Do("finally I get a break");
+		DoMessage("finally I get a break");
 		Host.msgIAmOnBreak(this);
 		//waiterPanel.enableWaiter(this);
 		/*Timer breakTimer = new Timer();
@@ -580,7 +582,7 @@ public class WaiterRole extends Role implements Waiter{
 	}
 	
 	protected void getBackToWork(){
-		Do("Back to work");
+		DoMessage("Back to work");
 		Host.msgBreakOver(this);
 		//this.OnBreak = false;
 		//this.breakOver = false;
@@ -629,6 +631,20 @@ public class WaiterRole extends Role implements Waiter{
 		waiterGui.DoGoToHome();
 	}
 	
+	
+	//LOG FILTER
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurant.ID);
+		//log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurant.ID);
+		//log.add(new LoggedEvent(message));		
+	}
 
 	@Override
 	public boolean canLeave() {
