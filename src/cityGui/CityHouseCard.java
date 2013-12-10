@@ -1,5 +1,6 @@
 package cityGui;
 import house.gui.HouseControlPanel;
+
 import house.gui.InhabitantGui;
 
 import java.awt.Color;
