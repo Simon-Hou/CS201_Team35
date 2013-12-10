@@ -51,13 +51,7 @@ public class CityHouse extends CityComponent implements ImageObserver {
 	public void initializeHouse(){
 		//System.out.println("House address is: "+sidewalkX(x,y)+" "+sidewalkY(x,y));
 		house = new House();
-//TODO
-		//<<<<<<< HEAD
-//		
-//=======
-//		//house.address = new Loc(sidewalkX(x,y),sidewalkY(x,y));
-//		house.houseGui = this;
-//>>>>>>> master
+
 	}
 	
 	@Override
@@ -96,7 +90,7 @@ public class CityHouse extends CityComponent implements ImageObserver {
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y,
 			int width, int height) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 }
