@@ -69,7 +69,7 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	public void msgTimerDone(Bill b){
-		DoInfo("Finished computing bill for waiter " + b.w.getName() + " for customer " + b.cust.getName() + ". For the order " + b.choice + ", the total is " + b.total);
+		DoInfo("Finished computing bill for waiter " + b.w.getName() + " for customer " + b.cust.getName() + ". For the order " + b.choice + ", the total is $" + b.total);
 		b.status=BillState.computed;
 		p.msgStateChanged();
 	}
@@ -130,7 +130,7 @@ public class CashierRole extends Role implements Cashier{
 	
 	//actions
 	private void ComputeBill(Bill b){
-		DoMessage("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice);
+		DoInfo("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice);
 		b.status=BillState.computing;
 		int debt = 0;
 		if (debtors.containsKey(b.cust)){
@@ -324,13 +324,15 @@ public class CashierRole extends Role implements Cashier{
 	
 	public void DoInfo(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
 		log.add(new LoggedEvent(message));
 	}
 	
 	public void DoMessage(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
 		log.add(new LoggedEvent(message));		
 	}
 }

@@ -22,6 +22,7 @@ import restaurant.restaurantLinda.Check;
 import restaurant.restaurantLinda.CashierRole.MyBillState;
 import util.CityMap;
 
+import UnitTests.mock.MockPerson;
 import UnitTests.mock.MarketMock.MockMarketDeliveryMan;
 import UnitTests.mock.MarketMock.MockMarketHost;
 import UnitTests.mock.restaurantLindaMock.*;
@@ -39,7 +40,7 @@ import junit.framework.*;
 public class CashierTest extends TestCase
 {
 		Market market;
-		Restaurant restaurant;
+		MockRestaurantLinda restaurant;
 		
         //these are instantiated for each test separately via the setUp() method.
 		CashierRole cashier;
@@ -49,7 +50,7 @@ public class CashierTest extends TestCase
         MockMarketHost marketHost;
         MockMarketDeliveryMan deliveryMan;
         
-        Person person;
+        MockPerson person;
         
         
         /**
@@ -59,14 +60,14 @@ public class CashierTest extends TestCase
         public void setUp() throws Exception{
                 super.setUp();
                 
-                restaurant = new Restaurant();
+                restaurant = new MockRestaurantLinda();
                 cashier = new CashierRole("cashier", restaurant);                
-                customer = new MockCustomer("mockcustomer");                
-                waiter = new MockWaiter("mockwaiter");
+                customer = new MockCustomer("customer");                
+                waiter = new MockWaiter("waiter");
                 market = new Market();
-                marketHost = new MockMarketHost("mockMarketHost");
-                deliveryMan = new MockMarketDeliveryMan();
-                person = new PersonAgent("dummyPerson", new CityMap());
+                marketHost = new MockMarketHost("MarketHost");
+                deliveryMan = new MockMarketDeliveryMan("deliveryMan");
+                person = new MockPerson("dummyPerson");
                 
                 cashier.setRestaurant(restaurant);
                 cashier.setPerson(person);
@@ -110,15 +111,15 @@ public class CashierTest extends TestCase
                 cashier.msgTimerDone(cashier.getBills().get(0));
                 
                 assertTrue("Cashier should have have received a message from the timer that he's finished computing the bill. However, the last logged event is " 
-                			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is 1599"));
+                			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is $16"));
                 
                 assertTrue("Cashier's scheduler should have reacted true from the timer call. It didn't.", cashier.pickAndExecuteAnAction());
                 
                 assertTrue("Cashier should have logged an event saying he has notified the waiter. However, the last logged event is: "
-                			 + cashier.log.getLastLoggedEvent(), cashier.log.containsString("Notifying waiter of finished bill for customer " + customer.getName() + " who ordered Steak. Total is 15"));
+                			 + cashier.log.getLastLoggedEvent(), cashier.log.containsString("Notifying waiter of finished bill for customer " + customer.getName() + " who ordered Steak. Total is $16"));
                 
                 assertTrue("MockWaiter should have received a message from the cook with the bill information, but he didn't. Instead, the last logged event is "
-                			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is 15"));
+                			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is $16"));
                 
                 assertEquals("Cashier should still have an empty customer list. Instead, it is size " + cashier.getCustomers().size(), cashier.getCustomers().size(), 0); 
                 
@@ -128,13 +129,13 @@ public class CashierTest extends TestCase
                 
                 
                 //step 2 of the test
-                Check bill = new Check("Steak", 1599);
-                cashier.msgHereIsPayment(customer, bill, 1599);
+                Check bill = new Check("Steak", 16);
+                cashier.msgHereIsPayment(customer, bill, 16);
                 
                 //check postconditions for step 2 / preconditions for step 3
                
                 assertTrue("Cashier should have logged \"Received HereIsPayment\" but didn't. His log reads instead: "
-                                + cashier.log.getLastLoggedEvent().toString(), cashier.log.containsString("Received payment of 1599 from customer " + customer.getName() + " for the bill " + bill));
+                                + cashier.log.getLastLoggedEvent().toString(), cashier.log.containsString("Received payment of $16 from customer " + customer.getName() + " for the bill " + bill));
 
                 assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                                 + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
@@ -207,7 +208,7 @@ public class CashierTest extends TestCase
             cashier.msgTimerDone(cashier.getBills().get(0));
             
             assertTrue("Cashier should have have received a message from the timer that he's finished computing the bill. However, the last logged event is " 
-            			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is 16"));
+            			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is $16"));
             
             assertTrue("Cashier's scheduler should have reacted true from the timer call. It didn't.", cashier.pickAndExecuteAnAction());
             
@@ -215,7 +216,7 @@ public class CashierTest extends TestCase
             			 + cashier.log.getLastLoggedEvent(), cashier.log.containsString("Notifying waiter of finished bill for customer " + customer.getName() + " who ordered Steak. Total is $16"));
             
             assertTrue("MockWaiter should have received a message from the cook with the bill information, but he didn't. Instead, the last logged event is "
-            			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is 16"));
+            			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is $16"));
             
             assertEquals("Cashier should still have an empty customer list. Instead, it is size " + cashier.getCustomers().size(), cashier.getCustomers().size(), 0); 
             
@@ -236,7 +237,7 @@ public class CashierTest extends TestCase
             assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                             + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
             
-            CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 16);
+            CashierRole.MyCustomer mc = cashier.new MyCustomer(customer, bill, 15);
             assertTrue("Cashier's newly-added MyCustomer either has the wrong customer, check, or bill.", cashier.getCustomers().get(0).equals(mc));                
             
             
@@ -259,7 +260,7 @@ public class CashierTest extends TestCase
             
             assertTrue("Cashier's debtor list should contain the customer. It doesn't.", cashier.getDebtors().containsKey(customer));
             
-            assertTrue("The customer in the debtors list should owe 1. Instead, he owes " + cashier.getDebtors().get(customer), cashier.getDebtors().get(customer)==100);
+            assertTrue("The customer in the debtors list should owe 1. Instead, he owes " + cashier.getDebtors().get(customer), cashier.getDebtors().get(customer)==1);
             
             assertEquals("Cashier should now have 15 in cash. Instead, he has " + cashier.getCash(), cashier.getCash(), 15);
             
@@ -306,16 +307,16 @@ public class CashierTest extends TestCase
             cashier.msgTimerDone(cashier.getBills().get(0));
             
             assertTrue("Cashier should have have received a message from the timer that he's finished computing the bill. However, the last logged event is " 
-            			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is 1699"));
+            			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is $17"));
             
             //Notify waiter
             assertTrue("Cashier's scheduler should have reacted true from the timer call. It didn't.", cashier.pickAndExecuteAnAction());
             
             assertTrue("Cashier should have logged an event saying he has notified the waiter. However, the last logged event is: "
-            			 + cashier.log.getLastLoggedEvent(), cashier.log.containsString("Notifying waiter of finished bill for customer " + customer.getName() + " who ordered Steak. Total is 17"));
+            			 + cashier.log.getLastLoggedEvent(), cashier.log.containsString("Notifying waiter of finished bill for customer " + customer.getName() + " who ordered Steak. Total is $17"));
             
             assertTrue("MockWaiter should have received a message from the cook with the bill information, but he didn't. Instead, the last logged event is "
-            			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is 17"));
+            			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is $17"));
             
             assertEquals("Cashier should still have an empty customer list. Instead, it is size " + cashier.getCustomers().size(), cashier.getCustomers().size(), 0); 
             
@@ -327,7 +328,7 @@ public class CashierTest extends TestCase
             cashier.msgHereIsPayment(customer, bill, 15);
            
             assertTrue("Cashier should have logged \"Received HereIsPayment\" but didn't. His log reads instead: "
-                            + cashier.log.getLastLoggedEvent().toString(), cashier.log.containsString("Received payment of 15 from customer " + customer.getName() + " for the bill " + bill));
+                            + cashier.log.getLastLoggedEvent().toString(), cashier.log.containsString("Received payment of $15 from customer " + customer.getName() + " for the bill " + bill));
 
             assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                             + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
@@ -342,7 +343,7 @@ public class CashierTest extends TestCase
             			+ cashier.log.getLastLoggedEvent().toString(), cashier.log.containsString("Processing payment from customer"));
             
             assertTrue("MockCustomer should have logged an event for receiving \"PaymentReceived\" with the correct balance, but his last event logged reads instead: "
-                            + customer.log.getLastLoggedEvent().toString(), customer.log.containsString("Received message from cashier and owe " + 200));
+                            + customer.log.getLastLoggedEvent().toString(), customer.log.containsString("Received message from cashier and owe " + 2));
             
             assertEquals("Cashier should have removed the customer from their customer list. Instead, the list is size " + cashier.getCustomers().size(), cashier.getCustomers().size(), 0);
             
@@ -396,16 +397,16 @@ public class CashierTest extends TestCase
             cashier.msgTimerDone(cashier.getBills().get(0));
             
             assertTrue("Cashier should have have received a message from the timer that he's finished computing the bill. However, the last logged event is " 
-            			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is 17"));
+            			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is $17"));
             
             //Notify waiter
             assertTrue("Cashier's scheduler should have reacted true from the timer call. It didn't.", cashier.pickAndExecuteAnAction());
             
             assertTrue("Cashier should have logged an event saying he has notified the waiter. However, the last logged event is: "
-            			 + cashier.log.getLastLoggedEvent(), cashier.log.containsString("Notifying waiter of finished bill for customer " + customer.getName() + " who ordered Steak. Total is 17"));
+            			 + cashier.log.getLastLoggedEvent(), cashier.log.containsString("Notifying waiter of finished bill for customer " + customer.getName() + " who ordered Steak. Total is $17"));
             
             assertTrue("MockWaiter should have received a message from the cook with the bill information, but he didn't. Instead, the last logged event is "
-            			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is 17"));
+            			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is $17"));
             
             assertEquals("Cashier should still have an empty customer list. Instead, it is size " + cashier.getCustomers().size(), cashier.getCustomers().size(), 0); 
             
@@ -417,7 +418,7 @@ public class CashierTest extends TestCase
             cashier.msgHereIsPayment(customer, bill, 17);
            
             assertTrue("Cashier should have logged \"Received HereIsPayment\" but didn't. His log reads instead: "
-                            + cashier.log.getLastLoggedEvent().toString(), cashier.log.containsString("Received payment of 17 from customer " + customer.getName() + " for the bill " + bill));
+                            + cashier.log.getLastLoggedEvent().toString(), cashier.log.containsString("Received payment of $17 from customer " + customer.getName() + " for the bill " + bill));
 
             assertEquals("Cashier should have added the customer to their customer list but didn't. Instead, the list is size " 
                             + cashier.getCustomers().size(), cashier.getCustomers().size(), 1);
@@ -486,7 +487,7 @@ public class CashierTest extends TestCase
             cashier.msgTimerDone(cashier.getBills().get(0));
             
             assertTrue("Cashier should have have received a message from the timer that he's finished computing the bill. However, the last logged event is " 
-            			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is 16"));
+            			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Finished computing bill for waiter " + waiter.getName() + " for customer " + customer.getName() + ". For the order Steak, the total is $16"));
             
             assertTrue("Cashier's scheduler should have reacted true from the timer call. It didn't.", cashier.pickAndExecuteAnAction());
             
@@ -494,7 +495,7 @@ public class CashierTest extends TestCase
             			 + cashier.log.getLastLoggedEvent(), cashier.log.containsString("Notifying waiter of finished bill for customer " + customer.getName() + " who ordered Steak. Total is $16"));
             
             assertTrue("MockWaiter should have received a message from the cook with the bill information, but he didn't. Instead, the last logged event is "
-            			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is 16"));
+            			+ waiter.log.getLastLoggedEvent(), waiter.log.containsString("Received message from cashier with the newly computed bill for customer " + customer.getName() + " who ordered Steak. Total is $16"));
             
             assertEquals("Cashier should still have an empty customer list. Instead, it is size " + cashier.getCustomers().size(), cashier.getCustomers().size(), 0); 
             
@@ -551,6 +552,12 @@ public class CashierTest extends TestCase
 	       	 MarketInvoice invoice = new MarketInvoice(order, market, restaurant, 24);
 	       	 cashier.msgHereIsInvoice(deliveryMan, invoice);
 	       	 
+	       	String list = "{";
+			for (OrderItem o: invoice.order){
+				list+=o.quantityReceived+o.choice+", ";
+			}
+			list+="}";
+	       	 
 	       	 assertEquals("MockDeliveryMan should have an empty event log before the Cashier's scheduler is called. Instead, the deliveryMan's event log reads: "
 	                    + deliveryMan.log.toString(), 0, deliveryMan.log.size());
 	       	 
@@ -564,7 +571,7 @@ public class CashierTest extends TestCase
 	        			+ cashier.log.getLastLoggedEvent(), cashier.log.containsString("Paying market $24 for food shipment. Still owe 0. $32 left in cash."));
 	       	       
 	       	 assertTrue("DeliveryMan should have logged an event for receiving payment. However, the last logged event is "
-	       			 + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.containsString("Received payment of 24 from cashier " + cashier + " for order " + order));
+	       			 + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.containsString("Received payment of 24 from cashier for order " + list));
 	       	 
 	       	 assertEquals("Cashier should no longer have the 1 MyBill. Instead, the size of the MyBills is " + cashier.getMyBills().size(), cashier.getMyBills().size(), 0);
 	       	 

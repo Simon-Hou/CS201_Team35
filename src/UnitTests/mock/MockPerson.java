@@ -7,8 +7,16 @@ import util.BusStop;
 import util.OnRamp;
 import interfaces.Person;
 
-public class MockPerson implements Person{
+public class MockPerson extends Mock implements Person {
 
+	public MockPerson(){
+		super();
+	}
+	
+	public MockPerson(String name){
+		super(name);
+	}
+	
 	@Override
 	public void msgStateChanged() {
 		// TODO Auto-generated method stub

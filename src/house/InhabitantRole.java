@@ -88,7 +88,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 			ExitHouse();
 			return true;
 		}
-		//ExitHouse();//hack!!! should receive message from person to exit
+		ExitHouse();//hack!!! should receive message from person to exit
 		//gui.DoIdle();		
 		return false;
 	}
@@ -134,7 +134,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	}
 	private void ExitHouse(){
 		if(gui!=null)//hack!!! change later
-		gui.DoExit();
+			gui.DoExit();
 		if(myRoom!=null && myRoom.inhabitant!=null){
 			
 			myRoom.inhabitant=null;

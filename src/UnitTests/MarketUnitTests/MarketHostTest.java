@@ -51,6 +51,8 @@ public class MarketHostTest extends TestCase{
 	@Test
 	public void testOne_NormalCustomerInteraction() {
 		host.addEmployee(employee);
+		market.inventory.put("Pizza", 100);
+		
 		//preconditions
 		assertEquals("Host's event log should be empty.", 0, host.log.size());
 		assertEquals("Host's employees list should be 1 long", 1, host.employees.size());
@@ -87,6 +89,7 @@ public class MarketHostTest extends TestCase{
 	
 	@Test
 	public void testTwo_NoEmployeesCustomerInteraction() {
+		market.inventory.put("Pizza", 100);
 		
 		//preconditions
 		assertEquals("Host's event log should be empty.", 0, host.log.size());
@@ -142,6 +145,7 @@ public class MarketHostTest extends TestCase{
 	@Test
 	public void testFour_BadCustomerInteraction() {
 		host.addEmployee(employee);
+		market.inventory.put("Pizza", 100);
 		//preconditions
 		assertEquals("Host's event log should be empty.", 0, host.log.size());
 		assertEquals("Host's employees list should be 1 long", 1, host.employees.size());

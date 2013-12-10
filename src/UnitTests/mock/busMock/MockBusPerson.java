@@ -2,8 +2,10 @@ package UnitTests.mock.busMock;
 
 import role.Role;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
 import util.Loc;
+import util.OnRamp;
 import interfaces.Person;
 import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
@@ -78,11 +80,6 @@ public class MockBusPerson extends Mock implements Person{
 		
 	}
 
-	@Override
-	public void msgCarArrivedAtLoc(Loc destination) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void msgBusAtStop(Bus b, BusStop stop) {
@@ -111,7 +108,25 @@ public class MockBusPerson extends Mock implements Person{
 	}
 
 	@Override
-	public void msgSetTiredLevel(int level) {
+	public void msgBusAtStop(BusAgent b, BusStop stop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCarArrivedAtRamp(OnRamp destination) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgDoneSleeping() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTiredLevel(int i) {
 		// TODO Auto-generated method stub
 		
 	}
