@@ -195,7 +195,7 @@ public class PersonAgent extends Agent implements Person {
 		Random random = new Random();
 
 		if (random.nextInt(4) != 0) {
-			this.belongings.myHouse.room.inventory.clear();
+			this.belongings.myHouse.room.inventory.get(0).quantity = 0;
 		}
 		//Do("Having address set to "+this.belongings.myHouse.address.x+", "+this.belongings.myHouse.address.y);
 	}
@@ -707,13 +707,8 @@ public class PersonAgent extends Agent implements Person {
 
 	private void getFood() {
 
-
-
-
-
-		if (belongings.myHouse!=null && !belongings.myHouse.room.inventory.isEmpty()) {
+		if (belongings.myHouse!=null && belongings.myHouse.room.inventory.get(0).quantity>0) {
 			Do("I am going to eat at home");
-
 			doGoHome();
 			activeRole = inhabitantRole;
 			belongings.myHouse.msgImHome(inhabitantRole);

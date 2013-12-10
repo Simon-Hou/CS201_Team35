@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -24,6 +25,10 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	public List<CityComponent> statics, movings;
 	protected Color background;
 	protected Timer timer;
+	
+	//SC Logo
+	java.net.URL logo = getClass().getResource("cityImages/sclogo.png");
+	ImageIcon scLogo = new ImageIcon(logo);
 		
 	public SimCityPanel(SimCityGui city) {
 		this.city = city;
@@ -36,6 +41,7 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	public void paint(Graphics g) {
 		g.setColor(background);
 		g.fillRect(0, 0, getWidth(), getHeight());
+		g.drawImage(scLogo.getImage(), 240,240,120,120,null);
 		moveComponents();
 		drawComponents(g);
 
