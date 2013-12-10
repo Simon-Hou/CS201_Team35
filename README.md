@@ -1,4 +1,4 @@
-team35
+﻿team35
 ======
 
 # SimCity201 Project Repository for CS 201 students
@@ -87,15 +87,17 @@ Displays the simple market behavior - customers come, order items, and leave.
 
 #### Simon (Fangli) Hou
 
-+ Co-designed the Person with yocca
++ Co-designed the Person with yocca, modified and improved PersonAgent codes
 + Fully coded the House and House animation(CityHouseCard.java)
 + Fully coded the InhabitantRole and InhabitantGui
 + Co-designed the CityAnimation with yocca
-+ Designed the method to integrate the Animation of building into the the main window
++ Designed the method to integrate the Animation of building into the the main window by using designing CityXXXCard.java
 + Helped all teammates to integrate their building animations into the main window
-+ Designed the method to keep individual animation panels running in the background
++ Designed the method to keep individual animation panels running in the background ()
 + Created / added to multiple interfaces
-+ Kept designs simple and efficient, and cleared other’s redundant codes
++ Kept designs simple and efficient by clearing other’s redundant codes
++ Make the main control panel able to add different types of Restaurants from different buttons(All connected!)
++ Created Control Panels for buildings: House, Bank, and everyone's Restaurants, and integrated them into the main frame
 
 #### Parker Seagren
 + Co-designed the Market roles (with Linda Xu)
