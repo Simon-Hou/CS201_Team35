@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.MarketMock.MockMarketPerson;
 import person.PersonAgent;
@@ -43,6 +46,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	//-----------------------------MESSAGES--------------------------------
 	public void msgDeliverThisOrder(MarketInvoice order){
 		log.add(new LoggedEvent("got msgDeliverThisOrder"));
+		DoInfo("Received message to deliver order");
 		orders.add(order);
 		p.msgStateChanged();
 		
@@ -50,6 +54,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	public void msgHereIsPayment(int payment, MarketInvoice invoice){
 		log.add(new LoggedEvent("got msgHereIsPayment"));
+		DoInfo("Received payment from restaurant of $" + payment);
 		MyPayment pay = new MyPayment(payment, invoice);
 		payments.add(pay);
 		receivedPayment.release();
@@ -100,7 +105,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 //	}
 	private void DeliverPayment(MyPayment payment){
 		DoGoToCashier();
-		Do(market.cashier.getName() + ", here is a business payment.");
+		DoMessage(market.cashier.getName() + ", here is a business payment.");
 		log.add(new LoggedEvent("action DeliverPayment"));
 		if (!(p instanceof MockMarketPerson)) {
 			market.cashier.msgHereIsBusinessPayment(payment.amount);
@@ -134,6 +139,16 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 			amount = payment;
 			this.invoice = invoice;			
 		}
+	}
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.MARKET, name, message, market.gui.ID);
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
 	}
 
 

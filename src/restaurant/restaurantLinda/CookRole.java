@@ -40,10 +40,10 @@ public class CookRole extends Role implements Cook{
 	
 	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor, Restaurant restaurant) {
 		super();
-		foodMap.put("Steak", new Food("Steak",5000,5,5,1));
-		foodMap.put("Chicken", new Food("Chicken",4000,5,5,1));
-		foodMap.put("Salad", new Food("Salad",2000,5,5,1));
-		foodMap.put("Pizza", new Food("Pizza",3000,5,5,1));
+		foodMap.put("Steak", new Food("Steak",5000,1,5,1));
+		foodMap.put("Chicken", new Food("Chicken",4000,1,5,1));
+		foodMap.put("Salad", new Food("Salad",2000,1,5,1));
+		foodMap.put("Pizza", new Food("Pizza",3000,1,5,1));
 		this.name = name;
 		this.orderMonitor = monitor;
 		this.restaurant = restaurant;
@@ -52,19 +52,19 @@ public class CookRole extends Role implements Cook{
 	
 	//messages
 	public void msgHereIsOrder(Waiter w, String choice, int table){
-		Do(w.getName() + " says table " + table + " wants " + choice);
+		DoMessage(w.getName() + " says table " + table + " wants " + choice);
 		orders.add(new Order(w,choice,table,OrderState.pending));
 		p.msgStateChanged();
 	}
 	
 	public void msgTimerDone(Order o){
-		System.err.println("Finished cooking");
+		DoMessage("Finished cooking" + o.choice);
 		o.state=OrderState.done;
 		p.msgStateChanged();		
 	}
 	
 	public void msgCannotFulfillOrder(Market m, Map<String,Integer> unfulfillable){
-		Do("Need to reorder from another market");
+		DoMessage("Need to reorder " + unfulfillable.toString() + " from another market");
 		
 		for (String f: unfulfillable.keySet()){
 			Food food = foodMap.get(f);
@@ -80,7 +80,7 @@ public class CookRole extends Role implements Cook{
 	}
 	
 	public void msgHereIsDelivery(MarketInvoice order){
-		Do("Received a food shipment");
+		DoMessage("Received a food shipment");
 		String shipmentMessage="Received ";
 		
 		for (OrderItem item: order.order){
@@ -221,18 +221,19 @@ public class CookRole extends Role implements Cook{
 			}
 		}
 		
-		Do(message);
+		DoInfo(message);
 		
 		if (shoppingList.size()==0){
-			Do("Cannot order any foods because markets are out or no foods are low");
+			DoMessage("Cannot order any foods because markets are out or no foods are low");
 			return;
 		}
 		
 		if (markets.size()==1){
-			Do("ordering");
+			DoMessage("ordering");
 			markets.get(0).host.msgBusinessWantsThis(restaurant, shoppingList);
 		}
 		else if (markets.size()>1){
+			DoMessage("ordering");
 			Market m = markets.remove(0);		//Rearrange markets, kind of like a circular queue?
 			markets.add(m);
 			m.host.msgBusinessWantsThis(restaurant, shoppingList);
@@ -240,9 +241,9 @@ public class CookRole extends Role implements Cook{
 	}
 	
 	public void CheckOrderStand(){
-		Do("Checking order stand");
+		DoInfo("Checking order stand");
 		if (!orderMonitor.isEmpty()){
-			Do("Found a new order");
+			DoInfo("Found a new order");
 			RestaurantOrder o = orderMonitor.remove();
 			orders.add(new Order(o.w,o.choice,o.table,OrderState.pending));
 		}
