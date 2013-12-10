@@ -42,6 +42,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public boolean canLeave() {
+		this.p = null;
 		return true;
 	}
 	
@@ -184,11 +185,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	    //final Timer t = new Timer();
 	    //timers.add(t);
 	    mc.status = CustomerState.computingTotal;
-	    timer.schedule(new TimerTask(){
-	    	public void run(){
-	    		msgFinishedComputing(cust);
-	    		//timer.cancel();
-	    	}}, mc.order.size()*300);
+//	    timer.schedule(new TimerTask(){
+//	    	public void run(){
+//	    		msgFinishedComputing(cust);
+//	    		//timer.cancel();
+//	    	}}, mc.order.size()*300);
+	    
+	    msgFinishedComputing(cust);
 	}
 
 	private void ComputeBusinessPayment(MyBusinessOrder order){

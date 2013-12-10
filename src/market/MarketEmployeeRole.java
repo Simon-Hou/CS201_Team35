@@ -36,7 +36,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	
 	private Semaphore atDestination = new Semaphore(0,true);
 	
-	private Semaphore receivedInvoice = new Semaphore(0,true);
+	//private Semaphore receivedInvoice = new Semaphore(0,true);
 	
 	boolean startedWorking = false;
 	
@@ -46,8 +46,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public void setGui(MarketEmployeeGui g){
-		//gui = g;
-		this.gui = null;
+		gui = g;
+		//this.gui = null;
 	}
 	public void setCashier(MarketCashier cash){
 		cashier = cash;
@@ -125,18 +125,24 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	}
 	
 	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total){
-		receivedInvoice.release();
+
+		//receivedInvoice.release();
+
 		log.add(new LoggedEvent("got msgGiveInvoice with order size: " + order.size() + " for a total of: $" + total));
+
 		for(MyBusinessOrder o : businessOrders){
 			if (o.order.equals(order) && o.restaurant==r){
 				o.invoice = new MarketInvoice(o.order, market, o.restaurant, total);
+				o.state = OrderState.gotInvoice;
 			}
 		}
+		p.msgStateChanged();
 		
 	}
 	//fromAnimation
 	public void msgAtDestination(){
 		atDestination.release();
+		//p.msgStateChanged();
 	}
 	
 	//Scheduler
@@ -183,6 +189,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	//Actions
 	private void CollectItems(CustomerOrder co){
 		
+		//System.err.println("Am collecting items");
 	    co.status = CustomerOrderState.fulfilled;
 	
 		
@@ -239,16 +246,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    if(gui!=null){
 			gui.DoGoHomePosition();
 		}
-	    else{
-	    	atDestination.release();
-	    }
 	    
-	    try {
-			atDestination.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	    
 	    customerOrders.remove(co);
 	
@@ -301,13 +299,8 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    
 		order.state = OrderState.none;
 
-		if (!(p instanceof MockMarketPerson)) {
-			try {
-				receivedInvoice.acquire();
-			} catch (InterruptedException e){
-				e.printStackTrace();
-			}
-		}
+//this was where i waited for the semaphore
+
 	
 	}
 	

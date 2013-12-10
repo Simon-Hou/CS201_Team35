@@ -29,7 +29,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
-	JButton dummyScenarioA, simpleBusRide, jScenario,bankRobbery;
+
+	JButton dummyScenarioA, simpleBusRide, jScenario,bankRobbery, MarketSimple, cMarket;
+
 
 	//For managing traces
 	JToggleButton InfoButton;		//You could (and probably should) substitute a JToggleButton to replace both of these, but I split it into enable and disable for clarity in the demo.
@@ -130,9 +132,19 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		jScenario.addActionListener(this);
 		panel2.addButton(jScenario);
 		
+
+		MarketSimple = new JButton("Simple Market");
+		MarketSimple.addActionListener(this);
+		panel2.addButton(MarketSimple);
+		
+		cMarket = new JButton("C. Market Delivery");
+		cMarket.addActionListener(this);
+		panel2.addButton(cMarket);
+
 		bankRobbery = new JButton("O. Bank Robbery");
 		bankRobbery.addActionListener(this);
 		panel2.addButton(bankRobbery);
+
 
 
 		//Trace panel buttons
@@ -399,6 +411,17 @@ public class CityControlPanel extends JPanel implements ActionListener{
 				city.tracePanel.hideAlertsWithTag(AlertTag.BUS_STOP);
 			}
 		}
+
+		 
+		 //SCENARIOS
+		else if (e.getSource().equals(MarketSimple)){
+			city.marketSimpleScenario();
+		}
+	
+		else if (e.getSource().equals(cMarket)){
+			city.cMarketDeliveryScenario();
+		}
+
 		else if(e.getSource().equals(GeneralCityTagButton)) {
 			if (GeneralCityTagButton.isSelected()){
 				GeneralCityTagButton.setText("Hide Tag: GENERAL_CITY");
@@ -419,6 +442,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 				city.tracePanel.stopShowingOnlyCurrentCard();
 			}
 		}
+
 
 
 	}
