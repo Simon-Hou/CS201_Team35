@@ -143,7 +143,7 @@ public class MarketEmployeeGui implements Gui{
 		xDestination = itemDropX;
 		yDestination = itemDropY;
 		gotToDestination = false;
-		System.err.println("setting gotToDestination false");
+		//System.err.println("setting gotToDestination false");
 	}
 	
 	public void DoGoHomePosition(){

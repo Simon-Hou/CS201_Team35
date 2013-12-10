@@ -179,7 +179,7 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	//Actions
 	private void CollectItems(CustomerOrder co){
 		
-		System.err.println("Am collecting items");
+		//System.err.println("Am collecting items");
 	    co.status = CustomerOrderState.fulfilled;
 	
 		

@@ -1046,18 +1046,18 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		addNewPersonHard("C1",
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-				JobType.MarketCashier,0,100,0,0);
+				JobType.MarketCashier,0,7,0,0);
 		
-//		addNewPersonHard("C2",
-//				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
-//				JobType.MarketCashier,10,50,0,0);
+		addNewPersonHard("C2",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketCashier,10,50,0,0);
 		
 		
 		//customers
 		addNewPersonHard("p1",null,null,0,0,0,0);
-		addNewPersonHard("p"+5,null,null,0,0,0,0);
-		addNewPersonHard("p"+6,null,null,0,0,0,0);
-		addNewPersonHard("p"+7,null,null,0,0,0,0);
+//		addNewPersonHard("p"+5,null,null,0,0,0,0);
+//		addNewPersonHard("p"+6,null,null,0,0,0,0);
+//		addNewPersonHard("p"+7,null,null,0,0,0,0);
 	}
 
 	public void gabeRestaurant(){

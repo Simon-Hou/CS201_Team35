@@ -77,12 +77,15 @@ public class MarketCustomerGui implements Gui{
 			}
 		}
 	 //   if (!gotToDestination){
-	       	if (xPos == xDestination && yPos == yDestination && !(xPos == itemDropX && yPos == itemDropY ))
+	       	if (xPos == xDestination && yPos == yDestination && !(xPos == itemDropX && yPos == itemDropY ) /*&& !(xPos == xInitial && yPos == yInitial)*/)
+
 	       	{
-	       		System.err.println("gui update position says:  got to the destination, so now going to call msgAtDestination");
+	       		//System.err.println("gui update position says:  got to the destination, so now going to call msgAtDestination"); ---------------------------
 	       		role.msgAtDestination();
+	       		//System.err.println("Released the semaphor cause at destination");
 	       		gotToDestination = true;
 	       	}
+	       	
 	//	}
 	}
 
@@ -115,7 +118,7 @@ public class MarketCustomerGui implements Gui{
 
 	public void DoGoToExit(){
 		//System.out.println(role.name+" moving me to host");
-		System.out.flush();
+		//System.out.flush();
 		gotToDestination = false;
 		xDestination = exitX;
 		yDestination = exitY;

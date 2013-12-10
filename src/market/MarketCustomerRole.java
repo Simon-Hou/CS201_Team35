@@ -103,9 +103,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//from animation
 	public void msgAtDestination(){
-		System.err.println("got msgAtDestination");
+		//System.err.println("got msgAtDestination");
 		atDestination.release();
-		System.err.println("released semaphore");
+		//System.err.println("released semaphore");
 		//p.msgStateChanged();
 		
 	}
@@ -168,7 +168,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		//enter door
 		
 		
-		System.err.println("Walking in the door");
+		//System.err.println("Walking in the door");
 		
 		if(gui!=null){
 			Do("Calling gui");
@@ -187,7 +187,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		}
 		//go to host
 		
-		System.err.println("Got to the entrance, now to the host");
+		//System.err.println("Got to the entrance, now to the host");
 		if(gui!=null){
 			gui.DoGoToHost();
 		}
@@ -204,7 +204,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		}
 
 		
-		System.err.println("Got to the host");
+		//System.err.println("Got to the host");
 		
 		if(!market.host.isPresent()){
 			tryAgainLater();
@@ -254,12 +254,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void TryToLeave(){
-		
+		//System.err.println("MarketCustomerRole.TryToLeave");
 		if(gui!=null){
 			gui.DoGoToExit();
+		//	System.err.println("Go to the exit.");
 		}
 		else{
 			atDestination.release();
+			//System.err.println("Releasgin the semaphor cause no gui");
 		}
 		
 		try {
@@ -268,7 +270,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		//System.err.println("Aquired atDestination");
 		Do("Okay, time to leave!");
 	    host.msgCustomerLeaving(this, receipt, groceries);
 	}

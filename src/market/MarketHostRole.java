@@ -200,7 +200,7 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 		
 		//choose employee for load balancing
-		if(employees.size()==0){
+		if(employees.size()==0 || ((MarketCashierRole)market.cashier).p == null){
 			System.err.println("No Market employees");
 			//mc.customer.msgWeHaveNothing();
 			mc.customer.msgNoEmployees();
