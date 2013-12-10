@@ -134,7 +134,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	}
 	private void ExitHouse(){
 		if(gui!=null)//hack!!! change later
-		gui.DoExit();
+			gui.DoExit();
 		if(myRoom!=null && myRoom.inhabitant!=null){
 			
 			myRoom.inhabitant=null;

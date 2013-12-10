@@ -1,8 +1,10 @@
 package UnitTests.mock.MarketMock;
 
 import market.MarketInvoice;
+import market.OrderItem;
 import interfaces.MarketDeliveryMan;
 import UnitTests.mock.EventLog;
+import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
 public class MockMarketDeliveryMan extends Mock implements MarketDeliveryMan{
@@ -22,8 +24,12 @@ public class MockMarketDeliveryMan extends Mock implements MarketDeliveryMan{
 
 	@Override
 	public void msgHereIsPayment(int payment, MarketInvoice invoice) {
-		// TODO Auto-generated method stub
-		
+		String list = "{";
+		for (OrderItem o: invoice.order){
+			list+=o.quantityReceived+o.choice+", ";
+		}
+		list+="}";
+		log.add(new LoggedEvent("Received payment of " + payment + " from cashier for order " + list));		
 	}
 
 	@Override

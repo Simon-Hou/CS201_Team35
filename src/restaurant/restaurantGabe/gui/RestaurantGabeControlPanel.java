@@ -30,6 +30,7 @@ public class RestaurantGabeControlPanel  extends BuildingControlPanel  implement
 		public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		private JPanel view = new JPanel();
+		private JButton close=new JButton("Close");
 		
 		public RestaurantGabeControlPanel(CityRestaurantCardGabe anim, RestaurantGabe r){
 			restaurant=r;
@@ -47,14 +48,19 @@ public class RestaurantGabeControlPanel  extends BuildingControlPanel  implement
 			pane.setMinimumSize(paneSize);
 			pane.setMaximumSize(paneSize);
 			Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
-
+			close.addActionListener(this);
+			add(close);
 			validate();
 			
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			if(e.getSource() ==close){
+				//TODO function call to close restaurant
+			
+			 
+			}
 //			for (InventoryItem item : inventoryList){
 //				if (e.getSource() == item.minus && item.inventory >0){
 //					item.inventory--;

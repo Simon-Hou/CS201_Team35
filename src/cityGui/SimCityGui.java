@@ -1640,8 +1640,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//cityObject.MAXTIME = 50;
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
-
 		fullyManBuilding("Market",0);
+		
+		addNewBuilding("Bank", 200, 5);
+		fullyManBuilding("Bank",0);
 
 		/*addNewPersonHard("p"+0,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
@@ -1690,6 +1692,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setMAXTIME(50);
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
+		addNewBuilding("Bank", 200, 5);
+		fullyManBuilding("Bank",0);
 
 		//employees
 		addNewPersonHard("H1",
@@ -1735,6 +1739,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("Market",250,200);
 		addNewBuilding("RestaurantGabe",200,250);
 		addNewBuilding("House", 500, 5);
+		addNewBuilding("Bank", 200, 5);
+		fullyManBuilding("Bank",0);
 
 
 		addNewPersonHard("H1",
@@ -1808,6 +1814,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("House", 200, 5);
 		addNewBuilding(scenarioName,5, 300);
 		fullyManBuilding(scenarioName,0);
+		addNewBuilding("Bank", 200, 5);
+		fullyManBuilding("Bank",0);
 
 		int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 		int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());

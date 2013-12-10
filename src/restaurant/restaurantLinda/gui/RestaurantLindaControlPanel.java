@@ -3,6 +3,7 @@ package restaurant.restaurantLinda.gui;
 
 
 import java.awt.Container;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -17,8 +18,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import public_Object.Food;
 import restaurant.restaurantLinda.RestaurantLinda;
 import cityGui.BuildingControlPanel;
 import cityGui.CityRestaurantLindaCard;
@@ -32,7 +31,8 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 	public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	private JPanel view = new JPanel();
-	
+	private JButton close=new JButton("Close");
+
 	public RestaurantLindaControlPanel(CityRestaurantLindaCard anim, RestaurantLinda r){
 		restaurant=r;
 		animation=anim;
@@ -49,13 +49,20 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 		pane.setMinimumSize(paneSize);
 		pane.setMaximumSize(paneSize);
 		Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
-
+		close.addActionListener(this);
+		add(close);
+			
 		validate();
 		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() ==close){
+			//TODO function call to close restaurant
+		
+		 
+		}
 		// TODO Auto-generated method stub
 //		for (InventoryItem item : inventoryList){
 //			if (e.getSource() == item.minus && item.inventory >0){
