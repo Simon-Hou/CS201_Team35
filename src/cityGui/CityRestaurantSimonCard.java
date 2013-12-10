@@ -1,16 +1,17 @@
 package cityGui;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import restaurant.restaurantSimon.gui.CookGui;
 import restaurant.restaurantSimon.gui.CustomerGui;
 import restaurant.restaurantSimon.gui.Gui;
 import restaurant.restaurantSimon.gui.HostGui;
+import restaurant.restaurantSimon.gui.RestaurantSimonControlPanel;
 import restaurant.restaurantSimon.gui.WaiterGui;
 
 public class CityRestaurantSimonCard extends CityRestaurantCard{
@@ -25,6 +26,8 @@ public class CityRestaurantSimonCard extends CityRestaurantCard{
 	public static final int fridgeY=20;
 
 	private List<Gui> guis = new ArrayList<Gui>();
+	
+	RestaurantSimonControlPanel panel;
 
 	public CityRestaurantSimonCard(SimCityGui city) {
 		super(city);
@@ -94,4 +97,7 @@ public class CityRestaurantSimonCard extends CityRestaurantCard{
 		}
 		repaint(); 
 	}
+	 public void setPanel(RestaurantSimonControlPanel p){
+			this.panel = p;
+		}
 }

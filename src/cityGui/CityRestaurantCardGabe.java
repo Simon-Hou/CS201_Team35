@@ -1,5 +1,7 @@
 package cityGui;
 
+import house.gui.HouseControlPanel;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,6 +19,7 @@ import javax.swing.Timer;
 import restaurant.restaurantGabe.CookRole;
 import restaurant.restaurantGabe.gui.CookGui;
 import restaurant.restaurantGabe.gui.CustomerGui;
+import restaurant.restaurantGabe.gui.RestaurantGabeControlPanel;
 //import restaurant.restaurantGabe.gui.Gui;
 import restaurant.restaurantGabe.gui.WaiterGui;
 
@@ -34,7 +37,7 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
 	}
 
 
-
+	RestaurantGabeControlPanel panel;
 	private int WINDOWX = 650;
 	private int WINDOWY = 550;
 	private Image bufferImage;
@@ -147,6 +150,9 @@ public class CityRestaurantCardGabe extends CityRestaurantCard{
 
 	}
 
+	public void setPanel(RestaurantGabeControlPanel p){
+		this.panel = p;
+	}
 
 
 }

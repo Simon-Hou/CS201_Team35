@@ -14,6 +14,7 @@ import java.util.concurrent.Semaphore;
 
 import public_Gui.Gui;
 import restaurant.restaurantLinda.gui.MyImage;
+import restaurant.restaurantLinda.gui.RestaurantLindaControlPanel;
 
 
 public class CityRestaurantLindaCard extends CityRestaurantCard{
@@ -28,6 +29,8 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 	private Collection<Point> tableMap = Collections.synchronizedList(new ArrayList<Point>());
 
     public Semaphore[][] grid;
+    
+    RestaurantLindaControlPanel panel;
 
 	public CityRestaurantLindaCard(SimCityGui city) {
 		super(city);
@@ -119,7 +122,9 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
     	tableMap.add(p);
     }
 
-
+    public void setPanel(RestaurantLindaControlPanel p){
+		this.panel = p;
+	}
 }
 
 

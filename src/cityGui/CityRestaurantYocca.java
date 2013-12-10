@@ -67,7 +67,7 @@ public class CityRestaurantYocca extends CityRestaurant implements ImageObserver
 	public CityRestaurantYocca(int x, int y, String ID) {
 		super(x, y, ID);
 		
-		type="Restaurant";
+		type="RestaurantYocca";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		//System.out.println("Second");
 

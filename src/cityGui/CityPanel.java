@@ -19,6 +19,14 @@ import market.Market;
 import market.gui.MarketPanel;
 import person.PersonAgent;
 import restaurant.Restaurant;
+import restaurant.restaurantGabe.RestaurantGabe;
+import restaurant.restaurantGabe.gui.RestaurantGabeControlPanel;
+import restaurant.restaurantLinda.RestaurantLinda;
+import restaurant.restaurantSimon.RestaurantSimon;
+import restaurant.restaurantLinda.gui.RestaurantLindaControlPanel;
+import restaurant.restaurantSimon.gui.RestaurantSimonControlPanel;
+import restaurant.restaurantYocca.RestaurantYocca;
+import restaurant.restaurantYocca.gui.*;
 import util.Bank;
 import util.CityMap;
 import util.Loc;
@@ -119,16 +127,59 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			addingObject = false;
 
-			if(temp.type.equals("Restaurant")){
+			if(temp.type.equals("RestaurantGabe")){
 				((CityRestaurant)temp).createAnimationPanel(city);
+			
+				CityRestaurantCardGabe tempAnimation=(CityRestaurantCardGabe)((CityRestaurant)temp).animationPanel;
+				RestaurantGabeControlPanel panel=new RestaurantGabeControlPanel(tempAnimation,((RestaurantGabe)((CityRestaurant)temp).restaurant));
+				city.buildingCP.addPanelCard(panel, temp.ID);
+				tempAnimation.setPanel(panel);
+				
 				restaurants.add(((CityRestaurant)temp).restaurant);
 				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
 				temp.cityObject = this.cityObject;
 				temp.addAgentObjectToMap();
-				//				((CityRestaurant)temp).createAnimationPanel(city);
-//				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
-//				temp.cityObject = this.cityObject;
-//				temp.addAgentObjectToMap();
+			
+			}
+
+			else if(temp.type.equals("RestaurantLinda")){
+				((CityRestaurant)temp).createAnimationPanel(city);
+				
+				CityRestaurantLindaCard tempAnimation=(CityRestaurantLindaCard)((CityRestaurant)temp).animationPanel;
+				RestaurantLindaControlPanel panel=new RestaurantLindaControlPanel(tempAnimation,((RestaurantLinda)((CityRestaurant)temp).restaurant));
+				city.buildingCP.addPanelCard(panel, temp.ID);
+				tempAnimation.setPanel(panel);
+
+				restaurants.add(((CityRestaurant)temp).restaurant);
+				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
+			}
+			else if(temp.type.equals("RestaurantYocca")){
+				((CityRestaurant)temp).createAnimationPanel(city);
+				
+				CityRestaurantYoccaCard tempAnimation=(CityRestaurantYoccaCard)((CityRestaurant)temp).animationPanel;
+				RestaurantYoccaControlPanel panel=new RestaurantYoccaControlPanel(tempAnimation,((RestaurantYocca)((CityRestaurant)temp).restaurant));
+				city.buildingCP.addPanelCard(panel, temp.ID);
+				tempAnimation.setPanel(panel);
+
+				restaurants.add(((CityRestaurant)temp).restaurant);
+				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
+			}
+			else if(temp.type.equals("RestaurantSimon")){
+				((CityRestaurant)temp).createAnimationPanel(city);
+				
+				CityRestaurantSimonCard tempAnimation=(CityRestaurantSimonCard)((CityRestaurant)temp).animationPanel;
+				RestaurantSimonControlPanel panel=new RestaurantSimonControlPanel(tempAnimation,((RestaurantSimon)((CityRestaurant)temp).restaurant));
+				city.buildingCP.addPanelCard(panel, temp.ID);
+				tempAnimation.setPanel(panel);
+
+				restaurants.add(((CityRestaurant)temp).restaurant);
+				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
 			}
 			else if(temp.type.equals("House")){
 				CityHouseCard tempAnimation= new CityHouseCard(city);

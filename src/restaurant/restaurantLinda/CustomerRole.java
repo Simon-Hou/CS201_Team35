@@ -3,6 +3,7 @@ package restaurant.restaurantLinda;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CustomerGui;
 import role.Role;
+import UnitTests.mock.LoggedEvent;
 import agent.Agent;
 
 import interfaces.Person;
@@ -67,51 +68,54 @@ public class CustomerRole extends Role implements Customer{
 	// Messages
 	public void msgAtRestaurant(Restaurant r) {
 		event = AgentEvent.atRestaurant;
-		print("Arrived at restaurant");
 		
 		this.r = (RestaurantLinda)r;
+		DoMessage("Arrived at restaurant");
+		
 		p.msgStateChanged();
 	}
 	
 	public void msgRestaurantFull(){
 		if (name.contains("wait")){
-			Do("I will wait");
+			DoMessage("I will wait for open tables");
 			r.host.msgIWillWait(this, true);
 		}
-		else
+		else{
+			DoMessage("Leaving because no open tables");
 			event = AgentEvent.impatient;
+		}
 		
 		p.msgStateChanged();
 	}
 
 	public void msgFollowMe(Waiter w, Menu m) {
-		print("Received followMe");
+		DoMessage("Received followMe from waiter " + w.getName());
 		waiter=w;
 		menu=new MyMenu(m);
 		event = AgentEvent.followWaiter;
 		p.msgStateChanged();
 	}
 
-	public void msgAnimationFinishedGoToSeat() {
-		Do("Got to seat");
-		
+	public void msgAnimationFinishedGoToSeat() {	
 		//from animation
 		event = AgentEvent.seated;
 		p.msgStateChanged();
 	}
 	
 	public void msgAnimationFinishedLeavingSeat(){
-		Do("Left seat");
 		atDestination.release();
 		stateChanged();
 	}
 	
 	public void msgWhatDoYouWant(){
+		DoMessage("Was asked to order");
 		event=AgentEvent.askedToOrder;
 		p.msgStateChanged();
 	}
 	
 	public void msgRedoOrder(Menu menu,String food){
+		DoMessage("Was asked to reorder because " + food + " was out");
+		
 		if (food != choice)
 			customerGui.DoTalk("???");
 		else
@@ -124,6 +128,8 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	public void msgHereIsFood(String food){
+		DoMessage("Received food " + food);
+		
 		event=AgentEvent.foodHere;
 		if (food!=choice)
 			customerGui.DoTalk("WRONG FOOD!");
@@ -133,6 +139,8 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	public void msgHereIsCheck(Check bill, Cashier cashier){
+		DoMessage("Received check. Total is " + bill.getTotal());
+		
 		check=bill;
 		this.cashier=cashier;
 		p.msgStateChanged();
@@ -149,6 +157,8 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, "Animation finished leaving?", r.cityRestaurant.ID);
+		
 		//from animation
 		event = AgentEvent.doneLeaving;
 		p.msgStateChanged();
@@ -231,12 +241,12 @@ public class CustomerRole extends Role implements Customer{
 
 	// Actions
 	private void goToRestaurant() {
-		Do("Going to restaurant");
+		DoInfo("Going to restaurant");
 		r.host.msgIWantFood(this);//send our instance, so he can respond to us
 	}
 	
 	private void ReadMenu(){
-		Do("Reading menu");
+		DoInfo("Reading menu");
 		timer.schedule(new TimerTask(){
 			public void run(){
 				choice=pickFood();
@@ -254,13 +264,15 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	private void MakeOrder(){
+		DoInfo("Ordering choice " + choice);
+		
 		customerGui.DoTalk(choice+"?");
 		state=AgentState.Ordering;
 		waiter.msgHereIsChoice(this, choice);		
 	}
 	
 	private void EatFood() {
-		Do("Eating Food");
+		DoInfo("Eating Food");
 		//This next complicated line creates and starts a timer thread.
 		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
 		//When that time elapses, it will call back to the run routine
@@ -283,6 +295,8 @@ public class CustomerRole extends Role implements Customer{
 	}
 
 	private void LeaveWithoutEating(){
+		DoInfo("Leaving without eating");
+		
 		waiter.msgLeaving(this);
 		customerGui.DoLeaveTable();
 		try{
@@ -295,7 +309,9 @@ public class CustomerRole extends Role implements Customer{
 		LeaveRestaurant();
 	}
 	
-	private void GoToCashier(){
+	private void GoToCashier(){		
+		DoInfo("Leaving table");
+		
 		customerGui.DoLeaveTable();		
 		try{
 			atDestination.acquire();
@@ -303,6 +319,8 @@ public class CustomerRole extends Role implements Customer{
 		catch(InterruptedException e){
 			e.printStackTrace();
 		}
+		
+		DoInfo("Left table. Going to cashier and notifying waiter");
 		
 		waiter.msgDoneAndPaying(this);
 		customerGui.DoGoToCashier();
@@ -317,17 +335,21 @@ public class CustomerRole extends Role implements Customer{
 			payment = p.getWalletAmount();
 		}
 		
+		DoInfo("Paying the cashier $" + payment);
+		
 		cashier.msgHereIsPayment(this, check, payment);
 		p.takeFromWallet(payment);
 		check=null;
 	}
 	
 	private void LeaveRestaurant(){
-		Do("Leaving.");
+		DoInfo("Leaving restaurant");
 		customerGui.DoExitRestaurant();
 	}
 	
 	public void FinishLeaving(){
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, "Out of restaurant?", r.cityRestaurant.ID);
+		
 		choice=null;
 		check=null;
 		menu=null;
@@ -371,6 +393,15 @@ public class CustomerRole extends Role implements Customer{
 		return tempChoice;
 	}
 
+	//Inner Classes
+		class MyMenu{
+			Map<String, Integer> m;
+			
+			MyMenu(Menu m){
+				this.m = m.getMenu();
+			}		
+		}
+	
 	// Accessors, etc.
 	/**
 	 * hack to establish connection to Host agent.
@@ -405,13 +436,16 @@ public class CustomerRole extends Role implements Customer{
 		return customerGui;
 	}
 	
-	//Inner Classes
-	class MyMenu{
-		Map<String, Integer> m;
-		
-		MyMenu(Menu m){
-			this.m = m.getMenu();
-		}		
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, name, message, r.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, r.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));		
 	}
 }
 

@@ -31,7 +31,7 @@ public class CityRestaurantSimon extends CityRestaurant {
 	public CityRestaurantSimon(int x, int y, String ID){
 		super(x, y, ID);
 		
-		type="Restaurant";
+		type="RestaurantSimon";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		
 	}
