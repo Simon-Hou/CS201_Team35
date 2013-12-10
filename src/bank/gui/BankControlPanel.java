@@ -78,8 +78,14 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 			if(e.getSource() ==close){
 				//TODO function call to close restaurant
 			
-				
-				this.bank.isOpen = false;
+				if(close.getText().equals("Close")){
+					close.setText("Open");
+					this.bank.isOpen = false;
+				}
+				else if(close.getText().equals("Open")){
+					close.setText("Close");
+					this.bank.isOpen = true;
+				}
 				
 			 
 			}
