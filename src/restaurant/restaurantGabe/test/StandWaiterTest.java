@@ -16,6 +16,7 @@ import restaurant.restaurantGabe.test.mock.MockCustomer;
 import restaurant.restaurantGabe.test.mock.MockMarket;
 import restaurant.restaurantGabe.test.mock.MockWaiter;
 import restaurant.restaurantGabe.util.Check;
+import restaurant.restaurantGabe.util.Order;
 import restaurant.restaurantGabe.util.RevolvingStand;
 import junit.framework.*;
 
@@ -72,6 +73,12 @@ public class StandWaiterTest extends TestCase {
 		//step 1 - call the waiter scheduler
 		assertTrue("Waiter scheduler should have been called", waiter.pickAndExecuteAnAction());
 
+		//check post of 1
+		Order o = stand.remove();
+		assertTrue("Stand should have an order on it",o!=null);
+		assertTrue("Order should be same order",o.choice.equals("Steak"));
+		assertTrue("Order should have same waiter",o.w.equals(waiter));
+		
 
 
 	}
