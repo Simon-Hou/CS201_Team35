@@ -1,6 +1,7 @@
 package restaurant.restaurantGabe.test.mock;
 
 
+import restaurant.Restaurant;
 //import restaurant.interfaces.Cashier;
 import restaurant.restaurantGabe.interfaces.Customer;
 
@@ -43,6 +44,13 @@ public class MockCustomer extends Mock implements Customer {
 	public void msgPayNextTime(){
 		
 		log.add(new LoggedEvent("I'll pay next time"));
+		
+	}
+
+
+	@Override
+	public void msgAtRestaurant(Restaurant r) {
+		// TODO Auto-generated method stub
 		
 	}
 	
