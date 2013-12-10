@@ -108,7 +108,6 @@ public class CustomerGui implements Gui {
 			else if (command==Command.LeaveRestaurant) {
 				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.agent.getName(), "Successfully leaving RestaurantYocca",this.agent.restaurant.cityRestaurant.animationPanel.getName());
 				agent.msgAnimationFinishedLeaveRestaurant();
-				agent.p.setTiredLevel(20);
 				agent.leaveRestaurant();
 				isHungry = false;
 				//gui.setCustomerEnabled(agent);

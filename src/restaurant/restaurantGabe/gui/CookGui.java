@@ -14,6 +14,8 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 import public_Gui.Gui;
 
@@ -69,12 +71,15 @@ public class CookGui implements Gui {
 
     public CookGui(CookRole agent) {
         this.cook = agent;
+        if (this.cook == null) {
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, cook.getName(), "AAAAA Gabe cook is null",null);	
+        }
+        if (this.cook.person == null) {
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, cook.getName(), "AAAA Gabe cook.person is null",null);
+        }
         currentImage = ((PersonAgent)this.cook.person).downSprites.get(0);
     }
     
-    
-    
-
     public void updatePosition() {
     	//System.out.println("Going home!");
     	if (xPos < xDestination) {

@@ -36,11 +36,11 @@ public class WaiterRole extends Role implements Waiter {
 	private Semaphore atWArea = new Semaphore(0,true);
 	public Semaphore atTheOrderStand = new Semaphore(0,true);
 
-	
+
 	Timer timer = new Timer();
-	
-//	RestaurantGui gui;
-	
+
+	//	RestaurantGui gui;
+
 	private boolean onBreak = false;
 
 	public WaiterGui waiterGui = null;
@@ -49,20 +49,20 @@ public class WaiterRole extends Role implements Waiter {
 	public Cashier cashier = null;
 
 	RestaurantYocca restaurant;
-	
+
 	public int serves = 1;
-	
+
 	public enum CustomerState
 	{DoingNothing,Waiting, Seated, ReadyToOrder, Ordering, Ordered, ReOrder, WaitingForFood, EatingFood, FinishedEating, WaitingForCheck, NeedsToPay, Leaving};
 	private CustomerState state = CustomerState.Waiting;
-	
+
 	public class MyCustomer {
-		
+
 		public Customer customer;
 		public Order o = new Order();
 		private CustomerState state;
 		private Bill check;
-			
+
 		public MyCustomer(Customer c, Table table, Waiter w) {
 			customer = c;
 			state = CustomerState.Waiting;
@@ -70,7 +70,7 @@ public class WaiterRole extends Role implements Waiter {
 			o.setWaiter(w);
 		}
 	}
-	
+
 	public WaiterRole(String name, PersonAgent personAgent) {
 		super();
 		this.name = name;
@@ -80,7 +80,7 @@ public class WaiterRole extends Role implements Waiter {
 	public WaiterRole(){
 		super();
 	}
-	
+
 	public WaiterRole(String name) {
 		super();
 		this.name = name;	
@@ -93,11 +93,11 @@ public class WaiterRole extends Role implements Waiter {
 	public String getName() {
 		return name;
 	}
-	
+
 	public int getServes() {
 		return serves;
 	}
-	
+
 	public void addServe() {
 		serves++;
 	}
@@ -105,38 +105,38 @@ public class WaiterRole extends Role implements Waiter {
 	public List getWaitingCustomers() {
 		return waiterCustomers;
 	}
-	
+
 	public void changeWaiterState() {
 		p.msgStateChanged();
 	}
-	
+
 	public boolean isOnBreak() {
 		return onBreak;
 	}
-	
+
 	public void setOnBreak(boolean b) {
 		onBreak = b;
 	}
 
 	// Messages
-	
+
 	public void msgGoOnBreak() {
 		Do("I will go on break");
 		onBreak = true;
 	}
-	
+
 	public void msgCantGoOnBreak() {
 		Do("I cannot go on break now");
 		onBreak = false;
-//		waiterGui.cantGoOnBreak();
+		//		waiterGui.cantGoOnBreak();
 	}
-	
+
 	public void msgSitAtTable(Customer c, Table t) {
 		print("Adding Customer");
 		waiterCustomers.add(new MyCustomer(c,t,this));
 		p.msgStateChanged();
 	}
-	
+
 	public void msgImReadyToOrder(int tableNum) {
 		for (MyCustomer mc : waiterCustomers) {
 			if (mc.o.getTable().getTableNumber() == tableNum) {
@@ -145,7 +145,7 @@ public class WaiterRole extends Role implements Waiter {
 			}
 		}
 	}
-	
+
 	public void msgHereIsMyChoice(Customer c, String choice) {
 		for (MyCustomer mc : waiterCustomers) {
 			if (mc.customer.getCustomerTableNum() == c.getCustomerTableNum()) {
@@ -155,7 +155,7 @@ public class WaiterRole extends Role implements Waiter {
 			}
 		}
 	}
-	
+
 	public void msgOutOfChoice(Order o) {
 		for (MyCustomer mc : waiterCustomers) {
 			if (mc.o.getTable().getTableNumber() == o.getTable().getTableNumber()) {
@@ -164,7 +164,7 @@ public class WaiterRole extends Role implements Waiter {
 			}
 		}
 	}
-	
+
 	public void msgOrderIsReady(Order o) {
 		for (MyCustomer mc : waiterCustomers) {
 			if (mc.o.getTable().getTableNumber() == o.getTable().getTableNumber()) {
@@ -173,7 +173,7 @@ public class WaiterRole extends Role implements Waiter {
 			}
 		}
 	}
-	
+
 	public void msgImDone(int tableNum) {
 		for (MyCustomer mc : waiterCustomers) {
 			if (mc.customer.getCustomerTableNum() == tableNum) {
@@ -182,7 +182,7 @@ public class WaiterRole extends Role implements Waiter {
 			}
 		}
 	}
-	
+
 	public void msgCheckComputed(Bill c) {
 		for (MyCustomer mc : waiterCustomers) {
 			if (mc.customer.getCustomerTableNum() == c.customer.getCustomerTableNum()) {
@@ -193,7 +193,7 @@ public class WaiterRole extends Role implements Waiter {
 			}
 		}
 	}
-	
+
 	public void msgDoneAndPaid(int tableNum) {
 		for (MyCustomer mc : waiterCustomers) {
 			if (mc.customer.getCustomerTableNum() == tableNum) {
@@ -203,25 +203,25 @@ public class WaiterRole extends Role implements Waiter {
 			}
 		}
 	}
-	
+
 	public void msgAtTable() {//from animation
 		waiterGui.setArrived(true);
 		atTable.release();// = true;
 		p.msgStateChanged();
 	}
-	
+
 	public void msgAtCook() {//from animation
 		waiterGui.setArrived(true);
 		atCook.release();// = true;
 		p.msgStateChanged();
 	}
-	
+
 	public void msgAtOrderStand() {//from animation
 		waiterGui.setArrived(true);
 		atTheOrderStand.release();// = true;
 		p.msgStateChanged();
 	}	
-	
+
 	public void msgAtStart() {//from animation
 		waiterGui.setArrived(true);
 		atStart.release();// = true;
@@ -232,9 +232,9 @@ public class WaiterRole extends Role implements Waiter {
 		waiterGui.setArrived(true);
 		atCashier.release();// = true;
 		p.msgStateChanged();
-		
+
 	}	
-	
+
 	public void msgAtWaitingArea() {
 		waiterGui.setArrived(true);
 		atWArea.release();// = true;
@@ -246,115 +246,119 @@ public class WaiterRole extends Role implements Waiter {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		try {
-		for (MyCustomer mc : waiterCustomers) {
-			try {
-			if (mc.state.equals(CustomerState.Waiting)) {	
-				mc.state = CustomerState.Seated;
-				seatCustomer(mc.customer,mc.o.getTable());		
-			}
-			} catch (ConcurrentModificationException e) {
-				return false;
-			}
-		}
-		}
-		catch (ConcurrentModificationException e) {
-		}
-		try {
-		for (MyCustomer mc : waiterCustomers) {
-			try {
-			if (mc.state.equals(CustomerState.ReadyToOrder)) {
-				Do("I am going to take your order!");
-				mc.state = CustomerState.Ordering;
-				takeOrder(mc);
-			}
-			} catch (ConcurrentModificationException e) {
-				return false;
-			}
-		}
-		} catch (ConcurrentModificationException e) {
-			return false;
-		}
-		try {
-		for (MyCustomer mc : waiterCustomers) {
-			try {
-			if (mc.state.equals(CustomerState.Ordered)) {
-				mc.state = CustomerState.DoingNothing;
-				submitOrder(mc.o);
-			}
-			} catch (ConcurrentModificationException e) {
-				return false;
-			}
-		} 
-		} catch (ConcurrentModificationException e) {
-			return false;
-		}
-		try {
-		for (MyCustomer mc : waiterCustomers) {
-			try {
-				if (mc.state.equals(CustomerState.ReOrder)) {
-					takeOrderAgain(mc);
+			for (MyCustomer mc : waiterCustomers) {
+				try {
+					if (mc.state.equals(CustomerState.Waiting)) {	
+						mc.state = CustomerState.Seated;
+						seatCustomer(mc.customer,mc.o.getTable());		
+					}
+				} catch (ConcurrentModificationException e) {
+					return false;
 				}
-			} catch (ConcurrentModificationException e) {
-				return false;
 			}
-		} 	
 		}
 		catch (ConcurrentModificationException e) {
 		}
 		try {
-		for (MyCustomer mc : waiterCustomers) {
-			try {
-			if (mc.state.equals(CustomerState.WaitingForFood)) {
-				mc.state = CustomerState.EatingFood;
-				Do("Picking up and Delivering food");
-				deliverOrder(mc);
+			for (MyCustomer mc : waiterCustomers) {
+				try {
+					if (mc.state.equals(CustomerState.ReadyToOrder)) {
+						Do("I am going to take your order!");
+						mc.state = CustomerState.Ordering;
+						takeOrder(mc);
+					}
+				} catch (ConcurrentModificationException e) {
+					return false;
+				}
 			}
-		    } catch (ConcurrentModificationException e) {
-		    	return false;
-		    }	
-		}
-		}
-		catch (ConcurrentModificationException e) {
-			
-		}
-		try {
-		for (MyCustomer mc : waiterCustomers) {
-			try{
-			if (mc.state.equals(CustomerState.FinishedEating)) {
-				Do("Customer " + mc.customer.getName() + " is Finished");
-				mc.state = CustomerState.WaitingForCheck;
-				getCheck(mc);
-			}
-			} catch (ConcurrentModificationException e) {
-				return false;
-			}
-		}
-		}
-		catch (ConcurrentModificationException e) {
-			
-		}
-		for (MyCustomer mc : waiterCustomers) {
-			try {
-			if (mc.state.equals(CustomerState.NeedsToPay)) {
-				mc.state = CustomerState.EatingFood;
-				Do("Giving Customer his check");
-				deliverCheck(mc);
-			}
-			} catch (ConcurrentModificationException e) {
+		} catch (ConcurrentModificationException e) {
 			return false;
-			}
 		}
 		try {
-		for (MyCustomer mc : waiterCustomers) {
-			try {
-			if (mc.state.equals(CustomerState.Leaving)) {
-				mc.state = CustomerState.DoingNothing;
-				customerPaidAndFinished(mc);
-			}
-			} catch (ConcurrentModificationException e) {
-				return false;
+			for (MyCustomer mc : waiterCustomers) {
+				try {
+					if (mc.state.equals(CustomerState.Ordered)) {
+						mc.state = CustomerState.DoingNothing;
+						submitOrder(mc.o);
+					}
+				} catch (ConcurrentModificationException e) {
+					return false;
+				}
+			} 
+		} catch (ConcurrentModificationException e) {
+			return false;
+		}
+		try {
+			for (MyCustomer mc : waiterCustomers) {
+				try {
+					if (mc.state.equals(CustomerState.ReOrder)) {
+						takeOrderAgain(mc);
+					}
+				} catch (ConcurrentModificationException e) {
+					return false;
+				}
+			} 	
+		}
+		catch (ConcurrentModificationException e) {
+		}
+		try {
+			for (MyCustomer mc : waiterCustomers) {
+				try {
+					if (mc.state.equals(CustomerState.WaitingForFood)) {
+						mc.state = CustomerState.EatingFood;
+						Do("Picking up and Delivering food");
+						deliverOrder(mc);
+					}
+				} catch (ConcurrentModificationException e) {
+					return false;
+				}	
 			}
 		}
+		catch (ConcurrentModificationException e) {
+
+		}
+		try {
+			for (MyCustomer mc : waiterCustomers) {
+				try{
+					if (mc.state.equals(CustomerState.FinishedEating)) {
+						Do("Customer " + mc.customer.getName() + " is Finished");
+						mc.state = CustomerState.WaitingForCheck;
+						getCheck(mc);
+					}
+				} catch (ConcurrentModificationException e) {
+					return false;
+				}
+			}
+		}
+		catch (ConcurrentModificationException e) {
+
+		}
+		try {
+			for (MyCustomer mc : waiterCustomers) {
+				try {
+					if (mc.state.equals(CustomerState.NeedsToPay)) {
+						mc.state = CustomerState.EatingFood;
+						Do("Giving Customer his check");
+						deliverCheck(mc);
+					}
+				} catch (ConcurrentModificationException e) {
+					return false;
+				}
+			}
+		}
+		catch (ConcurrentModificationException e) {
+		}
+		try {
+			for (MyCustomer mc : waiterCustomers) {
+				try {
+					if (mc.state.equals(CustomerState.Leaving)) {
+						mc.state = CustomerState.DoingNothing;
+						customerPaidAndFinished(mc);
+					}
+				} catch (ConcurrentModificationException e) {
+					return false;
+				}
+			}
 		} catch (ConcurrentModificationException e) {
 			return false;
 		}
@@ -365,28 +369,28 @@ public class WaiterRole extends Role implements Waiter {
 	// Actions
 
 	private void seatCustomer(Customer customer, Table table) {	
-			waiterGui.DoGetCustomer(((CustomerRole)customer).getGui().getWaitingYLocation());
-			waiterGui.setArrived(false);
-			Do("Going through waiting area");
-			try {
-				atWArea.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			Do("Passed through waiting area");
-			customer.setTableLocation(table.getTableNumber());
-			waiterGui.setTableLocation(table.getXLocation(), table.getYLocation());
-			customer.msgFollowMeToTable(new Menu());
-			DoSeatCustomer(customer, table);
-			waiterGui.setArrived(false);
-			try {
-				atTable.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			waiterGui.DoLeaveCustomer();
+		waiterGui.DoGetCustomer(((CustomerRole)customer).getGui().getWaitingYLocation());
+		waiterGui.setArrived(false);
+		Do("Going through waiting area");
+		try {
+			atWArea.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Do("Passed through waiting area");
+		customer.setTableLocation(table.getTableNumber());
+		waiterGui.setTableLocation(table.getXLocation(), table.getYLocation());
+		customer.msgFollowMeToTable(new Menu());
+		DoSeatCustomer(customer, table);
+		waiterGui.setArrived(false);
+		try {
+			atTable.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		waiterGui.DoLeaveCustomer();
 	}
-	
+
 	private void takeOrder(MyCustomer mc) {
 		waiterGui.DoGoToTable(mc.o.getTable().getTableNumber());
 		waiterGui.setArrived(false);
@@ -399,25 +403,25 @@ public class WaiterRole extends Role implements Waiter {
 		Do("What would you like?");
 		mc.customer.msgWhatWouldYouLike();
 	}
-	
+
 	public void submitOrder(Order o) {
 	}
-	
-//	private void submitOrder(Order o) {
-//		waiterGui.setStatusString("O");
-//		waiterGui.DoGoToCook();
-//		waiterGui.setArrived(false);
-//		try {
-//			atCook.acquire();
-//			p.msgStateChanged();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		waiterGui.setStatusString("");
-//		Do("Here is an order");
-//		((Cook) restaurant.cook).msgHereIsAnOrder(o);
-//	}
-//	
+
+	//	private void submitOrder(Order o) {
+	//		waiterGui.setStatusString("O");
+	//		waiterGui.DoGoToCook();
+	//		waiterGui.setArrived(false);
+	//		try {
+	//			atCook.acquire();
+	//			p.msgStateChanged();
+	//		} catch (InterruptedException e) {
+	//			e.printStackTrace();
+	//		}
+	//		waiterGui.setStatusString("");
+	//		Do("Here is an order");
+	//		((Cook) restaurant.cook).msgHereIsAnOrder(o);
+	//	}
+	//	
 	private void takeOrderAgain(MyCustomer mc) {
 		waiterGui.DoGoToTable(mc.o.getTable().getTableNumber());
 		waiterGui.setArrived(false);
@@ -436,7 +440,7 @@ public class WaiterRole extends Role implements Waiter {
 		mc.state = CustomerState.DoingNothing;
 		Do("We are out of your choice. Can you please make a different choice?");
 	}
-	
+
 	private void deliverOrder(MyCustomer mc) {
 		waiterGui.DoGoToCook();
 		waiterGui.setArrived(false);
@@ -462,7 +466,7 @@ public class WaiterRole extends Role implements Waiter {
 		waiterGui.DoLeaveCustomer();
 		p.msgStateChanged();
 	}
-	
+
 	private void getCheck(MyCustomer mc) {
 		waiterGui.DoGoToCashier();
 		waiterGui.setArrived(false);
@@ -475,7 +479,7 @@ public class WaiterRole extends Role implements Waiter {
 		Do("Please compute the customer's check");
 		((Cashier) restaurant.cashier).msgComputeCheck(mc.o.getChoice(), mc.customer, (Waiter)this);
 	}
-	
+
 	private void deliverCheck(MyCustomer mc) {
 		waiterGui.DoGoToCashier();
 		waiterGui.setArrived(false);
@@ -499,7 +503,7 @@ public class WaiterRole extends Role implements Waiter {
 		mc.customer.msgHereIsYourCheck(mc.check);
 		waiterGui.DoLeaveCustomer();
 	}
-	
+
 	private void customerPaidAndFinished(MyCustomer mc) {
 		Do("Customer is finished and has paid");
 		if (host == null) {
@@ -516,16 +520,16 @@ public class WaiterRole extends Role implements Waiter {
 	private void DoSeatCustomer(Customer customer, Table table) {			
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"		
-	    print("Seating " + customer + " at " + table);
+		print("Seating " + customer + " at " + table);
 		waiterGui.DoBringToTable(customer);
 	}
-	
+
 	private void DoGoOnBreak() {
 		if (isOnBreak() == true) {
 			Do("I am on break");		
 		}
 	}
-	
+
 	public void TryGoOnBreak() {
 		Do("Can I go on break?");
 		host.msgCanIGoOnBreak(this);	
@@ -540,12 +544,12 @@ public class WaiterRole extends Role implements Waiter {
 	public WaiterGui getGui() {
 		return waiterGui;
 	}	
-	
-	
+
+
 	public void setHost(Host h) {
 		this.host = h;
 	}
-	
+
 	public void setCook(Cook c) {
 		this.cook = c;
 	}
@@ -557,7 +561,7 @@ public class WaiterRole extends Role implements Waiter {
 	@Override
 	public void addServes() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setRestaurant(RestaurantYocca restaurantYocca) {
@@ -579,7 +583,7 @@ public class WaiterRole extends Role implements Waiter {
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.name, "Removing myself from waiter list: " + restaurant.host.waiterList.size() + " waiters after I remove myself",this.restaurant.cityRestaurant.animationPanel.getName());
 
 		}
-			
+
 		return false;
 	}
 }

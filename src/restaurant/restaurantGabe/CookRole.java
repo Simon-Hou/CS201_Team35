@@ -15,6 +15,8 @@ import interfaces.Person;
 
 import java.util.*;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 import market.Market;
 import market.MarketInvoice;
@@ -451,23 +453,26 @@ public class CookRole extends Role implements Cook{
 		return person!=null;
 	}
 
+//	@Override
+//	public boolean canLeave() {
+//		// TODO Auto-generated method stub
+//		//if (restaurant.numCustomers==0) {
+//		restaurant.leaveRestaurant(this);
+//		return true;
+//		//	}
+//		//	return false;
+//	}
+	
 	@Override
 	public boolean canLeave() {
-		// TODO Auto-generated method stub
-		//if (restaurant.numCustomers==0) {
-		restaurant.leaveRestaurant(this);
-		return true;
-		//	}
-		//	return false;
+		return false;
 	}
 	
-	public void changeShifts(Person p){
-		if (this.p!=null){
-			restaurant.leaveRestaurant(this);
-		}
-		
-		this.p = p;
+	public void changeShifts(Person p) {
+		if (this.person!=null){
+			this.person.msgThisRoleDone(this);
+		}	
+		this.person = (PersonAgent) p;
 		this.name = p.getName();
 	}
-
 }

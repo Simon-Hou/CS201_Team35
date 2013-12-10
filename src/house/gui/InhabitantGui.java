@@ -6,7 +6,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.ImageIcon;
+
 import cityGui.CityHouseCard;
+import person.PersonAgent;
 import public_Gui.Gui;
 import house.InhabitantRole;
 
@@ -40,10 +43,15 @@ public class InhabitantGui implements Gui {
         private Semaphore atTable = new Semaphore(0,true);
         private Semaphore atExit = new Semaphore(0,true);
 
-
+        ImageIcon currentImage;
+    	private int spriteCounter = 6;
+    	private int changeSpriteCounter = 0;
+    	private int spriteChangeSpeed = 12;
 
         public InhabitantGui(InhabitantRole role){
                 this.role = role;
+                currentImage = ((PersonAgent)this.role.self).downSprites.get(0);
+
         }
 
         /*public InhabitantGui(InhabitantRole agent,HouseGui gui) {
@@ -54,15 +62,38 @@ public class InhabitantGui implements Gui {
         @Override
         public void updatePosition() {
                 if(!pause){
-                        if (xPos < xDestination)
-                                xPos++;
-                        else if (xPos > xDestination)
-                                xPos--;
-
-                        if (yPos < yDestination)
-                                yPos++;
-                        else if (yPos > yDestination)
-                                yPos--;
+                	if (xPos < xDestination) {
+            			xPos++;
+            			spriteCounter++;
+            			if (spriteCounter % spriteChangeSpeed == 0) {
+            				currentImage = ((PersonAgent)this.role.self).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.role.self).rightSprites.size());
+            				changeSpriteCounter++;
+            			}
+            		}
+            		else if (xPos > xDestination) {
+            			xPos--;
+            			spriteCounter++;
+            			if (spriteCounter % spriteChangeSpeed == 0) {
+            				currentImage = ((PersonAgent)this.role.self).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.role.self).leftSprites.size());
+            				changeSpriteCounter++;
+            			}			
+            		}
+            		if (yPos < yDestination) {
+            			yPos++;
+            			spriteCounter++;
+            			if (spriteCounter % spriteChangeSpeed == 0) {
+            				currentImage = ((PersonAgent)this.role.self).downSprites.get(changeSpriteCounter % ((PersonAgent)this.role.self).downSprites.size());
+            				changeSpriteCounter++;
+            			}
+            		}
+            		else if (yPos > yDestination) {
+            			yPos--;
+            			spriteCounter++;
+            			if (spriteCounter % spriteChangeSpeed == 0) {
+            				currentImage = ((PersonAgent)this.role.self).upSprites.get(changeSpriteCounter % ((PersonAgent)this.role.self).upSprites.size());
+            				changeSpriteCounter++;
+            			}
+            		}
 
                         if(xPos==CityHouseCard.bedX && yPos==CityHouseCard.bedY)
                         {
@@ -104,9 +135,13 @@ public class InhabitantGui implements Gui {
 
         @Override
         public void draw(Graphics2D g) {
-                g.setColor(Color.MAGENTA);
-                g.fillRect(xPos, yPos, xSize, ySize);
-
+//                g.setColor(Color.MAGENTA);
+//                g.fillRect(xPos, yPos, xSize, ySize);
+//                
+                g.drawImage(currentImage.getImage(),xPos,yPos,xSize,ySize,null);
+        		g.setColor(Color.BLACK);
+        		g.setFont(stringFont);
+                g.drawString(((PersonAgent)role.self).personID + ":Cust", xPos-4, yPos-5);
         }
 
         @Override
