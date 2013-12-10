@@ -157,7 +157,14 @@ public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements Actio
 		if(e.getSource() ==close){
 			//TODO function call to close restaurant
 		
-			this.market.isOpen = false;
+			if(close.getText().equals("Close")){
+				close.setText("Open");
+				this.market.isOpen = false;
+			}
+			else if(close.getText().equals("Open")){
+				close.setText("Close");
+				this.market.isOpen = true;
+			}
 			
 		}
 		

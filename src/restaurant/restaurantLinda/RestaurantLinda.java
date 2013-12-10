@@ -41,7 +41,7 @@ public class RestaurantLinda extends Restaurant{
 	public CookRole cook;
 	public List<BaseRestaurantWaiter> waiters;
 	
-	public boolean isOpen = true;
+	//public boolean isOpen = true;
 	
 	public RestaurantLinda(CityRestaurantLinda cr){
 		this.cityRestaurant = cr;
