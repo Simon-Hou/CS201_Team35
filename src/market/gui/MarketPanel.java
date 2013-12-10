@@ -54,6 +54,7 @@ public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements Actio
 	// private MarketEmployeeRole employee;
 	private MarketDeliveryManRole deliveryMan;
 
+	private JButton close=new JButton("Close");
 
 
 	public MarketPanel(CityMarketCard anim, Market market){
@@ -94,7 +95,8 @@ public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements Actio
 			view.add(item);
 		}
 
-
+		close.addActionListener(this);
+		add(close);
 
 		validate();
 
@@ -152,7 +154,12 @@ public class MarketPanel extends BuildingControlPanel/*JFrame*/ implements Actio
 
 	public void actionPerformed(ActionEvent e) {
 		//System.err.println("Something was pressed.");
-
+		if(e.getSource() ==close){
+			//TODO function call to close restaurant
+		
+		 
+		}
+		
 		if (e.getSource() == startButton){
 			System.out.println("A customer has entered the market");
 			//addCustomer();
