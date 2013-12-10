@@ -146,6 +146,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 		for(Food food : myRoom.inventory){
 			if(food.quantity>0){
 				food.quantity--;
+				 self.getHouse().controlPanel.foodEaten(food.type);
 				foodEating=food.type;
 				break;
 			}

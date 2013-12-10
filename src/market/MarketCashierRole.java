@@ -41,8 +41,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public boolean canLeave() {
-		this.p = null;
-		return true;
+//		this.p = null;
+//		return true;
+		return false;
 	}
 	
 	public boolean isPresent(){

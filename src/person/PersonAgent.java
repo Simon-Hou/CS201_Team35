@@ -364,6 +364,9 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public boolean myBankOpen(){
+		if (city.map.get("Bank").isEmpty()){
+			return false;
+		}
 		return ((BankMapLoc) city.map.get("Bank").get(this.MY_BANK)).bank.isOpen();
 	}
 
@@ -1427,6 +1430,13 @@ public class PersonAgent extends Agent implements Person {
 	@Override
 	public void setTiredLevel(int i) {
 		this.tiredLevel = i;
+	}
+
+
+
+	@Override
+	public House getHouse() {
+		return belongings.myHouse;
 	}
 
 

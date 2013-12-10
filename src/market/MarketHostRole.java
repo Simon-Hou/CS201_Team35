@@ -379,8 +379,9 @@ public class MarketHostRole extends Role implements MarketHost {
 	
 
 	public boolean canLeave() {
-		this.p = null;
-		return true;
+//		this.p = null;
+//		return true;
+		return false;
 	}
 	
 	public boolean NewEmployee(MarketEmployee m){

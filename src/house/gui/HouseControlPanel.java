@@ -35,6 +35,7 @@ public class HouseControlPanel extends BuildingControlPanel  implements ActionLi
 
 	public HouseControlPanel (CityHouseCard anim, House h){
 		house=h;
+		h.controlPanel=this;
 		animation=anim;
 		int WINDOWX = 180;//300; there are the fixed size of control panel
 		int WINDOWY = 500; //500;
@@ -63,7 +64,7 @@ public class HouseControlPanel extends BuildingControlPanel  implements ActionLi
 
 		validate();
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -88,7 +89,7 @@ public class HouseControlPanel extends BuildingControlPanel  implements ActionLi
 			}
 		}
 	}
-	
+
 	public void updateInventory(){
 		for (InventoryItem item : inventoryList){
 			for(Food food: house.room.inventory){
@@ -99,7 +100,7 @@ public class HouseControlPanel extends BuildingControlPanel  implements ActionLi
 			}
 		}
 	}
-	
+
 	private class InventoryItem extends JPanel{
 
 		HouseControlPanel hcp;
@@ -141,5 +142,17 @@ public class HouseControlPanel extends BuildingControlPanel  implements ActionLi
 
 		}
 	}
+	public void foodEaten(String type){
+		for(InventoryItem item:inventoryList){
+			if(item.choice.equals(type)){
+				item.inventory--;
+				item.inventoryLabel.setText(item.inventory.toString());
+			}
+		}
 
+
+
+
+		validate();
+	}
 }
