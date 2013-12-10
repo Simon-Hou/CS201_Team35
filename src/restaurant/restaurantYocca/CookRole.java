@@ -396,5 +396,11 @@ public class CookRole extends Role implements Cook {
 	public void msgStateChanged() {
 		p.msgStateChanged();
 	}
+
+	@Override
+	public void depleteInventory() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

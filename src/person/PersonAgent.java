@@ -19,6 +19,7 @@ import bank.BankCustomerRole;
 import bank.BankTellerRole;
 import market.Market;
 import market.MarketCustomerRole;
+import market.MarketDeliveryManRole;
 import market.MarketEmployeeRole;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.CustomerRole;
@@ -87,12 +88,12 @@ public class PersonAgent extends Agent implements Person {
 
 
 		if (random.nextBoolean()){
-			this.belongings.myFoods.add(new Food("Steak",10));
-			//			this.belongings.myFoods.add(new Food("Chicken",10));
-			//			this.belongings.myFoods.add(new Food("Pizza",10));
-			//			this.belongings.myFoods.add(new Food("Salad",10));
+			this.belongings.myFoods.add(new Food("Steak",5));
+			this.belongings.myFoods.add(new Food("Chicken",15));
+			this.belongings.myFoods.add(new Food("Pizza",15));
+			this.belongings.myFoods.add(new Food("Salad",15));
 		}
-		
+
 
 		purse.wallet = 50;
 
@@ -160,7 +161,7 @@ public class PersonAgent extends Agent implements Person {
 	public AStarTraversalPerson aStar;
 	Position currentPosition = new Position(2,2);
 	Position originalPosition = new Position(2,2);
-	private PersonGui gui;
+	public PersonGui gui;
 	int scale = 30;
 
 	public int personID;
@@ -555,12 +556,12 @@ public class PersonAgent extends Agent implements Person {
 	//Actions
 	private void goToWork() {
 		//parker market testing changes
-//		try {
-//			Thread.sleep((int)(1000+ 1000*Math.random()));
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//		try {
+		//			Thread.sleep((int)(1000+ 1000*Math.random()));
+		//		} catch (InterruptedException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
 
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
@@ -657,10 +658,9 @@ public class PersonAgent extends Agent implements Person {
 			bankRole.Tasks.add(new takeLoan(50 - getMoneyInBank(),belongings.myAccounts.get(0).accountNumber,belongings.myAccounts.get(0).password));
 		}
 
-		doGoToBuilding(loc);
+		tempDoGoToCityLoc(loc);
 		bankRole.msgYouAreAtBank(b);
 		activeRole = bankRole;
-
 	}
 
 	private void goToMarket() {
@@ -708,8 +708,6 @@ public class PersonAgent extends Agent implements Person {
 					return;
 			}
 		}*/
-
-
 
 		marketRole.msgYouAreAtMarket(m);
 		m.newCustomer(marketRole);
@@ -834,6 +832,7 @@ public class PersonAgent extends Agent implements Person {
 		// TODO Auto-generated method stub
 		//System.out.println("CALLING THE TEMP MARKET MOVE");
 
+		System.out.println("\t" + this.personID + "astaasdfasdfasdfasgjkgdfhoagahghiogar");
 
 		Loc gridLoc = CityComponent.findNearestGridLoc(new Point(loc.x,loc.y));
 		//Do("Nearest gri loc to "+loc.x+", "+loc.y+" is "+gridLoc.x+", "+gridLoc.y );
@@ -878,7 +877,7 @@ public class PersonAgent extends Agent implements Person {
 
 	}
 
-	
+
 	public void doRideBus(boolean fStop){
 		Do("\tGoing to bus Stop");
 		//		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
@@ -923,7 +922,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 	}
-	
+
 	public void doRideBus(){
 		Do("\tGoing to bus Stop");
 		//		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
@@ -1046,6 +1045,9 @@ public class PersonAgent extends Agent implements Person {
 		else if(jobType==JobType.MarketEmployee){
 			jobRole = new MarketEmployeeRole(name+"MarketEmployee",this);
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
+		}
+		else if (jobType==JobType.MarketDeliveryMan){
+			jobRole = new MarketDeliveryManRole(name+"MarketDeliveryMan", this, (Market)placeOfWork);
 		}
 		else if (jobType==JobType.RestaurantYoccaWaiter1){
 			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);

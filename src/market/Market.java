@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import cityGui.CityMarket;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import market.gui.MarketPanel;
 import role.Role;
 import util.JobType;
@@ -44,11 +46,11 @@ public class Market implements PlaceOfWork{
 		host.setMarket(this);
 		cashier.setMarket(this);
 		
-		inventory.put("Steak", 100);
-		inventory.put("Chicken", 100);
-		inventory.put("Pizza", 100);
-		inventory.put("Salad", 100);
-		inventory.put("Car", 15);
+		inventory.put("Steak", 1000);
+		inventory.put("Chicken", 1000);
+		inventory.put("Pizza", 1000);
+		inventory.put("Salad", 1000);
+		inventory.put("Car", 150);
 	}
 	
 	public boolean employeeLeaving(MarketEmployee m){
@@ -126,7 +128,7 @@ public class Market implements PlaceOfWork{
 			return (Role) CanIBeCashier(p);
 		}
 		
-		else if(jobType == jobType.MarketDeliveryMan){
+		else if(jobType == JobType.MarketDeliveryMan){
 			
 				deliveryMen.add((MarketDeliveryMan) m);
 				for (MarketEmployee e : employees){
@@ -136,8 +138,6 @@ public class Market implements PlaceOfWork{
 			
 		}
 		
-		
-		System.err.println("A non-markter is trying to work at the market");
 		return null;
 	}
 	

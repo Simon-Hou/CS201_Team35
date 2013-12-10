@@ -116,7 +116,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public void msgCalculateInvoice(MarketEmployee employee, List<OrderItem> order, Restaurant r){
-		DoInfo("Received request to calculate invoice for restaurant");
+		DoInfo("Received request to calculate invoice for restaurant");		
 		log.add(new LoggedEvent("got msgCalculateInvoice"));
 		orders.add(new MyBusinessOrder(order, employee, r));
 		p.msgStateChanged();
@@ -195,7 +195,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void ComputeBusinessPayment(MyBusinessOrder order){
+		DoMessage("Starting to compute business Payment");
 		log.add(new LoggedEvent("action ComputeBusinessPayment"));
+		orders.remove(order);
 		int total = 0;
 		 for (OrderItem item: order.order){
 		        total+= item.quantityReceived * priceList.get(item.choice);
@@ -205,7 +207,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		 log.add(new LoggedEvent("The order will cost $" + total));
 		 order.employee.msgGiveInvoice(order.order, order.restaurant, total);
 		
-		orders.remove(order);
+		
 		
 		
 	}

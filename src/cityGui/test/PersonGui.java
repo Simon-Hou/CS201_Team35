@@ -529,7 +529,17 @@ public class PersonGui extends CityComponent implements Gui {
 		}
     }*/
     
+    public void doStayPut() {
+    	System.out.println("JKFDHSHFJKSDFJHKDDFJKHDSFJKHFJKFJHKFDSFDJHKFDSJHKDFSj");
+    	xDestination = rectangle.x;
+    	yDestination = rectangle.y;
+    	market = true;
+    }
+    
+    public boolean market = false;
+    
     public void updatePosition() {
+
     	for(StopLight s:stopLights){
     		if(s.getStatus()==CrosswalkStatus.Vehicle && 
     				rectangle.intersects(s.safeRegion) &&

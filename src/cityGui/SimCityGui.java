@@ -541,6 +541,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			}
 
 			temp.createAnimationPanel(this);
+			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
 			this.view.addView(temp.animationPanel, temp.ID);
 			temp.cityObject = this.cityObject;
@@ -652,6 +653,21 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 			}
 			//}
+			
+			randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			randOffset = 0;
+			for(int i = 0;i<SHIFTS;++i){
+				int start = (i*(MAXTIME/SHIFTS) + randOffset+MAXTIME-2)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset+2)%MAXTIME;
+				System.out.println(j+" Shift start, end: "+start+" " +end);
+				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
+				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
+				addNewPersonHard("p"+j,
+						((MarketMapLoc) cityObject.cityMap.map.get("Market").get(num)).market,
+						JobType.MarketDeliveryMan,start,end,bankNum,houseNum);
+				j = j+1;
+
+			}
 		}
 		if(type.contains("Restaurant")){
 			int j = 0;
@@ -1050,30 +1066,30 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewPersonHard("BankTeller6a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 		addNewPersonHard("BankTeller6b", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(1)).bank, JobType.BankTeller,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 
-//Creates market
-//		addNewBuilding("Market",250,200);
-//
-//		//Early Shift
-//		addNewPersonHard("MarketHost1"+0,	((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketHost,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee1a"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketEmployee,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee1b"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketEmployee,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee1c"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketEmployee,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketCashier1"+2,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketCashier,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//
-//		//MiddleShift
-//		addNewPersonHard("MarketHost2"+0,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketHost,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee2a"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee2b"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee2c"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketCashier3"+2,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,	JobType.MarketCashier,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//
+		//Creates market
+		addNewBuilding("Market",283,365);
 
-//		//LateShift
-//		addNewPersonHard("MarketHost2",((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketHost,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee3a", ((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee3b"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketEmployee3c"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
-//		addNewPersonHard("MarketCashier3", ((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketCashier,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		//Early Shift
+		addNewPersonHard("MarketHost1"+0,	((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketHost,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee1a"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketEmployee,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee1b"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketEmployee,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee1c"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketEmployee,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketCashier1"+2,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketCashier,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+
+		//MiddleShift
+		addNewPersonHard("MarketHost2"+0,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketHost,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee2a"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee2b"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee2c"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketCashier3"+2,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,	JobType.MarketCashier,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+
+
+		//LateShift
+		addNewPersonHard("MarketHost2",((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketHost,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee3a", ((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee3b"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketEmployee3c"+1,((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketEmployee,secondShiftStart,secondShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("MarketCashier3", ((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market, JobType.MarketCashier,thirdShiftStart,thirdShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 
 
 
@@ -1532,9 +1548,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
 
-		//fullyManBuilding("Market",0);
+		fullyManBuilding("Market",0);
 
-		addNewPersonHard("p"+0,
+		/*addNewPersonHard("p"+0,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketHost,0,5,0,0);
 
@@ -1619,7 +1635,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public void cMarketDeliveryScenario(){
 		System.err.println("scenario c");
 
-		/*
 		//make all restaurants
 		//deplete their inventories
 		//set their markets
@@ -1655,9 +1670,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.addMarket(
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market);
 		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.depleteInventory();
-
-		 */
-
 	}
 
 	public void gabeRestaurant(){

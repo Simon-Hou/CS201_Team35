@@ -169,7 +169,7 @@ public class CookGui implements Gui {
     }
 
     public boolean isPresent() {
-        return true;
+        return agent.p!=null;
     }
     
     public void DoCooking(){
