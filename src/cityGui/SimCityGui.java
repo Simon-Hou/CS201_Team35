@@ -24,6 +24,7 @@ import market.Market;
 import market.gui.MarketMain;
 import market.gui.MarketPanel;
 import person.PersonAgent;
+import restaurant.restaurantGabe.RestaurantGabe;
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;
@@ -548,6 +549,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
 			this.view.addView(temp.animationPanel, temp.ID);
+			
+			//HACK FOR CLOSING RESTAURANTS
+//			if(type.contains("Gabe")){
+//				((RestaurantGabe) ((CityRestaurantGabe) temp).restaurant).isOpen = false;
+//			}
+			
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);

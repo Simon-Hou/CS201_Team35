@@ -182,6 +182,7 @@ public class PersonAgent extends Agent implements Person {
 	public DriveHack driveHack = DriveHack.NONE;
 	
 	public int nextMarketToGoTo = 0;
+	public int nextRestaurantToGoTo = 0;
 
 	boolean waited = false;
 
@@ -292,6 +293,40 @@ public class PersonAgent extends Agent implements Person {
 
 	
 	//Open-checking methods
+	
+	public boolean someRestaurantOpen(){
+		if(city.map.get("Restaurant").isEmpty()){
+			return false;
+		}
+
+		boolean someOpen = false;
+		List<Restaurant> opens = new ArrayList<Restaurant>();
+
+		for(Place p:city.map.get("Restaurant")){
+			if(((RestaurantMapLoc)p).restaurant.isOpen()){
+				opens.add(((RestaurantMapLoc)p).restaurant);
+				someOpen = true;
+			}
+		}
+		
+		if(!someOpen){
+			return false;
+		}
+		
+		Random random = new Random();
+		int chosenRestaurant = random.nextInt(opens.size());
+		
+		//nextMarketToGoTo = 0;
+		for(Place p:city.map.get("Restaurant")){
+			if(((RestaurantMapLoc)p).restaurant.equals(opens.get(chosenRestaurant))){
+				nextRestaurantToGoTo = city.map.get("Restaurant").indexOf(p);
+			}
+		}	
+		
+		return true;
+
+	}
+
 	
 	public boolean someMarketOpen(){
 		boolean someOpen = false;
@@ -798,8 +833,15 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}*/
 		}
+		
+		//hack
+		if(!someRestaurantOpen()){
+			hungerLevel =0;
+		}
+		
 		Random random = new Random();
 		int rand = random.nextInt(city.map.get("Restaurant").size());
+		rand = nextRestaurantToGoTo;
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(rand)).restaurant;
 
 		if (!b.isOpen())
