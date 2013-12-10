@@ -87,7 +87,7 @@ public class MarketCustomerTest extends TestCase{
 		//Step 4:  call scheduler
 		assertTrue("Scheduler should return true", customer.pickAndExecuteAnAction());
 		assertTrue("Customer's log should record GoPay action", customer.log.getLastLoggedEvent().toString().endsWith("action GoPay"));
-		assertTrue("Cashier's log should say it got msgServiceCustomer", cashier.log.getLastLoggedEvent().toString().endsWith("got msgServiceCustomer"));
+		assertTrue("Cashier's log should say it got msgServiceCustomer", cashier.log.getLastLoggedEvent().toString().endsWith("got msgServiceCustomer for customer " + customer.getName() + " for order " + groceries.toString()));
 		
 		//Step 5:  Send msgHereIsTotal
 		customer.msgHereIsTotal(40);

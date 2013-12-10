@@ -545,6 +545,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			}
 
 			temp.createAnimationPanel(this);
+			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
 			this.view.addView(temp.animationPanel, temp.ID);
 			temp.cityObject = this.cityObject;

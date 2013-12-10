@@ -9,12 +9,9 @@ import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
 
 import UnitTests.mock.LoggedEvent;
-import UnitTests.mock.MarketMock.MockMarketPerson;
-import person.PersonAgent;
 //import restaurant.Restaurant;
 import role.Role;
 import interfaces.MarketDeliveryMan;
-import interfaces.MarketCashier;
 import interfaces.Person;
 
 public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {

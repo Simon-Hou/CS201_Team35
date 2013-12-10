@@ -21,6 +21,7 @@ import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.CookGui;
 import role.Role;
+import util.Place;
 
 
 public class CookRole extends Role implements Cook{
@@ -28,9 +29,9 @@ public class CookRole extends Role implements Cook{
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	Timer timer = new Timer();
 	Map<String,Food> foodMap = new HashMap<String,Food>();
-	List<Market> markets = Collections.synchronizedList(new ArrayList<Market>());
-	boolean checkInventory=false;
+	boolean checkInventory=true;
 	boolean checkOrderStand=true;
+	List<Market> marketMap;
 	Restaurant restaurant;
 	
 	ProducerConsumerMonitor<RestaurantOrder> orderMonitor;
@@ -40,47 +41,43 @@ public class CookRole extends Role implements Cook{
 	
 	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor, Restaurant restaurant) {
 		super();
-		foodMap.put("Steak", new Food("Steak",5000,1,5,1));
-		foodMap.put("Chicken", new Food("Chicken",4000,1,5,1));
-		foodMap.put("Salad", new Food("Salad",2000,1,5,1));
-		foodMap.put("Pizza", new Food("Pizza",3000,1,5,1));
+		foodMap.put("Steak", new Food("Steak",5000,1,16,1));
+		foodMap.put("Chicken", new Food("Chicken",4000,1,16,1));
+		foodMap.put("Salad", new Food("Salad",2000,1,16,1));
+		foodMap.put("Pizza", new Food("Pizza",3000,1,16,1));
 		this.name = name;
 		this.orderMonitor = monitor;
 		this.restaurant = restaurant;
 		//checkInventory=true;
+		
 	}
 	
 	//messages
 	public void msgHereIsOrder(Waiter w, String choice, int table){
-		DoMessage(w.getName() + " says table " + table + " wants " + choice);
+		DoInfo(w.getName() + " says table " + table + " wants " + choice);
 		orders.add(new Order(w,choice,table,OrderState.pending));
 		p.msgStateChanged();
 	}
 	
 	public void msgTimerDone(Order o){
-		DoMessage("Finished cooking" + o.choice);
+		DoInfo("Finished cooking" + o.choice);
 		o.state=OrderState.done;
 		p.msgStateChanged();		
 	}
 	
 	public void msgCannotFulfillOrder(Market m, Map<String,Integer> unfulfillable){
-		DoMessage("Need to reorder " + unfulfillable.toString() + " from another market");
+		DoInfo("Need to reorder " + unfulfillable.toString() + " from another market");
 		
 		for (String f: unfulfillable.keySet()){
 			Food food = foodMap.get(f);
 			food.status=FoodState.partialOrdering;
-			food.uselessMarkets.add(m);
 			food.onOrder-=unfulfillable.get(f);
-			if (food.uselessMarkets.size()==markets.size()){
-				food.status=FoodState.impossible;
-				Do("Cannot order any more "+f+" because all markets out");
-			}
 		}
 		p.msgStateChanged();		
 	}
 	
 	public void msgHereIsDelivery(MarketInvoice order){
-		DoMessage("Received a food shipment");
+		DoDebug("Received a food shipment");
 		String shipmentMessage="Received ";
 		
 		for (OrderItem item: order.order){
@@ -107,7 +104,7 @@ public class CookRole extends Role implements Cook{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		if (checkInventory && markets.size()>0){
+		if (checkInventory && restaurant.markets.size()>0){
 			OrderFoodThatIsLow();
 			return true;
 		}
@@ -164,7 +161,7 @@ public class CookRole extends Role implements Cook{
 		}
 		
 		food.quantity--;
-		Do(food.quantity + " " + food.type + "left");
+		DoInfo(food.quantity + " " + food.type + "left");
 		if (food.quantity == food.low && food.status != FoodState.fullOrdering){
 			OrderFoodThatIsLow();
 		}
@@ -177,7 +174,7 @@ public class CookRole extends Role implements Cook{
 			e.printStackTrace();
 		}
 		
-		Do("Started cooking");
+		DoInfo("Started cooking");
 		final Order order = o;
 		timer.schedule(new TimerTask(){
 			public void run(){
@@ -189,7 +186,7 @@ public class CookRole extends Role implements Cook{
 	}
 	
 	private void PlateIt(Order o){
-		Do(foodMap.get(o.choice).type + " is done");
+		DoMessage(foodMap.get(o.choice).type + " is done");
 		cookGui.DoPlating(o.choice);
 		try{
 			atDestination.acquire();
@@ -209,9 +206,6 @@ public class CookRole extends Role implements Cook{
 		
 		for (String f: foodMap.keySet()){
 			Food food = foodMap.get(f);
-			if (food.status==FoodState.impossible){
-				continue;
-			}
 			
 			if (food.quantity<=food.low && food.status!=FoodState.fullOrdering){
 				shoppingList.put(food.type, food.capacity-food.quantity-food.onOrder);
@@ -228,14 +222,14 @@ public class CookRole extends Role implements Cook{
 			return;
 		}
 		
-		if (markets.size()==1){
+		if (restaurant.markets.size()==1){
 			DoMessage("ordering");
-			markets.get(0).host.msgBusinessWantsThis(restaurant, shoppingList);
+			restaurant.markets.get(0).host.msgBusinessWantsThis(restaurant, shoppingList);
 		}
-		else if (markets.size()>1){
+		else if (restaurant.markets.size()>1){
 			DoMessage("ordering");
-			Market m = markets.remove(0);		//Rearrange markets, kind of like a circular queue?
-			markets.add(m);
+			Market m = restaurant.markets.remove(0);		//Rearrange markets, kind of like a circular queue?
+			restaurant.markets.add(m);
 			m.host.msgBusinessWantsThis(restaurant, shoppingList);
 		}
 	}
@@ -283,7 +277,6 @@ public class CookRole extends Role implements Cook{
 		int low;
 		int onOrder=0;
 		FoodState status = FoodState.none;
-		List<Market> uselessMarkets = new ArrayList<Market>();
 		
 		Food(String t, int time, int quantity, int capacity, int low){
 			type=t;
@@ -293,7 +286,7 @@ public class CookRole extends Role implements Cook{
 			this.low = low;
 		}
 	}
-	enum FoodState{none,fullOrdering,partialOrdering,impossible};
+	enum FoodState{none,fullOrdering,partialOrdering};
 	
 	//utilities
 	private List<String> getEmptyFoodList(){
@@ -308,11 +301,7 @@ public class CookRole extends Role implements Cook{
 	public void setRestaurant (Restaurant r){
 		restaurant = r;
 	}
-	
-	public void addMarket(Market m){
-		markets.add(m);
-		p.msgStateChanged();
-	}
+
 	
 	public void setGui(CookGui cg){
 		cookGui = cg;
@@ -365,6 +354,30 @@ public class CookRole extends Role implements Cook{
 		//super.Do(message);
 		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
 		log.add(new LoggedEvent(message));		
+	}
+	
+	public void DoDebug(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+	}
+	
+	public void DoError(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+	}
+
+	@Override
+	public void depleteInventory() {
+		foodMap.get("Steak").quantity=0;
+		foodMap.get("Chicken").quantity=0;
+		foodMap.get("Salad").quantity=0;
+		foodMap.get("Pizza").quantity=0;
+
+	}
+
+	@Override
+	public void addMarket(Market m) {
+		p.msgStateChanged();		
 	}
 }
 

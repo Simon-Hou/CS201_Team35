@@ -296,9 +296,9 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 		}
 	    
 		//got to cashier
-		Do(market.cashier.getName() + ", can you please calculate the invoice for this order?");
+		//DoMessage(market.cashier.getName() + ", can you please calculate the invoice for this order?");
 		market.cashier.msgCalculateInvoice(this, order.order, order.restaurant);
-	    
+
 		gui.DoGoHomePosition();
 
 

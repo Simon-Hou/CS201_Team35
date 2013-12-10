@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.MarketMock.MockMarketCashier;
 import interfaces.*;
 import restaurant.Restaurant;
 import role.Role;
@@ -208,7 +209,14 @@ public class MarketHostRole extends Role implements MarketHost {
 		
 		
 		//choose employee for load balancing
-		if(employees.size()==0 || ((MarketCashierRole)market.cashier).p == null){
+		if (market.cashier instanceof MockMarketCashier) {
+			if (employees.size()==0){
+				log.add(new LoggedEvent("no employees"));
+				return;
+			}
+		}
+		else if(employees.size()==0 || ((MarketCashierRole)market.cashier).p == null){
+			System.out.println(employees.size());
 			System.err.println("No Market employees");
 			log.add(new LoggedEvent("no employees"));
 			//mc.customer.msgWeHaveNothing();

@@ -222,29 +222,13 @@ public class BankCustomerTest extends TestCase{
 		assertTrue("Person should have taken from their wallet after deposit",person.log.getLastLoggedEvent(2).getMessage().equals("Added to wallet"));
 		//assertTrue("Person should've added to their account",person.log.getLastLoggedEvent(2).getMessage().equals("Took from account"));
 		assertTrue("Person should have a new permit",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
-
-		//step 13 - call the person scheduler to do the net task
-		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
-
-		//check post of 13 and pre of 14
-		assertTrue("Teller should have a new task",teller.log.getLastLoggedEvent().getMessage().equals("Just got a new task: takeLoan"));
-		assertTrue("Customer should know that his task is pending",customer.event == BankCustomerRole.CustEvent.taskPending);
-		assertTrue("Customer should have taken the task off of his tasks list",customer.Tasks.size()==0);
-
-		//step 14 - tell the customer the first task is done, do another
-		customer.msgLoanApprovedAnythingElse(100, 0, 0);
+		assertEquals("Customers taskList should have been emptied", 0, customer.Tasks.size());
 		
-		//check post 14 of and pre of 15
-		assertTrue("Customer should know that the teller is ready for th next task",customer.event == BankCustomerRole.CustEvent.tellerReady);
-		assertTrue("Person should have added to their wallet after withdrawal",person.log.getLastLoggedEvent(3).getMessage().equals("Added to wallet"));
-		assertTrue("Person should've subtracted from their account",person.log.getLastLoggedEvent(2).getMessage().equals("I have a new loan for $100"));
-		assertTrue("Person should have a new permit",person.log.getLastLoggedEvent().getMessage().equals("Just got a new permit"));
-		
-		//step 15 - call the scheduler
+		//step 13 - call the scheduler
 		assertTrue("Customer should've acted",customer.pickAndExecuteAnAction());
 		
 		
-		//check post of 15
+		//check post of 13
 		assertTrue("Customer should have told teller he's leaving",teller.log.getLastLoggedEvent().getMessage().equals("My customer just left"));
 		assertTrue("Customer should know he's leaving",customer.state == BankCustomerRole.CustState.leaving);
 		assertTrue("Person should have been told that the role finished",person.log.getLastLoggedEvent().getMessage().equals("My BankCustomerRole just finished"));

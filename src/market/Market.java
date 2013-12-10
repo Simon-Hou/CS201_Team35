@@ -130,7 +130,6 @@ public class Market implements PlaceOfWork{
 		
 		else if(jobType == JobType.MarketDeliveryMan){
 			
-			//AlertLog.getInstance().logDebug(AlertTag.MARKET, "market", "DeliveryMan trying to work. Role pointer is..." + m, gui.ID);
 				deliveryMen.add((MarketDeliveryMan) m);
 				for (MarketEmployee e : employees){
 					e.addDeliveryMan((MarketDeliveryMan)m);
@@ -139,7 +138,6 @@ public class Market implements PlaceOfWork{
 			
 		}
 		
-		//AlertLog.getInstance().logError(AlertTag.MARKET, "market", "A non-markter is trying to work at the market. Jobtype is: " + jobType + " and role pointer is " + m, gui.ID);
 		return null;
 	}
 	

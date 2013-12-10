@@ -90,6 +90,7 @@ public class RestaurantGabe extends Restaurant{
 		    cashier.restaurant = this;
 	    	
 	        this.cityRestaurantGabe = cg;
+	        super.cityRestaurant = cg;
 	        
 	        cityRestaurantGabe.stand.setCook(cook);
 	        cook.setRevolvingStand(cityRestaurantGabe.stand);

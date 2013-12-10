@@ -7,6 +7,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 import agent.Agent;
 import restaurant.Restaurant;
@@ -171,14 +173,14 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	public void msgHereIsCheck(Check check){
-		Do("Got my check");
+		DoMessage("Got my check");
 		this.check = check;
 		haveCheck = true;
 		person.msgStateChanged();
 	}
 	
 	public void msgHereIsChange(int cash){
-		Do("Being given change");
+		DoMessage("Being given change");
 		event = CustEvent.gotChange;
 		person.msgStateChanged();
 	}
@@ -203,13 +205,13 @@ public class CustomerRole extends Role implements Customer{
 	public boolean pickAndExecuteAnAction(){
 		
 		if(state == CustState.delinquent && event == CustEvent.dismissed){
-			Do("Sorry");
+			DoMessage("Sorry");
 			LeaveRestaurant();
 		}
 		
 		//if restaurant is full, possibly leave
 		if(state == CustState.asking && event == CustEvent.full){
-			Do("Deciding whether or not to leave");
+			DoMessage("Deciding whether or not to leave");
 			PossiblyLeave();
 			return true;
 		}
@@ -237,7 +239,7 @@ public class CustomerRole extends Role implements Customer{
 		
 		//if seated and out of choice, given new menu, think of order
 		if(state==CustState.seated && event == CustEvent.newChoice){
-			Do("Shoot. Ok, let me think of what else I want.");
+			DoMessage("Shoot. Ok, let me think of what else I want.");
 			thinkOfOrder();
 			return true;
 		}
@@ -268,7 +270,7 @@ public class CustomerRole extends Role implements Customer{
 			return true;
 		}
 		if(state==CustState.needChange && event==CustEvent.gotChange){
-			Do("Leaving now");
+			DoMessage("Leaving now");
 			LeaveRestaurant();
 		}
 		if(state==CustState.thinking && event == CustEvent.tooExpensive){
@@ -299,13 +301,13 @@ public class CustomerRole extends Role implements Customer{
 		}
 		
 		if(leave==1){
-			Do("I can't wait. Leaving");
+			DoMessage("I can't wait. Leaving");
 			host.msgStayOrNot(this,false);
 			LeaveRestaurant();
 			return;
 		}
 		state = CustState.waiting;
-		Do("I'll stay");
+		DoMessage("I'll stay");
 		host.msgStayOrNot(this,true);
 	}
 	
@@ -317,17 +319,17 @@ public class CustomerRole extends Role implements Customer{
 			this.state = CustState.delinquent;
 			return;
 		}
-		Do("Paying $" + cash);
+		DoMessage("Paying $" + cash);
 		cashier.msgPayment(this.check,cash);
 		this.state = CustState.needChange;
 	}
 	
 	//when cust gets hungry
 	private void goToRestaurant(){
-		Do("Entering restaurant");
+		DoMessage("Entering restaurant");
 		DoGoToRestaurant();
 		//Do("GOt here!");
-		Do("Asking to be seated");
+		DoMessage("Asking to be seated");
 		host.msgIWantToEat(this);
 		state = CustState.asking;
 		//System.out.println("I came to the Restaurant");
@@ -388,10 +390,10 @@ public class CustomerRole extends Role implements Customer{
 		if(!canAffordLeft && !name.equals("Flake")){
 			waiter.msgFoodTooExpensiveLeaving(this);
 			event = CustEvent.tooExpensive;
-			Do("Too expensive");
+			DoMessage("Too expensive");
 		}
 		if(!foodLeft){
-			Do("You're out of everything! I'm leaving");
+			DoMessage("You're out of everything! I'm leaving");
 			LeaveRestaurant();
 			state = CustState.leaving;
 		}
@@ -492,6 +494,18 @@ public class CustomerRole extends Role implements Customer{
 	
 	//GUI
 	
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));		
+	}
+	
 	private void DoGoToRestaurant() {
 		customerGui.DoGoToRestaurant();
 		
@@ -502,7 +516,7 @@ public class CustomerRole extends Role implements Customer{
 	}
 	
 	private void DoOrder(String choice){
-		Do("I'll have "+choice);
+		DoMessage("I'll have "+choice);
 		customerGui.setFood(choice.substring(0,2)+"?");
 	}
 	

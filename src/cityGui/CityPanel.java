@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import bank.gui.BankControlPanel;
 import market.Market;
 import market.gui.MarketPanel;
 import person.PersonAgent;
@@ -199,7 +200,14 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			else if (temp.type.equals("Bank")) {
 				CityBankCard tempAnimation = new CityBankCard(city);
+				
+				BankControlPanel panel= new BankControlPanel(tempAnimation,((CityBank)temp).bank);
+				city.buildingCP.addPanelCard(panel, temp.ID);
+				
 				((CityBank)temp).bank.setAnimationPanel(tempAnimation);
+				
+				tempAnimation.setPanel(panel);
+				
 				banks.add(((CityBank)temp).bank);
 				city.view.addView(tempAnimation, temp.ID);
 				temp.cityObject = this.cityObject;
