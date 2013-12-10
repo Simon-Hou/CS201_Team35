@@ -706,13 +706,8 @@ public class PersonAgent extends Agent implements Person {
 
 	private void getFood() {
 
-		
-
-
-
-				if (belongings.myHouse!=null && !belongings.myHouse.room.inventory.isEmpty()) {
+				if (belongings.myHouse!=null && belongings.myHouse.room.inventory.get(0).quantity>0) {
 					Do("I am going to eat at home");
-
 					doGoHome();
 					activeRole = inhabitantRole;
 					belongings.myHouse.msgImHome(inhabitantRole);
@@ -753,7 +748,7 @@ public class PersonAgent extends Agent implements Person {
 		int rand = random.nextInt(city.map.get("Restaurant").size());
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(rand)).restaurant;
 		
-		if (b.unStaffed())
+		if (!b.isOpen())
 			return;
 		Loc loc = city.map.get("Restaurant").get(rand).loc;
 

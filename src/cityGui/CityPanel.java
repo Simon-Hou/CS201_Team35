@@ -1,6 +1,7 @@
 package cityGui;
 
 import house.House;
+import house.gui.HouseControlPanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -131,7 +132,14 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			else if(temp.type.equals("House")){
 				CityHouseCard tempAnimation= new CityHouseCard(city);
+				
+				HouseControlPanel panel=new HouseControlPanel(tempAnimation,((CityHouse)temp).house);
+				city.buildingCP.addPanelCard(panel, temp.ID);
+				
 				((CityHouse)temp).house.setAnimationPanel(tempAnimation);
+				
+				tempAnimation.setPanel(panel);
+				
 				houses.add(((CityHouse)temp).house);//hack: this is not necessary because we have the cityObject already. Change it later
 				city.view.addView(tempAnimation, temp.ID);
 				temp.cityObject = this.cityObject;

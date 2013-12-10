@@ -64,10 +64,10 @@ public class RestaurantLinda extends Restaurant{
 		cook.setGui(cg);
 		cityRestaurant.animationPanel.addGui(cg);
 		
-		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Debug message", cityRestaurant.ID);
+		/*AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Debug message", cityRestaurant.ID);
 		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Info message", cityRestaurant.ID);
 		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Message message", cityRestaurant.ID);
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Error message", cityRestaurant.ID);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, "RestaurantLinda", "Error message", cityRestaurant.ID);*/
 	}
 	
 	//dummy constructor for agent-only unit tests
@@ -102,7 +102,7 @@ public class RestaurantLinda extends Restaurant{
 			return (Role) cashier;
 		}
 		
-		System.out.println("Unrecognized job type: " + type);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, p.getName(), "Unrecognized job type: " + type, cityRestaurant.ID);
 		return null;
 	}
 		
@@ -145,7 +145,8 @@ public class RestaurantLinda extends Restaurant{
 	@Override
 	public boolean isOpen() {
 		// TODO Auto-generated method stub
-		return !unStaffed() && isOpen;
+		//return !unStaffed() && isOpen;
+		return isOpen;
 	}
 
 }

@@ -28,7 +28,7 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 	@Override
 	public void msgHereAreItems(Map<String, Integer> groceries) {
 		// TODO Auto-generated method stub
-		log.add(new LoggedEvent("got msgHereAreItems"));
+		log.add(new LoggedEvent("got msgHereAreItems total items: " + groceries.size()));
 	}
 
 	@Override

@@ -12,6 +12,9 @@ import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 import market.MarketInvoice;
 
 
@@ -54,24 +57,25 @@ public class CashierRole extends Role implements Cashier{
 	
 	//messages
 	public void msgPleaseComputeBill(Waiter w, String choice, Customer cust){
+		DoInfo("Received request to compute bill from waiter " + w.getName() + " for customer " + cust.getName() + " who ordered " + choice);
 		bills.add(new Bill(w,choice,cust));
 		p.msgStateChanged();
 	}
 	
 	public void msgHereIsPayment(Customer cust, Check bill, int payment){
-		log.add(new LoggedEvent("Received payment of $" + payment + " from customer " + cust.getName() + " for the bill " + bill));
+		DoInfo("Received payment of $" + payment + " from customer " + cust.getName() + " for the bill " + bill);
 		customers.add(new MyCustomer(cust, bill, payment));
 		p.msgStateChanged();
 	}
 	
 	public void msgTimerDone(Bill b){
-		log.add(new LoggedEvent("Finished computing bill for waiter " + b.w.getName() + " for customer " + b.cust.getName() + ". For the order " + b.choice + ", the total is " + b.total));
-		Do("Finished computing");
+		DoInfo("Finished computing bill for waiter " + b.w.getName() + " for customer " + b.cust.getName() + ". For the order " + b.choice + ", the total is " + b.total);
 		b.status=BillState.computed;
 		p.msgStateChanged();
 	}
 	
 	public void msgHereIsInvoice(MarketDeliveryMan deliveryMan, MarketInvoice order) {
+		DoInfo("Received invoice from market delivery man to pay $" + order.total + " for order of " + order.order);
 		myBills.add(new MyBill(order, deliveryMan));
 		p.msgStateChanged();
 		
@@ -126,8 +130,7 @@ public class CashierRole extends Role implements Cashier{
 	
 	//actions
 	private void ComputeBill(Bill b){
-		log.add(new LoggedEvent("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice));
-		Do("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice);
+		DoMessage("Computing bill from waiter " + b.w.getName() + " for customer " + b.cust.getName() + " who ordered " + b.choice);
 		b.status=BillState.computing;
 		int debt = 0;
 		if (debtors.containsKey(b.cust)){
@@ -146,14 +149,13 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	private void NotifyWaiter(Bill b){
-		log.add(new LoggedEvent("Notifying waiter of finished bill for customer " + b.cust.getName() + " who ordered " + b.choice + ". Total is $" + b.total));
+		DoMessage("Notifying waiter of finished bill for customer " + b.cust.getName() + " who ordered " + b.choice + ". Total is $" + b.total);
 		b.w.msgHereIsBill(b.choice, b.cust, b.total);
 		b.status=BillState.done;
 	}
 	
 	private void AcceptPayment(MyCustomer mc){
-		log.add(new LoggedEvent("Processing payment from customer"));
-		Do("Payment received: $" + mc.payment);
+		DoMessage("Processing payment from customer. Payment received: $" + mc.payment);
 		restaurant.cash+=mc.payment;
 		int debt = mc.bill.getTotal()-mc.payment;
 		if (mc.bill.getTotal()>mc.payment){
@@ -185,8 +187,7 @@ public class CashierRole extends Role implements Cashier{
 		
 		restaurant.cash -= payment;
 			
-		log.add(new LoggedEvent("Paying market $" + payment + " for food shipment. Still owe " + b.owed + ". $" + restaurant.cash + " left in cash."));
-		Do("Paying market $" + payment + " for food shipment. Still owe $" + b.owed + ". $" + restaurant.cash + " left.");
+		DoMessage("Paying market $" + payment + " for food shipment. Still owe " + b.owed + ". $" + restaurant.cash + " left in cash.");
 		
 		b.deliveryMan.msgHereIsPayment(payment, b.order);
 		
@@ -320,5 +321,17 @@ public class CashierRole extends Role implements Cashier{
 		this.p = p;
 	}
 	
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));		
+	}
 }
 

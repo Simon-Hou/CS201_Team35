@@ -113,20 +113,23 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	//Messages
 	public void msgGetItemsForCustomer(MarketCustomer c, Map<String, Integer> orderList){
 	    Do("Better get the customer's items");
-	    log.add(new LoggedEvent("got msgGetItemsForCustomer"));
+	    log.add(new LoggedEvent("got msgGetItemsForCustomer from " + c.getName()));
 		customerOrders.add(new CustomerOrder(c, orderList));
 		p.msgStateChanged();
 	}
 
 	public void msgGetThis(List<OrderItem> order, Restaurant r){
-		log.add(new LoggedEvent("got msgGetThis"));
+		log.add(new LoggedEvent("got msgGetThis with an order size of " + order.size()));
 	    businessOrders.add(new MyBusinessOrder(order, r));
 	    p.msgStateChanged();
 	}
 	
 	public void msgGiveInvoice(List<OrderItem> order, Restaurant r, int total){
+
 		//receivedInvoice.release();
-		log.add(new LoggedEvent("got msgGiveInvoice"));
+
+		log.add(new LoggedEvent("got msgGiveInvoice with order size: " + order.size() + " for a total of: $" + total));
+
 		for(MyBusinessOrder o : businessOrders){
 			if (o.order.equals(order) && o.restaurant==r){
 				o.invoice = new MarketInvoice(o.order, market, o.restaurant, total);
