@@ -120,13 +120,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 
 
 		//Scenario Buttons
-		dummyScenarioA = new JButton("DummyScenarioA");
-		dummyScenarioA.addActionListener(this);
-		panel2.addButton(dummyScenarioA);
+//		dummyScenarioA = new JButton("DummyScenarioA");
+//		dummyScenarioA.addActionListener(this);
+//		panel2.addButton(dummyScenarioA);
 
-		simpleBusRide = new JButton("E. Simple Bus Ride");
-		simpleBusRide.addActionListener(this);
-		panel2.addButton(simpleBusRide);
 		
 		aScenario = new JButton("A. Big City");
 		aScenario.addActionListener(this);
@@ -136,22 +133,28 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		bScenario.addActionListener(this);
 		panel2.addButton(bScenario);
 		
+		cMarket = new JButton("C. Market Delivery");
+		cMarket.addActionListener(this);
+		panel2.addButton(cMarket);
+		
+		simpleBusRide = new JButton("E. Simple Bus Ride");
+		simpleBusRide.addActionListener(this);
+		panel2.addButton(simpleBusRide);
 		
 		jScenario = new JButton("J. Big City");
 		jScenario.addActionListener(this);
 		panel2.addButton(jScenario);
 		
+		bankRobbery = new JButton("O. Bank Robbery");
+		bankRobbery.addActionListener(this);
+		panel2.addButton(bankRobbery);
+		
 		MarketSimple = new JButton("Simple Market");
 		MarketSimple.addActionListener(this);
 		panel2.addButton(MarketSimple);
 		
-		cMarket = new JButton("C. Market Delivery");
-		cMarket.addActionListener(this);
-		panel2.addButton(cMarket);
+		
 
-		bankRobbery = new JButton("O. Bank Robbery");
-		bankRobbery.addActionListener(this);
-		panel2.addButton(bankRobbery);
 
 
 
