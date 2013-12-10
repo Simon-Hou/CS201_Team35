@@ -128,9 +128,8 @@ public class Market implements PlaceOfWork{
 			return (Role) CanIBeCashier(p);
 		}
 		
-		else if(jobType == jobType.MarketDeliveryMan){
+		else if(jobType == JobType.MarketDeliveryMan){
 			
-			//AlertLog.getInstance().logError(AlertTag.MARKET, "MARKET", "Delivery man role is..." + m, gui.ID);
 				deliveryMen.add((MarketDeliveryMan) m);
 				for (MarketEmployee e : employees){
 					e.addDeliveryMan((MarketDeliveryMan)m);
@@ -139,8 +138,6 @@ public class Market implements PlaceOfWork{
 			
 		}
 		
-		
-		System.err.println("A non-markter is trying to work at the market");
 		return null;
 	}
 	
