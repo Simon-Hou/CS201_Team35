@@ -636,13 +636,13 @@ public class WaiterRole extends Role implements Waiter{
 	
 	public void DoInfo(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurant.ID);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
 		//log.add(new LoggedEvent(message));
 	}
 	
 	public void DoMessage(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurant.ID);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
 		//log.add(new LoggedEvent(message));		
 	}
 
