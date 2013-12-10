@@ -60,6 +60,7 @@ public class MarketDeliveryManTest extends TestCase{
 		restaurant.cook = cook;
 		
 		marketCashier = new MockMarketCashier("marketCashier");
+		market.cashier = marketCashier;
 		deliveryMan = new MarketDeliveryManRole("deliveryMan", person, market);
 
 		customer.host = host;
@@ -94,11 +95,13 @@ public class MarketDeliveryManTest extends TestCase{
 		assertEquals("Delivery Man's orders should have size 1 but are " + deliveryMan.orders.size(), 1, deliveryMan.orders.size());
 		assertTrue("Delivery Man's log should have received mesage 'got msgDeliverThisOrder', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.getLastLoggedEvent().toString().endsWith("got msgDeliverThisOrder"));
 
-		//Setp 2
+		//Step 2
+		deliveryMan.msgHereIsPayment(20, tempOrder); //Do this to release the semaphore beforehand
 		assertTrue("Delivery Man's scheduler should return true", deliveryMan.pickAndExecuteAnAction());
+		
 
 		//Post Step 2
-		assertTrue("Delivery Man's log should have received mesage 'action DeliverOrder', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.getLastLoggedEvent().toString().endsWith("action DeliverOrder"));
+		assertTrue("Delivery Man's log should have received message 'action DeliverOrder', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.getLastLoggedEvent().toString().endsWith("action DeliverOrder"));
 		
 		
 		assertEquals("Restaurant cashier's log should now be size 1 but is instead " + restaurantCashier.log.size(), 1, restaurantCashier.log.size());
@@ -113,10 +116,8 @@ public class MarketDeliveryManTest extends TestCase{
 		list+="}";
 		
 		assertTrue("Cook's log should contain the message about the delivery of food. Instead, the last logged event " + cook.log.getLastLoggedEvent(), cook.log.containsString("Received delivery of food: " + list));
+
 		
-		
-		//Step 3
-		assertFalse("Delivery Man's scheduler should return false", deliveryMan.pickAndExecuteAnAction());
 	}
 
 	public void testTwo_NormalDeliveryManDeliveryOrderScenario() {
@@ -130,9 +131,12 @@ public class MarketDeliveryManTest extends TestCase{
 		assertFalse("Delivery Man's sheduler should return false", deliveryMan.pickAndExecuteAnAction());
 
 		//Step 1
-		MarketInvoice tempOrder = new MarketInvoice(null, null, null, 5);
-		deliveryMan.msgHereIsPayment(10, tempOrder);
-
+		List<OrderItem> order = new ArrayList<OrderItem>();
+		order.add(new OrderItem("Steak", 5));
+		MarketInvoice tempOrder = new MarketInvoice(order, market, restaurant, 20);
+		
+		deliveryMan.msgHereIsPayment(20, tempOrder);
+		
 		//Post Step 1
 		assertEquals("Delivery Man's payments should have size 1 but are " + deliveryMan.payments.size(), 1, deliveryMan.payments.size());
 		assertTrue("Delivery Man's log should have received mesage 'got msgHereIsPayment', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.getLastLoggedEvent().toString().endsWith("got msgHereIsPayment"));
@@ -141,11 +145,16 @@ public class MarketDeliveryManTest extends TestCase{
 		assertTrue("Delivery Man's scheduler should return true", deliveryMan.pickAndExecuteAnAction());
 
 		//Post Step 2
-		assertEquals("Delivery Man's payments should ow be empty", 0, deliveryMan.payments.size());
-		assertTrue("Delivery Man's log should have received mesage 'action DeliverPayment', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.getLastLoggedEvent().toString().endsWith("action DeliverPayment"));
-		
+		assertEquals("Delivery Man's payments should now be empty", 0, deliveryMan.payments.size());
+		assertTrue("Delivery Man's log should have received message 'action DeliverPayment', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.getLastLoggedEvent().toString().endsWith("action DeliverPayment"));
+
+		assertEquals("Market cashier's log should be size 1, instead it is size " + marketCashier.log.size(), 1, marketCashier.log.size());
+		assertTrue("Market cashier's log should contain a message about receiving a business payment. Intead, the last logged message was " + marketCashier.log.getLastLoggedEvent(), marketCashier.log.containsString("Received business payment of $" + 20));
+
 		//Step 3
 		assertFalse("Delivery Man's scheduler should return false", deliveryMan.pickAndExecuteAnAction());
+		
+		
 	}
 
 }

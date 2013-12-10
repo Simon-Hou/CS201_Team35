@@ -107,9 +107,8 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		DoGoToCashier();
 		DoMessage(market.cashier.getName() + ", here is a business payment.");
 		log.add(new LoggedEvent("action DeliverPayment"));
-		if (!(p instanceof MockMarketPerson)) {
-			market.cashier.msgHereIsBusinessPayment(payment.amount);
-		}
+		market.cashier.msgHereIsBusinessPayment(payment.amount);
+		
 		payments.remove(payment);
 
 		

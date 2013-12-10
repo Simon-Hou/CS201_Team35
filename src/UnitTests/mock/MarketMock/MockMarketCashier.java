@@ -57,7 +57,7 @@ public class MockMarketCashier extends Mock implements MarketCashier{
 
 	@Override
 	public void msgHereIsBusinessPayment(int payment) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received business payment of $" + payment));
 		
 	}
 

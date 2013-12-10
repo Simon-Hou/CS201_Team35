@@ -288,11 +288,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public void DoInfo(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logInfo(AlertTag.MARKET, name, message, market.gui.ID);
+		if (market.gui!=null)
+			AlertLog.getInstance().logInfo(AlertTag.MARKET, name, message, market.gui.ID);
 	}
 	
 	public void DoMessage(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
+		if (market.gui!=null)
+			AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
 	}
 }
