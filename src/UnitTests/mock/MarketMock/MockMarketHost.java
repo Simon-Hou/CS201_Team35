@@ -38,7 +38,7 @@ public class MockMarketHost extends Mock implements MarketHost{
 			Map<String, Integer> orderList) {
 		// TODO Auto-generated method stub
 		
-		log.add(new LoggedEvent("got msgCustomerWantsThis"));
+		log.add(new LoggedEvent("got msgCustomerWantsThis. total items: " + orderList.size()));
 		
 		
 	}
@@ -48,7 +48,7 @@ public class MockMarketHost extends Mock implements MarketHost{
 			Map<String, Integer> groceries) {
 		// TODO Auto-generated method stub
 		
-		log.add(new LoggedEvent("got msgCustomerLeaving"));
+		log.add(new LoggedEvent("got msgCustomerLeaving name: " + c.getName()));
 		
 	}
 
