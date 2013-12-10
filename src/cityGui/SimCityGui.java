@@ -1663,6 +1663,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//make them ask the market for food
 		addNewBuilding("Market",250,200);
 		addNewBuilding("RestaurantGabe",200,250);
+		addNewBuilding("RestaurantLinda", 200, 300);
+		//addNewBuilding("RestaurantSimon", 283,365);
+		
 		addNewBuilding("House", 500, 5);
 		addNewBuilding("Bank", 200, 5);
 		fullyManBuilding("Bank",0);
@@ -1684,16 +1687,41 @@ public class SimCityGui extends JFrame implements ActionListener {
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketDeliveryMan,0,100,0,0);
 
-		addNewPersonHard("p0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,100, 0,0);
-		addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
-		addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
-		addNewPersonHard("p3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,100, 0,0);
-		addNewPersonHard("p4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
-
-		//deplete the inventory
-		//((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.addMarket(((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market);
+		//man gabes restaurant - rest.get(0)
+		addNewPersonHard("g0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,100, 0,0);
+		addNewPersonHard("g1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
+		addNewPersonHard("g2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
+		addNewPersonHard("g3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,100, 0,0);
+		addNewPersonHard("g4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
+		
 		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.depleteInventory();
+		
+		//man lindas restaurant - rest.get(1)
+		addNewPersonHard("l1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantHost,0,100, 0,0);
+		addNewPersonHard("l1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantLindaWaiter1,0,100, 0,0);
+		addNewPersonHard("l2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantLindaWaiter1,0,100, 0,0);
+		addNewPersonHard("l3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantCook,0,100, 0,0);
+		addNewPersonHard("l4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
+		
+		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant.cook.depleteInventory();
+
+	
+//		//man simons restaurant - rest.get(2)
+//		addNewPersonHard("s0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,100, 0,0);
+//		addNewPersonHard("s1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
+//		addNewPersonHard("s2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
+//		addNewPersonHard("s3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,100, 0,0);
+//		addNewPersonHard("s4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
+//		
+//		//cook is null because needs to shadow variables (super.cook = cook) in restaurantCard (i think?)
+//		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.depleteInventory();
+	
+	
 	}
+	
+	
+	
+	
 
 	public void gabeRestaurant(){
 		addNewBuilding("RestaurantGabe",200,250);

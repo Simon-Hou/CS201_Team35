@@ -352,4 +352,14 @@ public class CookRole extends Role implements Cook{
 		return restaurant.customers.size()==0;
 	}
 
+
+	@Override
+	public void depleteInventory() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
 }
