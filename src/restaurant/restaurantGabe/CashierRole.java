@@ -327,9 +327,10 @@ public class CashierRole extends Role implements Cashier{
 		}
 		else{
 			//TODO add check
-			int amount = pay.amount;
+			int amount = pay.i.total;
 			pay.man.msgHereIsPayment(amount, pay.i);
 			marketBills.remove(0);
+			RestaurantMoney -= amount;
 			
 		}
 		

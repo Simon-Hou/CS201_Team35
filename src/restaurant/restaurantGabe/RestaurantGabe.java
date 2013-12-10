@@ -80,6 +80,7 @@ public class RestaurantGabe extends Restaurant{
 	    	
 	    	cook = new CookRole("DefaultCook");
 	    	super.cook = cook;
+	    	//cook.Markets = this.
 		    host = new HostRole("DefaultHost");
 		    super.host = host;
 		    cashier = new CashierRole("DefaultCashier");
