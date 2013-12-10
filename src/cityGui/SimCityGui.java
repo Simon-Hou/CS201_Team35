@@ -1173,6 +1173,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		for (int i=50; i<520; i+=80) {
 			addNewBuilding("House", 560, i);	
 		}
+		
 
 		//Creates bank 1
 		addNewBuilding("Bank",283,365);	
@@ -1188,6 +1189,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		//Creates Yocca's restaurant
 		addNewBuilding("RestaurantYocca", 365 ,283);	
+
+		//People that use buses
+		addNewPersonHard("Bus1",null, JobType.NOTSELECTED,0,0, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("Bus2",null, JobType.NOTSELECTED,0,0, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
 
 		//Shifts for bank 1
 		//Early Shift
