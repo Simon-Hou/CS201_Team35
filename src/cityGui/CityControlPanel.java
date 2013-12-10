@@ -30,7 +30,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
-	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,bankRobbery, MarketSimple, cMarket, rain;
+	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,bankRobbery, MarketSimple, cMarket, pRain, qRain;
 
 	
 	//For managing traces
@@ -153,9 +153,13 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		MarketSimple.addActionListener(this);
 		panel2.addButton(MarketSimple);
 		
-		rain = new JButton("Rain");
-		rain.addActionListener(this);
-		panel2.addButton(rain);
+		pRain = new JButton("P. Vehicle Collision");
+		pRain.addActionListener(this);
+		panel2.addButton(pRain);
+		
+		qRain = new JButton("Q. Vehicle Hit Pedestrian");
+		qRain.addActionListener(this);
+		panel2.addButton(qRain);
 
 
 
@@ -441,9 +445,14 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			city.cMarketDeliveryScenario();
 		}
 	
-		else if (e.getSource().equals(rain)){
+		else if (e.getSource().equals(pRain)){
 			city.rainScenario();
 		}
+	
+		else if (e.getSource().equals(qRain)){
+			city.rainScenario();
+		}
+	
 
 		else if(e.getSource().equals(GeneralCityTagButton)) {
 			if (GeneralCityTagButton.isSelected()){
