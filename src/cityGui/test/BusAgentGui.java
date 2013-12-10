@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.ImageIcon;
 import javax.swing.table.TableStringConverter;
 
 import cityGui.CityComponent;
@@ -33,6 +34,15 @@ public class BusAgentGui extends VehicleAgentGui {
 	
 	public static int gridScale = 30;
 	public boolean moving = false;
+	
+	java.net.URL bus0 = getClass().getResource("cityImages/Vehicles/busUp.png");
+	ImageIcon busUp = new ImageIcon(bus0);
+	java.net.URL bus1 = getClass().getResource("cityImages/Vehicles/busDown.png");
+	ImageIcon busDown = new ImageIcon(bus1);
+	java.net.URL bus2 = getClass().getResource("cityImages/Vehicles/busLeft.png");
+	ImageIcon busLeft = new ImageIcon(bus2);
+	java.net.URL bus3 = getClass().getResource("cityImages/Vehicles/busRight.png");
+	ImageIcon busRight = new ImageIcon(bus3);
 	
 	public List<StopLight> stopLights = new ArrayList<StopLight>();
 	
