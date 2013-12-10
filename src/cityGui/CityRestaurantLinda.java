@@ -56,7 +56,7 @@ public class CityRestaurantLinda extends CityRestaurant {
 	public CityRestaurantLinda(int x, int y, String ID) {
 		super(x, y, ID);
 		
-		type="Restaurant";
+		type="RestaurantLinda";
 		rectangle = new Rectangle(x, y, buildingSize, buildingSize);
 		//System.out.println("Second");
 
