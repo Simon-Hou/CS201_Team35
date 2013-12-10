@@ -1,4 +1,5 @@
 package cityGui;
+import house.gui.HouseControlPanel;
 import house.gui.InhabitantGui;
 
 import java.awt.Color;
@@ -11,11 +12,12 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
+import market.gui.MarketPanel;
 import public_Gui.Gui;
 
 public class CityHouseCard extends CityCard{
 
-
+	private HouseControlPanel panel;
 	public static final int xSize = 50;
 	public static final int ySize = 50;
 	public static final int bedX=(int)(CARD_WIDTH*0.5);
@@ -102,5 +104,8 @@ public class CityHouseCard extends CityCard{
 	}
 
 
+	public void setPanel(HouseControlPanel p){
+		this.panel = p;
+	}
 
 }
