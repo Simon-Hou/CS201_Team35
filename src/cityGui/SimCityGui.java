@@ -545,6 +545,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			}
 
 			temp.createAnimationPanel(this);
+			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
 			this.view.addView(temp.animationPanel, temp.ID);
 			temp.cityObject = this.cityObject;
@@ -1195,9 +1196,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
 
-		//fullyManBuilding("Market",0);
+		fullyManBuilding("Market",0);
 
-		addNewPersonHard("p"+0,
+		/*addNewPersonHard("p"+0,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketHost,0,5,0,0);
 

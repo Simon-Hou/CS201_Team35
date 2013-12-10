@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import cityGui.CityMarket;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import market.gui.MarketPanel;
 import role.Role;
 import util.JobType;
@@ -128,6 +130,7 @@ public class Market implements PlaceOfWork{
 		
 		else if(jobType == jobType.MarketDeliveryMan){
 			
+			//AlertLog.getInstance().logError(AlertTag.MARKET, "MARKET", "Delivery man role is..." + m, gui.ID);
 				deliveryMen.add((MarketDeliveryMan) m);
 				for (MarketEmployee e : employees){
 					e.addDeliveryMan((MarketDeliveryMan)m);
