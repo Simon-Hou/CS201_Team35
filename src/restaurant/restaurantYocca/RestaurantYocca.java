@@ -44,7 +44,7 @@ import interfaces.restaurantYocca.Waiter;
 
 public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	
-	ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
+	protected ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
 	
 	public CityRestaurantYocca cityRestaurant;
 	public HostRole host;

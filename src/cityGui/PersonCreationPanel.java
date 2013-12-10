@@ -25,6 +25,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import person.PersonAgent;
+import restaurant.restaurantGabe.RestaurantGabe;
+import restaurant.restaurantLinda.RestaurantLinda;
+import restaurant.restaurantYocca.RestaurantYocca;
 import util.BankMapLoc;
 import util.HouseMapLoc;
 import util.JobType;
@@ -335,7 +338,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 
 		//extract the job from the panel
 		JobType jobType = null;
-
+		System.out.println("PCP: "+jobsOptions.getSelectedValue());
 		if(jobsOptions.getSelectedValue()==null){
 			jobType = JobType.NOTSELECTED;
 		}
@@ -402,13 +405,41 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			return;
 		}
 		if(placeOptions.getSelectedValue().toString().contains("Restaurant")){
-			listModel2.clear();
-			listModel2.add(listModel2.size(),"Restaurant Host");
-			listModel2.add(listModel2.size(),"Restaurant Cashier");
-			listModel2.add(listModel2.size(),"Restaurant Waiter1");
-			listModel2.add(listModel2.size(),"Restaurant Waiter2");
-			listModel2.add(listModel2.size(),"Restaurant Cook");
-			return;
+			String name =  placeOptions.getSelectedValue().toString();
+			int l = name.length();
+			int n = Integer.parseInt(name.substring(l-1,l)) - 1;
+			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantGabe){
+			
+				listModel2.clear();
+				listModel2.add(listModel2.size(),"Restaurant Host");
+				listModel2.add(listModel2.size(),"Restaurant Cashier");
+				listModel2.add(listModel2.size(),"Restaurant Gabe Waiter1");
+				listModel2.add(listModel2.size(),"Restaurant Gabe Waiter2");
+				listModel2.add(listModel2.size(),"Restaurant Cook");
+				return;
+			}
+			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantLinda){
+				
+				listModel2.clear();
+				listModel2.add(listModel2.size(),"Restaurant Host");
+				listModel2.add(listModel2.size(),"Restaurant Cashier");
+				listModel2.add(listModel2.size(),"Restaurant Linda Waiter1");
+				listModel2.add(listModel2.size(),"Restaurant Linda Waiter2");
+				listModel2.add(listModel2.size(),"Restaurant Cook");
+				return;
+			}
+			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantYocca){
+				
+				listModel2.clear();
+				listModel2.add(listModel2.size(),"Restaurant Host");
+				listModel2.add(listModel2.size(),"Restaurant Cashier");
+				listModel2.add(listModel2.size(),"Restaurant Yocca Waiter1");
+				listModel2.add(listModel2.size(),"Restaurant Yocca Waiter2");
+				listModel2.add(listModel2.size(),"Restaurant Cook");
+				return;
+			}
+			
+			
 		}
 
 	}

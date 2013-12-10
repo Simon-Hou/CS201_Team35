@@ -17,6 +17,8 @@ import interfaces.Person;
 
 import java.util.*;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 import market.Market;
 import market.MarketInvoice;
@@ -169,7 +171,7 @@ public class CashierRole extends Role implements Cashier{
 	public boolean YouAreDoneWithShift(){
 		
 		if(true){
-			Do("Being kicked off the job now");
+			DoMessage("Being kicked off the job now");
 			person.msgThisRoleDone(this);
 			this.person = null;
 			//market.DefaultName(this);
@@ -181,27 +183,27 @@ public class CashierRole extends Role implements Cashier{
 	public void msgHereIsInvoice(MarketDeliveryMan deliveryMan,
 			MarketInvoice order) {
 		// TODO Auto-generated method stub
-		Do("Got a new bill from the market");
+		DoMessage("Got a new bill from the market");
 		marketBills.add(new MarketBill(deliveryMan,order));
 		
 	}
 	
 	public void msgDeliveryBill(Market m,int amount){
-		Do("Got a new bill from the market for $" + amount);
+		DoMessage("Got a new bill from the market for $" + amount);
 		marketBills.add(new MarketBill(m,amount));
 		stateChanged();
 	}
 	
 	public void msgICantPay(Check check,int cash){
 		Debt b = findDebt(check.c);
-		Do(b.c.getName()+" can't pay.");
+		DoMessage(b.c.getName()+" can't pay.");
 		b.s = DebtState.cantPay;
 		stateChanged();
 	}
 	
 	public void msgComputeBill(Waiter w,Customer c,String choice){
 		Debt b = findDebt(c);
-		Do("Got a new bill from waiter "+w.getName()+ " and cust "+c.getName()+", who ate "+choice);
+		DoMessage("Got a new bill from waiter "+w.getName()+ " and cust "+c.getName()+", who ate "+choice);
 
 		if(b==null){
 			Debt newDebt = new Debt(w,c,DebtState.uncomputed);
@@ -221,7 +223,7 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	public void msgPayment(Check check,int cash){
-		Do("Cust is paying me");
+		DoMessage("Cust is paying me");
 		Debt b = findDebt(check.c);
 		b.change = cash - b.amount;
 		b.s = DebtState.needsChange;
@@ -317,7 +319,7 @@ public class CashierRole extends Role implements Cashier{
 				return;
 			}
 
-			Do("Can't pay for the Market Order.");
+			DoMessage("Can't pay for the Market Order.");
 
 			pay.m.cashier.msgHereIsBusinessPayment(0);
 			//pay.m.msgCantPay();
@@ -339,7 +341,7 @@ public class CashierRole extends Role implements Cashier{
 	private void LetGo(Debt b){
 		log.add(new LoggedEvent("Letting "+b.c.getName()+" pay next time"));
 		
-		Do("We'll let "+ b.c.getName()+" pay next time.");
+		DoMessage("We'll let "+ b.c.getName()+" pay next time.");
 		b.s = DebtState.delinquent;
 		b.c.msgPayNextTime();
 	}
@@ -396,6 +398,20 @@ public class CashierRole extends Role implements Cashier{
 	}
 
 
+	
+	//LOG FILTERING
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
+		//log.add(new LoggedEvent(message));		
+	}
 
 	@Override
 	public boolean isPresent() {

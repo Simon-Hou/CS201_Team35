@@ -969,7 +969,7 @@ public class PersonAgent extends Agent implements Person {
 
 	//I'm thinking this should include the actual Role rather than having the person make it....
 	public void setJob(PlaceOfWork placeOfWork,JobType jobType,int start,int end){
-
+		//Do("\t\t\t IN SET JOB "+jobType);
 		Role jobRole = null;
 		if(jobType.equals(JobType.MarketHost) || jobType.equals(JobType.MarketCashier)
 				|| jobType.equals(JobType.RestaurantHost) || jobType.equals(JobType.RestaurantCashier) || jobType.equals(JobType.RestaurantCook)){
@@ -994,6 +994,7 @@ public class PersonAgent extends Agent implements Person {
 			jobRole = new restaurant.restaurantYocca.OriginalWaiterRole(name+"RestaurantWaiter",this);
 		}
 		else if (jobType==JobType.RestaurantGabeWaiter1){
+			//Do("\t\t\tIN HERE");
 			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
 			jobRole = new restaurant.restaurantGabe.StandWaiterRole(name+"pcWaiter", this);
 		}

@@ -180,7 +180,7 @@ public class CookRole extends Role implements Cook {
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		if (!orderMonitor.isEmpty()){
+		if (!((RestaurantYocca)this.restaurant).orderMonitor.isEmpty()){
 			CheckOrderStand();
 			return true;
 		}
