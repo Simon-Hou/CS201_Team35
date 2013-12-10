@@ -273,9 +273,9 @@ public class WaiterGui implements Gui {
 		//g.fillRect(xPos, yPos, 20, 20);
 		g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
 		g.setColor(Color.BLACK);
+		g.setFont(stringFont);
 		g.drawString(statusString, xPos+5, yPos+15);
-		g.drawString("W", xPos+3, yPos-5);
-	}    	
+		g.drawString(((PersonAgent)agent.p).personID + ":Waiter", xPos-6, yPos-5);	}    	
 
 
 	public boolean isPresent() {

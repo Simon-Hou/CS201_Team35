@@ -2,6 +2,8 @@ package restaurant.restaurantYocca;
 
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.restaurantYocca.WaiterRole.CustomerState;
 import restaurant.restaurantYocca.WaiterRole.MyCustomer;
@@ -37,7 +39,9 @@ public class ProducerConsumerWaiterRole extends WaiterRole{
 		}
 		//mc.state=CustomerState.orderSent;
 
-		orderMonitor.insert(order);
+		this.restaurant.orderMonitor.insert(order);
+		this.restaurant.cook.msgStateChanged();
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "Just submitted an order to the monitor",this.restaurant.cityRestaurant.animationPanel.getName());
 		waiterGui.DoLeaveCustomer();
 	}
 	

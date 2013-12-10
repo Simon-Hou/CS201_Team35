@@ -6,6 +6,7 @@ import interfaces.MarketCustomer;
 import interfaces.MarketHost;
 import interfaces.Person;
 
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;

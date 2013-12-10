@@ -22,8 +22,6 @@ import util.StopLight;
 public class PersonGui extends CityComponent implements Gui {
 
     private PersonAgent person;
-    ImageIcon currentImage;
-
     SimCityGui gui;
     
     public int xPos = 20, yPos = 29;//default waiter position
@@ -55,6 +53,11 @@ public class PersonGui extends CityComponent implements Gui {
     public boolean waitingForBus = false;
     public boolean waitingForCarToGetOnRoad = false;
     public List<StopLight> stopLights = new ArrayList<StopLight>();
+    
+    ImageIcon currentImage;
+	public int spriteCounter = 6;
+	private int changeSpriteCounter = 0;
+	private int spriteChangeSpeed = 24;
     
     private Semaphore crossingStreet = new Semaphore(0,true);
     private Semaphore atMove = new Semaphore(0,true);
@@ -526,7 +529,17 @@ public class PersonGui extends CityComponent implements Gui {
 		}
     }*/
     
+    public void doStayPut() {
+    	System.out.println("JKFDHSHFJKSDFJHKDDFJKHDSFJKHFJKFJHKFDSFDJHKFDSJHKDFSj");
+    	xDestination = rectangle.x;
+    	yDestination = rectangle.y;
+    	market = true;
+    }
+    
+    public boolean market = false;
+    
     public void updatePosition() {
+
     	for(StopLight s:stopLights){
     		if(s.getStatus()==CrosswalkStatus.Vehicle && 
     				rectangle.intersects(s.safeRegion) &&
@@ -537,16 +550,36 @@ public class PersonGui extends CityComponent implements Gui {
     	
     	if(rectangle.x<xDestination){
     		rectangle.x++;
+			spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.person).rightSprites.get(changeSpriteCounter % ((PersonAgent)this.person).rightSprites.size());
+				changeSpriteCounter++;
+			}
     	}
     	else if(rectangle.x>xDestination){
     		rectangle.x--;
+    		spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.person).leftSprites.get(changeSpriteCounter % ((PersonAgent)this.person).leftSprites.size());
+				changeSpriteCounter++;
+			}
     	}
     	
     	if(rectangle.y<yDestination){
     		rectangle.y++;
+    		spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.person).downSprites.get(changeSpriteCounter % ((PersonAgent)this.person).downSprites.size());
+				changeSpriteCounter++;
+			}
     	}
     	else if(rectangle.y>yDestination){
     		rectangle.y--;
+    		spriteCounter++;
+			if (spriteCounter % spriteChangeSpeed == 0) {
+				currentImage = ((PersonAgent)this.person).upSprites.get(changeSpriteCounter % ((PersonAgent)this.person).upSprites.size());
+				changeSpriteCounter++;
+			}
     	}
     	
     	
@@ -586,7 +619,11 @@ public class PersonGui extends CityComponent implements Gui {
     	if(!visible){
     		return;
     	}
+
     	if (!atDestination() || waitingForBus || waitingForCarToGetOnRoad) {
+    		g.setColor(Color.BLACK);
+    		g.setFont(mapStringFont);
+    		g.drawString(String.valueOf(((PersonAgent)this.person).personID), getXPos(), getYPos());
     		g.drawImage(currentImage.getImage(),getXPos(),getYPos(),10,10,null);
     	}
     }    	

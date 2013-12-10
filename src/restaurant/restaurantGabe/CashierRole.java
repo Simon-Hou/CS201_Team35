@@ -13,6 +13,7 @@ import restaurant.restaurantGabe.util.*;
 import role.Role;
 import agent.Agent;
 import interfaces.MarketDeliveryMan;
+import interfaces.Person;
 
 import java.util.*;
 
@@ -419,10 +420,24 @@ public class CashierRole extends Role implements Cashier{
 		return person!=null;
 	}
 
+//	@Override
+//	public boolean canLeave() {
+//		// TODO Auto-generated method stub
+//		return restaurant.numCustomers == 0;
+//	}
+	
 	@Override
 	public boolean canLeave() {
-		// TODO Auto-generated method stub
-		return restaurant.numCustomers == 0;
+		return false;
+	}
+
+	public void changeShifts(Person p){
+		if (this.p!=null){
+			this.p.msgThisRoleDone(this);
+		}
+		
+		this.p = p;
+		this.name = p.getName();
 	}
 
 }

@@ -28,7 +28,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	//data
 	String name;
 	LivingUnit myRoom=new LivingUnit();
-	Person self;
+	public Person self;
 	//enum InhabitantState {IDLE,HUNGRY,FOODREADY, TIRED,EXIT};
 	//public InhabitantState s=InhabitantState.IDLE;
 	boolean wantEat=false;

@@ -23,7 +23,6 @@ public class CitySidewalk extends CityComponent implements ImageObserver{
 		else if (inner)
 			rectangle = new Rectangle(x, 160, 40, 280);
 		if (boundaries) {
-			this.color = Color.blue;
 			rectangle = new Rectangle(240, 240, 120, 120);
 		}
 	}

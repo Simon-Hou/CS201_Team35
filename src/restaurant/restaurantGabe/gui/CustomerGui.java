@@ -114,10 +114,9 @@ public class CustomerGui implements Gui{
 	static int customer_width = 20;
 	static int customer_height = 20;
 	public void draw(Graphics2D g) {
-//		g.setColor(Color.GREEN);
-//		g.fillRect(xPos, yPos, customer_width, customer_height);
 		g.setColor(Color.black);
-        g.drawString("Cust", xPos, yPos-5);
+		g.setFont(stringFont);
+		g.drawString(((PersonAgent)agent.person).personID + ":Cust", xPos-6, yPos-5);
 	    g.drawImage(currentImage.getImage(),xPos, yPos, customer_width, customer_height,null);
 	     
 		if(food!=null){

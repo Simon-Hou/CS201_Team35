@@ -26,9 +26,7 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 	public static final Rectangle CASHIER = new Rectangle(0, 100, PERSONSIZE, PERSONSIZE);
 	public static final int TABLESIZE=50;
 
-
 	private Collection<Point> tableMap = Collections.synchronizedList(new ArrayList<Point>());
-	public List<MyImage> platedFoods = Collections.synchronizedList(new ArrayList<MyImage>());
 
     public Semaphore[][] grid;
     

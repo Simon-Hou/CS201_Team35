@@ -37,7 +37,7 @@ public class CookRole extends Role implements Cook{
 	ProducerConsumerMonitor<RestaurantOrder> orderMonitor;
 	
 	private Semaphore atDestination = new Semaphore(0,true);
-	private CookGui cookGui;
+	private CookGui cookGui = null;
 	
 	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor, Restaurant restaurant) {
 		super();
@@ -307,6 +307,10 @@ public class CookRole extends Role implements Cook{
 		cookGui = cg;
 	}
 	
+	public CookGui getGui(){
+		return cookGui;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -328,7 +332,7 @@ public class CookRole extends Role implements Cook{
 		this.p = p;
 		this.name = p.getName();
 	}
-	
+
 	public void LeaveRestaurant(){
 		/*cookGui.DoLeaveRestaurant();
 		try {

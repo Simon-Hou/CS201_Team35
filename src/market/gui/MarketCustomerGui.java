@@ -91,11 +91,10 @@ public class MarketCustomerGui implements Gui{
 
 
 	public void draw(Graphics2D g) {
-		 g.setColor(Color.GREEN);
-	     //g.fillRect(xPos, yPos, 20, 20);
+		 g.setColor(Color.BLACK);
+		 g.setFont(stringFont);
 	     g.drawImage(currentImage.getImage(),xPos,yPos,20,20,null);
-
-		
+	     g.drawString(((PersonAgent)role.p).personID + ":Cust", xPos-6, yPos-5);	
 	}
 
 	public void DoGoToHost(){

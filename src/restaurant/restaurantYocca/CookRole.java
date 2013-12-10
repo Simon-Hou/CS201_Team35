@@ -34,7 +34,7 @@ public class CookRole extends Role implements Cook {
 	Map<String,Food> foodMap = new HashMap<String,Food>();
 	private Market currentMarket = null;
 	public CookGui cookGui = null;
-	Restaurant restaurant;
+	public Restaurant restaurant;
 
 	boolean checkOrderStand=true;
 
@@ -180,7 +180,7 @@ public class CookRole extends Role implements Cook {
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		if (!orderMonitor.isEmpty()){
+		if (!((RestaurantYocca)this.restaurant).orderMonitor.isEmpty()){
 			CheckOrderStand();
 			return true;
 		}
@@ -257,7 +257,7 @@ public class CookRole extends Role implements Cook {
 			e.printStackTrace();
 		}
 		if (!orderMonitor.isEmpty()){
-			Do("Found a new order");
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "Just got an order from the monitor",this.restaurant.cityRestaurant.animationPanel.getName());
 			RestaurantOrder o = orderMonitor.remove();
 			waitingOrders.add(new Order(o.w,o.choice,o.table,OrderState.pending));
 		}
@@ -351,7 +351,7 @@ public class CookRole extends Role implements Cook {
 
 	public void changeShifts(Person p) {
 		if (this.p!=null){
-			LeaveRestaurant();
+			this.p.msgThisRoleDone(this);
 		}	
 		this.p = p;
 		this.name = p.getName();
@@ -367,7 +367,7 @@ public class CookRole extends Role implements Cook {
 		}
 		this.p.msgThisRoleDone(this);
 	}
-
+	
 	@Override
 	public boolean canLeave() {
 //		((RestaurantYocca)restaurant).leaveRestaurant(this);
@@ -391,6 +391,16 @@ public class CookRole extends Role implements Cook {
 			//market.DefaultName(this);
 		}
 		return true;
+	}
+	
+	public void msgStateChanged() {
+		p.msgStateChanged();
+	}
+
+	@Override
+	public void depleteInventory() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
