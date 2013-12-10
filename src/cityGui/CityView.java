@@ -50,10 +50,10 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		if(currentCard!=null){
 			cards.get(currentCard).time=city.time;
 		}
-		if (cards.get(key) == null) {
+		/*if (cards.get(key) == null) {
 			System.out.println("Card is null");
 		}
-		else System.out.println("Card is not null");
+		else System.out.println("Card is not null");*/
 		//System.out.println(panel==null);
 		this.add(cards.get(key), key);
 		currentCard=key;
@@ -67,7 +67,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 				cards.get(currentCard).time=city.time;
 			}
 			//System.out.println("In the condition");
-			System.out.println(cards.get(key) instanceof CityRestaurantSimonCard);
+			//System.out.println(cards.get(key) instanceof CityRestaurantSimonCard);
 			cards.get(key).run(city.time);
 			layout.show(this, key);
 			currentCard=key;
@@ -103,6 +103,10 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 
 	public void mouseReleased(MouseEvent e) {
 
+	}
+	
+	public String getCurrentCard(){
+		return currentCard;
 	}
 
 }

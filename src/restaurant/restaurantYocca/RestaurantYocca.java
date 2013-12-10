@@ -90,6 +90,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //		}
 		if (type == JobType.RestaurantHost){
 			if(((HostRole) host).p==null || ((HostRole)host).YouAreDoneWithShift()){
+				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "I'm taking over as host",this.cityRestaurant.animationPanel.getName());
 				((HostRole) host).name = p.getName()+"RestaurantHost";
 				((HostRole) host).p = (PersonAgent) p;
 				System.out.println("Changing HOST");
@@ -97,7 +98,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 				return (Role) host;
 			}
 			System.err.println("New host wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New host wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New host wasn't allowded to take over",this.cityRestaurant.animationPanel.getName());
 
 			return null;
 		}
@@ -118,12 +119,13 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //		}
 		else if (type == JobType.RestaurantCook){
 			if(((CookRole) cook).p==null || ((CookRole)cook).YouAreDoneWithShift()){
-				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook is taking over");
+				AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook is taking over",this.cityRestaurant.animationPanel.getName());
 				//cook = new CookRole("Cook", orderMonitor, this);
 				((CookRole) cook).name = p.getName()+"RestaurantCook";
 				((CookRole) cook).p = (PersonAgent) p;
 				CookGui cg = new CookGui(cook);
 				cook.setGui(cg);
+				cook.orderMonitor = this.orderMonitor;
 				cityRestaurant.animationPanel.addGui(cg);
 				System.out.println("Changing COOK");
 				//System.out.println(host==null);			
@@ -131,7 +133,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 				return (Role) cook;
 			}
 //			System.err.println("New cook wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cook wasn't allowded to take over",this.cityRestaurant.animationPanel.getName());
 
 			return null;
 		}
@@ -148,13 +150,13 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 				return (Role) cashier;
 			}
 			System.err.println("New cashier wasn't allowded to take over");
-			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cashier wasn't allowded to take over");
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "New cashier wasn't allowded to take over",this.cityRestaurant.animationPanel.getName());
 
 			return null;
 		}
 		
 //		System.out.println("Unrecognized job type: " + type);
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "Unrecognized job type: " + type);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, p.getName(), "Unrecognized job type: " + type,this.cityRestaurant.animationPanel.getName());
 		return null;
 	}
 		
@@ -193,6 +195,10 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 		waiters.remove(wr);
 	}
 	
+	public void leaveRestaurant(CookRole cr){
+		cityRestaurant.animationPanel.removeGui(cr.cookGui);
+	}
+	
 //	public boolean leaveWaiterList(WaiterRole r){
 //		return c
 //		
@@ -200,9 +206,11 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //	
 	public void customerEntering(BaseRestaurantCustomer c){
 		//System.out.println("Customer is entering!");
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, this.host.getName(), "Customer is entering the restaurant",this.cityRestaurant.animationPanel.getName());
 		CustomerGui cg = new CustomerGui((CustomerRole)c,this);
 		((CustomerRole)c).setGui(cg);
 		customers.add(c);
+		this.host.waitingCustomers.add((Customer) c);
 		((CityRestaurantYoccaCard) cityRestaurant.animationPanel).addGui(cg);
 	}
 //	

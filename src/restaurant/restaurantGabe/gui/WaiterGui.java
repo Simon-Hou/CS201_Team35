@@ -127,9 +127,10 @@ public class WaiterGui implements Gui {
     public void draw(Graphics2D g) {
 //        g.setColor(Color.MAGENTA);
 //        g.fillRect(xPos, yPos, host_width, host_height);
+    	g.setColor(Color.black);
     	g.drawImage(currentImage.getImage(),xPos, yPos, host_width, host_height,null);
+        g.drawString("W", xPos+3, yPos-5);
         if(food!=null){
-        	g.setColor(Color.black);
         	g.drawString(food, xPos, yPos+host_height/2);
         }
     }

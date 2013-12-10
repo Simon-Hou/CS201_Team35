@@ -119,7 +119,7 @@ public class CustomerGui extends GuiPerson implements Gui{
 					carriedItems.clear();
 					//System.out.println("about to call gui.setCustomerEnabled(agent);");
 					
-					AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, agent.p.getName(), "Managed to finish leaving restaurant animation");
+					//AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, agent.p.getName(), "Managed to finish leaving restaurant animation",this.agent.cityRestaurant.animationPanel.getName());
 					isHungry = false;
 				}
 				command=Command.noCommand;

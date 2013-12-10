@@ -24,13 +24,16 @@ public class Alert implements Comparable<Alert> {
 	
 	/** Timestamp of this alert */
 	public final Date date;
+	
+	public final String ID;
 
-	public Alert(AlertLevel level, AlertTag tag, String sender, String message, Date date) {
+	public Alert(AlertLevel level, AlertTag tag, String sender, String message, Date date, String ID) {
 		this.level = level;
 		this.tag = tag;
 		this.name = sender;
 		this.message = message;
 		this.date = date;
+		this.ID = ID;
 	}
 
 	public String toString() {
@@ -38,7 +41,7 @@ public class Alert implements Comparable<Alert> {
 		if(this.level == AlertLevel.MESSAGE) {
 			return format.format(this.date) + " | (" + this.name + ") " + this.message;
 		}
-		return format.format(this.date) + " | [" + this.level + "] : (" + this.name + ") " + this.message;
+		return format.format(this.date) + " | [" + this.level + "] : (" + this.ID + ") (" + this.name + ") " + this.message;
 	}
 
 	@Override

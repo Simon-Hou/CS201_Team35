@@ -113,11 +113,9 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				if (c.equals(temp))
 					continue;
 				if (c.rectangle.intersects(temp.rectangle)) {
-					AlertLog.getInstance().logError(AlertTag.GENERAL_CITY, this.name, "Can't add building, location obstructed!");
 					return;
 				}
 			}
-			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
 
 			if(temp.type.equals("Restaurant")){
@@ -170,14 +168,17 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			temp = null;
 		}
-		for (CityComponent c: statics) {
-			if (c.contains(arg0.getX(), arg0.getY())) {
-				//city.info.setText(c.ID);
-				city.view.setView(c.ID);
-				city.buildingCP.showCard(c.ID);
-				AlertLog.getInstance().logMessage(AlertTag.GENERAL_CITY, this.name, "Building Selected: " + c.ID);
+		synchronized(statics){
+			for (CityComponent c: statics) {
+				if (c.contains(arg0.getX(), arg0.getY())) {
+					//city.info.setText(c.ID);
+					city.view.setView(c.ID);
+					city.buildingCP.showCard(c.ID);
+				}
 			}
 		}
+		
+		city.tracePanel.filterTracePanel();
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
@@ -219,7 +220,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 					continue;
 				}
 				if(c.rectangle==null){
-					System.out.println(c);
+					//System.out.println(c);
 				}
 				
 				//System.out.println("AHHH: "+temp==null);
@@ -247,11 +248,9 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 				if (c.equals(temp))
 					continue;
 				if (c.rectangle.intersects(temp.rectangle)) {
-					AlertLog.getInstance().logError(AlertTag.GENERAL_CITY, this.name, "Can't add building, location obstructed!");
 					return;
 				}
 			}
-			AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, this.name, "Building successfully added");
 			addingObject = false;
 
 				city.view.addView(new CityCard(city, Color.pink), temp.ID);
