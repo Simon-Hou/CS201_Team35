@@ -3,6 +3,7 @@ package cityGui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +16,7 @@ import market.MarketCashierRole;
 import market.gui.MarketPanel;
 import public_Gui.Gui;
 
-public class CityMarketCard extends CityCard {//implements ActionListener{
+public class CityMarketCard extends CityCard {
 
 	 	private final int doorSpeed = 4;
 	    
@@ -173,13 +174,13 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 	        paint.drawString("Cars", 100, 381);
 	        paint.drawString("Other", 230, 381);
 	        
-	        synchronized(guis){
-		        for(Gui gui : guis) {
-		            if (gui.isPresent()) {
-		                gui.updatePosition();
-		            }
-		        }
-	        }
+//	        synchronized(guis){
+//		        for(Gui gui : guis) {
+//		            if (gui.isPresent()) {
+//		                gui.updatePosition();
+//		            }
+//		        }
+//	        }
 
 	        synchronized(guis){
 		        for(Gui gui : guis) {
@@ -202,6 +203,18 @@ public class CityMarketCard extends CityCard {//implements ActionListener{
 	 
 	  public void removeGui(Gui gui){
 		  guis.remove(gui);
+	  }
+	  
+	  public void actionPerformed(ActionEvent e){
+		     synchronized(guis){
+			        for(Gui gui : guis) {
+			            if (gui.isPresent()) {
+			                gui.updatePosition();
+			            }
+			        }
+		        }
+
+		     repaint();
 	  }
 }
 

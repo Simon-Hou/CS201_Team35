@@ -364,6 +364,9 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public boolean myBankOpen(){
+		if (city.map.get("Bank").isEmpty()){
+			return false;
+		}
 		return ((BankMapLoc) city.map.get("Bank").get(this.MY_BANK)).bank.isOpen();
 	}
 
