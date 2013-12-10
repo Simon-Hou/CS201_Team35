@@ -38,6 +38,7 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 		public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		private JPanel view = new JPanel();
+		private JButton close=new JButton("Close");
 
 		public BankControlPanel (CityBankCard anim, Bank b){
 			bank=b;
@@ -55,7 +56,9 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 			pane.setMinimumSize(paneSize);
 			pane.setMaximumSize(paneSize);
 			Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
-
+			close.addActionListener(this);
+			add(close);
+			
 //			for(Food food: house.room .inventory){
 //				InventoryItem item = new InventoryItem(food.type, food.quantity, house, this);
 //				item.setPreferredSize(buttonSize);
@@ -72,6 +75,11 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() ==close){
+				//TODO function call to close restaurant
+			
+			 
+			}
 			// TODO Auto-generated method stub
 //			for (InventoryItem item : inventoryList){
 //				if (e.getSource() == item.minus && item.inventory >0){
