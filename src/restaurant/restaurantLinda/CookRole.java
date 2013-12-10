@@ -41,10 +41,10 @@ public class CookRole extends Role implements Cook{
 	
 	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor, Restaurant restaurant) {
 		super();
-		foodMap.put("Steak", new Food("Steak",5000,1,5,1));
-		foodMap.put("Chicken", new Food("Chicken",4000,1,5,1));
-		foodMap.put("Salad", new Food("Salad",2000,1,5,1));
-		foodMap.put("Pizza", new Food("Pizza",3000,1,5,1));
+		foodMap.put("Steak", new Food("Steak",5000,1,16,1));
+		foodMap.put("Chicken", new Food("Chicken",4000,1,16,1));
+		foodMap.put("Salad", new Food("Salad",2000,1,16,1));
+		foodMap.put("Pizza", new Food("Pizza",3000,1,16,1));
 		this.name = name;
 		this.orderMonitor = monitor;
 		this.restaurant = restaurant;
@@ -364,6 +364,20 @@ public class CookRole extends Role implements Cook{
 	public void DoError(String message){
 		//super.Do(message);
 		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+	}
+
+	@Override
+	public void depleteInventory() {
+		foodMap.get("Steak").quantity=0;
+		foodMap.get("Chicken").quantity=0;
+		foodMap.get("Salad").quantity=0;
+		foodMap.get("Pizza").quantity=0;
+
+	}
+
+	@Override
+	public void addMarket(Market m) {
+		p.msgStateChanged();		
 	}
 }
 
