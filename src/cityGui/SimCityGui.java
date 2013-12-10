@@ -1009,6 +1009,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public void jScenario() {
 		setMAXTIME(50);
 
+		addBuses(this);
+		
 		int firstShiftStart = 0;
 		int firstShiftEnd = 15;
 		int secondShiftStart = 15;
@@ -1040,6 +1042,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//Creates Yocca's restaurant
 		addNewBuilding("RestaurantYocca", 365 ,283);	
 
+		addNewPersonHard("Bus1",null, JobType.NOTSELECTED,0,0, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("Bus2",null, JobType.NOTSELECTED,0,0, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("Drive1",null, JobType.NOTSELECTED,0,0, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		addNewPersonHard("Drive2",null, JobType.NOTSELECTED,0,0, (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
+		
 		//Shifts for bank 1
 		//Early Shift
 		addNewPersonHard("BankTeller1a", ((BankMapLoc) cityObject.cityMap.map.get("Bank").get(0)).bank, JobType.BankTeller,firstShiftStart,firstShiftEnd,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
