@@ -76,14 +76,14 @@ public class MarketCustomerGui implements Gui{
 				changeSpriteCounter++;
 			}
 		}
-	    if (!gotToDestination){
-	       	if (xPos == xDestination && yPos == yDestination  )
+	 //   if (!gotToDestination){
+	       	if (xPos == xDestination && yPos == yDestination && !(xPos == itemDropX && yPos == itemDropY ))
 	       	{
 	       		System.err.println("gui update position says:  got to the destination, so now going to call msgAtDestination");
 	       		role.msgAtDestination();
 	       		gotToDestination = true;
 	       	}
-		}
+	//	}
 	}
 
 
