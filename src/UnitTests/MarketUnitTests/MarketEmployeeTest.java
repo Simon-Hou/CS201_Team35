@@ -58,7 +58,7 @@ public class MarketEmployeeTest extends TestCase{
 		Map<String, Integer> orderList = new HashMap<String, Integer>();
 		orderList.put("Pizza", new Integer(4));
 		employee.msgGetItemsForCustomer(customer, orderList);
-		assertTrue("Employees log should have recorded getting message", employee.log.containsString("got msgGetItemsForCustomer"));
+		assertTrue("Employees log should have recorded getting message, but has: " + employee.log.getLastLoggedEvent(), employee.log.containsString("got msgGetItemsForCustomer from " + customer.getName()));
 		assertEquals("Employees customerOrders list should have 1", 1 , employee.customerOrders.size() );
 		
 		//Step 2:  call scheduler
@@ -70,7 +70,7 @@ public class MarketEmployeeTest extends TestCase{
 		assertTrue("Scheduler should return true", employee.pickAndExecuteAnAction());
 		assertTrue("Employees log should have recorded action GiveItemsToCustomer", employee.log.containsString("action GiveItemsToCustomer"));
 		assertEquals("Employees customerOrders list should have 0", 0 , employee.customerOrders.size() );
-		assertTrue("Customer's log should have recorded msgHereAreItems", customer.log.containsString("got msgHereAreItems"));
+		assertTrue("Customer's log should have recorded msgHereAreItems total items: 1 but " + customer.log.getLastLoggedEvent(), customer.log.containsString("got msgHereAreItems total items: " + 1));
 		
 	}
 
@@ -86,7 +86,7 @@ public class MarketEmployeeTest extends TestCase{
 		//Step 1:  send msgGetThis
 		List<OrderItem> order = new ArrayList<OrderItem>();
 		employee.msgGetThis(order, null);
-		assertTrue("Employees log should have recorded getting message", employee.log.containsString("got msgGetThis"));
+		assertTrue("Employees log should have recorded got msgGetThis with an order size of " + order.size(), employee.log.containsString("got msgGetThis with an order size of " + order.size()));
 		assertEquals("Employees businessOrders list should have 1", 1 , employee.businessOrders.size() );
 	
 		//Step 2:  run scheduler
@@ -96,7 +96,7 @@ public class MarketEmployeeTest extends TestCase{
 		
 		//Step 3:  send msgGiveInvoice
 		employee.msgGiveInvoice(order, null, 10);
-		assertTrue("Employees log should have recorded getting message", employee.log.containsString("got msgGiveInvoice"));
+		assertTrue("Employees log should have recorded got msgGiveInvoice with order size: " + order.size() + " for a total of: $" + 10, employee.log.containsString("got msgGiveInvoice with order size: " + order.size() + " for a total of: $" + 10));
 		
 	}
 	
