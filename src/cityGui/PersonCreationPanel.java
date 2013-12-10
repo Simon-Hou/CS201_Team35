@@ -254,6 +254,16 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			c.busyScenario();
 			return true;
 		}
+		if(name.contains("Drive")){
+			if(name.contains("1")){
+				c.driveScenario(1);
+				return true;
+			}
+			else if(name.contains("2")){
+				c.driveScenario(2);
+				return true;
+			}
+		}
 		if(name.equals("RestaurantSimon")){
 			c.restaurantSimonScenario();
 		}

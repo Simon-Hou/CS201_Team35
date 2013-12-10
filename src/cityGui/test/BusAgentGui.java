@@ -35,13 +35,13 @@ public class BusAgentGui extends VehicleAgentGui {
 	public static int gridScale = 30;
 	public boolean moving = false;
 	
-	java.net.URL bus0 = getClass().getResource("cityImages/Vehicles/busUp.png");
+	java.net.URL bus0 = getClass().getResource("../cityImages/Vehicles/busUp.png");
 	ImageIcon busUp = new ImageIcon(bus0);
-	java.net.URL bus1 = getClass().getResource("cityImages/Vehicles/busDown.png");
+	java.net.URL bus1 = getClass().getResource("../cityImages/Vehicles/busDown.png");
 	ImageIcon busDown = new ImageIcon(bus1);
-	java.net.URL bus2 = getClass().getResource("cityImages/Vehicles/busLeft.png");
+	java.net.URL bus2 = getClass().getResource("../cityImages/Vehicles/busLeft.png");
 	ImageIcon busLeft = new ImageIcon(bus2);
-	java.net.URL bus3 = getClass().getResource("cityImages/Vehicles/busRight.png");
+	java.net.URL bus3 = getClass().getResource("../cityImages/Vehicles/busRight.png");
 	ImageIcon busRight = new ImageIcon(bus3);
 	
 	public List<StopLight> stopLights = new ArrayList<StopLight>();
@@ -50,7 +50,7 @@ public class BusAgentGui extends VehicleAgentGui {
 	public BusAgentGui(BusAgent bus,SimCityGui gui,boolean clockwise){
 		
     	super(165,130,Color.YELLOW,"Bus");
-    	
+    	System.out.println(bus0.getPath());
     	if(!clockwise){
     		this.x = 460;
     		this.y = 90;
@@ -306,9 +306,36 @@ public class BusAgentGui extends VehicleAgentGui {
 //	        g.fillRect(backBumper.x, backBumper.y, backBumper.width, backBumper.height);
 //			
 //		}
-		g.setColor(Color.YELLOW);
-        g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+		
+		//THIS USED TO DRAW A YELLOW RECTANGLE
+//		g.setColor(Color.YELLOW);
+//        g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        if(leftLaneF()){
+        	g1.drawImage(busUp.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+        }
+        if(topLaneF()){
+        	g1.drawImage(busRight.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+        }
+        if(rightLaneF()){
+        	g1.drawImage(busDown.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+        }
+        if(bottomLaneF()){
+        	g1.drawImage(busLeft.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+        }
         
+        if(leftLaneB()){
+        	g1.drawImage(busDown.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+        }
+        if(topLaneB()){
+        	g1.drawImage(busLeft.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+        }
+        if(rightLaneB()){
+        	g1.drawImage(busUp.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+        }
+        if(bottomLaneB()){
+        	g1.drawImage(busRight.getImage(),rectangle.x,rectangle.y,rectangle.width,rectangle.height,null);
+
+        }
         //g.fillRect(frontBumper.x, frontBumper.y, frontBumper.width, frontBumper.height);
     }  
 	
