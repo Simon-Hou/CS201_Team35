@@ -22,7 +22,6 @@ public class CustomerGui extends GuiPerson implements Gui{
 	private CustomerRole agent = null;
 	private boolean isHungry = false;
 
-	private int xDestination, yDestination;
 	private enum Command {noCommand, waitInLine, followWaiter, GoToSeat, LeaveSeat, GoToCashier, LeaveRestaurant};
 	private Command command=Command.noCommand;
 
@@ -119,7 +118,7 @@ public class CustomerGui extends GuiPerson implements Gui{
 					carriedItems.clear();
 					//System.out.println("about to call gui.setCustomerEnabled(agent);");
 					
-					//AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, agent.p.getName(), "Managed to finish leaving restaurant animation",this.agent.cityRestaurant.animationPanel.getName());
+					AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, agent.getName(), "Managed to finish leaving restaurant animation",agent.r.cityRestaurant.animationPanel.ID);
 					isHungry = false;
 				}
 				command=Command.noCommand;

@@ -1,5 +1,6 @@
 package restaurant.restaurantLinda;
 
+import UnitTests.mock.LoggedEvent;
 import agent.Agent;
 import interfaces.Person;
 import interfaces.restaurantLinda.Cashier;
@@ -8,6 +9,9 @@ import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 
 import market.Market;
 import market.MarketInvoice;
@@ -336,18 +340,30 @@ public class CookRole extends Role implements Cook{
 	}
 	
 	public void LeaveRestaurant(){
-		cookGui.DoLeaveRestaurant();
+		/*cookGui.DoLeaveRestaurant();
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		this.p.msgThisRoleDone(this);
 	}
 	
 	public boolean isPresent(){
 		return this.p!=null;
+	}
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));		
 	}
 }
 
