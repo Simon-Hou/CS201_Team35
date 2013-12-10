@@ -1174,6 +1174,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("House", 200, 5);
 		addNewBuilding("Bank",200,250);
 		fullyManBuilding("Bank",0);
+		
+		for(PersonAgent p:cityObject.people){
+			p.hungerLevel = 0;
+		}
 
 	}
 	
