@@ -38,6 +38,10 @@ Creates scenario E as described in the grading rubric - simple demonstration of 
 functionality. Two people will try to get on the buses at different bus stops, and then will
 get off at their end-stops. Afterward, they will go home. 
 
+###F. Closing Buildings
+
+###G. Market Delivery
+
 ###J. Big City
 Creates scenario J as described in the grading rubric - Big city demo with everything added.
 There are cars, buses, and buildings, which are fully staffed. You can see people going to 
@@ -52,6 +56,8 @@ teller and the robber, luck, and their weapon enchants (no, just kidding - rando
 robber wins, the teller will hand over money and the robber will leave. If the teller wins,
 the robber will be deleted from existence, and the world will carry on as if the robber never
 existed. 
+
+###R. Weekend Buildings Closed
 
 ###Simple Market
 Displays the simple market behavior - customers come, order items, and leave. 
