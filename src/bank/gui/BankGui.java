@@ -96,7 +96,7 @@ public class BankGui  extends JPanel implements ActionListener {
     	setVisible(true);
     	bankPanel = new BankPanel(this, b);
         controlPanel.setLayout(new BorderLayout());
-        controlPanel.setVisible(true);
+        //controlPanel.setVisible(true);
         moreInfo.setLayout(new BorderLayout());
         moreInfoPersonal.setLayout(new GridLayout(4, 1));
         Dimension addInfoDim = new Dimension((int)(controlPanelWidth*.5), (int) (controlPanelHeight * .45));

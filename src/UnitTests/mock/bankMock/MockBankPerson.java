@@ -1,5 +1,6 @@
 package UnitTests.mock.bankMock;
 
+import house.House;
 import interfaces.Person;
 import role.Role;
 import util.Bus;
@@ -121,6 +122,12 @@ public class MockBankPerson extends Mock implements Person {
 	public void setTiredLevel(int i) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public House getHouse() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

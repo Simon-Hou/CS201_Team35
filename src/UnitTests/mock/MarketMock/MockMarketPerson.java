@@ -6,6 +6,7 @@ import util.BusAgent;
 import util.BusStop;
 import util.Loc;
 import util.OnRamp;
+import house.House;
 import interfaces.Person;
 import UnitTests.mock.EventLog;
 import UnitTests.mock.LoggedEvent;
@@ -129,6 +130,12 @@ public class MockMarketPerson extends Mock implements Person {
 	public void msgCarArrivedAtRamp(OnRamp destination) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public House getHouse() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
