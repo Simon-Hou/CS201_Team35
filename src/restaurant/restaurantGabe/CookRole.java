@@ -69,7 +69,7 @@ public class CookRole extends Role implements Cook{
 
 	//SETTERS
 	public void addMarket(Market m){
-		Markets.add(m);
+		//Markets.add(m);
 		//m.setCook(this);
 	}
 
@@ -132,7 +132,7 @@ public class CookRole extends Role implements Cook{
 
 	//List of markets and variable to keep track of the last market we ordered from
 	int lastMarket = -1;
-	List<Market> Markets = new ArrayList<Market>();
+	//List<Market> Markets = new ArrayList<Market>();
 
 	//will help with iterating
 	private List<String> foods = new ArrayList<String>();
@@ -348,7 +348,7 @@ public class CookRole extends Role implements Cook{
 		}
 		synchronized(foods){
 			for(String s:foods){
-				if(Foods.get(s).amount < Foods.get(s).low && !(Foods.get(s).s==FoodState.requested || Foods.get(s).s==FoodState.pending) && !(Foods.get(s).timesOrdered>Markets.size())){
+				if(Foods.get(s).amount < Foods.get(s).low && !(Foods.get(s).s==FoodState.requested || Foods.get(s).s==FoodState.pending) && !(Foods.get(s).timesOrdered>restaurant.markets.size())){
 					OrderMoreFood();
 					return true;
 				}
@@ -417,7 +417,7 @@ public class CookRole extends Role implements Cook{
 				FoodItem currentFood = Foods.get(f);
 
 				if(currentFood.amount< currentFood.low && currentFood.s!=FoodState.pending &&  currentFood.s!=FoodState.requested){
-					if(currentFood.timesOrdered==Markets.size()){
+					if(currentFood.timesOrdered==restaurant.markets.size()){
 						DoMessage("Tried all markets, none have "+currentFood.name+ " so we're permanantly out.");
 						currentFood.timesOrdered++;
 						continue;
@@ -433,12 +433,12 @@ public class CookRole extends Role implements Cook{
 			}
 		}
 		//
-		lastMarket = (1+lastMarket)%Markets.size();
+		lastMarket = (1+lastMarket)%restaurant.markets.size();
 		//Markets.get(lastMarket).msgHereIsMyOrder(need,num);
 
 
 
-		Markets.get(lastMarket).host.msgBusinessWantsThis(restaurant, order);
+		restaurant.markets.get(lastMarket).host.msgBusinessWantsThis(restaurant, order);
 
 	}
 

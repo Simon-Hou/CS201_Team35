@@ -76,8 +76,7 @@ public class RestaurantGabe extends Restaurant{
 	    public RestaurantGabe(CityRestaurantGabe cg) {
 	    	
 	    	System.out.println("Instantiating a Gabe Restaurant");
-	    	
-	    	
+	
 	    	cook = new CookRole("DefaultCook");
 	    	super.cook = cook;
 	    	//cook.Markets = this.
