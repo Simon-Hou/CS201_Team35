@@ -19,6 +19,7 @@ import bank.BankCustomerRole;
 import bank.BankTellerRole;
 import market.Market;
 import market.MarketCustomerRole;
+import market.MarketDeliveryManRole;
 import market.MarketEmployeeRole;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.CustomerRole;
@@ -1049,6 +1050,9 @@ public class PersonAgent extends Agent implements Person {
 		else if(jobType==JobType.MarketEmployee){
 			jobRole = new MarketEmployeeRole(name+"MarketEmployee",this);
 			//myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
+		}
+		else if (jobType==JobType.MarketDeliveryMan){
+			jobRole = new MarketDeliveryManRole(name+"MarketDeliveryMan", this, (Market)placeOfWork);
 		}
 		else if (jobType==JobType.RestaurantYoccaWaiter1){
 			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);

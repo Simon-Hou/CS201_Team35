@@ -545,6 +545,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			}
 
 			temp.createAnimationPanel(this);
+			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
 			this.view.addView(temp.animationPanel, temp.ID);
 			temp.cityObject = this.cityObject;
@@ -656,6 +657,21 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 			}
 			//}
+			
+			randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
+			randOffset = 0;
+			for(int i = 0;i<SHIFTS;++i){
+				int start = (i*(MAXTIME/SHIFTS) + randOffset+MAXTIME-2)%MAXTIME;
+				int end = ((i+1)*(MAXTIME/SHIFTS) + randOffset+2)%MAXTIME;
+				System.out.println(j+" Shift start, end: "+start+" " +end);
+				int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
+				int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
+				addNewPersonHard("p"+j,
+						((MarketMapLoc) cityObject.cityMap.map.get("Market").get(num)).market,
+						JobType.MarketDeliveryMan,start,end,bankNum,houseNum);
+				j = j+1;
+
+			}
 		}
 		if(type.contains("Restaurant")){
 			int j = 0;
@@ -1195,9 +1211,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("House", 200, 560);
 		addNewBuilding("Market",250,200);
 
-		//fullyManBuilding("Market",0);
+		fullyManBuilding("Market",0);
 
-		addNewPersonHard("p"+0,
+		/*addNewPersonHard("p"+0,
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
 				JobType.MarketHost,0,5,0,0);
 
@@ -1282,7 +1298,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public void cMarketDeliveryScenario(){
 		System.err.println("scenario c");
 		
-		/*
+		
 		//make all restaurants
 		//deplete their inventories
 		//set their markets
@@ -1319,7 +1335,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market);
 		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.depleteInventory();
 		
-		*/
+		
 		
 	}
 
