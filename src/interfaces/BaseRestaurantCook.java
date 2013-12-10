@@ -14,4 +14,7 @@ public interface BaseRestaurantCook extends Occupation{
 
 	public abstract boolean isPresent();
 
+//	public abstract void depleteInventory();
+//	
+//	public abstract void addMarket(Market m);
 }

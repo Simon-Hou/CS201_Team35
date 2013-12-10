@@ -51,6 +51,17 @@ public class CookRole extends Role implements Cook{
 
 	}
 
+
+	public void depleteInventory() {
+		Foods.put("Pizza", new FoodItem("Pizza",7,0,2));
+		Foods.put("Steak", new FoodItem("Steak",7,0,5));
+		Foods.put("Chicken",new FoodItem("Chicken",5,0,2));
+		Foods.put("Salad", new FoodItem("Salad",5,0,3));
+	
+		
+		
+	}
+	
 	//GETTERS
 	public String getName(){
 		return name;
@@ -473,5 +484,7 @@ public class CookRole extends Role implements Cook{
 		//	}
 		//	return false;
 	}
+
+
 
 }

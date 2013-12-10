@@ -83,12 +83,15 @@ public class PersonAgent extends Agent implements Person {
 		Random random = new Random();
 		//hungerLevel = random.nextInt(10);
 
+
 		if (random.nextBoolean()){
 			this.belongings.myFoods.add(new Food("Steak",10));
 //			this.belongings.myFoods.add(new Food("Chicken",10));
 //			this.belongings.myFoods.add(new Food("Pizza",10));
 //			this.belongings.myFoods.add(new Food("Salad",10));
 		}
+		
+
 		purse.wallet = 50;
 		
 		
@@ -101,9 +104,11 @@ public class PersonAgent extends Agent implements Person {
 		
 
 		
+
 		//myCar.gui = new CarAgentGui();
 		
 		//hungerLevel = 0;
+	
 
 	}
 
@@ -533,12 +538,13 @@ public class PersonAgent extends Agent implements Person {
 
 	//Actions
 	private void goToWork() {
-		try {
-			Thread.sleep((int)(1000+ 1000*Math.random()));
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//parker market testing changes
+//		try {
+//			Thread.sleep((int)(1000+ 1000*Math.random()));
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		Do("I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
 		//AlertLog.getInstance().logError(AlertTag.PERSON, this.name, "I am going to work as a "+myJob.jobType + " role: " + myJob.jobRole+" shift: "+myJob.shiftStart+" "+myJob.shiftEnd);
@@ -649,7 +655,7 @@ public class PersonAgent extends Agent implements Person {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-
+		AlertLog.getInstance().logInfo(AlertTag.MARKET, this.getName(), "I am going to the market to buy food for home", "hi!");
 		Do("I am going to the market to buy food for home");
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
@@ -1117,11 +1123,11 @@ public class PersonAgent extends Agent implements Person {
 	public boolean foodsLow(){
 
 		for(Food f:this.belongings.myFoods){
-			if(f.quantity>10){
-				return false;
+			if(f.quantity<10){
+				return true;
 			}
 		}
-		return true;
+		return false;
 
 	}
 

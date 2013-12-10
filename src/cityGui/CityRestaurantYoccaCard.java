@@ -1,6 +1,7 @@
 package cityGui;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -13,6 +14,8 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import public_Gui.Gui;
+
+import restaurant.restaurantYocca.gui.RestaurantYoccaControlPanel;
 //import restaurant.restaurantYocca.gui.RestaurantPanel;
 
 
@@ -24,6 +27,8 @@ public class CityRestaurantYoccaCard extends CityRestaurantCard {
 	private static final int clearRectYValue = 0;
 	private static final int tableRectWidthValue = 50;
 	private static final int tableRectHeightValue = 50;
+	
+	RestaurantYoccaControlPanel panel;
 
 	public CityRestaurantYoccaCard(SimCityGui city) {
 		super(city);
@@ -98,6 +103,9 @@ public class CityRestaurantYoccaCard extends CityRestaurantCard {
 		}
 		repaint();
 	}
+	 public void setPanel(RestaurantYoccaControlPanel p){
+			this.panel = p;
+		}
 }
 
 
