@@ -1938,7 +1938,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewBuilding("RestaurantYocca", 365 ,283);	
 		
 		for(int i = 0;i<cityObject.cityMap.map.get("Bank").size();++i){
-			((BankMapLoc)cityObject.cityMap.map.get("Bank").get(i)).bank.isOpen = false;
+			((BankMapLoc)cityObject.cityMap.map.get("Bank").get(i)).bank.animation.panel.closeBank();
 		}
 		for(int i = 0;i<cityObject.cityMap.map.get("Restaurant").size();++i){
 			((RestaurantMapLoc)cityObject.cityMap.map.get("Restaurant").get(i)).restaurant.isOpen = false;
@@ -1978,7 +1978,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		//Creates market
 		addNewBuilding("Market",350,365);
-		((MarketMapLoc)cityObject.cityMap.map.get("Market").get(0)).market.isOpen = false;
+		((MarketMapLoc)cityObject.cityMap.map.get("Market").get(0)).market.panel.closeMarket();
 
 		//Early Shift
 		addNewPersonHard("MarketHost1"+0,	((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,JobType.MarketHost,firstShiftStart,100,(int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random()),(int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random()));
@@ -2002,7 +2002,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 		//Creates market#2
 		addNewBuilding("Market",350,200);
-		((MarketMapLoc)cityObject.cityMap.map.get("Market").get(1)).market.isOpen = false;
+		((MarketMapLoc)cityObject.cityMap.map.get("Market").get(1)).market.panel.closeMarket();
 
 
 		//Early Shift

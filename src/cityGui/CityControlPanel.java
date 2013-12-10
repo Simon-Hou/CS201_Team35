@@ -288,7 +288,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			city.bankRobbery();
 		}
 		else if(e.getSource().equals(rWeekend)){
-			
+			city.rWeekendScenario();
 		}
 
 

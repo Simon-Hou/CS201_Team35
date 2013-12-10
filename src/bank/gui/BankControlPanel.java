@@ -73,6 +73,11 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 			validate();
 		}
 		
+		public void closeBank(){
+			close.setText("Open");
+			this.bank.isOpen = false;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() ==close){
