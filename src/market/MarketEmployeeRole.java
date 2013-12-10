@@ -284,25 +284,23 @@ public class MarketEmployeeRole extends Role implements MarketEmployee{
 	    if(gui!=null){
 			gui.DoGoToCashier();
 		}
-//		else{
-//			atDestination.release();
-//		}
-//		
-//		try {
-//			atDestination.acquire();
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		else{
+			atDestination.release();
+		}
+		
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 		//got to cashier
 		Do(market.cashier.getName() + ", can you please calculate the invoice for this order?");
 		market.cashier.msgCalculateInvoice(this, order.order, order.restaurant);
 	    
-		//order.state = OrderState.none;
 		gui.DoGoHomePosition();
 
-//this was where i waited for the semaphore
 
 	
 	}
