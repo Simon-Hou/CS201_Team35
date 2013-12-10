@@ -3,8 +3,10 @@ package UnitTests.mock.bankMock;
 import interfaces.Person;
 import role.Role;
 import util.Bus;
+import util.BusAgent;
 import util.BusStop;
 import util.Loc;
+import util.OnRamp;
 import UnitTests.mock.LoggedEvent;
 import UnitTests.mock.Mock;
 
@@ -64,11 +66,11 @@ public class MockBankPerson extends Mock implements Person {
 		
 	}
 
-	@Override
-	public void msgCarArrivedAtLoc(Loc destination) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void msgCarArrivedAtLoc(Loc destination) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public int getWalletAmount() {
@@ -100,6 +102,24 @@ public class MockBankPerson extends Mock implements Person {
 	}
 	
 	public void msgDoneSleeping() {
+		
+	}
+
+	@Override
+	public void msgBusAtStop(BusAgent b, BusStop stop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCarArrivedAtRamp(OnRamp destination) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTiredLevel(int i) {
+		// TODO Auto-generated method stub
 		
 	}
 

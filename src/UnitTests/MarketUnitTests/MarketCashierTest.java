@@ -20,6 +20,9 @@ import UnitTests.mock.MarketMock.MockMarketCustomer;
 import UnitTests.mock.MarketMock.MockMarketDeliveryMan;
 import UnitTests.mock.MarketMock.MockMarketEmployee;
 import UnitTests.mock.MarketMock.MockMarketPerson;
+import UnitTests.mock.RestaurantMock.MockBaseRestaurantCashier;
+import UnitTests.mock.RestaurantMock.MockBaseRestaurantCook;
+import UnitTests.mock.RestaurantMock.MockRestaurant;
 
 public class MarketCashierTest extends TestCase{
 	
@@ -33,6 +36,10 @@ public class MarketCashierTest extends TestCase{
 	MockMarketDeliveryMan deliveryMan;
 	Restaurant rest;
 	
+	MockRestaurant restaurant;
+	MockBaseRestaurantCook cook;
+	MockBaseRestaurantCashier restaurantCashier;
+	
 	public void setUp() throws Exception{
 		super.setUp();	
 		market = new Market();
@@ -42,6 +49,12 @@ public class MarketCashierTest extends TestCase{
 		employee = new MockMarketEmployee("Employee");
 		customer = new MockMarketCustomer("Customer");
 		deliveryMan = new MockMarketDeliveryMan("DeliveryMan");
+		
+		restaurant = new MockRestaurant();
+		cook = new MockBaseRestaurantCook("Cook");
+		restaurantCashier = new MockBaseRestaurantCashier("restaurantCashier");
+		restaurant.cashier = restaurantCashier;
+		restaurant.cook = cook;
 		
 	}
 	
@@ -56,7 +69,7 @@ public class MarketCashierTest extends TestCase{
 		Map<String, Integer> groceries = new HashMap<String, Integer>();
 		groceries.put("Chicken", 2);
 		cashier.msgServiceCustomer(customer,  groceries);
-		assertTrue("Cashier's log should have received the message" + cashier.log.toString(), cashier.log.containsString("got msgServiceCustomer"));
+		assertTrue("Cashier's log should have received the message" + cashier.log.toString(), cashier.log.containsString("got msgServiceCustomer name: " + customer.getName()));
 		assertEquals("Cashier's customer list should be 1", 1, cashier.customers.size());
 		
 		//Step 2 : call scheduler
@@ -148,7 +161,7 @@ public class MarketCashierTest extends TestCase{
 		Map<String, Integer> groceries = new HashMap<String, Integer>();
 		groceries.put("Chicken", 2);
 		cashier.msgServiceCustomer(customer,  groceries);
-		assertTrue("Cashier's log should have received the message" + cashier.log.toString(), cashier.log.containsString("got msgServiceCustomer"));
+		assertTrue("Cashier's log should have received the message" + cashier.log.toString(), cashier.log.containsString("got msgServiceCustomer name: " + customer.getName()));
 		assertEquals("Cashier's customer list should be 1", 1, cashier.customers.size());
 		
 		//Step 2 : call scheduler
@@ -201,7 +214,7 @@ public class MarketCashierTest extends TestCase{
 		Map<String, Integer> groceries = new HashMap<String, Integer>();
 		groceries.put("Chicken", 2);
 		cashier.msgServiceCustomer(customer,  groceries);
-		assertTrue("Cashier's log should have received the message" + cashier.log.toString(), cashier.log.containsString("got msgServiceCustomer"));
+		assertTrue("Cashier's log should have received the message" + cashier.log.toString(), cashier.log.containsString("got msgServiceCustomer name: " + customer.getName()));
 		assertEquals("Cashier's customer list should be 1", 1, cashier.customers.size());
 		
 		//Step 2 : call scheduler
