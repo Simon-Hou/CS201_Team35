@@ -419,7 +419,7 @@ public class BankTellerTest extends TestCase
 		//check post of 5 and pre of 6
 		System.out.println(bank.log.getLastLoggedEvent().getMessage());
 		String passWord = customer.passWord;
-		assertTrue("Banks should have a record of the loan being granted",bank.log.getLastLoggedEvent().getMessage().equals("Robbery granted for amount $100"));
+		assertTrue("Banks should have a record of the robbery being granted" + bank.log.getLastLoggedEvent(),bank.log.getLastLoggedEvent().getMessage().equals("Robbery granted for amount $100"));
 		assertTrue("Customer should have been notified",customer.log.getLastLoggedEvent().getMessage().equals("My robbery was granted!"));
 		assertTrue("Teller should have killed currentTask", teller.currentTask==null);
 		

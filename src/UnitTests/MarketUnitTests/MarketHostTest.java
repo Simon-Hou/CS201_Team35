@@ -13,6 +13,7 @@ import market.Receipt;
 
 import org.junit.Test;
 
+import UnitTests.mock.MarketMock.MockMarketCashier;
 import UnitTests.mock.MarketMock.MockMarketCustomer;
 import UnitTests.mock.MarketMock.MockMarketEmployee;
 import UnitTests.mock.MarketMock.MockMarketPerson;
@@ -25,7 +26,7 @@ public class MarketHostTest extends TestCase{
 	
 	MockMarketCustomer customer;
 	MockMarketEmployee employee;
-
+	MockMarketCashier cashier;
 	
 	
 	public void setUp() throws Exception{
@@ -35,11 +36,13 @@ public class MarketHostTest extends TestCase{
 		market = new Market();
 		host = new MarketHostRole("Host", person, market);
 		
+		cashier = new MockMarketCashier("Ca1");
 		customer = new MockMarketCustomer("C1");
 		employee = new MockMarketEmployee("E1");
 		
 		customer.host = host;
 		employee.host = host;
+		market.cashier = cashier;
 		
 		
 	}
