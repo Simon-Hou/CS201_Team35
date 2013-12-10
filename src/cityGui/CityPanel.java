@@ -121,6 +121,8 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 			if(temp.type.equals("Restaurant")){
 				((CityRestaurant)temp).createAnimationPanel(city);
+				
+
 				restaurants.add(((CityRestaurant)temp).restaurant);
 				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
 				temp.cityObject = this.cityObject;
