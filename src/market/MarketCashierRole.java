@@ -14,8 +14,8 @@ import java.util.TimerTask;
 
 import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
-
 import UnitTests.mock.LoggedEvent;
+import UnitTests.mock.MarketMock.MockMarketPerson;
 import interfaces.MarketCashier;
 import interfaces.MarketCustomer;
 import interfaces.MarketEmployee;
@@ -90,7 +90,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		//Do("GOT THE SERVICE MESSAGE");
 		customers.add(new MyCustomer(c, groceries));
 		DoInfo("Got message to service customer " + c.getName());
-		log.add(new LoggedEvent("got msgServiceCustomer"));
+		log.add(new LoggedEvent("got msgServiceCustomer name: " + c.getName()));
 		p.msgStateChanged();
 	}
 	
@@ -202,8 +202,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		 for (OrderItem item: order.order){
 		        total+= item.quantityReceived * priceList.get(item.choice);
 		    }
-		 
-		 DoMessage("This order from " + order.restaurant.cityRestaurant.ID + " will cost $" + total + ". Here is the invoice.");
+		 if (!(p instanceof MockMarketPerson))
+			 DoMessage("This order from " + order.restaurant.cityRestaurant.ID + " will cost $" + total + ". Here is the invoice.");
 		 log.add(new LoggedEvent("The order will cost $" + total));
 		 order.employee.msgGiveInvoice(order.order, order.restaurant, total);
 		

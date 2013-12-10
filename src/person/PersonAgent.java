@@ -103,6 +103,13 @@ public class PersonAgent extends Agent implements Person {
 			driveHack = DriveHack.drive2;
 		}
 		
+		if(name.equals("Bus1")){
+			busHack = BusHack.bus1;
+		}
+		else if (name.equals("Bus2")){
+			busHack = BusHack.bus2;
+		}
+		
 
 		
 
@@ -171,6 +178,8 @@ public class PersonAgent extends Agent implements Person {
 	public boolean wantsToRideBus = false;
 	public Semaphore waitForBusToArrive = new Semaphore(0,true);
 	private boolean onBus = false;
+	public enum BusHack {bus1,bus2,NONE};
+	public BusHack busHack = BusHack.NONE;
 	
 	public Semaphore driveOver = new Semaphore(0,true);
 	public List<OnRamp> onRamps = new ArrayList<OnRamp>();
@@ -398,6 +407,17 @@ public class PersonAgent extends Agent implements Person {
 			driveHack = DriveHack.NONE;
 			return true;
 		}
+		if(busHack == BusHack.bus1){
+			doRideBus(true);
+			busHack = BusHack.NONE;
+			return true;
+		}
+		if(busHack == BusHack.bus2){
+			doRideBus(false);
+			busHack = BusHack.NONE;
+			return true;
+		}
+		
 		
 		
 		
@@ -477,7 +497,7 @@ public class PersonAgent extends Agent implements Person {
 
 		if(wantsToRideBus){
 			Do("will ride the bus");
-			rideBus();
+			doRideBus(true);
 		}
 
 		//FOR NOW - TODO - GET THIS TO WORK
@@ -862,6 +882,52 @@ public class PersonAgent extends Agent implements Person {
 
 	}
 
+	
+	public void doRideBus(boolean fStop){
+		Do("\tGoing to bus Stop");
+		//		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
+		//		try {
+		//			atDestination.acquire();
+		//		} catch (InterruptedException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
+		//		city.fStops.get(0).waitForBus(this);
+		//		try {
+		//			waitForBusToArrive.acquire();
+		//		} catch (InterruptedException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
+		//		Do("\t\t\t\tNow");
+		//		//onBus = true;
+		if(fStop){
+			gui.onTheMove = true;
+			gui.waitingForBus = true;
+			tempDoGoToCityLoc(city.fStops.get(0).sidewalkLoc);
+			city.fStops.get(0).waitForBus(this);
+			try {
+				waitForBusToArrive.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else{
+			gui.onTheMove = true;
+			gui.waitingForBus = true;
+			tempDoGoToCityLoc(city.bStops.get(0).sidewalkLoc);
+			city.bStops.get(0).waitForBus(this);
+			try {
+				waitForBusToArrive.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+	
 	public void doRideBus(){
 		Do("\tGoing to bus Stop");
 		//		gui.doGoToBus(city.fStops.get(0).sidewalkLoc);
@@ -968,7 +1034,7 @@ public class PersonAgent extends Agent implements Person {
 
 	//I'm thinking this should include the actual Role rather than having the person make it....
 	public void setJob(PlaceOfWork placeOfWork,JobType jobType,int start,int end){
-
+		//Do("\t\t\t IN SET JOB "+jobType);
 		Role jobRole = null;
 		if(jobType.equals(JobType.MarketHost) || jobType.equals(JobType.MarketCashier)
 				|| jobType.equals(JobType.RestaurantHost) || jobType.equals(JobType.RestaurantCashier) || jobType.equals(JobType.RestaurantCook)){
@@ -996,6 +1062,7 @@ public class PersonAgent extends Agent implements Person {
 			jobRole = new restaurant.restaurantYocca.OriginalWaiterRole(name+"RestaurantWaiter",this);
 		}
 		else if (jobType==JobType.RestaurantGabeWaiter1){
+			//Do("\t\t\tIN HERE");
 			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
 			jobRole = new restaurant.restaurantGabe.StandWaiterRole(name+"pcWaiter", this);
 		}
