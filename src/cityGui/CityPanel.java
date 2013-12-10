@@ -19,6 +19,8 @@ import market.Market;
 import market.gui.MarketPanel;
 import person.PersonAgent;
 import restaurant.Restaurant;
+import restaurant.restaurantGabe.RestaurantGabe;
+import restaurant.restaurantGabe.gui.RestaurantGabeControlPanel;
 import util.Bank;
 import util.CityMap;
 import util.Loc;
@@ -119,7 +121,22 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 			}
 			addingObject = false;
 
-			if(temp.type.equals("Restaurant")){
+			if(temp.type.equals("RestaurantGabe")){
+				((CityRestaurant)temp).createAnimationPanel(city);
+			
+				CityRestaurantCardGabe tempAnimation=(CityRestaurantCardGabe)((CityRestaurant)temp).animationPanel;
+				RestaurantGabeControlPanel panel=new RestaurantGabeControlPanel(tempAnimation,((RestaurantGabe)((CityRestaurant)temp).restaurant));
+				city.buildingCP.addPanelCard(panel, temp.ID);
+				tempAnimation.setPanel(panel);
+				
+				restaurants.add(((CityRestaurant)temp).restaurant);
+				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
+				temp.cityObject = this.cityObject;
+				temp.addAgentObjectToMap();
+			
+			}
+
+			else if(temp.type.equals("Restaurant")){
 				((CityRestaurant)temp).createAnimationPanel(city);
 				
 
@@ -132,6 +149,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 //				temp.cityObject = this.cityObject;
 //				temp.addAgentObjectToMap();
 			}
+			
 			else if(temp.type.equals("House")){
 				CityHouseCard tempAnimation= new CityHouseCard(city);
 				

@@ -27,7 +27,7 @@ public class RestaurantYoccaControlPanel  extends BuildingControlPanel  implemen
 	//data
 		RestaurantYocca restaurant;
 		CityRestaurantYoccaCard animation;
-		private JLabel title=new JLabel("House");
+		private JLabel title=new JLabel("Yocca's Restaurant");
 		private List<InventoryItem> inventoryList = new ArrayList<InventoryItem>();
 		public JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
