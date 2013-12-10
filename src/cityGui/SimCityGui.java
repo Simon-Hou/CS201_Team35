@@ -24,6 +24,7 @@ import market.Market;
 import market.gui.MarketMain;
 import market.gui.MarketPanel;
 import person.PersonAgent;
+import restaurant.restaurantGabe.RestaurantGabe;
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;
@@ -496,6 +497,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 			CityComponent temp = new CityBank(x, y, "Bank " + (city.statics.size()-19));
 			CityBankCard tempAnimation = new CityBankCard(this);
 			((CityBank)temp).bank.setAnimationPanel(tempAnimation);
+			//Just to test the open stuff
+			//((CityBank)temp).bank.isOpen  = false;
 			city.banks.add(((CityBank)temp).bank);
 			this.view.addView(tempAnimation, temp.ID);
 			temp.cityObject = this.cityObject;
@@ -511,6 +514,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 			buildingCP.addPanelCard(panel, temp.ID);
 
 			((CityMarket)temp).market.setMarketPanel(panel);
+			//Just to test the open stuff
+			//((CityMarket)temp).market.isOpen  = false;
 			tempAnimation.setPanel(panel);
 			city.markets.add(((CityMarket)temp).market);
 			this.view.addView(tempAnimation, temp.ID);
@@ -544,6 +549,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
 			this.view.addView(temp.animationPanel, temp.ID);
+			
+			//HACK FOR CLOSING RESTAURANTS
+//			if(type.contains("Gabe")){
+//				((RestaurantGabe) ((CityRestaurantGabe) temp).restaurant).isOpen = false;
+//			}
+			
 			temp.cityObject = this.cityObject;
 			temp.addAgentObjectToMap();
 			city.statics.add(temp);

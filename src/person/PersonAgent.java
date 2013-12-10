@@ -180,6 +180,9 @@ public class PersonAgent extends Agent implements Person {
 	public List<OnRamp> onRamps = new ArrayList<OnRamp>();
 	public enum DriveHack {drive1,drive2,NONE};
 	public DriveHack driveHack = DriveHack.NONE;
+	
+	public int nextMarketToGoTo = 0;
+	public int nextRestaurantToGoTo = 0;
 
 	boolean waited = false;
 
@@ -288,8 +291,79 @@ public class PersonAgent extends Agent implements Person {
 
 	public CarAgent myCar = new CarAgent();
 
+	
+	//Open-checking methods
+	
+	public boolean someRestaurantOpen(){
+		if(city.map.get("Restaurant").isEmpty()){
+			return false;
+		}
+
+		boolean someOpen = false;
+		List<Restaurant> opens = new ArrayList<Restaurant>();
+
+		for(Place p:city.map.get("Restaurant")){
+			if(((RestaurantMapLoc)p).restaurant.isOpen()){
+				opens.add(((RestaurantMapLoc)p).restaurant);
+				someOpen = true;
+			}
+		}
+		
+		if(!someOpen){
+			return false;
+		}
+		
+		Random random = new Random();
+		int chosenRestaurant = random.nextInt(opens.size());
+		
+		//nextMarketToGoTo = 0;
+		for(Place p:city.map.get("Restaurant")){
+			if(((RestaurantMapLoc)p).restaurant.equals(opens.get(chosenRestaurant))){
+				nextRestaurantToGoTo = city.map.get("Restaurant").indexOf(p);
+			}
+		}	
+		
+		return true;
+
+	}
+
+	
+	public boolean someMarketOpen(){
+		boolean someOpen = false;
+		List<Market> opens = new ArrayList<Market>();
+		
+		for(Place p:city.map.get("Market")){
+			if(((MarketMapLoc)p).market.isOpen()){
+				opens.add(((MarketMapLoc)p).market);
+				someOpen = true;
+			}
+		}
+		
+		if(!someOpen){
+			return false;
+		}
+		
+		Random random = new Random();
+		int chosenMarket = random.nextInt(opens.size());
+		
+		//nextMarketToGoTo = 0;
+		for(Place p:city.map.get("Market")){
+			if(((MarketMapLoc)p).market.equals(opens.get(chosenMarket))){
+				nextMarketToGoTo = city.map.get("Market").indexOf(p);
+			}
+		}	
+		
+		return true;
+		
+		
+	}
+	
+	public boolean myBankOpen(){
+		return ((BankMapLoc) city.map.get("Bank").get(this.MY_BANK)).bank.isOpen();
+	}
 
 	//msg
+	
 
 	public void msgYouWantToRideBus(boolean want){
 		this.wantsToRideBus = want;
@@ -505,7 +579,7 @@ public class PersonAgent extends Agent implements Person {
 			getFood();
 			return true;
 		}
-		if(!robbedBank){
+		if(!robbedBank && myBankOpen()){
 			if(!city.map.get("Bank").isEmpty() && belongings.myAccounts.size()==0){
 				goToBank();
 				return true;
@@ -518,7 +592,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 
-		if (!city.map.get("Market").isEmpty() && foodsLow()) {
+		if (!city.map.get("Market").isEmpty() && foodsLow() && someMarketOpen()) {
 			goToMarket();
 			return true;
 		}
@@ -676,6 +750,7 @@ public class PersonAgent extends Agent implements Person {
 		//doGoToMarket();
 		//MarketCustomerRole marketRole = null;
 		int marketChoice = (int) Math.floor(city.map.get("Market").size()*Math.random());
+		marketChoice = nextMarketToGoTo;
 		Market m = ((MarketMapLoc) city.map.get("Market").get(marketChoice)).market;
 		Loc loc = city.map.get("Market").get(marketChoice).loc;
 
@@ -758,8 +833,15 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}*/
 		}
+		
+		//hack
+		if(!someRestaurantOpen()){
+			hungerLevel =0;
+		}
+		
 		Random random = new Random();
 		int rand = random.nextInt(city.map.get("Restaurant").size());
+		rand = nextRestaurantToGoTo;
 		Restaurant b = ((RestaurantMapLoc) city.map.get("Restaurant").get(rand)).restaurant;
 
 		if (!b.isOpen())

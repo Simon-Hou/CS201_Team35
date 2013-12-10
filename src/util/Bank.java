@@ -37,6 +37,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 	public BankGui bankGui = new BankGui(this);
 	
 	public List<TellerSpot> tellerSpots = new ArrayList<TellerSpot>();
+	public boolean isOpen = true;
 	
 	public CityBank cityBankGui;
 	
@@ -262,7 +263,7 @@ public class Bank implements BankInterface, PlaceOfWork{
 	}
 	
 	public boolean isOpen(){
-		return true;
+		return isOpen;
 	}
 	
 	
