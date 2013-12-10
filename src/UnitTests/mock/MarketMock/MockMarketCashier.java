@@ -38,17 +38,14 @@ public class MockMarketCashier extends Mock implements MarketCashier{
 	}
 
 	@Override
-	public void msgServiceCustomer(MarketCustomer c,
-			Map<String, Integer> groceries) {
-		// TODO Auto-generated method stub
-		
-		log.add(new LoggedEvent("got msgServiceCustomer"));
+	public void msgServiceCustomer(MarketCustomer c, Map<String, Integer> groceries) {
+		log.add(new LoggedEvent("got msgServiceCustomer for customer " + c.getName() + " for order " + groceries.toString()));
 		
 	}
 
 	@Override
 	public void msgFinishedComputing(MyCustomer mc) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Finished computing order for customer " + mc.c.getName()));
 		
 	}
 

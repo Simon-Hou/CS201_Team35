@@ -83,7 +83,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	//-----------------------------ACTIONS--------------------------------
 	private void DeliverOrder(MarketInvoice order){
-		Do("Deliverying an order to a restaurant");
+		DoMessage("Delivering an order to a restaurant");
 		log.add(new LoggedEvent("action DeliverOrder"));
 		//DoGoToRestaurant(order.restaurant);
 
@@ -143,12 +143,14 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	public void DoInfo(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logInfo(AlertTag.MARKET, name, message, market.gui.ID);
+		if (market.gui!=null)
+			AlertLog.getInstance().logInfo(AlertTag.MARKET, name, message, market.gui.ID);
 	}
 	
 	public void DoMessage(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
+		if (market.gui!=null)
+			AlertLog.getInstance().logMessage(AlertTag.MARKET, name, message, market.gui.ID);
 	}
 
 

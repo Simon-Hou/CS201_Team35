@@ -245,10 +245,10 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Inner Classes
 	public class MyCustomer{
-	    MarketCustomer c;
-	    Map<String, Integer> order;
-	    int total;
-	    int payment;
+	    public MarketCustomer c;
+	    public Map<String, Integer> order;
+	    public int total;
+	    public int payment;
 	    CustomerState status;
 	    
 	    MyCustomer(MarketCustomer c, Map<String, Integer> order){
@@ -260,8 +260,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	enum CustomerState{needsTotal, computingTotal, hasTotal, askedToPay, paid }
 
 	//Thinking we should pass the entire order over so the cashier knows how much to have expected...
-	private class BusinessPayment{
-		int amount;
+	public class BusinessPayment{
+		public int amount;
 		
 		BusinessPayment(int pay){
 			amount = pay;
@@ -269,12 +269,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		
 	}
 
-	private class MyBusinessOrder{
-		List<OrderItem> order;
-		MarketEmployee employee;
-		Restaurant restaurant;
+	public class MyBusinessOrder{
+		public List<OrderItem> order;
+		public MarketEmployee employee;
+		public Restaurant restaurant;
 		
-		MyBusinessOrder(List<OrderItem> o, MarketEmployee e, Restaurant r){
+		public MyBusinessOrder(List<OrderItem> o, MarketEmployee e, Restaurant r){
 			order = o;
 			employee = e;
 			restaurant = r;
