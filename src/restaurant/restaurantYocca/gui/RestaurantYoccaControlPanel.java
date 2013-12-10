@@ -61,7 +61,7 @@ public class RestaurantYoccaControlPanel  extends BuildingControlPanel  implemen
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() ==close){
 				//TODO function call to close restaurant
-			
+				this.restaurant.isOpen = false;
 			 
 			}
 			// TODO Auto-generated method stub

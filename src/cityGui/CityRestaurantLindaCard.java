@@ -29,8 +29,6 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 	private Collection<Point> tableMap = Collections.synchronizedList(new ArrayList<Point>());
 
     public Semaphore[][] grid;
-    
-    RestaurantLindaControlPanel panel;
 
 	public CityRestaurantLindaCard(SimCityGui city) {
 		super(city);
@@ -42,7 +40,7 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
 		Graphics2D g = (Graphics2D)g2;
 
 		//Clear the screen by painting a rectangle the size of the frame
-		g.setColor(getBackground());
+		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, CARD_WIDTH+50, CARD_HEIGHT+50);
 
 		//Here is the cook's area       
@@ -108,23 +106,19 @@ public class CityRestaurantLindaCard extends CityRestaurantCard{
         g.fillRect(CASHIER.x, CASHIER.y, CASHIER.width, CASHIER.height);
         
         //blocked grids
-        if (grid!=null){
+        /*if (grid!=null){
 	        g2.setColor(Color.RED);
 	        for (int i=0; i<gridX ; i++)
 	    	    for (int j = 0; j<gridY; j++)
 	    	    	if (grid[i][j].availablePermits()<=0)
 	    	    		g2.drawRect(i*cellSize, j*cellSize, cellSize, cellSize);
-        }
+        }*/
     }
 
     
     public void addTable(Point p){
     	tableMap.add(p);
     }
-
-    public void setPanel(RestaurantLindaControlPanel p){
-		this.panel = p;
-	}
 }
 
 

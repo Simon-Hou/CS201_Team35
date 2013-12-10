@@ -146,6 +146,10 @@ public class CityRestaurantGabe extends CityRestaurant{
     	c.getGui().setHungry();
     	
     }
+    
+    public void createControlPanel(){
+    	//TODO
+    }
 	
 	
 

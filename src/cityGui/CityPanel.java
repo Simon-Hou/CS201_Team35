@@ -145,11 +145,9 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 			else if(temp.type.equals("RestaurantLinda")){
 				((CityRestaurant)temp).createAnimationPanel(city);
+				((CityRestaurant)temp).createControlPanel();
 				
-				CityRestaurantLindaCard tempAnimation=(CityRestaurantLindaCard)((CityRestaurant)temp).animationPanel;
-				RestaurantLindaControlPanel panel=new RestaurantLindaControlPanel(tempAnimation,((RestaurantLinda)((CityRestaurant)temp).restaurant));
-				city.buildingCP.addPanelCard(panel, temp.ID);
-				tempAnimation.setPanel(panel);
+				city.buildingCP.addPanelCard(((CityRestaurant)temp).restaurant.controlPanel, temp.ID);
 
 				restaurants.add(((CityRestaurant)temp).restaurant);
 				city.view.addView(((CityRestaurant)temp).animationPanel, temp.ID);
