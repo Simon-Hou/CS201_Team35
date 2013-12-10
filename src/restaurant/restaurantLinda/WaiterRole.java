@@ -1,5 +1,6 @@
 package restaurant.restaurantLinda;
 
+import UnitTests.mock.LoggedEvent;
 import agent.Agent;
 import restaurant.Restaurant;
 import restaurant.restaurantLinda.gui.WaiterGui;
@@ -12,6 +13,9 @@ import interfaces.restaurantLinda.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 
 /**
  * Restaurant Waiter Agent
@@ -460,6 +464,29 @@ public abstract class WaiterRole extends Role implements Waiter{
 		}
 		
 		this.p.msgThisRoleDone(this);
+		DoMessage("Leaving work");
+	}
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));		
+	}
+	
+	public void DoDebug(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+	}
+	
+	public void DoError(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
 	}
 }
 

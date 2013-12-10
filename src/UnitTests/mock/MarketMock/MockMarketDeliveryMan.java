@@ -21,13 +21,13 @@ public class MockMarketDeliveryMan extends Mock implements MarketDeliveryMan{
 	}
 
 	@Override
-	public void msgDeliverThisOrder(MarketInvoice order) {
+	public void msgHereIsPayment(int payment, MarketInvoice invoice) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void msgHereIsPayment(int payment, MarketInvoice invoice) {
+	public void msgDockTimerDone() {
 		// TODO Auto-generated method stub
 		
 	}

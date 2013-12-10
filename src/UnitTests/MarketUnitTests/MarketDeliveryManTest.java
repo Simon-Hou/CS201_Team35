@@ -14,6 +14,7 @@ import market.OrderItem;
 
 import org.junit.Test;
 
+import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 
 import UnitTests.mock.MarketMock.MockMarketCashier;
@@ -40,6 +41,8 @@ public class MarketDeliveryManTest extends TestCase{
 	MockBaseRestaurantCashier restaurantCashier;
 	
 	MockMarketCashier marketCashier;
+	
+	ProducerConsumerMonitor<MarketInvoice> monitor;
 
 
 
@@ -65,7 +68,9 @@ public class MarketDeliveryManTest extends TestCase{
 
 		customer.host = host;
 		employee.host = host;
-
+		
+		monitor = new ProducerConsumerMonitor<MarketInvoice>();
+		deliveryMan.setMonitor(monitor);
 
 	}
 
@@ -77,23 +82,38 @@ public class MarketDeliveryManTest extends TestCase{
 		assertEquals("Delivery Man's event log should be empty.", 0, deliveryMan.log.size());
 		assertEquals("Delivery Man's orders should be empty.", 0, deliveryMan.orders.size());
 		assertEquals("Delivery Man's payments should be empty.", 0, deliveryMan.payments.size());
+		assertTrue("Dock stand should be empty.", monitor.isEmpty());
 		
 		assertEquals("RestaurantCashier's event log should be empty.", 0, restaurantCashier.log.size());
 		assertEquals("Cook's event log should be empty.", 0, cook.log.size());
 		assertEquals("MarketCashier's event log should be empty.", 0, marketCashier.log.size());
 
-		assertFalse("Delivery Man's sheduler should return false", deliveryMan.pickAndExecuteAnAction());
+		assertTrue("Delivery Man's sheduler should return true", deliveryMan.pickAndExecuteAnAction());
+		
+		assertEquals("DeliveryMan's log should now be size 1, but is instead " + deliveryMan.log.size(), deliveryMan.log.size(), 1);
+		assertTrue("DeliveryMan's log should contain the message 'checking dock stand'. Instead, the last logged event is " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.containsString("Checking dock stand"));
+		assertEquals("Delivery Man's orders should still be empty.", 0, deliveryMan.orders.size());
+		assertEquals("Delivery Man's payments still should be empty.", 0, deliveryMan.payments.size());
+		assertTrue("Dock stand should still be empty.", monitor.isEmpty());
+		
+		deliveryMan.msgDockTimerDone();
 
 		List<OrderItem> order = new ArrayList<OrderItem>();
 		order.add(new OrderItem("Steak", 5));
 		
 		//Step 1
 		MarketInvoice tempOrder = new MarketInvoice(order, market, restaurant, 20);
-		deliveryMan.msgDeliverThisOrder(tempOrder);
+		
+		monitor.insert(tempOrder);
+		
+		assertFalse("Dock stand should not be empty anymore.", monitor.isEmpty());
 
+		assertTrue("Delivery Man's sheduler should return true", deliveryMan.pickAndExecuteAnAction());
+		
 		//Post Step 1
-		assertEquals("Delivery Man's orders should have size 1 but are " + deliveryMan.orders.size(), 1, deliveryMan.orders.size());
-		assertTrue("Delivery Man's log should have received mesage 'got msgDeliverThisOrder', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.getLastLoggedEvent().toString().endsWith("got msgDeliverThisOrder"));
+		assertEquals("Delivery Man's orders should be size 1 but are " + deliveryMan.orders.size(), 1, deliveryMan.orders.size());
+		assertTrue("Delivery Man's log should have received message 'Found a new order', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.containsString("Found a new order"));
+		assertTrue("Dock stand should be empty again", monitor.isEmpty());
 
 		//Step 2
 		deliveryMan.msgHereIsPayment(20, tempOrder); //Do this to release the semaphore beforehand
@@ -116,7 +136,8 @@ public class MarketDeliveryManTest extends TestCase{
 		list+="}";
 		
 		assertTrue("Cook's log should contain the message about the delivery of food. Instead, the last logged event " + cook.log.getLastLoggedEvent(), cook.log.containsString("Received delivery of food: " + list));
-
+		
+		assertEquals("Delivery Man's orders should be empty again.", 0, deliveryMan.orders.size());
 		
 	}
 
@@ -125,10 +146,12 @@ public class MarketDeliveryManTest extends TestCase{
 		assertEquals("Delivery Man's event log should be empty.", 0, deliveryMan.log.size());
 		assertEquals("Delivery Man's orders should be empty.", 0, deliveryMan.orders.size());
 		assertEquals("Delivery Man's paymentsshould be empty.", 0, deliveryMan.payments.size());
-		
+		assertTrue("Dock stand should be empty.", monitor.isEmpty());
 		assertEquals("Market cashier's event log should be empty.", 0, marketCashier.log.size());
-
-		assertFalse("Delivery Man's sheduler should return false", deliveryMan.pickAndExecuteAnAction());
+		
+		deliveryMan.checkDock=false;
+		assertFalse("Delivery Man's sheduler should return false", deliveryMan.pickAndExecuteAnAction());	
+		
 
 		//Step 1
 		List<OrderItem> order = new ArrayList<OrderItem>();
@@ -141,6 +164,7 @@ public class MarketDeliveryManTest extends TestCase{
 		assertEquals("Delivery Man's payments should have size 1 but are " + deliveryMan.payments.size(), 1, deliveryMan.payments.size());
 		assertTrue("Delivery Man's log should have received mesage 'got msgHereIsPayment', but it reads " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.getLastLoggedEvent().toString().endsWith("got msgHereIsPayment"));
 
+		
 		//Setp 2
 		assertTrue("Delivery Man's scheduler should return true", deliveryMan.pickAndExecuteAnAction());
 
@@ -150,10 +174,35 @@ public class MarketDeliveryManTest extends TestCase{
 
 		assertEquals("Market cashier's log should be size 1, instead it is size " + marketCashier.log.size(), 1, marketCashier.log.size());
 		assertTrue("Market cashier's log should contain a message about receiving a business payment. Intead, the last logged message was " + marketCashier.log.getLastLoggedEvent(), marketCashier.log.containsString("Received business payment of $" + 20));
-
+		
 		//Step 3
 		assertFalse("Delivery Man's scheduler should return false", deliveryMan.pickAndExecuteAnAction());
+			
+	}
+	
+	public void testStandCheck(){
+		deliveryMan.checkDock = false;
 		
+		assertEquals("Delivery Man's event log should be empty.", 0, deliveryMan.log.size());
+		assertEquals("Delivery Man's orders should be empty.", 0, deliveryMan.orders.size());
+		assertEquals("Delivery Man's paymentsshould be empty.", 0, deliveryMan.payments.size());
+		
+		assertFalse("Delivery Man's scheduler should return false", deliveryMan.pickAndExecuteAnAction());
+		
+		deliveryMan.msgDockTimerDone();
+		
+		assertEquals("Delivery Man's event log should still be empty.", 0, deliveryMan.log.size());
+		assertEquals("Delivery Man's orders should still be empty.", 0, deliveryMan.orders.size());
+		assertEquals("Delivery Man's paymentsshould still be empty.", 0, deliveryMan.payments.size());
+		
+		assertTrue("Delivery Man's scheduler should return true", deliveryMan.pickAndExecuteAnAction());
+		
+		assertEquals("DeliveryMan's log should now be size 1, but is instead " + deliveryMan.log.size(), deliveryMan.log.size(), 1);
+		assertTrue("DeliveryMan's log should contain the message 'checking dock stand'. Instead, the last logged event is " + deliveryMan.log.getLastLoggedEvent(), deliveryMan.log.containsString("Checking dock stand"));
+		assertEquals("Delivery Man's orders should still be empty.", 0, deliveryMan.orders.size());
+		assertEquals("Delivery Man's payments still should be empty.", 0, deliveryMan.payments.size());
+		
+		//Assume internal timer works?
 		
 	}
 

@@ -43,6 +43,13 @@ public class MockBaseRestaurantCook extends Mock implements BaseRestaurantCook{
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+
+	@Override
+	public void depleteInventory() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
