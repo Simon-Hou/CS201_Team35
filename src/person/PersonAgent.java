@@ -81,13 +81,13 @@ public class PersonAgent extends Agent implements Person {
 		
 
 		Random random = new Random();
-		hungerLevel = random.nextInt(10);
+		//hungerLevel = random.nextInt(10);
 
 		if (random.nextBoolean()){
 			this.belongings.myFoods.add(new Food("Steak",10));
-			this.belongings.myFoods.add(new Food("Chicken",10));
-			this.belongings.myFoods.add(new Food("Pizza",10));
-			this.belongings.myFoods.add(new Food("Salad",10));
+//			this.belongings.myFoods.add(new Food("Chicken",10));
+//			this.belongings.myFoods.add(new Food("Pizza",10));
+//			this.belongings.myFoods.add(new Food("Salad",10));
 		}
 		purse.wallet = 50;
 		
@@ -409,7 +409,7 @@ public class PersonAgent extends Agent implements Person {
 		//			try {
 		//				Thread.sleep(300);
 		//			} catch (InterruptedException e) {
-		//				// TODO Auto-generated catch block
+		//				
 		//				e.printStackTrace();
 		//			}
 		//		}
@@ -444,9 +444,13 @@ public class PersonAgent extends Agent implements Person {
 					return true;
 				}
 			}
-			return activeRole.pickAndExecuteAnAction();
+			try{
+				return activeRole.pickAndExecuteAnAction();
+			}
+			catch(NullPointerException e){
+				return true;
+			}
 		}
-		//Do("ALIVE");
 		if(time == myJob.shiftStart-1){
 			return false;
 		}
@@ -699,14 +703,13 @@ public class PersonAgent extends Agent implements Person {
 		
 
 
-				if (belongings.myHouse!=null && !belongings.myFoods.isEmpty()) {
-					//Do("I am going to eat at home");
+
+				if (belongings.myHouse!=null && !belongings.myHouse.room.inventory.isEmpty()) {
+					Do("I am going to eat at home");
+
 					doGoHome();
 					activeRole = inhabitantRole;
 					belongings.myHouse.msgImHome(inhabitantRole);
-					inhabitantRole.msgTired();
-					//goToRestaurant();
-					
 					inhabitantRole.msgGotHungry();
 					return;
 				}
@@ -1272,9 +1275,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 
-
-
-
+	
 
 
 
