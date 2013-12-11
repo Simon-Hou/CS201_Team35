@@ -588,6 +588,7 @@ public class PersonAgent extends Agent implements Person {
 			buyCar();
 		}*/
 		if (hungerLevel > 6) {
+			System.err.println("checked, and I am truly hungry");
 			getFood();
 			return true;
 		}
@@ -863,7 +864,7 @@ System.err.println("I am getting food");
 		Loc loc = city.map.get("Restaurant").get(rand).loc;
 
 		tempDoGoToCityLoc(loc);
-
+		hungerLevel =0;
 
 		if (b instanceof restaurant.restaurantGabe.RestaurantGabe){
 			b.customerEntering(restaurantGabeRole);
