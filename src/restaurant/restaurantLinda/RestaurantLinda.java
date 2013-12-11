@@ -36,9 +36,9 @@ public class RestaurantLinda extends Restaurant{
 	ProducerConsumerMonitor<RestaurantOrder> orderMonitor = new ProducerConsumerMonitor<RestaurantOrder>();
 	
 	public CityRestaurantLinda cityRestaurant;
-	public HostRole host;
-	public CashierRole cashier;
-	public CookRole cook;
+	public Host host;
+	public Cashier cashier;
+	public Cook cook;
 	public List<BaseRestaurantWaiter> waiters;
 	
 	//public boolean isOpen = true;
@@ -80,7 +80,7 @@ public class RestaurantLinda extends Restaurant{
 		if (type == JobType.RestaurantHost){
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as host",this.cityRestaurant.animationPanel.getName());
 
-			host.changeShifts(p);
+			((HostRole)host).changeShifts(p);
 			return (Role)host;
 		}
 		else if (type == JobType.RestaurantLindaWaiter1){
@@ -101,11 +101,11 @@ public class RestaurantLinda extends Restaurant{
 		else if (type == JobType.RestaurantCook){
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cook",this.cityRestaurant.animationPanel.getName());
 			//cityRestaurant.animationPanel.removeGui(cook.getGui());
-			this.cook.changeShifts(p);
-			if (cook.getGui() == null) {
-				CookGui cg = new CookGui(this.cook);
+			((CookRole)this.cook).changeShifts(p);
+			if (((CookRole)cook).getGui() == null) {
+				CookGui cg = new CookGui((CookRole)this.cook);
 				cg.setPlates(cityRestaurant.animationPanel.platedFoods);
-				this.cook.setGui(cg);
+				((CookRole)this.cook).setGui(cg);
 				cityRestaurant.animationPanel.addGui(cg);
 			}
 			return (Role)cook;
@@ -113,7 +113,7 @@ public class RestaurantLinda extends Restaurant{
 		else if (type == JobType.RestaurantCashier){
 			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, p.getName(), "I'm taking over as cashier",this.cityRestaurant.animationPanel.getName());
 
-			cashier.changeShifts(p);
+			((CashierRole)cashier).changeShifts(p);
 			return (Role) cashier;
 		}
 		
@@ -132,7 +132,7 @@ public class RestaurantLinda extends Restaurant{
 	}
 	
 	public BaseRestaurantCook cookComingToWork(Person p){
-		cook.changeShifts(p);
+		((CookRole)cook).changeShifts(p);
 		return cook;
 	}
 	

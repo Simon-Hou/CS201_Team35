@@ -19,7 +19,7 @@ public class OriginalWaiterRole extends WaiterRole{
 	
 	//single function that needs to be overridden
 	protected void SendOrder(MyCustomer mc){
-		Do("Magically sending " + mc.c.getName() + "'s order to cook");
+		DoMessage("Magically sending " + mc.c.getName() + "'s order to cook");
 		mc.state=CustomerState.orderSent;
 		((CookRole)restaurant.cook).msgHereIsOrder(this, mc.choice, mc.table);		
 	}

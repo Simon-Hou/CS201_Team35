@@ -74,7 +74,7 @@ public class MockMarketHost extends Mock implements MarketHost{
 
 	@Override
 	public void msgBusinessWantsThis(Restaurant r, Map<String, Integer> order) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received new order from restaurant for order: " + order.toString()));
 		
 	}
 

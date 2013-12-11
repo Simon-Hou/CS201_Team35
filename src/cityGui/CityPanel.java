@@ -197,7 +197,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 			}*/
 			if (temp.type.contains("Restaurant")){
-				if(temp.type.equals("RestaurantSimon")){
+				/*if(temp.type.equals("RestaurantSimon")){
 					((CityRestaurant)temp).createAnimationPanel(city);
 
 					CityRestaurantSimonCard tempAnimation=(CityRestaurantSimonCard)((CityRestaurant)temp).animationPanel;
@@ -210,7 +210,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 					temp.cityObject = this.cityObject;
 					temp.addAgentObjectToMap();
 				}
-				else{
+				else{*/
 					((CityRestaurant)temp).createAnimationPanel(city);
 					((CityRestaurant)temp).createControlPanel();
 					((CityRestaurant)temp).restaurant.markets = city.city.markets;
@@ -222,7 +222,7 @@ public class CityPanel extends SimCityPanel implements MouseMotionListener {
 
 					temp.cityObject = this.cityObject;
 					temp.addAgentObjectToMap();
-				}
+				//}
 			}
 			else if (temp.type.equals("Bank")) {
 				CityBankCard tempAnimation = new CityBankCard(city);

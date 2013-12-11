@@ -45,7 +45,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 	//Messages
 	public void msgPleaseServeCustomer(Customer c, int table){		
 		customers.add(new MyCustomer(c,table,CustomerState.waiting));
-		print("Received request to set customer "+c.getName()+" at table "+table);
+		log.add(new LoggedEvent("Received request to set customer "+c.getName()+" at table "+table));
 		
 		//Just in case the restaurant.host screws up somehow
 		if(breakStatus == BreakStatus.onBreak){
@@ -289,35 +289,47 @@ public abstract class WaiterRole extends Role implements Waiter{
 	
 	//actions	
 	private void SeatCustomer(MyCustomer mc){
-		print("Walking to door");
-		waiterGui.DoGoToCustomer(mc.c.getGui());
-		try{
-			atDestination.acquire();
+		log.add(new LoggedEvent("Walking to door to fetch customer " + mc.c.getName()));
+		
+		if (waiterGui!=null){
+			waiterGui.DoGoToCustomer(mc.c.getGui());
+			
+			try{
+				atDestination.acquire();
+			}
+			catch(InterruptedException e){
+				e.printStackTrace();
+			}
 		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-		}
+		
 		mc.c.msgFollowMe(this,new Menu());
 		mc.state=CustomerState.seated;
-		waiterGui.DoSeatCustomer(mc.c.getGui(),mc.table);		
-		try{
-			atDestination.acquire();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
+		
+		if (waiterGui!=null){
+			waiterGui.DoSeatCustomer(mc.c.getGui(),mc.table);	
+			
+			try{
+				atDestination.acquire();
+			}
+			catch(InterruptedException e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	private void TakeOrder(MyCustomer mc){
-		Do("Taking order");
+		DoMessage(mc.c.getName() + ", may I take your order?");
 		state=WaiterState.takingOrder;
-		waiterGui.DoTalk("table"+mc.table);
-		waiterGui.DoGoToTable(mc.table);
-		try{
-			atDestination.acquire();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
+		
+		if (waiterGui!=null){
+			waiterGui.DoTalk("table"+mc.table);
+			waiterGui.DoGoToTable(mc.table);
+			try{
+				atDestination.acquire();
+			}
+			catch(InterruptedException e){
+				e.printStackTrace();
+			}
 		}
 		mc.state=CustomerState.askedToOrder;	
 		mc.c.msgWhatDoYouWant();		
@@ -382,7 +394,8 @@ public abstract class WaiterRole extends Role implements Waiter{
 	}
 	
 	private void DoGoToDefault(){
-		waiterGui.DoGoToDefault();
+		if (waiterGui!=null)
+			waiterGui.DoGoToDefault();
 	}
 	
 	private void AskForBreak(){
@@ -439,8 +452,8 @@ public abstract class WaiterRole extends Role implements Waiter{
 		return name;
 	}
 	
-	public void setRestaurant(RestaurantLinda r){
-		this.restaurant = r;
+	public void setRestaurant(Restaurant r){
+		this.restaurant = (RestaurantLinda)r;
 	}
 	
 	@Override
@@ -475,18 +488,21 @@ public abstract class WaiterRole extends Role implements Waiter{
 	
 	public void DoMessage(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
 		log.add(new LoggedEvent(message));		
 	}
 	
 	public void DoDebug(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
 	}
 	
 	public void DoError(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
 	}
 }
 
