@@ -107,9 +107,9 @@ public class WaiterTest extends TestCase{
 		assertEquals("The table listed in the order be 1. Instead, it is " + order.table, order.table, 1);
 		assertEquals("The choice listed in the order should be Steak. Instead it is " + order.choice, order.choice, "Steak");
 		
+		assertTrue("Order stand should be empty again. It isn't", orderMonitor.isEmpty());
 		
-		
-		
+		assertFalse("Waiter's scheduler should now return false.", waiter.pickAndExecuteAnAction());
 		
 		
 	}

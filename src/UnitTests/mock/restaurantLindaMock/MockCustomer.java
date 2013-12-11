@@ -22,13 +22,13 @@ public class MockCustomer extends Mock implements Customer {
 	
 	@Override
 	public void msgAtRestaurant(Restaurant r) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Reached restaurant"));
 		
 	}
 
 	@Override
 	public void msgRestaurantFull() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Restaurant is full"));
 		
 	}
 
@@ -46,7 +46,7 @@ public class MockCustomer extends Mock implements Customer {
 
 	@Override
 	public void msgRedoOrder(Menu menu, String food) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Was asked to reorder, since " + food + " was out"));
 		
 	}
 

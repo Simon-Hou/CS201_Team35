@@ -26,11 +26,11 @@ import util.Place;
 
 public class CookRole extends Role implements Cook{
 	String name;
-	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
+	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	Timer timer = new Timer();
 	public Map<String,Food> foodMap = new HashMap<String,Food>();
-	boolean checkInventory=true;
-	boolean checkOrderStand=true;
+	public boolean checkInventory=true;
+	public boolean checkOrderStand=true;
 	List<Market> marketMap;
 	Restaurant restaurant;
 	
@@ -41,10 +41,10 @@ public class CookRole extends Role implements Cook{
 	
 	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor, Restaurant restaurant) {
 		super();
-		foodMap.put("Steak", new Food("Steak",5000,50,100,1));
-		foodMap.put("Chicken", new Food("Chicken",4000,50,100,1));
-		foodMap.put("Salad", new Food("Salad",2000,50,100,1));
-		foodMap.put("Pizza", new Food("Pizza",3000,50,100,1));
+		foodMap.put("Steak", new Food("Steak",5000,50,100,20));
+		foodMap.put("Chicken", new Food("Chicken",4000,50,100,20));
+		foodMap.put("Salad", new Food("Salad",2000,50,100,20));
+		foodMap.put("Pizza", new Food("Pizza",3000,50,100,20));
 		this.name = name;
 		this.orderMonitor = monitor;
 		this.restaurant = restaurant;
@@ -90,13 +90,18 @@ public class CookRole extends Role implements Cook{
 			food.quantity+=shipment;
 			food.onOrder-=shipment;
 		}
-		Do(shipmentMessage);
+		DoInfo(shipmentMessage);
 		
 		p.msgStateChanged();
 	}
 	
 	public void msgAtDestination() {//from animation
 		atDestination.release();// = true;
+		p.msgStateChanged();
+	}
+	
+	public void msgStandTimerDone(){
+		checkOrderStand = true;
 		p.msgStateChanged();
 	}
 
@@ -134,7 +139,9 @@ public class CookRole extends Role implements Cook{
 			CheckOrderStand();
 			return true;
 		}
-		cookGui.DoGoToDefault();
+		
+		if (cookGui!=null)
+			cookGui.DoGoToDefault();
 		
 		return false;
 		//we have tried all our rules and found
@@ -145,7 +152,7 @@ public class CookRole extends Role implements Cook{
 	//actions
 	private void TryToCookIt(Order o){
 		Food food = foodMap.get(o.choice);
-		Do("Try cooking of " + food.type);
+		log.add(new LoggedEvent("Try cooking of " + food.type));
 		
 		if (food.quantity==0){
 			orders.remove(o);
@@ -166,12 +173,14 @@ public class CookRole extends Role implements Cook{
 			OrderFoodThatIsLow();
 		}
 		
-		cookGui.DoCooking();
-		try{
-			atDestination.acquire();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
+		if (cookGui!=null){
+			cookGui.DoCooking();
+			try{
+				atDestination.acquire();
+			}
+			catch(InterruptedException e){
+				e.printStackTrace();
+			}
 		}
 		
 		DoInfo("Started cooking");
@@ -218,16 +227,16 @@ public class CookRole extends Role implements Cook{
 		DoInfo(message);
 		
 		if (shoppingList.size()==0){
-			DoMessage("Cannot order any foods because markets are out or no foods are low");
+			DoMessage("No foods are low");
 			return;
 		}
 		
 		if (restaurant.markets.size()==1){
-			DoMessage("ordering");
+			DoMessage("ordering more food");
 			restaurant.markets.get(0).host.msgBusinessWantsThis(restaurant, shoppingList);
 		}
 		else if (restaurant.markets.size()>1){
-			DoMessage("ordering");
+			DoMessage("ordering more food");
 			Market m = restaurant.markets.remove(0);		//Rearrange markets, kind of like a circular queue?
 			restaurant.markets.add(m);
 			m.host.msgBusinessWantsThis(restaurant, shoppingList);
@@ -235,17 +244,18 @@ public class CookRole extends Role implements Cook{
 	}
 	
 	public void CheckOrderStand(){
+		log.add(new LoggedEvent("Checking order stand"));
 		if (!orderMonitor.isEmpty()){
 			DoInfo("Found a new order");
 			RestaurantOrder o = orderMonitor.remove();
 			orders.add(new Order(o.w,o.choice,o.table,OrderState.pending));
 		}
 		else{
+			log.add(new LoggedEvent("No new orders"));
 			checkOrderStand = false;
 			timer.schedule(new TimerTask(){
 				public void run(){
-					checkOrderStand = true;
-					p.msgStateChanged();
+					msgStandTimerDone();
 				}				
 			}, 5000);		//Wake up every 5 seconds to check the stand
 		}
@@ -253,10 +263,10 @@ public class CookRole extends Role implements Cook{
 	
 	
 	//inner classes
-	private class Order{
-		Waiter w;
-		String choice;
-		int table;
+	public class Order{
+		public Waiter w;
+		public String choice;
+		public int table;
 		OrderState state;
 		
 		Order(Waiter waiter, String ch, int t, OrderState s){
@@ -277,7 +287,7 @@ public class CookRole extends Role implements Cook{
 		int onOrder=0;
 		FoodState status = FoodState.none;
 		
-		Food(String t, int time, int quantity, int capacity, int low){
+		public Food(String t, int time, int quantity, int capacity, int low){
 			type=t;
 			cookingTime=time;
 			this.quantity = quantity;
@@ -347,12 +357,6 @@ public class CookRole extends Role implements Cook{
 		return this.p!=null;
 	}
 	
-	public void DoInfo(String message){
-		//super.Do(message);
-		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
-		log.add(new LoggedEvent(message));
-	}
-	
 
 	@Override
 	public void depleteInventory() {
@@ -381,20 +385,30 @@ public class CookRole extends Role implements Cook{
 			p.msgStateChanged();
 	}
 	
+	public void DoInfo(String message){
+		//super.Do(message);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));
+	}
+	
 	public void DoMessage(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
 		log.add(new LoggedEvent(message));		
 	}
 	
 	public void DoDebug(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
 	}
 	
 	public void DoError(String message){
 		//super.Do(message);
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
 	}
 
 }
