@@ -651,7 +651,7 @@ public class WaiterRole extends Role implements Waiter{
 		//Do("\t TRYING TO GET OFF WORK");
 		if(inWaiterList){
 			if(!restaurant.leaveWaiterList(this)){
-				System.err.println("Waiter wasn't removed");
+				//System.err.println("Waiter wasn't removed");
 			}
 			else{
 				inWaiterList = false;

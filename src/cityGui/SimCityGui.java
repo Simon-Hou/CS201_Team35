@@ -1901,7 +1901,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 	
 	public void gMarketScenario(){
-		System.err.println("DOOT");
+		//System.err.println("DOOT");
 
 		addNewBuilding("Market",250,200);
 		addNewBuilding("RestaurantGabe",200,250);

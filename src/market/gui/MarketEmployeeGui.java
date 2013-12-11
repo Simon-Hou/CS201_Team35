@@ -105,7 +105,7 @@ public class MarketEmployeeGui implements Gui{
 		case "Salad": xDestination = 115; yDestination = 315; break;
 		case "Car": xDestination = 115; yDestination = 385; break;
 		case "Other": xDestination = 245; yDestination = 385; break;
-		default: System.err.println("We don't have that item!"); return;
+		default: /*System.err.println("We don't have that item!");*/ return;
 		}
 		
 		
@@ -134,7 +134,7 @@ public class MarketEmployeeGui implements Gui{
 			yDestination = 385;
 		}
 		else{
-			System.err.println("We don't have that item!"); 
+			//System.err.println("We don't have that item!"); 
 			return;
 		}
 		gotToDestination = false;
