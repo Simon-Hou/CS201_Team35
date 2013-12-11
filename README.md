@@ -78,7 +78,15 @@ Displays the simple market behavior - customers come, order items, and leave.
 
 #### Bobby Groom
 
-+ Worked on bank animation.+ Helped design bank.+ The GUIs.(bank, btr, bcr).+ Integrating the building GUIs with the SimCity zoom panel.+ Connecting the bank animations to the personAgent.+ Designed and coded the control panel for the bank+ Updated the unit tests in bank as the project developed+ Worked on a design to display the animation of different buildings on the main screen	- Ended up using Simon's design
++ Worked on bank animation.
++ Helped design bank.
++ The GUIs.(bank, btr, bcr).
++ Integrating the building GUIs with the SimCity zoom panel.
++ Connecting the bank animations to the personAgent.
++ Designed and coded the control panel for the bank
++ Updated the unit tests in bank as the project developed
++ Worked on a design to display the animation of different buildings on the main screen
+	- Ended up using Simon's design
 
 #### Gabriel Mel de Fontenay
 
@@ -116,17 +124,20 @@ Displays the simple market behavior - customers come, order items, and leave.
 
 #### Simon (Fangli) Hou
 
-+ Co-designed the Person with yocca, modified and improved PersonAgent codes
++ Co-designed the Person with yocca
++ Modified and improved PersonAgent codes
 + Fully coded the House and House animation(CityHouseCard.java)
 + Fully coded the InhabitantRole and InhabitantGui
++ Unit Tested the InhabitantRole
 + Co-designed the CityAnimation with yocca
 + Designed the method to integrate the Animation of building into the the main window by using designing CityXXXCard.java
 + Helped all teammates to integrate their building animations into the main window
-+ Designed the method to keep individual animation panels running in the background ()
++ Designed the method to keep individual animation panels running in the background
 + Created / added to multiple interfaces
-+ Kept designs simple and efficient by clearing other’s redundant codes
++ Kept designs simple and efficient by clearing everyone’s redundant codes
 + Make the main control panel able to add different types of Restaurants from different buttons(All connected!)
-+ Created Control Panels for buildings: House, Bank, and everyone's Restaurants, and integrated them into the main frame
++ Created buildings Control Panels for House, Bank, and everyone's Restaurants, and integrated them into the main frame
++ Integrated my Restaurant, and it connected with other buildings and have shifts
 
 #### Parker Seagren
 + Co-designed the Market roles (with Linda Xu)
@@ -213,8 +224,8 @@ behavior.
 
 ### 5. House
 Start SimCity(run the SimCityGui.java), and click “Add House” button. Place the image on the green and left click. 
-Each house contains one inhabitant and the inventory.
-Click on the house to view inside: bed (black), table (cyan), refrigerator (white), grill (gray).
-Entering: the building can be entered by call the personIn method in House; and set the active role in person to inhabitant.
-	-I have already modified the method in person, and waiting for the city animation people to make the person walk to the house and call this method.
-
+Each house contains inhabitant(s) and inventory.
+Click on the house to view inside: bed (black), table (cyan), refrigerator (white), grill (gray). It also show the control panel, where you can see and modify the inventory.
+People can go to the house to sleep and eat.
+	-A Star not implemented in House
+	

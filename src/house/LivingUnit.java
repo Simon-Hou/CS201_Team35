@@ -12,7 +12,7 @@ public class LivingUnit {
 	public List<Food> inventory=new ArrayList<Food>(); //should we have many kinds of food or only one at the very beginning?
 	
 	public LivingUnit(){
-		inventory.add(new Food("Home Food",10));
+		inventory.add(new Food("Steak",15));
 		
 	}
 	
