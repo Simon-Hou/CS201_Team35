@@ -1,6 +1,7 @@
 package UnitTests.HouseTests;
 
 import UnitTests.mock.MockPerson;
+
 import person.PersonAgent;
 import house.InhabitantRole;
 import house.gui.InhabitantGui;
