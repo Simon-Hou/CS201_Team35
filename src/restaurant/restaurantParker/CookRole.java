@@ -31,8 +31,8 @@ public class CookRole extends Role implements Cook{
 	RevolvingStand<RevolvingStandOrder> revolvingStand;
 	boolean checkStand = true;
 	
-	private final int capacity = 3;
-	private final int stock = 3;
+	private final int capacity = 500;
+	private final int stock = 500;
 	private final int threshold = 1;
 	
 	boolean timeToCheck = false;
@@ -53,7 +53,7 @@ public class CookRole extends Role implements Cook{
 	private final int numTables = 3;
 	
 	//cook timing map
-	private Map <String, Food> foods = new TreeMap<String, Food>();{
+	public Map <String, Food> foods = new TreeMap<String, Food>();{
 		foods.put( "Steak", new Food( "Steak", 8000, stock));
 		foods.put( "Chicken", new Food( "Chicken", 7000, stock));
 		foods.put( "Pizza", new Food( "Pizza", 4000, stock));
@@ -404,8 +404,29 @@ public class CookRole extends Role implements Cook{
 
 	@Override
 	public void depleteInventory() {
-		// TODO Auto-generated method stub
+		foods.put( "Steak", new Food( "Steak", 8000, 0));
+		foods.put( "Chicken", new Food( "Chicken", 7000, 0));
+		foods.put( "Pizza", new Food( "Pizza", 4000, 0));
+		foods.put( "Salad", new Food( "Salad", 3000, 0));
 		
+	}
+	
+	public void decreaseInventory(String choice){
+		foods.get(choice).amount--;
+		
+		Do(choice + " is now at " + foods.get(choice).amount);
+		
+		if (p!=null)
+			p.msgStateChanged();
+	}
+	
+	public void increaseInventory(String choice){
+		foods.get(choice).amount++;
+		
+		Do(choice + " is now at " + foods.get(choice).amount);
+		
+		if (p!=null)
+			p.msgStateChanged();
 	}
 	
 	protected void print(String message){
