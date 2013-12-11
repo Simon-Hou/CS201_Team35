@@ -65,7 +65,8 @@ public class BankGui  extends JPanel implements ActionListener {
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
     public BankPanel bankPanel;
-    private JFrame controlPanel = new JFrame();//changed userScreen to controlPanel
+    public BankControlPanel bankControlPanel;
+    JFrame controlPanel = new JFrame();//changed userScreen to controlPanel
     private JPanel moreInfo = new JPanel();
     
     private JPanel moreInfoPersonal = new JPanel();//left side of more info.
@@ -95,7 +96,7 @@ public class BankGui  extends JPanel implements ActionListener {
     	setVisible(true);
     	bankPanel = new BankPanel(this, b);
         controlPanel.setLayout(new BorderLayout());
-        controlPanel.setVisible(true);
+        //controlPanel.setVisible(true);
         moreInfo.setLayout(new BorderLayout());
         moreInfoPersonal.setLayout(new GridLayout(4, 1));
         Dimension addInfoDim = new Dimension((int)(controlPanelWidth*.5), (int) (controlPanelHeight * .45));
@@ -148,7 +149,7 @@ public class BankGui  extends JPanel implements ActionListener {
         Dimension controlDim = new Dimension(controlPanelWidth, (int) (controlPanelHeight));
         controlPanel.setPreferredSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
-       // controlPanel.setVisible(false);
+        controlPanel.setVisible(false);
         //add(controlPanel, BorderLayout.WEST);
         add(bankAnimationPanel, BorderLayout.CENTER);
     }

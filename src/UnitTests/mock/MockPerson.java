@@ -5,6 +5,7 @@ import util.Bus;
 import util.BusAgent;
 import util.BusStop;
 import util.OnRamp;
+import house.House;
 import interfaces.Person;
 
 public class MockPerson extends Mock implements Person {
@@ -124,6 +125,12 @@ public class MockPerson extends Mock implements Person {
 	public void setTiredLevel(int i) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public House getHouse() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
