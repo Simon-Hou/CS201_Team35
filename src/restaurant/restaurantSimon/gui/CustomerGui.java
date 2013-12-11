@@ -139,13 +139,13 @@ public class CustomerGui implements Gui{
 	public void DoGoToSeat(int seatnumber) {//later you will map seatnumber to table coordinates.
 		xDestination = tablePos.get(seatnumber).X;
 		yDestination = tablePos.get(seatnumber).Y;
-		System.err.println(yDestination);
+		//System.err.println(yDestination);
 		command = Command.GoToSeat;
 	}
 	
 	public void DoGoToWait(int waitingNum){
 		yDestination =yResting-waitingNum*20;
-		System.err.println(yDestination);
+		//System.err.println(yDestination);
 	}
 	
 	public void DoGoToReadyPosition(){
