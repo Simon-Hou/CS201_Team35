@@ -93,7 +93,7 @@ public class PersonAgent extends Agent implements Person {
 		hungerLevel = random.nextInt(10);
 		
 		//Parker Restaurant Testing
-		hungerLevel = 100;
+		//hungerLevel = 100;
 
 
 		if (random.nextBoolean()){
