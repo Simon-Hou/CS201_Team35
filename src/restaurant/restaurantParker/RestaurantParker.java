@@ -39,9 +39,9 @@ public class RestaurantParker extends Restaurant{
 		this.gui = pr.animationPanel;
 		
 		
-		host = new HostRole("RestaurantHost"); 
-		cashier =  new CashierRole("RestaurantCashier");
-		cook = new CookRole("Cook", stand);
+		host = new HostRole("RestaurantHost", this); 
+		cashier =  new CashierRole("RestaurantCashier", this);
+		cook = new CookRole("Cook", stand, this);
 		waiters = Collections.synchronizedList(new ArrayList<BaseRestaurantWaiter>());
 		
 		super.cityRestaurant = this.cityRestaurant;

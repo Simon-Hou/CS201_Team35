@@ -9,6 +9,8 @@ import interfaces.restaurantParker.Host;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import restaurant.restaurantParker.MyWaiter;
 import restaurant.restaurantParker.MyWaiter.MyWaiterState;
 import restaurant.restaurantParker.LobbyCustomer.CustomerState;
@@ -37,7 +39,7 @@ public class HostRole extends Role implements Host{
 	public List<Integer> freeSeats = Collections.synchronizedList(new ArrayList<Integer>());
 	private final int numSeats = 9;
 	
-
+	RestaurantParker restaurant;
 	
 	
 	public Collection<Table> tables;
@@ -50,9 +52,10 @@ public class HostRole extends Role implements Host{
 	//public WaiterAgent waiter = null;
 	public HostGui hostGui = null;
 
-	public HostRole(String name) {
+	public HostRole(String name, RestaurantParker rest) {
 		super();
 		this.name = name;
+		this.restaurant = rest;
 		
 		// make some tables
 		tables = new ArrayList<Table>(NTABLES);
@@ -388,6 +391,10 @@ public class HostRole extends Role implements Host{
 		
 		this.p = p;
 		this.name = p.getName();
+	}
+	
+	protected void print(String message){
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_PARKER, name, message, restaurant.cityRestaurant.ID);
 	}
 }
 

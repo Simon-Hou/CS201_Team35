@@ -6,6 +6,8 @@ import agent.Agent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import market.MarketInvoice;
 import restaurant.restaurantParker.DebtCustomer.DebtCustomerState;
 import interfaces.MarketDeliveryMan;
@@ -28,7 +30,7 @@ public class CashierRole extends Role implements Cashier{
 	public List<CashierMarketBill> marketBills = Collections.synchronizedList(new ArrayList<CashierMarketBill>());
 	
 	public int change =0;
-	
+	RestaurantParker restaurant;
 	private String name;
 	
 	Menu menu = new Menu();
@@ -36,9 +38,10 @@ public class CashierRole extends Role implements Cashier{
 
 
 
-	public CashierRole(String name) {
+	public CashierRole(String name, RestaurantParker r) {
 		super();
 		this.name = name;
+		this.restaurant = r;
 		
 	}
 
@@ -191,7 +194,9 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 	// Utilities
-	
+	protected void print(String message){
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_PARKER, name, message, restaurant.cityRestaurant.ID);
+	}
 
 
 }

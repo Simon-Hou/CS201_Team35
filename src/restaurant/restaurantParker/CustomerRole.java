@@ -11,6 +11,9 @@ import interfaces.restaurantParker.*;
 
 import java.util.*;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 /**
  * Restaurant customer agent.
  */
@@ -595,6 +598,8 @@ public class CustomerRole extends Role implements Customer{
 		return customerGui;
 	}
 
-
+	protected void print(String message){
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_PARKER, name, message, restaurant.cityRestaurant.ID);
+	}
 }
 
