@@ -1,8 +1,8 @@
 package UnitTests.mock.restaurantParkerMock;
 
-import restaurant.CashierAgent;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import restaurant.restaurantParker.CashierRole;
+import interfaces.restaurantParker.*;
+import UnitTests.mock.*;
 
 public class MockWaiter extends Mock implements Waiter{
 
@@ -22,6 +22,13 @@ public class MockWaiter extends Mock implements Waiter{
 		log.add(new LoggedEvent("I was given a check of " + check + " for " + cust.getName()));
 		this.check = check;
 		
+	}
+
+
+	@Override
+	public boolean canLeave() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

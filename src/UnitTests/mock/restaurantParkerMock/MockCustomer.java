@@ -1,7 +1,9 @@
 package UnitTests.mock.restaurantParkerMock;
 
-import restaurant.interfaces.Customer;
-import restaurant.CashierAgent;
+import UnitTests.mock.*;
+import interfaces.restaurantParker.Customer;
+import restaurant.Restaurant;
+import restaurant.restaurantParker.CashierRole;
 
 public class MockCustomer extends Mock implements Customer{
 
@@ -17,6 +19,12 @@ public class MockCustomer extends Mock implements Customer{
 	@Override
 	public void msgGiveChange(int change) {
 		log.add(new LoggedEvent("Received change of $" + change));
+	}
+
+	@Override
+	public void msgAtRestaurant(Restaurant r) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

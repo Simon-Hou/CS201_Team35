@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 //^^^^^^^^^^^^^^^^^^^^^^^
 
-import restaurant.test.mock.*;
+import UnitTests.mock.restaurantParkerMock.*;
 
-import restaurant.CashierAgent;
+import restaurant.restaurantParker.CashierRole;
 import junit.framework.*;
 
 

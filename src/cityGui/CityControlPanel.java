@@ -286,6 +286,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			 city.city.addObject(CityComponents.RESTAURANTYOCCA);
 		
 		}
+		else if (e.getSource().equals(addParkerRestaurant)){
+			 city.city.addObject(CityComponents.RESTAURANTPARKER);
+		}
 	
 	
 	

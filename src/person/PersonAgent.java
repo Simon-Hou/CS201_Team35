@@ -83,6 +83,7 @@ public class PersonAgent extends Agent implements Person {
 		restaurantYoccaRole = new restaurant.restaurantYocca.CustomerRole(name +"Restaurant", this);
 		restaurantLindaRole = new restaurant.restaurantLinda.CustomerRole(name+"Restaurant", this);
 		restaurantGabeRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
+		restaurantParkerRole = new restaurant.restaurantParker.CustomerRole(name+"Restaurant", this);
 
 
 		Random random = new Random();
@@ -159,6 +160,7 @@ public class PersonAgent extends Agent implements Person {
 	public restaurant.restaurantYocca.CustomerRole restaurantYoccaRole;
 	public restaurant.restaurantLinda.CustomerRole restaurantLindaRole;
 	public restaurant.restaurantGabe.CustomerRole restaurantGabeRole;
+	public restaurant.restaurantParker.CustomerRole restaurantParkerRole;
 
 	public AStarTraversalPerson aStar;
 	Position currentPosition = new Position(2,2);
@@ -881,6 +883,12 @@ public class PersonAgent extends Agent implements Person {
 			activeRole = restaurantYoccaRole;
 			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant", name);
 		}
+		else if (b instanceof restaurant.restaurantParker.RestaurantParker){
+			b.customerEntering(restaurantParkerRole);
+			restaurantParkerRole.msgAtRestaurant(b);
+			activeRole = restaurantParkerRole;
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Parker Restaurant", name);
+		}
 		else{
 			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role", name);
 		}
@@ -1163,6 +1171,13 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else if (jobType==JobType.RestaurantLindaWaiter2){
 			jobRole = new restaurant.restaurantLinda.OriginalWaiterRole(name+"RestaurantWaiter",this);
+		}
+		else if (jobType==JobType.RestaurantParkerWaiter1){
+			//jobRole = new OriginalWaiterRole(name+"normalWaiter",this);
+			jobRole = new restaurant.restaurantParker.WaiterPCRole(name+"pcWaiter", this);
+		}
+		else if (jobType==JobType.RestaurantParkerWaiter2){
+			jobRole = new restaurant.restaurantParker.WaiterOriginalRole(name+"RestaurantWaiter",this);
 		}
 		myJob = new Job(jobRole,start,end,placeOfWork,this,jobType);
 

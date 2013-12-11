@@ -558,6 +558,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 			else if(type.contains("Yocca")) {
 				temp = new CityRestaurantYocca(x,y, "RestaurantYocca " + (city.statics.size()-19));
 			}
+			
+			else if (type.contains("Parker")){
+				temp = new CityRestaurantParker(x,y, "RestaurantParker " + (city.statics.size()-19));
+			}
 
 			temp.createAnimationPanel(this);
 			temp.createControlPanel();
@@ -744,6 +748,14 @@ public class SimCityGui extends JFrame implements ActionListener {
 					addNewPersonHard("pnewwaiter"+j,
 							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 							JobType.RestaurantYoccaWaiter2,start,end,bankNum,houseNum);
+				}
+				else if (type.contains("Parker")){
+					addNewPersonHard("pboringwaiter"+j,
+							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+							JobType.RestaurantParkerWaiter1,start,end,bankNum,houseNum);
+					addNewPersonHard("pnewwaiter"+j,
+							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+							JobType.RestaurantParkerWaiter2,start,end,bankNum,houseNum);
 				}
 
 				addNewPersonHard("prcash"+j,

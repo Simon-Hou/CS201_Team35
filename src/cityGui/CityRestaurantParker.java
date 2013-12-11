@@ -2,7 +2,10 @@ package cityGui;
 
 import java.awt.Rectangle;
 
+import restaurant.restaurantLinda.RestaurantLinda;
+import restaurant.restaurantLinda.gui.RestaurantLindaControlPanel;
 import restaurant.restaurantParker.RestaurantParker;
+import restaurant.restaurantParker.gui.RestaurantParkerControlPanel;
 
 public class CityRestaurantParker extends CityRestaurant{
 
@@ -33,12 +36,12 @@ public class CityRestaurantParker extends CityRestaurant{
         public void createAnimationPanel(SimCityGui city) {
                 animationPanel = new CityRestaurantParkerCard(city);
                 initializeRestaurant();
-                
+                super.animationPanel = animationPanel;
         }
 
 		@Override
 		public void createControlPanel() {
-			// TODO Auto-generated method stub
+			animationPanel.controlPanel = new RestaurantParkerControlPanel(animationPanel, (RestaurantParker) restaurant);
 			
 		}
 

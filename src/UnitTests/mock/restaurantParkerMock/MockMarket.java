@@ -1,7 +1,8 @@
 package UnitTests.mock.restaurantParkerMock;
 
-import restaurant.interfaces.Market;
-import restaurant.CashierAgent;
+import UnitTests.mock.*;
+import interfaces.restaurantParker.Market;
+import restaurant.restaurantParker.CashierRole;
 
 public class MockMarket extends Mock implements Market{
 
