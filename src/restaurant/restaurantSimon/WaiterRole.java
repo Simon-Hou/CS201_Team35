@@ -440,7 +440,6 @@ public class WaiterRole extends Role implements Waiter {
 
 	@Override
 	public boolean canLeave() {
-		// TODO Auto-generated method stub
 		return onBreak;
 	}
 
