@@ -30,7 +30,11 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
-	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,bankRobbery, MarketSimple, cMarket, pRain, qRain;
+
+	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,fCloseScenario, bankRobbery, rWeekend, MarketSimple, cMarket, pRain, qRain;
+
+
+
 
 	
 	//For managing traces
@@ -141,6 +145,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		simpleBusRide.addActionListener(this);
 		panel2.addButton(simpleBusRide);
 		
+		fCloseScenario = new JButton("F. Close Buildings");
+		fCloseScenario.addActionListener(this);
+		panel2.addButton(fCloseScenario);
+		
 		jScenario = new JButton("J. Big City");
 		jScenario.addActionListener(this);
 		panel2.addButton(jScenario);
@@ -149,10 +157,6 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		bankRobbery.addActionListener(this);
 		panel2.addButton(bankRobbery);
 		
-		MarketSimple = new JButton("Simple Market");
-		MarketSimple.addActionListener(this);
-		panel2.addButton(MarketSimple);
-		
 		pRain = new JButton("P. Vehicle Collision");
 		pRain.addActionListener(this);
 		panel2.addButton(pRain);
@@ -160,6 +164,16 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		qRain = new JButton("Q. Vehicle Hit Pedestrian");
 		qRain.addActionListener(this);
 		panel2.addButton(qRain);
+		
+		rWeekend = new JButton("R. Weekend Behavior");
+		rWeekend.addActionListener(this);
+		panel2.addButton(rWeekend);
+		
+		MarketSimple = new JButton("Simple Market");
+		MarketSimple.addActionListener(this);
+		panel2.addButton(MarketSimple);
+		
+
 
 
 
@@ -276,11 +290,17 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		else if(e.getSource().equals(bScenario)){
 			city.bScenario();
 		}
+		else if(e.getSource().equals(fCloseScenario)){
+			city.aScenario();
+		}
 		else if(e.getSource().equals(simpleBusRide)){
 			city.busRideScenario();
 		}
 		else if(e.getSource().equals(bankRobbery)){
 			city.bankRobbery();
+		}
+		else if(e.getSource().equals(rWeekend)){
+			city.rWeekendScenario();
 		}
 
 

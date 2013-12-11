@@ -29,6 +29,8 @@ public abstract class Restaurant implements PlaceOfWork{
 	public List<Market> markets;
 	public int cash;
 	
+	public boolean isOpen = true;
+	
 	public abstract void customerEntering(BaseRestaurantCustomer c);
 	
 	public boolean unStaffed(){

@@ -58,7 +58,14 @@ public class RestaurantGabeControlPanel  extends BuildingControlPanel  implement
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() ==close){
 				//TODO function call to close restaurant
-				this.restaurant.isOpen = false;
+				if(close.getText().equals("Close")){
+					close.setText("Open");
+					this.restaurant.isOpen = false;
+				}
+				else if(close.getText().equals("Open")){
+					close.setText("Close");
+					this.restaurant.isOpen = true;
+				}
 			 
 			}
 //			for (InventoryItem item : inventoryList){

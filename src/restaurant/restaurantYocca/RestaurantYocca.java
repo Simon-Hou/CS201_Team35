@@ -53,7 +53,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 	public List<BaseRestaurantWaiter> waiters;
 	public List<BaseRestaurantCustomer> customers;
 	
-	public boolean isOpen = true;
+	//public boolean isOpen = true;
 	
 	public RestaurantYocca(CityRestaurantYocca cr){
 		this.cityRestaurant = cr;

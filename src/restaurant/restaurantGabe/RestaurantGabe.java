@@ -55,7 +55,7 @@ public class RestaurantGabe extends Restaurant{
 	    public HostRole host;
 	    public CashierRole cashier;
 	    
-	    public boolean isOpen = true;
+	    //public boolean isOpen = true;
 	    
 	    
 //	    public CookRole cook = new CookRole("Cook",0);
