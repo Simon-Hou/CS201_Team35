@@ -805,11 +805,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 				addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantYoccaWaiter1,0,15, 0,0);
 				addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantYoccaWaiter1,22,100, 0,0);
 			}
-			/*else if (type.contains("Parker")){
+			else if (type.contains("Parker")){
 				addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantParkerWaiter1,0,15, 0,0);
 				addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantParkerWaiter1,0,15, 0,0);
 				addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantParkerWaiter1,22,100, 0,0);
-			}*/
+			}
 		}
 	}
 
