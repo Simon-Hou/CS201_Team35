@@ -31,7 +31,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
 
-	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,fCloseScenario, bankRobbery, rWeekend, MarketSimple, cMarket, pRain, qRain, gMarket;
+	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,fCloseScenario, bankRobbery, rWeekend, MarketSimple, cMarket, pRain, qRain, gMarket, parkerRest;
 
 
 
@@ -177,6 +177,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		MarketSimple.addActionListener(this);
 		//panel2.addButton(MarketSimple);
 		
+		parkerRest = new JButton("Parker's Restaurant");
+		parkerRest.addActionListener(this);
+		panel2.addButton(parkerRest);
+		
 
 
 
@@ -281,6 +285,9 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		else if (e.getSource().equals(addYoccaRestaurant)){
 			 city.city.addObject(CityComponents.RESTAURANTYOCCA);
 		
+		}
+		else if (e.getSource().equals(addParkerRestaurant)){
+			 city.city.addObject(CityComponents.RESTAURANTPARKER);
 		}
 	
 	
@@ -479,6 +486,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	
 		else if (e.getSource().equals(gMarket)){
 			city.gMarketScenario();
+		}
+	
+		else if (e.getSource().equals(parkerRest)){
+			city.parkerScenario();
 		}
 	
 		else if(e.getSource().equals(GeneralCityTagButton)) {

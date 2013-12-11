@@ -178,7 +178,7 @@ public class RestaurantSimon extends Restaurant {
 			return cashier;
 		}
 
-		System.out.println("Unrecognized job type: " + type);
+		//System.out.println("Unrecognized job type: " + type);
 		return null;
 	}
 
