@@ -9,8 +9,8 @@ import junit.framework.TestCase;
 
 public class HouseInhabitantTest extends TestCase {
 	InhabitantRole i;
-	InhabitantGui g;
 	MockPerson p;
+	
 	
 	public void setUp() throws Exception{
 		i=new InhabitantRole();
@@ -42,11 +42,12 @@ public class HouseInhabitantTest extends TestCase {
 		//run the schduler
 
 		//assertTrue("scheduler should return true, it is not",i.pickAndExecuteAnAction()==true);
-//		
-//		assertEquals("scheduler should return true, it is not",i.pickAndExecuteAnAction(),true);
-//		assertEquals("scheduler should return true, it is not",i.pickAndExecuteAnAction(),true);
-//		assertEquals("scheduler should return true, it is not",i.pickAndExecuteAnAction(),true);
-//		assertEquals("scheduler should return false, it is not",i.pickAndExecuteAnAction(),false);
+		
+		assertEquals("scheduler should return true, it is not",i.pickAndExecuteAnAction(),true);
+		assertEquals("scheduler should return true, it is not",i.pickAndExecuteAnAction(),true);
+		assertEquals("scheduler should return true, it is not",i.pickAndExecuteAnAction(),true);
+		assertEquals("scheduler should return true, it is not",i.pickAndExecuteAnAction(),true);
+
 
 	}
 	

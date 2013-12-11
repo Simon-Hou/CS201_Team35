@@ -92,7 +92,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public void msgNoTellers() {
 		
 		if(state!=CustState.inLine && state!=CustState.inBank){
-			System.err.println("Cust has a teller when there are no tellers");
+			//System.err.println("Cust has a teller when there are no tellers");
 		}
 		
 		noTellers = true;
@@ -291,7 +291,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			((Bank)bank).exitBank(this);
 			event = CustEvent.left;
 			person.msgThisRoleDone(this);
-			System.err.println("I should be out of the bank");
+			//System.err.println("I should be out of the bank");
 			return;
 		}
 		
@@ -331,7 +331,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		((Bank)bank).exitBank(this);
 		event = CustEvent.left;
 		person.msgThisRoleDone(this);
-		System.err.println("I should be out of the bank");
+		//System.err.println("I should be out of the bank");
 		return;
 	}
 	

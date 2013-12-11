@@ -63,7 +63,7 @@ public class Market implements PlaceOfWork{
 			return true;
 		}
 		
-		System.err.println("For some reason the employee wasn't removed, or wasn't in the list");
+		//System.err.println("For some reason the employee wasn't removed, or wasn't in the list");
 		return false;
 		
 		
@@ -82,7 +82,7 @@ public class Market implements PlaceOfWork{
 			employees.add(m);
 			return true;
 		}
-		System.err.println("Market Employee wasn't allowed to work");
+		//System.err.println("Market Employee wasn't allowed to work");
 		return false;
 		
 	}
@@ -93,7 +93,7 @@ public class Market implements PlaceOfWork{
 			((MarketHostRole) host).p = person;
 			return host;
 		}
-		System.err.println("New host wasn't allowded to take over");
+		//System.err.println("New host wasn't allowded to take over");
 		return null;
 	}
 	
@@ -103,7 +103,7 @@ public class Market implements PlaceOfWork{
 			((MarketCashierRole) cashier).p = person;
 			return cashier;
 		}
-		System.err.println("New cashier wasn't allowed to take over");
+		//System.err.println("New cashier wasn't allowed to take over");
 		return null;
 	}
 
@@ -121,7 +121,7 @@ public class Market implements PlaceOfWork{
 				((MarketEmployeeRole)m).setMonitor(deliveryDockMonitor);
 				return m;
 			}
-			System.err.println("Market Employee wasn't allowed to work");
+			//System.err.println("Market Employee wasn't allowed to work");
 		}
 		
 		else if(jobType == JobType.MarketHost){

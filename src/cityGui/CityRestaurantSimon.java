@@ -59,4 +59,10 @@ public void updatePosition() {
 		
 	}
 
+@Override
+public void createControlPanel() {
+	// TODO Auto-generated method stub
+	
+}
+
 }

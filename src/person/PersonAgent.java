@@ -1088,7 +1088,7 @@ public class PersonAgent extends Agent implements Person {
 	public Loc findPlaceOfWork(PlaceOfWork workPlace){
 
 		if(workPlace == null){
-			System.err.println("Someone's trying to go to a null work location");
+			//System.err.println("Someone's trying to go to a null work location");
 			return null;
 		}
 

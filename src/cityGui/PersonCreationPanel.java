@@ -327,8 +327,8 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			}
 			else{
 				placeOfWork = null;
-				System.err.println("Something weird is going on in the placeOfWork section of "
-						+ "person creation.");
+//				System.err.println("Something weird is going on in the placeOfWork section of "
+//						+ "person creation.");
 
 			}
 		}

@@ -49,7 +49,7 @@ public class MarketHostRole extends Role implements MarketHost {
 
 	public boolean YouAreDoneWithShift(){
 		//TODO make sure people don't leave their shifts early
-		System.err.println("You are done with your shift!");
+		//System.err.println("You are done with your shift!");
 		if(true){
 			Do("Being kicked off the job now");
 			p.msgThisRoleDone(this);
@@ -216,8 +216,8 @@ public class MarketHostRole extends Role implements MarketHost {
 			}
 		}
 		else if(employees.size()==0 || ((MarketCashierRole)market.cashier).p == null){
-			System.out.println(employees.size());
-			System.err.println("No Market employees");
+			//System.out.println(employees.size());
+			//System.err.println("No Market employees");
 			log.add(new LoggedEvent("no employees"));
 			//mc.customer.msgWeHaveNothing();
 			mc.customer.msgNoEmployees();

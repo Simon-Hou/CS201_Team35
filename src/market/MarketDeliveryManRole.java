@@ -29,7 +29,9 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	private Person p;
 	ProducerConsumerMonitor<MarketInvoice> monitor;
 	public boolean checkDock = true;
+	public boolean checkPending = true;
 	private Timer timer = new Timer();
+	public List<MarketInvoice> pendingOrders = new ArrayList<MarketInvoice>();
 	
 	//DeliveryMan is just going to wait for the restaurant cashier
 	private Semaphore receivedPayment = new Semaphore(0,true);
@@ -65,8 +67,10 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	
 	public void msgDockTimerDone(){
 		checkDock=true;
+		checkPending = true;
 		p.msgStateChanged();
 	}
+	
 	
 	public void msgHereIsPayment(int payment, MarketInvoice invoice){
 		log.add(new LoggedEvent("got msgHereIsPayment"));
@@ -82,6 +86,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	//-----------------------------SCHEDULER--------------------------------
 	public boolean pickAndExecuteAnAction() {
 		
+		
 		if (!orders.isEmpty()){
 			DeliverOrder(orders.get(0));
 			return true;
@@ -91,11 +96,16 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 			DeliverPayment(payments.get(0));
 			return true;
 		}
+		
 		if (checkDock){
 			CheckDockStand();
 			return true;
 		}
 		
+		if (checkPending){
+			CheckPendingOrders();
+			return true;
+		}
 		
 		return false;
 	}
@@ -105,9 +115,15 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	private void DeliverOrder(MarketInvoice order){
 		DoMessage("Delivering an order to a restaurant");
 		log.add(new LoggedEvent("action DeliverOrder"));
-		//DoGoToRestaurant(order.restaurant);
-
+		
 		orders.remove(order);
+		
+		if (!order.restaurant.isOpen()){
+			DoMessage("The restaurant is closed. I'll have to check back later.");
+			pendingOrders.add(order);
+			return;
+		}
+		
 		if (order.restaurant != null) {
 			order.restaurant.cook.msgHereIsDelivery(order);
 			order.restaurant.cashier.msgHereIsInvoice(this, order);
@@ -149,6 +165,16 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 					msgDockTimerDone();
 				}
 			}, 5000);
+		}
+	}
+	
+	private void CheckPendingOrders(){
+		for(MarketInvoice order : pendingOrders){
+			if (order.restaurant.isOpen()){
+				DoMessage("It looks like a restaurant has opened, I need to deliver their order.");
+				DeliverOrder(order);
+				pendingOrders.remove(order);
+			}
 		}
 	}
 	
