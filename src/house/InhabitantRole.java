@@ -3,6 +3,7 @@ package house;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import UnitTests.mock.MockPerson;
 import public_Object.Food;
 import house.gui.InhabitantGui;
 import interfaces.Inhabitant;
@@ -89,7 +90,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 			return true;
 		}
 		ExitHouse();//hack!!! should receive message from person to exit
-		//gui.DoIdle();		
+		//gui.DoIdle();	
 		return false;
 	}
 	
@@ -98,6 +99,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 	private void Sleep(){
 		Do("Going to sleep");
 		wantSleep=false;
+		if(gui!=null)
 		gui.DoSleep();
 		try {
 		    Thread.sleep(sleepTime);
@@ -110,10 +112,13 @@ public class InhabitantRole extends Role implements Inhabitant {
 	
 	private void GetAndCook(){
 		wantEat=false;
+		if(gui!=null)
 		gui.DoGoToFridge();
 		//System.err.println("Picking");
 		PickFood();
+		if(gui!=null)
 		gui.DoGoToGrill();
+		if(gui!=null)
 		gui.DoIdle();
 		try {
 		   
@@ -129,10 +134,12 @@ public class InhabitantRole extends Role implements Inhabitant {
 	}
 	private void PlateAndEat(){
 		foodReady=false;
+		if(gui!=null)
 		gui.DoPlateAndEat();
 		self.msgDoneEating();
 	}
 	private void ExitHouse(){
+		wantLeave=false;
 		if(gui!=null)//hack!!! change later
 			gui.DoExit();
 		if(myRoom!=null && myRoom.inhabitant!=null){
@@ -146,6 +153,7 @@ public class InhabitantRole extends Role implements Inhabitant {
 		for(Food food : myRoom.inventory){
 			if(food.quantity>0){
 				food.quantity--;
+				if(!(self instanceof MockPerson))
 				 self.getHouse().controlPanel.foodEaten(food.type);
 				foodEating=food.type;
 				break;
