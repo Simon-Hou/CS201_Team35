@@ -14,7 +14,7 @@ public abstract class Role extends Agent{
 	public synchronized void startThread() {
         
 		//Don't do anything! This is a role.
-		System.err.println("Warning: Role thread is being started.");
+		System.out.println("Warning: Role thread is being started.");
 		super.startThread();
 		
     }
