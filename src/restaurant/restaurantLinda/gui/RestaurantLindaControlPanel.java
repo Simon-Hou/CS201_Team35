@@ -74,6 +74,11 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 		validate();
 		
 	}
+	
+	public void closeRestaurant(){
+		close_open.setText("Open");
+		this.restaurant.isOpen = false;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

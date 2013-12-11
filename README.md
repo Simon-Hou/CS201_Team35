@@ -78,11 +78,7 @@ Displays the simple market behavior - customers come, order items, and leave.
 
 #### Bobby Groom
 
-+ Worked on bank animation.
-+ Helped design bank.
-+ The GUIs.(bank, btr, bcr).
-+ Integrating the building GUIs with the SimCity zoom panel.
-+ Connecting the bank animations to the personAgent.
++ Worked on bank animation.+ Helped design bank.+ The GUIs.(bank, btr, bcr).+ Integrating the building GUIs with the SimCity zoom panel.+ Connecting the bank animations to the personAgent.+ Designed and coded the control panel for the bank+ Updated the unit tests in bank as the project developed+ Worked on a design to display the animation of different buildings on the main screen	- Ended up using Simon's design
 
 #### Gabriel Mel de Fontenay
 
