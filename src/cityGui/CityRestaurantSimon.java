@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import restaurant.restaurantSimon.RestaurantSimon;
+import restaurant.restaurantSimon.gui.RestaurantSimonControlPanel;
 import util.Loc;
 import util.RestaurantMapLoc;
 
@@ -61,7 +62,7 @@ public void updatePosition() {
 
 @Override
 public void createControlPanel() {
-	// TODO Auto-generated method stub
+	animationPanel.controlPanel = new RestaurantSimonControlPanel((CityRestaurantSimonCard)animationPanel, (RestaurantSimon)restaurant);
 	
 }
 

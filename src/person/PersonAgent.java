@@ -83,7 +83,10 @@ public class PersonAgent extends Agent implements Person {
 		restaurantYoccaRole = new restaurant.restaurantYocca.CustomerRole(name +"Restaurant", this);
 		restaurantLindaRole = new restaurant.restaurantLinda.CustomerRole(name+"Restaurant", this);
 		restaurantGabeRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
+
 		restaurantParkerRole = new restaurant.restaurantParker.CustomerRole(name+"Restaurant", this);
+
+		restaurantSimonRole=new restaurant.restaurantSimon.CustomerRole(name+"Restaurant", this);
 
 
 		Random random = new Random();
@@ -163,7 +166,12 @@ public class PersonAgent extends Agent implements Person {
 	public restaurant.restaurantYocca.CustomerRole restaurantYoccaRole;
 	public restaurant.restaurantLinda.CustomerRole restaurantLindaRole;
 	public restaurant.restaurantGabe.CustomerRole restaurantGabeRole;
+
 	public restaurant.restaurantParker.CustomerRole restaurantParkerRole;
+
+
+	public restaurant.restaurantSimon.CustomerRole restaurantSimonRole;
+	
 
 	public AStarTraversalPerson aStar;
 	Position currentPosition = new Position(2,2);
@@ -213,11 +221,11 @@ public class PersonAgent extends Agent implements Person {
 		Random random = new Random();
 
 		if (random.nextInt(3) == 0) {
-			System.out.println("CONDITION 1 IS BEING CALLED");
+			
 			this.belongings.myHouse.room.inventory.get(0).quantity = 1;
 		}
 		else {
-			System.out.println("CONDITION 2 IS BEING CALLED");
+		
 			this.belongings.myHouse.room.inventory.get(0).quantity = 0;
 		}
 		//Do("Having address set to "+this.belongings.myHouse.address.x+", "+this.belongings.myHouse.address.y);
@@ -810,7 +818,6 @@ public class PersonAgent extends Agent implements Person {
 
 
 	private void getFood() {
-
 		if (belongings.myHouse!=null && belongings.myHouse.room.inventory.get(0).quantity>0) {
 			Do("I am going to eat at home");
 			doGoHome();
@@ -866,7 +873,7 @@ public class PersonAgent extends Agent implements Person {
 		Loc loc = city.map.get("Restaurant").get(rand).loc;
 
 		tempDoGoToCityLoc(loc);
-
+		hungerLevel =0;
 
 		if (b instanceof restaurant.restaurantGabe.RestaurantGabe){
 			b.customerEntering(restaurantGabeRole);
@@ -886,11 +893,20 @@ public class PersonAgent extends Agent implements Person {
 			activeRole = restaurantYoccaRole;
 			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant", name);
 		}
+
 		else if (b instanceof restaurant.restaurantParker.RestaurantParker){
 			b.customerEntering(restaurantParkerRole);
 			//restaurantParkerRole.msgAtRestaurant(b);
 			activeRole = restaurantParkerRole;
 			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Parker Restaurant", name);
+		}
+
+		else if (b instanceof restaurant.restaurantSimon.RestaurantSimon){
+			b.customerEntering(restaurantSimonRole);
+			restaurantSimonRole.msgAtRestaurant(b);
+			activeRole = restaurantSimonRole;
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Simon Restaurant", name);
+
 		}
 		else{
 			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role", name);

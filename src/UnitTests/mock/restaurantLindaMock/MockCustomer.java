@@ -22,31 +22,31 @@ public class MockCustomer extends Mock implements Customer {
 	
 	@Override
 	public void msgAtRestaurant(Restaurant r) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Reached restaurant"));
 		
 	}
 
 	@Override
 	public void msgRestaurantFull() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Restaurant is full"));
 		
 	}
 
 	@Override
 	public void msgFollowMe(Waiter w, Menu m) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received followMe from waiter " + w.getName() + ", and received a menu"));
 		
 	}
 
 	@Override
 	public void msgWhatDoYouWant() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Was asked what I wanted"));
 		
 	}
 
 	@Override
 	public void msgRedoOrder(Menu menu, String food) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Was asked to reorder, since " + food + " was out"));
 		
 	}
 

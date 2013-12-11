@@ -27,7 +27,11 @@ import javax.swing.event.ListSelectionListener;
 import person.PersonAgent;
 import restaurant.restaurantGabe.RestaurantGabe;
 import restaurant.restaurantLinda.RestaurantLinda;
+
 import restaurant.restaurantParker.RestaurantParker;
+
+import restaurant.restaurantSimon.RestaurantSimon;
+
 import restaurant.restaurantYocca.RestaurantYocca;
 import util.BankMapLoc;
 import util.HouseMapLoc;
@@ -410,7 +414,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 			int l = name.length();
 			int n = Integer.parseInt(name.substring(l-1,l)) - 1;
 			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantGabe){
-			
+
 				listModel2.clear();
 				listModel2.add(listModel2.size(),"Restaurant Host");
 				listModel2.add(listModel2.size(),"Restaurant Cashier");
@@ -420,7 +424,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 				return;
 			}
 			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantLinda){
-				
+
 				listModel2.clear();
 				listModel2.add(listModel2.size(),"Restaurant Host");
 				listModel2.add(listModel2.size(),"Restaurant Cashier");
@@ -430,7 +434,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 				return;
 			}
 			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantYocca){
-				
+
 				listModel2.clear();
 				listModel2.add(listModel2.size(),"Restaurant Host");
 				listModel2.add(listModel2.size(),"Restaurant Cashier");
@@ -439,6 +443,7 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 				listModel2.add(listModel2.size(),"Restaurant Cook");
 				return;
 			}
+
 			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantParker){
 				
 				listModel2.clear();
@@ -450,6 +455,20 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 				return;
 			}
 			
+
+			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantSimon){
+
+				listModel2.clear();
+				listModel2.add(listModel2.size(),"Restaurant Host");
+				listModel2.add(listModel2.size(),"Restaurant Cashier");
+				listModel2.add(listModel2.size(),"Restaurant Simon Waiter1");
+				listModel2.add(listModel2.size(),"Restaurant Simon Waiter2");
+				listModel2.add(listModel2.size(),"Restaurant Cook");
+				return;
+			}
+
+
+
 		}
 
 	}
