@@ -10,6 +10,8 @@ import restaurant.restaurantParker.gui.CookGui;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import interfaces.restaurantParker.*;
 
 /**
@@ -515,6 +517,10 @@ public abstract class WaiterRole extends Role implements Waiter{
 	
 	public void setRestaurant(RestaurantParker r){
 		this.restaurant = r;
+	}
+	
+	protected void print(String message){
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_PARKER, name, message, restaurant.cityRestaurant.ID);
 	}
 	
 }

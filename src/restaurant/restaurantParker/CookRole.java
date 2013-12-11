@@ -14,6 +14,8 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import market.Market;
 import market.MarketInvoice;
 import restaurant.restaurantParker.CustomerRole.AgentEvent;
@@ -47,7 +49,7 @@ public class CookRole extends Role implements Cook{
 	private String name;
 	
 	private CookGui cookGui = null;
-	
+	RestaurantParker restaurant;
 	private final int numTables = 3;
 	
 	//cook timing map
@@ -60,10 +62,11 @@ public class CookRole extends Role implements Cook{
 	
 
 
-	public CookRole(String name, RevolvingStand<RevolvingStandOrder> stand) {
+	public CookRole(String name, RevolvingStand<RevolvingStandOrder> stand, RestaurantParker rest) {
 		super();
 		this.name = name;
 		this.revolvingStand = stand;
+		this.restaurant = rest;
 		
 		for (int i=0; i<numTables; i++){
 			grills.add(false);
@@ -424,6 +427,10 @@ public class CookRole extends Role implements Cook{
 		
 		if (p!=null)
 			p.msgStateChanged();
+	}
+	
+	protected void print(String message){
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_PARKER, name, message, restaurant.cityRestaurant.ID);
 	}
 
 }
