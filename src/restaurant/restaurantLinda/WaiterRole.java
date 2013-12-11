@@ -478,6 +478,7 @@ public abstract class WaiterRole extends Role implements Waiter{
 		
 		this.p.msgThisRoleDone(this);
 		DoMessage("Leaving work");
+		restaurant.leaveRestaurant(waiterGui);
 	}
 	
 	public void DoInfo(String message){

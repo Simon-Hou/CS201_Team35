@@ -144,7 +144,7 @@ public class WaiterGui extends GuiPerson {
     }
     
     public void DoGoOnBreak(){
-    	bufferText="Break";
+    	//bufferText="Break";
     	xfinal = homePosition.getX()*cellSize;
     	yfinal = homePosition.getY()*cellSize;
     	CalculatePath(homePosition);
