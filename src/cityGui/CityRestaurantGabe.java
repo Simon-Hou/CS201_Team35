@@ -29,6 +29,7 @@ import restaurant.restaurantGabe.HostRole;
 import restaurant.restaurantGabe.RestaurantGabe;
 import restaurant.restaurantGabe.gui.CookGui;
 import restaurant.restaurantGabe.gui.CustomerGui;
+import restaurant.restaurantGabe.gui.RestaurantGabeControlPanel;
 //import restaurant.restaurantGabe.gui.ListPanel;
 //import restaurant.restaurantGabe.gui.MarketRole;
 //import restaurant.restaurantGabe.gui.RestaurantGui;
@@ -148,7 +149,7 @@ public class CityRestaurantGabe extends CityRestaurant{
     }
     
     public void createControlPanel(){
-    	//TODO
+    	animationPanel.controlPanel = new RestaurantGabeControlPanel((CityRestaurantCardGabe)animationPanel, (RestaurantGabe) restaurant);
     }
 	
 	

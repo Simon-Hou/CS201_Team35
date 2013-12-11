@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.Restaurant;
 import restaurant.restaurantYocca.RestaurantYocca;
+import restaurant.restaurantYocca.gui.RestaurantYoccaControlPanel;
 import restaurant.restaurantLinda.CashierRole;
 import restaurant.restaurantLinda.CookRole;
 import restaurant.restaurantLinda.CustomerRole;
@@ -177,7 +178,7 @@ public class CityRestaurantYocca extends CityRestaurant implements ImageObserver
 	}
 	
 	public void createControlPanel(){
-    	//TODO
+    	animationPanel.controlPanel = new RestaurantYoccaControlPanel((CityRestaurantYoccaCard)animationPanel, (RestaurantYocca) restaurant);
     }
 
 }

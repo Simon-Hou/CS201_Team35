@@ -204,7 +204,7 @@ public class CityRestaurantLinda extends CityRestaurant {
 	}
 	
     public void createControlPanel(){
-    	restaurant.controlPanel = new RestaurantLindaControlPanel(animationPanel, (RestaurantLinda) restaurant);
+    	animationPanel.controlPanel = new RestaurantLindaControlPanel(animationPanel, (RestaurantLinda) restaurant);
     }
     
 	public Map<Integer, Point> getTables(){
