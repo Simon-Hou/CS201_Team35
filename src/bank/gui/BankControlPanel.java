@@ -44,6 +44,7 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 		private JPanel view = new JPanel();
 		public Dimension buttonSize;
 		private List<JButton> list = new ArrayList<JButton>();
+		private JButton close;
 
 		public BankControlPanel (CityBankCard anim, Bank b){
 			bank=b;
@@ -61,9 +62,16 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 			accountPanel.setMinimumSize(paneSize);
 			accountPanel.setMaximumSize(paneSize);
 			buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
-
+			close = new JButton("Close");
+			close.addActionListener(this);
+			add(close);
 			addAccountButton(0);
 			validate();
+		}
+		
+		public void closeBank(){
+			close.setText("Open");
+			this.bank.isOpen = false;
 		}
 
 		@Override
@@ -78,6 +86,20 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 						bank.bankGui.controlPanel.setVisible(false);
 						System.err.println("SETTING TO NOT VISIBLE");
 					}
+				}
+
+			}
+			
+			if(e.getSource() ==close){
+				//TODO function call to close restaurant
+			
+				if(close.getText().equals("Close")){
+					close.setText("Open");
+					this.bank.isOpen = false;
+				}
+				else if(close.getText().equals("Open")){
+					close.setText("Close");
+					this.bank.isOpen = true;
 				}
 			}
 		}

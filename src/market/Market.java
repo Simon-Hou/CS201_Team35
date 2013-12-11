@@ -188,4 +188,6 @@ public class Market implements PlaceOfWork{
 		return isOpen;
 	}
 	
+
+	
 }

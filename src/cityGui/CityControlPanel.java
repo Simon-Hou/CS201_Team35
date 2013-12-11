@@ -30,7 +30,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	public static final int CP_WIDTH = 600, CP_HEIGHT = 100;
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
-	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,bankRobbery, MarketSimple, cMarket;
+	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,fCloseScenario,bankRobbery,rWeekend, MarketSimple, cMarket;
 
 	
 	//For managing traces
@@ -141,6 +141,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		simpleBusRide.addActionListener(this);
 		panel2.addButton(simpleBusRide);
 		
+		fCloseScenario = new JButton("F. Close Buildings");
+		fCloseScenario.addActionListener(this);
+		panel2.addButton(fCloseScenario);
+		
 		jScenario = new JButton("J. Big City");
 		jScenario.addActionListener(this);
 		panel2.addButton(jScenario);
@@ -148,6 +152,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		bankRobbery = new JButton("O. Bank Robbery");
 		bankRobbery.addActionListener(this);
 		panel2.addButton(bankRobbery);
+		
+		rWeekend = new JButton("R. Weekend Behavior");
+		rWeekend.addActionListener(this);
+		panel2.addButton(rWeekend);
 		
 		MarketSimple = new JButton("Simple Market");
 		MarketSimple.addActionListener(this);
@@ -270,11 +278,17 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		else if(e.getSource().equals(bScenario)){
 			city.bScenario();
 		}
+		else if(e.getSource().equals(fCloseScenario)){
+			city.aScenario();
+		}
 		else if(e.getSource().equals(simpleBusRide)){
 			city.busRideScenario();
 		}
 		else if(e.getSource().equals(bankRobbery)){
 			city.bankRobbery();
+		}
+		else if(e.getSource().equals(rWeekend)){
+			city.rWeekendScenario();
 		}
 
 
