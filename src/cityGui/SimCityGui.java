@@ -1023,7 +1023,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 	}
 
-
+	public void parkerScenario(){
+		System.err.println("Parker's scenario beginning");
+		
+	}
 
 	public void busRideScenario(){
 
