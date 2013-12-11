@@ -560,8 +560,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 			temp.createControlPanel();
 			temp.restaurant.markets = city.markets;
 			city.restaurants.add(temp.restaurant);
-			if (temp.restaurant.controlPanel!=null)
-				buildingCP.addPanelCard(temp.restaurant.controlPanel, temp.ID);
+			if (temp.animationPanel.controlPanel!=null)
+				buildingCP.addPanelCard(temp.animationPanel.controlPanel, temp.ID);
 			this.view.addView(temp.animationPanel, temp.ID);
 
 			//HACK FOR CLOSING RESTAURANTS

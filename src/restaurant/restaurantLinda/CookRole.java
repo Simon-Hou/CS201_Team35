@@ -353,21 +353,6 @@ public class CookRole extends Role implements Cook{
 		log.add(new LoggedEvent(message));
 	}
 	
-	public void DoMessage(String message){
-		//super.Do(message);
-		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
-		log.add(new LoggedEvent(message));		
-	}
-	
-	public void DoDebug(String message){
-		//super.Do(message);
-		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
-	}
-	
-	public void DoError(String message){
-		//super.Do(message);
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
-	}
 
 	@Override
 	public void depleteInventory() {
@@ -394,6 +379,22 @@ public class CookRole extends Role implements Cook{
 		
 		if (p!=null)
 			p.msgStateChanged();
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));		
+	}
+	
+	public void DoDebug(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
+	}
+	
+	public void DoError(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_LINDA, name, message, restaurant.cityRestaurant.ID);	
 	}
 
 }

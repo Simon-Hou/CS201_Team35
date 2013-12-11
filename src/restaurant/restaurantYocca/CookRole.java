@@ -1,5 +1,6 @@
 package restaurant.restaurantYocca;
 
+import UnitTests.mock.LoggedEvent;
 import agent.Agent;
 import restaurant.restaurantYocca.Order.OrderState;
 import restaurant.restaurantYocca.gui.CookGui;
@@ -31,7 +32,7 @@ public class CookRole extends Role implements Cook {
 	= new ArrayList<Order>();
 	Inventory inv = new Inventory();
 	public List<Market> markets = Collections.synchronizedList(new ArrayList<Market>());
-	Map<String,Food> foodMap = new HashMap<String,Food>();
+	public Map<String,Food> foodMap = new HashMap<String,Food>();
 	private Market currentMarket = null;
 	public CookGui cookGui = null;
 	public Restaurant restaurant;
@@ -57,7 +58,7 @@ public class CookRole extends Role implements Cook {
 	public class Food{
 		String type;
 		int cookingTime;
-		int quantity;
+		public int quantity;
 		int capacity;
 		int low;
 		int onOrder=0;
@@ -382,24 +383,51 @@ public class CookRole extends Role implements Cook {
 		return false;
 	}
 
-	public boolean YouAreDoneWithShift() {
+	public void depleteInventory() {
+		foodMap.get("Steak").quantity=0;
+		foodMap.get("Chicken").quantity=0;
+		foodMap.get("Salad").quantity=0;
+		foodMap.get("Pizza").quantity=0;
 
-		if(true){
-			Do("Being kicked off the job now");
-			p.msgThisRoleDone(this);
-			this.p = null;
-			//market.DefaultName(this);
-		}
-		return true;
 	}
 	
-	public void msgStateChanged() {
-		p.msgStateChanged();
+	public void decreaseInventory(String choice){
+		foodMap.get(choice).quantity--;
+		
+		DoMessage(choice + " is now at " + foodMap.get(choice).quantity);
+		
+		if (p!=null)
+			p.msgStateChanged();
+	}
+	
+	public void increaseInventory(String choice){
+		foodMap.get(choice).quantity++;
+		
+		DoMessage(choice + " is now at " + foodMap.get(choice).quantity);
+		
+		if (p!=null)
+			p.msgStateChanged();
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_YOCCA, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));		
+	}
+	
+	public void DoDebug(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_YOCCA, name, message, restaurant.cityRestaurant.ID);	
+	}
+	
+	public void DoError(String message){
+		//super.Do(message);
+		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, name, message, restaurant.cityRestaurant.ID);	
 	}
 
 	@Override
-	public void depleteInventory() {
-		// TODO Auto-generated method stub
+	public void msgStateChanged() {
+		p.msgStateChanged();
 		
 	}
 }

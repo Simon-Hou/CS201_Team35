@@ -14,6 +14,7 @@ import public_Gui.Gui;
 public class CityRestaurantCard extends CityCard{
 
 	public List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+	BuildingControlPanel controlPanel;
 	
 	//For Linda
 	public List<MyImage> platedFoods = Collections.synchronizedList(new ArrayList<MyImage>());
