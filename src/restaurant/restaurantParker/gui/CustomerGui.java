@@ -8,7 +8,7 @@ import java.awt.*;
 public class CustomerGui implements Gui{
 
 	private CustomerRole agent = null;
-	private boolean isPresent = false;
+	private boolean isPresent = true;
 	private boolean isHungry = false;
 	
 	private String choice;
@@ -79,6 +79,8 @@ public class CustomerGui implements Gui{
 				agent.msgAnimationFinishedGoToLobbySeat();
 				//System.err.println("Got To Lobby Seat");
 			 }
+			 
+
 			
 			command=Command.noCommand;
 		}

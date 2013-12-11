@@ -150,6 +150,7 @@ public class CityRestaurantParkerCard extends CityRestaurantCard {//implements A
         g2.setColor(Color.lightGray);
         g2.fillRect(xCustomerRoom, yCustomerRoom, CUSTOMERROOMX, CUSTOMERROOMY);
         
+       // System.err.println("paint it duhhh");
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -166,6 +167,7 @@ public class CityRestaurantParkerCard extends CityRestaurantCard {//implements A
 
     public void addGui(CustomerGui gui) {
         guis.add(gui);
+        //System.err.println("CityRestaurantParkerCard.GUIADDED!");
     }
 
     public void addGui(HostGui gui) {

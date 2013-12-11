@@ -15,7 +15,11 @@ public class RestaurantParkerControlPanel extends BuildingControlPanel{
 	
 	
 public RestaurantParkerControlPanel(CityRestaurantParkerCard anim, RestaurantParker r){
-		//restaurant=r;
+	Dimension dim = new Dimension(PANELX, PANELY); //x value can't be over 180
+	setMaximumSize(dim);
+	setMinimumSize(dim);
+	setPreferredSize(dim);
+	setBackground(Color.BLUE);
 }
 public RestaurantParkerControlPanel(){
 		

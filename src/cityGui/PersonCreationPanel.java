@@ -27,6 +27,7 @@ import javax.swing.event.ListSelectionListener;
 import person.PersonAgent;
 import restaurant.restaurantGabe.RestaurantGabe;
 import restaurant.restaurantLinda.RestaurantLinda;
+import restaurant.restaurantParker.RestaurantParker;
 import restaurant.restaurantYocca.RestaurantYocca;
 import util.BankMapLoc;
 import util.HouseMapLoc;
@@ -438,7 +439,16 @@ public class PersonCreationPanel extends JFrame implements ActionListener, ListS
 				listModel2.add(listModel2.size(),"Restaurant Cook");
 				return;
 			}
-			
+			if(((RestaurantMapLoc) c.cityObject.cityMap.map.get("Restaurant").get(n)).restaurant instanceof RestaurantParker){
+				
+				listModel2.clear();
+				listModel2.add(listModel2.size(),"Restaurant Host");
+				listModel2.add(listModel2.size(),"Restaurant Cashier");
+				listModel2.add(listModel2.size(),"Restaurant Parker Waiter1");
+				listModel2.add(listModel2.size(),"Restaurant Parker Waiter2");
+				listModel2.add(listModel2.size(),"Restaurant Cook");
+				return;
+			}
 			
 		}
 

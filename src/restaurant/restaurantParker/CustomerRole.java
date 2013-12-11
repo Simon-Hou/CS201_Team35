@@ -102,7 +102,7 @@ public class CustomerRole extends Role implements Customer{
 			scam = true;
 		}
 		
-		print("Created a new customer with $" + cash + ". " + doot);
+		//print("Created a new customer with $" + cash + ". " + doot);
 	
 	}
 
@@ -131,6 +131,7 @@ public class CustomerRole extends Role implements Customer{
 	// Messages
 
 	public void msgAtRestaurant(Restaurant r) {//from animation
+		//System.err.println("CustomerRole.msgAtRestaurant");
 		this.restaurant = (RestaurantParker)r;
 		event = AgentEvent.gotHungry;
 		p.msgStateChanged();
@@ -193,6 +194,8 @@ public class CustomerRole extends Role implements Customer{
 	}
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
+//		System.err.println("got msgAnimationFinsihedLeavingREstarunt");
+//		System.err.println(state);
 		event = AgentEvent.doneLeaving;
 		p.msgStateChanged();
 	}
@@ -219,7 +222,6 @@ public class CustomerRole extends Role implements Customer{
 		if (host.p == null){
 			return true;
 		}
-		
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
 			state = AgentState.GoingToLobby;
 			goToLobby();
@@ -310,10 +312,10 @@ public class CustomerRole extends Role implements Customer{
 			LeaveCashier();
 			return true;
 		}
-		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
+		if ((state == AgentState.Leaving || state == AgentState.DoingNothing)&& event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
 			
-			//no action
+			personLeave();
 			return true;
 		}
 		return false;
@@ -535,11 +537,13 @@ public class CustomerRole extends Role implements Customer{
 			print("I got $" + change + " in change. Now I can finally leave the restaurant!");
 			cash = cash + change;
 			customerGui.DoExitRestaurant();
+			//personLeave();
 		}
 		
 		else {
 			print("Phew! Got off easy this time!");
 			customerGui.DoExitRestaurant();
+			//personLeave();
 		}
 	}
 	
@@ -554,8 +558,15 @@ public class CustomerRole extends Role implements Customer{
 	private void DoLeaveTable(){
 		Do("Telling " + waiter.getName() + " that I am leaving.");
 		customerGui.DoExitRestaurant();
+		//personLeave();
 	}
 
+	
+	private void personLeave(){
+		System.err.println("CustomerROle.personLeave");
+		p.msgThisRoleDone(this);
+		p.msgDoneEating();
+	}
 	// Accessors, etc.
 
 	public String getName() {

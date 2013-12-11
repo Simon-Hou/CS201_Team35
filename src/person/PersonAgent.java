@@ -88,6 +88,9 @@ public class PersonAgent extends Agent implements Person {
 
 		Random random = new Random();
 		hungerLevel = random.nextInt(10);
+		
+		//Parker Restaurant Testing
+		hungerLevel = 100;
 
 
 		if (random.nextBoolean()){
@@ -885,7 +888,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else if (b instanceof restaurant.restaurantParker.RestaurantParker){
 			b.customerEntering(restaurantParkerRole);
-			restaurantParkerRole.msgAtRestaurant(b);
+			//restaurantParkerRole.msgAtRestaurant(b);
 			activeRole = restaurantParkerRole;
 			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Parker Restaurant", name);
 		}

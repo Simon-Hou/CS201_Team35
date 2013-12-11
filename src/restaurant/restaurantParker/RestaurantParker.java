@@ -10,6 +10,8 @@ import restaurant.restaurantParker.gui.WaiterGui;
 import astar.AStarTraversal;
 import cityGui.CityRestaurantParker;
 import cityGui.CityRestaurantParkerCard;
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import interfaces.BaseRestaurantCustomer;
 import interfaces.BaseRestaurantWaiter;
 import interfaces.Person;
@@ -58,21 +60,22 @@ public class RestaurantParker extends Restaurant{
 	@Override
 	public Role canIStartWorking(Person p, JobType type, Role r) {
 		if (type == JobType.RestaurantHost){
+			//AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_PARKER, p.getName(), "I'm taking over as host",this.cityRestaurant.animationPanel.getName());
 			host.changeShifts(p);
 			return (Role)host;
 		}
-		//CURRENTLY:  watier types
-//		else if (type == JobType.RestaurantWaiter1){
-//			((WaiterRole)r).setRestaurant(this);
-//			waiterComingToWork((Waiter) r);
-//			return r;
-//		}
-//		else if (type == JobType.RestaurantWaiter2){
-//			((WaiterRole)r).setRestaurant(this);
-//			((WaiterPCRole)r).setRevolvingStand(stand);
-//			waiterComingToWork((Waiter) r);
-//			return r;
-//	}
+	//	CURRENTLY:  watier types
+		else if (type == JobType.RestaurantParkerWaiter1){
+			((WaiterRole)r).setRestaurant(this);
+			((WaiterPCRole)r).setRevolvingStand(stand);
+			waiterComingToWork((Waiter) r);
+			return r;
+		}
+		else if (type == JobType.RestaurantParkerWaiter2){
+			((WaiterRole)r).setRestaurant(this);
+			waiterComingToWork((Waiter) r);
+			return r;
+	}
 		else if (type == JobType.RestaurantCook){
 			cook.changeShifts(p);
 			return (Role)cook;
@@ -103,6 +106,7 @@ public class RestaurantParker extends Restaurant{
 	
 	@Override
 	public void customerEntering(BaseRestaurantCustomer c) {
+		//System.err.println("RestaurantParker.customerEntering");
 		CustomerGui g = new CustomerGui((CustomerRole)c);
 		((CustomerRole)c).setGui(g);
 		
@@ -118,8 +122,7 @@ public class RestaurantParker extends Restaurant{
 
 	@Override
 	public boolean isOpen() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
