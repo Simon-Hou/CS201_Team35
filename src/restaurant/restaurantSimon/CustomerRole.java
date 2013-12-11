@@ -19,6 +19,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import person.PersonAgent;
 
 /**
@@ -502,6 +504,11 @@ public class CustomerRole extends Role  implements Customer {
 		restaurant=res;
 	}
 	
-	
+public void Do(String message){
+		
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_SIMON, name, message, restaurant.cityRestaurant.ID);
+		
+	}
 }
 

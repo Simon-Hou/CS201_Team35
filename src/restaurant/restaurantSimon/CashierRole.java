@@ -26,6 +26,9 @@ import java.util.concurrent.Semaphore;
 
 
 
+
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import market.MarketInvoice;
 import restaurant.restaurantSimon.interfaces.Cashier;
 import restaurant.restaurantSimon.interfaces.Customer;
@@ -272,5 +275,11 @@ public class CashierRole extends Role implements Cashier{
 	public boolean canLeave() {
 		// TODO Auto-generated method stub
 		return restaurant.customers.size()==0;
+	}
+public void Do(String message){
+		
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_SIMON, name, message, restaurant.cityRestaurant.ID);
+		
 	}
 }

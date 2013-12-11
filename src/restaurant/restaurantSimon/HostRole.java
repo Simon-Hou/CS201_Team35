@@ -359,5 +359,6 @@ public class HostRole extends Role  implements Host{
 		// TODO Auto-generated method stub
 		return waitingCustomers.size()==0;
 	}
+	
 }
 

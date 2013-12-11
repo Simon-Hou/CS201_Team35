@@ -6,7 +6,6 @@ import java.util.concurrent.Semaphore;
 
 import cityGui.trace.AlertLog;
 import cityGui.trace.AlertTag;
-
 import market.Market;
 import market.MarketInvoice;
 import restaurant.Restaurant;
@@ -414,6 +413,11 @@ public class CookRole extends Role implements Cook{
 	}
 
 
-
+public void Do(String message){
+		
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_SIMON, name, message, restaurant.cityRestaurant.ID);
+		
+	}
 
 }

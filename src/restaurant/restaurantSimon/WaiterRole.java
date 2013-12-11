@@ -5,12 +5,15 @@ import interfaces.Person;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
 import restaurant.restaurantSimon.CookRole.OrderState;
 import restaurant.restaurantSimon.HostRole.Table;
 import restaurant.restaurantSimon.gui.WaiterGui;
 import restaurant.restaurantSimon.interfaces.Customer;
 import restaurant.restaurantSimon.interfaces.Waiter;
 import role.Role;
+import UnitTests.mock.LoggedEvent;
 import agent.Agent;
 import agent.StringUtil;
 
@@ -47,6 +50,7 @@ public class WaiterRole extends Role implements Waiter {
 		}
 	}
 	//data
+	RestaurantSimon restaurant;
 	Person self;
 	private String name;
 	private HostRole host;
@@ -65,14 +69,16 @@ public class WaiterRole extends Role implements Waiter {
 
 	private int waiterNum=0;
 
-	public WaiterRole(Person p,String n, HostRole h, CookRole co, CashierRole ca){
+	public WaiterRole(Person p,String n, HostRole h, CookRole co, CashierRole ca,RestaurantSimon r){
 
 		self=p;
 		this.name=n+" Waiter";
 		host=h;
 		cook=co;
 		cashier=ca;
+		restaurant=r;
 		Do(n);
+	
 
 
 		menu.add(new Dish("Salad",5.99));
@@ -442,5 +448,10 @@ public class WaiterRole extends Role implements Waiter {
 	public boolean canLeave() {
 		return onBreak;
 	}
-
+	public void Do(String message){
+		
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_SIMON, name, message, restaurant.cityRestaurant.ID);
+		
+	}
 }

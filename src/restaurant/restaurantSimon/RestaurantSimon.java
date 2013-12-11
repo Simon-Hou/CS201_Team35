@@ -156,7 +156,7 @@ public class RestaurantSimon extends Restaurant {
 					return w;
 				}
 			}
-			WaiterRole tw=new WaiterRole(p, p.getName(), host, cook, cashier);
+			WaiterRole tw=new WaiterRole(p, p.getName(), host, cook, cashier,this);
 			waiters.add(tw);
 			waiterComingtoWork(tw);
 			return tw;

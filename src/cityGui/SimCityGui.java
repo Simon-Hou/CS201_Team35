@@ -552,7 +552,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 			}
 			else if(type.contains("Simon")) {
-				temp = new CityRestaurantSimon(x, y, "RestaurantLinda " + (city.statics.size()-19));
+				temp = new CityRestaurantSimon(x, y, "RestaurantSimon " + (city.statics.size()-19));
 			}		
 
 			else if(type.contains("Yocca")) {
