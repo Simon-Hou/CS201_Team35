@@ -4,7 +4,7 @@ team35
 # SimCity201 Project Repository for CS 201 students
 
 ## How to Run our SimCity
-Run cityGui.SimCityGui. This is our main application. To run tests, run the tests in UnitTests.BankUnitTests, UnitTests.BusUnitTest, UnitTests.MarketUnitTests, and UnitTests.restaurantLindaUnitTests. There are also gui unit tests in UnitTests.GuiUnitTests.
+Run cityGui.SimCityGui. This is our main application. To run tests, run UnitTests.RunAllTests.Java. The tests can also be run individually. They can be found under UnitTests. 
 
 
 ##v2 - Grading Scenarios and How to Run Them
@@ -47,7 +47,7 @@ business at the market again.
 
 ###G. Market Delivery
 Sets up multiple restaurants and a market. In this scenario, the market delivery fails because 
-restaurant is closed, so the market redelivers when restaurant is open. The market then 
+restaurant is closed, so the market redelivers when restaurant is open. The user must manually click on each of the restaurants to "Open" them, after the cook has made the order. The market then 
 sends an invoice to cashier, who verifies and pays it.
 
 ###J. Big City
@@ -64,6 +64,9 @@ teller and the robber, luck, and their weapon enchants (no, just kidding - rando
 robber wins, the teller will hand over money and the robber will leave. If the teller wins,
 the robber will be deleted from existence, and the world will carry on as if the robber never
 existed. 
+
+###P/Q. Vehicle Collisions
+These scenarios were not fully completed. Currently, pressing one of these buttons begins a rainstorm, which increases the chances of a collision. However, the actual collisions have not been implemented. 
 
 ###R. Weekend Buildings Closed
 This will close all buildings, so that no customers will enter. Workers, however, will still
@@ -85,7 +88,7 @@ Displays the simple market behavior - customers come, order items, and leave.
 - Co-designed the bank (with rgroom)
 - Coded the Bank (non-animation)
 - Wrote the unit tests for the bank
-- Co-designed the bus system (with pseags)
+- Co-designed the bus system (with pqseags)
 - Coded the transportation system
 - Coded the bus system (non-animation)
 - Unit tested the bus system
@@ -134,10 +137,21 @@ Displays the simple market behavior - customers come, order items, and leave.
 + Fully designed and coded the market animation
 + Fully designed and coded the market panel
 + Updated all market roles to cohere with animation and city
-+ Fully unit tested all market roles, including those that I did not design/implement
++ Unit tested market roles (with help from rgroom)
 + Co-designed transportation (with Gabriel)
 + Integrated the market animation, panel, and guis into the main city gui
 + Helped the rest of the team to suppress bugs and compiler errors
++ designed the layout for the main frame. condensed all of the multiple windows into a single frame
++ set up city control panel with scroll panels for choosing buildings or scenarios
++ created market control panel
++ set up integration of building control panels, integrated market control panel
++ updated market to deal with delivering to restaurants (with Linda)
++ built market scenarios
++ updated individual restaurants to work with restaurant deliveries (with Linda)
++ helped with integration of building panels
++ began initial work on vehicle collision scenarios (rain)
++ built capability and scenario for market delivering to closed restaurants
+
 
 #### Andrew Yocca
 + Designed and coded the City Gui with the exception of the bus system and cars
@@ -170,7 +184,7 @@ Displays the simple market behavior - customers come, order items, and leave.
 
 
 ## Known Bugs/Missing Functionality
-+ Missing vehicles crashing scenarios of any sort 
++ Vehicle crashing scenarios are not completed. Currently they just start a rainstorm, but the collisions themselves have not been implemented.
 + Some restaurants are not fully integrated, mainly the market interaction
 
 
