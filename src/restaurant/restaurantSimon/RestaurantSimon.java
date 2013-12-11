@@ -40,7 +40,7 @@ import java.util.Vector;
 public class RestaurantSimon extends Restaurant {
 	//Host, cook, waiters and customers
 	private HostRole host = new HostRole("No Host");
-	private CookRole cook = new CookRole(this);
+	public CookRole cook = new CookRole(this);
 	private CashierRole cashier=new CashierRole("No Cashier",this);
 
 	public CityRestaurantSimon cityRestaurant;
@@ -208,6 +208,6 @@ public class RestaurantSimon extends Restaurant {
 	public boolean isOpen() {
 		return isOpen;
 	}
-	
+		
 	
 }

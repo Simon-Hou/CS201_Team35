@@ -4,12 +4,16 @@ import interfaces.Person;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import cityGui.trace.AlertLog;
+import cityGui.trace.AlertTag;
+
 import market.Market;
 import market.MarketInvoice;
 import restaurant.Restaurant;
 import restaurant.restaurantSimon.gui.CookGui;
 import restaurant.restaurantSimon.interfaces.Cook;
 import role.Role;
+import UnitTests.mock.LoggedEvent;
 import agent.Agent;
 public class CookRole extends Role implements Cook{
 
@@ -31,10 +35,10 @@ public class CookRole extends Role implements Cook{
 		}
 
 	}
-	private class FoodData{
+	public class FoodData{
 		String type;
 		double cookTime;
-		int amount=3;
+		public int amount=3;
 		int low=2;
 		int capacity=5;
 		boolean ordered=false;
@@ -83,7 +87,7 @@ public class CookRole extends Role implements Cook{
 
 	private List<Order> orders=Collections.synchronizedList(new ArrayList<Order>());
 	Timer timer=new Timer();
-	private Map <String , FoodData> inventory;
+	public Map <String , FoodData> inventory;
 
 	int marketCounter=0;
 
@@ -353,10 +357,58 @@ public class CookRole extends Role implements Cook{
 	}
 
 
+	public void decreaseInventory(String choice){
+		inventory.get(choice).amount--;
+		
+		DoInfo(choice + " is now at " + inventory.get(choice).amount);
+		
+		if (p!=null)
+			p.msgStateChanged();
+	}
+	
+	public void increaseInventory(String choice){
+		inventory.get(choice).amount++;
+		
+		DoInfo(choice + " is now at " + inventory.get(choice).amount);
+		
+		if (p!=null)
+			p.msgStateChanged();
+	}
+
+
 	@Override
 	public void depleteInventory() {
-		// TODO Auto-generated method stub
+		inventory.get("Steak").amount=0;
+		inventory.get("Salad").amount=0;
+		inventory.get("Chicken").amount=0;
+		inventory.get("Pizza").amount=0;
 		
+	}
+	
+	public void DoInfo(String message){
+		//super.Do(message);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_SIMON, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));
+	}
+	
+	public void DoMessage(String message){
+		//super.Do(message);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_SIMON, name, message, restaurant.cityRestaurant.ID);
+		log.add(new LoggedEvent(message));		
+	}
+	
+	public void DoDebug(String message){
+		//super.Do(message);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logDebug(AlertTag.RESTAURANT_SIMON, name, message, restaurant.cityRestaurant.ID);	
+	}
+	
+	public void DoError(String message){
+		//super.Do(message);
+		if (restaurant.cityRestaurant!=null)
+			AlertLog.getInstance().logError(AlertTag.RESTAURANT_SIMON, name, message, restaurant.cityRestaurant.ID);	
 	}
 
 
