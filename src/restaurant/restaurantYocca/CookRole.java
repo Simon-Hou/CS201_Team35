@@ -74,10 +74,10 @@ public class CookRole extends Role implements Cook {
 	}
 	public CookRole(String name, ProducerConsumerMonitor<RestaurantOrder> monitor, Restaurant restaurant) {
 		super();
-		foodMap.put("Steak", new Food("Steak",5000,5,5,1));
-		foodMap.put("Chicken", new Food("Chicken",4000,5,5,1));
-		foodMap.put("Salad", new Food("Salad",2000,5,5,1));
-		foodMap.put("Pizza", new Food("Pizza",3000,5,5,1));
+		foodMap.put("Steak", new Food("Steak",5000,500,5,1));
+		foodMap.put("Chicken", new Food("Chicken",4000,500,5,1));
+		foodMap.put("Salad", new Food("Salad",2000,500,5,1));
+		foodMap.put("Pizza", new Food("Pizza",3000,500,5,1));
 		this.name = name;
 		this.orderMonitor = monitor;
 		this.restaurant = restaurant;
