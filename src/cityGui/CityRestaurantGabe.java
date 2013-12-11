@@ -149,7 +149,7 @@ public class CityRestaurantGabe extends CityRestaurant{
     }
     
     public void createControlPanel(){
-    	restaurant.controlPanel = new RestaurantGabeControlPanel((CityRestaurantCardGabe)animationPanel, (RestaurantGabe) restaurant);
+    	animationPanel.controlPanel = new RestaurantGabeControlPanel((CityRestaurantCardGabe)animationPanel, (RestaurantGabe) restaurant);
     }
 	
 	
