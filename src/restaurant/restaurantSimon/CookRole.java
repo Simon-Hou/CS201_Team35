@@ -38,9 +38,9 @@ public class CookRole extends Role implements Cook{
 	public class FoodData{
 		String type;
 		double cookTime;
-		public int amount=3;
+		public int amount=500;
 		int low=2;
-		int capacity=5;
+		int capacity=500;
 		boolean ordered=false;
 		public FoodData(String t, int ct){
 			type=t;
