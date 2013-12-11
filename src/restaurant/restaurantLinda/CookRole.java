@@ -56,6 +56,7 @@ public class CookRole extends Role implements Cook{
 	public void msgHereIsOrder(Waiter w, String choice, int table){
 		DoInfo(w.getName() + " says table " + table + " wants " + choice);
 		orders.add(new Order(w,choice,table,OrderState.pending));
+		log.add(new LoggedEvent("Got a new order from waiter "+w.getName()+" for "+choice));
 		p.msgStateChanged();
 	}
 	
@@ -239,6 +240,7 @@ public class CookRole extends Role implements Cook{
 			DoInfo("Found a new order");
 			RestaurantOrder o = orderMonitor.remove();
 			orders.add(new Order(o.w,o.choice,o.table,OrderState.pending));
+			//log.add(new LoggedEvent(""));
 		}
 		else{
 			checkOrderStand = false;
