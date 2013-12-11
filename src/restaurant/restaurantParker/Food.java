@@ -5,7 +5,7 @@ public class Food {
 	
 	String choice;
 	int cookTime;
-	int amount;
+	public int amount;
 	
 	int amountOrdered;
 	int marketIndex;
