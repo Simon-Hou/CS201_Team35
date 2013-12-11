@@ -642,6 +642,9 @@ public class WaiterRole extends Role implements Waiter{
 	
 	public void DoMessage(String message){
 		//super.Do(message);
+		if(restaurant==null){
+			return;
+		}
 		AlertLog.getInstance().logMessage(AlertTag.RESTAURANT_GABE, name, message, restaurant.cityRestaurantGabe.ID);
 		//log.add(new LoggedEvent(message));		
 	}
