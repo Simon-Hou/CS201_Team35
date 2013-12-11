@@ -157,18 +157,21 @@ Displays the simple market behavior - customers come, order items, and leave.
 
 #### Linda Xu
 + Integrated own restaurant into the city, with updates
-+ Implemented some amount of AStar to the Waiters in the restaurant (only the waiters)
-+ Co-designed/implemented Market roles with Parker
-+ Integrated Restaurant 
-+ Helped team integrate stuff and revert back using Github
++ Implemented some amount of AStar to own restaurant (only applies to structures, people may still walk on top of each other)
++ Co-designed/implemented Market roles with Parker Seagren
++ Integrated Restaurant and generalized the integration method for other members' restaurants
+	- includes base classes, super classes, and interfaces
++ Helped integrate control panels for everyone's restaurants using Simon's Building Control Panel super class
++ Coded parts of the market unit tests, particularly MarketDeliveryMan
+	- Also cleaned up a lot of unit tests to get rid of compilation errors and packaged all the tests into a single test class
++ Implemented the trace panel into the project and added a method to filter according to the current building being shown.
++ Added methods to log to the trace panel in several role classes, particularly those belonging to market and restaurant.
++ Helped team integrate and debug stuff, mostly concentration on market and restaurant issues
 
 
 ## Known Bugs/Missing Functionality
-
-+ Market agent code does not fully allow shift changes, works fine with one shift of 
-employees
-+ Some bugs in the zoomed animation of the bank, agent code seems to be working fine
-+ 
++ Missing vehicles crashing scenarios of any sort 
++ Some restaurants are not fully integrated, mainly the market interaction
 
 
 ## v1 - Some Basic Scenarios to Demonstrate Functionality for Grading
