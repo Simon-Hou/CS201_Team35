@@ -124,5 +124,9 @@ public class RestaurantParker extends Restaurant{
 	public boolean isOpen() {
 		return true;
 	}
+	
+	public RestaurantParker(){
+		//for testing
+	}
 
 }
