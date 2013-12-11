@@ -22,12 +22,15 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import bank.gui.BankControlPanel;
-
 import market.Market;
 import market.gui.MarketMain;
 import market.gui.MarketPanel;
 import person.PersonAgent;
 import restaurant.restaurantGabe.RestaurantGabe;
+import restaurant.restaurantGabe.gui.RestaurantGabeControlPanel;
+import restaurant.restaurantLinda.gui.RestaurantLindaControlPanel;
+import restaurant.restaurantYocca.RestaurantYocca;
+import restaurant.restaurantYocca.gui.RestaurantYoccaControlPanel;
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;
@@ -1946,9 +1949,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		for(int i = 0;i<cityObject.cityMap.map.get("Bank").size();++i){
 			((BankMapLoc)cityObject.cityMap.map.get("Bank").get(i)).bank.animation.panel.closeBank();
 		}
-		for(int i = 0;i<cityObject.cityMap.map.get("Restaurant").size();++i){
-			((RestaurantMapLoc)cityObject.cityMap.map.get("Restaurant").get(i)).restaurant.isOpen = false;
-		}
+		
+		
+		((RestaurantGabeControlPanel)((RestaurantGabe) ((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(0)).restaurant).cityRestaurantGabe.animationPanel.controlPanel).closeRestaurant();
+		((RestaurantLindaControlPanel)(((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(1)).restaurant).cityRestaurant.animationPanel.controlPanel).closeRestaurant();
+		((RestaurantYoccaControlPanel)((RestaurantYocca) ((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(2)).restaurant).cityRestaurant.animationPanel.controlPanel).closeRestaurant();
 		
 
 		//People that use buses
