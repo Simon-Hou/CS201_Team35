@@ -189,14 +189,14 @@ public class RestaurantSimon extends Restaurant {
 	}
 	@Override
 	public void customerEntering(BaseRestaurantCustomer c) {
-		// TODO Auto-generated method stub
-		CustomerRole cus = new CustomerRole("Customer",host,cashier);	
-		CustomerGui cg = new CustomerGui(cus, animation);
-		cus.setGui(cg);
+		
+		((CustomerRole)c).setPeople(host, cashier);
+		CustomerGui cg = new CustomerGui(((CustomerRole)c), animation);
+		((CustomerRole)c).setGui(cg);
 		cg.setHungry();
 		animation.addGui(cg);
-		customers.add(cus);
-		//return cus;
+		customers.add(((CustomerRole)c));
+		
 	}
 	public void setAnimationPanel(CityRestaurantSimonCard crc){
 		animation=crc;
@@ -205,7 +205,8 @@ public class RestaurantSimon extends Restaurant {
 
 	@Override
 	public boolean isOpen() {
-		// TODO Auto-generated method stub
 		return isOpen;
 	}
+	
+	
 }

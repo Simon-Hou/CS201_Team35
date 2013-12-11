@@ -81,10 +81,10 @@ public class PersonAgent extends Agent implements Person {
 		restaurantYoccaRole = new restaurant.restaurantYocca.CustomerRole(name +"Restaurant", this);
 		restaurantLindaRole = new restaurant.restaurantLinda.CustomerRole(name+"Restaurant", this);
 		restaurantGabeRole = new restaurant.restaurantGabe.CustomerRole(name+"Restaurant", this);
-
+		restaurantSimonRole=new restaurant.restaurantSimon.CustomerRole(name+"Restaurant", this);
 
 		Random random = new Random();
-		hungerLevel = random.nextInt(10);
+		hungerLevel = 100;//random.nextInt(10);
 
 
 		if (random.nextBoolean()){
@@ -157,7 +157,8 @@ public class PersonAgent extends Agent implements Person {
 	public restaurant.restaurantYocca.CustomerRole restaurantYoccaRole;
 	public restaurant.restaurantLinda.CustomerRole restaurantLindaRole;
 	public restaurant.restaurantGabe.CustomerRole restaurantGabeRole;
-
+	public restaurant.restaurantSimon.CustomerRole restaurantSimonRole;
+	
 	public AStarTraversalPerson aStar;
 	Position currentPosition = new Position(2,2);
 	Position originalPosition = new Position(2,2);
@@ -803,7 +804,7 @@ public class PersonAgent extends Agent implements Person {
 
 
 	private void getFood() {
-
+System.err.println("I am getting food");
 		if (belongings.myHouse!=null && belongings.myHouse.room.inventory.get(0).quantity>0) {
 			Do("I am going to eat at home");
 			doGoHome();
@@ -832,6 +833,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void goToRestaurant() {
+		System.err.println("Im eating at a restaurant");
 		if(city.map.get("Restaurant").isEmpty()){
 			hungerLevel = 0;
 			return;
@@ -878,6 +880,12 @@ public class PersonAgent extends Agent implements Person {
 			restaurantYoccaRole.msgAtRestaurant(b);
 			activeRole = restaurantYoccaRole;
 			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Yocca Restaurant", name);
+		}
+		else if (b instanceof restaurant.restaurantSimon.RestaurantSimon){
+			b.customerEntering(restaurantSimonRole);
+			restaurantSimonRole.msgAtRestaurant(b);
+			activeRole = restaurantSimonRole;
+			AlertLog.getInstance().logInfo(AlertTag.PERSON, name, "Going to Simon Restaurant", name);
 		}
 		else{
 			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Could not find appropriate customer role", name);

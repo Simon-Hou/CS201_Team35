@@ -19,11 +19,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import person.PersonAgent;
+
 /**
  * Restaurant customer agent.
  */
 public class CustomerRole extends Role  implements Customer {
-	Person self;
+	PersonAgent self;
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	private int TableNum;
@@ -65,6 +67,13 @@ public class CustomerRole extends Role  implements Customer {
 		this.name = name;
 		host=h;
 		cashier=ca;
+	}
+	public CustomerRole(String name, PersonAgent p){
+		super();
+		this.name = name;
+		self=p;
+//		host=h;
+//		cashier=ca;
 	}
 
 	/**
@@ -481,7 +490,10 @@ public class CustomerRole extends Role  implements Customer {
 		self.msgStateChanged();
 	}
 
-	
+	public void setPeople(HostRole h, CashierRole ca){
+		host=h;
+		cashier=ca;
+	}
 	
 	
 }
