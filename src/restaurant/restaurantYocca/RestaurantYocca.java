@@ -261,7 +261,7 @@ public class RestaurantYocca extends Restaurant implements PlaceOfWork {
 //	
 	public void customerEntering(BaseRestaurantCustomer c){
 		//System.out.println("Customer is entering!");
-		AlertLog.getInstance().logError(AlertTag.RESTAURANT_YOCCA, this.host.getName(), "Customer is entering the restaurant",this.cityRestaurant.animationPanel.getName());
+		AlertLog.getInstance().logInfo(AlertTag.RESTAURANT_YOCCA, this.host.getName(), "Customer is entering the restaurant",this.cityRestaurant.animationPanel.getName());
 		CustomerGui cg = new CustomerGui((CustomerRole)c,this);
 		((CustomerRole)c).setGui(cg);
 		customers.add(c);

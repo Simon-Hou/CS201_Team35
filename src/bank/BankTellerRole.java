@@ -238,7 +238,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 		Do("Going to my position to work");
 		if(bankTellerGui!=null){
 			bankTellerGui.DoGoToPosition();
-			System.err.println();
+			//System.err.println();
 		}
 		else{
 			atDestination.release();
@@ -274,7 +274,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 			
 		}
 		else{
-			System.err.println("Deposit failed");
+			//System.err.println("Deposit failed");
 		}
 		currentTask = null;
 	}
@@ -286,7 +286,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 			
 		}
 		else{
-			System.err.println("Withdrawal failed");
+			//System.err.println("Withdrawal failed");
 		}
 		currentTask = null;
 	}
@@ -298,7 +298,7 @@ public class BankTellerRole extends Role implements BankTeller, Occupation{
 
 		}
 		else{
-			System.err.println("Loan failed");
+			//System.err.println("Loan failed");
 		}
 		currentTask = null;
 	}
