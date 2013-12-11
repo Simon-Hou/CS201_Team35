@@ -558,6 +558,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 			else if(type.contains("Yocca")) {
 				temp = new CityRestaurantYocca(x,y, "RestaurantYocca " + (city.statics.size()-19));
 			}
+			
+			else if (type.contains("Parker")){
+				temp = new CityRestaurantParker(x,y, "RestaurantParker " + (city.statics.size()-19));
+			}
 
 			temp.createAnimationPanel(this);
 			temp.createControlPanel();
@@ -745,6 +749,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 							JobType.RestaurantYoccaWaiter2,start,end,bankNum,houseNum);
 				}
+
+				else if (type.contains("Parker")){
+					addNewPersonHard("pboringwaiter"+j,
+							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+							JobType.RestaurantParkerWaiter1,start,end,bankNum,houseNum);
+					addNewPersonHard("pnewwaiter"+j,
+							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
+							JobType.RestaurantParkerWaiter2,start,end,bankNum,houseNum);
+				}
 				else if (type.contains("Simon")){
 					addNewPersonHard("pboringwaiter"+j,
 							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
@@ -752,6 +765,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 					addNewPersonHard("pnewwaiter"+j,
 							((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(num)).restaurant,
 							JobType.RestaurantSimonWaiter2,start,end,bankNum,houseNum);
+
 				}
 
 				addNewPersonHard("prcash"+j,
@@ -1031,7 +1045,18 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 	}
 
-
+	public void parkerScenario(){
+		System.err.println("Parker's scenario beginning");
+		
+		addNewBuilding("RestaurantParker",200,5);
+		
+		addNewPersonHard("p0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,100, 0,0);
+		addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantParkerWaiter1,0,100, 0,0);
+		addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantParkerWaiter2,0,100, 0,0);
+		addNewPersonHard("p3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,100, 0,0);
+		addNewPersonHard("p4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
+		
+	}
 
 	public void busRideScenario(){
 
