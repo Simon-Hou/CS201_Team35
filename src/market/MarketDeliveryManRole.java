@@ -120,6 +120,7 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 		
 		if (!order.restaurant.isOpen()){
 			DoMessage("The restaurant is closed. I'll have to check back later.");
+			log.add(new LoggedEvent("The restaurant is closed. I'll have to check back later."));
 			pendingOrders.add(order);
 			return;
 		}
@@ -169,13 +170,19 @@ public class MarketDeliveryManRole extends Role implements MarketDeliveryMan {
 	}
 	
 	private void CheckPendingOrders(){
+		checkPending = false;
+		log.add(new LoggedEvent("Checking pending orders"));
+		MarketInvoice temp = null;
 		for(MarketInvoice order : pendingOrders){
 			if (order.restaurant.isOpen()){
 				DoMessage("It looks like a restaurant has opened, I need to deliver their order.");
 				DeliverOrder(order);
-				pendingOrders.remove(order);
+				temp = order;
+				break;
 			}
 		}
+		if (temp!=null)
+			pendingOrders.remove(temp);
 	}
 	
 	private void DoGoToCashier(){
