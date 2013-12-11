@@ -326,7 +326,7 @@ public class CookRole extends Role implements Cook{
 
 	@Override
 	public void msgHereIsDelivery(MarketInvoice order) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -334,29 +334,28 @@ public class CookRole extends Role implements Cook{
 	@Override
 	public void msgCannotFulfillOrder(Market m,
 			Map<String, Integer> unfulfillable) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 
 	@Override
 	public boolean isPresent() {
-		// TODO Auto-generated method stub
+		
 		return self!=null;
 	}
 
 
 	@Override
 	public boolean canLeave() {
-		// TODO Auto-generated method stub
+	
 		return restaurant.customers.size()==0;
 	}
 
 
 	@Override
 	public void depleteInventory() {
-		// TODO Auto-generated method stub
-		
+				
 	}
 
 
