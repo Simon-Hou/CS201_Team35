@@ -31,7 +31,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 	JButton addParkerRestaurant, addLindaRestaurant, addGabeRestaurant, addYoccaRestaurant, addBobbyRestaurant, addSimonRestaurant, addBank, addHouse, addMarket, addPerson, newScenario;
 
 
-	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,fCloseScenario, bankRobbery, rWeekend, MarketSimple, cMarket, pRain, qRain;
+	JButton dummyScenarioA, simpleBusRide,jScenario,aScenario,bScenario,fCloseScenario, bankRobbery, rWeekend, MarketSimple, cMarket, pRain, qRain, gMarket;
 
 
 
@@ -149,6 +149,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		fCloseScenario.addActionListener(this);
 		panel2.addButton(fCloseScenario);
 		
+		gMarket = new JButton("G. Closed Rest. Deliv.");
+		gMarket.addActionListener(this);
+		panel2.addButton(gMarket);
+		
 		jScenario = new JButton("J. Big City");
 		jScenario.addActionListener(this);
 		panel2.addButton(jScenario);
@@ -171,7 +175,7 @@ public class CityControlPanel extends JPanel implements ActionListener{
 		
 		MarketSimple = new JButton("Simple Market");
 		MarketSimple.addActionListener(this);
-		panel2.addButton(MarketSimple);
+		//panel2.addButton(MarketSimple);
 		
 
 
@@ -473,7 +477,10 @@ public class CityControlPanel extends JPanel implements ActionListener{
 			city.rainScenario();
 		}
 	
-
+		else if (e.getSource().equals(gMarket)){
+			city.gMarketScenario();
+		}
+	
 		else if(e.getSource().equals(GeneralCityTagButton)) {
 			if (GeneralCityTagButton.isSelected()){
 				GeneralCityTagButton.setText("Hide Tag: GENERAL_CITY");

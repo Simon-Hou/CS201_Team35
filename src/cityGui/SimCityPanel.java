@@ -108,7 +108,7 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	}
 	
 	public void startRaining(){
-		System.err.println("MORE RAIN");
+	
 		if (raining)
 			raining = false;
 		else

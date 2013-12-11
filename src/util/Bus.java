@@ -155,8 +155,8 @@ public class Bus extends VehicleAgent implements ActionListener{
 			return;
 		}
 		else{
-			System.err.println("Someone tried to board a bus when it wasn't "
-					+ "at their stop");
+//			System.err.println("Someone tried to board a bus when it wasn't "
+//					+ "at their stop");
 		}
 		
 	}

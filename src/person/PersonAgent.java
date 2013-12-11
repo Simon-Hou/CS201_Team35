@@ -69,8 +69,10 @@ public class PersonAgent extends Agent implements Person {
 	public PersonAgent(String name, CityMap city) {
 		this.name = name;
 		this.city = city;
-		this.personID = city.peopleCount;
-		city.peopleCount++;
+		if(city!=null){
+			this.personID = city.peopleCount;
+			city.peopleCount++;
+		}
 		belongings = new Belongings();
 		myJob = new Job();
 		purse = new Purse();
@@ -1086,7 +1088,7 @@ public class PersonAgent extends Agent implements Person {
 	public Loc findPlaceOfWork(PlaceOfWork workPlace){
 
 		if(workPlace == null){
-			System.err.println("Someone's trying to go to a null work location");
+			//System.err.println("Someone's trying to go to a null work location");
 			return null;
 		}
 

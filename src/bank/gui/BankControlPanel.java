@@ -80,11 +80,11 @@ public class BankControlPanel  extends BuildingControlPanel  implements ActionLi
 				if (e.getSource() == temp) {
 					if (!bank.bankGui.controlPanel.isVisible()) {
 						bank.bankGui.controlPanel.setVisible(true);
-						System.err.println("SETTING TO VISIBLE");
+						//System.err.println("SETTING TO VISIBLE");
 					}
 					else if (bank.bankGui.controlPanel.isVisible()) {
 						bank.bankGui.controlPanel.setVisible(false);
-						System.err.println("SETTING TO NOT VISIBLE");
+						//System.err.println("SETTING TO NOT VISIBLE");
 					}
 				}
 

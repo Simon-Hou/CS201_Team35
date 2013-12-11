@@ -186,7 +186,7 @@ public class RestaurantGabe extends Restaurant{
 			//System.out.println(host==null);
 			return (Role) host;
 		}
-		System.err.println("New host wasn't allowded to take over");
+		//System.err.println("New host wasn't allowded to take over");
 		return null;
 	}
 	
@@ -207,7 +207,7 @@ public class RestaurantGabe extends Restaurant{
 			
 			return (Role) cook;
 		}
-		System.err.println("New cook wasn't allowded to take over");
+		//System.err.println("New cook wasn't allowded to take over");
 		return null;
 	}
 	

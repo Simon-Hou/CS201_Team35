@@ -78,7 +78,8 @@ public class MarketDeliveryManTest extends TestCase{
 
 	@Test
 	public void testOne_NormalDeliveryManDeliveryOrderScenario() {
-		//Preconditions		
+		//Preconditions	
+		deliveryMan.checkPending = false;
 		assertEquals("Delivery Man's event log should be empty.", 0, deliveryMan.log.size());
 		assertEquals("Delivery Man's orders should be empty.", 0, deliveryMan.orders.size());
 		assertEquals("Delivery Man's payments should be empty.", 0, deliveryMan.payments.size());
@@ -143,6 +144,7 @@ public class MarketDeliveryManTest extends TestCase{
 
 	public void testTwo_NormalDeliveryManDeliveryOrderScenario() {
 		//Preconditions
+		deliveryMan.checkPending = false;
 		assertEquals("Delivery Man's event log should be empty.", 0, deliveryMan.log.size());
 		assertEquals("Delivery Man's orders should be empty.", 0, deliveryMan.orders.size());
 		assertEquals("Delivery Man's paymentsshould be empty.", 0, deliveryMan.payments.size());
@@ -182,7 +184,7 @@ public class MarketDeliveryManTest extends TestCase{
 	
 	public void testStandCheck(){
 		deliveryMan.checkDock = false;
-		
+		deliveryMan.checkPending = false;
 		assertEquals("Delivery Man's event log should be empty.", 0, deliveryMan.log.size());
 		assertEquals("Delivery Man's orders should be empty.", 0, deliveryMan.orders.size());
 		assertEquals("Delivery Man's payments should be empty.", 0, deliveryMan.payments.size());

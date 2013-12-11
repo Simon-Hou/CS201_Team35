@@ -71,6 +71,11 @@ public class RestaurantGabeControlPanel extends BuildingControlPanel implements 
 		validate();
 
 	}
+	
+	public void closeRestaurant(){
+		close.setText("Open");
+		this.restaurant.isOpen = false;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

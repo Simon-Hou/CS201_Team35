@@ -22,12 +22,15 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import bank.gui.BankControlPanel;
-
 import market.Market;
 import market.gui.MarketMain;
 import market.gui.MarketPanel;
 import person.PersonAgent;
 import restaurant.restaurantGabe.RestaurantGabe;
+import restaurant.restaurantGabe.gui.RestaurantGabeControlPanel;
+import restaurant.restaurantLinda.gui.RestaurantLindaControlPanel;
+import restaurant.restaurantYocca.RestaurantYocca;
+import restaurant.restaurantYocca.gui.RestaurantYoccaControlPanel;
 import util.Bank;
 import util.BankMapLoc;
 import util.Bus;
@@ -1656,7 +1659,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 
 	public void rainScenario(){
-		System.err.println("RAIN!");
+		
 		city.startRaining();
 		
 	}
@@ -1757,7 +1760,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 
 	public void cMarketDeliveryScenario(){
-		System.err.println("scenario c");
+		
 
 		//make all restaurants
 		//deplete their inventories
@@ -1897,6 +1900,56 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 	}
 	
+	public void gMarketScenario(){
+		//System.err.println("DOOT");
+
+		addNewBuilding("Market",250,200);
+		addNewBuilding("RestaurantGabe",200,250);
+		addNewBuilding("RestaurantLinda", 200, 300);
+		//addNewBuilding("RestaurantSimon", 283,365);
+		
+		addNewBuilding("House", 500, 5);
+		addNewBuilding("Bank", 200, 5);
+		fullyManBuilding("Bank",0);
+
+
+		addNewPersonHard("H1",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketHost,0,100,0,0);
+
+		addNewPersonHard("E1",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketEmployee,0,100,0,0);
+
+		addNewPersonHard("C1",
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketCashier,0,100,0,0);
+
+		addNewPersonHard("D1", 
+				((MarketMapLoc) cityObject.cityMap.map.get("Market").get(0)).market,
+				JobType.MarketDeliveryMan,0,100,0,0);
+
+		//man gabes restaurant - rest.get(0)
+		addNewPersonHard("g0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,100, 0,0);
+		addNewPersonHard("g1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
+		addNewPersonHard("g2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,100, 0,0);
+		addNewPersonHard("g3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,100, 0,0);
+		addNewPersonHard("g4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
+		
+		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant.cook.depleteInventory();
+		
+		//man lindas restaurant - rest.get(1)
+		addNewPersonHard("l1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantHost,0,100, 0,0);
+		addNewPersonHard("l1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantLindaWaiter1,0,100, 0,0);
+		addNewPersonHard("l2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantLindaWaiter1,0,100, 0,0);
+		addNewPersonHard("l3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantCook,0,100, 0,0);
+		addNewPersonHard("l4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant, JobType.RestaurantCashier,0,100, 0,0);
+		
+		((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(1)).restaurant.cook.depleteInventory();
+		
+
+	}
+	
 	
 	public void rWeekendScenario() {
 		setMAXTIME(200);
@@ -1946,9 +1999,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		for(int i = 0;i<cityObject.cityMap.map.get("Bank").size();++i){
 			((BankMapLoc)cityObject.cityMap.map.get("Bank").get(i)).bank.animation.panel.closeBank();
 		}
-		for(int i = 0;i<cityObject.cityMap.map.get("Restaurant").size();++i){
-			((RestaurantMapLoc)cityObject.cityMap.map.get("Restaurant").get(i)).restaurant.isOpen = false;
-		}
+		
+		
+		((RestaurantGabeControlPanel)((RestaurantGabe) ((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(0)).restaurant).cityRestaurantGabe.animationPanel.controlPanel).closeRestaurant();
+		((RestaurantLindaControlPanel)(((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(1)).restaurant).cityRestaurant.animationPanel.controlPanel).closeRestaurant();
+		((RestaurantYoccaControlPanel)((RestaurantYocca) ((RestaurantMapLoc) cityObject.cityMap.map.get("Restaurant").get(2)).restaurant).cityRestaurant.animationPanel.controlPanel).closeRestaurant();
 		
 
 		//People that use buses

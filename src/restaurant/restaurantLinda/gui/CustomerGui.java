@@ -130,7 +130,7 @@ public class CustomerGui extends GuiPerson implements Gui{
 		else if (command!=Command.noCommand){
 			if (moveAndCheckDestination()){
 				if (xPos!=xfinal || yPos!=yfinal){
-					System.err.println("Position: " + xPos + " " + yPos + ", destination: " + xDestination+" "+yDestination+", final:"+xfinal+" "+yfinal);
+					//System.err.println("Position: " + xPos + " " + yPos + ", destination: " + xDestination+" "+yDestination+", final:"+xfinal+" "+yfinal);
 					return;
 				}
 				if (command==Command.LeaveSeat){

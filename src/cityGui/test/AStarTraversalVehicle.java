@@ -239,7 +239,7 @@ public class AStarTraversalVehicle extends AStarTraversal{
 			}
 		}
 		
-		System.err.println("Car is neither in clockwise nor counterclockwise lane - PROBLEM");
+		//System.err.println("Car is neither in clockwise nor counterclockwise lane - PROBLEM");
 		return false;
 		
 		

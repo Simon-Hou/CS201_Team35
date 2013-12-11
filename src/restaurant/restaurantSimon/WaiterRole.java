@@ -318,7 +318,7 @@ public class WaiterRole extends Role implements Waiter {
 			return false;
 		}
 		catch(ConcurrentModificationException e){
-			System.err.println("CONCURRENT MODIFICATION EXCEPTION IN WAITER");
+			//System.err.println("CONCURRENT MODIFICATION EXCEPTION IN WAITER");
 			return true;
 
 		}
