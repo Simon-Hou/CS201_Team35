@@ -83,8 +83,20 @@ public class CityRestaurantParkerCard extends CityRestaurantCard {//implements A
     }
 
         public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == timer)
-                repaint();  //Will have paintComponent called
+//                if (e.getSource() == timer)
+//                repaint();  //Will have paintComponent called
+                
+                
+    		    
+		        for(Gui gui : guis) {
+		            if (gui.isPresent()) {
+		                gui.updatePosition();
+		            }
+		        }
+	       
+
+	     repaint();
+                
         }
 
     public void paint(Graphics g) {
@@ -152,11 +164,11 @@ public class CityRestaurantParkerCard extends CityRestaurantCard {//implements A
         
        // System.err.println("paint it duhhh");
         
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+//        for(Gui gui : guis) {
+//            if (gui.isPresent()) {
+//                gui.updatePosition();
+//            }
+//        }
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -182,4 +194,6 @@ public class CityRestaurantParkerCard extends CityRestaurantCard {//implements A
             guis.add(gui);
     }
     
-    }
+  
+    
+}
