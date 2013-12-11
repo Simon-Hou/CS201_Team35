@@ -246,3 +246,6 @@ Click on the house to view inside: bed (black), table (cyan), refrigerator (whit
 People can go to the house to sleep and eat.
 	-A Star not implemented in House
 	
+### 6.Restaurant
+Test individual restaurants by using the "Add Person" button, and type in "RestaurantXxxx". For example, "RestaurantLinda","RestaurantSimon","RestaurantYocca","RestaurantGabe","RestaurantPaker".
+Ps: if customer do not go to the restaurant, manually add people with no jobs, until one of them decide to go to the restaurant.
