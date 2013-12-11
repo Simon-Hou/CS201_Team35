@@ -1,4 +1,4 @@
-﻿team35
+team35
 ======
 
 # SimCity201 Project Repository for CS 201 students
@@ -39,8 +39,16 @@ functionality. Two people will try to get on the buses at different bus stops, a
 get off at their end-stops. Afterward, they will go home. 
 
 ###F. Closing Buildings
+Creates a large city and has the city control panels to close the buildings. If the building is
+closed, no PersonAgent will schedule a new action there. If, however, the person was already
+on his way, he'll continue. So, push close on a market, and wait. After all the customers leave,
+no others will enter. If you open at an early enough moment, you'll see that persons do schedule
+business at the market again. 
 
 ###G. Market Delivery
+Sets up multiple restaurants and a market. In this scenario, the market delivery fails because 
+restaurant is closed, so the market redelivers when restaurant is open. The market then 
+sends an invoice to cashier, who verifies and pays it.
 
 ###J. Big City
 Creates scenario J as described in the grading rubric - Big city demo with everything added.
@@ -58,6 +66,10 @@ the robber will be deleted from existence, and the world will carry on as if the
 existed. 
 
 ###R. Weekend Buildings Closed
+This will close all buildings, so that no customers will enter. Workers, however, will still
+enter. You can see everyone go home. Then, if you click on a building, in its control panel,
+there'll be a button to open the building. When you do so, customers will leave their houses
+to visit the building.
 
 ###Simple Market
 Displays the simple market behavior - customers come, order items, and leave. 
@@ -74,16 +86,37 @@ Displays the simple market behavior - customers come, order items, and leave.
 
 #### Gabriel Mel de Fontenay
 
-+ Co-designed the bank (with rgroom)
-+ Fully coded and unit tested the non-animation code of the bank
-+ Co-designed the bus system (pseags)
-+ Coded and unit tested the Bus system
-+ Integrated most of the agent code in the city (except Restaurant)
-	- Market staffers shift changes is not fully coded yet.
-+ Helped write/added to much of the person code (with yocca)
-+ Created and wrote unit tests for the Person Creation Panel
-	- Panel tests not completely exhaustive, could be longer
-+ Wrote grading scenarios
+- Co-designed the bank (with rgroom)
+- Coded the Bank (non-animation)
+- Wrote the unit tests for the bank
+- Co-designed the bus system (with pseags)
+- Coded the transportation system
+- Coded the bus system (non-animation)
+- Unit tested the bus system
+- Fully in charge of integration of agent code (except restaurant) in city (v1)
+- Designed/coded cars (pretty minor)
+- Co-designed/Co-wrote much of the Person (with yocca)
+- Wrote the Person creation panel
+- Wrote some of the early grading scenarios (bank, market,my restaurant, addBuilding, addPerson, addBuses)
+- Helped implement CityCard animation (Cards were not being animated while not looked at - I fixed this)
+- A* in the main city
+- Restaurant Integrated
+	+ Including market integration and shared data
+	+ Including unit tests of new shared data and market interaction
+- Fully in charge of transportation
+	+ Buses redesigned/recoded with collision avoidance
+	+ Intersections with stop lights
+	+ Cars completely coded, including collision avoidance
+	+ Pedestrian behavior modified for collision avoidance
+	+ Upgraded animations for transportation
+- Helped design/create the Scenario Selection Panel
+	+ Though my implementation was not used in the end
+- Helped add grading scenarios
+	+ O. BankRobbery, E. BusRide, F. Closing, R. Weekends
+	+ Helped Andrew debug A,B, J big city scenarios
+- Implemented building opening/closing functionality
+	+ Included PersonAgent decisions not to go to closed buildings
+
 
 #### Simon (Fangli) Hou
 

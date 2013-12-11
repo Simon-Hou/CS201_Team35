@@ -1655,6 +1655,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 		addNewPersonHard("Drive"+which,null,JobType.NOTSELECTED,0,0,0,0);
 	}
 
+	public void rainScenario(){
+		System.err.println("RAIN!");
+		city.startRaining();
+		
+	}
+	
 	public void marketScenario(){
 		hasBuses = false;
 		setMAXTIME(50);

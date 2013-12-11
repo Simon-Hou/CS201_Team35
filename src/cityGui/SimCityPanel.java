@@ -26,6 +26,8 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 	protected Color background;
 	protected Timer timer;
 	
+	public List<RainGui> rain;
+	private boolean raining = false;
 	//SC Logo
 	java.net.URL logo = getClass().getResource("cityImages/sclogo.png");
 	ImageIcon scLogo = new ImageIcon(logo);
@@ -36,6 +38,11 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 		movings = Collections.synchronizedList(new ArrayList<CityComponent>());
 		timer = new Timer(10, this);
 		timer.start();
+		
+		rain = new ArrayList<RainGui>();
+		for (int i = 0; i < 100; i++){
+			rain.add(new RainGui());
+		}
 	}
 	
 	public void paint(Graphics g) {
@@ -59,6 +66,12 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 				c.paint(g);
 			}
 		}
+		
+		if (raining){
+			for(RainGui r:rain){
+				r.draw(g);
+			}
+		}
 	}
 	
 	public void moveComponents() {
@@ -71,6 +84,12 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 		}
 		catch(ConcurrentModificationException e){
 			e.printStackTrace();
+		}
+		
+		if (raining){
+			for (RainGui r : rain){
+				r.updatePosition();
+			}
 		}
 	}
 	
@@ -86,6 +105,14 @@ public abstract class SimCityPanel extends JPanel implements ActionListener, Mou
 		//System.out.println("repaint being called!");
 		//moveComponents();
 		repaint();
+	}
+	
+	public void startRaining(){
+		System.err.println("MORE RAIN");
+		if (raining)
+			raining = false;
+		else
+			raining = true;
 	}
 	
 	
