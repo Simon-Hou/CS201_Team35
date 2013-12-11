@@ -86,7 +86,7 @@ public class PersonAgent extends Agent implements Person {
 		restaurantSimonRole=new restaurant.restaurantSimon.CustomerRole(name+"Restaurant", this);
 
 		Random random = new Random();
-		hungerLevel = 100;//random.nextInt(10);
+		hungerLevel = random.nextInt(10);
 
 
 		if (random.nextBoolean()){
@@ -209,11 +209,11 @@ public class PersonAgent extends Agent implements Person {
 		Random random = new Random();
 
 		if (random.nextInt(3) == 0) {
-			System.out.println("CONDITION 1 IS BEING CALLED");
+			
 			this.belongings.myHouse.room.inventory.get(0).quantity = 1;
 		}
 		else {
-			System.out.println("CONDITION 2 IS BEING CALLED");
+		
 			this.belongings.myHouse.room.inventory.get(0).quantity = 0;
 		}
 		//Do("Having address set to "+this.belongings.myHouse.address.x+", "+this.belongings.myHouse.address.y);
@@ -588,7 +588,6 @@ public class PersonAgent extends Agent implements Person {
 			buyCar();
 		}*/
 		if (hungerLevel > 6) {
-			System.err.println("checked, and I am truly hungry");
 			getFood();
 			return true;
 		}
@@ -807,7 +806,6 @@ public class PersonAgent extends Agent implements Person {
 
 
 	private void getFood() {
-System.err.println("I am getting food");
 		if (belongings.myHouse!=null && belongings.myHouse.room.inventory.get(0).quantity>0) {
 			Do("I am going to eat at home");
 			doGoHome();
@@ -836,7 +834,6 @@ System.err.println("I am getting food");
 	}
 
 	private void goToRestaurant() {
-		System.err.println("Im eating at a restaurant");
 		if(city.map.get("Restaurant").isEmpty()){
 			hungerLevel = 0;
 			return;
