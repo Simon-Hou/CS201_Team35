@@ -705,7 +705,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			}
 		}
 		if(type.contains("Restaurant")){
-			int j = 0;
+			/*int j = 0;
 			int randOffset = (int) Math.floor(MAXTIME/SHIFTS/2*Math.random());
 			//System.out.println("Rand offset: "+randOffset);
 			for(int i = 0;i<SHIFTS;++i){
@@ -760,6 +760,42 @@ public class SimCityGui extends JFrame implements ActionListener {
 
 				j = j+1;
 			}
+		}*/
+			
+			addNewPersonHard("p0",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,0,15, 0,0);
+			
+			addNewPersonHard("p3",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,0,15, 0,0);
+			addNewPersonHard("p4",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,0,15, 0,0);
+
+			addNewPersonHard("replacementHOST",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantHost,11,100, 0,0);
+			addNewPersonHard("replacementCASHIER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCashier,11,100, 0,0);
+			addNewPersonHard("replacementCOOK",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantCook,11,100, 0,0);
+
+			if (type.contains("Gabe")){
+				addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,15, 0,0);
+				addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,0,15, 0,0);
+				addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantGabeWaiter1,22,100, 0,0);
+			}
+			else if (type.contains("Simon")){
+				addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantSimonWaiter1,0,15, 0,0);
+				addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantSimonWaiter1,0,15, 0,0);
+				addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantSimonWaiter1,22,100, 0,0);
+			}
+			else if (type.contains("Linda")){
+				addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantLindaWaiter1,0,15, 0,0);
+				addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantLindaWaiter1,0,15, 0,0);
+				addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantLindaWaiter1,22,100, 0,0);
+			}
+			else if (type.contains("Yocca")){
+				addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantYoccaWaiter1,0,15, 0,0);
+				addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantYoccaWaiter1,0,15, 0,0);
+				addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantYoccaWaiter1,22,100, 0,0);
+			}
+			/*else if (type.contains("Parker")){
+				addNewPersonHard("p1",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantParkerWaiter1,0,15, 0,0);
+				addNewPersonHard("p2",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantParkerWaiter1,0,15, 0,0);
+				addNewPersonHard("replacementWAITER",((RestaurantMapLoc)this.cityObject.cityMap.map.get("Restaurant").get(0)).restaurant, JobType.RestaurantParkerWaiter1,22,100, 0,0);
+			}*/
 		}
 	}
 
@@ -1879,9 +1915,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setMAXTIME(20);
 		addNewBuilding("House", 200, 5);
 		addNewBuilding(scenarioName,5, 300);
-		addNewBuilding("Bank", 200, 5);
+		//addNewBuilding("Bank", 200, 5);
 		fullyManBuilding(scenarioName,0);
-		fullyManBuilding("Bank",0);
+		//fullyManBuilding("Bank",0);
 
 		int bankNum = (int) Math.floor(cityObject.cityMap.map.get("Bank").size()*Math.random());
 		int houseNum = (int) Math.floor(cityObject.cityMap.map.get("House").size()*Math.random());
