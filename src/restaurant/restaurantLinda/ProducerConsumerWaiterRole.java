@@ -24,13 +24,16 @@ public class ProducerConsumerWaiterRole extends WaiterRole{
 	protected void SendOrder(MyCustomer mc){
 		RestaurantOrder order = new RestaurantOrder(this, mc.table, mc.choice);
 		
-		Do("Sending " + mc.c.getName() + "'s order to cook");
-		waiterGui.DoGoToCook();
-		try{
-			atDestination.acquire();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
+		DoMessage("Manually sending " + mc.c.getName() + "'s order to cook");
+		
+		if (waiterGui!=null){
+			waiterGui.DoGoToCook();
+			try{
+				atDestination.acquire();
+			}
+			catch(InterruptedException e){
+				e.printStackTrace();
+			}
 		}
 		mc.state=CustomerState.orderSent;
 

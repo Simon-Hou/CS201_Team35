@@ -19,6 +19,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import restaurant.restaurantLinda.CookRole;
 import restaurant.restaurantLinda.RestaurantLinda;
 import restaurant.restaurantLinda.CookRole.Food;
 import cityGui.BuildingControlPanel;
@@ -54,7 +56,7 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 		Dimension buttonSize = new Dimension(paneSize.width-20, (int) (paneSize.height / 10));
 		close_open.addActionListener(this);
 		
-		inventory = r.cook.foodMap;
+		inventory = ((CookRole)r.cook).foodMap;
 		
 		inventoryList.add(new InventoryItem("Steak", this));
 		inventoryList.add(new InventoryItem("Salad",this));
@@ -90,11 +92,11 @@ public class RestaurantLindaControlPanel  extends BuildingControlPanel  implemen
 		// TODO Auto-generated method stub
 		for (InventoryItem item : inventoryList){
 			if (e.getSource() == item.minus && inventory.get(item.choice).quantity >0){
-					restaurant.cook.decreaseInventory(item.choice);
+				((CookRole)restaurant.cook).decreaseInventory(item.choice);
 					item.inventoryLabel.setText(inventory.get(item.choice).quantity+"");
 			}
 			else if (e.getSource() == item.plus){
-				restaurant.cook.increaseInventory(item.choice);
+				((CookRole)restaurant.cook).increaseInventory(item.choice);
 				item.inventoryLabel.setText(inventory.get(item.choice).quantity+"");
 			}
 		}

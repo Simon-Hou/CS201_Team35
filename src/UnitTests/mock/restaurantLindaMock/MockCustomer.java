@@ -34,13 +34,13 @@ public class MockCustomer extends Mock implements Customer {
 
 	@Override
 	public void msgFollowMe(Waiter w, Menu m) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received followMe from waiter " + w.getName() + ", and received a menu"));
 		
 	}
 
 	@Override
 	public void msgWhatDoYouWant() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Was asked what I wanted"));
 		
 	}
 

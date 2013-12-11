@@ -185,7 +185,7 @@ public class MarketDeliveryManTest extends TestCase{
 		
 		assertEquals("Delivery Man's event log should be empty.", 0, deliveryMan.log.size());
 		assertEquals("Delivery Man's orders should be empty.", 0, deliveryMan.orders.size());
-		assertEquals("Delivery Man's paymentsshould be empty.", 0, deliveryMan.payments.size());
+		assertEquals("Delivery Man's payments should be empty.", 0, deliveryMan.payments.size());
 		
 		assertFalse("Delivery Man's scheduler should return false", deliveryMan.pickAndExecuteAnAction());
 		
