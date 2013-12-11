@@ -45,6 +45,7 @@ public class RestaurantSimon extends Restaurant {
 
 	public CityRestaurantSimon cityRestaurant;
 	public CityRestaurantSimonCard animation=null;
+	public int customerNum=0;
 	private CookGui cookGui=new CookGui(cook,animation);
 
 	boolean p=false;
@@ -189,8 +190,8 @@ public class RestaurantSimon extends Restaurant {
 	}
 	@Override
 	public void customerEntering(BaseRestaurantCustomer c) {
-		
-		((CustomerRole)c).setPeople(host, cashier);
+		customerNum++;
+		((CustomerRole)c).setPeople(host, cashier,this);
 		CustomerGui cg = new CustomerGui(((CustomerRole)c), animation);
 		((CustomerRole)c).setGui(cg);
 		cg.setHungry();

@@ -203,6 +203,7 @@ public class CustomerRole extends Role  implements Customer {
 			state = AgentState.DoingNothing;
 			host.msgILeave(this);
 			leaveRestraunt();
+			leftRestaurant();
 			return true;
 		}
 		if (state == AgentState.Deciding && event == AgentEvent.stay ){
@@ -280,7 +281,7 @@ public class CustomerRole extends Role  implements Customer {
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			//no action
+			leftRestaurant();
 			return true;
 		}
 		return false;
@@ -454,6 +455,11 @@ public class CustomerRole extends Role  implements Customer {
 		customerGui.DoExitRestaurant();
 		//waiter.msgIAmLeaving( this);
 	}
+	private void leftRestaurant(){
+		self.msgThisRoleDone();
+		restaurant.customerNum--;
+		
+	}
 
 	// Accessors, etc.
 
@@ -490,9 +496,10 @@ public class CustomerRole extends Role  implements Customer {
 		self.msgStateChanged();
 	}
 
-	public void setPeople(HostRole h, CashierRole ca){
+	public void setPeople(HostRole h, CashierRole ca,RestaurantSimon res){
 		host=h;
 		cashier=ca;
+		restaurant=res;
 	}
 	
 	
